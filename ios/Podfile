@@ -5,19 +5,8 @@ source 'git@github.com:shapehq/ShapePodSpecs.git'
 platform :ios, '8.0'
 inhibit_all_warnings!
 
-
-# Pods you may want
-
-# pod 'SHPFoundation'
-# pod 'SHPNetworking'
-# pod 'SHPUIKit'
-# pod 'ReactiveCocoa'
-# pod 'SDWebImage'
-# pod "Masonry"
-# pod 'SSKeychain'
-# pod 'libextobjc'
-# pod 'AutoCoding'
-# pod 'SSKeychain'
+pod 'SHPFoundation', '~> 2.3.2'
+pod 'SHPPrototypeKit', '~> 0.5.1'
 
 # pod 'DCIntrospect-ARC'
 # pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'

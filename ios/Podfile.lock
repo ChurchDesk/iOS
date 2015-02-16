@@ -1,0 +1,13 @@
+PODS:
+  - SHPFoundation (2.3.2)
+  - SHPPrototypeKit (0.5.1)
+
+DEPENDENCIES:
+  - SHPFoundation (~> 2.3.2)
+  - SHPPrototypeKit (~> 0.5.1)
+
+SPEC CHECKSUMS:
+  SHPFoundation: bc3d66db35927393ac3db278a0ab893c568e231f
+  SHPPrototypeKit: 609dd01dab49a4fb0e9fab0cbab369dcb0684a13
+
+COCOAPODS: 0.35.0
