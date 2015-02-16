@@ -1,0 +1,43 @@
+{
+  "images": [
+    {
+      "orientation": "portrait",
+      "idiom": "iphone",
+      "extent": "full-screen",
+      "minimum-system-version": "7.0",
+      "scale": "2x",
+      "filename": "Launch-iphone-portrait-7.0-retina4@2x.png",
+      "subtype": "retina4"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "iphone",
+      "extent": "full-screen",
+      "minimum-system-version": "7.0",
+      "scale": "2x",
+      "filename": "Launch-iphone-portrait-7.0@2x.png"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "iphone",
+      "extent": "full-screen",
+      "minimum-system-version": "8.0",
+      "scale": "2x",
+      "filename": "Launch-iphone-portrait-8.0-667h@2x.png",
+      "subtype": "667h"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "iphone",
+      "extent": "full-screen",
+      "minimum-system-version": "8.0",
+      "scale": "3x",
+      "filename": "Launch-iphone-portrait-8.0-736h@3x.png",
+      "subtype": "736h"
+    }
+  ],
+  "info": {
+    "version": 1,
+    "author": "SHPScriptsProcessAssets"
+  }
+}
