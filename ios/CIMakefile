@@ -1,0 +1,45 @@
+
+
+master: development appstore_build
+
+development: clean copy_certificates bump_version unlock_keychain inhouse_build
+
+clean:
+	-rm -rf ipa
+	mkdir ipa
+
+copy_certificates:
+	cp distribution\ certificates/*.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+unlock_keychain:
+	# Unlock the keychain using hardcoded password to make sure dialogs will not pop up when signing builds
+	security unlock-keychain -p BaconShape ~/Library/Keychains/login.keychain
+	security set-keychain-settings -t 3600 -l ~/Library/Keychains/login.keychain
+
+bump_version: # Set the build number from the Jenkins variable
+	agvtool new-version -all "${BUILD_NUMBER}"
+
+inhouse_build:
+	echo "--- Inhouse build ---"
+	git checkout Podfile
+	rm -rf Pods/
+	rm -rf *.xcworkspace/
+	pod install
+
+	# Make the Inhouse build
+	-rm -rf pkg
+	make -f BuildMakefile ci CONFIGURATION=Inhouse
+
+appstore_build:
+	echo "--- AppStore build ---"
+
+	# Remove all pods that are postfixed with the #removeproduction tag
+	git checkout Podfile
+	sed -i.bak -e 's/.*#removeproduction.*//' Podfile
+	rm -rf Pods/
+	rm -rf Issuu.xcworkspace/
+	pod install
+
+	# make the AppStore build
+	-rm -rf pkg
+	make -f BuildMakefile ci CONFIGURATION=Release
