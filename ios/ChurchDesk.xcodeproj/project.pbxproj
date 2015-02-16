@@ -8,22 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3667D9D01A92300E003716A2 /* Generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3667D9CF1A92300E003716A2 /* Generated.xcassets */; };
-		603729EAA46DC7124A4EE2EF /* ChurchDeskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 603725FCD9A96AF870E396EE /* ChurchDeskTests.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
 		60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 603727256E971686D79D8017 /* ViewController.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		603720606365EA613DF01A78 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 60372F0B5CB40ADBA96A7F24 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6037291B5F81D8B947908396;
-			remoteInfo = ChurchDesk;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -35,7 +24,6 @@
 		603726045A07B5DC865FD0FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		603727256E971686D79D8017 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		60372A9CA12D6AD91E0D2DB5 /* ChurchDeskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChurchDeskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60372C6F72F96755C9D2AB1C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
@@ -44,13 +32,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		603721E2625D5C55D625C9C5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		603727F7B8C8BB3A43116C4A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -126,7 +107,6 @@
 			isa = PBXGroup;
 			children = (
 				60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */,
-				60372A9CA12D6AD91E0D2DB5 /* ChurchDeskTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -142,24 +122,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6037261B3392684610BFF65A /* ChurchDeskTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 603720B629ABADDD22230DD4 /* Build configuration list for PBXNativeTarget "ChurchDeskTests" */;
-			buildPhases = (
-				603723B4482B83A0E164F773 /* Sources */,
-				603721E2625D5C55D625C9C5 /* Frameworks */,
-				6037217547CA38169D2F7AA5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6037204AA22913AC3F9269CD /* PBXTargetDependency */,
-			);
-			name = ChurchDeskTests;
-			productName = ChurchDeskTests;
-			productReference = 60372A9CA12D6AD91E0D2DB5 /* ChurchDeskTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		6037291B5F81D8B947908396 /* ChurchDesk */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60372EB349819DA654C3DACD /* Build configuration list for PBXNativeTarget "ChurchDesk" */;
@@ -200,19 +162,11 @@
 			projectRoot = "";
 			targets = (
 				6037291B5F81D8B947908396 /* ChurchDesk */,
-				6037261B3392684610BFF65A /* ChurchDeskTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6037217547CA38169D2F7AA5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		60372BB20A00144B35FD8DAC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -257,14 +211,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		603723B4482B83A0E164F773 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				603729EAA46DC7124A4EE2EF /* ChurchDeskTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		60372C39F67630D1AD929D4C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -276,14 +222,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		6037204AA22913AC3F9269CD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6037291B5F81D8B947908396 /* ChurchDesk */;
-			targetProxy = 603720606365EA613DF01A78 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3667D9D21A9236A1003716A2 /* Inhouse */ = {
@@ -335,21 +273,6 @@
 			};
 			name = Inhouse;
 		};
-		3667D9D41A9236A1003716A2 /* Inhouse */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ChurchDesk.app/ChurchDesk";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = ChurchDeskTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Inhouse;
-		};
 		6037211C16F08D697E5F809F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -388,21 +311,6 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-			};
-			name = Debug;
-		};
-		60372A924DA597D3D9EAFAD0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ChurchDesk.app/ChurchDesk";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = ChurchDeskTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
 		};
@@ -465,34 +373,9 @@
 			};
 			name = Debug;
 		};
-		60372D9CB407AF7EFD16D67F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ChurchDesk.app/ChurchDesk";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = ChurchDeskTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		603720B629ABADDD22230DD4 /* Build configuration list for PBXNativeTarget "ChurchDeskTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				60372A924DA597D3D9EAFAD0 /* Debug */,
-				60372D9CB407AF7EFD16D67F /* Release */,
-				3667D9D41A9236A1003716A2 /* Inhouse */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		60372857C75B2F7A9AF84333 /* Build configuration list for PBXProject "ChurchDesk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
