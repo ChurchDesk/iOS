@@ -1,0 +1,387 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		603728A20366C63EE95664E5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60372E08957D2D92F0833D12 /* Images.xcassets */; };
+		603729EAA46DC7124A4EE2EF /* ChurchDeskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 603725FCD9A96AF870E396EE /* ChurchDeskTests.m */; };
+		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
+		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
+		60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 603727256E971686D79D8017 /* ViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		603720606365EA613DF01A78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60372F0B5CB40ADBA96A7F24 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6037291B5F81D8B947908396;
+			remoteInfo = ChurchDesk;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		603720B107A7307EADD70B2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		603725FCD9A96AF870E396EE /* ChurchDeskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChurchDeskTests.m; sourceTree = "<group>"; };
+		603726045A07B5DC865FD0FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		603727256E971686D79D8017 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		60372A9CA12D6AD91E0D2DB5 /* ChurchDeskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChurchDeskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		60372C6F72F96755C9D2AB1C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		60372E08957D2D92F0833D12 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		603721E2625D5C55D625C9C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		603727F7B8C8BB3A43116C4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6037204AF9E70FCD06A4D84E /* ChurchDeskTests */ = {
+			isa = PBXGroup;
+			children = (
+				6037285724B61AAE8680376B /* Supporting Files */,
+				603725FCD9A96AF870E396EE /* ChurchDeskTests.m */,
+			);
+			path = ChurchDeskTests;
+			sourceTree = "<group>";
+		};
+		60372179239F64D321F00AF0 /* ChurchDesk */ = {
+			isa = PBXGroup;
+			children = (
+				603726AC62FEF768227A022C /* Supporting Files */,
+				60372E08957D2D92F0833D12 /* Images.xcassets */,
+				603726045A07B5DC865FD0FB /* AppDelegate.h */,
+				603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */,
+				60372C6F72F96755C9D2AB1C /* ViewController.h */,
+				603727256E971686D79D8017 /* ViewController.m */,
+			);
+			path = ChurchDesk;
+			sourceTree = "<group>";
+		};
+		6037263F4DA5FAE1A54AEBD0 = {
+			isa = PBXGroup;
+			children = (
+				60372EADD372446171E81756 /* Products */,
+				60372179239F64D321F00AF0 /* ChurchDesk */,
+				6037204AF9E70FCD06A4D84E /* ChurchDeskTests */,
+			);
+			sourceTree = "<group>";
+		};
+		603726AC62FEF768227A022C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				60372631488DA2406B7F0AB9 /* Info.plist */,
+				603720B107A7307EADD70B2C /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6037285724B61AAE8680376B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				60372E6CAE020B6C8CD306CF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		60372EADD372446171E81756 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */,
+				60372A9CA12D6AD91E0D2DB5 /* ChurchDeskTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6037261B3392684610BFF65A /* ChurchDeskTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 603720B629ABADDD22230DD4 /* Build configuration list for PBXNativeTarget "ChurchDeskTests" */;
+			buildPhases = (
+				603723B4482B83A0E164F773 /* Sources */,
+				603721E2625D5C55D625C9C5 /* Frameworks */,
+				6037217547CA38169D2F7AA5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6037204AA22913AC3F9269CD /* PBXTargetDependency */,
+			);
+			name = ChurchDeskTests;
+			productName = ChurchDeskTests;
+			productReference = 60372A9CA12D6AD91E0D2DB5 /* ChurchDeskTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6037291B5F81D8B947908396 /* ChurchDesk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60372EB349819DA654C3DACD /* Build configuration list for PBXNativeTarget "ChurchDesk" */;
+			buildPhases = (
+				60372C39F67630D1AD929D4C /* Sources */,
+				603727F7B8C8BB3A43116C4A /* Frameworks */,
+				60372BB20A00144B35FD8DAC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ChurchDesk;
+			productName = ChurchDesk;
+			productReference = 60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		60372F0B5CB40ADBA96A7F24 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Shape A/S";
+			};
+			buildConfigurationList = 60372857C75B2F7A9AF84333 /* Build configuration list for PBXProject "ChurchDesk" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6037263F4DA5FAE1A54AEBD0;
+			productRefGroup = 60372EADD372446171E81756 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6037291B5F81D8B947908396 /* ChurchDesk */,
+				6037261B3392684610BFF65A /* ChurchDeskTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6037217547CA38169D2F7AA5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60372BB20A00144B35FD8DAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				603728A20366C63EE95664E5 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		603723B4482B83A0E164F773 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				603729EAA46DC7124A4EE2EF /* ChurchDeskTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60372C39F67630D1AD929D4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60372CDAE1931B6F1E903540 /* main.m in Sources */,
+				60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */,
+				60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6037204AA22913AC3F9269CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6037291B5F81D8B947908396 /* ChurchDesk */;
+			targetProxy = 603720606365EA613DF01A78 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		6037211C16F08D697E5F809F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		60372A924DA597D3D9EAFAD0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ChurchDesk.app/ChurchDesk";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = ChurchDeskTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		60372B65EFCACF89980D4582 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		60372B96E468CBAEFAD92F1D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ChurchDesk/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		60372BE9263D3E11239D825C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ChurchDesk/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		60372D9CB407AF7EFD16D67F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ChurchDesk.app/ChurchDesk";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = ChurchDeskTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		603720B629ABADDD22230DD4 /* Build configuration list for PBXNativeTarget "ChurchDeskTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60372A924DA597D3D9EAFAD0 /* Debug */,
+				60372D9CB407AF7EFD16D67F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60372857C75B2F7A9AF84333 /* Build configuration list for PBXProject "ChurchDesk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6037211C16F08D697E5F809F /* Debug */,
+				60372B65EFCACF89980D4582 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60372EB349819DA654C3DACD /* Build configuration list for PBXNativeTarget "ChurchDesk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60372BE9263D3E11239D825C /* Debug */,
+				60372B96E468CBAEFAD92F1D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 60372F0B5CB40ADBA96A7F24 /* Project object */;
+}
