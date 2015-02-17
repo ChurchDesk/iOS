@@ -29,7 +29,6 @@
 		603721942B4976F4FB0DEA3A /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		603725E6BC8D27A79041CB8E /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
-		603725FCD9A96AF870E396EE /* ChurchDeskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChurchDeskTests.m; sourceTree = "<group>"; };
 		603726045A07B5DC865FD0FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		603727256E971686D79D8017 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -43,7 +42,6 @@
 		60372D7D0443B1F40284EBB6 /* CHDLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftViewController.h; sourceTree = "<group>"; };
 		60372E252769C35CBD61D50F /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		60372EC5998C60C7C4601A22 /* CHDDashboardEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventsViewController.h; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,15 +68,6 @@
 				9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		6037204AF9E70FCD06A4D84E /* ChurchDeskTests */ = {
-			isa = PBXGroup;
-			children = (
-				6037285724B61AAE8680376B /* Supporting Files */,
-				603725FCD9A96AF870E396EE /* ChurchDeskTests.m */,
-			);
-			path = ChurchDeskTests;
 			sourceTree = "<group>";
 		};
 		60372179239F64D321F00AF0 /* ChurchDesk */ = {
@@ -112,7 +101,6 @@
 			children = (
 				60372EADD372446171E81756 /* Products */,
 				60372179239F64D321F00AF0 /* ChurchDesk */,
-				6037204AF9E70FCD06A4D84E /* ChurchDeskTests */,
 				523BB34733495BF6470B3A10 /* Pods */,
 				8C7033242449DD2B32139BB0 /* Frameworks */,
 			);
@@ -123,14 +111,6 @@
 			children = (
 				60372631488DA2406B7F0AB9 /* Info.plist */,
 				603720B107A7307EADD70B2C /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		6037285724B61AAE8680376B /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				60372E6CAE020B6C8CD306CF /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -191,8 +171,6 @@
 			mainGroup = 6037263F4DA5FAE1A54AEBD0;
 			productRefGroup = 60372EADD372446171E81756 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-			);
 			projectRoot = "";
 			targets = (
 				6037291B5F81D8B947908396 /* ChurchDesk */,
