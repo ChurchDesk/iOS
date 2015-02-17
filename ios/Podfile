@@ -6,7 +6,7 @@ platform :ios, '8.0'
 inhibit_all_warnings!
 
 pod 'SHPFoundation', '~> 2.3.2'
-pod 'SHPPrototypeKit', '~> 0.5.1'
+pod 'SHPSideMenu', '~> 1.1.0'
 
 # pod 'DCIntrospect-ARC'
 # pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'

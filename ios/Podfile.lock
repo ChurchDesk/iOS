@@ -1,13 +1,16 @@
 PODS:
+  - pop (1.0.7)
   - SHPFoundation (2.3.2)
-  - SHPPrototypeKit (0.5.1)
+  - SHPSideMenu (1.1.0):
+    - pop (~> 1.0.7)
 
 DEPENDENCIES:
   - SHPFoundation (~> 2.3.2)
-  - SHPPrototypeKit (~> 0.5.1)
+  - SHPSideMenu
 
 SPEC CHECKSUMS:
+  pop: 2f14a1ea61339767af9e66741b418c831b3844df
   SHPFoundation: bc3d66db35927393ac3db278a0ab893c568e231f
-  SHPPrototypeKit: 609dd01dab49a4fb0e9fab0cbab369dcb0684a13
+  SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
 
 COCOAPODS: 0.35.0

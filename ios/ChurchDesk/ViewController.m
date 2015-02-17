@@ -9,17 +9,18 @@
 
 #import "ViewController.h"
 
-
 @interface ViewController ()
 
 @end
 
 @implementation ViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor whiteColor];
+    UIColor *color = [UIColor whiteColor];
+    self.view.backgroundColor = color;
 }
 
 @end

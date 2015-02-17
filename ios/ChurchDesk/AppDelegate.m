@@ -9,7 +9,10 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-
+#import "SHPSideMenu.h"
+#import "SHPSideMenuController.h"
+#import "CHDLeftViewController.h"
+#import "CHDDashboardTabBarViewController.h"
 
 @interface AppDelegate ()
 
@@ -21,9 +24,20 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    ViewController *viewController = [ViewController new];
-    self.window.rootViewController = viewController;
+    SHPSideMenuController *sideMenuController = [SHPSideMenuController sideMenuControllerWithBuilder:^(SHPSideMenuControllerBuilder *builder) {
+        builder.statusBarBehaviour = SHPSideMenuStatusBarBehaviourMove;
+        // More customizations
+    }];
 
+    CHDLeftViewController *leftViewController = [CHDLeftViewController new];
+
+    CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController new];
+
+    sideMenuController.leftViewController = leftViewController;
+    [sideMenuController setSelectedViewController:dashboardTabBar];
+
+    self.window.rootViewController = sideMenuController;
+    
     [self.window makeKeyAndVisible];
 
     return YES;

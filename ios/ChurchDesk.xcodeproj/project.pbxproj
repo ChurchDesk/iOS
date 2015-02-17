@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3625A6081A933C8500BF430B /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6071A933C8500BF430B /* CHDDashboardTabBarViewController.m */; };
+		3625A60B1A933CB900BF430B /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A60A1A933CB900BF430B /* CHDLeftViewController.m */; };
+		3625A60E1A933F4800BF430B /* CHDDashboardNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A60D1A933F4800BF430B /* CHDDashboardNavigationController.m */; };
+		3625A6141A934B0500BF430B /* CHDDashboardEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6131A934B0500BF430B /* CHDDashboardEventsViewController.m */; };
+		3625A6171A934CF700BF430B /* CHDDashboardInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6161A934CF700BF430B /* CHDDashboardInvitationsViewController.m */; };
+		3625A61D1A9363A400BF430B /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A61C1A9363A400BF430B /* CHDDashboardMessagesViewController.m */; };
 		3667D9D01A92300E003716A2 /* Generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3667D9CF1A92300E003716A2 /* Generated.xcassets */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
@@ -16,6 +22,18 @@
 
 /* Begin PBXFileReference section */
 		2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		3625A6061A933C8500BF430B /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
+		3625A6071A933C8500BF430B /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
+		3625A6091A933CB900BF430B /* CHDLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftViewController.h; sourceTree = "<group>"; };
+		3625A60A1A933CB900BF430B /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
+		3625A60C1A933F4800BF430B /* CHDDashboardNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardNavigationController.h; sourceTree = "<group>"; };
+		3625A60D1A933F4800BF430B /* CHDDashboardNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardNavigationController.m; sourceTree = "<group>"; };
+		3625A6121A934B0500BF430B /* CHDDashboardEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHDDashboardEventsViewController.h; path = ../CHDDashboardEventsViewController.h; sourceTree = "<group>"; };
+		3625A6131A934B0500BF430B /* CHDDashboardEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHDDashboardEventsViewController.m; path = ../CHDDashboardEventsViewController.m; sourceTree = "<group>"; };
+		3625A6151A934CF700BF430B /* CHDDashboardInvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardInvitationsViewController.h; sourceTree = "<group>"; };
+		3625A6161A934CF700BF430B /* CHDDashboardInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardInvitationsViewController.m; sourceTree = "<group>"; };
+		3625A61B1A9363A400BF430B /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
+		3625A61C1A9363A400BF430B /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		3667D9CF1A92300E003716A2 /* Generated.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Generated.xcassets; sourceTree = SOURCE_ROOT; };
 		3667D9D11A923017003716A2 /* generated_resource_images.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = generated_resource_images.h; sourceTree = SOURCE_ROOT; };
 		603720B107A7307EADD70B2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -64,6 +82,8 @@
 		60372179239F64D321F00AF0 /* ChurchDesk */ = {
 			isa = PBXGroup;
 			children = (
+				3625A6121A934B0500BF430B /* CHDDashboardEventsViewController.h */,
+				3625A6131A934B0500BF430B /* CHDDashboardEventsViewController.m */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
 				3667D9CF1A92300E003716A2 /* Generated.xcassets */,
 				603726AC62FEF768227A022C /* Supporting Files */,
@@ -71,6 +91,16 @@
 				603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */,
 				60372C6F72F96755C9D2AB1C /* ViewController.h */,
 				603727256E971686D79D8017 /* ViewController.m */,
+				3625A6091A933CB900BF430B /* CHDLeftViewController.h */,
+				3625A60A1A933CB900BF430B /* CHDLeftViewController.m */,
+				3625A6061A933C8500BF430B /* CHDDashboardTabBarViewController.h */,
+				3625A6071A933C8500BF430B /* CHDDashboardTabBarViewController.m */,
+				3625A60C1A933F4800BF430B /* CHDDashboardNavigationController.h */,
+				3625A60D1A933F4800BF430B /* CHDDashboardNavigationController.m */,
+				3625A6151A934CF700BF430B /* CHDDashboardInvitationsViewController.h */,
+				3625A6161A934CF700BF430B /* CHDDashboardInvitationsViewController.m */,
+				3625A61B1A9363A400BF430B /* CHDDashboardMessagesViewController.h */,
+				3625A61C1A9363A400BF430B /* CHDDashboardMessagesViewController.m */,
 			);
 			path = ChurchDesk;
 			sourceTree = "<group>";
@@ -215,8 +245,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3625A6171A934CF700BF430B /* CHDDashboardInvitationsViewController.m in Sources */,
+				3625A61D1A9363A400BF430B /* CHDDashboardMessagesViewController.m in Sources */,
 				60372CDAE1931B6F1E903540 /* main.m in Sources */,
+				3625A60B1A933CB900BF430B /* CHDLeftViewController.m in Sources */,
 				60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */,
+				3625A60E1A933F4800BF430B /* CHDDashboardNavigationController.m in Sources */,
+				3625A6081A933C8500BF430B /* CHDDashboardTabBarViewController.m in Sources */,
+				3625A6141A934B0500BF430B /* CHDDashboardEventsViewController.m in Sources */,
 				60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +306,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5868f2f8-8cfe-4c5a-bf2b-4a8a3a3c47f6";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Inhouse;
 		};
@@ -358,6 +395,7 @@
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Release;
 		};
@@ -370,6 +408,7 @@
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Debug;
 		};
