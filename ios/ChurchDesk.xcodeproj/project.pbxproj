@@ -8,16 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */; };
+		3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6261A93869700BF430B /* CHDTableViewCell.m */; };
+		365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 365351861A94DC5500932D90 /* CHDEventTableViewCell.m */; };
+		3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 365351891A94E00E00932D90 /* CHDInvitationsTableViewCell.m */; };
 		3667D9D01A92300E003716A2 /* Generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3667D9CF1A92300E003716A2 /* Generated.xcassets */; };
+		36E1592E1A94EC330046F6EA /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */; };
+		603723CBEE6114AD145F6B48 /* CHDDashboardNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372FBAC5663A060BF4B344 /* CHDDashboardNavigationController.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
+		60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
+		60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */; };
 		60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 603727256E971686D79D8017 /* ViewController.m */; };
 		769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */; };
 		769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */; };
-		769E7BA81A9480DC00812715 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9D1A9480DC00812715 /* CHDDashboardMessagesViewController.m */; };
-		769E7BA91A9480DC00812715 /* CHDDashboardNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9F1A9480DC00812715 /* CHDDashboardNavigationController.m */; };
-		769E7BAA1A9480DC00812715 /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BA11A9480DC00812715 /* CHDDashboardTabBarViewController.m */; };
-		769E7BAC1A9480DC00812715 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BA51A9480DC00812715 /* CHDLeftViewController.m */; };
 		769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -26,30 +29,36 @@
 		2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		3625A61F1A937E0300BF430B /* UIColor+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ChurchDesk.h"; sourceTree = "<group>"; };
 		3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ChurchDesk.m"; sourceTree = "<group>"; };
+		3625A6251A93869700BF430B /* CHDTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTableViewCell.h; sourceTree = "<group>"; };
+		3625A6261A93869700BF430B /* CHDTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDTableViewCell.m; sourceTree = "<group>"; };
+		365351851A94DC5500932D90 /* CHDEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTableViewCell.h; sourceTree = "<group>"; };
+		365351861A94DC5500932D90 /* CHDEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventTableViewCell.m; sourceTree = "<group>"; };
+		365351881A94E00E00932D90 /* CHDInvitationsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDInvitationsTableViewCell.h; sourceTree = "<group>"; };
+		365351891A94E00E00932D90 /* CHDInvitationsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDInvitationsTableViewCell.m; sourceTree = "<group>"; };
 		3667D9CF1A92300E003716A2 /* Generated.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Generated.xcassets; sourceTree = SOURCE_ROOT; };
 		3667D9D11A923017003716A2 /* generated_resource_images.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = generated_resource_images.h; sourceTree = SOURCE_ROOT; };
+		36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftViewController.h; sourceTree = "<group>"; };
+		36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
+		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		603720B107A7307EADD70B2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		603725FCD9A96AF870E396EE /* ChurchDeskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChurchDeskTests.m; sourceTree = "<group>"; };
 		603726045A07B5DC865FD0FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		603727256E971686D79D8017 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		6037291CD14A440979FA04E4 /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
+		603729828D5FB2B8CBB39464 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
+		60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
 		60372C6F72F96755C9D2AB1C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		60372F82D43C90B85017960D /* CHDDashboardNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardNavigationController.h; sourceTree = "<group>"; };
+		60372FBAC5663A060BF4B344 /* CHDDashboardNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardNavigationController.m; sourceTree = "<group>"; };
 		769E7B971A947D8D00812715 /* ChurchDesk.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChurchDesk.pch; sourceTree = SOURCE_ROOT; };
 		769E7B981A9480DC00812715 /* CHDDashboardEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventsViewController.h; sourceTree = "<group>"; };
 		769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventsViewController.m; sourceTree = "<group>"; };
 		769E7B9A1A9480DC00812715 /* CHDDashboardInvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardInvitationsViewController.h; sourceTree = "<group>"; };
 		769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardInvitationsViewController.m; sourceTree = "<group>"; };
-		769E7B9C1A9480DC00812715 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
-		769E7B9D1A9480DC00812715 /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
-		769E7B9E1A9480DC00812715 /* CHDDashboardNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardNavigationController.h; sourceTree = "<group>"; };
-		769E7B9F1A9480DC00812715 /* CHDDashboardNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardNavigationController.m; sourceTree = "<group>"; };
-		769E7BA01A9480DC00812715 /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
-		769E7BA11A9480DC00812715 /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
-		769E7BA41A9480DC00812715 /* CHDLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftViewController.h; sourceTree = "<group>"; };
-		769E7BA51A9480DC00812715 /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
 		769E7BAD1A94813A00812715 /* CHDExpandableButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDExpandableButtonView.h; sourceTree = "<group>"; };
 		769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDExpandableButtonView.m; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +109,8 @@
 		60372179239F64D321F00AF0 /* ChurchDesk */ = {
 			isa = PBXGroup;
 			children = (
+				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
+				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
 				769E7B921A93643C00812715 /* Action button */,
 				3625A61E1A937DC900BF430B /* additions */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
@@ -113,14 +124,18 @@
 				769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */,
 				769E7B9A1A9480DC00812715 /* CHDDashboardInvitationsViewController.h */,
 				769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */,
-				769E7B9C1A9480DC00812715 /* CHDDashboardMessagesViewController.h */,
-				769E7B9D1A9480DC00812715 /* CHDDashboardMessagesViewController.m */,
-				769E7B9E1A9480DC00812715 /* CHDDashboardNavigationController.h */,
-				769E7B9F1A9480DC00812715 /* CHDDashboardNavigationController.m */,
-				769E7BA01A9480DC00812715 /* CHDDashboardTabBarViewController.h */,
-				769E7BA11A9480DC00812715 /* CHDDashboardTabBarViewController.m */,
-				769E7BA41A9480DC00812715 /* CHDLeftViewController.h */,
-				769E7BA51A9480DC00812715 /* CHDLeftViewController.m */,
+				3625A6251A93869700BF430B /* CHDTableViewCell.h */,
+				365351881A94E00E00932D90 /* CHDInvitationsTableViewCell.h */,
+				365351891A94E00E00932D90 /* CHDInvitationsTableViewCell.m */,
+				365351851A94DC5500932D90 /* CHDEventTableViewCell.h */,
+				365351861A94DC5500932D90 /* CHDEventTableViewCell.m */,
+				3625A6261A93869700BF430B /* CHDTableViewCell.m */,
+				60372FBAC5663A060BF4B344 /* CHDDashboardNavigationController.m */,
+				60372F82D43C90B85017960D /* CHDDashboardNavigationController.h */,
+				60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */,
+				6037291CD14A440979FA04E4 /* CHDDashboardTabBarViewController.h */,
+				60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */,
+				603729828D5FB2B8CBB39464 /* CHDDashboardMessagesViewController.h */,
 			);
 			path = ChurchDesk;
 			sourceTree = "<group>";
@@ -276,23 +291,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				769E7BA91A9480DC00812715 /* CHDDashboardNavigationController.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
+				36E1592E1A94EC330046F6EA /* CHDLeftViewController.m in Sources */,
 				60372CDAE1931B6F1E903540 /* main.m in Sources */,
-				769E7BA81A9480DC00812715 /* CHDDashboardMessagesViewController.m in Sources */,
-				769E7BAA1A9480DC00812715 /* CHDDashboardTabBarViewController.m in Sources */,
 				769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */,
 				60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */,
-				769E7BAC1A9480DC00812715 /* CHDLeftViewController.m in Sources */,
 				769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */,
+				3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */,
 				60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */,
-				603721D0634BF0F44B703037 /* CHDLeftViewController.m in Sources */,
-				603726732C292533B05B3F7A /* CHDDashboardMessagesViewController.m in Sources */,
-				603729FFD17147BE469C9C11 /* CHDDashboardTabBarViewController.m in Sources */,
-				60372C6F9C703F75221B9134 /* CHDDashboardInvitationsViewController.m in Sources */,
-				60372B57AC76DBE3E30ADA4C /* CHDDashboardNavigationController.m in Sources */,
-				603728D4433D06ABA17F69F7 /* CHDDashboardEventsViewController.m in Sources */,
+				3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */,
+				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
+				603723CBEE6114AD145F6B48 /* CHDDashboardNavigationController.m in Sources */,
+				60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */,
+				60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

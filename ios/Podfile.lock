@@ -12,7 +12,7 @@ DEPENDENCIES:
   - Masonry (~> 0.6.1)
   - SHPFoundation (~> 2.3.2)
   - SHPSideMenu (~> 1.1.0)
-  - SHPUIKit
+  - SHPUIKit (~> 2.1.0)
 
 SPEC CHECKSUMS:
   DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0

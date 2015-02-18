@@ -29,6 +29,14 @@
     // Do any additional setup after loading the view.
     UIColor *color = [UIColor greenColor];
     self.view.backgroundColor = color;
+
+    [self.navigationBar setTranslucent:NO];
+    [self.navigationBar setBarTintColor:[UIColor chd_blueColor]];
+
+    [self.navigationBar setTintColor:[UIColor whiteColor]];
+
+    [self.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+        [UIColor whiteColor], NSForegroundColorAttributeName, nil]];
 }
 
 - (void)didReceiveMemoryWarning {

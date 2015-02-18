@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHDDashboardEventsViewController : UIViewController
+@interface CHDDashboardEventsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end

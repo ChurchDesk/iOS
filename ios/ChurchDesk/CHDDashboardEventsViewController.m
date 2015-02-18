@@ -7,22 +7,46 @@
 //
 
 #import "CHDDashboardEventsViewController.h"
+#import "CHDTableViewCell.h"
+#import "CHDEventTableViewCell.h"
 
 @interface CHDDashboardEventsViewController ()
-
+@property(nonatomic, retain) UITableView* eventTable;
 @end
 
 @implementation CHDDashboardEventsViewController
 
 - (instancetype)init
 {
-  self = [super init];
-  if (self) {
-    self.title = NSLocalizedString(@"Events", @"");
-    UIBarButtonItem *sideMenuItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
-    self.navigationItem.leftBarButtonItem = sideMenuItem;
-  }
-  return self;
+    self = [super init];
+    if (self) {
+
+        //self.view.backgroundColor = [UIColor chd_lightGreyColor];
+
+        self.title = NSLocalizedString(@"Dashboard", @"");
+
+        UIBarButtonItem *burgerMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
+        self.navigationItem.leftBarButtonItem = burgerMenu;
+
+        self.eventTable = [[UITableView alloc] init];
+        self.eventTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.eventTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
+        self.eventTable.backgroundColor = [UIColor chd_lightGreyColor];
+
+        self.eventTable.rowHeight = 65;
+
+        [self.eventTable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"dashboardCell"];
+
+        self.eventTable.dataSource = self;
+        [self.view addSubview:self.eventTable];
+
+        UIView* superview = self.view;
+
+        [self.eventTable mas_makeConstraints:^(MASConstraintMaker *make){
+            make.edges.equalTo(superview);
+        }];
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -39,7 +63,38 @@
 }
 
 - (void)touched {
-  NSLog(@"Touched bar button");
+    NSLog(@"Touched bar button");
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    static NSString* cellIdentifier = @"dashboardCell";
+
+    CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    //cell.textLabel.text = cellTitle;
+    cell.titleLabel.text = @"Title";
+    cell.locationLabel.text = @"Location";
+    cell.parishLabel.text = @"The Parish";
+    cell.dateTimeLabel.text = @"Today";
+    //cell.
+
+    if(indexPath.item % 2 == 1) {
+        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryBlueColor]];
+    }else{
+        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryRedColor]];
+    }
+
+    return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
 
 /*

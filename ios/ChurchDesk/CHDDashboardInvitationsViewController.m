@@ -18,10 +18,10 @@
 {
   self = [super init];
   if (self) {
-    self.title = NSLocalizedString(@"Invitations", @"");
-    
-     UIBarButtonItem *sideMenuItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
-    self.navigationItem.leftBarButtonItem = sideMenuItem;
+    self.title = NSLocalizedString(@"Dashboard", @"");
+
+      UIBarButtonItem *burgerMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
+      self.navigationItem.leftBarButtonItem = burgerMenu;
   }
   return self;
 }
