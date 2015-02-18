@@ -20,9 +20,6 @@
 {
     self = [super init];
     if (self) {
-
-        //self.view.backgroundColor = [UIColor chd_lightGreyColor];
-
         self.title = NSLocalizedString(@"Dashboard", @"");
 
         UIBarButtonItem *burgerMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
