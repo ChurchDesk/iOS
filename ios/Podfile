@@ -7,8 +7,8 @@ inhibit_all_warnings!
 
 pod 'SHPFoundation', '~> 2.3.2'
 pod 'SHPSideMenu', '~> 1.1.0'
+pod 'DCIntrospect-ARC', :head
 
-# pod 'DCIntrospect-ARC'
 # pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'
 
 

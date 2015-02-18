@@ -1,14 +1,18 @@
 PODS:
+  - DCIntrospect-ARC (HEAD based on 0.0.8)
   - pop (1.0.7)
   - SHPFoundation (2.3.2)
   - SHPSideMenu (1.1.0):
     - pop (~> 1.0.7)
 
 DEPENDENCIES:
+  - DCIntrospect-ARC (HEAD)
+  - POP (~> 1.0.7)
   - SHPFoundation (~> 2.3.2)
   - SHPSideMenu (~> 1.1.0)
 
 SPEC CHECKSUMS:
+  DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   SHPFoundation: bc3d66db35927393ac3db278a0ab893c568e231f
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
