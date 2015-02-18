@@ -13,6 +13,7 @@
 #import "SHPSideMenuController.h"
 #import "CHDLeftViewController.h"
 #import "CHDDashboardTabBarViewController.h"
+#import "DCIntrospect.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +25,8 @@
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
+    [self setupAppearance];
+    
     SHPSideMenuController *sideMenuController = [SHPSideMenuController sideMenuControllerWithBuilder:^(SHPSideMenuControllerBuilder *builder) {
         builder.statusBarBehaviour = SHPSideMenuStatusBarBehaviourMove;
         // More customizations
@@ -40,7 +43,21 @@
     
     [self.window makeKeyAndVisible];
 
+#if DEBUG
+    [[DCIntrospect sharedIntrospector] start];
+#endif
+    
     return YES;
+}
+
+- (void) setupAppearance {
+    [[UINavigationBar appearance] setBarTintColor:[UIColor shpui_colorWithHexValue:0x008db6]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateNormal];
+    
+    [[UITabBar appearance] setBarTintColor:[UIColor shpui_colorWithHexValue:0x008db6]];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor shpui_colorWithHexValue:0x434343]} forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateSelected];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -1,4 +1,6 @@
 PODS:
+  - DCIntrospect-ARC (HEAD based on 0.0.8)
+  - Masonry (0.6.1)
   - pop (1.0.7)
   - SHPFoundation (2.3.2)
   - SHPSideMenu (1.1.0):
@@ -6,11 +8,15 @@ PODS:
   - SHPUIKit (2.1.0)
 
 DEPENDENCIES:
+  - DCIntrospect-ARC (HEAD)
+  - Masonry (~> 0.6.1)
   - SHPFoundation (~> 2.3.2)
   - SHPSideMenu (~> 1.1.0)
   - SHPUIKit
 
 SPEC CHECKSUMS:
+  DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
+  Masonry: 2cb49fd14d203d2db5ca6bb017135b235dde9980
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   SHPFoundation: bc3d66db35927393ac3db278a0ab893c568e231f
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
