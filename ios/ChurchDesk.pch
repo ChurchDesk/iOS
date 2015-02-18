@@ -9,6 +9,7 @@
 #ifndef ChurchDesk_ChurchDesk_pch
 #define ChurchDesk_ChurchDesk_pch
 
+#import "generated_resource_images.h"
 #import "SHPFoundation.h"
 
 #endif

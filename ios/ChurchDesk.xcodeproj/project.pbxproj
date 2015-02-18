@@ -11,7 +11,13 @@
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
 		60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 603727256E971686D79D8017 /* ViewController.m */; };
-		769E7B951A9364F400812715 /* CHDExpandableButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B941A9364F400812715 /* CHDExpandableButtonView.m */; };
+		769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */; };
+		769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */; };
+		769E7BA81A9480DC00812715 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9D1A9480DC00812715 /* CHDDashboardMessagesViewController.m */; };
+		769E7BA91A9480DC00812715 /* CHDDashboardNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9F1A9480DC00812715 /* CHDDashboardNavigationController.m */; };
+		769E7BAA1A9480DC00812715 /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BA11A9480DC00812715 /* CHDDashboardTabBarViewController.m */; };
+		769E7BAC1A9480DC00812715 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BA51A9480DC00812715 /* CHDLeftViewController.m */; };
+		769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -28,8 +34,21 @@
 		60372C6F72F96755C9D2AB1C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		769E7B931A9364F400812715 /* CHDExpandableButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDExpandableButtonView.h; sourceTree = "<group>"; };
-		769E7B941A9364F400812715 /* CHDExpandableButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDExpandableButtonView.m; sourceTree = "<group>"; };
+		769E7B971A947D8D00812715 /* ChurchDesk.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChurchDesk.pch; sourceTree = SOURCE_ROOT; };
+		769E7B981A9480DC00812715 /* CHDDashboardEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventsViewController.h; sourceTree = "<group>"; };
+		769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventsViewController.m; sourceTree = "<group>"; };
+		769E7B9A1A9480DC00812715 /* CHDDashboardInvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardInvitationsViewController.h; sourceTree = "<group>"; };
+		769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardInvitationsViewController.m; sourceTree = "<group>"; };
+		769E7B9C1A9480DC00812715 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
+		769E7B9D1A9480DC00812715 /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
+		769E7B9E1A9480DC00812715 /* CHDDashboardNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardNavigationController.h; sourceTree = "<group>"; };
+		769E7B9F1A9480DC00812715 /* CHDDashboardNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardNavigationController.m; sourceTree = "<group>"; };
+		769E7BA01A9480DC00812715 /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
+		769E7BA11A9480DC00812715 /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
+		769E7BA41A9480DC00812715 /* CHDLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftViewController.h; sourceTree = "<group>"; };
+		769E7BA51A9480DC00812715 /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
+		769E7BAD1A94813A00812715 /* CHDExpandableButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDExpandableButtonView.h; sourceTree = "<group>"; };
+		769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDExpandableButtonView.m; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -77,6 +96,18 @@
 				603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */,
 				60372C6F72F96755C9D2AB1C /* ViewController.h */,
 				603727256E971686D79D8017 /* ViewController.m */,
+				769E7B981A9480DC00812715 /* CHDDashboardEventsViewController.h */,
+				769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */,
+				769E7B9A1A9480DC00812715 /* CHDDashboardInvitationsViewController.h */,
+				769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */,
+				769E7B9C1A9480DC00812715 /* CHDDashboardMessagesViewController.h */,
+				769E7B9D1A9480DC00812715 /* CHDDashboardMessagesViewController.m */,
+				769E7B9E1A9480DC00812715 /* CHDDashboardNavigationController.h */,
+				769E7B9F1A9480DC00812715 /* CHDDashboardNavigationController.m */,
+				769E7BA01A9480DC00812715 /* CHDDashboardTabBarViewController.h */,
+				769E7BA11A9480DC00812715 /* CHDDashboardTabBarViewController.m */,
+				769E7BA41A9480DC00812715 /* CHDLeftViewController.h */,
+				769E7BA51A9480DC00812715 /* CHDLeftViewController.m */,
 			);
 			path = ChurchDesk;
 			sourceTree = "<group>";
@@ -97,6 +128,7 @@
 			children = (
 				60372631488DA2406B7F0AB9 /* Info.plist */,
 				603720B107A7307EADD70B2C /* main.m */,
+				769E7B971A947D8D00812715 /* ChurchDesk.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -120,8 +152,8 @@
 		769E7B921A93643C00812715 /* Action button */ = {
 			isa = PBXGroup;
 			children = (
-				769E7B931A9364F400812715 /* CHDExpandableButtonView.h */,
-				769E7B941A9364F400812715 /* CHDExpandableButtonView.m */,
+				769E7BAD1A94813A00812715 /* CHDExpandableButtonView.h */,
+				769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */,
 			);
 			name = "Action button";
 			sourceTree = "<group>";
@@ -231,9 +263,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				769E7BA91A9480DC00812715 /* CHDDashboardNavigationController.m in Sources */,
+				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				60372CDAE1931B6F1E903540 /* main.m in Sources */,
+				769E7BA81A9480DC00812715 /* CHDDashboardMessagesViewController.m in Sources */,
+				769E7BAA1A9480DC00812715 /* CHDDashboardTabBarViewController.m in Sources */,
+				769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */,
 				60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */,
-				769E7B951A9364F400812715 /* CHDExpandableButtonView.m in Sources */,
+				769E7BAC1A9480DC00812715 /* CHDLeftViewController.m in Sources */,
+				769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */,
 				60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,6 +301,8 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ChurchDesk.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -281,7 +321,7 @@
 			baseConfigurationReference = 9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shape Aps (L4J43EQ3L9)";
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -313,6 +353,8 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ChurchDesk.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -353,6 +395,8 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ChurchDesk.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -371,7 +415,7 @@
 			baseConfigurationReference = D7479E92B6129595D8D01126 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -383,7 +427,7 @@
 			baseConfigurationReference = 2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
