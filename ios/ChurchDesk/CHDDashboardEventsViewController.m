@@ -13,8 +13,9 @@
 
 @interface CHDDashboardEventsViewController ()
 
-@property (nonatomic, strong) UITableView* eventTable;
+@property (nonatomic, retain) UITableView* eventTable;
 @property (nonatomic, strong) CHDExpandableButtonView *actionButtonView;
+@property(nonatomic, retain) UIBarButtonItem* mainMenu;
 
 @end
 
@@ -25,36 +26,52 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
-        self.edgesForExtendedLayout = UIRectEdgeNone;
 
-        UIBarButtonItem *burgerMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
-        self.navigationItem.leftBarButtonItem = burgerMenu;
-
-        self.eventTable = [[UITableView alloc] init];
-        self.eventTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.eventTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
-        self.eventTable.backgroundColor = [UIColor chd_lightGreyColor];
-        self.eventTable.rowHeight = 65;
-        [self.eventTable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"dashboardCell"];
-        self.eventTable.dataSource = self;
-        [self.view addSubview:self.eventTable];
-
-        [self.view addSubview:self.actionButtonView];
-        
-        UIView* superview = self.view;
-
-        [self.eventTable mas_makeConstraints:^(MASConstraintMaker *make){
-            make.edges.equalTo(superview);
-        }];
-        
-        [self.actionButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.view);
-            make.bottom.equalTo(self.view).offset(-5);
-        }];
+        [self makeViews];
+        [self makeConstraints];
     }
     return self;
 }
 
+#pragma mark - setup views
+-(void) makeViews {
+    [self.view addSubview:self.eventTable];
+    self.navigationItem.leftBarButtonItem = self.mainMenu;
+}
+
+-(void) makeConstraints {
+    UIView* superview = self.view;
+    [self.eventTable mas_makeConstraints:^(MASConstraintMaker *make){
+        make.edges.equalTo(superview);
+    }];
+}
+
+-(UIBarButtonItem*) mainMenu {
+    if(!_mainMenu){
+        _mainMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
+    }
+    return _mainMenu;
+}
+
+-(UITableView*)eventTable {
+    if(!_eventTable){
+        _eventTable = [[UITableView alloc] init];
+        _eventTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _eventTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
+        _eventTable.backgroundColor = [UIColor chd_lightGreyColor];
+
+        _eventTable.rowHeight = 65;
+
+        [_eventTable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"dashboardCell"];
+        
+        UIView* superview = self.view;
+
+        _eventTable.dataSource = self;
+    }
+    return _eventTable;
+}
+
+#pragma mark - View methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

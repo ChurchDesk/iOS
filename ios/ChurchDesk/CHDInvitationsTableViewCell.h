@@ -9,9 +9,10 @@
 #import "CHDTableViewCell.h"
 
 @interface CHDInvitationsTableViewCell : CHDTableViewCell
-/*@property (nonatomic, readonly) UILabel* titleLabel;
+@property (nonatomic, readonly) UILabel* titleLabel;
+@property (nonatomic, readonly) UILabel* invitedByLabel;
 @property (nonatomic, readonly) UILabel* locationLabel;
 @property (nonatomic, readonly) UILabel* receivedTimeLabel;
-@property (nonatomic, readonly) UILabel* invitationTimeLabel;
-@property (nonatomic, readonly) UILabel* parishLabel;*/
+@property (nonatomic, readonly) UILabel*eventTimeLabel;
+@property (nonatomic, readonly) UILabel* parishLabel;
 @end

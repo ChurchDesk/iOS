@@ -7,25 +7,36 @@
 //
 
 #import "CHDInvitationsTableViewCell.h"
-/*
+
 @interface CHDInvitationsTableViewCell()
 @property (nonatomic, strong) UILabel* titleLabel;
-@property (nonatomic, strong) UILabel* locationLabel;
+@property (nonatomic, strong) UILabel* invitedByLabel;
+//The location of the event
 @property (nonatomic, strong) UIImageView* locationIconView;
+@property (nonatomic, strong) UILabel* locationLabel;
+//The time invitation was received
 @property (nonatomic, strong) UILabel* receivedTimeLabel;
-@property (nonatomic, strong) UILabel* invitationTimeLabel;
+//Time of the event
+@property (nonatomic, strong) UIImageView* eventTimeIconView;
+@property (nonatomic, strong) UILabel* eventTimeLabel;
 @property (nonatomic, strong) UILabel* parishLabel;
-@end*/
+@end
 
 @implementation CHDInvitationsTableViewCell
 
-/*-(void) makeViews{
+-(void) makeViews{
     [super makeViews];
 
     [self.contentView addSubview:self.titleLabel];
+    [self.contentView addSubview:self.invitedByLabel];
+
+    [self.contentView addSubview:self.eventTimeIconView];
+    [self.contentView addSubview:self.eventTimeLabel];
+
     [self.contentView addSubview:self.locationIconView];
     [self.contentView addSubview:self.locationLabel];
-    [self.contentView addSubview:self.dateTimeLabel];
+
+    [self.contentView addSubview:self.receivedTimeLabel];
     [self.contentView addSubview:self.parishLabel];
 }
 
@@ -33,31 +44,48 @@
     [super makeConstraints];
 
     UIView*contentView = self.contentView;
-    UIView* superview = self;
 
+    //"Lefthand side" of the cell
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.equalTo(contentView).with.offset(17);
         make.left.equalTo(contentView).with.offset(16);
         make.height.equalTo(@14);
     }];
 
-    [self.locationIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(8);
+    [self.invitedByLabel mas_makeConstraints:^(MASConstraintMaker *make){
+        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(4);
         make.left.equalTo(self.titleLabel);
     }];
+
+    //UPDATE Constraints for Event time
+    [self.locationIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(contentView).with.offset(-15);
+        make.left.equalTo(contentView).with.offset(16);
+    }];
+
     [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.locationIconView); //top.equalTo(self.locationIconView);//.with.offset(8);
+        make.centerY.equalTo(self.locationIconView);
         make.left.equalTo(self.locationIconView.mas_right).with.offset(3);
     }];
 
-    [self.dateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
+    [self.eventTimeIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.locationIconView.mas_top).with.offset(-7.5);
+        make.left.equalTo(self.locationIconView);
+    }];
+    [self.eventTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.eventTimeIconView);
+        make.left.equalTo(self.eventTimeIconView.mas_right).with.offset(3);
+    }];
+
+    //"Righthand side" of the cell
+    [self.receivedTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.bottom.equalTo(self.titleLabel);
         make.right.equalTo(contentView).with.offset(-16);
     }];
 
     [self.parishLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.locationLabel);
-        make.right.equalTo(self.dateTimeLabel);
+        make.centerY.equalTo(self.locationLabel);
+        make.right.equalTo(self.receivedTimeLabel);
     }];
 }
 
@@ -69,13 +97,23 @@
     }
     return _titleLabel;
 }
+
+-(UILabel *)invitedByLabel {
+    if (!_invitedByLabel) {
+        _invitedByLabel = [UILabel new];
+        _invitedByLabel.font = [UIFont systemFontOfSize:14];
+        _invitedByLabel.textColor = [UIColor chd_textLigthColor];
+    }
+    return _invitedByLabel;
+}
+
+
+//The location of the event
 -(UILabel *)locationLabel {
     if (!_locationLabel) {
         _locationLabel = [UILabel new];
         _locationLabel.font = [UIFont systemFontOfSize:14];
         _locationLabel.textColor = [UIColor chd_textLigthColor];
-        //.pointSize = 28.0;
-
     }
     return _locationLabel;
 }
@@ -85,13 +123,31 @@
     }
     return _locationIconView;
 }
--(UILabel *)dateTimeLabel {
-    if (!_dateTimeLabel) {
-        _dateTimeLabel = [UILabel new];
-        _dateTimeLabel.font = [UIFont systemFontOfSize:14];
-        _dateTimeLabel.textColor = [UIColor chd_textDarkColor];
+
+//Time of the event
+-(UIImageView *) eventTimeIconView{
+    if(!_eventTimeIconView){
+        _eventTimeIconView = [[UIImageView new] initWithImage:kImgTimeIcon];
     }
-    return _dateTimeLabel;
+    return _eventTimeIconView;
+}
+-(UILabel *)eventTimeLabel {
+    if (!_eventTimeLabel) {
+        _eventTimeLabel = [UILabel new];
+        _eventTimeLabel.font = [UIFont systemFontOfSize:14];
+        _eventTimeLabel.textColor = [UIColor chd_textLigthColor];
+    }
+    return _eventTimeLabel;
+}
+
+//The time the invitation was received
+-(UILabel *)receivedTimeLabel {
+    if (!_receivedTimeLabel) {
+        _receivedTimeLabel = [UILabel new];
+        _receivedTimeLabel.font = [UIFont systemFontOfSize:14];
+        _receivedTimeLabel.textColor = [UIColor chd_textDarkColor];
+    }
+    return _receivedTimeLabel;
 }
 -(UILabel *)parishLabel {
     if (!_parishLabel) {
@@ -100,6 +156,6 @@
         _parishLabel.textColor = [UIColor chd_textExtraLightColor];
     }
     return _parishLabel;
-}*/
+}
 
 @end

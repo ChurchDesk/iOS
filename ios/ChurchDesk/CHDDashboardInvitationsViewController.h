@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHDDashboardInvitationsViewController : UIViewController
+@interface CHDDashboardInvitationsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end
