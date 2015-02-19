@@ -15,5 +15,6 @@
 #import "generated_resource_images.h"
 #import "Masonry.h"
 #import "UIColor+ChurchDesk.h"
+#import "UIFont+ChurchDesk.h"
 
 #endif

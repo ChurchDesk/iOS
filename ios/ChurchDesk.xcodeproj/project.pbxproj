@@ -20,6 +20,11 @@
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
 		60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */; };
 		60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 603727256E971686D79D8017 /* ViewController.m */; };
+		76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F091A96037F00651CEA /* MavenPro-Black.ttf */; };
+		76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */; };
+		76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */; };
+		76143F101A96066A00651CEA /* MavenPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0C1A96037F00651CEA /* MavenPro-Regular.ttf */; };
+		76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */; };
 		769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */; };
 		769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */; };
 		769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */; };
@@ -57,6 +62,12 @@
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		60372F82D43C90B85017960D /* CHDDashboardNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardNavigationController.h; sourceTree = "<group>"; };
 		60372FBAC5663A060BF4B344 /* CHDDashboardNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardNavigationController.m; sourceTree = "<group>"; };
+		76143F091A96037F00651CEA /* MavenPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Black.ttf"; sourceTree = "<group>"; };
+		76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Bold.ttf"; sourceTree = "<group>"; };
+		76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Medium.ttf"; sourceTree = "<group>"; };
+		76143F0C1A96037F00651CEA /* MavenPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Regular.ttf"; sourceTree = "<group>"; };
+		76143F111A9606AB00651CEA /* UIFont+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+ChurchDesk.h"; sourceTree = "<group>"; };
+		76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+ChurchDesk.m"; sourceTree = "<group>"; };
 		769E7B971A947D8D00812715 /* ChurchDesk.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChurchDesk.pch; sourceTree = SOURCE_ROOT; };
 		769E7B981A9480DC00812715 /* CHDDashboardEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventsViewController.h; sourceTree = "<group>"; };
 		769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventsViewController.m; sourceTree = "<group>"; };
@@ -81,13 +92,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3625A61E1A937DC900BF430B /* additions */ = {
+		3625A61E1A937DC900BF430B /* Additions */ = {
 			isa = PBXGroup;
 			children = (
 				3625A61F1A937E0300BF430B /* UIColor+ChurchDesk.h */,
 				3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */,
+				76143F111A9606AB00651CEA /* UIFont+ChurchDesk.h */,
+				76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */,
 			);
-			name = additions;
+			name = Additions;
 			sourceTree = "<group>";
 		};
 		36E1592F1A94EDF00046F6EA /* Dashboard */ = {
@@ -180,7 +193,7 @@
 				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
 				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
 				769E7B921A93643C00812715 /* Action button */,
-				3625A61E1A937DC900BF430B /* additions */,
+				3625A61E1A937DC900BF430B /* Additions */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
 				3667D9CF1A92300E003716A2 /* Generated.xcassets */,
 				603726AC62FEF768227A022C /* Supporting Files */,
@@ -207,6 +220,7 @@
 		603726AC62FEF768227A022C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				76143F081A96036100651CEA /* Fonts */,
 				60372631488DA2406B7F0AB9 /* Info.plist */,
 				603720B107A7307EADD70B2C /* main.m */,
 				769E7B971A947D8D00812715 /* ChurchDesk.pch */,
@@ -228,6 +242,17 @@
 				60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		76143F081A96036100651CEA /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				76143F091A96037F00651CEA /* MavenPro-Black.ttf */,
+				76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */,
+				76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */,
+				76143F0C1A96037F00651CEA /* MavenPro-Regular.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		769E7B921A93643C00812715 /* Action button */ = {
@@ -300,6 +325,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */,
+				76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */,
+				76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */,
+				76143F101A96066A00651CEA /* MavenPro-Regular.ttf in Resources */,
 				3667D9D01A92300E003716A2 /* Generated.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,6 +375,7 @@
 			files = (
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				36E1592E1A94EC330046F6EA /* CHDLeftViewController.m in Sources */,
+				76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */,
 				60372CDAE1931B6F1E903540 /* main.m in Sources */,
 				769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */,
 				60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */,
