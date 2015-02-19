@@ -5,4 +5,5 @@
 #define kImgAddMessageButton [UIImage imageNamed:@"add_message_button"]
 #define kImgBurgerMenu [UIImage imageNamed:@"burger_menu"]
 #define kImgLocationIcon [UIImage imageNamed:@"location_icon"]
+#define kImgTimeIcon [UIImage imageNamed:@"time_icon"]
 

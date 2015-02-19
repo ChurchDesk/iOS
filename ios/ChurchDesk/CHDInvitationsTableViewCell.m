@@ -114,8 +114,6 @@
         _locationLabel = [UILabel new];
         _locationLabel.font = [UIFont systemFontOfSize:14];
         _locationLabel.textColor = [UIColor chd_textLigthColor];
-        //.pointSize = 28.0;
-
     }
     return _locationLabel;
 }
@@ -129,7 +127,7 @@
 //Time of the event
 -(UIImageView *) eventTimeIconView{
     if(!_eventTimeIconView){
-        _eventTimeIconView = [[UIImageView new] initWithImage:kImgLocationIcon];
+        _eventTimeIconView = [[UIImageView new] initWithImage:kImgTimeIcon];
     }
     return _eventTimeIconView;
 }
