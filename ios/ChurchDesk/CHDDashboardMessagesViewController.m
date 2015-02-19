@@ -98,6 +98,7 @@
     cell.groupLabel.text = @"Choir";
     cell.authorLabel.text = @"Philip Waters";
     cell.contentLabel.text = @"Re: Summerparty 2015";
+    cell.receivedDot.dotColor = [UIColor chd_redColor];
 
     return cell;
 }

@@ -7,6 +7,7 @@
 //
 
 #import "CHDTableViewCell.h"
+#import "CHDDotView.h"
 
 @interface CHDMessagesTableViewCell : CHDTableViewCell
 @property (nonatomic, readonly) UILabel* groupLabel;
@@ -14,5 +15,5 @@
 @property (nonatomic, readonly) UILabel* authorLabel;
 @property (nonatomic, readonly) UILabel* contentLabel;
 @property (nonatomic, readonly) UILabel* receivedTimeLabel;
--(void) setRead:(BOOL) isRead;
+@property (nonatomic, readonly) CHDDotView* receivedDot;
 @end

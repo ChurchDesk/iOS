@@ -14,6 +14,8 @@
 @property (nonatomic, strong) UILabel* authorLabel;
 @property (nonatomic, strong) UILabel* contentLabel;
 @property (nonatomic, strong) UILabel* receivedTimeLabel;
+
+@property (nonatomic, strong) CHDDotView* receivedDot;
 @end
 
 @implementation CHDMessagesTableViewCell
@@ -46,6 +48,11 @@
         make.right.equalTo(contentView).with.offset(-15);
         make.top.equalTo(contentView).with.offset(15);
     }];
+
+    [self.receivedDot mas_makeConstraints:^(MASConstraintMaker *make){
+        make.width.height.equalTo(@11);
+        make.right.bottom.equalTo(@-15);
+    }];
 }
 
 -(void) makeViews{
@@ -57,6 +64,7 @@
     [contentView addSubview:self.authorLabel];
     [contentView addSubview:self.contentLabel];
     [contentView addSubview:self.receivedTimeLabel];
+    [contentView addSubview:self.receivedDot];
 }
 
 - (UILabel*)groupLabel {
@@ -102,6 +110,13 @@
         _receivedTimeLabel.textColor = [UIColor chd_textLigthColor];
     }
     return _receivedTimeLabel;
+}
+
+-(CHDDotView*) receivedDot {
+    if(!_receivedDot){
+        _receivedDot = [CHDDotView new];
+    }
+    return _receivedDot;
 }
 
 /*

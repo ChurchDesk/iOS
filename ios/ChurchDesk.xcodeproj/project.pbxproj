@@ -13,6 +13,7 @@
 		3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 365351891A94E00E00932D90 /* CHDInvitationsTableViewCell.m */; };
 		3667D9D01A92300E003716A2 /* Generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3667D9CF1A92300E003716A2 /* Generated.xcassets */; };
 		3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3667E29C1A95DD3A00141520 /* CHDMessagesTableViewCell.m */; };
+		3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3667E2A01A95ECE900141520 /* CHDDotView.m */; };
 		36E1592E1A94EC330046F6EA /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */; };
 		603723CBEE6114AD145F6B48 /* CHDDashboardNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372FBAC5663A060BF4B344 /* CHDDashboardNavigationController.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
@@ -45,6 +46,8 @@
 		3667D9D11A923017003716A2 /* generated_resource_images.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = generated_resource_images.h; sourceTree = SOURCE_ROOT; };
 		3667E29B1A95DD3A00141520 /* CHDMessagesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMessagesTableViewCell.h; sourceTree = "<group>"; };
 		3667E29C1A95DD3A00141520 /* CHDMessagesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessagesTableViewCell.m; sourceTree = "<group>"; };
+		3667E29F1A95ECE900141520 /* CHDDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDotView.h; sourceTree = "<group>"; };
+		3667E2A01A95ECE900141520 /* CHDDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDotView.m; sourceTree = "<group>"; };
 		36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftViewController.h; sourceTree = "<group>"; };
 		36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
@@ -101,6 +104,15 @@
 				76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */,
 			);
 			name = Additions;
+			sourceTree = "<group>";
+		};
+		3667E29E1A95ECCB00141520 /* Dot */ = {
+			isa = PBXGroup;
+			children = (
+				3667E29F1A95ECE900141520 /* CHDDotView.h */,
+				3667E2A01A95ECE900141520 /* CHDDotView.m */,
+			);
+			name = Dot;
 			sourceTree = "<group>";
 		};
 		36E1592F1A94EDF00046F6EA /* Dashboard */ = {
@@ -190,6 +202,7 @@
 		60372179239F64D321F00AF0 /* ChurchDesk */ = {
 			isa = PBXGroup;
 			children = (
+				3667E29E1A95ECCB00141520 /* Dot */,
 				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
 				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
 				769E7B921A93643C00812715 /* Action button */,
@@ -382,6 +395,7 @@
 				769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */,
 				3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */,
 				60372DA2ED20F1FD0A711CFF /* ViewController.m in Sources */,
+				3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */,
 				3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */,
 				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
