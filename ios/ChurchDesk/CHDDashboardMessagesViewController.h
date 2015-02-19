@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHDDashboardMessagesViewController : UIViewController
+@interface CHDDashboardMessagesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end
