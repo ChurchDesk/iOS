@@ -31,7 +31,6 @@
     [super makeConstraints];
 
     UIView*contentView = self.contentView;
-    UIView* superview = self;
 
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.equalTo(contentView).with.offset(17);

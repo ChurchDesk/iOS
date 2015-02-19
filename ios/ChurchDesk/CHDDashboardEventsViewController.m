@@ -9,9 +9,13 @@
 #import "CHDDashboardEventsViewController.h"
 #import "CHDTableViewCell.h"
 #import "CHDEventTableViewCell.h"
+#import "CHDExpandableButtonView.h"
 
 @interface CHDDashboardEventsViewController ()
-@property(nonatomic, retain) UITableView* eventTable;
+
+@property (nonatomic, strong) UITableView* eventTable;
+@property (nonatomic, strong) CHDExpandableButtonView *actionButtonView;
+
 @end
 
 @implementation CHDDashboardEventsViewController
@@ -21,6 +25,7 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
+        self.edgesForExtendedLayout = UIRectEdgeNone;
 
         UIBarButtonItem *burgerMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
         self.navigationItem.leftBarButtonItem = burgerMenu;
@@ -29,18 +34,22 @@
         self.eventTable.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.eventTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
         self.eventTable.backgroundColor = [UIColor chd_lightGreyColor];
-
         self.eventTable.rowHeight = 65;
-
         [self.eventTable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"dashboardCell"];
-
         self.eventTable.dataSource = self;
         [self.view addSubview:self.eventTable];
 
+        [self.view addSubview:self.actionButtonView];
+        
         UIView* superview = self.view;
 
         [self.eventTable mas_makeConstraints:^(MASConstraintMaker *make){
             make.edges.equalTo(superview);
+        }];
+        
+        [self.actionButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-5);
         }];
     }
     return self;
@@ -52,11 +61,6 @@
 
     UIColor *color = [UIColor blueColor];
     self.view.backgroundColor = color;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)touched {
@@ -94,14 +98,13 @@
     return 1;
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Lazy Initialization
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (CHDExpandableButtonView *)actionButtonView {
+    if (!_actionButtonView) {
+        _actionButtonView = [CHDExpandableButtonView new];
+    }
+    return _actionButtonView;
 }
-*/
 
 @end
