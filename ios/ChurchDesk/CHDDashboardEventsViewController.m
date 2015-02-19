@@ -26,6 +26,7 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
+        self.edgesForExtendedLayout = UIRectEdgeNone;
 
         [self makeViews];
         [self makeConstraints];
@@ -34,8 +35,10 @@
 }
 
 #pragma mark - setup views
+
 -(void) makeViews {
     [self.view addSubview:self.eventTable];
+    [self.view addSubview:self.actionButtonView];
     self.navigationItem.leftBarButtonItem = self.mainMenu;
 }
 
@@ -44,31 +47,11 @@
     [self.eventTable mas_makeConstraints:^(MASConstraintMaker *make){
         make.edges.equalTo(superview);
     }];
-}
-
--(UIBarButtonItem*) mainMenu {
-    if(!_mainMenu){
-        _mainMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
-    }
-    return _mainMenu;
-}
-
--(UITableView*)eventTable {
-    if(!_eventTable){
-        _eventTable = [[UITableView alloc] init];
-        _eventTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _eventTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
-        _eventTable.backgroundColor = [UIColor chd_lightGreyColor];
-
-        _eventTable.rowHeight = 65;
-
-        [_eventTable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"dashboardCell"];
-        
-        UIView* superview = self.view;
-
-        _eventTable.dataSource = self;
-    }
-    return _eventTable;
+    
+    [self.actionButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(superview);
+        make.bottom.equalTo(superview).offset(-5);
+    }];
 }
 
 #pragma mark - View methods
@@ -116,6 +99,27 @@
 }
 
 #pragma mark - Lazy Initialization
+
+-(UIBarButtonItem*) mainMenu {
+    if(!_mainMenu){
+        _mainMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
+    }
+    return _mainMenu;
+}
+
+-(UITableView*)eventTable {
+    if(!_eventTable){
+        _eventTable = [[UITableView alloc] init];
+        _eventTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _eventTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
+        _eventTable.backgroundColor = [UIColor chd_lightGreyColor];
+        _eventTable.rowHeight = 65;
+        [_eventTable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"dashboardCell"];
+        _eventTable.dataSource = self;
+    }
+    return _eventTable;
+}
+
 
 - (CHDExpandableButtonView *)actionButtonView {
     if (!_actionButtonView) {
