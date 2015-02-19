@@ -34,7 +34,7 @@
 
     CHDLeftViewController *leftViewController = [CHDLeftViewController new];
 
-    CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController new];
+    CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
 
     sideMenuController.leftViewController = leftViewController;
     [sideMenuController setSelectedViewController:dashboardTabBar];

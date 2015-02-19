@@ -15,6 +15,7 @@
 + (UIColor*) chd_redColor;
 + (UIColor*) chd_orangeColor;
 + (UIColor*) chd_lightGreyColor;
++ (UIColor*) chd_greyColor;
 
 + (UIColor*) chd_textDarkColor;
 + (UIColor*) chd_textLigthColor;
