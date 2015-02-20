@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SHPSideMenu.h"
 
 @interface CHDLeftMenuTableViewCell : UITableViewCell
 @property (nonatomic, readonly) UIImageView* thumbnailLeft;
 @property (nonatomic, readonly) UILabel* titleLabel;
-@property (nonatomic, strong) SHPSideMenuController* shp_sideMenuController;
 @end

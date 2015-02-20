@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */; };
 		360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */; };
+		360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF91A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m */; };
 		3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */; };
 		3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6261A93869700BF430B /* CHDTableViewCell.m */; };
 		365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 365351861A94DC5500932D90 /* CHDEventTableViewCell.m */; };
@@ -40,6 +41,8 @@
 		360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuTableViewCell.m; sourceTree = "<group>"; };
 		360B4DF51A973C86001CC8B0 /* CHDMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMenuItem.h; sourceTree = "<group>"; };
 		360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMenuItem.m; sourceTree = "<group>"; };
+		360B4DF81A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+UIBarButtonItem_ChurchDesk.h"; sourceTree = "<group>"; };
+		360B4DF91A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+UIBarButtonItem_ChurchDesk.m"; sourceTree = "<group>"; };
 		3625A61F1A937E0300BF430B /* UIColor+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ChurchDesk.h"; sourceTree = "<group>"; };
 		3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ChurchDesk.m"; sourceTree = "<group>"; };
 		3625A6251A93869700BF430B /* CHDTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTableViewCell.h; sourceTree = "<group>"; };
@@ -121,6 +124,8 @@
 				3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */,
 				76143F111A9606AB00651CEA /* UIFont+ChurchDesk.h */,
 				76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */,
+				360B4DF81A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.h */,
+				360B4DF91A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 				3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */,
 				3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */,
 				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
+				360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */,
 				3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
 				603723CBEE6114AD145F6B48 /* CHDDashboardNavigationController.m in Sources */,

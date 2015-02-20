@@ -15,8 +15,6 @@
 
 @property (nonatomic, retain) UITableView* eventTable;
 @property (nonatomic, strong) CHDExpandableButtonView *actionButtonView;
-@property(nonatomic, retain) UIBarButtonItem* mainMenu;
-
 @end
 
 @implementation CHDDashboardEventsViewController
@@ -39,7 +37,6 @@
 -(void) makeViews {
     [self.view addSubview:self.eventTable];
     [self.view addSubview:self.actionButtonView];
-    self.navigationItem.leftBarButtonItem = self.mainMenu;
 }
 
 -(void) makeConstraints {
@@ -58,13 +55,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-    UIColor *color = [UIColor blueColor];
-    self.view.backgroundColor = color;
 }
 
-- (void)touched {
-    NSLog(@"Touched bar button");
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //Create the burgerbar menu item, if there's a reference to the sidemenu, and we havn't done it before
+    if(self.shp_sideMenuController != nil && self.navigationItem.leftBarButtonItem == nil){
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
+    }
+}
+
+- (void)leftBarButtonTouchHandle {
+    [self.shp_sideMenuController toggleLeft];
 }
 
 #pragma mark - UITableViewDataSource
@@ -99,13 +101,6 @@
 }
 
 #pragma mark - Lazy Initialization
-
--(UIBarButtonItem*) mainMenu {
-    if(!_mainMenu){
-        _mainMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
-    }
-    return _mainMenu;
-}
 
 -(UITableView*)eventTable {
     if(!_eventTable){
