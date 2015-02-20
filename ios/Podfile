@@ -8,9 +8,10 @@ inhibit_all_warnings!
 pod 'SHPFoundation', '~> 2.3.2'
 pod 'SHPUIKit', '~> 2.1.0'
 pod 'SHPSideMenu', '~> 1.1.0'
-pod 'DCIntrospect-ARC', :head
+pod 'DCIntrospect-ARC', :head, :configurations => ['Debug']
 pod 'Masonry', '~> 0.6.1'
 pod 'ReactiveCocoa', '~> 2.4.7'
+pod 'SHPNetworking', '~> 7.6.0'
 
 # pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'
 
@@ -20,10 +21,12 @@ post_install do | installer |
   require 'fileutils'
   FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-Acknowledgements.plist', 'Resources/Settings.bundle/Acknowledgements.plist', :remove_destination => true)
 
-# in-comment this if you want to use the Reactive Extensions to SHPNetworking
-  # installer.project.targets.each do |target|
-  #   target.build_configurations.each do |config|
-  #     config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = '$(inherited) USE_REACTIVE_EXTENSION=1'
-  #   end
-  # end
+post_install do |installer_representation|
+    installer_representation.project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = '$(inherited) USE_REACTIVE_EXTENSION=1'
+        end
+    end
+end
+
 end

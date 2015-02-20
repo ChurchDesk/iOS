@@ -28,6 +28,8 @@
 		76143F101A96066A00651CEA /* MavenPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0C1A96037F00651CEA /* MavenPro-Regular.ttf */; };
 		76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */; };
 		76143F171A9634FA00651CEA /* CHDMagicNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76143F161A9634FA00651CEA /* CHDMagicNavigationBarView.m */; };
+		76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 76143F1A1A9779ED00651CEA /* CHDAPIClient.m */; };
+		76143F1E1A977CA400651CEA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76143F1D1A977CA400651CEA /* Crashlytics.framework */; };
 		769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */; };
 		769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */; };
 		769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */; };
@@ -77,6 +79,9 @@
 		76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+ChurchDesk.m"; sourceTree = "<group>"; };
 		76143F151A9634FA00651CEA /* CHDMagicNavigationBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMagicNavigationBarView.h; sourceTree = "<group>"; };
 		76143F161A9634FA00651CEA /* CHDMagicNavigationBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMagicNavigationBarView.m; sourceTree = "<group>"; };
+		76143F191A9779ED00651CEA /* CHDAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAPIClient.h; sourceTree = "<group>"; };
+		76143F1A1A9779ED00651CEA /* CHDAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAPIClient.m; sourceTree = "<group>"; };
+		76143F1D1A977CA400651CEA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		769E7B971A947D8D00812715 /* ChurchDesk.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChurchDesk.pch; sourceTree = SOURCE_ROOT; };
 		769E7B981A9480DC00812715 /* CHDDashboardEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventsViewController.h; sourceTree = "<group>"; };
 		769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventsViewController.m; sourceTree = "<group>"; };
@@ -94,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76143F1E1A977CA400651CEA /* Crashlytics.framework in Frameworks */,
 				FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,11 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				76143F141A9633F400651CEA /* Custom Views */,
-				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
-				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
-				3667E29E1A95ECCB00141520 /* Dot */,
 				360B4DF11A9739ED001CC8B0 /* MainNavigation */,
-				769E7B921A93643C00812715 /* Action button */,
 				3625A61E1A937DC900BF430B /* Additions */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
 				3667D9CF1A92300E003716A2 /* Generated.xcassets */,
@@ -225,6 +227,7 @@
 				603726045A07B5DC865FD0FB /* AppDelegate.h */,
 				603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */,
 				36E1592F1A94EDF00046F6EA /* Dashboard */,
+				76143F181A97762400651CEA /* API */,
 			);
 			path = ChurchDesk;
 			sourceTree = "<group>";
@@ -291,10 +294,20 @@
 			name = "Custom Views";
 			sourceTree = "<group>";
 		};
+		76143F181A97762400651CEA /* API */ = {
+			isa = PBXGroup;
+			children = (
+				76143F191A9779ED00651CEA /* CHDAPIClient.h */,
+				76143F1A1A9779ED00651CEA /* CHDAPIClient.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
 		8C7033242449DD2B32139BB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				A2489C4B953B854686341449 /* libPods.a */,
+				76143F1D1A977CA400651CEA /* Crashlytics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -311,6 +324,7 @@
 				603727F7B8C8BB3A43116C4A /* Frameworks */,
 				60372BB20A00144B35FD8DAC /* Resources */,
 				2894B46DC938F73013C1F8B2 /* Copy Pods Resources */,
+				76143F1C1A977C4200651CEA /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -378,6 +392,20 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		76143F1C1A977C4200651CEA /* Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Crashlytics;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run c7c174cb98f78bf0cd7b43db69eb37d1e2a46d11 abb56bfde5c6607d448d74cc38f9eb03e793871ffc94cf99e816864d4c244d28";
+		};
 		F2ABAB7C8920877B11CD1AA0 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -402,6 +430,7 @@
 			files = (
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				36E1592E1A94EC330046F6EA /* CHDLeftViewController.m in Sources */,
+				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
 				76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */,
 				60372CDAE1931B6F1E903540 /* main.m in Sources */,
@@ -414,7 +443,6 @@
 				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
 				3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
-				603723CBEE6114AD145F6B48 /* CHDDashboardNavigationController.m in Sources */,
 				76143F171A9634FA00651CEA /* CHDMagicNavigationBarView.m in Sources */,
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,
 				60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */,
@@ -470,6 +498,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shape Aps (L4J43EQ3L9)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -563,6 +595,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -575,6 +611,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

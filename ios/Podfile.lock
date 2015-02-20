@@ -10,6 +10,7 @@ PODS:
   - ReactiveCocoa/UI (2.4.7):
     - ReactiveCocoa/Core
   - SHPFoundation (2.3.2)
+  - SHPNetworking (7.6.0)
   - SHPSideMenu (1.1.0):
     - pop (~> 1.0.7)
   - SHPUIKit (2.1.0)
@@ -19,6 +20,7 @@ DEPENDENCIES:
   - Masonry (~> 0.6.1)
   - ReactiveCocoa (~> 2.4.7)
   - SHPFoundation (~> 2.3.2)
+  - SHPNetworking (~> 7.6.0)
   - SHPSideMenu (~> 1.1.0)
   - SHPUIKit (~> 2.1.0)
 
@@ -28,6 +30,7 @@ SPEC CHECKSUMS:
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
   SHPFoundation: bc3d66db35927393ac3db278a0ab893c568e231f
+  SHPNetworking: 5b0d3276bd289c8dc152cf1bd749b01b04f6863c
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
   SHPUIKit: ba38ba4315b8fc931311cd91711139a2fb03fda5
 
