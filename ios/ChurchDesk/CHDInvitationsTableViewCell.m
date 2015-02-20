@@ -47,13 +47,11 @@
 
     //"Lefthand side" of the cell
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(contentView).with.offset(17);
-        make.left.equalTo(contentView).with.offset(16);
-        make.height.equalTo(@14);
+        make.top.left.equalTo(contentView).with.offset(15);
     }];
 
     [self.invitedByLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(4);
+        make.top.equalTo(self.titleLabel.mas_baseline).with.offset(4);
         make.left.equalTo(self.titleLabel);
     }];
 
@@ -92,7 +90,7 @@
 -(UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [UILabel new];
-        _titleLabel.font = [UIFont systemFontOfSize:18];
+        _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
         _titleLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _titleLabel;
@@ -101,7 +99,7 @@
 -(UILabel *)invitedByLabel {
     if (!_invitedByLabel) {
         _invitedByLabel = [UILabel new];
-        _invitedByLabel.font = [UIFont systemFontOfSize:14];
+        _invitedByLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _invitedByLabel.textColor = [UIColor chd_textLigthColor];
     }
     return _invitedByLabel;
@@ -112,7 +110,7 @@
 -(UILabel *)locationLabel {
     if (!_locationLabel) {
         _locationLabel = [UILabel new];
-        _locationLabel.font = [UIFont systemFontOfSize:14];
+        _locationLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _locationLabel.textColor = [UIColor chd_textLigthColor];
     }
     return _locationLabel;
@@ -134,7 +132,7 @@
 -(UILabel *)eventTimeLabel {
     if (!_eventTimeLabel) {
         _eventTimeLabel = [UILabel new];
-        _eventTimeLabel.font = [UIFont systemFontOfSize:14];
+        _eventTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _eventTimeLabel.textColor = [UIColor chd_textLigthColor];
     }
     return _eventTimeLabel;
@@ -144,7 +142,7 @@
 -(UILabel *)receivedTimeLabel {
     if (!_receivedTimeLabel) {
         _receivedTimeLabel = [UILabel new];
-        _receivedTimeLabel.font = [UIFont systemFontOfSize:14];
+        _receivedTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _receivedTimeLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _receivedTimeLabel;
@@ -152,7 +150,7 @@
 -(UILabel *)parishLabel {
     if (!_parishLabel) {
         _parishLabel = [UILabel new];
-        _parishLabel.font = [UIFont systemFontOfSize:14];
+        _parishLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _parishLabel.textColor = [UIColor chd_textExtraLightColor];
     }
     return _parishLabel;

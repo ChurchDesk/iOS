@@ -29,6 +29,12 @@
 + (UIColor*) chd_lightGreyColor{
     return [UIColor shpui_colorFromStringWithHexValue:@"e9e9e9"];
 }
+
++ (UIColor*) chd_greyColor{
+  return [UIColor shpui_colorFromStringWithHexValue:@"f7f7f7"];
+}
+
+
 #pragma mark - Font colors
 + (UIColor*) chd_textDarkColor{
     return [UIColor shpui_colorFromStringWithHexValue:@"000000"];

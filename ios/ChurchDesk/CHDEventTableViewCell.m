@@ -33,13 +33,11 @@
     UIView*contentView = self.contentView;
 
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(contentView).with.offset(17);
-        make.left.equalTo(contentView).with.offset(16);
-        make.height.equalTo(@14);
+        make.top.left.equalTo(contentView).with.offset(15);
     }];
 
     [self.locationIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(8);
+        make.top.equalTo(self.titleLabel.mas_baseline).with.offset(8);
         make.left.equalTo(self.titleLabel);
     }];
     [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -48,7 +46,7 @@
     }];
 
     [self.dateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.bottom.equalTo(self.titleLabel);
+        make.baseline.equalTo(self.titleLabel);
         make.right.equalTo(contentView).with.offset(-16);
     }];
 
@@ -61,7 +59,7 @@
 -(UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [UILabel new];
-        _titleLabel.font = [UIFont systemFontOfSize:18];
+        _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
         _titleLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _titleLabel;
@@ -69,7 +67,7 @@
 -(UILabel *)locationLabel {
     if (!_locationLabel) {
         _locationLabel = [UILabel new];
-        _locationLabel.font = [UIFont systemFontOfSize:14];
+        _locationLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _locationLabel.textColor = [UIColor chd_textLigthColor];
         //.pointSize = 28.0;
 
@@ -85,7 +83,7 @@
 -(UILabel *)dateTimeLabel {
     if (!_dateTimeLabel) {
         _dateTimeLabel = [UILabel new];
-        _dateTimeLabel.font = [UIFont systemFontOfSize:14];
+        _dateTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _dateTimeLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _dateTimeLabel;
@@ -93,7 +91,7 @@
 -(UILabel *)parishLabel {
     if (!_parishLabel) {
         _parishLabel = [UILabel new];
-        _parishLabel.font = [UIFont systemFontOfSize:14];
+        _parishLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _parishLabel.textColor = [UIColor chd_textExtraLightColor];
     }
     return _parishLabel;

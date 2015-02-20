@@ -11,19 +11,17 @@
 #import "CHDDashboardInvitationsViewController.h"
 #import "CHDDashboardNavigationController.h"
 #import "CHDDashboardMessagesViewController.h"
+#import "CHDTabItem.h"
+#import "CHDDotView.h"
 
 @interface CHDDashboardTabBarViewController ()
-
+@property (nonatomic, strong) UIView* buttonContainer;
+@property (nonatomic, assign) NSUInteger selectedIndex;
 @end
 
 @implementation CHDDashboardTabBarViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    UIColor *color = [UIColor redColor];
-    self.view.backgroundColor = color;
-
++ (instancetype) dashboardTabBarViewController {
     CHDDashboardEventsViewController *dashboardEventsViewController = [CHDDashboardEventsViewController new];
     CHDDashboardInvitationsViewController *dashboardInvitationsViewController = [CHDDashboardInvitationsViewController new];
     CHDDashboardMessagesViewController *dashboardMessagesViewController = [CHDDashboardMessagesViewController new];
@@ -32,24 +30,128 @@
     CHDDashboardNavigationController *invitationsNavViewController = [[CHDDashboardNavigationController new] initWithRootViewController:dashboardInvitationsViewController];
     CHDDashboardNavigationController *messagesNavViewController = [[CHDDashboardNavigationController new] initWithRootViewController:dashboardMessagesViewController];
 
-    NSArray *viewControllersArray = [NSArray arrayWithObjects:eventsNavViewController, invitationsNavViewController, messagesNavViewController, nil];
+    CHDTabItem* eventsItem = [CHDTabItem new];
+    eventsItem.viewController = eventsNavViewController;
+    eventsItem.imageNormal = kImgTabbarCalendarIcon;
+    eventsItem.imageSelected = kImgTabbarCalendarInvertedIcon;
+    eventsItem.title = NSLocalizedString(@"Events", @"");
 
-    [self setViewControllers:viewControllersArray animated:NO];
+    CHDTabItem* invitationsItem = [CHDTabItem new];
+    invitationsItem.viewController = invitationsNavViewController;
+    invitationsItem.imageNormal = kImgTabbarInvitationsIcon;
+    invitationsItem.imageSelected = kImgTabbarInvitationsInvertedIcon;
+    invitationsItem.title = NSLocalizedString(@"Invitations", @"");
+
+    CHDTabItem* messagesItem = [CHDTabItem new];
+    messagesItem.viewController = messagesNavViewController;
+    messagesItem.imageNormal = kImgTabbarMessagesIcon;
+    messagesItem.imageSelected = kImgTabbarMessagesInvertedIcon;
+    messagesItem.title = NSLocalizedString(@"Messages", @"");
+
+    NSArray *viewControllersArray = @[eventsItem, invitationsItem, messagesItem];
+
+    return [[self alloc] initWithTabItems:viewControllersArray];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(instancetype) initWithTabItems: (NSArray*) items {
+    self = [super init];
+    if(self){
+        self.view.backgroundColor = [UIColor whiteColor];
+        [self makeSubViews];
+        [self setTabsWithItems:items];
+    }
+    return self;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void) makeSubViews {
+    self.buttonContainer = [UIView new];
+    [self.view addSubview:self.buttonContainer];
+    [self.buttonContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.right.left.equalTo(self.view);
+        make.height.equalTo(@50);
+    }];
 }
-*/
+
+-(void) setTabsWithItems: (NSArray *) items {
+    __block UIButton* previousButton = nil;
+
+    [items enumerateObjectsUsingBlock:^(CHDTabItem* item, NSUInteger idx, BOOL *stop) {
+        UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:item.imageNormal forState:UIControlStateNormal];
+        [button setImage:item.imageSelected forState:UIControlStateSelected];
+        [button setTitle:item.title forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor chd_textDarkColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        button.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:12];
+
+        CHDDotView* notification = [CHDDotView new];
+        notification.dotColor = [UIColor chd_blueColor];
+
+        //Get the title and image size to position them
+        CGSize titleSize = [button.titleLabel.text sizeWithAttributes:@{NSFontAttributeName: button.titleLabel.font}];
+        CGSize imageSize = button.imageView.image.size;
+
+        // lower the text and push it left so it appears centered, use the title height to make the titles seem centered
+        // to each other
+        button.titleEdgeInsets = UIEdgeInsetsMake(0.0, - imageSize.width, - (titleSize.height * 2 + 2), 0.0);
+
+        // raise the image and push it right so it appears centered
+        //  above the text
+        button.imageEdgeInsets = UIEdgeInsetsMake(- (titleSize.height - 2), 0.0, 0.0, - titleSize.width);
+
+        RAC(button, backgroundColor) = [RACObserve(button, selected) map:^id(NSNumber *nSelected) {
+            return nSelected.boolValue ? [UIColor chd_blueColor] : [UIColor chd_greyColor];
+        }];
+
+        [self rac_liftSelector:@selector(setSelectedIndex:) withSignals:[[button rac_signalForControlEvents:UIControlEventTouchUpInside] mapReplace:@(idx)], nil];
+
+        RAC(button, selected) = [RACObserve(self, selectedIndex) map:^id(NSNumber *nSelectedIndex) {
+            return @(nSelectedIndex.unsignedIntegerValue == idx);
+        }];
+
+        [self.buttonContainer addSubview:button];
+        [self.buttonContainer addSubview:notification];
+
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(!previousButton ? self.buttonContainer : previousButton.mas_right );
+            make.top.bottom.equalTo(self.buttonContainer);
+            make.width.equalTo(self.buttonContainer).multipliedBy( 1.0 / (CGFloat)items.count );
+        }];
+
+        [notification mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(button).with.offset(5);
+            make.centerX.equalTo(button).with.offset(18);
+            make.width.height.equalTo(@8);
+        }];
+
+        previousButton = button;
+    }];
+
+    [self rac_liftSelector:@selector(setSelectedViewController:) withSignals:[RACObserve(self, selectedIndex) combinePreviousWithStart:@(NSNotFound) reduce:^id(NSNumber *nPrevious, NSNumber *nCurrent) {
+        NSUInteger prevIdx = nPrevious.unsignedIntegerValue;
+        NSUInteger currentIdx = nCurrent.unsignedIntegerValue;
+
+        UIViewController *previousVC = prevIdx == NSNotFound ? nil : [(CHDTabItem*)items[prevIdx] viewController];
+        UIViewController *currentVC = currentIdx == NSNotFound ? nil : [(CHDTabItem*)items[currentIdx] viewController];
+        return RACTuplePack(previousVC, currentVC);
+    }], nil];
+}
+
+- (void) setSelectedViewController: (RACTuple*) tuple {
+    RACTupleUnpack(UIViewController *previousVC, UIViewController *selectedVC) = tuple;
+
+    [previousVC willMoveToParentViewController:nil];
+    [previousVC.view removeFromSuperview];
+    [previousVC removeFromParentViewController];
+
+    [self addChildViewController:selectedVC];
+    [self.view addSubview:selectedVC.view];
+    [selectedVC.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.equalTo(self.view);
+        make.bottom.equalTo(self.buttonContainer.mas_top);
+    }];
+
+    [selectedVC didMoveToParentViewController:self];
+}
 
 @end

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHDDashboardTabBarViewController : UITabBarController
+@interface CHDDashboardTabBarViewController : UIViewController
++ (instancetype) dashboardTabBarViewController;
 
+-(instancetype) initWithTabItems: (NSArray*) items;
 @end
