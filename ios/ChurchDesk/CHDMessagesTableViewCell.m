@@ -35,12 +35,12 @@
     }];
 
     [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.groupLabel.mas_bottom).with.offset(10);
+        make.top.equalTo(self.groupLabel.mas_baseline).with.offset(5);
         make.left.equalTo(self.groupLabel);
     }];
 
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.authorLabel.mas_bottom).with.offset(8);
+        make.top.equalTo(self.authorLabel.mas_baseline).with.offset(5);
         make.left.equalTo(self.groupLabel);
     }];
 
@@ -70,7 +70,7 @@
 - (UILabel*)groupLabel {
     if(!_groupLabel){
         _groupLabel = [UILabel new];
-        _groupLabel.font = [UIFont systemFontOfSize:14];
+        _groupLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _groupLabel.textColor = [UIColor chd_textLigthColor];
     }
     return _groupLabel;
@@ -79,7 +79,7 @@
 - (UILabel*)parishLabel {
     if(!_parishLabel){
         _parishLabel = [UILabel new];
-        _parishLabel.font = [UIFont systemFontOfSize:14];
+        _parishLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _parishLabel.textColor = [UIColor chd_textExtraLightColor];
     }
     return _parishLabel;
@@ -88,7 +88,7 @@
 - (UILabel*)authorLabel {
     if(!_authorLabel){
         _authorLabel = [UILabel new];
-        _authorLabel.font = [UIFont systemFontOfSize:18];
+        _authorLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:18];
         _authorLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _authorLabel;
@@ -97,7 +97,7 @@
 - (UILabel*)contentLabel {
     if(!_contentLabel){
         _contentLabel = [UILabel new];
-        _contentLabel.font = [UIFont systemFontOfSize:14];
+        _contentLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _contentLabel.textColor = [UIColor chd_textLigthColor];
     }
     return _contentLabel;
@@ -106,7 +106,7 @@
 - (UILabel*)receivedTimeLabel {
     if(!_receivedTimeLabel){
         _receivedTimeLabel = [UILabel new];
-        _receivedTimeLabel.font = [UIFont systemFontOfSize:14];
+        _receivedTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];;
         _receivedTimeLabel.textColor = [UIColor chd_textLigthColor];
     }
     return _receivedTimeLabel;

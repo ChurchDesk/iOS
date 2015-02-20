@@ -35,7 +35,6 @@
 }
 
 -(void) makeConstraints {
-    UIView* superview = self.view;
     [self.messagesTable mas_makeConstraints:^(MASConstraintMaker *make){
         make.edges.equalTo(self.view);
     }];
@@ -55,7 +54,7 @@
         _messagesTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
         _messagesTable.backgroundColor = [UIColor chd_lightGreyColor];
 
-        _messagesTable.rowHeight = 104;
+        _messagesTable.rowHeight = 85;
 
         [_messagesTable registerClass:[CHDMessagesTableViewCell class] forCellReuseIdentifier:@"messagesCell"];
 
