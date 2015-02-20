@@ -26,26 +26,22 @@
     CHDDashboardInvitationsViewController *dashboardInvitationsViewController = [CHDDashboardInvitationsViewController new];
     CHDDashboardMessagesViewController *dashboardMessagesViewController = [CHDDashboardMessagesViewController new];
 
-    UINavigationController *eventsNavViewController = [[UINavigationController new] initWithRootViewController:dashboardEventsViewController];
-    UINavigationController *invitationsNavViewController = [[UINavigationController new] initWithRootViewController:dashboardInvitationsViewController];
-    UINavigationController *messagesNavViewController = [[UINavigationController new] initWithRootViewController:dashboardMessagesViewController];
-
     CHDTabItem* eventsItem = [CHDTabItem new];
-    eventsItem.viewController = eventsNavViewController;
+    eventsItem.viewController = dashboardEventsViewController;
     eventsItem.imageNormal = kImgTabbarCalendarIcon;
     eventsItem.imageSelected = kImgTabbarCalendarInvertedIcon;
     eventsItem.title = NSLocalizedString(@"Events", @"");
     eventsItem.showNotification = NO;
 
     CHDTabItem* invitationsItem = [CHDTabItem new];
-    invitationsItem.viewController = invitationsNavViewController;
+    invitationsItem.viewController = dashboardInvitationsViewController;
     invitationsItem.imageNormal = kImgTabbarInvitationsIcon;
     invitationsItem.imageSelected = kImgTabbarInvitationsInvertedIcon;
     invitationsItem.title = NSLocalizedString(@"Invitations", @"");
     invitationsItem.showNotification = YES;
 
     CHDTabItem* messagesItem = [CHDTabItem new];
-    messagesItem.viewController = messagesNavViewController;
+    messagesItem.viewController = dashboardMessagesViewController;
     messagesItem.imageNormal = kImgTabbarMessagesIcon;
     messagesItem.imageSelected = kImgTabbarMessagesInvertedIcon;
     messagesItem.title = NSLocalizedString(@"Messages", @"");
@@ -80,6 +76,12 @@
     __block UIButton* previousButton = nil;
 
     [items enumerateObjectsUsingBlock:^(CHDTabItem* item, NSUInteger idx, BOOL *stop) {
+        //Set the navigation item of the viewController
+        item.viewController.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
+
+        //Pack the viewController inside a navigationController
+        item.viewController = [[UINavigationController new] initWithRootViewController:item.viewController];
+
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:item.imageNormal forState:UIControlStateNormal];
         [button setImage:item.imageSelected forState:UIControlStateSelected];
@@ -161,6 +163,10 @@
     }];
 
     [selectedVC didMoveToParentViewController:self];
+}
+
+- (void)leftBarButtonTouchHandle {
+    [self.shp_sideMenuController toggleLeft];
 }
 
 - (void) notificationsForIndex: (u_int) idx show: (BOOL) show {

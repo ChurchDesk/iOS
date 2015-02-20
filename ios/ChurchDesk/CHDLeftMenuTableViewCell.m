@@ -15,16 +15,6 @@
 
 @implementation CHDLeftMenuTableViewCell
 
-- (instancetype)init
-{
-  self = [super init];
-  if (self) {
-      [self makeViews];
-      [self makeConstraints];
-  }
-  return self;
-}
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -40,8 +30,8 @@
     self.selectedBackgroundView.backgroundColor = self.backgroundColor;
 
     [self addSubview:self.separatorView];
-    [self addSubview:self.titleLabel];
-    [self addSubview:self.thumbnailLeft];
+    [self.contentView addSubview:self.titleLabel];
+    [self.contentView addSubview:self.thumbnailLeft];
 }
 
 -(void) makeConstraints{
@@ -62,12 +52,6 @@
         make.centerY.equalTo(containerView);
         make.centerX.equalTo(containerView.mas_left).with.offset(27);
     }];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 #pragma mark - Sub Views lazy initialization

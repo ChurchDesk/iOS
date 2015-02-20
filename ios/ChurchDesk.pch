@@ -12,10 +12,12 @@
 #import "generated_resource_images.h"
 #import "SHPFoundation.h"
 #import "SHPUIKit.h"
+#import "SHPSideMenu.h"
 #import "generated_resource_images.h"
 #import "Masonry.h"
 #import "UIColor+ChurchDesk.h"
 #import "UIFont+ChurchDesk.h"
+#import "UIBarButtonItem+UIBarButtonItem_ChurchDesk.h"
 #import "ReactiveCocoa.h"
 
 #endif

@@ -10,7 +10,6 @@
 #import "CHDMessagesTableViewCell.h"
 
 @interface CHDDashboardMessagesViewController ()
-@property(nonatomic, retain) UIBarButtonItem* mainMenu;
 @property(nonatomic, retain) UITableView* messagesTable;
 @end
 
@@ -30,7 +29,6 @@
 
 #pragma mark - setup views
 -(void) makeViews {
-    self.navigationItem.leftBarButtonItem = self.mainMenu;
     [self.view addSubview:self.messagesTable];
 }
 
@@ -38,13 +36,6 @@
     [self.messagesTable mas_makeConstraints:^(MASConstraintMaker *make){
         make.edges.equalTo(self.view);
     }];
-}
-
--(UIBarButtonItem*) mainMenu {
-    if(!_mainMenu){
-        _mainMenu = [[UIBarButtonItem new] initWithImage:kImgBurgerMenu style:UIBarButtonItemStylePlain target:self action:@selector(touched)];
-    }
-    return _mainMenu;
 }
 
 -(UITableView *) messagesTable {
@@ -68,8 +59,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIColor *color = [UIColor purpleColor];
-    self.view.backgroundColor = color;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //Create the burgerbar menu item, if there's a reference to the sidemenu, and we havn't done it before
+    if(self.shp_sideMenuController != nil && self.navigationItem.leftBarButtonItem == nil){
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,8 +74,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)touched {
-    NSLog(@"Touched bar button");
+- (void)leftBarButtonTouchHandle {
+    [self.shp_sideMenuController toggleLeft];
 }
 
 #pragma mark - UITableViewDataSource
