@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */; };
+		360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */; };
 		3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */; };
 		3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6261A93869700BF430B /* CHDTableViewCell.m */; };
 		365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 365351861A94DC5500932D90 /* CHDEventTableViewCell.m */; };
@@ -35,6 +37,10 @@
 
 /* Begin PBXFileReference section */
 		2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		360B4DF21A973A46001CC8B0 /* CHDLeftMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuTableViewCell.h; sourceTree = "<group>"; };
+		360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuTableViewCell.m; sourceTree = "<group>"; };
+		360B4DF51A973C86001CC8B0 /* CHDMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMenuItem.h; sourceTree = "<group>"; };
+		360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMenuItem.m; sourceTree = "<group>"; };
 		3625A61F1A937E0300BF430B /* UIColor+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ChurchDesk.h"; sourceTree = "<group>"; };
 		3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ChurchDesk.m"; sourceTree = "<group>"; };
 		3625A6251A93869700BF430B /* CHDTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTableViewCell.h; sourceTree = "<group>"; };
@@ -98,6 +104,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		360B4DF11A9739ED001CC8B0 /* MainNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
+				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
+				360B4DF21A973A46001CC8B0 /* CHDLeftMenuTableViewCell.h */,
+				360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */,
+				360B4DF51A973C86001CC8B0 /* CHDMenuItem.h */,
+				360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */,
+			);
+			name = MainNavigation;
+			sourceTree = "<group>";
+		};
 		3625A61E1A937DC900BF430B /* Additions */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,8 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				3667E29E1A95ECCB00141520 /* Dot */,
-				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
-				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
+				360B4DF11A9739ED001CC8B0 /* MainNavigation */,
 				769E7B921A93643C00812715 /* Action button */,
 				3625A61E1A937DC900BF430B /* Additions */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
@@ -393,6 +411,7 @@
 			files = (
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				36E1592E1A94EC330046F6EA /* CHDLeftViewController.m in Sources */,
+				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
 				76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */,
 				60372CDAE1931B6F1E903540 /* main.m in Sources */,
 				769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */,
@@ -409,6 +428,7 @@
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,
 				60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */,
 				60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */,
+				360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

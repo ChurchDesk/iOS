@@ -8,12 +8,11 @@
 
 
 #import "AppDelegate.h"
-#import "ViewController.h"
 #import "SHPSideMenu.h"
-#import "SHPSideMenuController.h"
 #import "CHDLeftViewController.h"
 #import "CHDDashboardTabBarViewController.h"
 #import "DCIntrospect.h"
+#import "CHDMenuItem.h"
 
 @interface AppDelegate ()
 
@@ -24,29 +23,39 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     [self setupAppearance];
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+
     SHPSideMenuController *sideMenuController = [SHPSideMenuController sideMenuControllerWithBuilder:^(SHPSideMenuControllerBuilder *builder) {
         builder.statusBarBehaviour = SHPSideMenuStatusBarBehaviourMove;
         // More customizations
     }];
 
-    CHDLeftViewController *leftViewController = [CHDLeftViewController new];
 
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
+
+    //Setup the Left Menu
+    //
+    CHDMenuItem *menuItemDashboard = [CHDMenuItem new];
+    menuItemDashboard.title = NSLocalizedString(@"Dashboard", @"");
+    menuItemDashboard.viewController = dashboardTabBar;
+    menuItemDashboard.image = kImgDashboard;
+
+    NSArray *menuItems = @[menuItemDashboard];
+
+    CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
 
     sideMenuController.leftViewController = leftViewController;
     [sideMenuController setSelectedViewController:dashboardTabBar];
 
     self.window.rootViewController = sideMenuController;
-    
+
     [self.window makeKeyAndVisible];
 
 #if DEBUG
     [[DCIntrospect sharedIntrospector] start];
 #endif
-    
+
     return YES;
 }
 
@@ -55,7 +64,7 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor chd_blueColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18], NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18], NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateNormal];
-    
+
     [[UITabBar appearance] setBarTintColor:[UIColor shpui_colorWithHexValue:0x008db6]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor shpui_colorWithHexValue:0x434343]} forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateSelected];
