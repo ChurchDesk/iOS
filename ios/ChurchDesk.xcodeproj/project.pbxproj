@@ -25,6 +25,7 @@
 		76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */; };
 		76143F101A96066A00651CEA /* MavenPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0C1A96037F00651CEA /* MavenPro-Regular.ttf */; };
 		76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */; };
+		76143F171A9634FA00651CEA /* CHDMagicNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76143F161A9634FA00651CEA /* CHDMagicNavigationBarView.m */; };
 		769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */; };
 		769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */; };
 		769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */; };
@@ -68,6 +69,8 @@
 		76143F0C1A96037F00651CEA /* MavenPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Regular.ttf"; sourceTree = "<group>"; };
 		76143F111A9606AB00651CEA /* UIFont+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+ChurchDesk.h"; sourceTree = "<group>"; };
 		76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+ChurchDesk.m"; sourceTree = "<group>"; };
+		76143F151A9634FA00651CEA /* CHDMagicNavigationBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMagicNavigationBarView.h; sourceTree = "<group>"; };
+		76143F161A9634FA00651CEA /* CHDMagicNavigationBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMagicNavigationBarView.m; sourceTree = "<group>"; };
 		769E7B971A947D8D00812715 /* ChurchDesk.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChurchDesk.pch; sourceTree = SOURCE_ROOT; };
 		769E7B981A9480DC00812715 /* CHDDashboardEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventsViewController.h; sourceTree = "<group>"; };
 		769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventsViewController.m; sourceTree = "<group>"; };
@@ -190,9 +193,9 @@
 		60372179239F64D321F00AF0 /* ChurchDesk */ = {
 			isa = PBXGroup;
 			children = (
+				76143F141A9633F400651CEA /* Custom Views */,
 				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
 				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
-				769E7B921A93643C00812715 /* Action button */,
 				3625A61E1A937DC900BF430B /* Additions */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
 				3667D9CF1A92300E003716A2 /* Generated.xcassets */,
@@ -255,13 +258,15 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		769E7B921A93643C00812715 /* Action button */ = {
+		76143F141A9633F400651CEA /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
 				769E7BAD1A94813A00812715 /* CHDExpandableButtonView.h */,
 				769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */,
+				76143F151A9634FA00651CEA /* CHDMagicNavigationBarView.h */,
+				76143F161A9634FA00651CEA /* CHDMagicNavigationBarView.m */,
 			);
-			name = "Action button";
+			name = "Custom Views";
 			sourceTree = "<group>";
 		};
 		8C7033242449DD2B32139BB0 /* Frameworks */ = {
@@ -386,6 +391,7 @@
 				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
 				603723CBEE6114AD145F6B48 /* CHDDashboardNavigationController.m in Sources */,
+				76143F171A9634FA00651CEA /* CHDMagicNavigationBarView.m in Sources */,
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,
 				60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */,
 				60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */,
