@@ -9,7 +9,6 @@
 #import "CHDDashboardTabBarViewController.h"
 #import "CHDDashboardEventsViewController.h"
 #import "CHDDashboardInvitationsViewController.h"
-#import "CHDDashboardNavigationController.h"
 #import "CHDDashboardMessagesViewController.h"
 #import "CHDTabItem.h"
 #import "CHDDotView.h"
@@ -17,6 +16,7 @@
 @interface CHDDashboardTabBarViewController ()
 @property (nonatomic, strong) UIView* buttonContainer;
 @property (nonatomic, assign) NSUInteger selectedIndex;
+@property (nonatomic, assign) NSArray* buttons;
 @end
 
 @implementation CHDDashboardTabBarViewController
@@ -26,27 +26,30 @@
     CHDDashboardInvitationsViewController *dashboardInvitationsViewController = [CHDDashboardInvitationsViewController new];
     CHDDashboardMessagesViewController *dashboardMessagesViewController = [CHDDashboardMessagesViewController new];
 
-    CHDDashboardNavigationController *eventsNavViewController = [[CHDDashboardNavigationController new] initWithRootViewController:dashboardEventsViewController];
-    CHDDashboardNavigationController *invitationsNavViewController = [[CHDDashboardNavigationController new] initWithRootViewController:dashboardInvitationsViewController];
-    CHDDashboardNavigationController *messagesNavViewController = [[CHDDashboardNavigationController new] initWithRootViewController:dashboardMessagesViewController];
+    UINavigationController *eventsNavViewController = [[UINavigationController new] initWithRootViewController:dashboardEventsViewController];
+    UINavigationController *invitationsNavViewController = [[UINavigationController new] initWithRootViewController:dashboardInvitationsViewController];
+    UINavigationController *messagesNavViewController = [[UINavigationController new] initWithRootViewController:dashboardMessagesViewController];
 
     CHDTabItem* eventsItem = [CHDTabItem new];
     eventsItem.viewController = eventsNavViewController;
     eventsItem.imageNormal = kImgTabbarCalendarIcon;
     eventsItem.imageSelected = kImgTabbarCalendarInvertedIcon;
     eventsItem.title = NSLocalizedString(@"Events", @"");
+    eventsItem.showNotification = NO;
 
     CHDTabItem* invitationsItem = [CHDTabItem new];
     invitationsItem.viewController = invitationsNavViewController;
     invitationsItem.imageNormal = kImgTabbarInvitationsIcon;
     invitationsItem.imageSelected = kImgTabbarInvitationsInvertedIcon;
     invitationsItem.title = NSLocalizedString(@"Invitations", @"");
+    invitationsItem.showNotification = YES;
 
     CHDTabItem* messagesItem = [CHDTabItem new];
     messagesItem.viewController = messagesNavViewController;
     messagesItem.imageNormal = kImgTabbarMessagesIcon;
     messagesItem.imageSelected = kImgTabbarMessagesInvertedIcon;
     messagesItem.title = NSLocalizedString(@"Messages", @"");
+    messagesItem.showNotification = YES;
 
     NSArray *viewControllersArray = @[eventsItem, invitationsItem, messagesItem];
 
@@ -54,6 +57,7 @@
 }
 
 -(instancetype) initWithTabItems: (NSArray*) items {
+    self.buttons = items;
     self = [super init];
     if(self){
         self.view.backgroundColor = [UIColor whiteColor];
@@ -109,6 +113,10 @@
             return @(nSelectedIndex.unsignedIntegerValue == idx);
         }];
 
+        RAC(notification, hidden) = [RACObserve(item, showNotification) map:^id (NSNumber *nShow) {
+            return @(!nShow.boolValue);
+        }];
+
         [self.buttonContainer addSubview:button];
         [self.buttonContainer addSubview:notification];
 
@@ -131,6 +139,7 @@
         NSUInteger prevIdx = nPrevious.unsignedIntegerValue;
         NSUInteger currentIdx = nCurrent.unsignedIntegerValue;
 
+
         UIViewController *previousVC = prevIdx == NSNotFound ? nil : [(CHDTabItem*)items[prevIdx] viewController];
         UIViewController *currentVC = currentIdx == NSNotFound ? nil : [(CHDTabItem*)items[currentIdx] viewController];
         return RACTuplePack(previousVC, currentVC);
@@ -152,6 +161,13 @@
     }];
 
     [selectedVC didMoveToParentViewController:self];
+}
+
+- (void) notificationsForIndex: (u_int) idx show: (BOOL) show {
+    if(self.buttons.count > idx){
+        CHDTabItem* item = self.buttons[idx];
+        item.showNotification = show;
+    }
 }
 
 @end

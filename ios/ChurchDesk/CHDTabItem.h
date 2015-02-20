@@ -13,4 +13,5 @@
 @property (nonatomic, strong) UIImage* imageNormal;
 @property (nonatomic, strong) UIImage* imageSelected;
 @property (nonatomic, strong) NSString* title;
+@property (nonatomic) BOOL showNotification;
 @end

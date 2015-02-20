@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */; };
+		360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */; };
 		3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */; };
 		3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6261A93869700BF430B /* CHDTableViewCell.m */; };
 		365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 365351861A94DC5500932D90 /* CHDEventTableViewCell.m */; };
@@ -16,7 +18,6 @@
 		3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3667E2A01A95ECE900141520 /* CHDDotView.m */; };
 		3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3667E2A31A9616DC00141520 /* CHDTabItem.m */; };
 		36E1592E1A94EC330046F6EA /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */; };
-		603723CBEE6114AD145F6B48 /* CHDDashboardNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372FBAC5663A060BF4B344 /* CHDDashboardNavigationController.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
@@ -35,6 +36,10 @@
 
 /* Begin PBXFileReference section */
 		2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		360B4DF21A973A46001CC8B0 /* CHDLeftMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuTableViewCell.h; sourceTree = "<group>"; };
+		360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuTableViewCell.m; sourceTree = "<group>"; };
+		360B4DF51A973C86001CC8B0 /* CHDMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMenuItem.h; sourceTree = "<group>"; };
+		360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMenuItem.m; sourceTree = "<group>"; };
 		3625A61F1A937E0300BF430B /* UIColor+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ChurchDesk.h"; sourceTree = "<group>"; };
 		3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ChurchDesk.m"; sourceTree = "<group>"; };
 		3625A6251A93869700BF430B /* CHDTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTableViewCell.h; sourceTree = "<group>"; };
@@ -64,8 +69,6 @@
 		60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		60372F82D43C90B85017960D /* CHDDashboardNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardNavigationController.h; sourceTree = "<group>"; };
-		60372FBAC5663A060BF4B344 /* CHDDashboardNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardNavigationController.m; sourceTree = "<group>"; };
 		76143F091A96037F00651CEA /* MavenPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Black.ttf"; sourceTree = "<group>"; };
 		76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Bold.ttf"; sourceTree = "<group>"; };
 		76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Medium.ttf"; sourceTree = "<group>"; };
@@ -98,6 +101,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		360B4DF11A9739ED001CC8B0 /* MainNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
+				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
+				360B4DF21A973A46001CC8B0 /* CHDLeftMenuTableViewCell.h */,
+				360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */,
+				360B4DF51A973C86001CC8B0 /* CHDMenuItem.h */,
+				360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */,
+			);
+			name = MainNavigation;
+			sourceTree = "<group>";
+		};
 		3625A61E1A937DC900BF430B /* Additions */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,8 +173,6 @@
 		36E159331A94EE620046F6EA /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				60372FBAC5663A060BF4B344 /* CHDDashboardNavigationController.m */,
-				60372F82D43C90B85017960D /* CHDDashboardNavigationController.h */,
 				60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */,
 				6037291CD14A440979FA04E4 /* CHDDashboardTabBarViewController.h */,
 				3667E2A21A9616DC00141520 /* CHDTabItem.h */,
@@ -201,6 +215,9 @@
 				76143F141A9633F400651CEA /* Custom Views */,
 				36E1592C1A94EC330046F6EA /* CHDLeftViewController.h */,
 				36E1592D1A94EC330046F6EA /* CHDLeftViewController.m */,
+				3667E29E1A95ECCB00141520 /* Dot */,
+				360B4DF11A9739ED001CC8B0 /* MainNavigation */,
+				769E7B921A93643C00812715 /* Action button */,
 				3625A61E1A937DC900BF430B /* Additions */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
 				3667D9CF1A92300E003716A2 /* Generated.xcassets */,
@@ -385,6 +402,7 @@
 			files = (
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				36E1592E1A94EC330046F6EA /* CHDLeftViewController.m in Sources */,
+				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
 				76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */,
 				60372CDAE1931B6F1E903540 /* main.m in Sources */,
 				769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */,
@@ -401,6 +419,7 @@
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,
 				60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */,
 				60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */,
+				360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

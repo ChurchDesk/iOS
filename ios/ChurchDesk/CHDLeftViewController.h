@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHDLeftViewController : UIViewController
-
+@interface CHDLeftViewController : UIViewController  <UITableViewDelegate, UITableViewDataSource>
+- (instancetype) initWithMenuItems: (NSArray *) items;
+@property (nonatomic, strong) NSArray* menuItems;
 @end

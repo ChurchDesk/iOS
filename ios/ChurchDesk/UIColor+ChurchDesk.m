@@ -30,12 +30,22 @@
 + (UIColor*) chd_orangeColor{
   return [UIColor shpui_colorFromStringWithHexValue:@"f39c12"];
 }
+
 + (UIColor*) chd_lightGreyColor{
     return [UIColor shpui_colorFromStringWithHexValue:@"e9e9e9"];
 }
 
 + (UIColor*) chd_greyColor{
   return [UIColor shpui_colorFromStringWithHexValue:@"f7f7f7"];
+}
+
+#pragma mark - SideMenu color
++ (UIColor*) chd_menuDarkBlue {
+  return [UIColor shpui_colorWithHexValue:0x0f5469];
+}
+
++ (UIColor*) chd_menuLightBlue {
+    return [UIColor shpui_colorWithHexValue:0x15667e];
 }
 
 

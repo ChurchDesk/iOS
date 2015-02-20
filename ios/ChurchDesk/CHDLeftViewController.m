@@ -7,17 +7,44 @@
 //
 
 #import "CHDLeftViewController.h"
+#import "CHDLeftMenuTableViewCell.h"
+#import "CHDMenuItem.h"
 
 @interface CHDLeftViewController ()
-
+@property (nonatomic, strong) UITableView* menuTable;
+@property (nonatomic, strong) UILabel* userNameLabel;
+@property (nonatomic, strong) UIImageView* userImageView;
 @end
 
 @implementation CHDLeftViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self makeViews];
+        [self makeConstraints];
+    }
+    return self;
+}
+
+- (instancetype)initWithMenuItems:(NSArray *)items {
+    self.menuItems = items;
+    self = [super init];
+    if (self) {
+        [self makeViews];
+        [self makeConstraints];
+
+        self.userNameLabel.text = @"Peter Christensen";
+    }
+    return self;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIColor *color = [UIColor whiteColor];
+    UIColor *color = [UIColor chd_menuDarkBlue];
     self.view.backgroundColor = color;
 }
 
@@ -25,6 +52,103 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void) makeViews{
+    [self.view addSubview:self.menuTable];
+    [self.view addSubview:self.userNameLabel];
+    [self.view addSubview:self.userImageView];
+}
+
+-(void) makeConstraints {
+    UIView *containerView = self.view;
+    [self.menuTable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(containerView);
+        make.top.equalTo(containerView).with.offset(215);
+    }];
+
+    [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(containerView).with.offset(160);
+        make.centerX.equalTo(containerView);
+    }];
+
+    [self.userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(containerView).with.offset(40);
+        make.centerX.equalTo(containerView);
+        make.width.height.equalTo(@104);
+    }];
+}
+
+-(UITableView *)menuTable {
+    if (!_menuTable) {
+        _menuTable = [[UITableView alloc] init];
+        _menuTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _menuTable.backgroundView.backgroundColor = [UIColor chd_menuLightBlue];
+        _menuTable.backgroundColor = [UIColor chd_menuLightBlue];
+
+        _menuTable.rowHeight = 48;
+
+        [_menuTable registerClass:[CHDLeftMenuTableViewCell class] forCellReuseIdentifier:@"menuCell"];
+
+        _menuTable.dataSource = self;
+        _menuTable.delegate = self;
+    }
+    return _menuTable;
+}
+
+-(UILabel *)userNameLabel{
+    if(!_userNameLabel){
+        _userNameLabel = [UILabel new];
+        _userNameLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
+        _userNameLabel.textColor = [UIColor whiteColor];
+    }
+    return _userNameLabel;
+}
+
+-(UIImageView*)userImageView{
+    if(!_userImageView){
+        _userImageView = [UIImageView new];
+        _userImageView.layer.cornerRadius = 52;
+        _userImageView.layer.backgroundColor = [UIColor chd_lightGreyColor].CGColor;
+        _userImageView.layer.masksToBounds = YES;
+    }
+    return _userImageView;
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.menuItems.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    //Get the item
+    CHDMenuItem* item = self.menuItems[indexPath.row];
+
+    static NSString* cellIdentifier = @"menuCell";
+
+    CHDLeftMenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    cell.titleLabel.text = item.title;
+    cell.thumbnailLeft.image = item.image;
+
+    return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //Get the menu item
+    CHDMenuItem* item = self.menuItems[indexPath.row];
+
+    //Set the selected viewController
+    [self.shp_sideMenuController setSelectedViewController:item.viewController];
+    [self.shp_sideMenuController close];
+}
+
 
 /*
 #pragma mark - Navigation
