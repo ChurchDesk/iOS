@@ -13,6 +13,7 @@
 #import "CHDDashboardTabBarViewController.h"
 #import "DCIntrospect.h"
 #import "CHDMenuItem.h"
+#import "CHDDashboardMessagesViewController.h"
 
 @interface AppDelegate ()
 
@@ -33,15 +34,26 @@
 
 
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
+    CHDDashboardMessagesViewController *messagesViewController = [CHDDashboardMessagesViewController new];
+    messagesViewController.title = NSLocalizedString(@"Messages", @"");
+
+    UINavigationController *messagesNavigationController = [[UINavigationController new] initWithRootViewController:messagesViewController];
 
     //Setup the Left Menu
-    //
+    //Dashboard
     CHDMenuItem *menuItemDashboard = [CHDMenuItem new];
     menuItemDashboard.title = NSLocalizedString(@"Dashboard", @"");
     menuItemDashboard.viewController = dashboardTabBar;
     menuItemDashboard.image = kImgDashboard;
 
-    NSArray *menuItems = @[menuItemDashboard];
+    //Messages
+    CHDMenuItem *menuItemMessages = [CHDMenuItem new];
+    menuItemMessages.title = NSLocalizedString(@"Messages", @"");
+    menuItemMessages.viewController = messagesNavigationController;
+    menuItemMessages.image = kImgMessagesSideMenuIcon;
+
+
+    NSArray *menuItems = @[menuItemDashboard, menuItemMessages];
 
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
 

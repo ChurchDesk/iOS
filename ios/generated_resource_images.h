@@ -31,6 +31,7 @@
 #define kImgMailactive [UIImage imageNamed:@"mail-active"]
 #define kImgMailunread [UIImage imageNamed:@"mail-unread"]
 #define kImgMaybe [UIImage imageNamed:@"maybe"]
+#define kImgMessagesSideMenuIcon [UIImage imageNamed:@"messages_side_menu_icon"]
 #define kImgMontharrow [UIImage imageNamed:@"month-arrow"]
 #define kImgNavigationarrow [UIImage imageNamed:@"navigation-arrow"]
 #define kImgOptionstoggle [UIImage imageNamed:@"options-toggle"]

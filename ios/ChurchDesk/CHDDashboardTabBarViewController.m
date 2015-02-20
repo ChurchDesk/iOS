@@ -9,7 +9,6 @@
 #import "CHDDashboardTabBarViewController.h"
 #import "CHDDashboardEventsViewController.h"
 #import "CHDDashboardInvitationsViewController.h"
-#import "CHDDashboardNavigationController.h"
 #import "CHDDashboardMessagesViewController.h"
 #import "CHDTabItem.h"
 #import "CHDDotView.h"
@@ -27,9 +26,9 @@
     CHDDashboardInvitationsViewController *dashboardInvitationsViewController = [CHDDashboardInvitationsViewController new];
     CHDDashboardMessagesViewController *dashboardMessagesViewController = [CHDDashboardMessagesViewController new];
 
-    CHDDashboardNavigationController *eventsNavViewController = [[CHDDashboardNavigationController new] initWithRootViewController:dashboardEventsViewController];
-    CHDDashboardNavigationController *invitationsNavViewController = [[CHDDashboardNavigationController new] initWithRootViewController:dashboardInvitationsViewController];
-    CHDDashboardNavigationController *messagesNavViewController = [[CHDDashboardNavigationController new] initWithRootViewController:dashboardMessagesViewController];
+    UINavigationController *eventsNavViewController = [[UINavigationController new] initWithRootViewController:dashboardEventsViewController];
+    UINavigationController *invitationsNavViewController = [[UINavigationController new] initWithRootViewController:dashboardInvitationsViewController];
+    UINavigationController *messagesNavViewController = [[UINavigationController new] initWithRootViewController:dashboardMessagesViewController];
 
     CHDTabItem* eventsItem = [CHDTabItem new];
     eventsItem.viewController = eventsNavViewController;
@@ -43,14 +42,14 @@
     invitationsItem.imageNormal = kImgTabbarInvitationsIcon;
     invitationsItem.imageSelected = kImgTabbarInvitationsInvertedIcon;
     invitationsItem.title = NSLocalizedString(@"Invitations", @"");
-    eventsItem.showNotification = YES;
+    invitationsItem.showNotification = YES;
 
     CHDTabItem* messagesItem = [CHDTabItem new];
     messagesItem.viewController = messagesNavViewController;
     messagesItem.imageNormal = kImgTabbarMessagesIcon;
     messagesItem.imageSelected = kImgTabbarMessagesInvertedIcon;
     messagesItem.title = NSLocalizedString(@"Messages", @"");
-    eventsItem.showNotification = YES;
+    messagesItem.showNotification = YES;
 
     NSArray *viewControllersArray = @[eventsItem, invitationsItem, messagesItem];
 
@@ -115,7 +114,7 @@
         }];
 
         RAC(notification, hidden) = [RACObserve(item, showNotification) map:^id (NSNumber *nShow) {
-            return @(nShow.boolValue);
+            return @(!nShow.boolValue);
         }];
 
         [self.buttonContainer addSubview:button];
