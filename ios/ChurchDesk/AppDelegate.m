@@ -8,7 +8,6 @@
 
 
 #import "AppDelegate.h"
-#import "ViewController.h"
 #import "SHPSideMenu.h"
 #import "SHPSideMenuController.h"
 #import "CHDLeftViewController.h"

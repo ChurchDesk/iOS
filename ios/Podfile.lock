@@ -17,7 +17,7 @@ PODS:
 DEPENDENCIES:
   - DCIntrospect-ARC (HEAD)
   - Masonry (~> 0.6.1)
-  - ReactiveCocoa
+  - ReactiveCocoa (~> 2.4.7)
   - SHPFoundation (~> 2.3.2)
   - SHPSideMenu (~> 1.1.0)
   - SHPUIKit (~> 2.1.0)

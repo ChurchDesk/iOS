@@ -15,6 +15,10 @@
   return [UIColor shpui_colorFromStringWithHexValue:@"008db6"];
 }
 
++ (UIColor*) chd_darkBlueColor {
+    return [UIColor shpui_colorWithHexValue:0x15667e];
+}
+
 + (UIColor*) chd_greenColor{
   return [UIColor shpui_colorFromStringWithHexValue:@"7ab800"];
 }

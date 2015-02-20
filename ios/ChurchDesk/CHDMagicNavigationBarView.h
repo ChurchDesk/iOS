@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class MASConstraint;
+
 @interface CHDMagicNavigationBarView : UIView
+
+@property (nonatomic, strong) MASConstraint *topConstraint;
+@property (nonatomic, assign) BOOL showDrawer;
+
+- (instancetype)initWithNavigationController: (UINavigationController*) navigationController;
+
+- (void) setShowDrawer:(BOOL) showDrawer animated: (BOOL) animated;
+
+- (void) takeSnapshot;
 
 @end

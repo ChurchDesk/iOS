@@ -11,6 +11,7 @@
 @interface UIColor (ChurchDesk)
 
 + (UIColor*) chd_blueColor;
++ (UIColor*) chd_darkBlueColor;
 + (UIColor*) chd_greenColor;
 + (UIColor*) chd_redColor;
 + (UIColor*) chd_orangeColor;
