@@ -14,6 +14,7 @@
 #import "CHDMenuItem.h"
 #import "CHDDashboardMessagesViewController.h"
 #import <Crashlytics/Crashlytics.h>
+#import "CHDCalendarViewController.h"
 
 @interface AppDelegate ()
 
@@ -36,11 +37,14 @@
 
 
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
+    
     CHDDashboardMessagesViewController *messagesViewController = [CHDDashboardMessagesViewController new];
     messagesViewController.title = NSLocalizedString(@"Messages", @"");
-
     UINavigationController *messagesNavigationController = [[UINavigationController new] initWithRootViewController:messagesViewController];
 
+    CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
+    UINavigationController *calendarNavigationController = [[UINavigationController new] initWithRootViewController:calendarViewController];
+    
     //Setup the Left Menu
     //Dashboard
     CHDMenuItem *menuItemDashboard = [CHDMenuItem new];
@@ -53,9 +57,14 @@
     menuItemMessages.title = NSLocalizedString(@"Messages", @"");
     menuItemMessages.viewController = messagesNavigationController;
     menuItemMessages.image = kImgMessagesSideMenuIcon;
+    
+    //Calendar
+    CHDMenuItem *menuItemCalendar = [CHDMenuItem new];
+    menuItemCalendar.title = NSLocalizedString(@"Calendar", @"");
+    menuItemCalendar.viewController = calendarNavigationController;
+    menuItemCalendar.image = kImgTabbarCalendarInvertedIcon;
 
-
-    NSArray *menuItems = @[menuItemDashboard, menuItemMessages];
+    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar];
 
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
 
@@ -77,6 +86,7 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor chd_blueColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18], NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    [[UINavigationBar appearance] setTranslucent:NO];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18], NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateNormal];
 
     [[UITabBar appearance] setBarTintColor:[UIColor shpui_colorWithHexValue:0x008db6]];
