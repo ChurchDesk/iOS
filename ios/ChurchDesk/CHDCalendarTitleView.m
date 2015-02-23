@@ -66,7 +66,6 @@
 - (UIImageView *)titleArrowView {
     if (!_titleArrowView) {
         _titleArrowView = [[UIImageView alloc] initWithImage:kImgCalendarTitleArrow];
-        _titleArrowView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, 1.57079633f);
     }
     return _titleArrowView;
 }
