@@ -110,6 +110,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
                 break;
             case messagesNewAndUpdate:
                 cell.titleLabel.text = NSLocalizedString(@"New or updates group message", @"");
+                [cell borderAsLast:YES];
                 break;
             default:
                 break;

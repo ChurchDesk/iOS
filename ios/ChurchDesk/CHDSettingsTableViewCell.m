@@ -18,10 +18,28 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self makeViews];
         [self makeConstraints];
     }
     return self;
+}
+
+-(void) borderAsLast: (BOOL) last {
+    if(last){
+        self.separatorView.backgroundColor = [UIColor shpui_colorWithHexValue:0xc8c7cc];
+        [self.separatorView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.left.right.equalTo(self);
+            make.height.equalTo(@1);
+        }];
+    }else{
+        self.separatorView.backgroundColor = [UIColor shpui_colorWithHexValue:0xd6d5d9];
+        [self.separatorView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.right.equalTo(self);
+            make.left.equalTo(self).with.offset(15);
+            make.height.equalTo(@1);
+        }];
+    }
 }
 
 -(void) makeViews {
@@ -34,11 +52,7 @@
 -(void) makeConstraints {
     UIView *contentView = self.contentView;
 
-    [self.separatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.right.equalTo(self);
-        make.left.equalTo(self).with.offset(15);
-        make.height.equalTo(@1);
-    }];
+    [self borderAsLast:NO];
 
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(contentView);
