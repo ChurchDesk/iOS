@@ -11,4 +11,5 @@
 @interface CHDSettingsTableViewCell : UITableViewCell
 @property (nonatomic, readonly) UILabel* titleLabel;
 @property (nonatomic, readonly) UISwitch *aSwitch;
+-(void) borderAsLast: (BOOL) last;
 @end
