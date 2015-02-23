@@ -11,11 +11,17 @@
 #import "SHPCalendarPickerView+ChurchDesk.h"
 #import "CHDEventTableViewCell.h"
 #import "CHDCalendarHeaderView.h"
+#import "CHDCalendarTitleView.h"
+
+static CGFloat kCalendarHeight = 330.0f;
 
 @interface CHDCalendarViewController () <UITableViewDataSource, UITableViewDelegate, SHPCalendarPickerViewDelegate>
 
 @property (nonatomic, strong) SHPCalendarPickerView *calendarPicker;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) CHDCalendarTitleView *titleView;
+
+@property (nonatomic, strong) MASConstraint *calendarTopConstraint;
 
 @end
 
@@ -24,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"Calendar", @"");
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self setupSubviews];
     [self makeConstraints];
@@ -33,18 +39,38 @@
 - (void)setupSubviews {
     [self.view addSubview:self.calendarPicker];
     [self.view addSubview:self.tableView];
+        
+    self.navigationItem.titleView = self.titleView;
 }
 
 - (void)makeConstraints {
+    
     [self.calendarPicker mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self.view);
-        make.height.equalTo(@330);
+        self.calendarTopConstraint = make.top.equalTo(self.view).offset(-kCalendarHeight);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@(kCalendarHeight));
     }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.view);
         make.top.equalTo(self.calendarPicker.mas_bottom);
     }];
+}
+
+- (void) setupBindings {
+    
+}
+
+#pragma mark - Actions
+
+- (void) titleButtonAction: (id) sender {
+    BOOL show = self.calendarPicker.frame.origin.y < 0;
+    [self.calendarTopConstraint setOffset:show ? 0 : -kCalendarHeight];
+    
+    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
+        self.titleView.pointArrowDown = !show;
+        [self.view layoutIfNeeded];
+    } completion:nil];
 }
 
 #pragma mark - SHPCalendarPickerViewDelegate
@@ -108,10 +134,20 @@
         _tableView.delegate = self;
         _tableView.rowHeight = 65;
         _tableView.sectionHeaderHeight = 37;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"cell"];
         [_tableView registerClass:[CHDCalendarHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
     }
     return _tableView;
+}
+
+- (CHDCalendarTitleView *)titleView {
+    if (!_titleView) {
+        _titleView = [CHDCalendarTitleView new];
+        [_titleView.titleButton addTarget:self action:@selector(titleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        _titleView.pointArrowDown = YES;
+    }
+    return _titleView;
 }
 
 @end

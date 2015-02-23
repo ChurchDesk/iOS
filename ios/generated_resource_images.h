@@ -11,6 +11,7 @@
 #define kImgCalendaractive [UIImage imageNamed:@"calendar-active"]
 #define kImgCalendarunread [UIImage imageNamed:@"calendar-unread"]
 #define kImgCalendar [UIImage imageNamed:@"calendar"]
+#define kImgCalendarTitleArrow [UIImage imageNamed:@"calendar_title_arrow"]
 #define kImgCategoryindicatorscrolled [UIImage imageNamed:@"category-indicator-scrolled"]
 #define kImgCategoryindicators [UIImage imageNamed:@"category-indicators"]
 #define kImgCheckmark [UIImage imageNamed:@"checkmark"]

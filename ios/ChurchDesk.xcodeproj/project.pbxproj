@@ -39,6 +39,7 @@
 		762D16D41A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 762D16D31A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m */; };
 		762D16D71A9B4B9000588730 /* CHDCalendarHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 762D16D61A9B4B9000588730 /* CHDCalendarHeaderView.m */; };
 		762D16DA1A9B4E1A00588730 /* UILabel+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 762D16D91A9B4E1A00588730 /* UILabel+ChurchDesk.m */; };
+		762D16DD1A9B60A800588730 /* CHDCalendarTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 762D16DC1A9B60A800588730 /* CHDCalendarTitleView.m */; };
 		769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */; };
 		769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7B9B1A9480DC00812715 /* CHDDashboardInvitationsViewController.m */; };
 		769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */; };
@@ -109,6 +110,8 @@
 		762D16D61A9B4B9000588730 /* CHDCalendarHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCalendarHeaderView.m; sourceTree = "<group>"; };
 		762D16D81A9B4E1A00588730 /* UILabel+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+ChurchDesk.h"; sourceTree = "<group>"; };
 		762D16D91A9B4E1A00588730 /* UILabel+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+ChurchDesk.m"; sourceTree = "<group>"; };
+		762D16DB1A9B60A800588730 /* CHDCalendarTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDCalendarTitleView.h; sourceTree = "<group>"; };
+		762D16DC1A9B60A800588730 /* CHDCalendarTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCalendarTitleView.m; sourceTree = "<group>"; };
 		769E7B971A947D8D00812715 /* ChurchDesk.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChurchDesk.pch; sourceTree = SOURCE_ROOT; };
 		769E7B981A9480DC00812715 /* CHDDashboardEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventsViewController.h; sourceTree = "<group>"; };
 		769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventsViewController.m; sourceTree = "<group>"; };
@@ -368,6 +371,8 @@
 				762D16D01A9B1E2E00588730 /* CHDCalendarViewController.m */,
 				762D16D51A9B4B9000588730 /* CHDCalendarHeaderView.h */,
 				762D16D61A9B4B9000588730 /* CHDCalendarHeaderView.m */,
+				762D16DB1A9B60A800588730 /* CHDCalendarTitleView.h */,
+				762D16DC1A9B60A800588730 /* CHDCalendarTitleView.m */,
 			);
 			name = Calendar;
 			sourceTree = "<group>";
@@ -518,6 +523,7 @@
 				762D16D11A9B1E2E00588730 /* CHDCalendarViewController.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
 				762D16D41A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m in Sources */,
+				762D16DD1A9B60A800588730 /* CHDCalendarTitleView.m in Sources */,
 				76143F171A9634FA00651CEA /* CHDMagicNavigationBarView.m in Sources */,
 				762D16DA1A9B4E1A00588730 /* UILabel+ChurchDesk.m in Sources */,
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,
