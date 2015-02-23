@@ -15,6 +15,7 @@
 #import "CHDDashboardMessagesViewController.h"
 #import <Crashlytics/Crashlytics.h>
 #import "CHDCalendarViewController.h"
+#import "CHDSettingsViewController.h"
 
 @interface AppDelegate ()
 
@@ -40,7 +41,11 @@
     
     CHDDashboardMessagesViewController *messagesViewController = [CHDDashboardMessagesViewController new];
     messagesViewController.title = NSLocalizedString(@"Messages", @"");
+
+    CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
+
     UINavigationController *messagesNavigationController = [[UINavigationController new] initWithRootViewController:messagesViewController];
+    UINavigationController *settingsNavigationController = [[UINavigationController new] initWithRootViewController:settingsViewController];
 
     CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
     UINavigationController *calendarNavigationController = [[UINavigationController new] initWithRootViewController:calendarViewController];
@@ -64,7 +69,13 @@
     menuItemCalendar.viewController = calendarNavigationController;
     menuItemCalendar.image = kImgTabbarCalendarInvertedIcon;
 
-    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar];
+    //Settings
+    CHDMenuItem *menuItemSettings = [CHDMenuItem new];
+    menuItemSettings.title = NSLocalizedString(@"Settings", @"");
+    menuItemSettings.image = kImgSettings;
+    menuItemSettings.viewController = settingsNavigationController;
+
+    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar, menuItemSettings];
 
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
 
@@ -92,6 +103,9 @@
     [[UITabBar appearance] setBarTintColor:[UIColor shpui_colorWithHexValue:0x008db6]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor shpui_colorWithHexValue:0x434343]} forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateSelected];
+
+    [[UISwitch appearance] setOnTintColor:[UIColor chd_blueColor]];
+    [[UISwitch appearance] setTintColor:[UIColor shpui_colorWithHexValue:0xc8c7cc]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
