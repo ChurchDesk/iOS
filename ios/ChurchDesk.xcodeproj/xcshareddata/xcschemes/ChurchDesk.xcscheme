@@ -56,6 +56,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6037291B5F81D8B947908396"
+            BuildableName = "ChurchDesk.app"
+            BlueprintName = "ChurchDesk"
+            ReferencedContainer = "container:ChurchDesk.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
