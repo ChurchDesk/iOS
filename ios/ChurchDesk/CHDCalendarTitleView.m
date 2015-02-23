@@ -75,7 +75,6 @@
         _titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _titleButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:20];
         [_titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_titleButton setTitle:@"May" forState:UIControlStateNormal];
     }
     return _titleButton;
 }
