@@ -14,6 +14,7 @@
 #import "CHDMenuItem.h"
 #import "CHDDashboardMessagesViewController.h"
 #import <Crashlytics/Crashlytics.h>
+#import "CHDSettingsViewController.h"
 
 @interface AppDelegate ()
 
@@ -39,7 +40,10 @@
     CHDDashboardMessagesViewController *messagesViewController = [CHDDashboardMessagesViewController new];
     messagesViewController.title = NSLocalizedString(@"Messages", @"");
 
+    CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
+
     UINavigationController *messagesNavigationController = [[UINavigationController new] initWithRootViewController:messagesViewController];
+    UINavigationController *settingsNavigationController = [[UINavigationController new] initWithRootViewController:settingsViewController];
 
     //Setup the Left Menu
     //Dashboard
@@ -54,8 +58,13 @@
     menuItemMessages.viewController = messagesNavigationController;
     menuItemMessages.image = kImgMessagesSideMenuIcon;
 
+    //Settings
+    CHDMenuItem *menuItemSettings = [CHDMenuItem new];
+    menuItemSettings.title = NSLocalizedString(@"Settings", @"");
+    menuItemSettings.image = kImgSettings;
+    menuItemSettings.viewController = settingsNavigationController;
 
-    NSArray *menuItems = @[menuItemDashboard, menuItemMessages];
+    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemSettings];
 
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
 
@@ -82,6 +91,9 @@
     [[UITabBar appearance] setBarTintColor:[UIColor shpui_colorWithHexValue:0x008db6]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor shpui_colorWithHexValue:0x434343]} forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateSelected];
+
+    [[UISwitch appearance] setOnTintColor:[UIColor chd_blueColor]];
+    [[UISwitch appearance] setTintColor:[UIColor shpui_colorWithHexValue:0xc8c7cc]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
