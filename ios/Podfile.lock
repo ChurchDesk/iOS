@@ -9,7 +9,7 @@ PODS:
   - ReactiveCocoa/no-arc (2.4.7)
   - ReactiveCocoa/UI (2.4.7):
     - ReactiveCocoa/Core
-  - SHPCalendarPicker (0.3.0)
+  - SHPCalendarPicker (0.3.1)
   - SHPFoundation (2.3.2)
   - SHPNetworking (7.6.0)
   - SHPSideMenu (1.1.0):
@@ -20,7 +20,7 @@ DEPENDENCIES:
   - DCIntrospect-ARC (HEAD)
   - Masonry (~> 0.6.1)
   - ReactiveCocoa (~> 2.4.7)
-  - SHPCalendarPicker
+  - SHPCalendarPicker (~> 0.3.1)
   - SHPFoundation (~> 2.3.2)
   - SHPNetworking (~> 7.6.0)
   - SHPSideMenu (~> 1.1.0)
@@ -31,7 +31,7 @@ SPEC CHECKSUMS:
   Masonry: 2cb49fd14d203d2db5ca6bb017135b235dde9980
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
-  SHPCalendarPicker: d62d9e414d756e7eab38b27c69287ef91628a73e
+  SHPCalendarPicker: 1a54afae7d57b21a258ce56f3726b4629701a4d4
   SHPFoundation: bc3d66db35927393ac3db278a0ab893c568e231f
   SHPNetworking: 5b0d3276bd289c8dc152cf1bd749b01b04f6863c
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954

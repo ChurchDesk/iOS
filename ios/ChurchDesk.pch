@@ -19,5 +19,6 @@
 #import "UIFont+ChurchDesk.h"
 #import "UIBarButtonItem+UIBarButtonItem_ChurchDesk.h"
 #import "ReactiveCocoa.h"
+#import "UILabel+ChurchDesk.h"
 
 #endif

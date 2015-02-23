@@ -9,6 +9,8 @@
 #import "CHDCalendarViewController.h"
 #import "SHPCalendarPicker.h"
 #import "SHPCalendarPickerView+ChurchDesk.h"
+#import "CHDEventTableViewCell.h"
+#import "CHDCalendarHeaderView.h"
 
 @interface CHDCalendarViewController () <UITableViewDataSource, UITableViewDelegate, SHPCalendarPickerViewDelegate>
 
@@ -21,6 +23,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = NSLocalizedString(@"Calendar", @"");
     
     [self setupSubviews];
     [self makeConstraints];
@@ -51,14 +55,40 @@
 
 #pragma mark - UITableViewDelegate
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    CHDCalendarHeaderView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+    
+    header.dayLabel.text = @"Friday";
+    header.dateLabel.text = @"1 May";
+    header.nameLabel.text = @"Store bededag";
+    header.dotColors = @[[UIColor chd_blueColor], [UIColor chd_greenColor], [UIColor magentaColor]];
+    
+    return header;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    
+    CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    //cell.textLabel.text = cellTitle;
+    cell.titleLabel.text = @"Title";
+    cell.locationLabel.text = @"Location";
+    cell.parishLabel.text = @"The Parish";
+    cell.dateTimeLabel.text = @"Today";
+    //cell.
+    
+    if(indexPath.item % 2 == 1) {
+        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryBlueColor]];
+    }else{
+        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryRedColor]];
+    }
+    
+    return cell;
 }
 
 #pragma mark - Lazy Initialization
@@ -76,6 +106,10 @@
         _tableView = [UITableView new];
         _tableView.dataSource = self;
         _tableView.delegate = self;
+        _tableView.rowHeight = 65;
+        _tableView.sectionHeaderHeight = 37;
+        [_tableView registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"cell"];
+        [_tableView registerClass:[CHDCalendarHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
     }
     return _tableView;
 }
