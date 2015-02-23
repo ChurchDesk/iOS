@@ -22,7 +22,7 @@
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithReuseIdentifier:reuseIdentifier])) {
-        self.backgroundColor = [UIColor chd_greyColor];
+        self.contentView.backgroundColor = [UIColor chd_greyColor];
         
         [self setupSubviews];
         [self makeConstraints];
