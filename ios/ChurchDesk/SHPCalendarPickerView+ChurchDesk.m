@@ -21,9 +21,9 @@
 
     calendarPickerView.weekDayHeaderTextColor = [UIColor chd_textDarkColor];
     calendarPickerView.weekDayHeaderFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:13];
-    calendarPickerView.monthTextColor = [UIColor chd_textDarkColor];
+    calendarPickerView.monthTextColor = [UIColor colorWithWhite:(2.0f/3.0f) alpha:1.0];
     calendarPickerView.monthFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:20];
-//    calendarPickerView.prevButtonImage = kimgm
+    calendarPickerView.headerDateFormat = @"yyyy";
     
     return calendarPickerView;
 }

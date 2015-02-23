@@ -20,11 +20,20 @@ DEPENDENCIES:
   - DCIntrospect-ARC (HEAD)
   - Masonry (~> 0.6.1)
   - ReactiveCocoa (~> 2.4.7)
-  - SHPCalendarPicker (~> 0.3.1)
+  - SHPCalendarPicker (from `git@github.com:miklselsoe/SHPCalendarPicker.git`)
   - SHPFoundation (~> 2.3.2)
   - SHPNetworking (~> 7.6.0)
   - SHPSideMenu (~> 1.1.0)
   - SHPUIKit (~> 2.1.0)
+
+EXTERNAL SOURCES:
+  SHPCalendarPicker:
+    :git: git@github.com:miklselsoe/SHPCalendarPicker.git
+
+CHECKOUT OPTIONS:
+  SHPCalendarPicker:
+    :commit: 2320661e84abb3074e18dd8d9cbf62400b0f662e
+    :git: git@github.com:miklselsoe/SHPCalendarPicker.git
 
 SPEC CHECKSUMS:
   DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
