@@ -34,6 +34,7 @@ static CGFloat kCalendarHeight = 330.0f;
     
     [self setupSubviews];
     [self makeConstraints];
+    [self setupBindings];
 }
 
 - (void)setupSubviews {
@@ -58,7 +59,16 @@ static CGFloat kCalendarHeight = 330.0f;
 }
 
 - (void) setupBindings {
+    NSDateFormatter *monthFormatter = [NSDateFormatter new];
+    monthFormatter.dateFormat = @"MMMM";
     
+    
+    RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willAnimateToMonth:)] map:^id(RACTuple *tuple) {
+        return tuple.second;
+    }];
+    [self.titleView.titleButton rac_liftSelector:@selector(setTitle:forState:) withSignalOfArguments:[[RACSignal merge:@[RACObserve(self.calendarPicker, currentMonth), protocolSignal]] map:^id(NSDate *date) {
+        return RACTuplePack([monthFormatter stringFromDate:date], @(UIControlStateNormal));
+    }]];
 }
 
 #pragma mark - Actions
@@ -77,6 +87,10 @@ static CGFloat kCalendarHeight = 330.0f;
 
 - (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView didSelectDate:(NSDate *)date {
     
+}
+
+- (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willAnimateToMonth:(NSDate *)date {
+    // for signaling
 }
 
 #pragma mark - UITableViewDelegate
