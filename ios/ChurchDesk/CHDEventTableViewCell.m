@@ -76,7 +76,7 @@
 }
 -(UIImageView *) locationIconView{
     if(!_locationIconView){
-        _locationIconView = [[UIImageView new] initWithImage:kImgLocationIcon];
+        _locationIconView = [[UIImageView new] initWithImage:kImgCalendarTimeLocation];
     }
     return _locationIconView;
 }

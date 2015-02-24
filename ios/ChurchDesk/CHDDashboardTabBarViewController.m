@@ -28,22 +28,22 @@
 
     CHDTabItem* eventsItem = [CHDTabItem new];
     eventsItem.viewController = dashboardEventsViewController;
-    eventsItem.imageNormal = kImgTabbarCalendarIcon;
-    eventsItem.imageSelected = kImgTabbarCalendarInvertedIcon;
+    eventsItem.imageNormal = kImgTabCalendarPassive;
+    eventsItem.imageSelected = kImgTabCalendarActive;
     eventsItem.title = NSLocalizedString(@"Events", @"");
     eventsItem.showNotification = NO;
 
     CHDTabItem* invitationsItem = [CHDTabItem new];
     invitationsItem.viewController = dashboardInvitationsViewController;
-    invitationsItem.imageNormal = kImgTabbarInvitationsIcon;
-    invitationsItem.imageSelected = kImgTabbarInvitationsInvertedIcon;
+    invitationsItem.imageNormal = kImgTabInvitationPassive;
+    invitationsItem.imageSelected = kImgTabInvitationActive;
     invitationsItem.title = NSLocalizedString(@"Invitations", @"");
     invitationsItem.showNotification = YES;
 
     CHDTabItem* messagesItem = [CHDTabItem new];
     messagesItem.viewController = dashboardMessagesViewController;
-    messagesItem.imageNormal = kImgTabbarMessagesIcon;
-    messagesItem.imageSelected = kImgTabbarMessagesInvertedIcon;
+    messagesItem.imageNormal = kImgTabMailunread;
+    messagesItem.imageSelected = kImgTabMailActive;
     messagesItem.title = NSLocalizedString(@"Messages", @"");
     messagesItem.showNotification = YES;
 

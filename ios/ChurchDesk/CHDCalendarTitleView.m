@@ -65,7 +65,7 @@
 
 - (UIImageView *)titleArrowView {
     if (!_titleArrowView) {
-        _titleArrowView = [[UIImageView alloc] initWithImage:kImgCalendarTitleArrow];
+        _titleArrowView = [[UIImageView alloc] initWithImage:kImgMonthTitleActive];
     }
     return _titleArrowView;
 }

@@ -64,8 +64,8 @@ static CGFloat kExpandedHeight = 108.0f;
 
 - (void) installNavigationButtonInNavigationItem: (UINavigationItem*) navigationItem {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 22, 22);
-    [button setImage:kImgOptionstoggle forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, 25, 22);
+    [button setImage:kImgOptionsToggle forState:UIControlStateNormal];
     [button addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
     [button addTarget:self action:@selector(takeSnapshot) forControlEvents:UIControlEventTouchDown];
     navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];

@@ -117,7 +117,7 @@
 }
 -(UIImageView *) locationIconView{
     if(!_locationIconView){
-        _locationIconView = [[UIImageView new] initWithImage:kImgLocationIcon];
+        _locationIconView = [[UIImageView new] initWithImage:kImgCalendarTimeLocation];
     }
     return _locationIconView;
 }
@@ -125,7 +125,7 @@
 //Time of the event
 -(UIImageView *) eventTimeIconView{
     if(!_eventTimeIconView){
-        _eventTimeIconView = [[UIImageView new] initWithImage:kImgTimeIcon];
+        _eventTimeIconView = [[UIImageView new] initWithImage:kImgCalendarTime];
     }
     return _eventTimeIconView;
 }

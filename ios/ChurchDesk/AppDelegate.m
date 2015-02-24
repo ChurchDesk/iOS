@@ -55,24 +55,24 @@
     CHDMenuItem *menuItemDashboard = [CHDMenuItem new];
     menuItemDashboard.title = NSLocalizedString(@"Dashboard", @"");
     menuItemDashboard.viewController = dashboardTabBar;
-    menuItemDashboard.image = kImgDashboard;
+    menuItemDashboard.image = kImgMenuDashboard;
 
     //Messages
     CHDMenuItem *menuItemMessages = [CHDMenuItem new];
     menuItemMessages.title = NSLocalizedString(@"Messages", @"");
     menuItemMessages.viewController = messagesNavigationController;
-    menuItemMessages.image = kImgMessagesSideMenuIcon;
+    menuItemMessages.image = kImgMenuMail;
     
     //Calendar
     CHDMenuItem *menuItemCalendar = [CHDMenuItem new];
     menuItemCalendar.title = NSLocalizedString(@"Calendar", @"");
     menuItemCalendar.viewController = calendarNavigationController;
-    menuItemCalendar.image = kImgTabbarCalendarInvertedIcon;
+    menuItemCalendar.image = kImgMenuEvent;
 
     //Settings
     CHDMenuItem *menuItemSettings = [CHDMenuItem new];
     menuItemSettings.title = NSLocalizedString(@"Settings", @"");
-    menuItemSettings.image = kImgSettings;
+    menuItemSettings.image = kImgMenuSettings;
     menuItemSettings.viewController = settingsNavigationController;
 
     NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar, menuItemSettings];
