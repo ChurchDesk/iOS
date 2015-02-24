@@ -97,6 +97,9 @@
     cell.eventTimeLabel.text = @"Saturday 30 sep, 12:00 - 13:00";
     cell.receivedTimeLabel.text = @"21 min ago";
 
+    //Setup events for the buttons
+    [cell.acceptButton addTarget:self action:@selector(accepted) forControlEvents:UIControlEventTouchUpInside];
+
     if(indexPath.item % 2 == 1) {
         [cell.leftBorder setBackgroundColor:[UIColor chd_categoryOrangeColor]];
     }else{
@@ -110,14 +113,8 @@
     return 1;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void) accepted {
+    NSLog(@"Accepted");
 }
-*/
 
 @end

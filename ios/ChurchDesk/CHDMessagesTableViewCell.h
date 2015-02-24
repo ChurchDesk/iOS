@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
-#import "CHDTableViewCell.h"
 #import "CHDDotView.h"
+#import "CHDAccessoryTableViewCell.h"
 
-@interface CHDMessagesTableViewCell : CHDTableViewCell
+@interface CHDMessagesTableViewCell : CHDAccessoryTableViewCell
 @property (nonatomic, readonly) UILabel* groupLabel;
 @property (nonatomic, readonly) UILabel* parishLabel;
 @property (nonatomic, readonly) UILabel* authorLabel;

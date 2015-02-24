@@ -16,16 +16,6 @@
 
 @implementation CHDTableViewCell
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self makeViews];
-        [self makeConstraints];
-    }
-    return self;
-}
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {

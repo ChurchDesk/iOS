@@ -15,6 +15,7 @@
 		3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3625A6261A93869700BF430B /* CHDTableViewCell.m */; };
 		364C24181A9B1E54004E6FA1 /* CHDSettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 364C24171A9B1E54004E6FA1 /* CHDSettingsTableViewCell.m */; };
 		364C241B1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 364C241A1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m */; };
+		364C241E1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 364C241D1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m */; };
 		365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 365351861A94DC5500932D90 /* CHDEventTableViewCell.m */; };
 		3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 365351891A94E00E00932D90 /* CHDInvitationsTableViewCell.m */; };
 		3667D9D01A92300E003716A2 /* Generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3667D9CF1A92300E003716A2 /* Generated.xcassets */; };
@@ -64,6 +65,8 @@
 		364C24171A9B1E54004E6FA1 /* CHDSettingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSettingsTableViewCell.m; sourceTree = "<group>"; };
 		364C24191A9B2640004E6FA1 /* CHDDescriptionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDescriptionTableViewCell.h; sourceTree = "<group>"; };
 		364C241A1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDescriptionTableViewCell.m; sourceTree = "<group>"; };
+		364C241C1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAccessoryTableViewCell.h; sourceTree = "<group>"; };
+		364C241D1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAccessoryTableViewCell.m; sourceTree = "<group>"; };
 		365351851A94DC5500932D90 /* CHDEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTableViewCell.h; sourceTree = "<group>"; };
 		365351861A94DC5500932D90 /* CHDEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventTableViewCell.m; sourceTree = "<group>"; };
 		365351881A94E00E00932D90 /* CHDInvitationsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDInvitationsTableViewCell.h; sourceTree = "<group>"; };
@@ -241,6 +244,8 @@
 			children = (
 				3625A6251A93869700BF430B /* CHDTableViewCell.h */,
 				3625A6261A93869700BF430B /* CHDTableViewCell.m */,
+				364C241C1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.h */,
+				364C241D1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -519,6 +524,7 @@
 				762D16CD1A9B1A1800588730 /* CHDManagedModel.m in Sources */,
 				360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */,
 				364C241B1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m in Sources */,
+				364C241E1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m in Sources */,
 				3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */,
 				762D16D11A9B1E2E00588730 /* CHDCalendarViewController.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,

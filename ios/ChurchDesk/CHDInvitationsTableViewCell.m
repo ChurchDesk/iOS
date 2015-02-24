@@ -20,30 +20,48 @@
 @property (nonatomic, strong) UIImageView* eventTimeIconView;
 @property (nonatomic, strong) UILabel* eventTimeLabel;
 @property (nonatomic, strong) UILabel* parishLabel;
+
+//Accessory buttons
+@property (nonatomic, strong) UIButton* acceptButton;
+@property (nonatomic, strong) UIButton* maybeButton;
+@property (nonatomic, strong) UIButton* declineButton;
 @end
 
 @implementation CHDInvitationsTableViewCell
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
+
+        NSArray* buttonTitles = @[@"Confirm", @"Maybe", @"Decline"];
+        NSArray* buttonColors = @[[UIColor shpui_colorWithHexValue:0x62d963], [UIColor shpui_colorWithHexValue:0xc7c7cc], [UIColor shpui_colorWithHexValue:0xff3b30]];
+        [self setAccessoryWithTitles:buttonTitles backgroundColors:buttonColors buttonWidth:80];
+    }
+
+    return self;
+}
+
 -(void) makeViews{
     [super makeViews];
 
-    [self.contentView addSubview:self.titleLabel];
-    [self.contentView addSubview:self.invitedByLabel];
+    UIView *contentView = self.scrollContentView;
 
-    [self.contentView addSubview:self.eventTimeIconView];
-    [self.contentView addSubview:self.eventTimeLabel];
+    [contentView addSubview:self.titleLabel];
+    [contentView addSubview:self.invitedByLabel];
 
-    [self.contentView addSubview:self.locationIconView];
-    [self.contentView addSubview:self.locationLabel];
+    [contentView addSubview:self.eventTimeIconView];
+    [contentView addSubview:self.eventTimeLabel];
 
-    [self.contentView addSubview:self.receivedTimeLabel];
-    [self.contentView addSubview:self.parishLabel];
+    [contentView addSubview:self.locationIconView];
+    [contentView addSubview:self.locationLabel];
+
+    [contentView addSubview:self.receivedTimeLabel];
+    [contentView addSubview:self.parishLabel];
 }
 
 -(void) makeConstraints{
     [super makeConstraints];
 
-    UIView*contentView = self.contentView;
+    UIView*contentView = self.scrollContentView;
 
     //"Lefthand side" of the cell
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
@@ -154,6 +172,19 @@
         _parishLabel.textColor = [UIColor chd_textExtraLightColor];
     }
     return _parishLabel;
+}
+
+//Accessory buttons
+-(UIButton*)acceptButton {
+    return self.accessoryButtons.count >= 1? self.accessoryButtons[0] : nil;
+}
+
+-(UIButton*)maybeButton {
+    return self.accessoryButtons.count >= 2? self.accessoryButtons[1] : nil;
+}
+
+-(UIButton*)declineButton {
+    return self.accessoryButtons.count >= 3? self.accessoryButtons[2] : nil;
 }
 
 @end

@@ -33,6 +33,7 @@
 
     SHPSideMenuController *sideMenuController = [SHPSideMenuController sideMenuControllerWithBuilder:^(SHPSideMenuControllerBuilder *builder) {
         builder.statusBarBehaviour = SHPSideMenuStatusBarBehaviourMove;
+        builder.panningBehaviour = SHPSideMenuPanningBehaviourFullView; //SHPSideMenuPanningBehaviourOff;
         // More customizations
     }];
 

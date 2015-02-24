@@ -16,14 +16,26 @@
 @property (nonatomic, strong) UILabel* receivedTimeLabel;
 
 @property (nonatomic, strong) CHDDotView* receivedDot;
+
+@property (nonatomic, strong) UIButton* acceptButton;
 @end
 
 @implementation CHDMessagesTableViewCell
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
+
+        NSArray* buttonTitles = @[@"Mark as read"];
+        NSArray* buttonColors = @[[UIColor chd_blueColor]];
+        [self setAccessoryWithTitles:buttonTitles backgroundColors:buttonColors buttonWidth:120];
+    }
+    return self;
+}
 
 -(void) makeConstraints {
     [super makeConstraints];
-    UIView* contentView = self.contentView;
+    //UIView* contentView = self.contentView;
+    UIView* contentView = self.scrollContentView;
 
     [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.left.equalTo(contentView).with.offset(15);
@@ -53,11 +65,16 @@
         make.width.height.equalTo(@11);
         make.right.bottom.equalTo(@-15);
     }];
+
+    [self.acceptButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(@74);
+    }];
 }
 
 -(void) makeViews{
     [super makeViews];
-    UIView* contentView = self.contentView;
+    //UIView* contentView = self.contentView;
+    UIView* contentView = self.scrollContentView;
 
     [contentView addSubview:self.groupLabel];
     [contentView addSubview:self.parishLabel];
@@ -119,12 +136,12 @@
     return _receivedDot;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (UIButton*) acceptButton{
+    if(!_acceptButton){
+        _acceptButton = [UIButton new];
+        _acceptButton.backgroundColor = [UIColor chd_categoryPurpleColor];
+    }
+    return _acceptButton;
 }
-*/
 
 @end
