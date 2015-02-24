@@ -32,7 +32,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
 
-        NSArray* buttonTitles = @[@"Confirm", @"Maybe", @"Decline"];
+        NSArray* buttonTitles = @[NSLocalizedString(@"Confirm", @""), NSLocalizedString(@"Maybe", @""), NSLocalizedString(@"Decline", @"")];
         NSArray* buttonColors = @[[UIColor shpui_colorWithHexValue:0x62d963], [UIColor shpui_colorWithHexValue:0xc7c7cc], [UIColor shpui_colorWithHexValue:0xff3b30]];
         [self setAccessoryWithTitles:buttonTitles backgroundColors:buttonColors buttonWidth:80];
     }

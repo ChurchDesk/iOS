@@ -25,7 +25,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
 
-        NSArray* buttonTitles = @[@"Mark as read"];
+        NSArray* buttonTitles = @[NSLocalizedString(@"Mark as read", @"")];
         NSArray* buttonColors = @[[UIColor chd_blueColor]];
         [self setAccessoryWithTitles:buttonTitles backgroundColors:buttonColors buttonWidth:120];
     }
