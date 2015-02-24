@@ -12,10 +12,10 @@
 
 @interface CHDMagicNavigationBarView : UIView
 
-@property (nonatomic, strong) MASConstraint *topConstraint;
+@property (nonatomic, strong) MASConstraint *bottomConstraint;
 @property (nonatomic, assign) BOOL showDrawer;
 
-- (instancetype)initWithNavigationController: (UINavigationController*) navigationController;
+- (instancetype)initWithNavigationController: (UINavigationController*) navigationController navigationItem: (UINavigationItem*) navigationItem;
 
 - (void) setShowDrawer:(BOOL) showDrawer animated: (BOOL) animated;
 

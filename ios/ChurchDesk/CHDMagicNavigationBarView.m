@@ -25,20 +25,21 @@ static CGFloat kExpandedHeight = 108.0f;
 
 @implementation CHDMagicNavigationBarView
 
-- (instancetype)initWithNavigationController: (UINavigationController*) navigationController {
+- (instancetype)initWithNavigationController: (UINavigationController*) navigationController navigationItem: (UINavigationItem*) navigationItem {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor chd_blueColor];
         self.navigationController = navigationController;
         
 //        self.layer.masksToBounds = NO;
-//        self.layer.shadowOffset = CGSizeMake(0, 1);
-//        self.layer.shadowRadius = 1;
-//        self.layer.shadowOpacity = 0.5;
+//        self.layer.shadowOffset = CGSizeMake(0, 0.5);
+//        self.layer.shadowRadius = 0.5;
+//        self.layer.shadowOpacity = 0.8;
         
         [self setupSubviews];
         [self makeConstraints];
         [self setupBindings];
+        [self installNavigationButtonInNavigationItem:navigationItem];
     }
     return self;
 }
@@ -59,6 +60,15 @@ static CGFloat kExpandedHeight = 108.0f;
         make.left.right.bottom.equalTo(self);
         self.containerTopConstraint = make.top.equalTo(self).offset(20);
     }];
+}
+
+- (void) installNavigationButtonInNavigationItem: (UINavigationItem*) navigationItem {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 22, 22);
+    [button setImage:kImgOptionstoggle forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(takeSnapshot) forControlEvents:UIControlEventTouchDown];
+    navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
 - (void) setupBindings {
@@ -85,18 +95,19 @@ static CGFloat kExpandedHeight = 108.0f;
     }
 }
 
-- (void)setTopConstraint:(MASConstraint *)topConstraint {
-    _topConstraint = topConstraint;
-    [_topConstraint setOffset:self.showDrawer ? 0 : -kCollapsedHeight];
+- (void)setbottomConstraint:(MASConstraint *)bottomConstraint {
+    _bottomConstraint = bottomConstraint;
+    [_bottomConstraint setOffset:self.showDrawer ? kCollapsedHeight : 0];
 }
 
 - (void) showDrawerAnimated: (BOOL) animated {
-    [self.topConstraint setOffset:0];
+    [self.bottomConstraint setOffset:kCollapsedHeight];
     self.navigationController.navigationBarHidden = YES;
     [self layoutIfNeeded];
     
     [self.drawerHeightConstraint setOffset:kDrawerHeight];
     [self.containerTopConstraint setOffset:20 + kDrawerHeight];
+    [self.bottomConstraint setOffset:kExpandedHeight];
     [self invalidateIntrinsicContentSize];
     
     [UIView animateWithDuration: animated ? 0.4 : 0 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
@@ -108,12 +119,14 @@ static CGFloat kExpandedHeight = 108.0f;
 
     [self.drawerHeightConstraint setOffset:0];
     [self.containerTopConstraint setOffset:20];
+    [self.bottomConstraint setOffset:kCollapsedHeight];
     [self invalidateIntrinsicContentSize];
+    
     
     [UIView animateWithDuration: animated ? 0.4 : 0 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
         [self.superview layoutIfNeeded];
     } completion:^(BOOL finished) {
-        [self.topConstraint setOffset:-kCollapsedHeight];
+        [self.bottomConstraint setOffset:0];
         self.navigationController.navigationBarHidden = NO;
         [self layoutIfNeeded];
     }];
@@ -121,6 +134,10 @@ static CGFloat kExpandedHeight = 108.0f;
 
 - (CGSize)intrinsicContentSize {
     return CGSizeMake(0, self.showDrawer ? kExpandedHeight : kCollapsedHeight);
+}
+
+- (void) menuAction: (id) sender {
+    [self setShowDrawer:!self.showDrawer animated:YES];
 }
 
 #pragma mark - Private

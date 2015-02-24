@@ -12,11 +12,14 @@
 #import "CHDEventTableViewCell.h"
 #import "CHDCalendarHeaderView.h"
 #import "CHDCalendarTitleView.h"
+#import "CHDMagicNavigationBarView.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 
 @interface CHDCalendarViewController () <UITableViewDataSource, UITableViewDelegate, SHPCalendarPickerViewDelegate>
 
+@property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) CHDMagicNavigationBarView *magicNavigationBar;
 @property (nonatomic, strong) SHPCalendarPickerView *calendarPicker;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CHDCalendarTitleView *titleView;
@@ -38,22 +41,34 @@ static CGFloat kCalendarHeight = 330.0f;
 }
 
 - (void)setupSubviews {
-    [self.view addSubview:self.calendarPicker];
-    [self.view addSubview:self.tableView];
+    [self.view addSubview:self.contentView];
+    [self.view addSubview:self.magicNavigationBar];
+    [self.contentView addSubview:self.calendarPicker];
+    [self.contentView addSubview:self.tableView];
         
     self.navigationItem.titleView = self.titleView;
 }
 
 - (void)makeConstraints {
     
-    [self.calendarPicker mas_makeConstraints:^(MASConstraintMaker *make) {
-        self.calendarTopConstraint = make.top.equalTo(self.view).offset(-kCalendarHeight);
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self.view);
+        self.magicNavigationBar.bottomConstraint = make.top.equalTo(self.view);
+    }];
+    
+    [self.magicNavigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.contentView.mas_top);
+    }];
+    
+    [self.calendarPicker mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.calendarTopConstraint = make.top.equalTo(self.contentView).offset(-kCalendarHeight);
+        make.left.right.equalTo(self.contentView);
         make.height.equalTo(@(kCalendarHeight));
     }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.equalTo(self.view);
+        make.left.bottom.right.equalTo(self.contentView);
         make.top.equalTo(self.calendarPicker.mas_bottom);
     }];
 }
@@ -132,6 +147,20 @@ static CGFloat kCalendarHeight = 330.0f;
 }
 
 #pragma mark - Lazy Initialization
+
+- (UIView *)contentView {
+    if (!_contentView) {
+        _contentView = [UIView new];
+    }
+    return _contentView;
+}
+
+- (CHDMagicNavigationBarView *)magicNavigationBar {
+    if (!_magicNavigationBar) {
+        _magicNavigationBar = [[CHDMagicNavigationBarView alloc] initWithNavigationController:self.navigationController navigationItem:self.navigationItem];
+    }
+    return _magicNavigationBar;
+}
 
 - (SHPCalendarPickerView *)calendarPicker {
     if (!_calendarPicker) {
