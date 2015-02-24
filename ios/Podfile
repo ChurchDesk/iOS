@@ -13,6 +13,7 @@ pod 'Masonry', '~> 0.6.1'
 pod 'ReactiveCocoa', '~> 2.4.7'
 pod 'SHPNetworking', '~> 7.6.0'
 pod 'SHPCalendarPicker', :git => 'git@github.com:miklselsoe/SHPCalendarPicker.git'
+#pod 'SHPCalendarPicker', :path => '~/Development/SHPCalendarPicker'
 
 # pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'
 

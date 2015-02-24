@@ -23,7 +23,17 @@
     calendarPickerView.weekDayHeaderFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:13];
     calendarPickerView.monthTextColor = [UIColor colorWithWhite:(2.0f/3.0f) alpha:1.0];
     calendarPickerView.monthFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:20];
+    
+    calendarPickerView.buttonFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
+    calendarPickerView.buttonTextColor = [UIColor chd_textDarkColor];
+    
+    calendarPickerView.prevButtonImage = kImgMonthArrowLeft;
+    calendarPickerView.nextButtonImage = kImgMonthArrowRight;
+    calendarPickerView.buttonsShowMonthName = YES;
     calendarPickerView.headerDateFormat = @"yyyy";
+    calendarPickerView.buttonTitleDateFormat = @"MMMM";
+    calendarPickerView.prevButtonHorizontalOffset = -11;
+    calendarPickerView.nextButtonHorizontalOffset = 11;
     
     return calendarPickerView;
 }
