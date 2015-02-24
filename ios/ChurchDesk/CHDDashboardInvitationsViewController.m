@@ -8,26 +8,43 @@
 
 #import "CHDDashboardInvitationsViewController.h"
 #import "CHDInvitationsTableViewCell.h"
+#import "CHDDashboardInvitationsViewModel.h"
+#import "CHDInvitation.h"
 
 @interface CHDDashboardInvitationsViewController ()
+
+@property(nonatomic, strong) CHDDashboardInvitationsViewModel *viewModel;
 @property(nonatomic, retain) UITableView*inviteTable;
+
 @end
 
 @implementation CHDDashboardInvitationsViewController
 
 - (instancetype)init
 {
-  self = [super init];
-  if (self) {
-    self.title = NSLocalizedString(@"Dashboard", @"");
+    self = [super init];
+    if (self) {
+        self.title = NSLocalizedString(@"Dashboard", @"");
+        self.viewModel = [CHDDashboardInvitationsViewModel new];
+    }
+    return self;
+}
+#pragma mark - View methods
 
-      [self makeViews];
-      [self makeConstraints];
-  }
-  return self;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self makeViews];
+    [self makeConstraints];
+    [self setupBindings];
+    
+    if (self.shp_sideMenuController != nil && self.navigationItem.leftBarButtonItem == nil){
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
+    }
 }
 
 #pragma mark - setup views
+
 -(void) makeViews {
     [self.view addSubview:self.inviteTable];
 }
@@ -37,6 +54,10 @@
     [self.inviteTable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(superview);
     }];
+}
+
+- (void) setupBindings {
+    [self.inviteTable shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, invitations)];
 }
 
 -(UITableView *)inviteTable {
@@ -55,21 +76,6 @@
     return _inviteTable;
 }
 
-#pragma mark - View methods
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    //Create the burgerbar menu item, if there's a reference to the sidemenu, and we havn't done it before
-    if(self.shp_sideMenuController != nil && self.navigationItem.leftBarButtonItem == nil){
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
-    }
-}
-
 - (void)leftBarButtonTouchHandle {
     [self.shp_sideMenuController toggleLeft];
 }
@@ -82,7 +88,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.viewModel.invitations.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -90,11 +96,14 @@
     static NSString* cellIdentifier = @"invitationCell";
 
     CHDInvitationsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.titleLabel.text = @"Title";
-    cell.locationLabel.text = @"Vesterbro kirke";
+    
+    CHDInvitation *invitation = self.viewModel.invitations[indexPath.row];
+    
+    cell.titleLabel.text = invitation.title;
+    cell.locationLabel.text = invitation.location;
     cell.parishLabel.text = @"The Parish";
     cell.invitedByLabel.text = @"Invited by";
-    cell.eventTimeLabel.text = @"Saturday 30 sep, 12:00 - 13:00";
+    cell.eventTimeLabel.text = [invitation.startDate description];
     cell.receivedTimeLabel.text = @"21 min ago";
 
     //Setup events for the buttons

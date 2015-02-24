@@ -10,4 +10,6 @@
 
 @interface CHDAPIClient : SHPAPI
 
+- (RACSignal*) getInvitations;
+
 @end

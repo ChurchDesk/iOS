@@ -20,5 +20,7 @@
 #import "UIBarButtonItem+UIBarButtonItem_ChurchDesk.h"
 #import "ReactiveCocoa.h"
 #import "UILabel+ChurchDesk.h"
+#import "SHPNetworking.h"
+#import "SHPRACAdditions.h"
 
 #endif

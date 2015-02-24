@@ -16,7 +16,7 @@
     dispatch_once(&onceToken, ^{
         _sharedFormatter = [NSDateFormatter new];
         [_sharedFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-        _sharedFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+        _sharedFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
         [_sharedFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     });
     return _sharedFormatter;

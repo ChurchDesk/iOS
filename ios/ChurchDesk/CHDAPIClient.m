@@ -10,6 +10,7 @@
 #import "SHPNetworking.h"
 #import <Crashlytics/Crashlytics.h>
 #import "SHPAPIManager+ReactiveExtension.h"
+#import "CHDInvitation.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -53,7 +54,6 @@ static NSString *const kURLAPIPart = @"api/v1/";
     SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:path];
     resource.resultObjectClass = resultClass;
     resource.cacheInterval = kDefaultCacheIntervalInSeconds;
-    resource.resultKeyPath = @"data";
     if (resourceBlock) resourceBlock(resource);
     
 #if INHOUSE
@@ -108,6 +108,12 @@ static NSString *const kURLAPIPart = @"api/v1/";
             NSLog(@"Error encoding JSON: %@", error);
         }
     }];
+}
+
+#pragma mark - Invitations
+
+- (RACSignal*) getInvitations {
+    return [self resourcesForPath:@"my-invites" resultClass:[CHDInvitation class] withResource:nil];
 }
 
 @end
