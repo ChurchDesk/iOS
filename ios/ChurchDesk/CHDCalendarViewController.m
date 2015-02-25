@@ -16,6 +16,7 @@
 #import "CHDDayPickerViewController.h"
 
 static CGFloat kCalendarHeight = 330.0f;
+static CGFloat kDayPickerHeight = 50.0f;
 
 @interface CHDCalendarViewController () <UITableViewDataSource, UITableViewDelegate, SHPCalendarPickerViewDelegate>
 
@@ -27,6 +28,7 @@ static CGFloat kCalendarHeight = 330.0f;
 @property (nonatomic, strong) CHDDayPickerViewController *dayPickerViewController;
 
 @property (nonatomic, strong) MASConstraint *calendarTopConstraint;
+@property (nonatomic, strong) MASConstraint *dayPickerBottomConstraint;
 
 @end
 
@@ -81,8 +83,8 @@ static CGFloat kCalendarHeight = 330.0f;
     
     [self.dayPickerViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view);
-        make.height.equalTo(@50);
+        self.dayPickerBottomConstraint = make.bottom.equalTo(self.view);
+        make.height.equalTo(@(kDayPickerHeight));
     }];
 
 }
@@ -103,11 +105,12 @@ static CGFloat kCalendarHeight = 330.0f;
 #pragma mark - Actions
 
 - (void) titleButtonAction: (id) sender {
-    BOOL show = self.calendarPicker.frame.origin.y < 0;
-    [self.calendarTopConstraint setOffset:show ? 0 : -kCalendarHeight];
+    BOOL showCalendar = self.calendarPicker.frame.origin.y < 0;
+    [self.calendarTopConstraint setOffset:showCalendar ? 0 : -kCalendarHeight];
+    [self.dayPickerBottomConstraint setOffset:showCalendar ? kDayPickerHeight : 0];
     
-    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
-        self.titleView.pointArrowDown = !show;
+    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping: showCalendar ? 0.8 : 1.0 initialSpringVelocity:1.0 options:0 animations:^{
+        self.titleView.pointArrowDown = !showCalendar;
         [self.view layoutIfNeeded];
     } completion:nil];
 }
