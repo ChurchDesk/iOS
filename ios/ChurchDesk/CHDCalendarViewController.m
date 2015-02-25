@@ -97,7 +97,7 @@ static CGFloat kDayPickerHeight = 50.0f;
     RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willAnimateToMonth:)] map:^id(RACTuple *tuple) {
         return tuple.second;
     }];
-    [self.titleView.titleButton rac_liftSelector:@selector(setTitle:forState:) withSignalOfArguments:[[RACSignal merge:@[RACObserve(self.calendarPicker, currentMonth), protocolSignal]] map:^id(NSDate *date) {
+    [self.titleView.titleButton rac_liftSelector:@selector(setTitle:forState:) withSignalOfArguments:[[RACSignal merge:@[RACObserve(self.calendarPicker, currentMonth), protocolSignal, RACObserve(self.dayPickerViewController, centerDate)]] map:^id(NSDate *date) {
         return RACTuplePack([monthFormatter stringFromDate:date], @(UIControlStateNormal));
     }]];
 }

@@ -37,6 +37,7 @@ static NSUInteger kItemCount = 500;
     
     [self setupSubviews];
     [self makeConstraints];
+    [self setupBindings];
 }
 
 - (void) setupSubviews {
@@ -56,6 +57,16 @@ static NSUInteger kItemCount = 500;
     }];
 }
 
+- (void)setupBindings {
+    @weakify(self)
+    RAC(self, centerDate) = [[[RACSignal combineLatest:@[RACObserve(self.collectionView, contentOffset), [RACSignal return:self.collectionView], RACObserve(self, referenceDate)] reduce:^id (NSValue *vContentOffset, UICollectionView *collectionView, NSDate *referenceDate) {
+        @strongify(self)
+        CGPoint contentOffset = [vContentOffset CGPointValue];
+        NSIndexPath *indexPath = [collectionView indexPathForItemAtPoint:CGPointMake(contentOffset.x + collectionView.center.x, 0)];
+        return [self dateForItemAtIndexPath:indexPath referenceDate: referenceDate];
+    }] ignore:nil] distinctUntilChanged];
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -73,6 +84,10 @@ static NSUInteger kItemCount = 500;
 #pragma mark - UICollectionViewDelegate
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (velocity.x == 0) {
+        return;
+    }
+    
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:*targetContentOffset];
     UICollectionViewLayoutAttributes *attrs = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
     *targetContentOffset = CGPointMake(attrs.center.x - scrollView.center.x, 0);
@@ -80,11 +95,27 @@ static NSUInteger kItemCount = 500;
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSIndexPath *indexPath = [self indexPathForCenterItem];
-    self.referenceDate = [self dateForItemAtIndexPath:indexPath];
-    [self.collectionView reloadData];
-    [self.collectionView layoutIfNeeded];
+
+    dispatch_block_t reloadBlock = ^{
+        self.referenceDate = [self dateForItemAtIndexPath:indexPath referenceDate:self.referenceDate];
+        [self.collectionView reloadData];
+        [self.collectionView layoutIfNeeded];
+        
+        [self scrollToDate:self.referenceDate animated:NO];
+    };
     
-    [self scrollToDate:self.referenceDate animated:NO];
+    UICollectionViewLayoutAttributes *attrs = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
+    CGFloat invalidOffset =  attrs.center.x - self.collectionView.contentOffset.x - scrollView.center.x;
+    if (invalidOffset > 1 || invalidOffset < -1) {
+        [UIView animateWithDuration:0.4 animations:^{
+            self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x + invalidOffset, 0);
+        } completion:^(BOOL finished) {
+            reloadBlock();
+        }];
+    }
+    else {
+        reloadBlock();
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -96,7 +127,7 @@ static NSUInteger kItemCount = 500;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CHDDayCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
 
-    NSDate *date = [self dateForItemAtIndexPath:indexPath];
+    NSDate *date = [self dateForItemAtIndexPath:indexPath referenceDate:self.referenceDate];
     
     cell.weekdayLabel.text = [self.viewModel threeLetterWeekdayFromDate:date];
     cell.dayLabel.text = [self.viewModel dayOfMonthFromDate:date];
@@ -111,9 +142,12 @@ static NSUInteger kItemCount = 500;
     [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
 }
 
-- (NSDate*) dateForItemAtIndexPath: (NSIndexPath*) indexPath {
+- (NSDate*) dateForItemAtIndexPath: (NSIndexPath*) indexPath referenceDate: (NSDate*) referenceDate {
+    if (!indexPath) {
+        return nil;
+    }
     NSInteger offset = indexPath.item - (kItemCount/2);
-    NSDate *date = offset != 0 ? [self.viewModel dateOffsetByDays:offset fromDate:self.referenceDate] : self.referenceDate;
+    NSDate *date = offset != 0 ? [self.viewModel dateOffsetByDays:offset fromDate:referenceDate] : referenceDate;
     return date;
 }
 
@@ -133,7 +167,7 @@ static NSUInteger kItemCount = 500;
         _collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
         _collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _collectionViewLayout.minimumInteritemSpacing = 0;
-        _collectionViewLayout.minimumLineSpacing = 1;
+        _collectionViewLayout.minimumLineSpacing = 0;
     }
     return _collectionViewLayout;
 }
