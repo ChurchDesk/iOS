@@ -56,6 +56,8 @@
     self.buttons = items;
     self = [super init];
     if(self){
+        self.title = NSLocalizedString(@"Dashboard", @"");
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
         self.view.backgroundColor = [UIColor whiteColor];
         [self makeSubViews];
         [self setTabsWithItems:items];
@@ -76,11 +78,6 @@
     __block UIButton* previousButton = nil;
 
     [items enumerateObjectsUsingBlock:^(CHDTabItem* item, NSUInteger idx, BOOL *stop) {
-        //Set the navigation item of the viewController
-        item.viewController.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
-
-        //Pack the viewController inside a navigationController
-        item.viewController = [[UINavigationController new] initWithRootViewController:item.viewController];
 
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:item.imageNormal forState:UIControlStateNormal];
