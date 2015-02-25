@@ -43,7 +43,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [self makeViews];
     [self makeConstraints];
 
-    UIBarButtonItem *navigationItem = [UIBarButtonItem new];
+    //UIBarButtonItem *navigationItem = [UIBarButtonItem new];
     // Do any additional setup after loading the view.
     /*if(self.shp_sideMenuController != nil && self.navigationItem.leftBarButtonItem == nil){
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
