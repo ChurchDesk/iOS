@@ -105,6 +105,9 @@
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor shpui_colorWithHexValue:0x434343]} forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateSelected];
 
+    //[[UIBarButtonItem appearance] setImage:kImgBackArrow];
+    //[[UIBarButtonItem appearance] setTitle:@""];
+
     [[UISwitch appearance] setOnTintColor:[UIColor chd_blueColor]];
     [[UISwitch appearance] setTintColor:[UIColor shpui_colorWithHexValue:0xc8c7cc]];
 }

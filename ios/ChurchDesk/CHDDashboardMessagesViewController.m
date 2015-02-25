@@ -11,6 +11,7 @@
 #import "CHDMessagesViewModelProtocol.h"
 #import "CHDMessage.h"
 #import "CHDDashboardMessagesViewModel.h"
+#import "CHDMessageViewController.h"
 
 @interface CHDDashboardMessagesViewController ()
 @property(nonatomic, retain) UITableView* messagesTable;
@@ -56,6 +57,7 @@
         [_messagesTable registerClass:[CHDMessagesTableViewCell class] forCellReuseIdentifier:@"messagesCell"];
 
         _messagesTable.dataSource = self;
+        _messagesTable.delegate = self;
     }
     return _messagesTable;
 }
@@ -85,6 +87,12 @@
 }
 
 #pragma mark - UITableViewDataSource
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CHDMessageViewController *messageViewController = [CHDMessageViewController new];
+
+    [self.navigationController pushViewController:messageViewController animated:YES];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.viewModel.messages.count;
