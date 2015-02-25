@@ -28,6 +28,7 @@
 		36C4622E1A9DBDA500775FBE /* CHDMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C4622D1A9DBDA500775FBE /* CHDMessageTableViewCell.m */; };
 		36C462311A9DBDC600775FBE /* CHDMessageCommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462301A9DBDC600775FBE /* CHDMessageCommentsTableViewCell.m */; };
 		36C462341A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462331A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m */; };
+		36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */; };
 		36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */; };
@@ -104,6 +105,8 @@
 		36C462301A9DBDC600775FBE /* CHDMessageCommentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessageCommentsTableViewCell.m; sourceTree = "<group>"; };
 		36C462321A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMessageLoadCommentsTableViewCell.h; sourceTree = "<group>"; };
 		36C462331A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessageLoadCommentsTableViewCell.m; sourceTree = "<group>"; };
+		36C462641A9E0EFE00775FBE /* CHDMessageCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMessageCommentView.h; sourceTree = "<group>"; };
+		36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessageCommentView.m; sourceTree = "<group>"; };
 		36DEC3251A9B128800FDBB70 /* CHDLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftViewController.h; sourceTree = "<group>"; };
 		36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
@@ -223,16 +226,26 @@
 		36C462281A9DBCDB00775FBE /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				36C462631A9E0EB500775FBE /* Custom cells */,
 				36C462291A9DBD2100775FBE /* CHDMessageViewController.h */,
+				36C462641A9E0EFE00775FBE /* CHDMessageCommentView.h */,
+				36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */,
+				36C4622A1A9DBD2100775FBE /* CHDMessageViewController.m */,
+			);
+			name = Messages;
+			sourceTree = "<group>";
+		};
+		36C462631A9E0EB500775FBE /* Custom cells */ = {
+			isa = PBXGroup;
+			children = (
 				36C462321A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.h */,
 				36C462331A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m */,
 				36C4622F1A9DBDC600775FBE /* CHDMessageCommentsTableViewCell.h */,
 				36C462301A9DBDC600775FBE /* CHDMessageCommentsTableViewCell.m */,
 				36C4622C1A9DBDA500775FBE /* CHDMessageTableViewCell.h */,
 				36C4622D1A9DBDA500775FBE /* CHDMessageTableViewCell.m */,
-				36C4622A1A9DBD2100775FBE /* CHDMessageViewController.m */,
 			);
-			name = Messages;
+			name = "Custom cells";
 			sourceTree = "<group>";
 		};
 		36E1592F1A94EDF00046F6EA /* Dashboard */ = {
@@ -618,6 +631,7 @@
 				762D16D41A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m in Sources */,
 				762D16DD1A9B60A800588730 /* CHDCalendarTitleView.m in Sources */,
 				76143F171A9634FA00651CEA /* CHDMagicNavigationBarView.m in Sources */,
+				36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */,
 				36C462261A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m in Sources */,
 				365DD9031A9CCDFA00CC6009 /* CHDMessage.m in Sources */,
 				762D16DA1A9B4E1A00588730 /* UILabel+ChurchDesk.m in Sources */,
