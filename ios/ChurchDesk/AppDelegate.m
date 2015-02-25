@@ -39,12 +39,13 @@
 
 
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
+    UINavigationController *dashboardNavigationController = [[UINavigationController new] initWithRootViewController:dashboardTabBar];
     
     CHDDashboardMessagesViewController *messagesViewController = [CHDDashboardMessagesViewController new];
     messagesViewController.title = NSLocalizedString(@"Messages", @"");
 
     CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
-
+    
     UINavigationController *messagesNavigationController = [[UINavigationController new] initWithRootViewController:messagesViewController];
     UINavigationController *settingsNavigationController = [[UINavigationController new] initWithRootViewController:settingsViewController];
 
@@ -55,7 +56,7 @@
     //Dashboard
     CHDMenuItem *menuItemDashboard = [CHDMenuItem new];
     menuItemDashboard.title = NSLocalizedString(@"Dashboard", @"");
-    menuItemDashboard.viewController = dashboardTabBar;
+    menuItemDashboard.viewController = dashboardNavigationController;//dashboardTabBar;
     menuItemDashboard.image = kImgMenuDashboard;
 
     //Messages
@@ -81,7 +82,7 @@
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
 
     sideMenuController.leftViewController = leftViewController;
-    [sideMenuController setSelectedViewController:dashboardTabBar];
+    [sideMenuController setSelectedViewController:dashboardNavigationController];
 
     self.window.rootViewController = sideMenuController;
 
