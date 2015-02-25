@@ -20,6 +20,8 @@
         self.dotColor = [UIColor chd_categoryBlueColor];
         self.opaque = NO;
         [self makeLayers];
+        
+        [self rac_liftSelector:@selector(colorDot:bounds:) withSignals:RACObserve(self, dotColor), RACObserve(self, bounds), nil];
     }
     return self;
 }
@@ -36,15 +38,14 @@
     return _circle;
 }
 
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-
+- (void)colorDot: (UIColor*) color bounds: (CGRect) bounds {
+    UIColor *dotColor = color ?: [UIColor clearColor];
+    
     // Drawing code
-    UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
+    UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:bounds];
 
     self.circle.path = circlePath.CGPath;
-    self.circle.fillColor = self.dotColor.CGColor;
+    self.circle.fillColor = dotColor.CGColor;
 }
 
 

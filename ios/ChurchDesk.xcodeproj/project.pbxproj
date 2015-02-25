@@ -48,6 +48,9 @@
 		769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769E7BAE1A94813A00812715 /* CHDExpandableButtonView.m */; };
 		76A541911A9CBB0D00176D6D /* CHDInvitation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541901A9CBB0D00176D6D /* CHDInvitation.m */; };
 		76A541941A9CBE1500176D6D /* CHDDashboardInvitationsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541931A9CBE1500176D6D /* CHDDashboardInvitationsViewModel.m */; };
+		76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541961A9DBE9400176D6D /* CHDDayPickerViewController.m */; };
+		76A5419B1A9DC26200176D6D /* CHDDayCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A5419A1A9DC26200176D6D /* CHDDayCollectionViewCell.m */; };
+		76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -135,6 +138,12 @@
 		76A541901A9CBB0D00176D6D /* CHDInvitation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDInvitation.m; sourceTree = "<group>"; };
 		76A541921A9CBE1500176D6D /* CHDDashboardInvitationsViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardInvitationsViewModel.h; sourceTree = "<group>"; };
 		76A541931A9CBE1500176D6D /* CHDDashboardInvitationsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardInvitationsViewModel.m; sourceTree = "<group>"; };
+		76A541951A9DBE9400176D6D /* CHDDayPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDayPickerViewController.h; sourceTree = "<group>"; };
+		76A541961A9DBE9400176D6D /* CHDDayPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDayPickerViewController.m; sourceTree = "<group>"; };
+		76A541991A9DC26200176D6D /* CHDDayCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDayCollectionViewCell.h; sourceTree = "<group>"; };
+		76A5419A1A9DC26200176D6D /* CHDDayCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDayCollectionViewCell.m; sourceTree = "<group>"; };
+		76A5419C1A9DC9F500176D6D /* CHDDayPickerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDayPickerViewModel.h; sourceTree = "<group>"; };
+		76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDayPickerViewModel.m; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -400,8 +409,22 @@
 				762D16D61A9B4B9000588730 /* CHDCalendarHeaderView.m */,
 				762D16DB1A9B60A800588730 /* CHDCalendarTitleView.h */,
 				762D16DC1A9B60A800588730 /* CHDCalendarTitleView.m */,
+				76A541981A9DC23100176D6D /* Day picker */,
 			);
 			name = Calendar;
+			sourceTree = "<group>";
+		};
+		76A541981A9DC23100176D6D /* Day picker */ = {
+			isa = PBXGroup;
+			children = (
+				76A541951A9DBE9400176D6D /* CHDDayPickerViewController.h */,
+				76A541961A9DBE9400176D6D /* CHDDayPickerViewController.m */,
+				76A541991A9DC26200176D6D /* CHDDayCollectionViewCell.h */,
+				76A5419A1A9DC26200176D6D /* CHDDayCollectionViewCell.m */,
+				76A5419C1A9DC9F500176D6D /* CHDDayPickerViewModel.h */,
+				76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */,
+			);
+			name = "Day picker";
 			sourceTree = "<group>";
 		};
 		8C7033242449DD2B32139BB0 /* Frameworks */ = {
@@ -530,8 +553,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
+				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
+				76A5419B1A9DC26200176D6D /* CHDDayCollectionViewCell.m in Sources */,
 				762D16D71A9B4B9000588730 /* CHDCalendarHeaderView.m in Sources */,
 				364C24181A9B1E54004E6FA1 /* CHDSettingsTableViewCell.m in Sources */,
 				76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */,
@@ -546,6 +571,7 @@
 				76A541941A9CBE1500176D6D /* CHDDashboardInvitationsViewModel.m in Sources */,
 				762D16CD1A9B1A1800588730 /* CHDManagedModel.m in Sources */,
 				360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */,
+				76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */,
 				364C241B1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m in Sources */,
 				364C241E1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m in Sources */,
 				3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */,

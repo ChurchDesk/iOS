@@ -13,6 +13,7 @@
 #import "CHDCalendarHeaderView.h"
 #import "CHDCalendarTitleView.h"
 #import "CHDMagicNavigationBarView.h"
+#import "CHDDayPickerViewController.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 
@@ -23,6 +24,7 @@ static CGFloat kCalendarHeight = 330.0f;
 @property (nonatomic, strong) SHPCalendarPickerView *calendarPicker;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CHDCalendarTitleView *titleView;
+@property (nonatomic, strong) CHDDayPickerViewController *dayPickerViewController;
 
 @property (nonatomic, strong) MASConstraint *calendarTopConstraint;
 
@@ -45,7 +47,11 @@ static CGFloat kCalendarHeight = 330.0f;
     [self.view addSubview:self.magicNavigationBar];
     [self.contentView addSubview:self.calendarPicker];
     [self.contentView addSubview:self.tableView];
-        
+    
+    [self addChildViewController:self.dayPickerViewController];
+    [self.view addSubview:self.dayPickerViewController.view];
+    [self.dayPickerViewController didMoveToParentViewController:self];
+    
     self.navigationItem.titleView = self.titleView;
 }
 
@@ -68,9 +74,17 @@ static CGFloat kCalendarHeight = 330.0f;
     }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.equalTo(self.contentView);
+        make.left.right.equalTo(self.contentView);
         make.top.equalTo(self.calendarPicker.mas_bottom);
+        make.bottom.equalTo(self.dayPickerViewController.view.mas_top);
     }];
+    
+    [self.dayPickerViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+        make.height.equalTo(@50);
+    }];
+
 }
 
 - (void) setupBindings {
@@ -191,6 +205,13 @@ static CGFloat kCalendarHeight = 330.0f;
         _titleView.pointArrowDown = YES;
     }
     return _titleView;
+}
+
+- (CHDDayPickerViewController *)dayPickerViewController {
+    if (!_dayPickerViewController) {
+        _dayPickerViewController = [CHDDayPickerViewController new];
+    }
+    return _dayPickerViewController;
 }
 
 @end

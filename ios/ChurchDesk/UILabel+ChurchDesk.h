@@ -12,5 +12,6 @@
 
 + (instancetype) chd_regularLabelWithSize: (CGFloat) size;
 + (instancetype) chd_boldLabelWithSize: (CGFloat) size;
++ (instancetype) chd_mediumLabelWithSize: (CGFloat) size;
 
 @end

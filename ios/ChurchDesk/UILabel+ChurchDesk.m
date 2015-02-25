@@ -12,14 +12,21 @@
 
 + (instancetype) chd_regularLabelWithSize: (CGFloat) size {
     UILabel *label = [UILabel new];
-    label.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
+    label.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:size];
     label.textColor = [UIColor chd_textDarkColor];
     return label;
 }
 
 + (instancetype) chd_boldLabelWithSize: (CGFloat) size {
     UILabel *label = [UILabel new];
-    label.font = [UIFont chd_fontWithFontWeight:CHDFontWeightBold size:14];
+    label.font = [UIFont chd_fontWithFontWeight:CHDFontWeightBold size:size];
+    label.textColor = [UIColor chd_textDarkColor];
+    return label;
+}
+
++ (instancetype) chd_mediumLabelWithSize: (CGFloat) size {
+    UILabel *label = [UILabel new];
+    label.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:size];
     label.textColor = [UIColor chd_textDarkColor];
     return label;
 }
