@@ -13,5 +13,6 @@
 - (NSDate*) dateOffsetByDays: (NSInteger) offset fromDate: (NSDate*) date;
 - (NSString*) threeLetterWeekdayFromDate: (NSDate*) date;
 - (NSString*) dayOfMonthFromDate: (NSDate*) date;
+- (NSUInteger) daysFromReferenceDate: (NSDate*) referenceDate toDate: (NSDate*) date;
 
 @end

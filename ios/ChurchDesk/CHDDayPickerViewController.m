@@ -11,6 +11,7 @@
 #import "CHDDayPickerViewModel.h"
 
 static CGFloat kTopLineHeight = 1.0f;
+static NSUInteger kItemCount = 500;
 
 @interface CHDDayPickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -20,6 +21,7 @@ static CGFloat kTopLineHeight = 1.0f;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionViewLayout;
 
 @property (nonatomic, strong) NSDate *selectedDate;
+@property (nonatomic, strong) NSDate *referenceDate;
 
 @end
 
@@ -31,6 +33,7 @@ static CGFloat kTopLineHeight = 1.0f;
     self.viewModel = [CHDDayPickerViewModel new];
     
     self.selectedDate = [NSDate date];
+    self.referenceDate = self.selectedDate;
     
     [self setupSubviews];
     [self makeConstraints];
@@ -59,25 +62,68 @@ static CGFloat kTopLineHeight = 1.0f;
     self.collectionViewLayout.itemSize = CGSizeMake(53, self.view.bounds.size.height-kTopLineHeight);
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.view layoutIfNeeded];
+    [self scrollToDate:self.referenceDate animated:NO];
+    [self.collectionView selectItemAtIndexPath:[self indexPathForItemAtDate:self.selectedDate] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+}
+
 #pragma mark - UICollectionViewDelegate
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:*targetContentOffset];
+    UICollectionViewLayoutAttributes *attrs = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
+    *targetContentOffset = CGPointMake(attrs.center.x - scrollView.center.x, 0);
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSIndexPath *indexPath = [self indexPathForCenterItem];
+    self.referenceDate = [self dateForItemAtIndexPath:indexPath];
+    [self.collectionView reloadData];
+    [self.collectionView layoutIfNeeded];
+    
+    [self scrollToDate:self.referenceDate animated:NO];
+}
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 100;
+    return kItemCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CHDDayCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    
-    NSInteger offset = indexPath.item - 100/2;
-    
-    NSDate *date = [self.viewModel dateOffsetByDays:offset fromDate:self.selectedDate];
+
+    NSDate *date = [self dateForItemAtIndexPath:indexPath];
     
     cell.weekdayLabel.text = [self.viewModel threeLetterWeekdayFromDate:date];
     cell.dayLabel.text = [self.viewModel dayOfMonthFromDate:date];
     
     return cell;
+}
+
+#pragma mark - Private
+
+- (void) scrollToDate: (NSDate*) date animated: (BOOL) animated {
+    NSIndexPath *newIndexPath = [self indexPathForItemAtDate:date];
+    [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
+}
+
+- (NSDate*) dateForItemAtIndexPath: (NSIndexPath*) indexPath {
+    NSInteger offset = indexPath.item - (kItemCount/2);
+    NSDate *date = offset != 0 ? [self.viewModel dateOffsetByDays:offset fromDate:self.referenceDate] : self.referenceDate;
+    return date;
+}
+
+- (NSIndexPath*) indexPathForItemAtDate: (NSDate*) date {
+    NSInteger offset = [self.viewModel daysFromReferenceDate:self.referenceDate toDate:date];
+    return [NSIndexPath indexPathForItem:(kItemCount/2) + offset inSection: 0];
+}
+
+- (NSIndexPath*) indexPathForCenterItem {
+    return [self.collectionView indexPathForItemAtPoint:CGPointMake(self.collectionView.contentOffset.x + self.collectionView.center.x, 0)];
 }
 
 #pragma mark - Lazy Initialization

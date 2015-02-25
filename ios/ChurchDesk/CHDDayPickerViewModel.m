@@ -29,6 +29,11 @@
     return [self.dayOfMonthFormatter stringFromDate:date];
 }
 
+- (NSUInteger) daysFromReferenceDate: (NSDate*) referenceDate toDate: (NSDate*) date {
+    NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:referenceDate toDate:date options:0];
+    return comps.day;
+}
+
 #pragma mark - Lazy Initialization
 
 - (NSDateFormatter *)weekdayFormatter {

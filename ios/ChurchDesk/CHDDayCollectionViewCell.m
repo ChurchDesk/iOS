@@ -48,7 +48,7 @@
     [self.dotView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.contentView);
         make.bottom.equalTo(self.contentView).offset(-5);
-        make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(6, 6)]);
+        make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(5, 5)]);
     }];
 }
 
