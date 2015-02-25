@@ -11,6 +11,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import "SHPAPIManager+ReactiveExtension.h"
 #import "CHDInvitation.h"
+#import "CHDMessage.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -114,6 +115,11 @@ static NSString *const kURLAPIPart = @"api/v1/";
 
 - (RACSignal*) getInvitations {
     return [self resourcesForPath:@"my-invites" resultClass:[CHDInvitation class] withResource:nil];
+}
+
+#pragma mark - Messages
+- (RACSignal*) getUnreadMessages{
+  return [self resourcesForPath:@"messages/unread" resultClass:[CHDMessage class] withResource:nil];
 }
 
 @end

@@ -8,9 +8,13 @@
 
 #import "CHDDashboardMessagesViewController.h"
 #import "CHDMessagesTableViewCell.h"
+#import "CHDMessagesViewModelProtocol.h"
+#import "CHDMessage.h"
+#import "CHDDashboardMessagesViewModel.h"
 
 @interface CHDDashboardMessagesViewController ()
 @property(nonatomic, retain) UITableView* messagesTable;
+@property(nonatomic, strong) id<CHDMessagesViewModelProtocol> viewModel;
 @end
 
 @implementation CHDDashboardMessagesViewController
@@ -23,6 +27,8 @@
 
         [self makeViews];
         [self makeConstraints];
+
+        self.viewModel = [CHDDashboardMessagesViewModel new];
     }
     return self;
 }
@@ -81,19 +87,20 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.viewModel.messages.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
     static NSString* cellIdentifier = @"messagesCell";
 
+    CHDMessage* message = self.viewModel.messages[indexPath.row];
+
     CHDMessagesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.parishLabel.text = @"The Parish";
-    cell.receivedTimeLabel.text = @"21 min ago";
-    cell.groupLabel.text = @"Choir";
-    cell.authorLabel.text = @"Philip Waters";
-    cell.contentLabel.text = @"Re: Summerparty 2015";
+    cell.parishLabel.text = @"Parish";
+    cell.receivedTimeLabel.text = message.lastActivityDate.description;
+    cell.groupLabel.text = message.groupId.stringValue;
+    cell.authorLabel.text = message.authorId.stringValue;
+    cell.contentLabel.text = message.messageLine;
     cell.receivedDot.dotColor = [UIColor chd_redColor];
 
     return cell;
@@ -102,14 +109,5 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

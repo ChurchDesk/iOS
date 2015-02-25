@@ -11,5 +11,6 @@
 @interface CHDAPIClient : SHPAPI
 
 - (RACSignal*) getInvitations;
+- (RACSignal*) getUnreadMessages;
 
 @end
