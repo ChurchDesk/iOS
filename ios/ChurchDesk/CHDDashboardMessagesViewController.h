@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHDAbstractViewController.h"
 
-@interface CHDDashboardMessagesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface CHDDashboardMessagesViewController : CHDAbstractViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end

@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHDAbstractViewController.h"
 
-@interface CHDDashboardTabBarViewController : UIViewController
+@interface CHDDashboardTabBarViewController : CHDAbstractViewController
 + (instancetype) dashboardTabBarViewController;
 
 -(instancetype) initWithTabItems: (NSArray*) items;

@@ -55,6 +55,7 @@
 		76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541961A9DBE9400176D6D /* CHDDayPickerViewController.m */; };
 		76A5419B1A9DC26200176D6D /* CHDDayCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A5419A1A9DC26200176D6D /* CHDDayCollectionViewCell.m */; };
 		76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */; };
+		76A541A11A9E1C8F00176D6D /* CHDAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -156,6 +157,8 @@
 		76A5419A1A9DC26200176D6D /* CHDDayCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDayCollectionViewCell.m; sourceTree = "<group>"; };
 		76A5419C1A9DC9F500176D6D /* CHDDayPickerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDayPickerViewModel.h; sourceTree = "<group>"; };
 		76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDayPickerViewModel.m; sourceTree = "<group>"; };
+		76A5419F1A9E1C8F00176D6D /* CHDAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAbstractViewController.h; sourceTree = "<group>"; };
+		76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAbstractViewController.m; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 				603726AC62FEF768227A022C /* Supporting Files */,
 				603726045A07B5DC865FD0FB /* AppDelegate.h */,
 				603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */,
+				76A5419F1A9E1C8F00176D6D /* CHDAbstractViewController.h */,
+				76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */,
 			);
 			path = ChurchDesk;
 			sourceTree = "<group>";
@@ -591,6 +596,7 @@
 				60372CDAE1931B6F1E903540 /* main.m in Sources */,
 				769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */,
 				60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */,
+				76A541A11A9E1C8F00176D6D /* CHDAbstractViewController.m in Sources */,
 				769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */,
 				3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */,
 				3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */,
