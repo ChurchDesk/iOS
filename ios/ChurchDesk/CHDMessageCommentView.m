@@ -7,9 +7,12 @@
 //
 
 #import "CHDMessageCommentView.h"
+#import "CHDInputAccessoryObserveView.h"
+
 @interface CHDMessageCommentView()
 @property (nonatomic, strong) UIButton* replyButton;
 @property (nonatomic, strong) UITextView *replyTextView;
+@property (nonatomic, strong) UILabel *placeholder;
 
 @property (nonatomic, strong) MASConstraint *replyTextViewHeight;
 @end
@@ -32,6 +35,7 @@
 -(void) makeViews {
     [self addSubview:self.replyButton];
     [self addSubview:self.replyTextView];
+    [self addSubview:self.placeholder];
 }
 
 -(void) makeConstraints{
@@ -47,6 +51,11 @@
         make.bottom.equalTo(self).offset(-8);
         make.top.equalTo(self).offset(8);
         self.replyTextViewHeight = make.height.greaterThanOrEqualTo(@10);
+    }];
+
+    [self.placeholder mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.replyTextView).offset(8);
+        make.centerY.equalTo(self.replyTextView);
     }];
 }
 
@@ -64,26 +73,42 @@
     if(!_replyTextView){
         _replyTextView = [UITextView new];
         _replyTextView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
-        _replyTextView.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
+        //_replyTextView.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
         _replyTextView.layer.borderColor = [UIColor shpui_colorWithHexValue:0xc8c7cc].CGColor;
         _replyTextView.layer.borderWidth = 1.0;
         _replyTextView.layer.cornerRadius = 3.0;
         _replyTextView.delegate = self;
         _replyTextView.scrollEnabled = YES;
+        _replyTextView.inputAccessoryView = [CHDInputAccessoryObserveView new];
     }
     return _replyTextView;
+}
+
+-(UILabel*) placeholder {
+    if(!_placeholder){
+        _placeholder = [UILabel new];
+        _placeholder.text = NSLocalizedString(@"Write a comment", @"");
+        _placeholder.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
+        _placeholder.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
+    }
+    return _placeholder;
+}
+
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(0, 50);
 }
 
 #pragma mark - TextView delegate
 
 - (void)textViewDidChange:(UITextView *)textView {
     CGSize size = textView.contentSize;
+    if(![textView.text isEqual:@""]){
+        [self.placeholder removeFromSuperview];
+    }
     if(size.height > 150){
         self.replyTextViewHeight.offset(150);
     }else {
         self.replyTextViewHeight.offset(size.height);
     }
 }
-
-
 @end

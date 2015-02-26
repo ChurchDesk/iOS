@@ -11,6 +11,7 @@
 #import "CHDMessageLoadCommentsTableViewCell.h"
 #import "CHDMessageTableViewCell.h"
 #import "CHDMessageCommentView.h"
+#import "CHDInputAccessoryObserveView.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -23,7 +24,7 @@ typedef NS_ENUM(NSUInteger, messageSections) {
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CHDMessageCommentView *replyView;
 @property (nonatomic, strong) MASConstraint *replyBottomConstraint;
-@property (nonatomic, strong) MASConstraint *tableViewEdge;
+@property (nonatomic, assign, getter = isMovingKeyboard) BOOL movingKeyboard;
 @end
 
 static NSString* kMessageCommentsCellIdentifier = @"messageCommentsCell";
@@ -38,46 +39,10 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         self.view.backgroundColor = [UIColor whiteColor];
         self.title = NSLocalizedString(@"Message", @"");
 
-        //self.replyView.replyTextView.resignFirstResponder;
-
-        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil]
-            subscribeNext:^(NSNotification* notification) {
-                CGSize kbSize = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-
-                self.tableViewEdge.insets(UIEdgeInsetsMake(0, 0, kbSize.height + 50, 0));
-
-                self.replyBottomConstraint.offset(-kbSize.height);
-                [self.replyView setNeedsLayout];
-
-                [UIView beginAnimations:nil context:NULL];
-                [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-                [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-                [UIView setAnimationBeginsFromCurrentState:YES];
-
-                [self.replyView layoutIfNeeded];
-
-                [UIView commitAnimations];
-            }
-        ];
-
-        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil]
-            subscribeNext:^(NSNotification* notification) {
-
-                self.tableViewEdge.insets(UIEdgeInsetsMake(0, 0, 50, 0));
-
-                self.replyBottomConstraint.offset(0);
-                [self.replyView setNeedsLayout];
-
-                [UIView beginAnimations:nil context:NULL];
-                [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-                [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-                [UIView setAnimationBeginsFromCurrentState:YES];
-
-                [self.replyView layoutIfNeeded];
-
-                [UIView commitAnimations];
-            }
-        ];
+        //Setup bindings for handling keyboard show/hide and drag in tableview
+        [self rac_liftSelector:@selector(chd_willShowKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil], nil];
+        [self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
+        [self rac_liftSelector:@selector(chd_didChangeKeyboardFrame:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification object:nil], nil];
     }
     return self;
 }
@@ -98,7 +63,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 -(void) makeConstraints {
     UIView *containerView = self.view;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        self.tableViewEdge = make.edges.equalTo(containerView).insets(UIEdgeInsetsMake(0, 0, 50, 0));
+        make.top.left.right.equalTo(containerView);
+        make.bottom.equalTo(self.replyView.mas_top);
     }];
 
     [self.replyView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -119,7 +85,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         [_tableView registerClass:[CHDMessageTableViewCell class] forCellReuseIdentifier:kMessageCellIdentifier];
         [_tableView registerClass:[CHDMessageLoadCommentsTableViewCell class] forCellReuseIdentifier:kMessageLoadCommentsCellIdentifier];
         _tableView.dataSource = self;
-        //_tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
+        _tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
     return _tableView;
 }
@@ -181,8 +147,73 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     return nil;
 }
 
-/*- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewAutomaticDimension;
-}*/
+#pragma mark - Keyboard
+
+- (void)chd_didChangeKeyboardFrame:(NSNotification *)notification {
+    // Skips if the view isn't visible
+    if (!self.view.window) {
+        return;
+    }
+
+    // Skips this if it's not the expected textView.
+    // Checking the keyboard height constant helps to disable the view constraints update on iPad when the keyboard is undocked.
+    // Checking the keyboard status allows to keep the inputAccessoryView valid when still reacing the bottom of the screen.
+    if (![self.replyView.replyTextView isFirstResponder]){// || (self.keyboardHC.constant == 0 && self.keyboardStatus == SLKKeyboardStatusDidHide)) {
+        return;
+    }
+    if(self.tableView.isDragging){
+        self.movingKeyboard = YES;
+    }
+    if (self.isMovingKeyboard == NO) {
+        return;
+    }
+
+    //Get the distance from the bottom of the screen to the top of the keyboard
+    CGFloat keyboardFrameY = self.replyView.replyTextView.inputAccessoryView.superview.frame.origin.y;
+
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat keyboardOffsetHeight = screenHeight - keyboardFrameY;
+
+    self.replyBottomConstraint.offset( (keyboardOffsetHeight  < 0)? 0 : -keyboardOffsetHeight);
+
+    // layoutIfNeeded must be called before any further scrollView internal adjustments (content offset and size)
+    [self.replyView setNeedsLayout];
+    [self.replyView layoutIfNeeded];
+}
+
+-(void) chd_willShowKeyboard: (NSNotification*) notification {
+    CGSize kbSize = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+
+    self.replyBottomConstraint.offset(-kbSize.height);
+    [self.replyView setNeedsLayout];
+
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+
+    [self.replyView layoutIfNeeded];
+
+    [UIView commitAnimations];
+
+    self.movingKeyboard = NO;
+}
+
+-(void) chd_willHideKeyboard: (NSNotification*) notification {
+    self.replyBottomConstraint.offset(0);
+    [self.replyView setNeedsLayout];
+
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+
+    [self.replyView layoutIfNeeded];
+
+    [UIView commitAnimations];
+
+    self.movingKeyboard = NO;
+}
 
 @end
