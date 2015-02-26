@@ -122,7 +122,7 @@ static NSString *const kURLAPIPart = @"api/v1/";
 #pragma mark - Calendar
 
 - (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site {
-    return [self resourcesForPath:[NSString stringWithFormat:@"events/eventId?site=site", site] resultClass:[CHDEvent class] withResource:nil];
+    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@?site=%@", eventId, site] resultClass:[CHDEvent class] withResource:nil];
 }
 
 - (RACSignal*) getInvitations {
