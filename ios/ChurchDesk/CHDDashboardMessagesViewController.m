@@ -90,7 +90,7 @@
     cell.parishLabel.text = @"Parish";
     cell.receivedTimeLabel.text = message.lastActivityDate.description;
     cell.groupLabel.text = message.groupId.stringValue;
-    cell.authorLabel.text = message.authorId.stringValue;
+    cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId];
     cell.contentLabel.text = message.messageLine;
     cell.receivedDot.dotColor = [UIColor chd_redColor];
 

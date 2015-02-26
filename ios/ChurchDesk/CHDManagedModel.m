@@ -10,6 +10,14 @@
 
 @implementation CHDManagedModel
 
+- (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
+    if ([propName isEqualToString:@"color"] && [value isKindOfClass:[NSString class]] && [value length] == 7 && [value hasPrefix:@"#"]) {
+        NSString *colorString = [value stringByReplacingOccurrencesOfString:@"#" withString:@""];
+        return [UIColor shpui_colorFromStringWithHexValue:colorString];
+    }
+    return [super transformedValueForPropertyWithName:propName value:value];
+}
+
 - (NSDateFormatter *)dateFormatterForPropertyWithName:(NSString *)propName {
     static NSDateFormatter *_sharedFormatter = nil;
     static dispatch_once_t onceToken;

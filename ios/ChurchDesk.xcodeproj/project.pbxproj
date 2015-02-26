@@ -58,6 +58,11 @@
 		76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */; };
 		76A541A11A9E1C8F00176D6D /* CHDAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */; };
 		76A541A41A9F0F3900176D6D /* UINavigationController+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541A31A9F0F3900176D6D /* UINavigationController+ChurchDesk.m */; };
+		76A541A71A9F153900176D6D /* CHDEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541A61A9F153900176D6D /* CHDEnvironment.m */; };
+		76A541AA1A9F15B100176D6D /* CHDEventCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541A91A9F15B100176D6D /* CHDEventCategory.m */; };
+		76A541AD1A9F17BB00176D6D /* CHDResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541AC1A9F17BB00176D6D /* CHDResource.m */; };
+		76A541B01A9F182100176D6D /* CHDGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541AF1A9F182100176D6D /* CHDGroup.m */; };
+		76A541B31A9F199700176D6D /* CHDPeerUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541B21A9F199700176D6D /* CHDPeerUser.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +170,16 @@
 		76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAbstractViewController.m; sourceTree = "<group>"; };
 		76A541A21A9F0F3900176D6D /* UINavigationController+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ChurchDesk.h"; sourceTree = "<group>"; };
 		76A541A31A9F0F3900176D6D /* UINavigationController+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ChurchDesk.m"; sourceTree = "<group>"; };
+		76A541A51A9F153900176D6D /* CHDEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEnvironment.h; sourceTree = "<group>"; };
+		76A541A61A9F153900176D6D /* CHDEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEnvironment.m; sourceTree = "<group>"; };
+		76A541A81A9F15B100176D6D /* CHDEventCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventCategory.h; sourceTree = "<group>"; };
+		76A541A91A9F15B100176D6D /* CHDEventCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventCategory.m; sourceTree = "<group>"; };
+		76A541AB1A9F17BB00176D6D /* CHDResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDResource.h; sourceTree = "<group>"; };
+		76A541AC1A9F17BB00176D6D /* CHDResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDResource.m; sourceTree = "<group>"; };
+		76A541AE1A9F182100176D6D /* CHDGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDGroup.h; sourceTree = "<group>"; };
+		76A541AF1A9F182100176D6D /* CHDGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDGroup.m; sourceTree = "<group>"; };
+		76A541B11A9F199700176D6D /* CHDPeerUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeerUser.h; sourceTree = "<group>"; };
+		76A541B21A9F199700176D6D /* CHDPeerUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeerUser.m; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -447,6 +462,16 @@
 				76A541901A9CBB0D00176D6D /* CHDInvitation.m */,
 				365DD9011A9CCDFA00CC6009 /* CHDMessage.h */,
 				365DD9021A9CCDFA00CC6009 /* CHDMessage.m */,
+				76A541A51A9F153900176D6D /* CHDEnvironment.h */,
+				76A541A61A9F153900176D6D /* CHDEnvironment.m */,
+				76A541A81A9F15B100176D6D /* CHDEventCategory.h */,
+				76A541A91A9F15B100176D6D /* CHDEventCategory.m */,
+				76A541AB1A9F17BB00176D6D /* CHDResource.h */,
+				76A541AC1A9F17BB00176D6D /* CHDResource.m */,
+				76A541AE1A9F182100176D6D /* CHDGroup.h */,
+				76A541AF1A9F182100176D6D /* CHDGroup.m */,
+				76A541B11A9F199700176D6D /* CHDPeerUser.h */,
+				76A541B21A9F199700176D6D /* CHDPeerUser.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -603,6 +628,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76A541B31A9F199700176D6D /* CHDPeerUser.m in Sources */,
 				76A541A41A9F0F3900176D6D /* UINavigationController+ChurchDesk.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
@@ -616,6 +642,7 @@
 				769E7BA71A9480DC00812715 /* CHDDashboardInvitationsViewController.m in Sources */,
 				60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */,
 				76A541A11A9E1C8F00176D6D /* CHDAbstractViewController.m in Sources */,
+				76A541AA1A9F15B100176D6D /* CHDEventCategory.m in Sources */,
 				769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */,
 				3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */,
 				3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */,
@@ -632,7 +659,10 @@
 				364C241E1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m in Sources */,
 				3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */,
 				762D16D11A9B1E2E00588730 /* CHDCalendarViewController.m in Sources */,
+				76A541A71A9F153900176D6D /* CHDEnvironment.m in Sources */,
+				76A541AD1A9F17BB00176D6D /* CHDResource.m in Sources */,
 				36C462341A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m in Sources */,
+				76A541B01A9F182100176D6D /* CHDGroup.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
 				762D16D41A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m in Sources */,
 				762D16DD1A9B60A800588730 /* CHDCalendarTitleView.m in Sources */,

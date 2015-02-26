@@ -9,5 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @protocol CHDMessagesViewModelProtocol <NSObject>
+
 @property (nonatomic, readonly) NSArray *messages;
+
+- (NSString*) authorNameWithId: (NSNumber*) authorId;
+
 @end

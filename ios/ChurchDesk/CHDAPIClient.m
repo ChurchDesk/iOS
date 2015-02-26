@@ -12,6 +12,7 @@
 #import "SHPAPIManager+ReactiveExtension.h"
 #import "CHDInvitation.h"
 #import "CHDMessage.h"
+#import "CHDEnvironment.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -85,8 +86,8 @@ static NSString *const kURLAPIPart = @"api/v1/";
 #endif
     
     return [[requestSignal replayLazily] doError:^(NSError *error) {
-//        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-        NSLog(@"Error on %@: %@\nResponse: %@", path, error, @""/*response.body*/);
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
     }];
 }
 
@@ -111,6 +112,12 @@ static NSString *const kURLAPIPart = @"api/v1/";
     }];
 }
 
+#pragma mark - Enironment
+
+- (RACSignal*) getEnvironment {
+    return [self resourcesForPath:@"dictionaries" resultClass:[CHDEnvironment class] withResource:nil];
+}
+
 #pragma mark - Invitations
 
 - (RACSignal*) getInvitations {
@@ -118,6 +125,7 @@ static NSString *const kURLAPIPart = @"api/v1/";
 }
 
 #pragma mark - Messages
+
 - (RACSignal*) getUnreadMessages{
   return [self resourcesForPath:@"messages/unread" resultClass:[CHDMessage class] withResource:nil];
 }

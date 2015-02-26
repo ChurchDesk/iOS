@@ -10,5 +10,9 @@
 #import "CHDMessagesViewModelProtocol.h"
 
 @interface CHDDashboardMessagesViewModel : NSObject <CHDMessagesViewModelProtocol>
+
 @property (nonatomic, readonly) NSArray *messages;
+
+- (NSString*) authorNameWithId: (NSNumber*) authorId;
+
 @end

@@ -7,19 +7,8 @@
 //
 
 #import "CHDManagedModel.h"
-/*
- "id": 6,
- "site": "http://vesterbro.kw01.net",
- "authorId": 7,
- "groupId": 5,
- "changed": "2014-08-16T15:52:01+0000",
- "lastCommentAuthorId": 7,
- "lastCommentDate": "2014-08-15T15:52:01+0000",
- "title": "Christams dinner",
- "message_line": "you are all invited to dinner at Jens's place",
- "last_activity": "2014-08-16T15:52:01+0000",
- "read": false
- */
+
+
 @interface CHDMessage : CHDManagedModel
 @property (nonatomic, strong) NSNumber *messageId;
 @property (nonatomic, strong) NSString *site;
