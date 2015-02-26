@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHDMessageCommentView : UIView
-
+@interface CHDMessageCommentView : UIView <UITextViewDelegate>
+@property (nonatomic, readonly) UIButton* replyButton;
+@property (nonatomic, readonly) UITextView *replyTextView;
 @end

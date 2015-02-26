@@ -22,6 +22,8 @@ typedef NS_ENUM(NSUInteger, messageSections) {
 @interface CHDMessageViewController ()
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CHDMessageCommentView *replyView;
+@property (nonatomic, strong) MASConstraint *replyBottomConstraint;
+@property (nonatomic, strong) MASConstraint *tableViewEdge;
 @end
 
 static NSString* kMessageCommentsCellIdentifier = @"messageCommentsCell";
@@ -35,6 +37,47 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     if (self) {
         self.view.backgroundColor = [UIColor whiteColor];
         self.title = NSLocalizedString(@"Message", @"");
+
+        //self.replyView.replyTextView.resignFirstResponder;
+
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil]
+            subscribeNext:^(NSNotification* notification) {
+                CGSize kbSize = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+
+                self.tableViewEdge.insets(UIEdgeInsetsMake(0, 0, kbSize.height + 50, 0));
+
+                self.replyBottomConstraint.offset(-kbSize.height);
+                [self.replyView setNeedsLayout];
+
+                [UIView beginAnimations:nil context:NULL];
+                [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+                [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+                [UIView setAnimationBeginsFromCurrentState:YES];
+
+                [self.replyView layoutIfNeeded];
+
+                [UIView commitAnimations];
+            }
+        ];
+
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil]
+            subscribeNext:^(NSNotification* notification) {
+
+                self.tableViewEdge.insets(UIEdgeInsetsMake(0, 0, 50, 0));
+
+                self.replyBottomConstraint.offset(0);
+                [self.replyView setNeedsLayout];
+
+                [UIView beginAnimations:nil context:NULL];
+                [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+                [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
+                [UIView setAnimationBeginsFromCurrentState:YES];
+
+                [self.replyView layoutIfNeeded];
+
+                [UIView commitAnimations];
+            }
+        ];
     }
     return self;
 }
@@ -55,11 +98,12 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 -(void) makeConstraints {
     UIView *containerView = self.view;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(containerView);
+        self.tableViewEdge = make.edges.equalTo(containerView).insets(UIEdgeInsetsMake(0, 0, 50, 0));
     }];
 
     [self.replyView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.bottom.left.equalTo(self.view);
+        make.right.left.equalTo(self.view);
+        self.replyBottomConstraint = make.bottom.equalTo(self.view);
     }];
 }
 
@@ -75,7 +119,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         [_tableView registerClass:[CHDMessageTableViewCell class] forCellReuseIdentifier:kMessageCellIdentifier];
         [_tableView registerClass:[CHDMessageLoadCommentsTableViewCell class] forCellReuseIdentifier:kMessageLoadCommentsCellIdentifier];
         _tableView.dataSource = self;
-        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
+        //_tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     }
     return _tableView;
 }

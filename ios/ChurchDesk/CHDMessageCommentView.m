@@ -10,6 +10,8 @@
 @interface CHDMessageCommentView()
 @property (nonatomic, strong) UIButton* replyButton;
 @property (nonatomic, strong) UITextView *replyTextView;
+
+@property (nonatomic, strong) MASConstraint *replyTextViewHeight;
 @end
 
 @implementation CHDMessageCommentView
@@ -24,6 +26,8 @@
     }
     return self;
 }
+
+#pragma mark - Lazy initialization
 
 -(void) makeViews {
     [self addSubview:self.replyButton];
@@ -42,6 +46,7 @@
         make.left.equalTo(self).offset(8);
         make.bottom.equalTo(self).offset(-8);
         make.top.equalTo(self).offset(8);
+        self.replyTextViewHeight = make.height.greaterThanOrEqualTo(@10);
     }];
 }
 
@@ -63,8 +68,22 @@
         _replyTextView.layer.borderColor = [UIColor shpui_colorWithHexValue:0xc8c7cc].CGColor;
         _replyTextView.layer.borderWidth = 1.0;
         _replyTextView.layer.cornerRadius = 3.0;
+        _replyTextView.delegate = self;
+        _replyTextView.scrollEnabled = YES;
     }
     return _replyTextView;
 }
+
+#pragma mark - TextView delegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+    CGSize size = textView.contentSize;
+    if(size.height > 150){
+        self.replyTextViewHeight.offset(150);
+    }else {
+        self.replyTextViewHeight.offset(size.height);
+    }
+}
+
 
 @end
