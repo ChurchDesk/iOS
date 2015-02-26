@@ -81,7 +81,7 @@ static NSUInteger kItemCount = 500;
     [self.collectionView selectItemAtIndexPath:[self indexPathForItemAtDate:self.selectedDate] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 }
 
-#pragma mark - UICollectionViewDelegate
+#pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     if (velocity.x == 0) {
@@ -97,7 +97,7 @@ static NSUInteger kItemCount = 500;
     NSIndexPath *indexPath = [self indexPathForCenterItem];
 
     dispatch_block_t reloadBlock = ^{
-        self.referenceDate = [self dateForItemAtIndexPath:indexPath referenceDate:self.referenceDate];
+        self.referenceDate = [self dateForItemAtIndexPath:indexPath];
         [self.collectionView reloadData];
         [self.collectionView layoutIfNeeded];
         
@@ -118,6 +118,16 @@ static NSUInteger kItemCount = 500;
     }
 }
 
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    CHDDayCollectionViewCell *cellToSelect = (CHDDayCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    self.selectedDate = [self dateForItemAtIndexPath:indexPath];
+    for (CHDDayCollectionViewCell *cell in collectionView.visibleCells) {
+        cell.picked = cell == cellToSelect;
+    }
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -127,10 +137,11 @@ static NSUInteger kItemCount = 500;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CHDDayCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
 
-    NSDate *date = [self dateForItemAtIndexPath:indexPath referenceDate:self.referenceDate];
+    NSDate *date = [self dateForItemAtIndexPath:indexPath];
     
     cell.weekdayLabel.text = [self.viewModel threeLetterWeekdayFromDate:date];
     cell.dayLabel.text = [self.viewModel dayOfMonthFromDate:date];
+    cell.picked = [date isEqualToDate:self.selectedDate];
     
     return cell;
 }
@@ -140,6 +151,10 @@ static NSUInteger kItemCount = 500;
 - (void) scrollToDate: (NSDate*) date animated: (BOOL) animated {
     NSIndexPath *newIndexPath = [self indexPathForItemAtDate:date];
     [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
+}
+
+- (NSDate*) dateForItemAtIndexPath: (NSIndexPath*) indexPath {
+    return [self dateForItemAtIndexPath:indexPath referenceDate:self.referenceDate];
 }
 
 - (NSDate*) dateForItemAtIndexPath: (NSIndexPath*) indexPath referenceDate: (NSDate*) referenceDate {

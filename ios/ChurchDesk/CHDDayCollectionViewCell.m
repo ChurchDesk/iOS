@@ -28,6 +28,11 @@
     return self;
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    self.picked = NO;
+}
+
 - (void) setupSubviews {
     [self.contentView addSubview:self.weekdayLabel];
     [self.contentView addSubview:self.dayLabel];
@@ -53,15 +58,24 @@
 }
 
 - (void) setupBindings {
-    RACSignal *selectedSignal = RACObserve(self, selected);
+    RACSignal *pickedSignal = RACObserve(self, picked);
     
-    RAC(self, backgroundColor) = [selectedSignal map:^id(NSNumber *nSelected) {
-        return nSelected.boolValue ? [UIColor chd_blueColor] : [UIColor chd_greyColor];
+    RAC(self, backgroundColor) = [pickedSignal map:^id(NSNumber *nPicked) {
+        return nPicked.boolValue ? [UIColor chd_blueColor] : [UIColor chd_greyColor];
     }];
     
-    RAC(self.dotView, dotColor) = [selectedSignal map:^id(NSNumber *nSelected) {
-        return nSelected.boolValue ? [UIColor whiteColor] : [UIColor shpui_colorWithHexValue:0xb0b0b0];
+    RAC(self.dotView, dotColor) = [pickedSignal map:^id(NSNumber *nPicked) {
+        return nPicked.boolValue ? [UIColor whiteColor] : [UIColor shpui_colorWithHexValue:0xb0b0b0];
     }];
+    
+    RAC(self.weekdayLabel, textColor) = [pickedSignal map:^id(NSNumber *nPicked) {
+        return nPicked.boolValue ? [UIColor whiteColor] : [UIColor chd_textDarkColor];
+    }];
+    
+    RAC(self.dayLabel, textColor) = [pickedSignal map:^id(NSNumber *nPicked) {
+        return nPicked.boolValue ? [UIColor whiteColor] : [UIColor chd_textDarkColor];
+    }];
+
 }
 
 #pragma mark - Lazy Initialization
@@ -69,7 +83,7 @@
 - (UILabel *)weekdayLabel {
     if (!_weekdayLabel) {
         _weekdayLabel = [UILabel chd_regularLabelWithSize:13];
-        _weekdayLabel.highlightedTextColor = [UIColor whiteColor];
+//        _weekdayLabel.highlightedTextColor = [UIColor whiteColor];
     }
     return _weekdayLabel;
 }
@@ -77,7 +91,7 @@
 - (UILabel *)dayLabel {
     if (!_dayLabel) {
         _dayLabel = [UILabel chd_mediumLabelWithSize:17];
-        _dayLabel.highlightedTextColor = [UIColor whiteColor];
+//        _dayLabel.highlightedTextColor = [UIColor whiteColor];
     }
     return _dayLabel;
 }
