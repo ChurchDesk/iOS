@@ -66,23 +66,6 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     // Do any additional setup after loading the view.
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    //Create the burgerbar menu item, if there's a reference to the sidemenu, and we havn't done it before
-    if(self.shp_sideMenuController != nil && self.navigationItem.leftBarButtonItem == nil){
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
-    }
-}
-
-- (void)leftBarButtonTouchHandle {
-    [self.shp_sideMenuController toggleLeft];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

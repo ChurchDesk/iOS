@@ -37,10 +37,6 @@
     [self makeViews];
     [self makeConstraints];
     [self setupBindings];
-    
-    if (self.shp_sideMenuController != nil && self.navigationItem.leftBarButtonItem == nil){
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
-    }
 }
 
 #pragma mark - setup views
@@ -74,15 +70,6 @@
         _inviteTable.dataSource = self;
     }
     return _inviteTable;
-}
-
-- (void)leftBarButtonTouchHandle {
-    [self.shp_sideMenuController toggleLeft];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UITableViewDataSource

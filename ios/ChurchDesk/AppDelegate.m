@@ -16,6 +16,8 @@
 #import <Crashlytics/Crashlytics.h>
 #import "CHDCalendarViewController.h"
 #import "CHDSettingsViewController.h"
+#import "SHPSideMenu.h"
+#import "UINavigationController+ChurchDesk.h"
 
 @interface AppDelegate ()
 
@@ -30,27 +32,33 @@
     [self setupAppearance];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [self buildViewHierarchy];
+    [self.window makeKeyAndVisible];
 
+#if DEBUG
+    [[DCIntrospect sharedIntrospector] start];
+#endif
+
+    return YES;
+}
+
+- (UIViewController*) buildViewHierarchy {
     SHPSideMenuController *sideMenuController = [SHPSideMenuController sideMenuControllerWithBuilder:^(SHPSideMenuControllerBuilder *builder) {
         builder.statusBarBehaviour = SHPSideMenuStatusBarBehaviourMove;
         builder.panningBehaviour = SHPSideMenuPanningBehaviourFullView; //SHPSideMenuPanningBehaviourOff;
         // More customizations
     }];
-
-
-    CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
-    UINavigationController *dashboardNavigationController = [[UINavigationController new] initWithRootViewController:dashboardTabBar];
     
+    CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
     CHDDashboardMessagesViewController *messagesViewController = [CHDDashboardMessagesViewController new];
     messagesViewController.title = NSLocalizedString(@"Messages", @"");
-
+    CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
     CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
     
-    UINavigationController *messagesNavigationController = [[UINavigationController new] initWithRootViewController:messagesViewController];
-    UINavigationController *settingsNavigationController = [[UINavigationController new] initWithRootViewController:settingsViewController];
-
-    CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
-    UINavigationController *calendarNavigationController = [[UINavigationController new] initWithRootViewController:calendarViewController];
+    UINavigationController *dashboardNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:dashboardTabBar];
+    UINavigationController *messagesNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:messagesViewController];
+    UINavigationController *settingsNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:settingsViewController];
+    UINavigationController *calendarNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:calendarViewController];
     
     //Setup the Left Menu
     //Dashboard
@@ -58,7 +66,7 @@
     menuItemDashboard.title = NSLocalizedString(@"Dashboard", @"");
     menuItemDashboard.viewController = dashboardNavigationController;//dashboardTabBar;
     menuItemDashboard.image = kImgMenuDashboard;
-
+    
     //Messages
     CHDMenuItem *menuItemMessages = [CHDMenuItem new];
     menuItemMessages.title = NSLocalizedString(@"Messages", @"");
@@ -70,29 +78,21 @@
     menuItemCalendar.title = NSLocalizedString(@"Calendar", @"");
     menuItemCalendar.viewController = calendarNavigationController;
     menuItemCalendar.image = kImgMenuEvent;
-
+    
     //Settings
     CHDMenuItem *menuItemSettings = [CHDMenuItem new];
     menuItemSettings.title = NSLocalizedString(@"Settings", @"");
     menuItemSettings.image = kImgMenuSettings;
     menuItemSettings.viewController = settingsNavigationController;
-
+    
     NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar, menuItemSettings];
-
+    
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
-
+    
     sideMenuController.leftViewController = leftViewController;
     [sideMenuController setSelectedViewController:dashboardNavigationController];
-
-    self.window.rootViewController = sideMenuController;
-
-    [self.window makeKeyAndVisible];
-
-#if DEBUG
-    [[DCIntrospect sharedIntrospector] start];
-#endif
-
-    return YES;
+    
+    return sideMenuController;
 }
 
 - (void) setupAppearance {

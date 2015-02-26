@@ -57,6 +57,7 @@
 		76A5419B1A9DC26200176D6D /* CHDDayCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A5419A1A9DC26200176D6D /* CHDDayCollectionViewCell.m */; };
 		76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */; };
 		76A541A11A9E1C8F00176D6D /* CHDAbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */; };
+		76A541A41A9F0F3900176D6D /* UINavigationController+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541A31A9F0F3900176D6D /* UINavigationController+ChurchDesk.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -162,6 +163,8 @@
 		76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDayPickerViewModel.m; sourceTree = "<group>"; };
 		76A5419F1A9E1C8F00176D6D /* CHDAbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAbstractViewController.h; sourceTree = "<group>"; };
 		76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAbstractViewController.m; sourceTree = "<group>"; };
+		76A541A21A9F0F3900176D6D /* UINavigationController+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ChurchDesk.h"; sourceTree = "<group>"; };
+		76A541A31A9F0F3900176D6D /* UINavigationController+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ChurchDesk.m"; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -219,6 +222,8 @@
 				762D16D31A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m */,
 				762D16D81A9B4E1A00588730 /* UILabel+ChurchDesk.h */,
 				762D16D91A9B4E1A00588730 /* UILabel+ChurchDesk.m */,
+				76A541A21A9F0F3900176D6D /* UINavigationController+ChurchDesk.h */,
+				76A541A31A9F0F3900176D6D /* UINavigationController+ChurchDesk.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -598,6 +603,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76A541A41A9F0F3900176D6D /* UINavigationController+ChurchDesk.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,

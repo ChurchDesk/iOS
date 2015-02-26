@@ -9,6 +9,7 @@
 #import "CHDLeftViewController.h"
 #import "CHDLeftMenuTableViewCell.h"
 #import "CHDMenuItem.h"
+#import "SHPSideMenu.h"
 
 @interface CHDLeftViewController ()
 @property (nonatomic, strong) UITableView* menuTable;

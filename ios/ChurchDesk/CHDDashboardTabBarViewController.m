@@ -57,7 +57,6 @@
     self = [super init];
     if(self){
         self.title = NSLocalizedString(@"Dashboard", @"");
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
         self.view.backgroundColor = [UIColor whiteColor];
         [self makeSubViews];
         [self setTabsWithItems:items];
@@ -160,10 +159,6 @@
     }];
 
     [selectedVC didMoveToParentViewController:self];
-}
-
-- (void)leftBarButtonTouchHandle {
-    [self.shp_sideMenuController toggleLeft];
 }
 
 - (void) notificationsForIndex: (u_int) idx show: (BOOL) show {

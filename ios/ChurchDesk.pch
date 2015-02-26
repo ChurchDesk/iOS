@@ -12,7 +12,6 @@
 #import "generated_resource_images.h"
 #import "SHPFoundation.h"
 #import "SHPUIKit.h"
-#import "SHPSideMenu.h"
 #import "generated_resource_images.h"
 #import "Masonry.h"
 #import "UIColor+ChurchDesk.h"
