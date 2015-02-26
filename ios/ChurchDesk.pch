@@ -9,6 +9,8 @@
 #ifndef ChurchDesk_ChurchDesk_pch
 #define ChurchDesk_ChurchDesk_pch
 
+#define SCREEN_SHOT_MODE 0
+
 #import "generated_resource_images.h"
 #import "SHPFoundation.h"
 #import "SHPUIKit.h"

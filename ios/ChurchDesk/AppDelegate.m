@@ -43,6 +43,15 @@
 }
 
 - (UIViewController*) buildViewHierarchy {
+    
+#if SCREEN_SHOT_MODE
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    UIViewController *viewController = [UIViewController new];
+    viewController.view.backgroundColor = [UIColor chd_lightGreyColor];
+    [viewController.view addSubview: [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 64)]];
+    return viewController;
+#else
+    
     SHPSideMenuController *sideMenuController = [SHPSideMenuController sideMenuControllerWithBuilder:^(SHPSideMenuControllerBuilder *builder) {
         builder.statusBarBehaviour = SHPSideMenuStatusBarBehaviourMove;
         builder.panningBehaviour = SHPSideMenuPanningBehaviourFullView; //SHPSideMenuPanningBehaviourOff;
@@ -93,6 +102,8 @@
     [sideMenuController setSelectedViewController:dashboardNavigationController];
     
     return sideMenuController;
+    
+#endif
 }
 
 - (void) setupAppearance {
