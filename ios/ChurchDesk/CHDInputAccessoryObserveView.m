@@ -23,10 +23,7 @@ NSString * const CHDInputAccessoryViewKeyboardFrameDidChangeNotification = @"CHD
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (object == self.superview && [keyPath isEqualToString:@"center"]) {
-        //NSLog(@"Keyboard center changed frame %f %f", self.superview.center.x, self.superview.center.y);
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification
-                                                            object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification object:self];
     }
 }
 @end
