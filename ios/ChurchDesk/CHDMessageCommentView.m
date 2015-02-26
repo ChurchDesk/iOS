@@ -7,6 +7,8 @@
 //
 
 #import "CHDMessageCommentView.h"
+#import "CHDInputAccessoryObserveView.h"
+
 @interface CHDMessageCommentView()
 @property (nonatomic, strong) UIButton* replyButton;
 @property (nonatomic, strong) UITextView *replyTextView;
@@ -70,8 +72,13 @@
         _replyTextView.layer.cornerRadius = 3.0;
         _replyTextView.delegate = self;
         _replyTextView.scrollEnabled = YES;
+        _replyTextView.inputAccessoryView = [CHDInputAccessoryObserveView new];
     }
     return _replyTextView;
+}
+
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(0, 50);
 }
 
 #pragma mark - TextView delegate
@@ -84,6 +91,7 @@
         self.replyTextViewHeight.offset(size.height);
     }
 }
+
 
 
 @end
