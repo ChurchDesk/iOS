@@ -63,6 +63,9 @@
 		76A541AD1A9F17BB00176D6D /* CHDResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541AC1A9F17BB00176D6D /* CHDResource.m */; };
 		76A541B01A9F182100176D6D /* CHDGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541AF1A9F182100176D6D /* CHDGroup.m */; };
 		76A541B31A9F199700176D6D /* CHDPeerUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541B21A9F199700176D6D /* CHDPeerUser.m */; };
+		76A541B71A9F243500176D6D /* CHDEventInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541B61A9F243500176D6D /* CHDEventInfoViewController.m */; };
+		76A541BA1A9F25B500176D6D /* CHDEventInfoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541B91A9F25B500176D6D /* CHDEventInfoViewModel.m */; };
+		76A541BD1A9F2B8A00176D6D /* CHDEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541BC1A9F2B8A00176D6D /* CHDEvent.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -180,6 +183,12 @@
 		76A541AF1A9F182100176D6D /* CHDGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDGroup.m; sourceTree = "<group>"; };
 		76A541B11A9F199700176D6D /* CHDPeerUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeerUser.h; sourceTree = "<group>"; };
 		76A541B21A9F199700176D6D /* CHDPeerUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeerUser.m; sourceTree = "<group>"; };
+		76A541B51A9F243500176D6D /* CHDEventInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventInfoViewController.h; sourceTree = "<group>"; };
+		76A541B61A9F243500176D6D /* CHDEventInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventInfoViewController.m; sourceTree = "<group>"; };
+		76A541B81A9F25B500176D6D /* CHDEventInfoViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventInfoViewModel.h; sourceTree = "<group>"; };
+		76A541B91A9F25B500176D6D /* CHDEventInfoViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventInfoViewModel.m; sourceTree = "<group>"; };
+		76A541BB1A9F2B8A00176D6D /* CHDEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEvent.h; sourceTree = "<group>"; };
+		76A541BC1A9F2B8A00176D6D /* CHDEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEvent.m; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -369,6 +378,7 @@
 				3625A61E1A937DC900BF430B /* Additions */,
 				36E1592F1A94EDF00046F6EA /* Dashboard */,
 				762D16CE1A9B1DFC00588730 /* Calendar */,
+				76A541B41A9F23CE00176D6D /* Event Information */,
 				762D16CA1A9B19F400588730 /* Model */,
 				76143F181A97762400651CEA /* API */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
@@ -472,6 +482,8 @@
 				76A541AF1A9F182100176D6D /* CHDGroup.m */,
 				76A541B11A9F199700176D6D /* CHDPeerUser.h */,
 				76A541B21A9F199700176D6D /* CHDPeerUser.m */,
+				76A541BB1A9F2B8A00176D6D /* CHDEvent.h */,
+				76A541BC1A9F2B8A00176D6D /* CHDEvent.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -501,6 +513,17 @@
 				76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */,
 			);
 			name = "Day picker";
+			sourceTree = "<group>";
+		};
+		76A541B41A9F23CE00176D6D /* Event Information */ = {
+			isa = PBXGroup;
+			children = (
+				76A541B51A9F243500176D6D /* CHDEventInfoViewController.h */,
+				76A541B61A9F243500176D6D /* CHDEventInfoViewController.m */,
+				76A541B81A9F25B500176D6D /* CHDEventInfoViewModel.h */,
+				76A541B91A9F25B500176D6D /* CHDEventInfoViewModel.m */,
+			);
+			name = "Event Information";
 			sourceTree = "<group>";
 		};
 		8C7033242449DD2B32139BB0 /* Frameworks */ = {
@@ -646,6 +669,7 @@
 				769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */,
 				3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */,
 				3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */,
+				76A541BD1A9F2B8A00176D6D /* CHDEvent.m in Sources */,
 				36C4622B1A9DBD2100775FBE /* CHDMessageViewController.m in Sources */,
 				3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */,
 				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
@@ -671,8 +695,10 @@
 				36C462261A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m in Sources */,
 				365DD9031A9CCDFA00CC6009 /* CHDMessage.m in Sources */,
 				762D16DA1A9B4E1A00588730 /* UILabel+ChurchDesk.m in Sources */,
+				76A541BA1A9F25B500176D6D /* CHDEventInfoViewModel.m in Sources */,
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,
 				360B4DFE1A9785AB001CC8B0 /* CHDSettingsViewController.m in Sources */,
+				76A541B71A9F243500176D6D /* CHDEventInfoViewController.m in Sources */,
 				60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */,
 				60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */,
 				360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */,

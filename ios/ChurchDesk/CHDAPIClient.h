@@ -11,7 +11,10 @@
 @interface CHDAPIClient : SHPAPI
 
 - (RACSignal*) getEnvironment;
+
+- (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site;
 - (RACSignal*) getInvitations;
+
 - (RACSignal*) getUnreadMessages;
 
 @end

@@ -112,13 +112,17 @@ static NSString *const kURLAPIPart = @"api/v1/";
     }];
 }
 
-#pragma mark - Enironment
+#pragma mark - Environment
 
 - (RACSignal*) getEnvironment {
     return [self resourcesForPath:@"dictionaries" resultClass:[CHDEnvironment class] withResource:nil];
 }
 
-#pragma mark - Invitations
+#pragma mark - Calendar
+
+- (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site {
+    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@?site=%@", eventId, site] resultClass:[CHDEnvironment class] withResource:nil];
+}
 
 - (RACSignal*) getInvitations {
     return [self resourcesForPath:@"my-invites" resultClass:[CHDInvitation class] withResource:nil];
