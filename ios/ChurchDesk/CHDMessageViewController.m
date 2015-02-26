@@ -10,6 +10,7 @@
 #import "CHDMessageCommentsTableViewCell.h"
 #import "CHDMessageLoadCommentsTableViewCell.h"
 #import "CHDMessageTableViewCell.h"
+#import "CHDMessageCommentView.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -20,6 +21,7 @@ typedef NS_ENUM(NSUInteger, messageSections) {
 
 @interface CHDMessageViewController ()
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) CHDMessageCommentView *replyView;
 @end
 
 static NSString* kMessageCommentsCellIdentifier = @"messageCommentsCell";
@@ -42,25 +44,22 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [super viewDidLoad];
     [self makeViews];
     [self makeConstraints];
-
-    //UIBarButtonItem *navigationItem = [UIBarButtonItem new];
-    // Do any additional setup after loading the view.
-    /*if(self.shp_sideMenuController != nil && self.navigationItem.leftBarButtonItem == nil){
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem chd_burgerWithTarget:self action:@selector(leftBarButtonTouchHandle)];
-    }*/
-
-    //setup backbutton
 }
 
 #pragma mark - Lazy initializing
 -(void) makeViews {
     [self.view addSubview:self.tableView];
+    [self.view addSubview:self.replyView];
 }
 
 -(void) makeConstraints {
     UIView *containerView = self.view;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(containerView);
+    }];
+
+    [self.replyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.bottom.left.equalTo(self.view);
     }];
 }
 
@@ -76,8 +75,16 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         [_tableView registerClass:[CHDMessageTableViewCell class] forCellReuseIdentifier:kMessageCellIdentifier];
         [_tableView registerClass:[CHDMessageLoadCommentsTableViewCell class] forCellReuseIdentifier:kMessageLoadCommentsCellIdentifier];
         _tableView.dataSource = self;
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     }
     return _tableView;
+}
+
+-(CHDMessageCommentView *) replyView{
+    if(!_replyView){
+        _replyView = [CHDMessageCommentView new];
+    }
+    return _replyView;
 }
 
 #pragma mark - TableView Delegates
