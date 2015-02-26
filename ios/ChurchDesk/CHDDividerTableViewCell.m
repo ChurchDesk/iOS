@@ -14,6 +14,8 @@
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor chd_lightGreyColor];
+        
+        [self setupSubviews];
     }
     return self;
 }
@@ -38,7 +40,7 @@
         make.height.equalTo(@1);
     }];
     
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@36);
     }];
 }
