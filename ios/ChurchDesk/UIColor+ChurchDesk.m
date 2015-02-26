@@ -39,6 +39,12 @@
   return [UIColor shpui_colorFromStringWithHexValue:@"f7f7f7"];
 }
 
+#pragma mark - Cell colors
+
++ (UIColor*) chd_cellDividerColor {
+    return [UIColor shpui_colorWithHexValue:0xc8c7cc];
+}
+
 #pragma mark - SideMenu color
 + (UIColor*) chd_menuDarkBlue {
   return [UIColor shpui_colorWithHexValue:0x0f5469];

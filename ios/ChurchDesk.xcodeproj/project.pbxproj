@@ -66,6 +66,11 @@
 		76A541B71A9F243500176D6D /* CHDEventInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541B61A9F243500176D6D /* CHDEventInfoViewController.m */; };
 		76A541BA1A9F25B500176D6D /* CHDEventInfoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541B91A9F25B500176D6D /* CHDEventInfoViewModel.m */; };
 		76A541BD1A9F2B8A00176D6D /* CHDEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541BC1A9F2B8A00176D6D /* CHDEvent.m */; };
+		76A541C11A9F51D600176D6D /* CHDEventInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541C01A9F51D600176D6D /* CHDEventInfoTableViewCell.m */; };
+		76A541C41A9F55FF00176D6D /* CHDCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541C31A9F55FF00176D6D /* CHDCommonTableViewCell.m */; };
+		76A541C71A9F5E5F00176D6D /* CHDEventGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541C61A9F5E5F00176D6D /* CHDEventGroupTableViewCell.m */; };
+		76A541CA1A9F600B00176D6D /* CHDEventLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541C91A9F600B00176D6D /* CHDEventLocationTableViewCell.m */; };
+		76A541CD1A9F625700176D6D /* CHDDividerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541CC1A9F625700176D6D /* CHDDividerTableViewCell.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -189,6 +194,16 @@
 		76A541B91A9F25B500176D6D /* CHDEventInfoViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventInfoViewModel.m; sourceTree = "<group>"; };
 		76A541BB1A9F2B8A00176D6D /* CHDEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEvent.h; sourceTree = "<group>"; };
 		76A541BC1A9F2B8A00176D6D /* CHDEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEvent.m; sourceTree = "<group>"; };
+		76A541BF1A9F51D600176D6D /* CHDEventInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventInfoTableViewCell.h; sourceTree = "<group>"; };
+		76A541C01A9F51D600176D6D /* CHDEventInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventInfoTableViewCell.m; sourceTree = "<group>"; };
+		76A541C21A9F55FF00176D6D /* CHDCommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDCommonTableViewCell.h; sourceTree = "<group>"; };
+		76A541C31A9F55FF00176D6D /* CHDCommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCommonTableViewCell.m; sourceTree = "<group>"; };
+		76A541C51A9F5E5F00176D6D /* CHDEventGroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventGroupTableViewCell.h; sourceTree = "<group>"; };
+		76A541C61A9F5E5F00176D6D /* CHDEventGroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventGroupTableViewCell.m; sourceTree = "<group>"; };
+		76A541C81A9F600B00176D6D /* CHDEventLocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventLocationTableViewCell.h; sourceTree = "<group>"; };
+		76A541C91A9F600B00176D6D /* CHDEventLocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventLocationTableViewCell.m; sourceTree = "<group>"; };
+		76A541CB1A9F625700176D6D /* CHDDividerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDividerTableViewCell.h; sourceTree = "<group>"; };
+		76A541CC1A9F625700176D6D /* CHDDividerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDividerTableViewCell.m; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -444,6 +459,7 @@
 		76143F141A9633F400651CEA /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				76A541CE1A9F6CE000176D6D /* Cells */,
 				3667E29F1A95ECE900141520 /* CHDDotView.h */,
 				3667E2A01A95ECE900141520 /* CHDDotView.m */,
 				769E7BAD1A94813A00812715 /* CHDExpandableButtonView.h */,
@@ -518,12 +534,37 @@
 		76A541B41A9F23CE00176D6D /* Event Information */ = {
 			isa = PBXGroup;
 			children = (
+				76A541BE1A9F4F6900176D6D /* Cells */,
 				76A541B51A9F243500176D6D /* CHDEventInfoViewController.h */,
 				76A541B61A9F243500176D6D /* CHDEventInfoViewController.m */,
 				76A541B81A9F25B500176D6D /* CHDEventInfoViewModel.h */,
 				76A541B91A9F25B500176D6D /* CHDEventInfoViewModel.m */,
 			);
 			name = "Event Information";
+			sourceTree = "<group>";
+		};
+		76A541BE1A9F4F6900176D6D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				76A541BF1A9F51D600176D6D /* CHDEventInfoTableViewCell.h */,
+				76A541C01A9F51D600176D6D /* CHDEventInfoTableViewCell.m */,
+				76A541C51A9F5E5F00176D6D /* CHDEventGroupTableViewCell.h */,
+				76A541C61A9F5E5F00176D6D /* CHDEventGroupTableViewCell.m */,
+				76A541C81A9F600B00176D6D /* CHDEventLocationTableViewCell.h */,
+				76A541C91A9F600B00176D6D /* CHDEventLocationTableViewCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		76A541CE1A9F6CE000176D6D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				76A541C21A9F55FF00176D6D /* CHDCommonTableViewCell.h */,
+				76A541C31A9F55FF00176D6D /* CHDCommonTableViewCell.m */,
+				76A541CB1A9F625700176D6D /* CHDDividerTableViewCell.h */,
+				76A541CC1A9F625700176D6D /* CHDDividerTableViewCell.m */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		8C7033242449DD2B32139BB0 /* Frameworks */ = {
@@ -654,6 +695,7 @@
 				76A541B31A9F199700176D6D /* CHDPeerUser.m in Sources */,
 				76A541A41A9F0F3900176D6D /* UINavigationController+ChurchDesk.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
+				76A541CD1A9F625700176D6D /* CHDDividerTableViewCell.m in Sources */,
 				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
@@ -667,6 +709,7 @@
 				76A541A11A9E1C8F00176D6D /* CHDAbstractViewController.m in Sources */,
 				76A541AA1A9F15B100176D6D /* CHDEventCategory.m in Sources */,
 				769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */,
+				76A541C71A9F5E5F00176D6D /* CHDEventGroupTableViewCell.m in Sources */,
 				3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */,
 				3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */,
 				76A541BD1A9F2B8A00176D6D /* CHDEvent.m in Sources */,
@@ -679,10 +722,12 @@
 				76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */,
 				36C462311A9DBDC600775FBE /* CHDMessageCommentsTableViewCell.m in Sources */,
 				364C241B1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m in Sources */,
+				76A541C11A9F51D600176D6D /* CHDEventInfoTableViewCell.m in Sources */,
 				36C4622E1A9DBDA500775FBE /* CHDMessageTableViewCell.m in Sources */,
 				364C241E1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m in Sources */,
 				3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */,
 				762D16D11A9B1E2E00588730 /* CHDCalendarViewController.m in Sources */,
+				76A541C41A9F55FF00176D6D /* CHDCommonTableViewCell.m in Sources */,
 				76A541A71A9F153900176D6D /* CHDEnvironment.m in Sources */,
 				76A541AD1A9F17BB00176D6D /* CHDResource.m in Sources */,
 				36C462341A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m in Sources */,
@@ -701,6 +746,7 @@
 				76A541B71A9F243500176D6D /* CHDEventInfoViewController.m in Sources */,
 				60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */,
 				60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */,
+				76A541CA1A9F600B00176D6D /* CHDEventLocationTableViewCell.m in Sources */,
 				360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */,
 				76A541911A9CBB0D00176D6D /* CHDInvitation.m in Sources */,
 				36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */,

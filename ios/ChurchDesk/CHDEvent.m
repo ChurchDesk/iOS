@@ -38,7 +38,20 @@
     if ([propName isEqualToString:@"userIds"]) {
         return @"users";
     }
+    if ([propName isEqualToString:@"eventCategoryIds"]) {
+        return @"eventCategories";
+    }
+    if ([propName isEqualToString:@"pictureURL"]) {
+        return @"picture";
+    }
     return [super mapPropertyForPropertyWithName:propName];
+}
+
+- (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
+    if ([propName isEqualToString:@"pictureURL"]) {
+        return [NSURL URLWithString:value];
+    }
+    return [super transformedValueForPropertyWithName:propName value:value];
 }
 
 @end

@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 @property (nonatomic, strong) NSString *site;
 @property (nonatomic, strong) NSNumber *authorId;
 @property (nonatomic, strong) NSNumber *groupId;
-@property (nonatomic, strong) NSNumber *eventCategoryId;
+@property (nonatomic, strong) NSArray *eventCategoryIds;
 
 @property (nonatomic, assign) BOOL publicEvent;
 @property (nonatomic, assign) BOOL allDayEvent;
@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 @property (nonatomic, strong) NSString *location;
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic, strong) NSString *contributor;
+@property (nonatomic, strong) NSURL *pictureURL;
 
 @property (nonatomic, assign) CHDEventResponse eventResponse;
 @property (nonatomic, assign) BOOL canEdit;

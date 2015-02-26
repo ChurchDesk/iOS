@@ -13,6 +13,7 @@
 #import "CHDInvitation.h"
 #import "CHDMessage.h"
 #import "CHDEnvironment.h"
+#import "CHDEvent.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -64,7 +65,7 @@ static NSString *const kURLAPIPart = @"api/v1/";
     BOOL onlyResult = YES;
 #endif
     RACSignal *requestSignal = [self.manager dispatchRequest:^(SHPHTTPRequest *request) {
-        NSString *auth = @"";
+        NSString *auth = @"access_token";
         if (auth) {
             [request setValue:auth forQueryParameterKey:@"access_token"];
         }
@@ -121,7 +122,7 @@ static NSString *const kURLAPIPart = @"api/v1/";
 #pragma mark - Calendar
 
 - (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site {
-    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@?site=%@", eventId, site] resultClass:[CHDEnvironment class] withResource:nil];
+    return [self resourcesForPath:[NSString stringWithFormat:@"events/eventId?site=site", site] resultClass:[CHDEvent class] withResource:nil];
 }
 
 - (RACSignal*) getInvitations {

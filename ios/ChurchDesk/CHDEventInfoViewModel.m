@@ -60,6 +60,11 @@ NSString *const CHDEventInfoRowCreated = @"CHDEventInfoRowCreated";
     
     NSMutableDictionary *mSectionRows = [NSMutableDictionary dictionary];
     
+    // Image section
+    if (event.pictureURL) {
+        mSectionRows[CHDEventInfoSectionImage] = @[CHDEventInfoRowImage];
+    }
+    
     // Base section
     NSMutableArray *baseRows = [NSMutableArray array];
     if (event.groupId) {
@@ -69,7 +74,7 @@ NSString *const CHDEventInfoRowCreated = @"CHDEventInfoRowCreated";
     if (event.location.length) {
         [baseRows addObject:CHDEventInfoRowLocation];
     }
-    if (event.eventCategoryId) {
+    if (event.eventCategoryIds.count > 0) {
         [baseRows addObject:CHDEventInfoRowCategories];
     }
     [baseRows addObject:CHDEventInfoRowAttendance];
@@ -109,6 +114,9 @@ NSString *const CHDEventInfoRowCreated = @"CHDEventInfoRowCreated";
     
     // Sections
     NSMutableArray *mSections = [NSMutableArray array];
+    if (event.pictureURL) {
+        [mSections addObject:CHDEventInfoSectionImage];
+    }
     if (baseRows.count > 0) {
         [mSections addObject:CHDEventInfoSectionBase];
         [mSections addObject:CHDEventInfoSectionDivider];

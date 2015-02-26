@@ -14,6 +14,7 @@
 #import "CHDCalendarTitleView.h"
 #import "CHDMagicNavigationBarView.h"
 #import "CHDDayPickerViewController.h"
+#import "CHDEventInfoViewController.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
@@ -136,6 +137,11 @@ static CGFloat kDayPickerHeight = 50.0f;
     header.dotColors = @[[UIColor chd_blueColor], [UIColor chd_greenColor], [UIColor magentaColor]];
     
     return header;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CHDEventInfoViewController *vc = [CHDEventInfoViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
