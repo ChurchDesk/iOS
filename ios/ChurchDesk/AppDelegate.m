@@ -18,6 +18,7 @@
 #import "CHDSettingsViewController.h"
 #import "SHPSideMenu.h"
 #import "UINavigationController+ChurchDesk.h"
+#import "SHPUIInjection.h"
 
 @interface AppDelegate ()
 
@@ -35,8 +36,9 @@
     self.window.rootViewController = [self buildViewHierarchy];
     [self.window makeKeyAndVisible];
 
-#if DEBUG
+#if TARGET_IPHONE_SIMULATOR
     [[DCIntrospect sharedIntrospector] start];
+    [SHPUIInjection enable];
 #endif
 
     return YES;

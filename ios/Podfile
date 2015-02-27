@@ -15,6 +15,7 @@ pod 'SHPNetworking'#, '~> 7.6.0'
 pod 'SHPCalendarPicker', :git => 'git@github.com:miklselsoe/SHPCalendarPicker.git'
 pod 'SHPRACAdditions', '~> 0.1.2'
 #pod 'SHPCalendarPicker', :path => '~/Development/SHPCalendarPicker'
+pod 'SHPUIInjection', :head, :configurations => ['Debug']
 
 # pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'
 

@@ -1,5 +1,8 @@
 PODS:
   - DCIntrospect-ARC (HEAD based on 0.0.8)
+  - dyci (0.1.5.6):
+    - dyci/Injections (= 0.1.5.6)
+  - dyci/Injections (0.1.5.6)
   - Masonry (0.6.1)
   - pop (1.0.7)
   - ReactiveCocoa (2.4.7):
@@ -16,6 +19,8 @@ PODS:
     - ReactiveCocoa (~> 2.4.4)
   - SHPSideMenu (1.1.0):
     - pop (~> 1.0.7)
+  - SHPUIInjection (0.0.2):
+    - dyci
   - SHPUIKit (2.1.0)
 
 DEPENDENCIES:
@@ -27,6 +32,7 @@ DEPENDENCIES:
   - SHPNetworking
   - SHPRACAdditions (~> 0.1.2)
   - SHPSideMenu (~> 1.1.0)
+  - SHPUIInjection
   - SHPUIKit (~> 2.1.0)
 
 EXTERNAL SOURCES:
@@ -40,6 +46,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
+  dyci: 86668b266b8a281cb6db02843150f6a210c34ee9
   Masonry: 2cb49fd14d203d2db5ca6bb017135b235dde9980
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
@@ -48,6 +55,7 @@ SPEC CHECKSUMS:
   SHPNetworking: 5b0d3276bd289c8dc152cf1bd749b01b04f6863c
   SHPRACAdditions: 3cd192f802347bb940b6b734d3eed64ca2523581
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
+  SHPUIInjection: 46e0702791094f7b1db205b20d826acb58040977
   SHPUIKit: ba38ba4315b8fc931311cd91711139a2fb03fda5
 
 COCOAPODS: 0.35.0
