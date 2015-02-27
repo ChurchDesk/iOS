@@ -31,6 +31,7 @@ NSString *const CHDEventInfoRowPrice = @"CHDEventInfoRowPrice";
 NSString *const CHDEventInfoRowDescription = @"CHDEventInfoRowDescription";
 NSString *const CHDEventInfoRowVisibility = @"CHDEventInfoRowVisibility";
 NSString *const CHDEventInfoRowCreated = @"CHDEventInfoRowCreated";
+NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 @interface CHDEventInfoViewModel ()
 
@@ -51,6 +52,9 @@ NSString *const CHDEventInfoRowCreated = @"CHDEventInfoRowCreated";
 }
 
 - (NSArray *)rowsForSection:(NSString *)section {
+    if ([section isEqualToString:CHDEventInfoSectionDivider]) {
+        return @[CHDEventInfoRowDivider];
+    }
     return self.sectionRows[section];
 }
 

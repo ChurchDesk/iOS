@@ -42,8 +42,9 @@
         make.left.equalTo(self.iconImageView.mas_right).offset(6);
     }];
     
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@45);
+        make.width.equalTo(@320);
     }];
     
     RAC(iconLeftConstraint, offset) = [RACObserve(self.iconImageView, image) map:^id(UIImage *image) {

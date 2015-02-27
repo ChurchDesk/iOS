@@ -29,6 +29,7 @@ extern NSString *const CHDEventInfoRowPrice;
 extern NSString *const CHDEventInfoRowDescription;
 extern NSString *const CHDEventInfoRowVisibility;
 extern NSString *const CHDEventInfoRowCreated;
+extern NSString *const CHDEventInfoRowDivider;
 
 @class CHDEvent;
 

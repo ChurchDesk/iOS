@@ -29,6 +29,7 @@
     
     [self setupSubviews];
     [self makeConstraints];
+    [self setupBindings];
 }
 
 - (void) setupSubviews {
