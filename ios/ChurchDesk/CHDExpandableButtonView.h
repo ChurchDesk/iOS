@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CHDExpandableButtonView : UIView
-
+@property (nonatomic, readonly) UIButton *addEventButton;
+@property (nonatomic, readonly) UIButton *addMessageButton;
 @end
