@@ -34,7 +34,7 @@
 - (void) makeConstraints {
     [self.directionsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView);
-        make.right.equalTo(self.contentView).offset(kSideMargin);
+        make.right.equalTo(self.contentView).offset(-kSideMargin);
     }];
 }
 

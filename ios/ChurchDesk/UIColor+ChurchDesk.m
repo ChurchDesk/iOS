@@ -39,6 +39,19 @@
   return [UIColor shpui_colorFromStringWithHexValue:@"f7f7f7"];
 }
 
++ (UIColor*) chd_eventAcceptColor {
+    return [UIColor shpui_colorWithHexValue:0x62d963];
+}
+
++ (UIColor*) chd_eventMaybeColor {
+    return [UIColor shpui_colorWithHexValue:0xc7c7cc];
+}
+
++ (UIColor*) chd_eventDeclineColor {
+    return [UIColor shpui_colorWithHexValue:0xff3b30];
+}
+
+
 #pragma mark - Cell colors
 
 + (UIColor*) chd_cellDividerColor {

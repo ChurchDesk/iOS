@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CHDAbstractViewController.h"
 
-@interface CHDCalendarViewController : UIViewController
+@interface CHDCalendarViewController : CHDAbstractViewController
 
 @end

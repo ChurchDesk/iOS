@@ -18,6 +18,10 @@
 + (UIColor*) chd_lightGreyColor;
 + (UIColor*) chd_greyColor;
 
++ (UIColor*) chd_eventAcceptColor;
++ (UIColor*) chd_eventMaybeColor;
++ (UIColor*) chd_eventDeclineColor;
+
 + (UIColor*) chd_cellDividerColor;
 
 + (UIColor* ) chd_menuDarkBlue;

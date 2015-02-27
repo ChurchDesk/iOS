@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CHDEvent.h"
 
 extern NSString *const CHDEventInfoSectionImage;
 extern NSString *const CHDEventInfoSectionBase;
@@ -31,8 +32,6 @@ extern NSString *const CHDEventInfoRowVisibility;
 extern NSString *const CHDEventInfoRowCreated;
 extern NSString *const CHDEventInfoRowDivider;
 
-@class CHDEvent;
-
 @interface CHDEventInfoViewModel : NSObject
 
 @property (nonatomic, readonly) NSArray *sections;
@@ -41,5 +40,8 @@ extern NSString *const CHDEventInfoRowDivider;
 - (instancetype)initWithEventId: (NSNumber*) eventId;
 
 - (NSArray*) rowsForSection: (NSString*) section;
+
+- (NSString*) textForEventResponse: (CHDEventResponse) response;
+- (UIColor*) textColorForEventResponse: (CHDEventResponse) response;
 
 @end

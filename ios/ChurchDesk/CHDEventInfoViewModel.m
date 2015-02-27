@@ -58,6 +58,34 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     return self.sectionRows[section];
 }
 
+- (NSString*) textForEventResponse: (CHDEventResponse) response {
+    switch (response) {
+        case CHDEventResponseGoing:
+            return NSLocalizedString(@"Going", @"");
+        case CHDEventResponseNotGoing:
+            return NSLocalizedString(@"Not going", @"");
+        case CHDEventResponseMaybe:
+            return NSLocalizedString(@"Maybe", @"");
+        case CHDEventResponseNone:
+        default:
+            return NSLocalizedString(@"No reply", @"");
+    }
+}
+
+- (UIColor*) textColorForEventResponse: (CHDEventResponse) response {
+    switch (response) {
+        case CHDEventResponseGoing:
+            return [UIColor chd_eventAcceptColor];
+        case CHDEventResponseNotGoing:
+            return [UIColor chd_eventDeclineColor];
+        case CHDEventResponseMaybe:
+            return [UIColor chd_eventMaybeColor];
+        case CHDEventResponseNone:
+        default:
+            return [UIColor chd_textDarkColor];
+    }
+}
+
 #pragma mark - Private
 
 - (void) configureSectionsWithEvent: (CHDEvent*) event {
@@ -134,7 +162,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
         [mSections addObject:CHDEventInfoSectionDivider];
     }
     if (visibilityRows.count > 0) {
-        [mSections addObject:CHDEventInfoSectionBase];
+        [mSections addObject:CHDEventInfoSectionVisibility];
     }
     
     self.sections = [mSections copy];
