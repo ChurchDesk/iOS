@@ -54,6 +54,7 @@
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.equalTo(self.authorLabel.mas_baseline).with.offset(5);
         make.left.equalTo(self.groupLabel);
+        make.right.equalTo(self.receivedDot.mas_left).offset(-6);
     }];
 
     [self.receivedTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
