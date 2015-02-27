@@ -25,16 +25,17 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
-
-        [self makeViews];
-        [self makeConstraints];
-
         self.viewModel = [CHDDashboardMessagesViewModel new];
     }
     return self;
 }
 
 #pragma mark - setup views
+
+- (void) setupBindings {
+    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, messages)];
+}
+
 -(void) makeViews {
     [self.view addSubview:self.messagesTable];
 }
@@ -67,6 +68,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self makeViews];
+    [self makeConstraints];
+
+    [self setupBindings];
 }
 
 #pragma mark - UITableViewDataSource
