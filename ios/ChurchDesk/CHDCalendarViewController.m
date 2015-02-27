@@ -139,10 +139,10 @@ static CGFloat kDayPickerHeight = 50.0f;
     return header;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CHDEventInfoViewController *vc = [CHDEventInfoViewController new];
-    [self.navigationController pushViewController:vc animated:YES];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    CHDEventInfoViewController *vc = [CHDEventInfoViewController new];
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
 
 #pragma mark - UITableViewDataSource
 
