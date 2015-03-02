@@ -43,7 +43,7 @@
     [self.multiViewContainer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.titleLabel);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(10); 
-        make.right.equalTo(self.contentView).offset(-30);
+        make.right.equalTo(self.contentView).offset(-kIndentedRightMargin);
         make.bottom.equalTo(self.contentView).offset(-kSideMargin);
     }];
     

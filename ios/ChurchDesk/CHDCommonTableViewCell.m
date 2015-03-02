@@ -9,6 +9,7 @@
 #import "CHDCommonTableViewCell.h"
 
 CGFloat const kSideMargin = 15.0f;
+CGFloat const kIndentedRightMargin = 30.0f;
 
 @implementation CHDCommonTableViewCell
 

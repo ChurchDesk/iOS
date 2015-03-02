@@ -40,7 +40,7 @@
     [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView).offset(kSideMargin);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
-        make.right.equalTo(self.contentView).offset(-30);
+        make.right.equalTo(self.contentView).offset(-kIndentedRightMargin);
         make.bottom.equalTo(self.contentView).offset(-kSideMargin);
     }];
 }

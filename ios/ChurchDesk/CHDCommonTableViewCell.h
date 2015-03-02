@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 extern CGFloat const kSideMargin;
+extern CGFloat const kIndentedRightMargin;
 
 @interface CHDCommonTableViewCell : UITableViewCell
 

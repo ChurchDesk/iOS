@@ -20,6 +20,8 @@
 #import "CHDEventCategoriesTableViewCell.h"
 #import "CHDEventUsersTableViewCell.h"
 #import "CHDEventInternalNoteTableViewCell.h"
+#import "CHDEventTextValueTableViewCell.h"
+#import "CHDEventDescriptionTableViewCell.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -133,14 +135,42 @@
         returnCell = cell;
     }
     
+    // Contributor
+    else if ([row isEqualToString:CHDEventInfoRowContributor]) {
+        CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Contributor", @"");
+        cell.valueLabel.text = @"John Appleseed";
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDEventInfoRowPrice]) {
+        CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Price", @"");
+        cell.valueLabel.text = event.price;
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDEventInfoRowDescription]) {
+        CHDEventDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"description" forIndexPath:indexPath];
+        cell.descriptionLabel.text = event.eventDescription;
+        returnCell = cell;
+    }
+    
+    // Visibility
+    else if ([row isEqualToString:CHDEventInfoRowVisibility]) {
+        CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
+        cell.valueLabel.text = event.publicEvent ? NSLocalizedString(@"Public on website", @"") : NSLocalizedString(@"Private event", @"");
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDEventInfoRowCreated]) {
+        CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Created On", @"");
+        cell.valueLabel.text = event.creationDate.description;
+        returnCell = cell;
+    }
+    
     // Dividers
     else if ([section isEqualToString:CHDEventInfoSectionDivider]) {
         returnCell = [tableView dequeueReusableCellWithIdentifier:@"divider" forIndexPath:indexPath];
-    }
-    else {
-        CHDEventInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-        cell.titleLabel.text = row;
-        returnCell = cell;
     }
     
     if ([returnCell respondsToSelector:@selector(setDividerLineHidden:)]) {
@@ -158,6 +188,7 @@
         _tableView.delegate = self;
         _tableView.estimatedRowHeight = 45;
         _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.backgroundColor = [UIColor chd_lightGreyColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
         [_tableView registerClass:[CHDEventTitleImageTableViewCell class] forCellReuseIdentifier:@"image"];
@@ -168,6 +199,9 @@
         [_tableView registerClass:[CHDEventCategoriesTableViewCell class] forCellReuseIdentifier:@"categories"];
         [_tableView registerClass:[CHDEventUsersTableViewCell class] forCellReuseIdentifier:@"users"];
         [_tableView registerClass:[CHDEventInternalNoteTableViewCell class] forCellReuseIdentifier:@"internalNote"];
+        [_tableView registerClass:[CHDEventTextValueTableViewCell class] forCellReuseIdentifier:@"textValue"];
+        [_tableView registerClass:[CHDEventDescriptionTableViewCell class] forCellReuseIdentifier:@"description"];
+        
         [_tableView registerClass:[CHDDividerTableViewCell class] forCellReuseIdentifier:@"divider"];
     }
     return _tableView;

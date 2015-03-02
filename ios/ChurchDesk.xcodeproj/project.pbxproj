@@ -46,6 +46,8 @@
 		7612472F1AA46347004E7D05 /* CHDColorDotLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612472E1AA46347004E7D05 /* CHDColorDotLabelView.m */; };
 		761247351AA4688D004E7D05 /* CHDEventUsersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247341AA4688D004E7D05 /* CHDEventUsersTableViewCell.m */; };
 		761247381AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247371AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m */; };
+		7612473B1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612473A1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m */; };
+		7612473E1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612473D1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m */; };
 		76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F091A96037F00651CEA /* MavenPro-Black.ttf */; };
 		76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */; };
 		76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */; };
@@ -170,6 +172,10 @@
 		761247341AA4688D004E7D05 /* CHDEventUsersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventUsersTableViewCell.m; sourceTree = "<group>"; };
 		761247361AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventInternalNoteTableViewCell.h; sourceTree = "<group>"; };
 		761247371AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventInternalNoteTableViewCell.m; sourceTree = "<group>"; };
+		761247391AA47317004E7D05 /* CHDEventTextValueTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTextValueTableViewCell.h; sourceTree = "<group>"; };
+		7612473A1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventTextValueTableViewCell.m; sourceTree = "<group>"; };
+		7612473C1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventDescriptionTableViewCell.h; sourceTree = "<group>"; };
+		7612473D1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventDescriptionTableViewCell.m; sourceTree = "<group>"; };
 		76143F091A96037F00651CEA /* MavenPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Black.ttf"; sourceTree = "<group>"; };
 		76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Bold.ttf"; sourceTree = "<group>"; };
 		76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Medium.ttf"; sourceTree = "<group>"; };
@@ -626,6 +632,10 @@
 				761247341AA4688D004E7D05 /* CHDEventUsersTableViewCell.m */,
 				761247361AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.h */,
 				761247371AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m */,
+				761247391AA47317004E7D05 /* CHDEventTextValueTableViewCell.h */,
+				7612473A1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m */,
+				7612473C1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.h */,
+				7612473D1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -776,6 +786,8 @@
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
 				761247381AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m in Sources */,
+				7612473B1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m in Sources */,
+				7612473E1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m in Sources */,
 				76A5419B1A9DC26200176D6D /* CHDDayCollectionViewCell.m in Sources */,
 				365A773E1AA0A582006CA0B1 /* CHDNewMessageSelectorCell.m in Sources */,
 				762D16D71A9B4B9000588730 /* CHDCalendarHeaderView.m in Sources */,
