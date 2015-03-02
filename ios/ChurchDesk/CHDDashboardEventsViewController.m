@@ -10,6 +10,7 @@
 #import "CHDTableViewCell.h"
 #import "CHDEventTableViewCell.h"
 #import "CHDExpandableButtonView.h"
+#import "CHDNewMessageViewController.h"
 
 @interface CHDDashboardEventsViewController ()
 
@@ -28,6 +29,10 @@
 
         [self makeViews];
         [self makeConstraints];
+
+        //Setup target action
+        //[self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
+        [self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
@@ -55,6 +60,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void) newMessageShow {
+    CHDNewMessageViewController* newMessageViewController = [CHDNewMessageViewController new];
+    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
+    [self presentViewController:navigationVC animated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDataSource

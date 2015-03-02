@@ -20,13 +20,13 @@ PODS:
     - ReactiveCocoa (~> 2.4.4)
   - SHPSideMenu (1.1.0):
     - pop (~> 1.0.7)
-  - SHPUIInjection (HEAD based on 0.0.2):
+  - SHPUIInjection (HEAD based on 0.0.3):
     - dyci
   - SHPUIKit (2.1.0)
 
 DEPENDENCIES:
   - DCIntrospect-ARC (HEAD)
-  - Haneke
+  - Haneke (~> 1.0.1)
   - Masonry (~> 0.6.1)
   - ReactiveCocoa (~> 2.4.7)
   - SHPCalendarPicker (from `git@github.com:miklselsoe/SHPCalendarPicker.git`)
@@ -58,7 +58,7 @@ SPEC CHECKSUMS:
   SHPNetworking: 5b0d3276bd289c8dc152cf1bd749b01b04f6863c
   SHPRACAdditions: 3cd192f802347bb940b6b734d3eed64ca2523581
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
-  SHPUIInjection: 46e0702791094f7b1db205b20d826acb58040977
+  SHPUIInjection: 57540250f83fb81a1438d5478c5f8d129e794ef1
   SHPUIKit: ba38ba4315b8fc931311cd91711139a2fb03fda5
 
 COCOAPODS: 0.35.0
