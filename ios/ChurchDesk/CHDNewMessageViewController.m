@@ -11,6 +11,8 @@
 #import "CHDNewMessageSelectorCell.h"
 #import "CHDNewMessageTextViewCell.h"
 #import "CHDNewMessageTextFieldCell.h"
+#import "NSObject+SHPKeyboardAwareness.h"
+#import "SHPKeyboardEvent.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -40,9 +42,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         self.title = NSLocalizedString(@"New message", @"");
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonTouch)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Send", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
-
-        [self rac_liftSelector:@selector(chd_willShowKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil], nil];
-        [self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
     }
     return self;
 }
@@ -52,6 +51,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
     [self makeViews];
     [self makeConstraints];
+    [self makeBindings];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -125,6 +125,14 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     }];
 }
 
+-(void) makeBindings {
+    //[self rac_liftSelector:@selector(chd_willShowKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil], nil];
+    //[self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
+
+    [self rac_liftSelector:@selector(chd_willToggleKeyboard:) withSignals:[self shp_keyboardAwarenessSignal], nil];
+}
+
+
 -(UITableView*)tableView {
     if(!_tableView){
         _tableView = [UITableView new];
@@ -144,16 +152,38 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 }
 
 #pragma mark - Keyboard
--(void) chd_willShowKeyboard: (NSNotification*) notification {
-    CGSize kbSize = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
 
-    //Set content inset
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, kbSize.height, 0);
-}
+-(void) chd_willToggleKeyboard: (SHPKeyboardEvent*) keyboardEvent{
+    CGFloat offset = 0;
+    switch (keyboardEvent.keyboardEventType) {
+        case SHPKeyboardEventTypeShow:
 
--(void) chd_willHideKeyboard: (NSNotification*) notification {
-    //Set content inset
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+            //Set content inset
+            self.tableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardEvent.keyboardFrame.size.height, 0);
+
+            // Keyboard will appear. Calculate the new offset from the provided offset
+            offset = self.tableView.contentOffset.y - keyboardEvent.requiredViewOffset;
+
+            // Save the current view offset into the event to retrieve it later
+            keyboardEvent.originalOffset = self.tableView.contentOffset.y;
+
+            break;
+        case SHPKeyboardEventTypeHide:
+            self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+            // Keyboard will hide. Reset view offset to its state before keyboard appeared
+            offset = keyboardEvent.originalOffset;
+
+            break;
+        default:
+            break;
+    }
+
+    [UIView animateWithDuration:keyboardEvent.keyboardAnimationDuration
+                          delay:0
+                        options:keyboardEvent.keyboardAnimationOptionCurve
+                     animations:^{
+                         self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, offset);
+                     } completion:nil];
 }
 
 @end
