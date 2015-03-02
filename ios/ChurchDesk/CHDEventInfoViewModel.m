@@ -114,13 +114,13 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     
     // Resources section
     NSMutableArray *resourceRows = [NSMutableArray array];
-    if (self.event.resourceIds.count > 0) {
+    if (event.resourceIds.count > 0) {
         [resourceRows addObject:CHDEventInfoRowResources];
     }
-    if (self.event.userIds.count > 0) {
+    if (event.userIds.count > 0) {
         [resourceRows addObject:CHDEventInfoRowUsers];
     }
-    if (self.event.internalNote.length > 0) {
+    if (event.internalNote.length > 0) {
         [resourceRows addObject:CHDEventInfoRowInternalNote];
     }
     mSectionRows[CHDEventInfoSectionResources] = [resourceRows copy];
