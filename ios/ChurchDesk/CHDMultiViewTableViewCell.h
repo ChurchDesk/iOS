@@ -1,5 +1,5 @@
 //
-//  CHDMultiViewCell.h
+//  CHDMultiViewTableViewCell.h
 //  ChurchDesk
 //
 //  Created by Mikkel Selsøe Sørensen on 02/03/15.
@@ -8,7 +8,7 @@
 
 #import "CHDCommonTableViewCell.h"
 
-@interface CHDMultiViewCell : CHDCommonTableViewCell
+@interface CHDMultiViewTableViewCell : CHDCommonTableViewCell
 
 @property (nonatomic, readonly) UILabel *titleLabel;
 

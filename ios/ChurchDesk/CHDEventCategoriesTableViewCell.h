@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
-#import "CHDMultiViewCell.h"
+#import "CHDMultiViewTableViewCell.h"
 
-@interface CHDEventCategoriesTableViewCell : CHDMultiViewCell
+@interface CHDEventCategoriesTableViewCell : CHDMultiViewTableViewCell
 
 - (void) setCategoryTitles: (NSArray*) titles colors: (NSArray*) colors;
 

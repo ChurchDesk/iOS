@@ -1,14 +1,14 @@
 //
-//  CHDMultiViewCell.m
+//  CHDMultiViewTableViewCell.m
 //  ChurchDesk
 //
 //  Created by Mikkel Selsøe Sørensen on 02/03/15.
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
-#import "CHDMultiViewCell.h"
+#import "CHDMultiViewTableViewCell.h"
 
-@interface CHDMultiViewCell ()
+@interface CHDMultiViewTableViewCell ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIView *multiViewContainer;
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation CHDMultiViewCell
+@implementation CHDMultiViewTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
