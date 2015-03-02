@@ -26,7 +26,10 @@
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+
 @property (nonatomic, strong) CHDEventInfoViewModel *viewModel;
+@property (nonatomic, strong) NSDateFormatter *creationDateFormatter;
+@property (nonatomic, strong) NSDateFormatter *eventDateFormatter;
 
 @end
 
@@ -164,7 +167,7 @@
     else if ([row isEqualToString:CHDEventInfoRowCreated]) {
         CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Created On", @"");
-        cell.valueLabel.text = event.creationDate.description;
+        cell.valueLabel.text = [self.creationDateFormatter stringFromDate:event.creationDate];
         returnCell = cell;
     }
     
@@ -207,5 +210,13 @@
     return _tableView;
 }
 
+- (NSDateFormatter *)creationDateFormatter {
+    if (!_creationDateFormatter) {
+        _creationDateFormatter = [NSDateFormatter new];
+        _creationDateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        _creationDateFormatter.timeStyle = NSDateFormatterNoStyle;
+    }
+    return _creationDateFormatter;
+}
 
 @end
