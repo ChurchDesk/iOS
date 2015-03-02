@@ -42,7 +42,7 @@
     
     [self.multiViewContainer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.titleLabel);
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(14);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(10); 
         make.right.equalTo(self.contentView).offset(-30);
         make.bottom.equalTo(self.contentView).offset(-kSideMargin);
     }];
@@ -53,32 +53,40 @@
     }];
     
     [self.rightContainer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.bottom.equalTo(self.multiViewContainer);
-        make.left.equalTo(self.leftContainer);
+        make.top.right.equalTo(self.multiViewContainer);
+        make.left.equalTo(self.leftContainer.mas_right);
     }];
 }
 
 - (void) setViewsForMatrix: (NSArray*) views {
-    [self.multiViewContainer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.leftContainer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.rightContainer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    UIView *previousView = nil;
-    BOOL leftView = YES;
+    BOOL oddCount = (views.count % 2);
+    UIView *container = self.leftContainer;
     for (UIView *view in views) {
-        [self.multiViewContainer addSubview:view];
+        UIView *previousView = container.subviews.lastObject;
+        BOOL lastView = view == views.lastObject ||
+                        (container == self.rightContainer && oddCount && [views indexOfObject:view] == views.count-2);
+        
+        [container addSubview:view];
         
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(leftView ? self.multiViewContainer : previousView.mas_right);
+            make.left.right.equalTo(container);
+            make.top.equalTo(previousView ? previousView.mas_bottom : container).offset(previousView ? 10 : 0);
+            if (lastView) {
+                make.bottom.equalTo(container);
+            }
         }];
         
-        previousView = view;
-        leftView = !leftView;
+        container = container == self.leftContainer ? self.rightContainer : self.leftContainer;
     }
 }
 
 #pragma mark - Lazy Initialization
 
 - (UILabel *)titleLabel {
-    if (_titleLabel) {
+    if (!_titleLabel) {
         _titleLabel = [UILabel chd_regularLabelWithSize:17];
     }
     return _titleLabel;

@@ -17,6 +17,7 @@
 #import "CHDEvent.h"
 #import "CHDEventTitleImageTableViewCell.h"
 #import "Haneke.h"
+#import "CHDEventCategoriesTableViewCell.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -98,6 +99,11 @@
         cell.titleLabel.text = @"Vor Frue Kirke";
         returnCell = cell;
     }
+    else if ([row isEqualToString:CHDEventInfoRowCategories]) {
+        CHDEventCategoriesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categories" forIndexPath:indexPath];
+        [cell setCategoryTitles:@[@"Kategori 1 med et helt vildt langt navn", @"KAtegori 2", @"Kategori 3"] colors:@[[UIColor greenColor], [UIColor redColor], [UIColor blueColor]]];
+        returnCell = cell;
+    }
     else if ([row isEqualToString:CHDEventInfoRowAttendance]) {
         CHDEventAttendanceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"attendance" forIndexPath:indexPath];
         cell.attendanceLabel.text = [self.viewModel textForEventResponse:event.eventResponse];
@@ -135,6 +141,7 @@
         [_tableView registerClass:[CHDEventGroupTableViewCell class] forCellReuseIdentifier:@"group"];
         [_tableView registerClass:[CHDEventLocationTableViewCell class] forCellReuseIdentifier:@"location"];
         [_tableView registerClass:[CHDEventAttendanceTableViewCell class] forCellReuseIdentifier:@"attendance"];
+        [_tableView registerClass:[CHDEventCategoriesTableViewCell class] forCellReuseIdentifier:@"categories"];
         [_tableView registerClass:[CHDDividerTableViewCell class] forCellReuseIdentifier:@"divider"];
     }
     return _tableView;

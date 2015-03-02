@@ -10,4 +10,8 @@
 
 @interface CHDMultiViewCell : CHDCommonTableViewCell
 
+@property (nonatomic, readonly) UILabel *titleLabel;
+
+- (void) setViewsForMatrix: (NSArray*) views;
+
 @end
