@@ -37,6 +37,7 @@
 		60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */; };
 		761247231AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */; };
 		761247261AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247251AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m */; };
+		761247291AA45174004E7D05 /* CHDMultiViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247281AA45174004E7D05 /* CHDMultiViewCell.m */; };
 		76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F091A96037F00651CEA /* MavenPro-Black.ttf */; };
 		76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */; };
 		76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */; };
@@ -143,6 +144,8 @@
 		761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventAttendanceTableViewCell.m; sourceTree = "<group>"; };
 		761247241AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTitleImageTableViewCell.h; sourceTree = "<group>"; };
 		761247251AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventTitleImageTableViewCell.m; sourceTree = "<group>"; };
+		761247271AA45174004E7D05 /* CHDMultiViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMultiViewCell.h; sourceTree = "<group>"; };
+		761247281AA45174004E7D05 /* CHDMultiViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMultiViewCell.m; sourceTree = "<group>"; };
 		76143F091A96037F00651CEA /* MavenPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Black.ttf"; sourceTree = "<group>"; };
 		76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Bold.ttf"; sourceTree = "<group>"; };
 		76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Medium.ttf"; sourceTree = "<group>"; };
@@ -567,6 +570,8 @@
 				761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */,
 				761247241AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.h */,
 				761247251AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m */,
+				761247271AA45174004E7D05 /* CHDMultiViewCell.h */,
+				761247281AA45174004E7D05 /* CHDMultiViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -735,6 +740,7 @@
 				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
 				76A541941A9CBE1500176D6D /* CHDDashboardInvitationsViewModel.m in Sources */,
 				761247261AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m in Sources */,
+				761247291AA45174004E7D05 /* CHDMultiViewCell.m in Sources */,
 				762D16CD1A9B1A1800588730 /* CHDManagedModel.m in Sources */,
 				360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */,
 				76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */,
