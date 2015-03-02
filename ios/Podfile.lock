@@ -15,6 +15,8 @@ PODS:
     - ReactiveCocoa/Core
   - SHPCalendarPicker (0.3.1)
   - SHPFoundation (2.3.2)
+  - SHPKeyboardAwareness (1.2.0):
+    - ReactiveCocoa (~> 2.4.7)
   - SHPNetworking (7.6.0)
   - SHPRACAdditions (0.1.2):
     - ReactiveCocoa (~> 2.4.4)
@@ -31,6 +33,7 @@ DEPENDENCIES:
   - ReactiveCocoa (~> 2.4.7)
   - SHPCalendarPicker (from `git@github.com:miklselsoe/SHPCalendarPicker.git`)
   - SHPFoundation (~> 2.3.2)
+  - SHPKeyboardAwareness
   - SHPNetworking
   - SHPRACAdditions (~> 0.1.2)
   - SHPSideMenu (~> 1.1.0)
@@ -55,6 +58,7 @@ SPEC CHECKSUMS:
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
   SHPCalendarPicker: 1a54afae7d57b21a258ce56f3726b4629701a4d4
   SHPFoundation: bc3d66db35927393ac3db278a0ab893c568e231f
+  SHPKeyboardAwareness: 7b467d529af579d8525a608797a35742123cad27
   SHPNetworking: 5b0d3276bd289c8dc152cf1bd749b01b04f6863c
   SHPRACAdditions: 3cd192f802347bb940b6b734d3eed64ca2523581
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954

@@ -30,7 +30,8 @@
 
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(contentView).offset(8);
-        make.bottom.right.equalTo(contentView).offset(-8);
+        make.right.equalTo(contentView).offset(-8);
+        make.bottom.equalTo(contentView).offset(-20);
     }];
 
     [self.placeholder mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -52,7 +53,6 @@
         _textView.delegate = self;
         _textView.scrollEnabled = NO;
         _textView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        //_textView.contentInset = UIEdgeInsetsMake(8, 8, -8, -8);
         _textView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _textView.textColor = [UIColor chd_textDarkColor];
     }
@@ -79,6 +79,7 @@
     }else{
         self.placeholder.hidden = NO;
     }
+
     CGFloat lineHeight = self.textView.font.lineHeight;
 
     CGRect sizeToFit = [[textView layoutManager] usedRectForTextContainer:textView.textContainer];
@@ -87,11 +88,14 @@
     CGRect frame = textView.frame;
     frame.size.height = numberOfLines * lineHeight;
 
-    //[textView setScrollEnabled:YES];
     textView.frame = frame;
-    //[textView setScrollEnabled:NO];
 
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
 }
+
+/*- (CGPoint) cursorPositionForTextView: (UITextView *)textView {
+    CGRect cursorPosition = [textView caretRectForPosition:textView.selectedTextRange.start];
+    return cursorPosition.origin;
+}*/
 @end
