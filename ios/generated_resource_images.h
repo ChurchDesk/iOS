@@ -18,6 +18,7 @@
 #define kImgEventLocation [UIImage imageNamed:@"event_location"]
 #define kImgEventTime [UIImage imageNamed:@"event_time"]
 #define kImgFilterWarning [UIImage imageNamed:@"filter_warning"]
+#define kImgLoginLogo [UIImage imageNamed:@"login_logo"]
 #define kImgLoginMail [UIImage imageNamed:@"login_mail"]
 #define kImgLoginPassword [UIImage imageNamed:@"login_password"]
 #define kImgMapNavigationArrow [UIImage imageNamed:@"map_navigation_arrow"]

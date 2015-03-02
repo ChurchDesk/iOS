@@ -23,5 +23,6 @@
 #import "UILabel+ChurchDesk.h"
 #import "SHPNetworking.h"
 #import "SHPRACAdditions.h"
+#import "UIButton+ChurchDesk.h"
 
 #endif
