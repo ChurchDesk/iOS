@@ -68,7 +68,7 @@
     if (!_locationLabel) {
         _locationLabel = [UILabel new];
         _locationLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
-        _locationLabel.textColor = [UIColor chd_textLigthColor];
+        _locationLabel.textColor = [UIColor chd_textLightColor];
         //.pointSize = 28.0;
 
     }

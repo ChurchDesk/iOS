@@ -38,8 +38,9 @@
     }];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView);
+        make.top.equalTo(self.contentView).offset(kSideMargin);
         make.left.equalTo(self.iconImageView.mas_right).offset(6);
+        make.bottom.equalTo(self.contentView).offset(-kSideMargin);
     }];
     
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {

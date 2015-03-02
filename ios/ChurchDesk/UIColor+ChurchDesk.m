@@ -72,7 +72,7 @@
 + (UIColor*) chd_textDarkColor{
     return [UIColor shpui_colorFromStringWithHexValue:@"000000"];
 }
-+ (UIColor*) chd_textLigthColor{
++ (UIColor*) chd_textLightColor{
     return [UIColor shpui_colorFromStringWithHexValue:@"646464"];
 }
 

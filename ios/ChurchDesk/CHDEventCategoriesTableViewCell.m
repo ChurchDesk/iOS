@@ -11,13 +11,6 @@
 
 @implementation CHDEventCategoriesTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        self.titleLabel.text = NSLocalizedString(@"Categories", @"");
-    }
-    return self;
-}
-
 - (void) setCategoryTitles: (NSArray*) titles colors: (NSArray*) colors {
     
     __block NSMutableArray *mViews = [NSMutableArray arrayWithCapacity:titles.count];

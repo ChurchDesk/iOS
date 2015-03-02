@@ -28,7 +28,7 @@
 + (UIColor*) chd_menuLightBlue;
 
 + (UIColor*) chd_textDarkColor;
-+ (UIColor*) chd_textLigthColor;
++ (UIColor*) chd_textLightColor;
 + (UIColor*) chd_textExtraLightColor;
 
 + (UIColor*) chd_categoryBlueColor;

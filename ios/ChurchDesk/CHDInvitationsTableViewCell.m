@@ -118,7 +118,7 @@
     if (!_invitedByLabel) {
         _invitedByLabel = [UILabel new];
         _invitedByLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
-        _invitedByLabel.textColor = [UIColor chd_textLigthColor];
+        _invitedByLabel.textColor = [UIColor chd_textLightColor];
     }
     return _invitedByLabel;
 }
@@ -129,7 +129,7 @@
     if (!_locationLabel) {
         _locationLabel = [UILabel new];
         _locationLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
-        _locationLabel.textColor = [UIColor chd_textLigthColor];
+        _locationLabel.textColor = [UIColor chd_textLightColor];
     }
     return _locationLabel;
 }
@@ -151,7 +151,7 @@
     if (!_eventTimeLabel) {
         _eventTimeLabel = [UILabel new];
         _eventTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
-        _eventTimeLabel.textColor = [UIColor chd_textLigthColor];
+        _eventTimeLabel.textColor = [UIColor chd_textLightColor];
     }
     return _eventTimeLabel;
 }

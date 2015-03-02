@@ -44,6 +44,8 @@
 		761247291AA45174004E7D05 /* CHDMultiViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247281AA45174004E7D05 /* CHDMultiViewTableViewCell.m */; };
 		7612472C1AA45F78004E7D05 /* CHDEventCategoriesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612472B1AA45F78004E7D05 /* CHDEventCategoriesTableViewCell.m */; };
 		7612472F1AA46347004E7D05 /* CHDColorDotLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612472E1AA46347004E7D05 /* CHDColorDotLabelView.m */; };
+		761247351AA4688D004E7D05 /* CHDEventUsersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247341AA4688D004E7D05 /* CHDEventUsersTableViewCell.m */; };
+		761247381AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247371AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m */; };
 		76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F091A96037F00651CEA /* MavenPro-Black.ttf */; };
 		76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */; };
 		76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */; };
@@ -164,6 +166,10 @@
 		7612472B1AA45F78004E7D05 /* CHDEventCategoriesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventCategoriesTableViewCell.m; sourceTree = "<group>"; };
 		7612472D1AA46347004E7D05 /* CHDColorDotLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDColorDotLabelView.h; sourceTree = "<group>"; };
 		7612472E1AA46347004E7D05 /* CHDColorDotLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDColorDotLabelView.m; sourceTree = "<group>"; };
+		761247331AA4688D004E7D05 /* CHDEventUsersTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventUsersTableViewCell.h; sourceTree = "<group>"; };
+		761247341AA4688D004E7D05 /* CHDEventUsersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventUsersTableViewCell.m; sourceTree = "<group>"; };
+		761247361AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventInternalNoteTableViewCell.h; sourceTree = "<group>"; };
+		761247371AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventInternalNoteTableViewCell.m; sourceTree = "<group>"; };
 		76143F091A96037F00651CEA /* MavenPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Black.ttf"; sourceTree = "<group>"; };
 		76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Bold.ttf"; sourceTree = "<group>"; };
 		76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Medium.ttf"; sourceTree = "<group>"; };
@@ -614,10 +620,12 @@
 				761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */,
 				761247241AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.h */,
 				761247251AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m */,
-				761247271AA45174004E7D05 /* CHDMultiViewTableViewCell.h */,
-				761247281AA45174004E7D05 /* CHDMultiViewTableViewCell.m */,
 				7612472A1AA45F78004E7D05 /* CHDEventCategoriesTableViewCell.h */,
 				7612472B1AA45F78004E7D05 /* CHDEventCategoriesTableViewCell.m */,
+				761247331AA4688D004E7D05 /* CHDEventUsersTableViewCell.h */,
+				761247341AA4688D004E7D05 /* CHDEventUsersTableViewCell.m */,
+				761247361AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.h */,
+				761247371AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -625,6 +633,8 @@
 		76A541CE1A9F6CE000176D6D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				761247271AA45174004E7D05 /* CHDMultiViewTableViewCell.h */,
+				761247281AA45174004E7D05 /* CHDMultiViewTableViewCell.m */,
 				76A541C21A9F55FF00176D6D /* CHDCommonTableViewCell.h */,
 				76A541C31A9F55FF00176D6D /* CHDCommonTableViewCell.m */,
 				76A541CB1A9F625700176D6D /* CHDDividerTableViewCell.h */,
@@ -765,6 +775,7 @@
 				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
+				761247381AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m in Sources */,
 				76A5419B1A9DC26200176D6D /* CHDDayCollectionViewCell.m in Sources */,
 				365A773E1AA0A582006CA0B1 /* CHDNewMessageSelectorCell.m in Sources */,
 				762D16D71A9B4B9000588730 /* CHDCalendarHeaderView.m in Sources */,
@@ -812,6 +823,7 @@
 				36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */,
 				36C462261A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m in Sources */,
 				365DD9031A9CCDFA00CC6009 /* CHDMessage.m in Sources */,
+				761247351AA4688D004E7D05 /* CHDEventUsersTableViewCell.m in Sources */,
 				762D16DA1A9B4E1A00588730 /* UILabel+ChurchDesk.m in Sources */,
 				76A541BA1A9F25B500176D6D /* CHDEventInfoViewModel.m in Sources */,
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,

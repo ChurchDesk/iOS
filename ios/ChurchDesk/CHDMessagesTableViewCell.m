@@ -89,7 +89,7 @@
     if(!_groupLabel){
         _groupLabel = [UILabel new];
         _groupLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
-        _groupLabel.textColor = [UIColor chd_textLigthColor];
+        _groupLabel.textColor = [UIColor chd_textLightColor];
     }
     return _groupLabel;
 }
@@ -116,7 +116,7 @@
     if(!_contentLabel){
         _contentLabel = [UILabel new];
         _contentLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
-        _contentLabel.textColor = [UIColor chd_textLigthColor];
+        _contentLabel.textColor = [UIColor chd_textLightColor];
     }
     return _contentLabel;
 }
@@ -125,7 +125,7 @@
     if(!_receivedTimeLabel){
         _receivedTimeLabel = [UILabel new];
         _receivedTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];;
-        _receivedTimeLabel.textColor = [UIColor chd_textLigthColor];
+        _receivedTimeLabel.textColor = [UIColor chd_textLightColor];
     }
     return _receivedTimeLabel;
 }

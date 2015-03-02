@@ -55,6 +55,7 @@
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [UILabel chd_regularLabelWithSize:13];
+        _titleLabel.textColor = [UIColor chd_textLightColor];
         _titleLabel.numberOfLines = 0;
     }
     return _titleLabel;

@@ -18,6 +18,8 @@
 #import "CHDEventTitleImageTableViewCell.h"
 #import "Haneke.h"
 #import "CHDEventCategoriesTableViewCell.h"
+#import "CHDEventUsersTableViewCell.h"
+#import "CHDEventInternalNoteTableViewCell.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -74,6 +76,7 @@
     NSArray *rows = [self.viewModel rowsForSection:section];
     NSString *row = rows[indexPath.row];
     
+    // Base information
     if ([row isEqualToString:CHDEventInfoRowImage]) {
         CHDEventTitleImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"image" forIndexPath:indexPath];
         cell.titleLabel.text = event.title;
@@ -101,6 +104,7 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowCategories]) {
         CHDEventCategoriesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categories" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Categories", @"");
         [cell setCategoryTitles:@[@"Kategori 1 med et helt vildt langt navn", @"KAtegori 2", @"Kategori 3"] colors:@[[UIColor greenColor], [UIColor redColor], [UIColor blueColor]]];
         returnCell = cell;
     }
@@ -110,6 +114,26 @@
         cell.attendanceLabel.textColor = [self.viewModel textColorForEventResponse:event.eventResponse];
         returnCell = cell;
     }
+    
+    // Resources
+    else if ([row isEqualToString:CHDEventInfoRowResources]) {
+        CHDEventCategoriesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categories" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Resources", @"");
+        [cell setCategoryTitles:@[@"Resource 1", @"Resource 2", @"Resource 3"] colors:@[[UIColor greenColor], [UIColor redColor], [UIColor blueColor]]];
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDEventInfoRowUsers]) {
+        CHDEventUsersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"users" forIndexPath:indexPath];
+        [cell setUserNames:@[@"John Appleseed", @"John Appleseed", @"John Appleseed", @"John Appleseed", @"John Appleseed"]];
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDEventInfoRowInternalNote]) {
+        CHDEventInternalNoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"internalNote" forIndexPath:indexPath];
+        cell.noteLabel.text = event.internalNote;
+        returnCell = cell;
+    }
+    
+    // Dividers
     else if ([section isEqualToString:CHDEventInfoSectionDivider]) {
         returnCell = [tableView dequeueReusableCellWithIdentifier:@"divider" forIndexPath:indexPath];
     }
@@ -142,6 +166,8 @@
         [_tableView registerClass:[CHDEventLocationTableViewCell class] forCellReuseIdentifier:@"location"];
         [_tableView registerClass:[CHDEventAttendanceTableViewCell class] forCellReuseIdentifier:@"attendance"];
         [_tableView registerClass:[CHDEventCategoriesTableViewCell class] forCellReuseIdentifier:@"categories"];
+        [_tableView registerClass:[CHDEventUsersTableViewCell class] forCellReuseIdentifier:@"users"];
+        [_tableView registerClass:[CHDEventInternalNoteTableViewCell class] forCellReuseIdentifier:@"internalNote"];
         [_tableView registerClass:[CHDDividerTableViewCell class] forCellReuseIdentifier:@"divider"];
     }
     return _tableView;
