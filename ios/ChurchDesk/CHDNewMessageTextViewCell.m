@@ -27,20 +27,16 @@
 
 - (void)makeConstraints {
     UIView *contentView = self.contentView;
+
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.equalTo(contentView);
-        make.bottom.right.equalTo(contentView);
-        //self.textViewHeight = make.height.equalTo(@30);
+        make.top.left.equalTo(contentView).offset(8);
+        make.bottom.right.equalTo(contentView).offset(-8);
     }];
 
     [self.placeholder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.textView).offset(14);
-        make.top.equalTo(self.textView).offset(14);
+        make.left.equalTo(contentView).offset(14);
+        make.top.equalTo(contentView).offset(14);
     }];
-
-    /*[self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        self.textViewHeight = make.height.equalTo(@50);
-    }];*/
 }
 
 - (void)makeViews {
@@ -54,9 +50,9 @@
     if(!_textView){
         _textView = [UITextView new];
         _textView.delegate = self;
-        _textView.scrollEnabled = YES;
+        _textView.scrollEnabled = NO;
         _textView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        _textView.contentInset = UIEdgeInsetsMake(8, 8, -8, -8);
+        //_textView.contentInset = UIEdgeInsetsMake(8, 8, -8, -8);
         _textView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _textView.textColor = [UIColor chd_textDarkColor];
     }
@@ -72,35 +68,28 @@
     return _placeholder;
 }
 
-/*- (CGSize)intrinsicContentSize {
-    return CGSizeMake(0, 50);
-}*/
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(0, 52);
+}
 
 - (void)textViewDidChange:(UITextView *)textView {
-    CGSize contentSize = textView.contentSize;
+
     if(![textView.text isEqual:@""]){
-        //[self.placeholder removeFromSuperview];
         self.placeholder.hidden = YES;
     }else{
-        //[self.contentView addSubview:self.placeholder];
         self.placeholder.hidden = NO;
     }
-
     CGFloat lineHeight = self.textView.font.lineHeight;
-    double numberOfLines = ceil(contentSize.height / lineHeight);
 
-    //Get offset
-    UIEdgeInsets contentInset = self.textView.contentInset;
+    CGRect sizeToFit = [[textView layoutManager] usedRectForTextContainer:textView.textContainer];
+    CGFloat numberOfLines = ceil(sizeToFit.size.height / lineHeight);
 
-    if(self.textViewHeight == nil) {
-        CGFloat baseHeight = -contentInset.bottom + contentInset.top;
-        //create constraint 
-        [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-            self.textViewHeight = make.height.equalTo(@(baseHeight));
-        }];
-    }
+    CGRect frame = textView.frame;
+    frame.size.height = numberOfLines * lineHeight;
 
-    self.textViewHeight.offset(numberOfLines * lineHeight);
+    //[textView setScrollEnabled:YES];
+    textView.frame = frame;
+    //[textView setScrollEnabled:NO];
 
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
