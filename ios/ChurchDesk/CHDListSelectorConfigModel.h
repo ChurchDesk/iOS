@@ -4,10 +4,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CHDListSelectableProtocol.h"
 
 
-@interface CHDListSelectorConfigModel : NSObject <CHDListSelectableProtocol>
+@interface CHDListSelectorConfigModel : NSObject
 @property (nonatomic) BOOL selected;
 @property (nonatomic, assign) UIColor* dotColor;
 @property (nonatomic, assign) NSString* title;

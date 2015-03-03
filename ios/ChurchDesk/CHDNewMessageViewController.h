@@ -7,7 +7,8 @@
 //
 
 #import "CHDAbstractViewController.h"
+#import "CHDListSelectorDelegate.h"
 
-@interface CHDNewMessageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface CHDNewMessageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CHDListSelectorDelegate>
 
 @end

@@ -127,7 +127,6 @@
 		36592B491AA499AA00C1B386 /* CHDListSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDListSelectorViewController.m; sourceTree = "<group>"; };
 		36592B4C1AA49EEE00C1B386 /* CHDSelectorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSelectorTableViewCell.h; sourceTree = "<group>"; };
 		36592B4D1AA49EEE00C1B386 /* CHDSelectorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSelectorTableViewCell.m; sourceTree = "<group>"; };
-		36592B4F1AA4AEA700C1B386 /* CHDListSelectableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectableProtocol.h; sourceTree = "<group>"; };
 		365A773C1AA0A582006CA0B1 /* CHDNewMessageSelectorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageSelectorCell.h; sourceTree = "<group>"; };
 		365A773D1AA0A582006CA0B1 /* CHDNewMessageSelectorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageSelectorCell.m; sourceTree = "<group>"; };
 		365A773F1AA0A5F5006CA0B1 /* CHDNewMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageViewController.h; sourceTree = "<group>"; };
@@ -170,6 +169,7 @@
 		603725FCD9A96AF870E396EE /* ChurchDeskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChurchDeskTests.m; sourceTree = "<group>"; };
 		603726045A07B5DC865FD0FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		60372756CFB9BD18E5548D93 /* CHDListSelectorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectorDelegate.h; sourceTree = "<group>"; };
 		6037291CD14A440979FA04E4 /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
 		603729828D5FB2B8CBB39464 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
 		60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextFieldCell.m; sourceTree = "<group>"; };
@@ -349,10 +349,10 @@
 			isa = PBXGroup;
 			children = (
 				36592B481AA499AA00C1B386 /* CHDListSelectorViewController.h */,
-				36592B4F1AA4AEA700C1B386 /* CHDListSelectableProtocol.h */,
 				36592B491AA499AA00C1B386 /* CHDListSelectorViewController.m */,
 				603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */,
 				6037249E0210641467B98003 /* CHDListSelectorConfigModel.h */,
+				60372756CFB9BD18E5548D93 /* CHDListSelectorDelegate.h */,
 			);
 			name = ListSelectorViewController;
 			sourceTree = "<group>";

@@ -15,6 +15,7 @@
 #import "SHPKeyboardEvent.h"
 #import "CHDListSelectorViewController.h"
 #import "CHDNewMessageViewModel.h"
+#import "CHDGroup.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -59,6 +60,11 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     [self makeBindings];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -87,7 +93,9 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     if((newMessagesSections)indexPath.row == selectGroupSection){
         if(self.messageViewModel.selectableGroups.count > 0) {
             CHDListSelectorViewController *selectorViewController = [[CHDListSelectorViewController new] initWithSelectableItems:self.messageViewModel.selectableGroups];
+            selectorViewController.title = NSLocalizedString(@"Group", @"");
             selectorViewController.selectMultiple = NO;
+            selectorViewController.selectorDelegate = self;
             [self.navigationController pushViewController:selectorViewController animated:YES];
         }
     }
@@ -108,13 +116,13 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     if((newMessagesSections)indexPath.row == selectParishSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Parish", @"");
-        cell.selectedLabel.text = @"Last used";
+        cell.selectedLabel.text = self.messageViewModel.selectedParishName;
         return cell;
     }
     if((newMessagesSections)indexPath.row == selectGroupSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Group", @"");
-        cell.selectedLabel.text = @"Last used";
+        cell.selectedLabel.text = self.messageViewModel.selectedGroupName;
         cell.dividerLineHidden = YES;
         return cell;
     }
@@ -131,6 +139,14 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         return cell;
     }
     return nil;
+}
+
+#pragma mark - Selector Delegate
+
+- (void)chdListSelectorDidSelect:(CHDListSelectorConfigModel *)selection {
+    if([selection.refObject isKindOfClass:[CHDGroup class] ]){
+        self.messageViewModel.selectedGroup = (CHDGroup *)selection.refObject;
+    }
 }
 
 

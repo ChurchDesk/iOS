@@ -7,9 +7,12 @@
 //
 
 #import "CHDAbstractViewController.h"
+#import "CHDListSelectorDelegate.h"
+#import "CHDListSelectorConfigModel.h"
 
 @interface CHDListSelectorViewController : CHDAbstractViewController  <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, assign) BOOL selectMultiple;
+@property (weak) id<CHDListSelectorDelegate> selectorDelegate;
+
 -(instancetype)initWithSelectableItems: (NSArray*) items;
-+(instancetype)initWithTitles: (NSArray*) titles colors: (NSArray*) colors selected: (NSArray*) selected refObjects: (NSArray*) objects;
 @end

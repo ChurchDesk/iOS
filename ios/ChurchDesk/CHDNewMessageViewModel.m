@@ -10,6 +10,8 @@
 
 @interface CHDNewMessageViewModel()
 @property (nonatomic, strong) NSArray* selectableGroups;
+@property (nonatomic, strong) NSString* selectedGroupName;
+@property (nonatomic, strong) NSString* selectedParishName;
 @end
 @implementation CHDNewMessageViewModel
 
@@ -34,6 +36,20 @@
         }];
         self.selectableGroups = [groups copy];
     }
+}
+
+-(NSString*) selectedParishName{
+    //if(!self.selectedGroup){
+        return NSLocalizedString(@"Last used", @"");
+    //}
+    //return self.selectedGroup.name;
+}
+
+-(NSString*) selectedGroupName {
+    if(!self.selectedGroup){
+        return NSLocalizedString(@"Last used", @"");
+    }
+    return self.selectedGroup.name;
 }
 
 @end
