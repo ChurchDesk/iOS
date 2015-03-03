@@ -35,14 +35,14 @@
 		36C462341A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462331A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m */; };
 		36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */; };
 		36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */; };
-		6037221A5E3A4DA2E9010E19 /* CHDNewMessageGroupsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B18DD6EBF05CE056917 /* CHDNewMessageGroupsViewModel.m */; };
+		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
 		603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */; };
 		60372416A6237CB86FDF0514 /* CHDNewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */; };
-		603727A4496BA649C5F9C563 /* CHDNewMessageGroupViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603728D9AF32C142D84DFA38 /* CHDNewMessageGroupViewModel.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
 		60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */; };
+		60372EC2D5D62B4B79D52443 /* CHDNewMessageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */; };
 		761247231AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */; };
 		761247261AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247251AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m */; };
 		761247291AA45174004E7D05 /* CHDMultiViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247281AA45174004E7D05 /* CHDMultiViewTableViewCell.m */; };
@@ -162,20 +162,20 @@
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		603720B107A7307EADD70B2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		60372386560E10B21C977C03 /* CHDNewMessageGroupsViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageGroupsViewModel.h; sourceTree = "<group>"; };
-		6037244AB53E045A310FDE49 /* CHDNewMessageGroupViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageGroupViewModel.h; sourceTree = "<group>"; };
+		603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDListSelectorConfigModel.m; sourceTree = "<group>"; };
 		6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextViewCell.m; sourceTree = "<group>"; };
+		6037249E0210641467B98003 /* CHDListSelectorConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectorConfigModel.h; sourceTree = "<group>"; };
 		60372597B255053225510A9E /* CHDNewMessageTextViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageTextViewCell.h; sourceTree = "<group>"; };
 		603725E089310809A460FFD0 /* CHDNewMessageTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageTextFieldCell.h; sourceTree = "<group>"; };
 		603725FCD9A96AF870E396EE /* ChurchDeskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChurchDeskTests.m; sourceTree = "<group>"; };
 		603726045A07B5DC865FD0FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		603728D9AF32C142D84DFA38 /* CHDNewMessageGroupViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageGroupViewModel.m; sourceTree = "<group>"; };
 		6037291CD14A440979FA04E4 /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
 		603729828D5FB2B8CBB39464 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
 		60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextFieldCell.m; sourceTree = "<group>"; };
-		60372B18DD6EBF05CE056917 /* CHDNewMessageGroupsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageGroupsViewModel.m; sourceTree = "<group>"; };
 		60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
+		60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageViewModel.m; sourceTree = "<group>"; };
+		60372D58E8F4677269419267 /* CHDNewMessageViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageViewModel.h; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		761247211AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventAttendanceTableViewCell.h; sourceTree = "<group>"; };
@@ -351,6 +351,8 @@
 				36592B481AA499AA00C1B386 /* CHDListSelectorViewController.h */,
 				36592B4F1AA4AEA700C1B386 /* CHDListSelectableProtocol.h */,
 				36592B491AA499AA00C1B386 /* CHDListSelectorViewController.m */,
+				603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */,
+				6037249E0210641467B98003 /* CHDListSelectorConfigModel.h */,
 			);
 			name = ListSelectorViewController;
 			sourceTree = "<group>";
@@ -361,10 +363,8 @@
 				365A77431AA0A60F006CA0B1 /* custom cells */,
 				365A773F1AA0A5F5006CA0B1 /* CHDNewMessageViewController.h */,
 				365A77401AA0A5F5006CA0B1 /* CHDNewMessageViewController.m */,
-				60372B18DD6EBF05CE056917 /* CHDNewMessageGroupsViewModel.m */,
-				60372386560E10B21C977C03 /* CHDNewMessageGroupsViewModel.h */,
-				603728D9AF32C142D84DFA38 /* CHDNewMessageGroupViewModel.m */,
-				6037244AB53E045A310FDE49 /* CHDNewMessageGroupViewModel.h */,
+				60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */,
+				60372D58E8F4677269419267 /* CHDNewMessageViewModel.h */,
 			);
 			name = NewMessage;
 			sourceTree = "<group>";
@@ -932,8 +932,8 @@
 				60372416A6237CB86FDF0514 /* CHDNewMessageTextFieldCell.m in Sources */,
 				761247481AA49E55004E7D05 /* UIButton+ChurchDesk.m in Sources */,
 				603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */,
-				6037221A5E3A4DA2E9010E19 /* CHDNewMessageGroupsViewModel.m in Sources */,
-				603727A4496BA649C5F9C563 /* CHDNewMessageGroupViewModel.m in Sources */,
+				603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */,
+				60372EC2D5D62B4B79D52443 /* CHDNewMessageViewModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

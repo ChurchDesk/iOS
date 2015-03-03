@@ -11,4 +11,5 @@
 @interface CHDListSelectorViewController : CHDAbstractViewController  <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, assign) BOOL selectMultiple;
 -(instancetype)initWithSelectableItems: (NSArray*) items;
++(instancetype)initWithTitles: (NSArray*) titles colors: (NSArray*) colors selected: (NSArray*) selected refObjects: (NSArray*) objects;
 @end

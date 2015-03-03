@@ -14,7 +14,7 @@
 #import "NSObject+SHPKeyboardAwareness.h"
 #import "SHPKeyboardEvent.h"
 #import "CHDListSelectorViewController.h"
-#import "CHDNewMessageGroupsViewModel.h"
+#import "CHDNewMessageViewModel.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -33,7 +33,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 @interface CHDNewMessageViewController ()
 @property (nonatomic, strong) UITableView* tableView;
-@property (nonatomic, strong) CHDNewMessageGroupsViewModel* groups;
+@property (nonatomic, strong) CHDNewMessageViewModel *messageViewModel;
 @end
 
 @implementation CHDNewMessageViewController
@@ -46,7 +46,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonTouch)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Send", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
 
-        self.groups = [CHDNewMessageGroupsViewModel new];
+        self.messageViewModel = [CHDNewMessageViewModel new];
     }
     return self;
 }
@@ -85,10 +85,11 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     }
 
     if((newMessagesSections)indexPath.row == selectGroupSection){
-
-        CHDListSelectorViewController* selectorViewController = [[CHDListSelectorViewController new] initWithSelectableItems:self.groups.groups];
-
-        [self.navigationController pushViewController:selectorViewController animated:YES];
+        if(self.messageViewModel.selectableGroups.count > 0) {
+            CHDListSelectorViewController *selectorViewController = [[CHDListSelectorViewController new] initWithSelectableItems:self.messageViewModel.selectableGroups];
+            selectorViewController.selectMultiple = NO;
+            [self.navigationController pushViewController:selectorViewController animated:YES];
+        }
     }
 }
 

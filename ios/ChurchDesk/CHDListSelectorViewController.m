@@ -9,6 +9,7 @@
 #import "CHDListSelectorViewController.h"
 #import "CHDSelectorTableViewCell.h"
 #import "CHDListSelectableProtocol.h"
+#import "CHDListSelectorConfigModel.h"
 
 @interface CHDListSelectorViewController ()
 @property (nonatomic, strong) NSArray *selectableElements;
@@ -25,6 +26,17 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
         self.selectableElements = items;
     }
     return self;
+}
+
++(instancetype)initWithTitles: (NSArray*) titles colors: (NSArray*) colors selected: (NSArray*) selected refObjects: (NSArray*) objects{
+    NSMutableArray *items = [NSMutableArray new];
+    [titles enumerateObjectsUsingBlock:^(NSString* title, NSUInteger idx, BOOL *stop) {
+        CHDListSelectorConfigModel* configModel = [[CHDListSelectorConfigModel new] initWithTitle:title color:colors[idx] selected:selected[idx] refObject:objects[idx]];
+
+        [items addObject:configModel];
+    }];
+
+    return [[self alloc] initWithSelectableItems:[items copy]];
 }
 
 

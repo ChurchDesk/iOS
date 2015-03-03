@@ -5,14 +5,12 @@
 
 #import <Foundation/Foundation.h>
 #import "CHDListSelectableProtocol.h"
-#import "CHDGroup.h"
 
-@interface CHDNewMessageGroupViewModel : NSObject <CHDListSelectableProtocol>
+
+@interface CHDListSelectorConfigModel : NSObject <CHDListSelectableProtocol>
 @property (nonatomic) BOOL selected;
 @property (nonatomic, assign) UIColor* dotColor;
 @property (nonatomic, assign) NSString* title;
-
-@property (nonatomic, readonly) CHDGroup* group;
-
--(instancetype)initWithGroup: (CHDGroup*) group;
+@property (nonatomic, assign) id refObject;
+-(instancetype)initWithTitle: (NSString*) title color: (UIColor*) color selected: (BOOL) selected refObject: (id) object;
 @end

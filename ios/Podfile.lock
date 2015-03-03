@@ -40,7 +40,7 @@ DEPENDENCIES:
   - SHPSideMenu (~> 1.1.0)
   - SHPUIInjection (HEAD)
   - SHPUIKit (~> 2.1.0)
-  - SSKeychain
+  - SSKeychain (~> 1.2.2)
 
 EXTERNAL SOURCES:
   SHPCalendarPicker:
