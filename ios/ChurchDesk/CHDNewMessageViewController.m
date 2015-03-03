@@ -85,9 +85,14 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if((newMessagesSections)indexPath.row == selectParishSection){
-        CHDListSelectorViewController* selectorViewController = [CHDListSelectorViewController new];
+        if(self.messageViewModel.selectableSites.count > 0) {
+            CHDListSelectorViewController *selectorViewController = [[CHDListSelectorViewController new] initWithSelectableItems:self.messageViewModel.selectableSites];
+            selectorViewController.title = NSLocalizedString(@"Parish", @"");
+            selectorViewController.selectMultiple = NO;
+            selectorViewController.selectorDelegate = self;
 
-        [self.navigationController pushViewController:selectorViewController animated:YES];
+            [self.navigationController pushViewController:selectorViewController animated:YES];
+        }
     }
 
     if((newMessagesSections)indexPath.row == selectGroupSection){
@@ -146,6 +151,10 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 - (void)chdListSelectorDidSelect:(CHDListSelectorConfigModel *)selection {
     if([selection.refObject isKindOfClass:[CHDGroup class] ]){
         self.messageViewModel.selectedGroup = (CHDGroup *)selection.refObject;
+    }
+
+    if([selection.refObject isKindOfClass:[CHDSite class] ]){
+        self.messageViewModel.selectedSite = (CHDSite *)selection.refObject;
     }
 }
 

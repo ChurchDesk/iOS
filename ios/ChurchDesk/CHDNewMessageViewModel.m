@@ -7,11 +7,18 @@
 #import "CHDAPIClient.h"
 #import "CHDListSelectorConfigModel.h"
 #import "CHDGroup.h"
+#import "CHDUser.h"
 
 @interface CHDNewMessageViewModel()
+@property (nonatomic, assign) CHDEnvironment *environment;
+
 @property (nonatomic, strong) NSArray* selectableGroups;
 @property (nonatomic, strong) NSString* selectedGroupName;
+
+@property (nonatomic, strong) NSArray* selectableSites;
 @property (nonatomic, strong) NSString* selectedParishName;
+
+@property (nonatomic, assign) CHDUser *user;
 @end
 @implementation CHDNewMessageViewModel
 
@@ -22,7 +29,13 @@
             return [RACSignal empty];
         }];
 
+        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+
         [self rac_liftSelector:@selector(selectableGroupsMake:) withSignals:RACObserve(self, environment), nil];
+
+        [self rac_liftSelector:@selector(selectableSitesMake:) withSignals:RACObserve(self, user), nil];
     }
     return self;
 }
@@ -38,11 +51,22 @@
     }
 }
 
+-(void) selectableSitesMake: (CHDUser*)user {
+    if(user != nil){
+        NSMutableArray *sites = [[NSMutableArray alloc] init];
+        [user.sites enumerateObjectsUsingBlock:^(CHDSite * site, NSUInteger idx, BOOL *stop) {
+            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:NO refObject:site]; //([self.selectedSite.site isEqualToString:site.site])
+            [sites addObject:selectable];
+        }];
+        self.selectableSites = [sites copy];
+    }
+}
+
 -(NSString*) selectedParishName{
-    //if(!self.selectedGroup){
+    if(!self.selectedSite){
         return NSLocalizedString(@"Last used", @"");
-    //}
-    //return self.selectedGroup.name;
+    }
+    return self.selectedSite.name;
 }
 
 -(NSString*) selectedGroupName {

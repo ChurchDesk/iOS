@@ -17,7 +17,7 @@
 }
 
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
-    if([propName isEqualToString:@"site"]) {
+    if([propName isEqualToString:@"name"]) {
         return @"siteName";
     }
     return [super mapPropertyForPropertyWithName:propName];

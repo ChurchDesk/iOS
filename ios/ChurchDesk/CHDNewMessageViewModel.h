@@ -7,11 +7,14 @@
 #import "CHDEnvironment.h"
 #import "CHDMessage.h"
 
+#import "CHDSite.h"
+
 @interface CHDNewMessageViewModel : NSObject
 @property (nonatomic, assign) CHDMessage* message;
-@property (nonatomic, assign) CHDEnvironment *environment;
 
 @property (nonatomic, readonly) NSString* selectedParishName;
+@property (nonatomic, assign) CHDSite *selectedSite;
+@property (nonatomic, readonly) NSArray* selectableSites;
 
 @property (nonatomic, assign) CHDGroup* selectedGroup;
 @property (nonatomic, readonly) NSString* selectedGroupName;
