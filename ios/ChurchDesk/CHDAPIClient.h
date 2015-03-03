@@ -14,6 +14,7 @@
 
 - (RACSignal*) getEnvironment;
 
+- (RACSignal*) getEventsFrom: (NSDate*) fromDate to: (NSDate*) toDate;
 - (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site;
 - (RACSignal*) getInvitations;
 

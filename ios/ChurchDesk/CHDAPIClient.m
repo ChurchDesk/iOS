@@ -16,6 +16,7 @@
 #import "CHDEvent.h"
 #import "CHDAccessToken.h"
 #import "CHDAuthenticationManager.h"
+#import "NSDateFormatter+ChurchDesk.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -36,7 +37,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 @interface CHDAPIClient ()
 
-@property (nonatomic, readonly) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) SHPAPIManager *oauthManager;
 
 @end
@@ -155,6 +156,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 #pragma mark - Calendar
 
+- (RACSignal*) getEventsFrom: (NSDate*) fromDate to: (NSDate*) toDate {
+    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@/%@", [self.dateFormatter stringFromDate:fromDate], [self.dateFormatter stringFromDate:toDate]] resultClass:[CHDEvent class] withResource:nil];
+}
+
 - (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site {
     return [self resourcesForPath:[NSString stringWithFormat:@"events/%@?site=%@", eventId, site] resultClass:[CHDEvent class] withResource:nil];
 }
@@ -197,7 +202,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         }
     }]];
     resource.resultObjectClass = [CHDAccessToken class];
-    RACSignal *requestSignal = [self.manager dispatchRequest:^(SHPHTTPRequest *request) {
+    RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
         [request setMethod:SHPHTTPRequestMethodGET];
         [request setValue:@"refresh_token" forQueryParameterKey:@"grant_type"];
         [request setValue:authManager.authenticationToken.refreshToken forQueryParameterKey:@"refresh_token"];
@@ -206,6 +211,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         //        [request addValue:@"afaf" forQueryParameterKey:@"refresh_token"];
 #endif
         [request setValue:kClientID forQueryParameterKey:@"client_id"];
+        [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
     } withBodyContent:nil toResource:resource];
     
     [requestSignal subscribeNext:^(CHDAccessToken *token) {
@@ -237,18 +243,18 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 - (BOOL)errorCausedByExpiredToken:(NSError *)error {
     SHPHTTPResponse *response = [error.userInfo objectForKey:SHPAPIManagerReactiveExtensionErrorResponseKey];
-    NSLog(@"Error result: %@", response.result);
-//    if (errorArray && [errorArray isKindOfClass:[NSArray class]] && errorArray.count > 0) {
-//        NSDictionary *errorDescription = [errorArray firstObject];
-//        NSString *message = [errorDescription objectForKey:@"message"];
-//        NSString *errorCode = [errorDescription objectForKey:@"errorCode"];
-//        if ([errorCode isEqualToString:@""]) {
-//            NSLog(@"Token expired with message: %@", message);
-//            return YES;
-//        }
-//    }
-    
-    return NO;
+    NSDictionary *body = response.body;
+    NSString *bodyError = body[@"error"];
+    return response.statusCode == 401 && [bodyError isKindOfClass:[NSString class]] && [bodyError isEqualToString:@"invalid_grant"];
+}
+
+#pragma mark - Lazy Initialization
+
+- (NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        _dateFormatter = [NSDateFormatter chd_apiDateFormatter];
+    }
+    return _dateFormatter;
 }
 
 @end
