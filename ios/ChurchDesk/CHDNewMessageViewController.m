@@ -13,6 +13,7 @@
 #import "CHDNewMessageTextFieldCell.h"
 #import "NSObject+SHPKeyboardAwareness.h"
 #import "SHPKeyboardEvent.h"
+#import "CHDListSelectorViewController.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -72,6 +73,20 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 #pragma mark - TableView delegate
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if((newMessagesSections)indexPath.row == selectParishSection){
+        CHDListSelectorViewController* selectorViewController = [CHDListSelectorViewController new];
+
+        [self.navigationController pushViewController:selectorViewController animated:YES];
+    }
+
+    if((newMessagesSections)indexPath.row == selectGroupSection){
+        CHDListSelectorViewController* selectorViewController = [CHDListSelectorViewController new];
+
+        [self.navigationController pushViewController:selectorViewController animated:YES];
+    }
+}
+
 #pragma mark - TableView datasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -126,9 +141,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 }
 
 -(void) makeBindings {
-    //[self rac_liftSelector:@selector(chd_willShowKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil], nil];
-    //[self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
-
     [self rac_liftSelector:@selector(chd_willToggleKeyboard:) withSignals:[self shp_keyboardAwarenessSignal], nil];
 }
 
@@ -147,6 +159,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         [_tableView registerClass:[CHDNewMessageTextFieldCell class] forCellReuseIdentifier:kNewMessageTextFieldCell];
 
         _tableView.dataSource = self;
+        _tableView.delegate = self;
     }
     return _tableView;
 }
