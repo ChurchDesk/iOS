@@ -16,6 +16,7 @@
 #import "CHDEvent.h"
 #import "CHDAccessToken.h"
 #import "CHDAuthenticationManager.h"
+#import "CHDUser.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -145,6 +146,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
     }];
+}
+
+- (RACSignal*) getCurrentUser {
+    return [self resourcesForPath:@"user" resultClass:[CHDUser class] withResource:nil];
 }
 
 #pragma mark - Environment
