@@ -68,6 +68,21 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
 
 #pragma mark - Table Delegate
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    id<CHDListSelectableProtocol> element = self.selectableElements[indexPath.row];
+    element.selected = YES;
+
+    [tableView cellForRowAtIndexPath:indexPath].selected = YES;
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    id<CHDListSelectableProtocol> element = self.selectableElements[indexPath.row];
+
+    element.selected = NO;
+    [tableView cellForRowAtIndexPath:indexPath].selected = NO;
+}
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.selectableElements.count;
 }
@@ -78,7 +93,10 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
     id<CHDListSelectableProtocol> element = self.selectableElements[indexPath.row];
 
     cell.titleLabel.text = element.title;
-    cell.selected = element.selected;
+    if(element.selected){
+        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
+    //cell.selected = element.selected;
     cell.dotColor = element.dotColor;
 
     cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
