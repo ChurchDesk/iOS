@@ -9,6 +9,7 @@
 #import "CHDLoginViewController.h"
 #import "CHDIconTextFieldView.h"
 #import "SHPKeyboardAwareness.h"
+#import "CHDLoginViewModel.h"
 
 @interface CHDLoginViewController ()
 
@@ -21,6 +22,8 @@
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UIButton *forgotPasswordButton;
 
+@property (nonatomic, strong) CHDLoginViewModel *viewModel;
+
 @end
 
 @implementation CHDLoginViewController
@@ -28,11 +31,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.viewModel = [CHDLoginViewModel new];
+    
     self.view.backgroundColor = [UIColor chd_darkBlueColor];
     
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
+    
+#if DEBUG
+    self.emailView.textField.text = @"shape@churchdesk.com";
+    self.passwordView.textField.text = @"Shape2015";
+#endif
 }
 
 - (void) setupSubviews {
@@ -89,16 +99,28 @@
 
 - (void) setupBindings {
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignalForView:self.loginButton], nil];
+    
+//    RAC(self.loginButton, enabled) = [RACSignal combineLatest:@[self.emailView.textField.rac_textSignal, self.passwordView.textField.rac_textSignal] reduce:^id (NSString *email, NSString *password) {
+//        return @([email shp_matchesEmailRegex] && password.length > 0);
+//    }];
 }
 
 #pragma mark - Actions
 
 - (void) handleKeyboardEvent: (SHPKeyboardEvent*) keyboardEvent {
     BOOL show = keyboardEvent.keyboardEventType == SHPKeyboardEventTypeShow;
+    if (show && keyboardEvent.requiredViewOffset == 0) {
+        return;
+    }
+    
     [UIView animateWithDuration:keyboardEvent.keyboardAnimationDuration delay:0 options:keyboardEvent.keyboardAnimationOptionCurve animations:^{
         self.scrollView.contentOffset = show ? CGPointMake(0, -keyboardEvent.requiredViewOffset + 20) : CGPointZero;
         self.logoContainer.alpha = show ? 0.0 : 1.0;
     } completion:nil];
+}
+
+- (void) loginAction: (id) sender {
+    [self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text];
 }
 
 #pragma mark - Lazy Initialization
@@ -158,6 +180,7 @@
     if (!_loginButton) {
         _loginButton = [UIButton chd_roundedBlueButton];
         [_loginButton setTitle:NSLocalizedString(@"Login", @"") forState:UIControlStateNormal];
+        [_loginButton addTarget:self action:@selector(loginAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
 }

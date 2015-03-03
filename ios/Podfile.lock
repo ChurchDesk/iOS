@@ -25,6 +25,7 @@ PODS:
   - SHPUIInjection (HEAD based on 0.0.3):
     - dyci
   - SHPUIKit (2.1.0)
+  - SSKeychain (1.2.2)
 
 DEPENDENCIES:
   - DCIntrospect-ARC (HEAD)
@@ -33,12 +34,13 @@ DEPENDENCIES:
   - ReactiveCocoa (~> 2.4.7)
   - SHPCalendarPicker (from `git@github.com:miklselsoe/SHPCalendarPicker.git`)
   - SHPFoundation (~> 2.3.2)
-  - SHPKeyboardAwareness
+  - SHPKeyboardAwareness (~> 1.2.0)
   - SHPNetworking
   - SHPRACAdditions (~> 0.1.2)
   - SHPSideMenu (~> 1.1.0)
   - SHPUIInjection (HEAD)
   - SHPUIKit (~> 2.1.0)
+  - SSKeychain
 
 EXTERNAL SOURCES:
   SHPCalendarPicker:
@@ -64,5 +66,6 @@ SPEC CHECKSUMS:
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
   SHPUIInjection: 57540250f83fb81a1438d5478c5f8d129e794ef1
   SHPUIKit: ba38ba4315b8fc931311cd91711139a2fb03fda5
+  SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
 
 COCOAPODS: 0.35.0

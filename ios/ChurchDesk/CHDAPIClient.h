@@ -10,6 +10,8 @@
 
 @interface CHDAPIClient : SHPAPI
 
+- (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password;
+
 - (RACSignal*) getEnvironment;
 
 - (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site;

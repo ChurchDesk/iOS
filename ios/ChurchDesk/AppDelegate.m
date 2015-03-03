@@ -19,6 +19,9 @@
 #import "SHPSideMenu.h"
 #import "UINavigationController+ChurchDesk.h"
 #import "SHPUIInjection.h"
+#import "CHDLoginViewController.h"
+#import "CHDRootViewController.h"
+#import "CHDAuthenticationManager.h"
 
 @interface AppDelegate ()
 
@@ -31,9 +34,9 @@
     [Crashlytics startWithAPIKey:@"c7c174cb98f78bf0cd7b43db69eb37d1e2a46d11"];
     
     [self setupAppearance];
-
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = [self buildViewHierarchy];
+    self.window.rootViewController = [[CHDRootViewController alloc] initWithPrimaryViewController:[self viewControllerHierarchy] secondaryViewControllerClass:[CHDLoginViewController class]];
     [self.window makeKeyAndVisible];
 
 #if TARGET_IPHONE_SIMULATOR
@@ -41,10 +44,14 @@
     [SHPUIInjection enable];
 #endif
 
+#if !SCREEN_SHOT_MODE
+    [self presentLoginViewControllerWhenNeeded];
+#endif
+    
     return YES;
 }
 
-- (UIViewController*) buildViewHierarchy {
+- (UIViewController*) viewControllerHierarchy {
     
 #if SCREEN_SHOT_MODE
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -124,6 +131,27 @@
     
     [[UISwitch appearance] setOnTintColor:[UIColor chd_blueColor]];
     [[UISwitch appearance] setTintColor:[UIColor shpui_colorWithHexValue:0xc8c7cc]];
+}
+
+- (void) presentLoginViewControllerWhenNeeded {
+    CHDRootViewController *rootVC = (CHDRootViewController*)self.window.rootViewController;
+    CHDAuthenticationManager *authenticationManager = [CHDAuthenticationManager sharedInstance];
+    
+    __block BOOL animated = authenticationManager.userID != nil; // user is logged in initially. Next presentation is animated
+    
+    [[rootVC rac_liftSelector:@selector(presentSecondaryViewControllerAnimated:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
+        return token == nil;
+    }] mapReplace:@(animated)], nil] doNext:^(id x) {
+        animated = YES;
+    }];
+    
+    [rootVC rac_liftSelector:@selector(dismissSecondaryViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
+        return token != nil;
+    }] mapReplace:@YES], [RACSignal return:nil], nil];
+    
+    [rootVC rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
+        return token == nil;
+    }] mapReplace:@NO], [RACSignal return:nil], nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

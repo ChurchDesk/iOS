@@ -51,6 +51,10 @@
 		761247421AA483D9004E7D05 /* CHDLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247411AA483D9004E7D05 /* CHDLoginViewController.m */; };
 		761247451AA48444004E7D05 /* CHDIconTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247441AA48444004E7D05 /* CHDIconTextFieldView.m */; };
 		761247481AA49E55004E7D05 /* UIButton+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247471AA49E55004E7D05 /* UIButton+ChurchDesk.m */; };
+		7612474B1AA4ADE3004E7D05 /* CHDLoginViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612474A1AA4ADE3004E7D05 /* CHDLoginViewModel.m */; };
+		7612474E1AA4AEA0004E7D05 /* CHDAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612474D1AA4AEA0004E7D05 /* CHDAuthenticationManager.m */; };
+		761247511AA59D01004E7D05 /* CHDAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247501AA59D01004E7D05 /* CHDAccessToken.m */; };
+		761247541AA5AF7D004E7D05 /* CHDRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247531AA5AF7D004E7D05 /* CHDRootViewController.m */; };
 		76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F091A96037F00651CEA /* MavenPro-Black.ttf */; };
 		76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */; };
 		76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */; };
@@ -185,6 +189,14 @@
 		761247441AA48444004E7D05 /* CHDIconTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDIconTextFieldView.m; sourceTree = "<group>"; };
 		761247461AA49E55004E7D05 /* UIButton+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+ChurchDesk.h"; sourceTree = "<group>"; };
 		761247471AA49E55004E7D05 /* UIButton+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ChurchDesk.m"; sourceTree = "<group>"; };
+		761247491AA4ADE3004E7D05 /* CHDLoginViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLoginViewModel.h; sourceTree = "<group>"; };
+		7612474A1AA4ADE3004E7D05 /* CHDLoginViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLoginViewModel.m; sourceTree = "<group>"; };
+		7612474C1AA4AEA0004E7D05 /* CHDAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAuthenticationManager.h; sourceTree = "<group>"; };
+		7612474D1AA4AEA0004E7D05 /* CHDAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAuthenticationManager.m; sourceTree = "<group>"; };
+		7612474F1AA59D01004E7D05 /* CHDAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAccessToken.h; sourceTree = "<group>"; };
+		761247501AA59D01004E7D05 /* CHDAccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAccessToken.m; sourceTree = "<group>"; };
+		761247521AA5AF7D004E7D05 /* CHDRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDRootViewController.h; sourceTree = "<group>"; };
+		761247531AA5AF7D004E7D05 /* CHDRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDRootViewController.m; sourceTree = "<group>"; };
 		76143F091A96037F00651CEA /* MavenPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Black.ttf"; sourceTree = "<group>"; };
 		76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Bold.ttf"; sourceTree = "<group>"; };
 		76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Medium.ttf"; sourceTree = "<group>"; };
@@ -483,6 +495,8 @@
 				603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */,
 				76A5419F1A9E1C8F00176D6D /* CHDAbstractViewController.h */,
 				76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */,
+				761247521AA5AF7D004E7D05 /* CHDRootViewController.h */,
+				761247531AA5AF7D004E7D05 /* CHDRootViewController.m */,
 			);
 			path = ChurchDesk;
 			sourceTree = "<group>";
@@ -532,6 +546,8 @@
 				761247411AA483D9004E7D05 /* CHDLoginViewController.m */,
 				761247431AA48444004E7D05 /* CHDIconTextFieldView.h */,
 				761247441AA48444004E7D05 /* CHDIconTextFieldView.m */,
+				761247491AA4ADE3004E7D05 /* CHDLoginViewModel.h */,
+				7612474A1AA4ADE3004E7D05 /* CHDLoginViewModel.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -593,6 +609,10 @@
 				76A541B21A9F199700176D6D /* CHDPeerUser.m */,
 				76A541BB1A9F2B8A00176D6D /* CHDEvent.h */,
 				76A541BC1A9F2B8A00176D6D /* CHDEvent.m */,
+				7612474C1AA4AEA0004E7D05 /* CHDAuthenticationManager.h */,
+				7612474D1AA4AEA0004E7D05 /* CHDAuthenticationManager.m */,
+				7612474F1AA59D01004E7D05 /* CHDAccessToken.h */,
+				761247501AA59D01004E7D05 /* CHDAccessToken.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -803,10 +823,12 @@
 			files = (
 				76A541B31A9F199700176D6D /* CHDPeerUser.m in Sources */,
 				76A541A41A9F0F3900176D6D /* UINavigationController+ChurchDesk.m in Sources */,
+				7612474B1AA4ADE3004E7D05 /* CHDLoginViewModel.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				76A541CD1A9F625700176D6D /* CHDDividerTableViewCell.m in Sources */,
 				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
+				761247511AA59D01004E7D05 /* CHDAccessToken.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
 				761247381AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m in Sources */,
 				7612473B1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m in Sources */,
@@ -855,9 +877,11 @@
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
 				762D16D41A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m in Sources */,
 				365A77411AA0A5F5006CA0B1 /* CHDNewMessageViewController.m in Sources */,
+				761247541AA5AF7D004E7D05 /* CHDRootViewController.m in Sources */,
 				762D16DD1A9B60A800588730 /* CHDCalendarTitleView.m in Sources */,
 				76143F171A9634FA00651CEA /* CHDMagicNavigationBarView.m in Sources */,
 				36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */,
+				7612474E1AA4AEA0004E7D05 /* CHDAuthenticationManager.m in Sources */,
 				36C462261A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m in Sources */,
 				365DD9031A9CCDFA00CC6009 /* CHDMessage.m in Sources */,
 				761247351AA4688D004E7D05 /* CHDEventUsersTableViewCell.m in Sources */,

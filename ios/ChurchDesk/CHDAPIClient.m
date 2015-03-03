@@ -14,23 +14,30 @@
 #import "CHDMessage.h"
 #import "CHDEnvironment.h"
 #import "CHDEvent.h"
+#import "CHDAccessToken.h"
+#import "CHDAuthenticationManager.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
 
-#define PRODUCTION_ENVIRONMENT 0
+static NSString *const kClientID = @"2_3z9mhb9d9xmo8k0g00wkskckcs4444k4kkokw08gg4gs8k04ok";
+static NSString *const kClientSecret = @"hlymtmodq0gs48kcwwwsccogo8sc8o4sook8sgs8040w8s44o";
+
+#define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
-static NSString *const kBaseUrl = @"";
+static NSString *const kBaseUrl = @"http://api.churchdesk.com";
 #else
 static NSString *const kBaseUrl = @"http://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
 #endif
 static NSString *const kURLAPIPart = @"api/v1/";
+static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 
 @interface CHDAPIClient ()
 
 @property (nonatomic, readonly) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) SHPAPIManager *oauthManager;
 
 @end
 
@@ -41,6 +48,9 @@ static NSString *const kURLAPIPart = @"api/v1/";
     self = [super init];
     if (self) {
         [self setBaseURL:[[NSURL URLWithString:kBaseUrl] URLByAppendingPathComponent:kURLAPIPart]];
+        
+        self.oauthManager = [SHPAPIManager new];
+        [self.oauthManager setBaseURL:[[NSURL URLWithString:kBaseUrl] URLByAppendingPathComponent:kURLAPIOauthPart]];
         
 //        [self.manager.cache shprac_liftSelector:@selector(invalidateAllObjects) withSignal:[RACObserve([DNGAuthenticationManager sharedInstance], authenticationToken) distinctUntilChanged]];
     }
@@ -65,7 +75,7 @@ static NSString *const kURLAPIPart = @"api/v1/";
     BOOL onlyResult = YES;
 #endif
     RACSignal *requestSignal = [self.manager dispatchRequest:^(SHPHTTPRequest *request) {
-        NSString *auth = @"access_token";
+        NSString *auth = [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken;
         if (auth) {
             [request setValue:auth forQueryParameterKey:@"access_token"];
         }
@@ -86,7 +96,7 @@ static NSString *const kURLAPIPart = @"api/v1/";
     }];
 #endif
     
-    return [[requestSignal replayLazily] doError:^(NSError *error) {
+    return [[[self tokenValidationWrapper:requestSignal] replayLazily] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
     }];
@@ -113,6 +123,30 @@ static NSString *const kURLAPIPart = @"api/v1/";
     }];
 }
 
+#pragma mark - User
+
+- (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password {
+    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
+    resource.resultObjectClass = [CHDAccessToken class];
+
+    RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
+    
+        [request setValue:kClientID forQueryParameterKey:@"client_id"];
+        [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
+        [request setValue:@"password" forQueryParameterKey:@"grant_type"];
+        [request setValue:username ?: @"" forQueryParameterKey:@"username"];
+        [request setValue:password ?: @"" forQueryParameterKey:@"password"];
+        
+        [request addValue:@"application/json" forHeaderField:@"Accept"];
+        [request addValue:@"application/json" forHeaderField:@"Content-Type"];
+    } withBodyContent:nil toResource:resource];
+    
+    return [[requestSignal replayLazily] doError:^(NSError *error) {
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
+    }];
+}
+
 #pragma mark - Environment
 
 - (RACSignal*) getEnvironment {
@@ -133,6 +167,88 @@ static NSString *const kURLAPIPart = @"api/v1/";
 
 - (RACSignal*) getUnreadMessages{
   return [self resourcesForPath:@"messages/unread" resultClass:[CHDMessage class] withResource:nil];
+}
+
+#pragma mark - Refresh token
+
+- (RACSignal *)tokenValidationWrapper:(RACSignal *)requestSignal {
+    return [requestSignal catch:^(NSError *error) {
+        // Catch the error, refresh the token, and then do the request again.
+        if ([self errorCausedByExpiredToken:error]) {
+            NSLog(@"Will attempt to refresh access token.");
+            return [[[self refreshToken] ignoreValues] concat:requestSignal];
+        }
+        return requestSignal;
+    }];
+}
+
+- (RACSignal *)refreshToken {
+    CHDAuthenticationManager *authManager = [CHDAuthenticationManager sharedInstance];
+    NSString *userId = authManager.userID;
+    
+    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
+    [resource addValidator:[SHPBlockValidator validatorWithValidationBlock:^BOOL(id input, __autoreleasing NSError **error) {
+        NSString *accessToken = [input objectForKey:@"access_token"];
+        if (accessToken) {
+            return YES;
+        } else {
+            if (error != NULL) *error = [NSError errorWithDescription:@"Unable to retrieve access token with refresh token" code:-1];
+            return NO;
+        }
+    }]];
+    resource.resultObjectClass = [CHDAccessToken class];
+    RACSignal *requestSignal = [self.manager dispatchRequest:^(SHPHTTPRequest *request) {
+        [request setMethod:SHPHTTPRequestMethodGET];
+        [request setValue:@"refresh_token" forQueryParameterKey:@"grant_type"];
+        [request setValue:authManager.authenticationToken.refreshToken forQueryParameterKey:@"refresh_token"];
+#ifdef DEBUG
+        // This will generate a refresh token error
+        //        [request addValue:@"afaf" forQueryParameterKey:@"refresh_token"];
+#endif
+        [request setValue:kClientID forQueryParameterKey:@"client_id"];
+    } withBodyContent:nil toResource:resource];
+    
+    [requestSignal subscribeNext:^(CHDAccessToken *token) {
+        if (token.accessToken && [authManager.userID isEqualToString:userId]) {
+#ifdef DEBUG
+            NSLog(@"New access token obtained: %@", token.accessToken);
+#else
+            NSLog(@"New access token obtained");
+#endif
+            [authManager authenticateWithToken:token userID:userId];
+        }
+        else {
+            if (!token.accessToken) {
+                NSLog(@"Error: No new access token obtained");
+            }
+            else {
+                NSLog(@"Error: User %@ no longer logged in. Current user: %@", userId, authManager.userID);
+            }
+        }
+    } error:^(NSError *error) {
+        NSLog(@"Unable to refresh token: %@", error);
+    }];
+    
+    return requestSignal;
+}
+
+
+#pragma mark Token error handling
+
+- (BOOL)errorCausedByExpiredToken:(NSError *)error {
+    SHPHTTPResponse *response = [error.userInfo objectForKey:SHPAPIManagerReactiveExtensionErrorResponseKey];
+    NSLog(@"Error result: %@", response.result);
+//    if (errorArray && [errorArray isKindOfClass:[NSArray class]] && errorArray.count > 0) {
+//        NSDictionary *errorDescription = [errorArray firstObject];
+//        NSString *message = [errorDescription objectForKey:@"message"];
+//        NSString *errorCode = [errorDescription objectForKey:@"errorCode"];
+//        if ([errorCode isEqualToString:@""]) {
+//            NSLog(@"Token expired with message: %@", message);
+//            return YES;
+//        }
+//    }
+    
+    return NO;
 }
 
 @end
