@@ -8,7 +8,7 @@
 
 #import "CHDListSelectorViewController.h"
 #import "CHDSelectorTableViewCell.h"
-#import "CHDListSelectableProtocol.h"
+
 
 @interface CHDListSelectorViewController ()
 @property (nonatomic, strong) NSArray *selectableElements;
@@ -26,7 +26,6 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
     }
     return self;
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,14 +68,16 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
 #pragma mark - Table Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<CHDListSelectableProtocol> element = self.selectableElements[indexPath.row];
+    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
     element.selected = YES;
 
     [tableView cellForRowAtIndexPath:indexPath].selected = YES;
+
+    [self.selectorDelegate chdListSelectorDidSelect:element];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<CHDListSelectableProtocol> element = self.selectableElements[indexPath.row];
+    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
 
     element.selected = NO;
     [tableView cellForRowAtIndexPath:indexPath].selected = NO;
@@ -90,7 +91,7 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorCellIdentifyer forIndexPath:indexPath];
 
-    id<CHDListSelectableProtocol> element = self.selectableElements[indexPath.row];
+    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
 
     cell.titleLabel.text = element.title;
     if(element.selected){
