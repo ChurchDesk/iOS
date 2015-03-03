@@ -81,6 +81,8 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
     cell.selected = element.selected;
     cell.dotColor = element.dotColor;
 
+    cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
+
     return cell;
 }
 

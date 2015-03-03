@@ -23,6 +23,8 @@ CGFloat const kTitleLabelOffsetWithColor = 31.0f;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
+        self.disclosureArrowHidden = YES;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self makeViews];
         [self makeConstraints];
         [self makeBindings];
@@ -42,7 +44,7 @@ CGFloat const kTitleLabelOffsetWithColor = 31.0f;
 
     [self.dotView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.equalTo(@8);
-        make.top.equalTo(contentView).offset(14);
+        make.left.equalTo(contentView).offset(14);
         make.centerY.equalTo(contentView);
     }];
 
@@ -53,7 +55,7 @@ CGFloat const kTitleLabelOffsetWithColor = 31.0f;
 
     [self.checkMark mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(contentView);
-        make.right.equalTo(contentView).offset(11);
+        make.right.equalTo(contentView).offset(-11);
     }];
 }
 
@@ -68,6 +70,8 @@ CGFloat const kTitleLabelOffsetWithColor = 31.0f;
             return @(kTitleLabelOffsetWithColor);
         }];
 
+    RAC(self.dotView, dotColor) = RACObserve(self, dotColor);
+
     RAC(self.checkMark, hidden) = [RACObserve(self, selected) map:^id(NSNumber * value) {
         return @(!value.boolValue);
     }];
@@ -78,8 +82,8 @@ CGFloat const kTitleLabelOffsetWithColor = 31.0f;
 }
 
 -(UIImageView*) checkMark {
-    if(_checkMark){
-        _checkMark = [[UIImageView new] initWithImage:kImgCheckmark];
+    if(!_checkMark){
+        _checkMark = [[UIImageView alloc] initWithImage:kImgCheckmark];
     }
     return _checkMark;
 }
