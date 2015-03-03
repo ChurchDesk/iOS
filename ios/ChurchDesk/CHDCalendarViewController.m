@@ -15,6 +15,8 @@
 #import "CHDMagicNavigationBarView.h"
 #import "CHDDayPickerViewController.h"
 #import "CHDEventInfoViewController.h"
+#import "CHDCalendarViewModel.h"
+#import "CHDEvent.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
@@ -31,12 +33,19 @@ static CGFloat kDayPickerHeight = 50.0f;
 @property (nonatomic, strong) MASConstraint *calendarTopConstraint;
 @property (nonatomic, strong) MASConstraint *dayPickerBottomConstraint;
 
+@property (nonatomic, strong) CHDCalendarViewModel *viewModel;
+@property (nonatomic, strong) NSDateFormatter *timeFormatter;
+@property (nonatomic, strong) NSDateFormatter *weekdayFormatter;
+@property (nonatomic, strong) NSDateFormatter *dayFormatter;
+
 @end
 
 @implementation CHDCalendarViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.viewModel = [[CHDCalendarViewModel alloc] initWithReferenceDate:[NSDate date]];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -94,6 +103,7 @@ static CGFloat kDayPickerHeight = 50.0f;
     NSDateFormatter *monthFormatter = [NSDateFormatter new];
     monthFormatter.dateFormat = @"MMMM";
     
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, sections)];
     
     RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willAnimateToMonth:)] map:^id(RACTuple *tuple) {
         return tuple.second;
@@ -131,9 +141,11 @@ static CGFloat kDayPickerHeight = 50.0f;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     CHDCalendarHeaderView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     
-    header.dayLabel.text = @"Friday";
-    header.dateLabel.text = @"1 May";
-    header.nameLabel.text = @"Store bededag";
+    NSDate *date = self.viewModel.sections[section];
+    
+    header.dayLabel.text = [self.weekdayFormatter stringFromDate:date];
+    header.dateLabel.text = [self.dayFormatter stringFromDate:date];
+    header.nameLabel.text = @"";
     header.dotColors = @[[UIColor chd_blueColor], [UIColor chd_greenColor], [UIColor magentaColor]];
     
     return header;
@@ -146,19 +158,23 @@ static CGFloat kDayPickerHeight = 50.0f;
 
 #pragma mark - UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.viewModel.sections.count;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return [self.viewModel eventsForSectionAtIndex:section].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    CHDEvent *event = [self.viewModel eventsForSectionAtIndex:indexPath.section][indexPath.row];
+    
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    //cell.textLabel.text = cellTitle;
-    cell.titleLabel.text = @"Title";
-    cell.locationLabel.text = @"Location";
-    cell.parishLabel.text = @"The Parish";
-    cell.dateTimeLabel.text = @"Today";
-    //cell.
+    cell.titleLabel.text = event.title;
+    cell.locationLabel.text = event.location;
+    cell.parishLabel.text = event.site;
+    cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All Day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
     
     if(indexPath.item % 2 == 1) {
         [cell.leftBorder setBackgroundColor:[UIColor chd_categoryBlueColor]];
@@ -221,6 +237,30 @@ static CGFloat kDayPickerHeight = 50.0f;
         _dayPickerViewController = [CHDDayPickerViewController new];
     }
     return _dayPickerViewController;
+}
+
+- (NSDateFormatter *)timeFormatter {
+    if (!_timeFormatter) {
+        _timeFormatter = [NSDateFormatter new];
+        _timeFormatter.timeStyle = NSDateFormatterShortStyle;
+    }
+    return _timeFormatter;
+}
+
+- (NSDateFormatter *)weekdayFormatter {
+    if (!_weekdayFormatter) {
+        _weekdayFormatter = [NSDateFormatter new];
+        _weekdayFormatter.dateFormat = @"EEE";
+    }
+    return _weekdayFormatter;
+}
+
+- (NSDateFormatter *)dayFormatter {
+    if (!_dayFormatter) {
+        _dayFormatter = [NSDateFormatter new];
+        _dayFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"dd MMMM" options:0 locale:[NSLocale currentLocale]];
+    }
+    return _dayFormatter;
 }
 
 @end

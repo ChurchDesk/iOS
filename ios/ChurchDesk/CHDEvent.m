@@ -54,4 +54,8 @@
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 
+- (BOOL)isEqual:(CHDEvent*)object {
+    return [object.eventId isEqualToNumber:self.eventId];
+}
+
 @end

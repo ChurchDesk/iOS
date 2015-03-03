@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UIView *dotsContainer;
+@property (nonatomic, strong) UIView *lineView;
 
 @end
 
@@ -36,6 +37,7 @@
     [self.contentView addSubview:self.dateLabel];
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.dotsContainer];
+    [self addSubview:self.lineView];
 }
 
 - (void) makeConstraints {
@@ -57,6 +59,11 @@
     [self.dotsContainer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView).offset(-8);
         make.centerY.equalTo(self.contentView);
+    }];
+    
+    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.left.right.equalTo(self);
+        make.height.equalTo(@1);
     }];
 }
 
@@ -111,6 +118,14 @@
         _dotsContainer = [UIView new];
     }
     return _dotsContainer;
+}
+
+- (UIView *)lineView {
+    if (!_lineView) {
+        _lineView = [UIView new];
+        _lineView.backgroundColor = [UIColor shpui_colorWithHexValue:0xececec];
+    }
+    return _lineView;
 }
 
 @end

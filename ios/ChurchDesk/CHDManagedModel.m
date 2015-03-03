@@ -7,6 +7,7 @@
 //
 
 #import "CHDManagedModel.h"
+#import "NSDateFormatter+ChurchDesk.h"
 
 @implementation CHDManagedModel
 
@@ -22,10 +23,7 @@
     static NSDateFormatter *_sharedFormatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedFormatter = [NSDateFormatter new];
-        [_sharedFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-        _sharedFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
-        [_sharedFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+        _sharedFormatter = [NSDateFormatter chd_apiDateFormatter];
     });
     return _sharedFormatter;
 }
