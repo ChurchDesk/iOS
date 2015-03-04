@@ -21,5 +21,5 @@
 - (RACSignal*) getHolidaysFromYear: (NSInteger) year;
 
 - (RACSignal*) getUnreadMessages;
-
+- (RACSignal*) retrieveMessageWithId:(NSNumber*)id site:(NSString*) site;
 @end

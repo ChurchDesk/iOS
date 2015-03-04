@@ -184,6 +184,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
   return [self resourcesForPath:@"messages/unread" resultClass:[CHDMessage class] withResource:nil];
 }
 
+- (RACSignal*) retrieveMessageWithId:(NSNumber*)id site:(NSString*) site {
+    return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@?site=%@", id, site] resultClass:[CHDMessage class] withResource:nil];
+}
+
 #pragma mark - Refresh token
 
 - (RACSignal *)tokenValidationWrapper:(RACSignal *)requestSignal {
