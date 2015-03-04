@@ -34,6 +34,12 @@
     return comps.day;
 }
 
+- (NSDate*) dateForMondayOfWeekWithDate: (NSDate*) date {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:date];
+    return [calendar dateByAddingUnit:NSCalendarUnitDay value:2-weekday toDate:date options:0];
+}
+
 #pragma mark - Lazy Initialization
 
 - (NSDateFormatter *)weekdayFormatter {

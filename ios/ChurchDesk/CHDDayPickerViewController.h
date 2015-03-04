@@ -10,6 +10,5 @@
 
 @interface CHDDayPickerViewController : UIViewController
 
-@property (nonatomic, strong) NSDate *centerDate;
 
 @end

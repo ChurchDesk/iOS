@@ -11,7 +11,8 @@
 #import "CHDDayPickerViewModel.h"
 
 static CGFloat kTopLineHeight = 1.0f;
-static NSUInteger kItemCount = 500;
+static NSUInteger kItemCount = 21;
+static NSUInteger kVisibleDayCount = 7;
 
 @interface CHDDayPickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -21,7 +22,7 @@ static NSUInteger kItemCount = 500;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionViewLayout;
 
 @property (nonatomic, strong) NSDate *selectedDate;
-@property (nonatomic, strong) NSDate *referenceDate;
+@property (nonatomic, strong) NSDate *referenceDate; // First visible day - should be a monday
 
 @end
 
@@ -33,11 +34,10 @@ static NSUInteger kItemCount = 500;
     self.viewModel = [CHDDayPickerViewModel new];
     
     self.selectedDate = [NSDate date];
-    self.referenceDate = self.selectedDate;
+    self.referenceDate = [self.viewModel dateForMondayOfWeekWithDate:self.selectedDate];
     
     [self setupSubviews];
     [self makeConstraints];
-    [self setupBindings];
 }
 
 - (void) setupSubviews {
@@ -57,20 +57,10 @@ static NSUInteger kItemCount = 500;
     }];
 }
 
-- (void)setupBindings {
-    @weakify(self)
-    RAC(self, centerDate) = [[[RACSignal combineLatest:@[RACObserve(self.collectionView, contentOffset), [RACSignal return:self.collectionView], RACObserve(self, referenceDate)] reduce:^id (NSValue *vContentOffset, UICollectionView *collectionView, NSDate *referenceDate) {
-        @strongify(self)
-        CGPoint contentOffset = [vContentOffset CGPointValue];
-        NSIndexPath *indexPath = [collectionView indexPathForItemAtPoint:CGPointMake(contentOffset.x + collectionView.center.x, 0)];
-        return [self dateForItemAtIndexPath:indexPath referenceDate: referenceDate];
-    }] ignore:nil] distinctUntilChanged];
-}
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.collectionViewLayout.itemSize = CGSizeMake(53, self.view.bounds.size.height-kTopLineHeight);
+    self.collectionViewLayout.itemSize = CGSizeMake(self.view.bounds.size.width/kVisibleDayCount, self.view.bounds.size.height-kTopLineHeight);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,39 +73,13 @@ static NSUInteger kItemCount = 500;
 
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    if (velocity.x == 0) {
-        return;
-    }
-    
-    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:*targetContentOffset];
-    UICollectionViewLayoutAttributes *attrs = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
-    *targetContentOffset = CGPointMake(attrs.center.x - scrollView.center.x, 0);
-}
+- (void)scrollViewDidEndDecelerating:(UICollectionView *)collectionView {
+    NSIndexPath *indexPath = [collectionView indexPathForItemAtPoint:collectionView.contentOffset];
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    NSIndexPath *indexPath = [self indexPathForCenterItem];
-
-    dispatch_block_t reloadBlock = ^{
-        self.referenceDate = [self dateForItemAtIndexPath:indexPath];
-        [self.collectionView reloadData];
-        [self.collectionView layoutIfNeeded];
-        
-        [self scrollToDate:self.referenceDate animated:NO];
-    };
-    
-    UICollectionViewLayoutAttributes *attrs = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
-    CGFloat invalidOffset =  attrs.center.x - self.collectionView.contentOffset.x - scrollView.center.x;
-    if (invalidOffset > 1 || invalidOffset < -1) {
-        [UIView animateWithDuration:0.4 animations:^{
-            self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x + invalidOffset, 0);
-        } completion:^(BOOL finished) {
-            reloadBlock();
-        }];
-    }
-    else {
-        reloadBlock();
-    }
+    self.referenceDate = [self dateForItemAtIndexPath:indexPath];
+    [self.collectionView reloadData];
+    [self.collectionView layoutIfNeeded];
+    self.collectionView.contentOffset = CGPointMake(self.collectionView.bounds.size.width, 0);
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -150,7 +114,7 @@ static NSUInteger kItemCount = 500;
 
 - (void) scrollToDate: (NSDate*) date animated: (BOOL) animated {
     NSIndexPath *newIndexPath = [self indexPathForItemAtDate:date];
-    [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
+    [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:animated];
 }
 
 - (NSDate*) dateForItemAtIndexPath: (NSIndexPath*) indexPath {
@@ -161,18 +125,12 @@ static NSUInteger kItemCount = 500;
     if (!indexPath) {
         return nil;
     }
-    NSInteger offset = indexPath.item - (kItemCount/2);
-    NSDate *date = offset != 0 ? [self.viewModel dateOffsetByDays:offset fromDate:referenceDate] : referenceDate;
-    return date;
+    return [self.viewModel dateOffsetByDays:indexPath.item - kVisibleDayCount fromDate:referenceDate];
 }
 
 - (NSIndexPath*) indexPathForItemAtDate: (NSDate*) date {
     NSInteger offset = [self.viewModel daysFromReferenceDate:self.referenceDate toDate:date];
-    return [NSIndexPath indexPathForItem:(kItemCount/2) + offset inSection: 0];
-}
-
-- (NSIndexPath*) indexPathForCenterItem {
-    return [self.collectionView indexPathForItemAtPoint:CGPointMake(self.collectionView.contentOffset.x + self.collectionView.center.x, 0)];
+    return [NSIndexPath indexPathForItem: kVisibleDayCount + offset inSection: 0];
 }
 
 #pragma mark - Lazy Initialization
@@ -202,6 +160,7 @@ static NSUInteger kItemCount = 500;
         _collectionView.dataSource = self;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.backgroundColor = [UIColor shpui_colorWithHexValue:0xf9f9f9];
+        _collectionView.pagingEnabled = YES;
         [_collectionView registerClass:[CHDDayCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     }
     return _collectionView;

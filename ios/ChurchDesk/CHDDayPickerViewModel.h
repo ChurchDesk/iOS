@@ -14,5 +14,5 @@
 - (NSString*) threeLetterWeekdayFromDate: (NSDate*) date;
 - (NSString*) dayOfMonthFromDate: (NSDate*) date;
 - (NSUInteger) daysFromReferenceDate: (NSDate*) referenceDate toDate: (NSDate*) date;
-
+- (NSDate*) dateForMondayOfWeekWithDate: (NSDate*) date;
 @end
