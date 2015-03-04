@@ -7,6 +7,7 @@
 //
 
 #import "CHDMessage.h"
+#import "CHDComment.h"
 
 @implementation CHDMessage
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
@@ -14,15 +15,21 @@
         return @"id";
     }
     if ([propName isEqualToString:@"messageLine"]) {
-        return @"message_line";
+        return @"messageLine";
     }
     if ([propName isEqualToString:@"changeDate"]) {
         return @"changed";
     }
     if ([propName isEqualToString:@"lastActivityDate"]) {
-        return @"last_activity";
+        return @"lastActivity";
     }
 
     return [super mapPropertyForPropertyWithName:propName];
+}
+- (Class)nestedClassForArrayPropertyWithName:(NSString *)propName {
+    if ([propName isEqualToString:@"comments"]) {
+        return [CHDComment class];
+    }
+    return [super nestedClassForArrayPropertyWithName:propName];
 }
 @end

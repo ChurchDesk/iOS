@@ -18,7 +18,14 @@
 @property (nonatomic, strong) NSNumber *lastCommentAuthorId;
 @property (nonatomic, strong) NSDate *lastCommentDate;
 @property (nonatomic, strong) NSString *title;
+
+// Partly body of the message
 @property (nonatomic, strong) NSString *messageLine;
+
+// The complete body of the message
+@property (nonatomic, strong) NSString *body;
 @property (nonatomic, strong) NSDate *lastActivityDate;
 @property (nonatomic, assign) BOOL read;
+
+@property (nonatomic, strong) NSArray *comments;
 @end

@@ -9,5 +9,5 @@
 #import "CHDAbstractViewController.h"
 
 @interface CHDMessageViewController : CHDAbstractViewController <UITableViewDelegate, UITableViewDataSource>
-
+- (instancetype)initWithMessageId: (NSNumber*)messageId site: (NSString*) site;
 @end

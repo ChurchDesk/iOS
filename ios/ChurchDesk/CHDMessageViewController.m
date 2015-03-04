@@ -12,6 +12,8 @@
 #import "CHDMessageTableViewCell.h"
 #import "CHDMessageCommentView.h"
 #import "CHDInputAccessoryObserveView.h"
+#import "CHDMessageViewModel.h"
+#import "CHDComment.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -25,6 +27,8 @@ typedef NS_ENUM(NSUInteger, messageSections) {
 @property (nonatomic, strong) CHDMessageCommentView *replyView;
 @property (nonatomic, strong) MASConstraint *replyBottomConstraint;
 @property (nonatomic, assign, getter = isMovingKeyboard) BOOL movingKeyboard;
+
+@property (nonatomic, strong) CHDMessageViewModel *viewModel;
 @end
 
 static NSString* kMessageCommentsCellIdentifier = @"messageCommentsCell";
@@ -32,17 +36,12 @@ static NSString* kMessageLoadCommentsCellIdentifier = @"messageLoadCommentsCell"
 static NSString* kMessageCellIdentifier = @"messageCell";
 
 @implementation CHDMessageViewController
-- (instancetype)init
-{
+- (instancetype)initWithMessageId: (NSNumber*)messageId site: (NSString*) site {
     self = [super init];
     if (self) {
-        self.view.backgroundColor = [UIColor whiteColor];
         self.title = NSLocalizedString(@"Message", @"");
 
-        //Setup bindings for handling keyboard show/hide and drag in tableview
-        [self rac_liftSelector:@selector(chd_willShowKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil], nil];
-        [self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
-        [self rac_liftSelector:@selector(chd_didChangeKeyboardFrame:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification object:nil], nil];
+        self.viewModel = [[CHDMessageViewModel new] initWithMessageId:messageId site:site];
     }
     return self;
 }
@@ -52,6 +51,9 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [super viewDidLoad];
     [self makeViews];
     [self makeConstraints];
+    [self makeBindings];
+
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark - Lazy initializing
@@ -73,6 +75,16 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     }];
 }
 
+-(void) makeBindings {
+    //Setup bindings for handling keyboard show/hide and drag in tableview
+    [self rac_liftSelector:@selector(chd_willShowKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil], nil];
+    [self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
+    [self rac_liftSelector:@selector(chd_didChangeKeyboardFrame:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification object:nil], nil];
+
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, message)];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, comments)];
+}
+
 -(UITableView*) tableView{
     if(!_tableView){
         _tableView = [UITableView new];
@@ -85,6 +97,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         [_tableView registerClass:[CHDMessageTableViewCell class] forCellReuseIdentifier:kMessageCellIdentifier];
         [_tableView registerClass:[CHDMessageLoadCommentsTableViewCell class] forCellReuseIdentifier:kMessageLoadCommentsCellIdentifier];
         _tableView.dataSource = self;
+        _tableView.delegate = self;
         _tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
     return _tableView;
@@ -101,13 +114,13 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if((messageSections)section == messageSection){
-        return 1;
+        return (self.viewModel.hasMessage)? 1 : 0;
     }
     if((messageSections)section == commentsSection){
-        return 1;
+        return self.viewModel.comments.count;
     }
     if((messageSections)section == loadCommentsSection){
-        return 1;
+        return (self.viewModel.showAllComments || self.viewModel.commentCount <= 1)? 0 : 1;
     }
     return 0;
 }
@@ -119,21 +132,24 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if((messageSections)indexPath.section == messageSection){
         CHDMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCellIdentifier forIndexPath:indexPath];
-        cell.titleLabel.text = @"Title";
+        cell.titleLabel.text = self.viewModel.message.title;
         cell.groupLabel.text = @"Group";
-        cell.createdDateLabel.text = @"1 day ago";
-        cell.messageLabel.text = @"Um dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.";
-        cell.parishLabel.text = @"Parish";
-        cell.userNameLabel.text = @"Username";
+        cell.createdDateLabel.text = @"Created";
+        cell.messageLabel.text = self.viewModel.message.body;
+        cell.parishLabel.text = self.viewModel.message.site;
+        cell.userNameLabel.text = self.viewModel.message.authorId.stringValue;
         //cell.profileImageView.image =
         return cell;
     }
     if((messageSections)indexPath.section == commentsSection){
         CHDMessageCommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCommentsCellIdentifier forIndexPath:indexPath];
-        cell.messageLabel.text = @"Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione. Sed quia consequuntur magni dolores.";
+
+        CHDComment* comment = self.viewModel.comments[indexPath.row];
+
+        cell.messageLabel.text = comment.body;
         cell.createdDateLabel.text = @"5 hours ago";
         //cell.profileImageView.image =
-        cell.userNameLabel.text = @"Arren Mulvaney";
+        cell.userNameLabel.text = comment.authorName;
 
         return cell;
     }
@@ -145,6 +161,12 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         return cell;
     }
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if((messageSections)indexPath.section == loadCommentsSection){
+        self.viewModel.showAllComments = YES;
+    }
 }
 
 #pragma mark - Keyboard

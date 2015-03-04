@@ -25,7 +25,6 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
-        self.viewModel = [CHDDashboardMessagesViewModel new];
     }
     return self;
 }
@@ -67,17 +66,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.viewModel = [CHDDashboardMessagesViewModel new];
+
+    [self setupBindings];
     // Do any additional setup after loading the view.
     [self makeViews];
     [self makeConstraints];
-
-    [self setupBindings];
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CHDMessageViewController *messageViewController = [CHDMessageViewController new];
+    CHDMessage* message = self.viewModel.messages[indexPath.row];
+    CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:message.messageId site:message.site];
 
     [self.navigationController pushViewController:messageViewController animated:YES];
 }
