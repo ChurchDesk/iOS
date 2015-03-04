@@ -142,11 +142,13 @@ static CGFloat kDayPickerHeight = 50.0f;
 #pragma mark - SHPCalendarPickerViewDelegate
 
 - (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView didSelectDate:(NSDate *)date {
-    
+    self.viewModel.referenceDate = date;
+    [self scrollToDate:date animated:NO];
 }
 
 - (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willAnimateToMonth:(NSDate *)date {
-    // for signaling
+    self.viewModel.referenceDate = date;
+    [self scrollToDate:date animated:NO];
 }
 
 #pragma mark - UIScrollViewDelegate
