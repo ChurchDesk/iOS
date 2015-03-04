@@ -173,6 +173,12 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 -(void) makeBindings {
     [self rac_liftSelector:@selector(chd_willToggleKeyboard:) withSignals:[self shp_keyboardAwarenessSignal], nil];
+
+    //Change the state of the send button
+    RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
+    RAC(self.navigationItem.rightBarButtonItem, tintColor) = [RACObserve(self.navigationItem.rightBarButtonItem, enabled) map:^id(NSNumber *SelectedNumber) {
+        return SelectedNumber.boolValue? [UIColor whiteColor] : [UIColor chd_textDarkColor];
+    }];
 }
 
 

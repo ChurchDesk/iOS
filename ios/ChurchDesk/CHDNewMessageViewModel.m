@@ -12,6 +12,8 @@
 @interface CHDNewMessageViewModel()
 @property (nonatomic, assign) CHDEnvironment *environment;
 
+@property (nonatomic) BOOL canSendMessage;
+
 @property (nonatomic, strong) NSArray* selectableGroups;
 @property (nonatomic, strong) NSString* selectedGroupName;
 
@@ -33,6 +35,12 @@
             return [RACSignal empty];
         }];
 
+        RAC(self, canSendMessage) = [RACSignal combineLatest:@[RACObserve(self, selectedGroup), RACObserve(self, selectedSite), RACObserve(self, message), RACObserve(self, title)]
+                          reduce:^(CHDGroup *group, CHDSite *site, NSString *message, NSString *title){
+                              return @(group != nil && site != nil && message.length > 0 && title > 0);
+
+        }];
+
         [self rac_liftSelector:@selector(selectableGroupsMake:) withSignals:RACObserve(self, environment), nil];
 
         [self rac_liftSelector:@selector(selectableSitesMake:) withSignals:RACObserve(self, user), nil];
@@ -44,7 +52,7 @@
     if(environment != nil) {
         NSMutableArray *groups = [[NSMutableArray alloc] init];
         [environment.groups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
-            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:(self.message.groupId == group.groupId) refObject:group];
+            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:NO refObject:group];
             [groups addObject:selectable];
         }];
         self.selectableGroups = [groups copy];
