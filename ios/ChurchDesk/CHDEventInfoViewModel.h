@@ -37,7 +37,7 @@ extern NSString *const CHDEventInfoRowDivider;
 @property (nonatomic, readonly) NSArray *sections;
 @property (nonatomic, readonly) CHDEvent *event;
 
-- (instancetype)initWithEventId: (NSNumber*) eventId;
+- (instancetype)initWithEvent: (CHDEvent*) event;
 
 - (NSArray*) rowsForSection: (NSString*) section;
 

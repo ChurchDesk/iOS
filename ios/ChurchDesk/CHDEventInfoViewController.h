@@ -8,6 +8,10 @@
 
 #import "CHDAbstractViewController.h"
 
+@class CHDEvent;
+
 @interface CHDEventInfoViewController : CHDAbstractViewController
+
+- (instancetype)initWithEvent: (CHDEvent*) event;
 
 @end

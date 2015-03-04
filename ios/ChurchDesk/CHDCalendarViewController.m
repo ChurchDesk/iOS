@@ -175,7 +175,9 @@ static CGFloat kDayPickerHeight = 50.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CHDEventInfoViewController *vc = [CHDEventInfoViewController new];
+    CHDEvent *event = [self.viewModel eventsForSectionAtIndex:indexPath.section][indexPath.row];
+    
+    CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -229,7 +231,6 @@ static CGFloat kDayPickerHeight = 50.0f;
     NSIndexPath *indexPath = [self.viewModel indexPathForDate:date];
     if (indexPath) {
         [self.tableView setContentOffset:CGPointMake(0, [self.tableView rectForSection:indexPath.section].origin.y + offset) animated:animated];
-//        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:animated];
     }
 }
 

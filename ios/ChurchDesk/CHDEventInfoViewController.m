@@ -35,10 +35,16 @@
 
 @implementation CHDEventInfoViewController
 
+- (instancetype)initWithEvent: (CHDEvent*) event {
+    if (self = [super init]) {
+        self.viewModel = [[CHDEventInfoViewModel alloc] initWithEvent:event];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.viewModel = [[CHDEventInfoViewModel alloc] initWithEventId:@2];
     self.title = NSLocalizedString(@"Event Information", @"");
     
     [self setupSubviews];

@@ -43,10 +43,11 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 @implementation CHDEventInfoViewModel
 
-- (instancetype)initWithEventId: (NSNumber*) eventId {
+- (instancetype)initWithEvent: (CHDEvent*) event {
     self = [super init];
     if (self) {
-        [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[[CHDAPIClient sharedInstance] getEventWithId:eventId site:@"site"]];
+        _event = event;
+        [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[[[CHDAPIClient sharedInstance] getEventWithId:event.eventId site:event.site] startWith:event]];
     }
     return self;
 }
