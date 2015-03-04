@@ -8,14 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@class CHDHoliday;
+
 @interface CHDCalendarViewModel : NSObject
 
 @property (nonatomic, readonly) NSArray *events;
 @property (nonatomic, readonly) NSArray *sections;
 @property (nonatomic, strong) NSDate *referenceDate;
 
-- (instancetype)initWithReferenceDate: (NSDate*) referenceDate;
-
 - (NSArray*) eventsForSectionAtIndex: (NSUInteger) section;
+- (CHDHoliday*) holidayForDate: (NSDate*) date;
+- (NSIndexPath*) indexPathForDate: (NSDate*) date;
+
 
 @end

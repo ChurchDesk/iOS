@@ -64,6 +64,8 @@
 		761247541AA5AF7D004E7D05 /* CHDRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247531AA5AF7D004E7D05 /* CHDRootViewController.m */; };
 		761247571AA5BA3C004E7D05 /* CHDCalendarViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247561AA5BA3C004E7D05 /* CHDCalendarViewModel.m */; };
 		7612475A1AA5BC08004E7D05 /* NSDateFormatter+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247591AA5BC08004E7D05 /* NSDateFormatter+ChurchDesk.m */; };
+		7612475D1AA5F58E004E7D05 /* CHDHoliday.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612475C1AA5F58E004E7D05 /* CHDHoliday.m */; };
+		761247601AA7070B004E7D05 /* UITableView+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 7612475F1AA7070B004E7D05 /* UITableView+ChurchDesk.m */; };
 		76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F091A96037F00651CEA /* MavenPro-Black.ttf */; };
 		76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */; };
 		76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */; };
@@ -225,6 +227,10 @@
 		761247561AA5BA3C004E7D05 /* CHDCalendarViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCalendarViewModel.m; sourceTree = "<group>"; };
 		761247581AA5BC08004E7D05 /* NSDateFormatter+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+ChurchDesk.h"; sourceTree = "<group>"; };
 		761247591AA5BC08004E7D05 /* NSDateFormatter+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+ChurchDesk.m"; sourceTree = "<group>"; };
+		7612475B1AA5F58E004E7D05 /* CHDHoliday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDHoliday.h; sourceTree = "<group>"; };
+		7612475C1AA5F58E004E7D05 /* CHDHoliday.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDHoliday.m; sourceTree = "<group>"; };
+		7612475E1AA7070B004E7D05 /* UITableView+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+ChurchDesk.h"; sourceTree = "<group>"; };
+		7612475F1AA7070B004E7D05 /* UITableView+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+ChurchDesk.m"; sourceTree = "<group>"; };
 		76143F091A96037F00651CEA /* MavenPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Black.ttf"; sourceTree = "<group>"; };
 		76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Bold.ttf"; sourceTree = "<group>"; };
 		76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MavenPro-Medium.ttf"; sourceTree = "<group>"; };
@@ -358,6 +364,8 @@
 				761247471AA49E55004E7D05 /* UIButton+ChurchDesk.m */,
 				761247581AA5BC08004E7D05 /* NSDateFormatter+ChurchDesk.h */,
 				761247591AA5BC08004E7D05 /* NSDateFormatter+ChurchDesk.m */,
+				7612475E1AA7070B004E7D05 /* UITableView+ChurchDesk.h */,
+				7612475F1AA7070B004E7D05 /* UITableView+ChurchDesk.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -664,6 +672,8 @@
 				6037208164EB947D72C14C08 /* CHDSite.h */,
 				6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */,
 				60372E5E7BDC9C61A7F6FBED /* CHDSitePermission.h */,
+				7612475B1AA5F58E004E7D05 /* CHDHoliday.h */,
+				7612475C1AA5F58E004E7D05 /* CHDHoliday.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -931,6 +941,7 @@
 				36C462341A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m in Sources */,
 				36592B4A1AA499AA00C1B386 /* CHDListSelectorViewController.m in Sources */,
 				76A541B01A9F182100176D6D /* CHDGroup.m in Sources */,
+				761247601AA7070B004E7D05 /* UITableView+ChurchDesk.m in Sources */,
 				3625A6211A937E0300BF430B /* UIColor+ChurchDesk.m in Sources */,
 				762D16D41A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m in Sources */,
 				365A77411AA0A5F5006CA0B1 /* CHDNewMessageViewController.m in Sources */,
@@ -942,6 +953,7 @@
 				36C462261A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m in Sources */,
 				365DD9031A9CCDFA00CC6009 /* CHDMessage.m in Sources */,
 				761247351AA4688D004E7D05 /* CHDEventUsersTableViewCell.m in Sources */,
+				7612475D1AA5F58E004E7D05 /* CHDHoliday.m in Sources */,
 				762D16DA1A9B4E1A00588730 /* UILabel+ChurchDesk.m in Sources */,
 				76A541BA1A9F25B500176D6D /* CHDEventInfoViewModel.m in Sources */,
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,

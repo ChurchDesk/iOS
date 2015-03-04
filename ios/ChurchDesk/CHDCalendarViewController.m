@@ -17,6 +17,8 @@
 #import "CHDEventInfoViewController.h"
 #import "CHDCalendarViewModel.h"
 #import "CHDEvent.h"
+#import "CHDHoliday.h"
+#import "UITableView+ChurchDesk.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
@@ -45,13 +47,15 @@ static CGFloat kDayPickerHeight = 50.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.viewModel = [[CHDCalendarViewModel alloc] initWithReferenceDate:[NSDate date]];
+    self.viewModel = [[CHDCalendarViewModel alloc] init];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
+    
+    self.viewModel.referenceDate = [NSDate date];
 }
 
 - (void)setupSubviews {
@@ -103,27 +107,36 @@ static CGFloat kDayPickerHeight = 50.0f;
     NSDateFormatter *monthFormatter = [NSDateFormatter new];
     monthFormatter.dateFormat = @"MMMM";
     
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, sections)];
+    [self rac_liftSelector:@selector(reloadDataWithPreviousSections:newSections:) withSignalOfArguments:[RACObserve(self.viewModel, sections) combinePreviousWithStart:nil reduce:^id(id previous, id current) {
+        return RACTuplePack(previous, current);
+    }]];
     
     RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willAnimateToMonth:)] map:^id(RACTuple *tuple) {
         return tuple.second;
     }];
+    
     [self.titleView.titleButton rac_liftSelector:@selector(setTitle:forState:) withSignalOfArguments:[[RACSignal merge:@[RACObserve(self.calendarPicker, currentMonth), protocolSignal, RACObserve(self.dayPickerViewController, centerDate)]] map:^id(NSDate *date) {
         return RACTuplePack([monthFormatter stringFromDate:date], @(UIControlStateNormal));
     }]];
 }
 
-#pragma mark - Actions
+- (void) reloadDataWithPreviousSections: (NSArray*) previousSections newSections: (NSArray*) newSections {
+    // Before reloading, determine exact offset relative to section (date) so when reload is done,
+    // we can reset the offset to make the reload operation invisible to the user.
+    NSIndexPath *indexPath = [self.tableView chd_indexPathForRowOrHeaderAtPoint:self.tableView.contentOffset];
+    CGFloat sectionOffset = 0;
+    NSDate *topSection = self.viewModel.referenceDate;
+    if (indexPath) {
+        topSection = previousSections[indexPath.section];
+        CGRect rect = [self.tableView rectForSection:indexPath.section];
+        sectionOffset = -(rect.origin.y - self.tableView.contentOffset.y);
+    }
 
-- (void) titleButtonAction: (id) sender {
-    BOOL showCalendar = self.calendarPicker.frame.origin.y < 0;
-    [self.calendarTopConstraint setOffset:showCalendar ? 0 : -kCalendarHeight];
-    [self.dayPickerBottomConstraint setOffset:showCalendar ? kDayPickerHeight : 0];
-    
-    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping: showCalendar ? 0.8 : 1.0 initialSpringVelocity:1.0 options:0 animations:^{
-        self.titleView.pointArrowDown = !showCalendar;
-        [self.view layoutIfNeeded];
-    } completion:nil];
+    [self.tableView reloadData];
+    [self.view layoutIfNeeded];
+    if (topSection) {
+        [self scrollToDate:topSection animated:NO offset:sectionOffset];
+    }
 }
 
 #pragma mark - SHPCalendarPickerViewDelegate
@@ -136,16 +149,24 @@ static CGFloat kDayPickerHeight = 50.0f;
     // for signaling
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidEndDecelerating:(UITableView *)tableView {
+    NSIndexPath *indexPath = [tableView chd_indexPathForRowOrHeaderAtPoint:tableView.contentOffset];
+    self.viewModel.referenceDate = self.viewModel.sections[indexPath.section];
+}
+
 #pragma mark - UITableViewDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     CHDCalendarHeaderView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     
     NSDate *date = self.viewModel.sections[section];
+    CHDHoliday *holiday = [self.viewModel holidayForDate:date];
     
     header.dayLabel.text = [self.weekdayFormatter stringFromDate:date];
     header.dateLabel.text = [self.dayFormatter stringFromDate:date];
-    header.nameLabel.text = @"";
+    header.nameLabel.text = holiday.name;
     header.dotColors = @[[UIColor chd_blueColor], [UIColor chd_greenColor], [UIColor magentaColor]];
     
     return header;
@@ -183,6 +204,31 @@ static CGFloat kDayPickerHeight = 50.0f;
     }
     
     return cell;
+}
+
+#pragma mark - Actions
+
+- (void) titleButtonAction: (id) sender {
+    BOOL showCalendar = self.calendarPicker.frame.origin.y < 0;
+    [self.calendarTopConstraint setOffset:showCalendar ? 0 : -kCalendarHeight];
+    [self.dayPickerBottomConstraint setOffset:showCalendar ? kDayPickerHeight : 0];
+    
+    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping: showCalendar ? 0.8 : 1.0 initialSpringVelocity:1.0 options:0 animations:^{
+        self.titleView.pointArrowDown = !showCalendar;
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void) scrollToDate: (NSDate*) date animated: (BOOL) animated {
+    [self scrollToDate:date animated:animated offset:0];
+}
+
+- (void) scrollToDate: (NSDate*) date animated: (BOOL) animated offset: (CGFloat) offset {
+    NSIndexPath *indexPath = [self.viewModel indexPathForDate:date];
+    if (indexPath) {
+        [self.tableView setContentOffset:CGPointMake(0, [self.tableView rectForSection:indexPath.section].origin.y + offset) animated:animated];
+//        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:animated];
+    }
 }
 
 #pragma mark - Lazy Initialization

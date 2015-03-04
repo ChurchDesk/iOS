@@ -14,9 +14,10 @@
 
 - (RACSignal*) getEnvironment;
 
-- (RACSignal*) getEventsFrom: (NSDate*) fromDate to: (NSDate*) toDate;
+- (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month;
 - (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site;
 - (RACSignal*) getInvitations;
+- (RACSignal*) getHolidaysFromYear: (NSInteger) year;
 
 - (RACSignal*) getUnreadMessages;
 

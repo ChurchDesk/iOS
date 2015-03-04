@@ -18,6 +18,7 @@
 #import "CHDAuthenticationManager.h"
 #import "NSDateFormatter+ChurchDesk.h"
 #import "CHDUser.h"
+#import "CHDHoliday.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -161,8 +162,8 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 #pragma mark - Calendar
 
-- (RACSignal*) getEventsFrom: (NSDate*) fromDate to: (NSDate*) toDate {
-    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@/%@", [self.dateFormatter stringFromDate:fromDate], [self.dateFormatter stringFromDate:toDate]] resultClass:[CHDEvent class] withResource:nil];
+- (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month {
+    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@/%@", @(year), @(month)] resultClass:[CHDEvent class] withResource:nil];
 }
 
 - (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site {
@@ -171,6 +172,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 - (RACSignal*) getInvitations {
     return [self resourcesForPath:@"my-invites" resultClass:[CHDInvitation class] withResource:nil];
+}
+
+- (RACSignal*) getHolidaysFromYear: (NSInteger) year {
+    return [self resourcesForPath:[NSString stringWithFormat:@"holydays/%@", @(year)] resultClass:[CHDHoliday class] withResource:nil];
 }
 
 #pragma mark - Messages
