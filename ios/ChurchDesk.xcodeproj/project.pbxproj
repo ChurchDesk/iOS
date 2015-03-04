@@ -38,12 +38,14 @@
 		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
 		603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */; };
 		60372416A6237CB86FDF0514 /* CHDNewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */; };
+		60372537A920B1F6B9D84F96 /* CHDMessageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */; };
 		603727A658CF12614D27D8E9 /* CHDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037245E9E98EC53CCA15CEA /* CHDUser.m */; };
 		6037287C919D4E250ACD51E9 /* CHDSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372E23E447786367BBF99E /* CHDSite.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
 		60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */; };
+		60372D7B54E198FD42FF0260 /* CHDComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B2421A9B94C77F5C6C /* CHDComment.m */; };
 		60372EC2D5D62B4B79D52443 /* CHDNewMessageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */; };
 		60372F2D900CB28905D9D508 /* CHDSitePermission.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */; };
 		761247231AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */; };
@@ -169,7 +171,9 @@
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		60372089EA49349970627A31 /* CHDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUser.h; sourceTree = "<group>"; };
 		603720B107A7307EADD70B2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		603720B2421A9B94C77F5C6C /* CHDComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDComment.m; sourceTree = "<group>"; };
 		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6037235603A27B48E408C420 /* CHDMessageViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMessageViewModel.h; sourceTree = "<group>"; };
 		6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSitePermission.m; sourceTree = "<group>"; };
 		603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDListSelectorConfigModel.m; sourceTree = "<group>"; };
 		6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextViewCell.m; sourceTree = "<group>"; };
@@ -180,7 +184,9 @@
 		603725FCD9A96AF870E396EE /* ChurchDeskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChurchDeskTests.m; sourceTree = "<group>"; };
 		603726045A07B5DC865FD0FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		60372743A3FC21FB9AD65E5D /* CHDComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDComment.h; sourceTree = "<group>"; };
 		60372756CFB9BD18E5548D93 /* CHDListSelectorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectorDelegate.h; sourceTree = "<group>"; };
+		6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessageViewModel.m; sourceTree = "<group>"; };
 		6037291CD14A440979FA04E4 /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
 		603729828D5FB2B8CBB39464 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
 		60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextFieldCell.m; sourceTree = "<group>"; };
@@ -417,6 +423,8 @@
 				36C462641A9E0EFE00775FBE /* CHDMessageCommentView.h */,
 				36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */,
 				36C4622A1A9DBD2100775FBE /* CHDMessageViewController.m */,
+				6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */,
+				6037235603A27B48E408C420 /* CHDMessageViewModel.h */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -674,6 +682,8 @@
 				60372E5E7BDC9C61A7F6FBED /* CHDSitePermission.h */,
 				7612475B1AA5F58E004E7D05 /* CHDHoliday.h */,
 				7612475C1AA5F58E004E7D05 /* CHDHoliday.m */,
+				603720B2421A9B94C77F5C6C /* CHDComment.m */,
+				60372743A3FC21FB9AD65E5D /* CHDComment.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -976,6 +986,8 @@
 				603727A658CF12614D27D8E9 /* CHDUser.m in Sources */,
 				6037287C919D4E250ACD51E9 /* CHDSite.m in Sources */,
 				60372F2D900CB28905D9D508 /* CHDSitePermission.m in Sources */,
+				60372537A920B1F6B9D84F96 /* CHDMessageViewModel.m in Sources */,
+				60372D7B54E198FD42FF0260 /* CHDComment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
