@@ -37,7 +37,11 @@
 
         RAC(self, canSendMessage) = [RACSignal combineLatest:@[RACObserve(self, selectedGroup), RACObserve(self, selectedSite), RACObserve(self, message), RACObserve(self, title)]
                           reduce:^(CHDGroup *group, CHDSite *site, NSString *message, NSString *title){
-                              return @(group != nil && site != nil && message.length > 0 && title > 0);
+                              BOOL validTitle = !([title isEqualToString:@""]);
+                              BOOL validMessage = !([message isEqualToString:@""]);
+                              BOOL validGroup = group != nil;
+                              BOOL validSite = site != nil;
+                              return @(validTitle && validMessage && validGroup && validSite);
 
         }];
 

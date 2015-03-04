@@ -134,6 +134,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     if((newMessagesSections)indexPath.row == titleInputSection){
         CHDNewMessageTextFieldCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageTextFieldCell forIndexPath:indexPath];
 
+        RAC(self.messageViewModel, title) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
         return cell;
     }
     if((newMessagesSections)indexPath.row == messageInputSection){
@@ -141,6 +142,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         cell.dividerLineHidden = YES;
         cell.tableView = tableView;
 
+        RAC(self.messageViewModel, message) = [cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
         return cell;
     }
     return nil;
