@@ -10,7 +10,7 @@
 
 @interface CHDSite : CHDManagedModel
 @property (nonatomic, strong) NSNumber *userId;
-@property (nonatomic, strong) NSString *siteName;
+@property (nonatomic, strong) NSString *name;
 @property (nonatomic) BOOL attendenceEnabled;
 @property (nonatomic, strong) NSString *site;
 @property (nonatomic, strong) CHDSitePermission* permission;

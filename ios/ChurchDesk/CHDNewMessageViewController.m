@@ -85,9 +85,14 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if((newMessagesSections)indexPath.row == selectParishSection){
-        CHDListSelectorViewController* selectorViewController = [CHDListSelectorViewController new];
+        if(self.messageViewModel.selectableSites.count > 0) {
+            CHDListSelectorViewController *selectorViewController = [[CHDListSelectorViewController new] initWithSelectableItems:self.messageViewModel.selectableSites];
+            selectorViewController.title = NSLocalizedString(@"Parish", @"");
+            selectorViewController.selectMultiple = NO;
+            selectorViewController.selectorDelegate = self;
 
-        [self.navigationController pushViewController:selectorViewController animated:YES];
+            [self.navigationController pushViewController:selectorViewController animated:YES];
+        }
     }
 
     if((newMessagesSections)indexPath.row == selectGroupSection){
@@ -129,6 +134,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     if((newMessagesSections)indexPath.row == titleInputSection){
         CHDNewMessageTextFieldCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageTextFieldCell forIndexPath:indexPath];
 
+        RAC(self.messageViewModel, title) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
         return cell;
     }
     if((newMessagesSections)indexPath.row == messageInputSection){
@@ -136,6 +142,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         cell.dividerLineHidden = YES;
         cell.tableView = tableView;
 
+        RAC(self.messageViewModel, message) = [cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
         return cell;
     }
     return nil;
@@ -146,6 +153,10 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 - (void)chdListSelectorDidSelect:(CHDListSelectorConfigModel *)selection {
     if([selection.refObject isKindOfClass:[CHDGroup class] ]){
         self.messageViewModel.selectedGroup = (CHDGroup *)selection.refObject;
+    }
+
+    if([selection.refObject isKindOfClass:[CHDSite class] ]){
+        self.messageViewModel.selectedSite = (CHDSite *)selection.refObject;
     }
 }
 
@@ -164,6 +175,12 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 -(void) makeBindings {
     [self rac_liftSelector:@selector(chd_willToggleKeyboard:) withSignals:[self shp_keyboardAwarenessSignal], nil];
+
+    //Change the state of the send button
+    RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
+    RAC(self.navigationItem.rightBarButtonItem, tintColor) = [RACObserve(self.navigationItem.rightBarButtonItem, enabled) map:^id(NSNumber *SelectedNumber) {
+        return SelectedNumber.boolValue? [UIColor whiteColor] : [UIColor chd_textDarkColor];
+    }];
 }
 
 

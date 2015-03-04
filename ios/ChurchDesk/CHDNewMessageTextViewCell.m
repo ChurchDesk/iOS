@@ -19,7 +19,7 @@
         self.selectionStyle = UITableViewCellStyleDefault;
         [self makeViews];
         [self makeConstraints];
-
+        [self makeBindings];
     }
     return self;
 }
@@ -47,6 +47,10 @@
     [contentView addSubview:self.placeholder];
 }
 
+-(void)makeBindings {
+    [self rac_liftSelector:@selector(textDidChange:) withSignals:self.textView.rac_textSignal, nil];
+}
+
 - (UITextView *)textView {
     if(!_textView){
         _textView = [UITextView new];
@@ -72,9 +76,9 @@
     return CGSizeMake(0, 52);
 }
 
-- (void)textViewDidChange:(UITextView *)textView {
+- (void)textDidChange:(NSString *)text {
 
-    if(![textView.text isEqual:@""]){
+    if(![self.textView.text isEqual:@""]){
         self.placeholder.hidden = YES;
     }else{
         self.placeholder.hidden = NO;
@@ -82,13 +86,13 @@
 
     CGFloat lineHeight = self.textView.font.lineHeight;
 
-    CGRect sizeToFit = [[textView layoutManager] usedRectForTextContainer:textView.textContainer];
+    CGRect sizeToFit = [[self.textView layoutManager] usedRectForTextContainer:self.textView.textContainer];
     CGFloat numberOfLines = ceil(sizeToFit.size.height / lineHeight);
 
-    CGRect frame = textView.frame;
+    CGRect frame = self.textView.frame;
     frame.size.height = numberOfLines * lineHeight;
 
-    textView.frame = frame;
+    self.textView.frame = frame;
 
     [self.tableView beginUpdates];
     [self.tableView endUpdates];

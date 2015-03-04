@@ -11,6 +11,7 @@
 @interface CHDAPIClient : SHPAPI
 
 - (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password;
+- (RACSignal*) getCurrentUser;
 
 - (RACSignal*) getEnvironment;
 

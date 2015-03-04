@@ -183,7 +183,11 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 }
 
 -(void) chd_willShowKeyboard: (NSNotification*) notification {
-    CGSize kbSize = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    CGRect kbRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGSize kbSize = kbRect.size;
+
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    if(kbRect.origin.y >= screenRect.size.height){return;}
 
     self.replyBottomConstraint.offset(-kbSize.height);
     [self.replyView setNeedsLayout];

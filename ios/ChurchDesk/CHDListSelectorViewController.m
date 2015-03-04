@@ -68,12 +68,18 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
 #pragma mark - Table Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
-    element.selected = YES;
-
     [tableView cellForRowAtIndexPath:indexPath].selected = YES;
+    
+    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
+    BOOL elementSelectedPreStage = element.selected;
 
+    element.selected = YES;
     [self.selectorDelegate chdListSelectorDidSelect:element];
+
+    //Only pop if the stage has changed
+    if(elementSelectedPreStage != YES && !self.selectMultiple){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {

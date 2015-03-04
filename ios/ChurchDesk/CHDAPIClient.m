@@ -151,7 +151,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*) getCurrentUser {
-    return [self resourcesForPath:@"user" resultClass:[CHDUser class] withResource:nil];
+    return [self resourcesForPath:@"users" resultClass:[CHDUser class] withResource:nil];
 }
 
 #pragma mark - Environment
