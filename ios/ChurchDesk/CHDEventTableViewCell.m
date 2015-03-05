@@ -17,6 +17,15 @@
 
 @implementation CHDEventTableViewCell
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
+        RAC(self.locationIconView, hidden) = [RACObserve(self.locationLabel, text) map:^id(NSString *text) {
+            return @(text.length == 0);
+        }];
+    }
+    return self;
+}
+
 -(void) makeViews{
     [super makeViews];
 
@@ -32,16 +41,18 @@
 
     UIView*contentView = self.contentView;
 
+    [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.left.equalTo(contentView).with.offset(15);
+        make.right.lessThanOrEqualTo(self.dateTimeLabel.mas_left).offset(-4);
     }];
 
     [self.locationIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_baseline).with.offset(8);
+        make.top.equalTo(self.contentView).with.offset(44);
         make.left.equalTo(self.titleLabel);
     }];
     [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.locationIconView); //top.equalTo(self.locationIconView);//.with.offset(8);
+        make.top.equalTo(self.titleLabel.mas_baseline).offset(8);
         make.left.equalTo(self.locationIconView.mas_right).with.offset(3);
     }];
 
@@ -51,7 +62,7 @@
     }];
 
     [self.parishLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.locationLabel);
+        make.top.equalTo(self.titleLabel.mas_baseline).offset(8);
         make.right.equalTo(self.dateTimeLabel);
     }];
 }

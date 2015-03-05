@@ -51,8 +51,10 @@
         make.centerY.equalTo(self.contentView);
     }];
     
+    [self.nameLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.dotsContainer.mas_left);
+        make.left.greaterThanOrEqualTo(self.dateLabel.mas_right).offset(4).priorityLow();
         make.centerY.equalTo(self.contentView);
     }];
     
@@ -78,8 +80,8 @@
         [self.dotsContainer addSubview:dotView];
         [dotView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.equalTo(self.dotsContainer);
-            make.left.equalTo(previousView ? previousView.mas_right : self.dotsContainer).offset(previousView ? 4 : 7);
-            make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(8, 8)]);
+            make.left.equalTo(previousView ? previousView.mas_right : self.dotsContainer).offset(previousView ? 4 : 7).priorityLow();
+            make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(8, 8)]).priorityLow();
             
             if (color == colors.lastObject) {
                 make.right.equalTo(self.dotsContainer);
