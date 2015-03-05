@@ -169,7 +169,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         CHDMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCellIdentifier forIndexPath:indexPath];
         cell.titleLabel.text = self.viewModel.message.title;
         cell.groupLabel.text = ([self.viewModel.environment groupWithId:self.viewModel.message.groupId]).name;
-        cell.createdDateLabel.text = @"Created";
+        cell.createdDateLabel.text = self.viewModel.message.changeDate.description;
         cell.messageLabel.text = self.viewModel.message.body;
         cell.parishLabel.text = self.viewModel.message.site;
         cell.userNameLabel.text = [self.viewModel.environment userWithId:self.viewModel.message.authorId].name;
@@ -182,7 +182,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComment;
 
         cell.messageLabel.text = comment.body;
-        cell.createdDateLabel.text = @"5 hours ago";
+        cell.createdDateLabel.text = comment.createdDate.description;
         //cell.profileImageView.image =
         cell.userNameLabel.text = comment.authorName;
 
