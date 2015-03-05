@@ -28,7 +28,7 @@
 
         self.showAllComments = NO;
 
-        RACSignal *messageSignal = [[[CHDAPIClient sharedInstance] retrieveMessageWithId:messageId site:site] catch:^RACSignal *(NSError *error) {
+        RACSignal *messageSignal = [[[CHDAPIClient sharedInstance] getMessageWithId:messageId site:site] catch:^RACSignal *(NSError *error) {
                     return [RACSignal empty];
                 }];
 

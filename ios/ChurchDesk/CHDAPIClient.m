@@ -193,8 +193,13 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     }];
 }
 
-- (RACSignal*) retrieveMessageWithId:(NSNumber*)messageId site:(NSString*) site {
+- (RACSignal*) getMessageWithId:(NSNumber *)messageId site:(NSString*) site {
     return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@?site=%@", messageId, site] resultClass:[CHDMessage class] withResource:nil];
+}
+
+//This will return a 200 with no content
+- (RACSignal*) setMessageAsRead:(NSNumber *)messageId site:(NSString*) site {
+    return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@/mark-as-read?site=%@", messageId, site] resultClass:nil withResource:nil];
 }
 
 #pragma mark - Refresh token
