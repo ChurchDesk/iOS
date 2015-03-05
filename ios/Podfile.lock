@@ -48,7 +48,7 @@ PODS:
 
 DEPENDENCIES:
   - DCIntrospect-ARC (HEAD)
-  - FormatterKit
+  - FormatterKit (~> 1.8.0)
   - Haneke (~> 1.0.1)
   - Masonry (~> 0.6.1)
   - ReactiveCocoa (~> 2.4.7)

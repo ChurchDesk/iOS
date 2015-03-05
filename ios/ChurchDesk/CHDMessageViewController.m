@@ -176,7 +176,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.groupLabel.text = ([self.viewModel.environment groupWithId:self.viewModel.message.groupId]).name;
         cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:self.viewModel.message.changeDate];
         cell.messageLabel.text = self.viewModel.message.body;
-        cell.parishLabel.text = [self.viewModel.user siteWithWithId:self.viewModel.message.site].name;
+        cell.parishLabel.text = [self.viewModel.user siteWithId:self.viewModel.message.site].name;
         cell.userNameLabel.text = [self.viewModel.environment userWithId:self.viewModel.message.authorId].name;
         cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([self.viewModel.environment userWithId:self.viewModel.message.authorId]).pictureURL]];
         return cell;

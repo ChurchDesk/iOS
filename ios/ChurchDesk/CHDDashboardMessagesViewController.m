@@ -132,7 +132,7 @@
     CHDEnvironment *environment = self.viewModel.environment;
 
     CHDMessagesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.parishLabel.text = [user siteWithWithId:message.site].name;
+    cell.parishLabel.text = [user siteWithId:message.site].name;
     cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.lastActivityDate];
     cell.groupLabel.text = [environment groupWithId:message.groupId].name;
     cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId];
