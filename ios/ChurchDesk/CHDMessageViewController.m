@@ -171,14 +171,22 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     TTTTimeIntervalFormatter *timeInterValFormatter = [[TTTTimeIntervalFormatter alloc] init];
 
     if((messageSections)indexPath.section == messageSection){
+
+        CHDMessage *message = self.viewModel.message;
+        CHDEnvironment *environment = self.viewModel.environment;
+        CHDUser *user = self.viewModel.user;
+        
         CHDMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCellIdentifier forIndexPath:indexPath];
-        cell.titleLabel.text = self.viewModel.message.title;
-        cell.groupLabel.text = ([self.viewModel.environment groupWithId:self.viewModel.message.groupId]).name;
-        cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:self.viewModel.message.changeDate];
-        cell.messageLabel.text = self.viewModel.message.body;
-        cell.parishLabel.text = [self.viewModel.user siteWithId:self.viewModel.message.siteId].name;
-        cell.userNameLabel.text = [self.viewModel.environment userWithId:self.viewModel.message.authorId].name;
-        cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([self.viewModel.environment userWithId:self.viewModel.message.authorId]).pictureURL]];
+        cell.titleLabel.text = message.title;
+        cell.groupLabel.text = ([environment groupWithId:message.groupId]).name;
+        cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.changeDate];
+        cell.messageLabel.text = message.body;
+
+        CHDPeerUser *authorUser = [environment userWithId: message.authorId];
+        CHDSite *autherSite = [user siteWithId:authorUser.siteId];
+        cell.parishLabel.text = autherSite.name;
+        cell.userNameLabel.text = [environment userWithId:message.authorId].name;
+        cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([environment userWithId:message.authorId]).pictureURL]];
         return cell;
     }
     if((messageSections)indexPath.section == commentsSection){

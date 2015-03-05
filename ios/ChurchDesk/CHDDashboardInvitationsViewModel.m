@@ -8,10 +8,14 @@
 
 #import "CHDDashboardInvitationsViewModel.h"
 #import "CHDAPIClient.h"
+#import "CHDEnvironment.h"
+#import "CHDUser.h"
 
 @interface CHDDashboardInvitationsViewModel ()
 
 @property (nonatomic, strong) NSArray *invitations;
+@property (nonatomic, strong) CHDEnvironment *environment;
+@property (nonatomic, strong) CHDUser *user;
 
 @end
 
@@ -21,6 +25,14 @@
     self = [super init];
     if (self) {
         RAC(self, invitations) = [[[CHDAPIClient sharedInstance] getInvitations] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+
+        RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+
+        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
     }

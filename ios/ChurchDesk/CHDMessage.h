@@ -11,6 +11,8 @@
 
 @interface CHDMessage : CHDManagedModel
 @property (nonatomic, strong) NSNumber *messageId;
+
+//Site Id is only populated when more than one site is retrieved from the server
 @property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSNumber *authorId;
 @property (nonatomic, strong) NSNumber *groupId;
