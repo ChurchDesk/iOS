@@ -23,4 +23,11 @@
     }
     return [super mapPropertyForPropertyWithName:propName];
 }
+
+- (CHDSite*) siteWithId: (NSString*) siteId {
+    return [self.sites shp_detect:^BOOL(CHDSite *site) {
+        return [site.site isEqualToString:siteId];
+    }];
+}
+
 @end

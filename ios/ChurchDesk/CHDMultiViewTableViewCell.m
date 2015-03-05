@@ -62,18 +62,16 @@
     [self.leftContainer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.rightContainer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    BOOL oddCount = (views.count % 2);
     UIView *container = self.leftContainer;
     for (UIView *view in views) {
         UIView *previousView = container.subviews.lastObject;
-        BOOL lastView = view == views.lastObject ||
-                        (container == self.rightContainer && oddCount && [views indexOfObject:view] == views.count-2);
+        BOOL lastView = view == views.lastObject || [views indexOfObject:view] >= views.count-2;
         
         [container addSubview:view];
         
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(container);
-            make.top.equalTo(previousView ? previousView.mas_bottom : container).offset(previousView ? 10 : 0);
+            make.top.equalTo(previousView ? previousView.mas_bottom : container).offset(previousView ? 10 : 0).priorityLow();
             if (lastView) {
                 make.bottom.equalTo(container);
             }

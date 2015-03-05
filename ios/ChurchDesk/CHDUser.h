@@ -6,9 +6,14 @@
 #import <Foundation/Foundation.h>
 #import "CHDManagedModel.h"
 
+@class CHDSite;
 
 @interface CHDUser : CHDManagedModel
+
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSURL *pictureURL;
 @property (nonatomic, strong) NSArray *sites;
+
+- (CHDSite*) siteWithId: (NSString*) siteId;
+
 @end

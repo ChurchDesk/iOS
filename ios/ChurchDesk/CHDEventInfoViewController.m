@@ -22,6 +22,7 @@
 #import "CHDEventInternalNoteTableViewCell.h"
 #import "CHDEventTextValueTableViewCell.h"
 #import "CHDEventDescriptionTableViewCell.h"
+#import "CHDEnvironment.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -63,7 +64,7 @@
 }
 
 - (void) setupBindings {
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, event)];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, event), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user)]] ignore:nil]];
 }
 
 #pragma mark - UITableViewDelegate
@@ -81,6 +82,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *returnCell = nil;
     CHDEvent *event = self.viewModel.event;
+    CHDEnvironment *environment = self.viewModel.environment;
     
     NSArray *sections = self.viewModel.sections;
     NSString *section = sections[indexPath.section];
@@ -97,26 +99,26 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowGroup]) {
         CHDEventGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"group" forIndexPath:indexPath];
-        cell.titleLabel.text = @"Group name";
-        cell.groupLabel.text = @"Parish";
+        cell.titleLabel.text = [environment groupWithId:event.groupId].name;
+        cell.groupLabel.text = [self.viewModel parishName];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowDate]) {
         CHDEventInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         cell.iconImageView.image = kImgEventTime;
-        cell.titleLabel.text = @"Date and time";
+        cell.titleLabel.text = [self.viewModel eventDateString];
         cell.disclosureArrowHidden = YES;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowLocation]) {
         CHDEventLocationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"location" forIndexPath:indexPath];
-        cell.titleLabel.text = @"Vor Frue Kirke";
+        cell.titleLabel.text = event.location;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowCategories]) {
         CHDEventCategoriesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categories" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Categories", @"");
-        [cell setCategoryTitles:@[@"Kategori 1 med et helt vildt langt navn", @"KAtegori 2", @"Kategori 3"] colors:@[[UIColor greenColor], [UIColor redColor], [UIColor blueColor]]];
+        [cell setCategoryTitles:[self.viewModel categoryTitles] colors:[self.viewModel categoryColors]];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowAttendance]) {
@@ -130,12 +132,12 @@
     else if ([row isEqualToString:CHDEventInfoRowResources]) {
         CHDEventCategoriesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categories" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Resources", @"");
-        [cell setCategoryTitles:@[@"Resource 1", @"Resource 2", @"Resource 3"] colors:@[[UIColor greenColor], [UIColor redColor], [UIColor blueColor]]];
+        [cell setCategoryTitles:[self.viewModel resourceTitles] colors:[self.viewModel resourceColors]];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowUsers]) {
         CHDEventUsersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"users" forIndexPath:indexPath];
-        [cell setUserNames:@[@"John Appleseed", @"John Appleseed", @"John Appleseed", @"John Appleseed", @"John Appleseed"]];
+        [cell setUserNames:[self.viewModel userNames]];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowInternalNote]) {
@@ -148,7 +150,7 @@
     else if ([row isEqualToString:CHDEventInfoRowContributor]) {
         CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Contributor", @"");
-        cell.valueLabel.text = @"John Appleseed";
+        cell.valueLabel.text = event.contributor;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowPrice]) {

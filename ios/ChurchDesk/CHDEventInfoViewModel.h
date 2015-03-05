@@ -32,10 +32,14 @@ extern NSString *const CHDEventInfoRowVisibility;
 extern NSString *const CHDEventInfoRowCreated;
 extern NSString *const CHDEventInfoRowDivider;
 
+@class CHDEnvironment, CHDUser;
+
 @interface CHDEventInfoViewModel : NSObject
 
 @property (nonatomic, readonly) NSArray *sections;
 @property (nonatomic, readonly) CHDEvent *event;
+@property (nonatomic, readonly) CHDEnvironment *environment;
+@property (nonatomic, readonly) CHDUser *user;
 
 - (instancetype)initWithEvent: (CHDEvent*) event;
 
@@ -43,5 +47,13 @@ extern NSString *const CHDEventInfoRowDivider;
 
 - (NSString*) textForEventResponse: (CHDEventResponse) response;
 - (UIColor*) textColorForEventResponse: (CHDEventResponse) response;
+
+- (NSString*) eventDateString;
+- (NSString*) parishName;
+- (NSArray*) categoryTitles;
+- (NSArray*) categoryColors;
+- (NSArray*) resourceTitles;
+- (NSArray*) resourceColors;
+- (NSArray*) userNames;
 
 @end

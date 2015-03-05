@@ -9,6 +9,9 @@
 #import "CHDEventInfoViewModel.h"
 #import "CHDEvent.h"
 #import "CHDAPIClient.h"
+#import "CHDEnvironment.h"
+#import "CHDUser.h"
+#import "CHDSite.h"
 
 NSString *const CHDEventInfoSectionImage = @"CHDEventInfoSectionImage";
 NSString *const CHDEventInfoSectionBase = @"CHDEventInfoSectionBase";
@@ -36,6 +39,9 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 @interface CHDEventInfoViewModel ()
 
 @property (nonatomic, strong) CHDEvent *event;
+@property (nonatomic, strong) CHDEnvironment *environment;
+@property (nonatomic, strong) CHDUser *user;
+
 @property (nonatomic, strong) NSDictionary *sectionRows;
 @property (nonatomic, strong) NSArray *sections;
 
@@ -47,6 +53,14 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     self = [super init];
     if (self) {
         _event = event;
+        RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+        
+        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+        
         [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[[[CHDAPIClient sharedInstance] getEventWithId:event.eventId site:event.site] startWith:event]];
     }
     return self;
@@ -85,6 +99,76 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
         default:
             return [UIColor chd_textDarkColor];
     }
+}
+
+- (NSArray*) categoryTitles {
+    NSArray *categories = [self.environment.eventCategories shp_filter:^BOOL(CHDEventCategory *category) {
+        return [self.event.eventCategoryIds containsObject:category.categoryId];
+    }];
+    
+    return [categories shp_map:^id(CHDEventCategory *category) {
+        return category.name;
+    }];
+}
+
+- (NSArray*) categoryColors {
+    NSArray *categories = [self.environment.eventCategories shp_filter:^BOOL(CHDEventCategory *category) {
+        return [self.event.eventCategoryIds containsObject:category.categoryId];
+    }];
+    
+    return [categories shp_map:^id(CHDEventCategory *category) {
+        return category.color;
+    }];
+}
+
+- (NSArray*) resourceTitles {
+    NSArray *resources = [self.environment.resources shp_filter:^BOOL(CHDResource *resource) {
+        return [self.event.resourceIds containsObject:resource.resourceId];
+    }];
+    
+    return [resources shp_map:^id(CHDResource *resource) {
+        return resource.name;
+    }];
+}
+
+- (NSArray*) resourceColors {
+    NSArray *resources = [self.environment.resources shp_filter:^BOOL(CHDResource *resource) {
+        return [self.event.resourceIds containsObject:resource.resourceId];
+    }];
+    
+    return [resources shp_map:^id(CHDResource *resource) {
+        return resource.color;
+    }];
+}
+
+- (NSArray*) userNames {
+    NSArray *resources = [self.environment.users shp_filter:^BOOL(CHDPeerUser *user) {
+        return [self.event.userIds containsObject:user.userId];
+    }];
+    
+    return [resources shp_map:^id(CHDPeerUser *user) {
+        return user.name;
+    }];
+}
+
+- (NSString*) parishName {
+    if (self.user.sites.count > 1) {
+        CHDSite *site = [self.user siteWithId:self.event.site];
+        return site.name;
+    }
+    return @"";
+}
+
+- (NSString*) eventDateString {
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"EEEE d LLL, HH:mm";
+    NSString *fromString = [dateFormatter stringFromDate:self.event.startDate];
+    
+    NSDateFormatter *timeFormatter = [NSDateFormatter new];
+    timeFormatter.dateFormat = @"HH:mm";
+    NSString *toString = [timeFormatter stringFromDate:self.event.endDate];
+    
+    return [NSString stringWithFormat:@"%@ - %@", fromString, toString];
 }
 
 #pragma mark - Private

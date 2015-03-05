@@ -7,8 +7,10 @@
 //
 
 #import "CHDManagedModel.h"
-
-@class CHDEventCategory, CHDResource, CHDGroup, CHDPeerUser;
+#import "CHDEventCategory.h"
+#import "CHDResource.h"
+#import "CHDGroup.h"
+#import "CHDPeerUser.h"
 
 @interface CHDEnvironment : CHDManagedModel
 

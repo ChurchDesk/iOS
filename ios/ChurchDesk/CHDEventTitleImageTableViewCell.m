@@ -55,7 +55,7 @@
     
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
-        make.height.equalTo(@227);
+        make.height.equalTo(@227).priorityLow();
     }];
 }
 

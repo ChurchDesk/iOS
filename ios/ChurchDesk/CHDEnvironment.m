@@ -14,6 +14,16 @@
 
 @implementation CHDEnvironment
 
+- (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
+    if ([propName isEqualToString:@"eventCategories"]) {
+        return @"categories";
+    }
+    if ([propName isEqualToString:@"resources"]) {
+        return @"resource";
+    }
+    return [super mapPropertyForPropertyWithName:propName];
+}
+
 - (Class)nestedClassForArrayPropertyWithName:(NSString *)propName {
     if ([propName isEqualToString:@"eventCategories"]) {
         return [CHDEventCategory class];
