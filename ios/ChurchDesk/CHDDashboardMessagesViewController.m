@@ -138,6 +138,7 @@
     cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId];
     cell.contentLabel.text = message.messageLine;
     cell.receivedDot.dotColor = message.read? [UIColor clearColor] : [UIColor chd_blueColor];
+    cell.accessoryEnabled = !message.read;
 
     return cell;
 }
