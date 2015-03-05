@@ -53,6 +53,12 @@ static NSString * const KeychainService = @"dk.churchdesk";
                 NSLog(@"Error fetching from Keychain: %@", error);
             }
         }
+#if DEBUG
+      [[RACObserve(self, authenticationToken) ignore:nil] subscribeNext:^(CHDAccessToken *token) {
+          NSLog(@"Authentication Token: %@", token.accessToken);
+      }];
+#endif
+        
     }
     return self;
 }
