@@ -39,7 +39,7 @@
     self.window.rootViewController = [[CHDRootViewController alloc] initWithPrimaryViewController:[self viewControllerHierarchy] secondaryViewControllerClass:[CHDLoginViewController class]];
     [self.window makeKeyAndVisible];
 
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_IPHONE_SIMULATOR && DEBUG
     [[DCIntrospect sharedIntrospector] start];
     [SHPUIInjection enable];
 #endif

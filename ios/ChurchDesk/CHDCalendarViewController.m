@@ -118,6 +118,14 @@ static CGFloat kDayPickerHeight = 50.0f;
     [self.titleView.titleButton rac_liftSelector:@selector(setTitle:forState:) withSignalOfArguments:[[RACSignal merge:@[RACObserve(self.calendarPicker, currentMonth), protocolSignal]] map:^id(NSDate *date) {
         return RACTuplePack([monthFormatter stringFromDate:date], @(UIControlStateNormal));
     }]];
+    
+    [RACChannelTo(self.calendarPicker, selectedDates) shprac_connectWithMap:^id(NSArray *selectedDates) {
+        return selectedDates.firstObject;
+    } to:RACChannelTo(self.dayPickerViewController, selectedDate) withMap:^id(NSDate *selectedDate) {
+        return @[selectedDate];
+    }];
+    
+    [self.calendarPicker rac_liftSelector:@selector(setCurrentMonth:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
 }
 
 - (void) reloadDataWithPreviousSections: (NSArray*) previousSections newSections: (NSArray*) newSections {
@@ -149,6 +157,7 @@ static CGFloat kDayPickerHeight = 50.0f;
 - (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willAnimateToMonth:(NSDate *)date {
     self.viewModel.referenceDate = date;
     [self scrollToDate:date animated:NO];
+    [self.dayPickerViewController scrollToDate:date animated:NO];
 }
 
 #pragma mark - UIScrollViewDelegate

@@ -68,7 +68,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SHPCalendarPicker:
-    :commit: 52a828417eac2f8bcec9e99273bb39fff3307534
+    :commit: 0907c12411496ad5d04535fd50f03dc002a21cb1
     :git: git@github.com:miklselsoe/SHPCalendarPicker.git
 
 SPEC CHECKSUMS:

@@ -21,7 +21,6 @@ static NSUInteger kVisibleDayCount = 7;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionViewLayout;
 
-@property (nonatomic, strong) NSDate *selectedDate;
 @property (nonatomic, strong) NSDate *referenceDate; // First visible day - should be a monday
 
 @end
@@ -33,11 +32,12 @@ static NSUInteger kVisibleDayCount = 7;
     
     self.viewModel = [CHDDayPickerViewModel new];
     
-    self.selectedDate = [NSDate date];
-    self.referenceDate = [self.viewModel dateForMondayOfWeekWithDate:self.selectedDate];
+    NSDate *today = [[NSCalendar currentCalendar] dateBySettingHour:0 minute:0 second:0 ofDate:[NSDate date] options:0];
+    self.referenceDate = [self.viewModel dateForMondayOfWeekWithDate:self.selectedDate ?: today];
     
     [self setupSubviews];
     [self makeConstraints];
+    [self setupBindings];
 }
 
 - (void) setupSubviews {
@@ -57,6 +57,12 @@ static NSUInteger kVisibleDayCount = 7;
     }];
 }
 
+- (void) setupBindings {
+    [self rac_liftSelector:@selector(scrollToDate:animated:) withSignals:[RACObserve(self, selectedDate) ignore:nil], [RACSignal return:@YES], nil];
+    
+    [self shprac_liftSelector:@selector(updateCellSelection) withSignal:RACObserve(self, selectedDate)];
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -68,7 +74,27 @@ static NSUInteger kVisibleDayCount = 7;
     
     [self.view layoutIfNeeded];
     [self scrollToDate:self.referenceDate animated:NO];
-    [self.collectionView selectItemAtIndexPath:[self indexPathForItemAtDate:self.selectedDate] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    if (self.selectedDate) {
+        [self.collectionView selectItemAtIndexPath:[self indexPathForItemAtDate:self.selectedDate] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    }
+}
+
+#pragma mark - Actions
+
+- (void) scrollToDate: (NSDate*) date animated: (BOOL) animated {
+    NSDate *mondayOfDate = [self.viewModel dateForMondayOfWeekWithDate:date];
+    NSIndexPath *newIndexPath = [self indexPathForItemAtDate:mondayOfDate];
+    
+    if (newIndexPath.item < kVisibleDayCount) {
+        return;
+    }
+    
+    if (newIndexPath.item > kItemCount-1) {
+        [self reloadDataWithReferenceDate:mondayOfDate];
+        return;
+    }
+    
+    [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:animated];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -76,10 +102,7 @@ static NSUInteger kVisibleDayCount = 7;
 - (void)scrollViewDidEndDecelerating:(UICollectionView *)collectionView {
     NSIndexPath *indexPath = [collectionView indexPathForItemAtPoint:collectionView.contentOffset];
 
-    self.referenceDate = [self dateForItemAtIndexPath:indexPath];
-    [self.collectionView reloadData];
-    [self.collectionView layoutIfNeeded];
-    self.collectionView.contentOffset = CGPointMake(self.collectionView.bounds.size.width, 0);
+    [self reloadDataWithReferenceDate:[self dateForItemAtIndexPath:indexPath]];
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -112,9 +135,11 @@ static NSUInteger kVisibleDayCount = 7;
 
 #pragma mark - Private
 
-- (void) scrollToDate: (NSDate*) date animated: (BOOL) animated {
-    NSIndexPath *newIndexPath = [self indexPathForItemAtDate:date];
-    [self.collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:animated];
+- (void) reloadDataWithReferenceDate: (NSDate*) date {
+    self.referenceDate = date;
+    [self.collectionView reloadData];
+    [self.collectionView layoutIfNeeded];
+    self.collectionView.contentOffset = CGPointMake(self.collectionView.bounds.size.width, 0);
 }
 
 - (NSDate*) dateForItemAtIndexPath: (NSIndexPath*) indexPath {
@@ -131,6 +156,14 @@ static NSUInteger kVisibleDayCount = 7;
 - (NSIndexPath*) indexPathForItemAtDate: (NSDate*) date {
     NSInteger offset = [self.viewModel daysFromReferenceDate:self.referenceDate toDate:date];
     return [NSIndexPath indexPathForItem: kVisibleDayCount + offset inSection: 0];
+}
+
+- (void) updateCellSelection {
+    for (CHDDayCollectionViewCell *cell in self.collectionView.visibleCells) {
+        NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+        NSDate *date = [self dateForItemAtIndexPath:indexPath];
+        cell.picked = self.selectedDate ? [self.viewModel daysFromReferenceDate:self.selectedDate toDate:date] == 0 : NO;
+    }
 }
 
 #pragma mark - Lazy Initialization

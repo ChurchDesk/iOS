@@ -10,5 +10,8 @@
 
 @interface CHDDayPickerViewController : UIViewController
 
+@property (nonatomic, strong) NSDate *selectedDate;
+
+- (void) scrollToDate: (NSDate*) date animated: (BOOL) animated;
 
 @end

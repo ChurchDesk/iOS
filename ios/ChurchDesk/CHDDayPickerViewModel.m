@@ -37,6 +37,9 @@
 - (NSDate*) dateForMondayOfWeekWithDate: (NSDate*) date {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:date];
+    if (weekday == 1) {
+        weekday = 8;
+    }
     return [calendar dateByAddingUnit:NSCalendarUnitDay value:2-weekday toDate:date options:0];
 }
 
