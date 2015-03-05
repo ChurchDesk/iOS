@@ -15,4 +15,6 @@
 
 - (NSString*) authorNameWithId: (NSNumber*) authorId;
 
+- (void) fetchMoreMessagesFromDate: (NSDate*) date;
+
 @end

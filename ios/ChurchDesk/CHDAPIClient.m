@@ -184,6 +184,15 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
   return [self resourcesForPath:@"messages/unread" resultClass:[CHDMessage class] withResource:nil];
 }
 
+- (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit {
+    return [[self resourcesForPath:@"messages" resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:[self.dateFormatter stringFromDate:date] forQueryParameterKey:@"start_date"];
+        [request setValue:[NSString stringWithFormat:@"%lu", limit] forQueryParameterKey:@"limit"];
+    }] doNext:^(id x) {
+        
+    }];
+}
+
 - (RACSignal*) retrieveMessageWithId:(NSNumber*)messageId site:(NSString*) site {
     return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@?site=%@", messageId, site] resultClass:[CHDMessage class] withResource:nil];
 }

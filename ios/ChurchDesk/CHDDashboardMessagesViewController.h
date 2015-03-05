@@ -8,6 +8,13 @@
 
 #import "CHDAbstractViewController.h"
 
+typedef NS_ENUM(NSUInteger, CHDMessagesFilterType) {
+    CHDMessagesFilterTypeAllMessages,
+    CHDMessagesFilterTypeUnreadMessages,
+};
+
 @interface CHDDashboardMessagesViewController : CHDAbstractViewController <UITableViewDelegate, UITableViewDataSource>
+
+- (instancetype)initWithFilterType: (CHDMessagesFilterType) filterType;
 
 @end

@@ -14,13 +14,15 @@
 #import "CHDMessageViewController.h"
 
 @interface CHDDashboardMessagesViewController ()
+
 @property(nonatomic, retain) UITableView* messagesTable;
-@property(nonatomic, strong) id<CHDMessagesViewModelProtocol> viewModel;
+@property(nonatomic, strong) CHDDashboardMessagesViewModel *viewModel;
+
 @end
 
 @implementation CHDDashboardMessagesViewController
 
-- (instancetype)init
+- (instancetype)initWithFilterType: (CHDMessagesFilterType) filterType
 {
     self = [super init];
     if (self) {
@@ -33,6 +35,25 @@
 
 - (void) setupBindings {
     [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, messages)];
+    
+    RACSignal *refreshSignal = [[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)] map:^id(RACTuple *tuple) {
+        return tuple.first;
+    }] filter:^BOOL(UITableView *tableView) {
+        CGFloat contentHeight = tableView.contentSize.height;
+        CGFloat heightOffset = tableView.contentOffset.y;
+        
+        NSInteger sectionCount = tableView.numberOfSections;
+        NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount-1];
+        return contentHeight - heightOffset < contentHeight*0.2 && sectionCount > 0 && rowCount > 0;
+    }];
+    
+    CHDDashboardMessagesViewModel *viewModel = self.viewModel;
+    [self.viewModel rac_liftSelector:@selector(fetchMoreMessagesFromDate:) withSignals:[[refreshSignal map:^id(UITableView *tableView) {
+        NSInteger sectionCount = tableView.numberOfSections;
+        NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount-1];
+        CHDMessage *message = viewModel.messages[rowCount-1];
+        return [message.changeDate dateByAddingTimeInterval:0.01];
+    }] startWith:[NSDate date]], nil];
 }
 
 -(void) makeViews {
@@ -75,6 +96,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
+#pragma mark - UIScrollView
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    //
+}
+     
 #pragma mark - UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -13,6 +13,7 @@
 
 @interface CHDDashboardMessagesViewModel ()
 
+@property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) CHDEnvironment *environment;
 
 @end
@@ -22,9 +23,9 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        RAC(self, messages) = [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
-        }];
+//        RAC(self, messages) = [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
+//            return [RACSignal empty];
+//        }];
         
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
@@ -36,6 +37,15 @@
 - (NSString*) authorNameWithId: (NSNumber*) authorId {
     CHDPeerUser *user = [self.environment userWithId:authorId];
     return user.name;
+}
+
+- (void) fetchMoreMessagesFromDate: (NSDate*) date {
+    NSLog(@"Fetch messages from %@", date);
+    [self rac_liftSelector:@selector(parseMessages:) withSignals:[[CHDAPIClient sharedInstance] getMessagesFromDate:date limit:50], nil];
+}
+
+- (void) parseMessages: (NSArray*) messages {
+    self.messages = [(self.messages ?: @[]) arrayByAddingObjectsFromArray:messages];
 }
 
 @end
