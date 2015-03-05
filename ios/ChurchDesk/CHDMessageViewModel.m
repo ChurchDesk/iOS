@@ -5,6 +5,9 @@
 
 #import "CHDMessageViewModel.h"
 #import "CHDAPIClient.h"
+#import "CHDEnvironment.h"
+#import "CHDMessage.h"
+#import "CHDComment.h"
 
 
 @implementation CHDMessageViewModel
@@ -18,6 +21,10 @@
         RACSignal *messageSignal = [[[CHDAPIClient sharedInstance] retrieveMessageWithId:messageId site:site] catch:^RACSignal *(NSError *error) {
                     return [RACSignal empty];
                 }];
+
+        RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
         
         RAC(self, message) = messageSignal;
 
@@ -29,20 +36,20 @@
             return message != nil? @(message.comments.count) : @(0);
         }];
 
-        RAC(self, comments) = [[RACSignal combineLatest:@[messageSignal, RACObserve(self, showAllComments)]
-                                                 reduce:^(CHDMessage *message, NSNumber *showAll) {
-                                                     if (message != nil) {
+        RAC(self, latestComment) = [messageSignal map:^id(CHDMessage *message) {
+            if (message != nil) {
+                NSUInteger commentCount = message.comments.count;
+                CHDComment *comment = commentCount > 0 ? message.comments[commentCount - 1] : nil;
+                return comment;
+            };
+            return @[];
+        }];
 
-                                                         if (showAll.boolValue) {
-                                                             return message.comments;
-                                                         }
-                                                         NSUInteger commentCount = message.comments.count;
-                                                         NSArray *comments =commentCount > 0 ? @[message.comments[commentCount - 1]] : @[];
-                                                         return comments;
-                                                     };
-                                                     return @[];
-                                                 }] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
+        RAC(self, allComments) = [messageSignal map:^id(CHDMessage *message) {
+            if (message != nil) {
+                return message.comments;
+            };
+            return @[];
         }];
     }
     return self;

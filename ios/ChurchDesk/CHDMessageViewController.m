@@ -14,6 +14,10 @@
 #import "CHDInputAccessoryObserveView.h"
 #import "CHDMessageViewModel.h"
 #import "CHDComment.h"
+#import "CHDMessage.h"
+#import "CHDEnvironment.h"
+#import "CHDGroup.h"
+#import "CHDPeerUser.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -81,8 +85,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
     [self rac_liftSelector:@selector(chd_didChangeKeyboardFrame:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification object:nil], nil];
 
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, message)];
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, comments)];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, message), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, latestComment)]]];
+    [self shprac_liftSelector:@selector(showAllComments) withSignal:RACObserve(self.viewModel, showAllComments)];
 }
 
 -(UITableView*) tableView{
@@ -110,6 +114,31 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     return _replyView;
 }
 
+-(void) showAllComments {
+
+    if(!self.viewModel.showAllComments){return;}
+
+    NSMutableArray *newIndexPaths = [[NSMutableArray alloc]init];
+    //Create indexpaths to insert
+    [self.viewModel.allComments enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if(idx < self.viewModel.allComments.count -1){
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:commentsSection];
+            [newIndexPaths addObject:indexPath];
+        }
+    }];
+
+    if(newIndexPaths.count > 0) {
+        NSIndexPath *showAllCommentsRow = [NSIndexPath indexPathForRow:0 inSection:loadCommentsSection];
+
+        [self.tableView beginUpdates];
+
+        [self.tableView deleteRowsAtIndexPaths:@[showAllCommentsRow] withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableView insertRowsAtIndexPaths:newIndexPaths withRowAnimation:UITableViewRowAnimationTop];
+
+        [self.tableView endUpdates];
+    }
+}
+
 #pragma mark - TableView Delegates
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -117,7 +146,11 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         return (self.viewModel.hasMessage)? 1 : 0;
     }
     if((messageSections)section == commentsSection){
-        return self.viewModel.comments.count;
+        if(self.viewModel.showAllComments) {
+            return self.viewModel.allComments.count;
+        }else{
+            return (self.viewModel.latestComment != nil)? 1 : 0;
+        }
     }
     if((messageSections)section == loadCommentsSection){
         return (self.viewModel.showAllComments || self.viewModel.commentCount <= 1)? 0 : 1;
@@ -129,22 +162,24 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     return messageSectionsCount;
 }
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if((messageSections)indexPath.section == messageSection){
         CHDMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCellIdentifier forIndexPath:indexPath];
         cell.titleLabel.text = self.viewModel.message.title;
-        cell.groupLabel.text = @"Group";
+        cell.groupLabel.text = ([self.viewModel.environment groupWithId:self.viewModel.message.groupId]).name;
         cell.createdDateLabel.text = @"Created";
         cell.messageLabel.text = self.viewModel.message.body;
         cell.parishLabel.text = self.viewModel.message.site;
-        cell.userNameLabel.text = self.viewModel.message.authorId.stringValue;
+        cell.userNameLabel.text = [self.viewModel.environment userWithId:self.viewModel.message.authorId].name;
         //cell.profileImageView.image =
         return cell;
     }
     if((messageSections)indexPath.section == commentsSection){
         CHDMessageCommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCommentsCellIdentifier forIndexPath:indexPath];
 
-        CHDComment* comment = self.viewModel.comments[indexPath.row];
+        CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComment;
 
         cell.messageLabel.text = comment.body;
         cell.createdDateLabel.text = @"5 hours ago";
@@ -156,8 +191,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     if((messageSections)indexPath.section == loadCommentsSection){
         CHDMessageLoadCommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageLoadCommentsCellIdentifier forIndexPath:indexPath];
         cell.messageLabel.text = NSLocalizedString(@"Load more comments", @"");
-        cell.countLabel.text = @"(32)";
-
+        cell.countLabel.text = [NSString stringWithFormat:@"(%@)", @(self.viewModel.commentCount-1)];
         return cell;
     }
     return nil;
