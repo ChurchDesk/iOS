@@ -3,6 +3,25 @@ PODS:
   - dyci (0.1.5.6):
     - dyci/Injections (= 0.1.5.6)
   - dyci/Injections (0.1.5.6)
+  - FormatterKit (1.8.0):
+    - FormatterKit/AddressFormatter (= 1.8.0)
+    - FormatterKit/ArrayFormatter (= 1.8.0)
+    - FormatterKit/ColorFormatter (= 1.8.0)
+    - FormatterKit/LocationFormatter (= 1.8.0)
+    - FormatterKit/NameFormatter (= 1.8.0)
+    - FormatterKit/OrdinalNumberFormatter (= 1.8.0)
+    - FormatterKit/TimeIntervalFormatter (= 1.8.0)
+    - FormatterKit/UnitOfInformationFormatter (= 1.8.0)
+    - FormatterKit/URLRequestFormatter (= 1.8.0)
+  - FormatterKit/AddressFormatter (1.8.0)
+  - FormatterKit/ArrayFormatter (1.8.0)
+  - FormatterKit/ColorFormatter (1.8.0)
+  - FormatterKit/LocationFormatter (1.8.0)
+  - FormatterKit/NameFormatter (1.8.0)
+  - FormatterKit/OrdinalNumberFormatter (1.8.0)
+  - FormatterKit/TimeIntervalFormatter (1.8.0)
+  - FormatterKit/UnitOfInformationFormatter (1.8.0)
+  - FormatterKit/URLRequestFormatter (1.8.0)
   - Haneke (1.0.1)
   - Masonry (0.6.1)
   - pop (1.0.7)
@@ -29,6 +48,7 @@ PODS:
 
 DEPENDENCIES:
   - DCIntrospect-ARC (HEAD)
+  - FormatterKit
   - Haneke (~> 1.0.1)
   - Masonry (~> 0.6.1)
   - ReactiveCocoa (~> 2.4.7)
@@ -54,6 +74,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
   dyci: 86668b266b8a281cb6db02843150f6a210c34ee9
+  FormatterKit: 547a808c41172136a3f3acb424ac9361d38bb32f
   Haneke: 943f7121b50d31a31a0942afdacb7e6a26ea6181
   Masonry: 2cb49fd14d203d2db5ca6bb017135b235dde9980
   pop: 2f14a1ea61339767af9e66741b418c831b3844df

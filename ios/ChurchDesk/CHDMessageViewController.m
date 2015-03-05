@@ -18,6 +18,7 @@
 #import "CHDEnvironment.h"
 #import "CHDGroup.h"
 #import "CHDPeerUser.h"
+#import "TTTTimeIntervalFormatter.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -165,15 +166,17 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    TTTTimeIntervalFormatter *timeInterValFormatter = [[TTTTimeIntervalFormatter alloc] init];
+
     if((messageSections)indexPath.section == messageSection){
         CHDMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCellIdentifier forIndexPath:indexPath];
         cell.titleLabel.text = self.viewModel.message.title;
         cell.groupLabel.text = ([self.viewModel.environment groupWithId:self.viewModel.message.groupId]).name;
-        cell.createdDateLabel.text = self.viewModel.message.changeDate.description;
+        cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:self.viewModel.message.changeDate];
         cell.messageLabel.text = self.viewModel.message.body;
         cell.parishLabel.text = self.viewModel.message.site;
         cell.userNameLabel.text = [self.viewModel.environment userWithId:self.viewModel.message.authorId].name;
-        //cell.profileImageView.image =
+        cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([self.viewModel.environment userWithId:self.viewModel.message.authorId]).pictureURL]];
         return cell;
     }
     if((messageSections)indexPath.section == commentsSection){
@@ -182,8 +185,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComment;
 
         cell.messageLabel.text = comment.body;
-        cell.createdDateLabel.text = comment.createdDate.description;
-        //cell.profileImageView.image =
+        cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate];
+        cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([self.viewModel.environment userWithId:comment.authorId]).pictureURL]];
         cell.userNameLabel.text = comment.authorName;
 
         return cell;

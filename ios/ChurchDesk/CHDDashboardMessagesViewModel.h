@@ -17,4 +17,6 @@
 
 - (void) fetchMoreMessagesFromDate: (NSDate*) date;
 
+- (instancetype)initWithUnreadOnly: (BOOL) unreadOnly;
+
 @end
