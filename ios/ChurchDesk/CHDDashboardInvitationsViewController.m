@@ -6,10 +6,14 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
+#import <FormatterKit/TTTTimeIntervalFormatter.h>
 #import "CHDDashboardInvitationsViewController.h"
 #import "CHDInvitationsTableViewCell.h"
 #import "CHDDashboardInvitationsViewModel.h"
 #import "CHDInvitation.h"
+#import "CHDEnvironment.h"
+#import "CHDUser.h"
+#import "CHDSite.h"
 
 @interface CHDDashboardInvitationsViewController ()
 
@@ -53,7 +57,7 @@
 }
 
 - (void) setupBindings {
-    [self.inviteTable shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, invitations)];
+    [self.inviteTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.viewModel, invitations), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 }
 
 -(UITableView *)inviteTable {
@@ -79,19 +83,26 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    TTTTimeIntervalFormatter *timeInterValFormatter = [[TTTTimeIntervalFormatter alloc] init];
     static NSString* cellIdentifier = @"invitationCell";
 
     CHDInvitationsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     CHDInvitation *invitation = self.viewModel.invitations[indexPath.row];
-    
+    CHDEnvironment *environment = self.viewModel.environment;
+    CHDUser *user = self.viewModel.user;
+
+    CHDPeerUser *invitedByUser = [environment userWithId:invitation.invitedByUserId];
+    NSString *invitedByString = NSLocalizedString(@"Invited by ", @"");
+
+    invitedByString = invitedByUser.name != nil? [invitedByString stringByAppendingString:invitedByUser.name] : @"";
+
     cell.titleLabel.text = invitation.title;
     cell.locationLabel.text = invitation.location;
-    cell.parishLabel.text = @"The Parish";
-    cell.invitedByLabel.text = @"Invited by";
+    cell.parishLabel.text = [user siteWithId:invitation.siteId].name;
+    cell.invitedByLabel.text = invitedByString;
     cell.eventTimeLabel.text = [invitation.startDate description];
-    cell.receivedTimeLabel.text = @"21 min ago";
+    cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:invitation.changeDate];
 
     //Setup events for the buttons
     [cell.acceptButton addTarget:self action:@selector(accepted) forControlEvents:UIControlEventTouchUpInside];

@@ -34,6 +34,7 @@
 @property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic, strong) NSDate *changeDate;
 @property (nonatomic, strong) NSString *location;
+@property (nonatomic, assign) NSNumber *invitedByUserId;
 @property (nonatomic, assign) NSInteger response;
 
 

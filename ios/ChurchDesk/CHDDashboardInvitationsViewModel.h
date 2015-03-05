@@ -8,8 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class CHDEnvironment;
+@class CHDUser;
+
 @interface CHDDashboardInvitationsViewModel : NSObject
 
 @property (nonatomic, readonly) NSArray *invitations;
+@property (nonatomic, readonly) CHDEnvironment *environment;
+@property (nonatomic, readonly) CHDUser *user;
 
 @end
