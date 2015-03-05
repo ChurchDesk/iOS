@@ -46,7 +46,7 @@
 }
 
 - (void)setMessageAsRead:(CHDMessage *)message {
-    [[[CHDAPIClient sharedInstance] setMessageAsRead:message.messageId site:message.site] catch:^RACSignal *(NSError *error) {
+    [[[CHDAPIClient sharedInstance] setMessageAsRead:message.messageId siteId:message.siteId] catch:^RACSignal *(NSError *error) {
         return [RACSignal empty];
     }];
 }

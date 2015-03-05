@@ -198,7 +198,7 @@ static CGFloat kDayPickerHeight = 50.0f;
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
-    cell.parishLabel.text = event.site;
+    cell.parishLabel.text = event.siteId;
     cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All Day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
     
     if(indexPath.item % 2 == 1) {

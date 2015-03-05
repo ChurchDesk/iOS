@@ -23,6 +23,9 @@
     if ([propName isEqualToString:@"lastActivityDate"]) {
         return @"lastActivity";
     }
+    if([propName isEqualToString:@"siteId"]) {
+        return @"site";
+    }
 
     return [super mapPropertyForPropertyWithName:propName];
 }

@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 @interface CHDEvent : CHDManagedModel
 
 @property (nonatomic, strong) NSNumber *eventId;
-@property (nonatomic, strong) NSString *site;
+@property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSNumber *authorId;
 @property (nonatomic, strong) NSNumber *groupId;
 @property (nonatomic, strong) NSArray *eventCategoryIds;

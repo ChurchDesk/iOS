@@ -114,7 +114,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDMessage* message = self.viewModel.messages[indexPath.row];
-    CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:message.messageId site:message.site];
+    CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:message.messageId site:message.siteId];
 
     [self.navigationController pushViewController:messageViewController animated:YES];
 }
@@ -132,7 +132,7 @@
     CHDEnvironment *environment = self.viewModel.environment;
 
     CHDMessagesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.parishLabel.text = [user siteWithId:message.site].name;
+    cell.parishLabel.text = [user siteWithId:message.siteId].name;
     cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.lastActivityDate];
     cell.groupLabel.text = [environment groupWithId:message.groupId].name;
     cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId];

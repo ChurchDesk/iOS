@@ -17,6 +17,9 @@
     if ([propName isEqualToString:@"pictureURL"]) {
         return @"picture";
     }
+    if([propName isEqualToString:@"siteId"]) {
+        return @"site";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 

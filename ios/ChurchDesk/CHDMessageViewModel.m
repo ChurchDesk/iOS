@@ -22,13 +22,13 @@
 
 @implementation CHDMessageViewModel
 
-- (instancetype)initWithMessageId: (NSNumber*)messageId site: (NSString*) site {
+- (instancetype)initWithMessageId:(NSNumber *)messageId siteId: (NSString*)siteId {
     self = [super init];
     if (self) {
 
         self.showAllComments = NO;
 
-        RACSignal *messageSignal = [[[CHDAPIClient sharedInstance] getMessageWithId:messageId site:site] catch:^RACSignal *(NSError *error) {
+        RACSignal *messageSignal = [[[CHDAPIClient sharedInstance] getMessageWithId:messageId siteId:siteId] catch:^RACSignal *(NSError *error) {
                     return [RACSignal empty];
                 }];
 

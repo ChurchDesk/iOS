@@ -11,7 +11,7 @@
 /*
  {
  "id": 1098,
- "site": "http://hado.kw01.net",
+ "siteId": "http://hado.kw01.net",
  "title": "Højmesse",
  "eventCategoryId": 32,
  "allDay": false,
@@ -26,7 +26,7 @@
 @interface CHDInvitation : CHDManagedModel
 
 @property (nonatomic, strong) NSNumber *invitationId;
-@property (nonatomic, strong) NSString *site;
+@property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, assign) NSInteger eventCategoryId;
 @property (nonatomic, assign) BOOL allDay;

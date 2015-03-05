@@ -17,6 +17,9 @@
     if ([propName isEqualToString:@"changeDate"]) {
         return @"changed";
     }
+    if([propName isEqualToString:@"siteId"]) {
+        return @"site";
+    }
     return [super mapPropertyForPropertyWithName: propName];
 }
 

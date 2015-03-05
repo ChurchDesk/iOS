@@ -16,12 +16,12 @@
 - (RACSignal*) getEnvironment;
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month;
-- (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site;
+- (RACSignal*)getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
 - (RACSignal*) getInvitations;
 - (RACSignal*) getHolidaysFromYear: (NSInteger) year;
 
 - (RACSignal*) getUnreadMessages;
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit;
-- (RACSignal*) getMessageWithId:(NSNumber *)messageId site:(NSString*) site;
-- (RACSignal*) setMessageAsRead:(NSNumber *)messageId site:(NSString*) site;
+- (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId;
+- (RACSignal*)setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId;
 @end
