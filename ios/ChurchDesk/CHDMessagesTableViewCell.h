@@ -16,4 +16,6 @@
 @property (nonatomic, readonly) UILabel* contentLabel;
 @property (nonatomic, readonly) UILabel* receivedTimeLabel;
 @property (nonatomic, readonly) CHDDotView* receivedDot;
+
+@property (nonatomic, readonly) UIButton *markAsReadButton;
 @end

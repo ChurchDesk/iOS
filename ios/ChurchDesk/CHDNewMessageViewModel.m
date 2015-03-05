@@ -67,7 +67,7 @@
     if(user != nil){
         NSMutableArray *sites = [[NSMutableArray alloc] init];
         [user.sites enumerateObjectsUsingBlock:^(CHDSite * site, NSUInteger idx, BOOL *stop) {
-            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:NO refObject:site]; //([self.selectedSite.site isEqualToString:site.site])
+            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:NO refObject:site];
             [sites addObject:selectable];
         }];
         self.selectableSites = [sites copy];

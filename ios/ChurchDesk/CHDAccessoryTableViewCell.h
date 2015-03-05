@@ -15,6 +15,7 @@
 */
 @property (nonatomic, readonly) UIView *scrollContentView;
 @property (nonatomic, readonly) NSMutableArray *accessoryButtons;
+@property (nonatomic) BOOL accessoryEnabled;
 -(void) setAccessoryWithTitles: (NSArray*) buttonTitles backgroundColors: (NSArray*) buttonColors buttonWidth:(CGFloat) btnWidth;
 -(void) closeAccessoryAnimated: (BOOL) animated;
 -(void) openAccessoryAnimated: (BOOL) animated;

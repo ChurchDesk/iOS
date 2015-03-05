@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) NSNumber *userId;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *site;
+@property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSURL *pictureURL;
 
 @end

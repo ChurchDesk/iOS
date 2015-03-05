@@ -14,6 +14,9 @@
     if ([propName isEqualToString:@"categoryId"]) {
         return @"id";
     }
+    if([propName isEqualToString:@"siteId"]) {
+        return @"site";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 

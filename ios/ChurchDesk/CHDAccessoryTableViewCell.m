@@ -32,6 +32,10 @@
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
         [self.contentView addGestureRecognizer:tapGesture];
         tapGesture.delegate = self;
+
+        self.accessoryEnabled = YES;
+
+        RAC(self.scrollView, scrollEnabled) = RACObserve(self, accessoryEnabled);
     }
     return self;
 }
@@ -190,6 +194,7 @@
 #pragma mark - TableViewCell Delegates
 - (void)prepareForReuse {
     [self closeAccessoryAnimated:NO];
+    self.accessoryEnabled = YES;
 }
 
 #pragma mark - Gestures

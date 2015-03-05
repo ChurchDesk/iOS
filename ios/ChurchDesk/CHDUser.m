@@ -26,7 +26,7 @@
 
 - (CHDSite*) siteWithId: (NSString*) siteId {
     return [self.sites shp_detect:^BOOL(CHDSite *site) {
-        return [site.site isEqualToString:siteId];
+        return [site.siteId isEqualToString:siteId];
     }];
 }
 

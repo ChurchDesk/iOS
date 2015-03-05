@@ -166,8 +166,8 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self resourcesForPath:[NSString stringWithFormat:@"events/%@/%@", @(year), @(month)] resultClass:[CHDEvent class] withResource:nil];
 }
 
-- (RACSignal*) getEventWithId: (NSNumber*) eventId site: (NSString*) site {
-    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@?site=%@", eventId, site] resultClass:[CHDEvent class] withResource:nil];
+- (RACSignal*)getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId {
+    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@?site=%@", eventId, siteId] resultClass:[CHDEvent class] withResource:nil];
 }
 
 - (RACSignal*) getInvitations {
@@ -193,8 +193,16 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     }];
 }
 
-- (RACSignal*) retrieveMessageWithId:(NSNumber*)messageId site:(NSString*) site {
-    return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@?site=%@", messageId, site] resultClass:[CHDMessage class] withResource:nil];
+- (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId {
+    return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@?site=%@", messageId, siteId] resultClass:[CHDMessage class] withResource:nil];
+}
+
+//This will return a 200 with no content
+- (RACSignal*)setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId {
+    SHPAPIManager *manager = self.manager;
+    return [[self resourcesForPath:[NSString stringWithFormat:@"messages/%@/mark-as-read?site=%@", messageId, siteId] resultClass:[NSDictionary class] withResource:nil] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:@"*messages/unread*"];
+    }];
 }
 
 #pragma mark - Refresh token

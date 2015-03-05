@@ -20,6 +20,10 @@
     if([propName isEqualToString:@"name"]) {
         return @"siteName";
     }
+
+    if([propName isEqualToString:@"siteId"]) {
+        return @"site";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 @end

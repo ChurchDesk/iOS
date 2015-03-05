@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) CHDDotView* receivedDot;
 
-@property (nonatomic, strong) UIButton* acceptButton;
+@property (nonatomic, strong) UIButton *markAsReadButton;
 @end
 
 @implementation CHDMessagesTableViewCell
@@ -66,10 +66,6 @@
     [self.receivedDot mas_makeConstraints:^(MASConstraintMaker *make){
         make.width.height.equalTo(@11);
         make.right.bottom.equalTo(@-15);
-    }];
-
-    [self.acceptButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@74);
     }];
 }
 
@@ -138,12 +134,8 @@
     return _receivedDot;
 }
 
-- (UIButton*) acceptButton{
-    if(!_acceptButton){
-        _acceptButton = [UIButton new];
-        _acceptButton.backgroundColor = [UIColor chd_categoryPurpleColor];
-    }
-    return _acceptButton;
+- (UIButton*)markAsReadButton {
+    return self.accessoryButtons[0];
 }
 
 @end

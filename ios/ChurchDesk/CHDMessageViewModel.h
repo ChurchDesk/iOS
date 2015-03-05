@@ -11,7 +11,7 @@
 @class CHDUser;
 
 @interface CHDMessageViewModel : NSObject
-- (instancetype)initWithMessageId: (NSNumber*)messageId site: (NSString*) site;
+- (instancetype)initWithMessageId:(NSNumber *)messageId siteId: (NSString*)siteId;
 
 @property (nonatomic, assign) BOOL hasMessage;
 @property (nonatomic, assign) BOOL showAllComments;

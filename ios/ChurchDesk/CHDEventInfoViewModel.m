@@ -61,7 +61,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
             return [RACSignal empty];
         }];
         
-        [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[[[CHDAPIClient sharedInstance] getEventWithId:event.eventId site:event.site] startWith:event]];
+        [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[[[CHDAPIClient sharedInstance] getEventWithId:event.eventId siteId:event.siteId] startWith:event]];
     }
     return self;
 }
@@ -153,7 +153,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSString*) parishName {
     if (self.user.sites.count > 1) {
-        CHDSite *site = [self.user siteWithId:self.event.site];
+        CHDSite *site = [self.user siteWithId:self.event.siteId];
         return site.name;
     }
     return @"";
