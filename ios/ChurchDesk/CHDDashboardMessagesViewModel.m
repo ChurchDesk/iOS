@@ -10,11 +10,14 @@
 #import "CHDAPIClient.h"
 #import "CHDEnvironment.h"
 #import "CHDPeerUser.h"
+#import "CHDUser.h"
 
 @interface CHDDashboardMessagesViewModel ()
 
 @property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) CHDEnvironment *environment;
+@property (nonatomic, strong) CHDUser* user;
+
 @property (nonatomic) BOOL unreadOnly;
 
 @end
@@ -30,6 +33,10 @@
                 return [RACSignal empty];
             }];
         }
+
+        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
         
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];

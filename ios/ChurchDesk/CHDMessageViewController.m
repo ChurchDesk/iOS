@@ -19,6 +19,8 @@
 #import "CHDGroup.h"
 #import "CHDPeerUser.h"
 #import "TTTTimeIntervalFormatter.h"
+#import "CHDUser.h"
+#import "CHDSite.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -86,7 +88,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
     [self rac_liftSelector:@selector(chd_didChangeKeyboardFrame:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification object:nil], nil];
 
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, message), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, latestComment)]]];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, message), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, latestComment), RACObserve(self.viewModel, user)]]];
     [self shprac_liftSelector:@selector(showAllComments) withSignal:RACObserve(self.viewModel, showAllComments)];
 }
 
@@ -174,7 +176,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.groupLabel.text = ([self.viewModel.environment groupWithId:self.viewModel.message.groupId]).name;
         cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:self.viewModel.message.changeDate];
         cell.messageLabel.text = self.viewModel.message.body;
-        cell.parishLabel.text = self.viewModel.message.site;
+        cell.parishLabel.text = [self.viewModel.user siteWithWithId:self.viewModel.message.site].name;
         cell.userNameLabel.text = [self.viewModel.environment userWithId:self.viewModel.message.authorId].name;
         cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([self.viewModel.environment userWithId:self.viewModel.message.authorId]).pictureURL]];
         return cell;
@@ -187,7 +189,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.messageLabel.text = comment.body;
         cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate];
         cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([self.viewModel.environment userWithId:comment.authorId]).pictureURL]];
-        cell.userNameLabel.text = comment.authorName;
+        cell.userNameLabel.text = [self.viewModel.environment userWithId:comment.authorId].name;
 
         return cell;
     }

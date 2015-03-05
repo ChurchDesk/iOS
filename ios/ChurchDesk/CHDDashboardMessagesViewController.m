@@ -13,6 +13,10 @@
 #import "CHDDashboardMessagesViewModel.h"
 #import "CHDMessageViewController.h"
 #import "TTTTimeIntervalFormatter.h"
+#import "CHDEnvironment.h"
+#import "CHDGroup.h"
+#import "CHDUser.h"
+#import "CHDSite.h"
 
 @interface CHDDashboardMessagesViewController ()
 
@@ -37,7 +41,7 @@
 #pragma mark - setup views
 
 - (void) setupBindings {
-    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, messages)];
+    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, messages), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
     if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
         RACSignal *refreshSignal = [[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)] map:^id(RACTuple *tuple) {
@@ -124,11 +128,13 @@
     static NSString* cellIdentifier = @"messagesCell";
 
     CHDMessage* message = self.viewModel.messages[indexPath.row];
+    CHDUser* user = self.viewModel.user;
+    CHDEnvironment *environment = self.viewModel.environment;
 
     CHDMessagesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.parishLabel.text = @"Parish";
+    cell.parishLabel.text = [user siteWithWithId:message.site].name;
     cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.lastActivityDate];
-    cell.groupLabel.text = message.groupId.stringValue;
+    cell.groupLabel.text = [environment groupWithId:message.groupId].name;
     cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId];
     cell.contentLabel.text = message.messageLine;
     cell.receivedDot.dotColor = message.read? [UIColor clearColor] : [UIColor chd_blueColor];

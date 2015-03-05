@@ -8,6 +8,7 @@
 @class CHDMessage;
 @class CHDEnvironment;
 @class CHDComment;
+@class CHDUser;
 
 @interface CHDMessageViewModel : NSObject
 - (instancetype)initWithMessageId: (NSNumber*)messageId site: (NSString*) site;
@@ -17,7 +18,8 @@
 @property (nonatomic, readonly) CHDComment *latestComment;
 @property (nonatomic, readonly) NSArray *allComments;
 @property (nonatomic, readonly) NSInteger commentCount;
-@property (nonatomic, strong) CHDMessage *message;
-@property (nonatomic, strong) CHDEnvironment *environment;
+@property (nonatomic, readonly) CHDMessage *message;
+@property (nonatomic, readonly) CHDEnvironment *environment;
+@property (nonatomic, readonly) CHDUser *user;
 
 @end
