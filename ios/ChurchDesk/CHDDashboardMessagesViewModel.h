@@ -9,12 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "CHDMessagesViewModelProtocol.h"
 
+@class CHDEnvironment;
+@class CHDUser;
+
 @interface CHDDashboardMessagesViewModel : NSObject <CHDMessagesViewModelProtocol>
 
 @property (nonatomic, readonly) NSArray *messages;
+@property (nonatomic, readonly) CHDEnvironment *environment;
+@property (nonatomic, readonly) CHDUser* user;
 
 - (NSString*) authorNameWithId: (NSNumber*) authorId;
 
 - (void) fetchMoreMessagesFromDate: (NSDate*) date;
+
+- (instancetype)initWithUnreadOnly: (BOOL) unreadOnly;
 
 @end

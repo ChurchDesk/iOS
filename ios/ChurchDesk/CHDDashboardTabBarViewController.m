@@ -24,7 +24,7 @@
 + (instancetype) dashboardTabBarViewController {
     CHDDashboardEventsViewController *dashboardEventsViewController = [CHDDashboardEventsViewController new];
     CHDDashboardInvitationsViewController *dashboardInvitationsViewController = [CHDDashboardInvitationsViewController new];
-    CHDDashboardMessagesViewController *dashboardMessagesViewController = [CHDDashboardMessagesViewController new];
+    CHDDashboardMessagesViewController *dashboardMessagesViewController = [[CHDDashboardMessagesViewController new] initWithFilterType:CHDMessagesFilterTypeUnreadMessages];
 
     CHDTabItem* eventsItem = [CHDTabItem new];
     eventsItem.viewController = dashboardEventsViewController;

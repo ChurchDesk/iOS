@@ -8,7 +8,17 @@
 #import "CHDEnvironment.h"
 #import "CHDMessage.h"
 #import "CHDComment.h"
+#import "CHDUser.h"
 
+
+@interface CHDMessageViewModel()
+@property (nonatomic, strong) NSArray *allComments;
+@property (nonatomic, strong) CHDComment *latestComment;
+@property (nonatomic, strong) CHDMessage *message;
+@property (nonatomic, strong) CHDEnvironment *environment;
+@property (nonatomic, strong) CHDUser *user;
+@property (nonatomic) NSInteger commentCount;
+@end
 
 @implementation CHDMessageViewModel
 
@@ -23,6 +33,10 @@
                 }];
 
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+
+        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
         

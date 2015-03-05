@@ -11,7 +11,7 @@
 @property (nonatomic, strong) NSNumber *commentId;
 @property (nonatomic, strong) NSNumber *authorId;
 @property (nonatomic, strong) NSString *authorName;
-@property (nonatomic, strong) NSString *createdDate;
+@property (nonatomic, strong) NSDate *createdDate;
 @property (nonatomic, strong) NSNumber *targetId;
 @property (nonatomic, strong) NSString *body;
 @property (nonatomic) BOOL *canEdit;

@@ -14,6 +14,9 @@
     if([propName isEqualToString:@"commentId"]){
         return @"id";
     }
+    if([propName isEqualToString:@"createdDate"]){
+        return @"created";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 

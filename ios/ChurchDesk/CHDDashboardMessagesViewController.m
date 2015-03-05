@@ -12,11 +12,17 @@
 #import "CHDMessage.h"
 #import "CHDDashboardMessagesViewModel.h"
 #import "CHDMessageViewController.h"
+#import "TTTTimeIntervalFormatter.h"
+#import "CHDEnvironment.h"
+#import "CHDGroup.h"
+#import "CHDUser.h"
+#import "CHDSite.h"
 
 @interface CHDDashboardMessagesViewController ()
 
 @property(nonatomic, retain) UITableView* messagesTable;
 @property(nonatomic, strong) CHDDashboardMessagesViewModel *viewModel;
+@property (nonatomic) CHDMessagesFilterType messageFilter;
 
 @end
 
@@ -27,6 +33,7 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
+        self.messageFilter = filterType;
     }
     return self;
 }
@@ -34,26 +41,28 @@
 #pragma mark - setup views
 
 - (void) setupBindings {
-    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, messages)];
-    
-    RACSignal *refreshSignal = [[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)] map:^id(RACTuple *tuple) {
-        return tuple.first;
-    }] filter:^BOOL(UITableView *tableView) {
-        CGFloat contentHeight = tableView.contentSize.height;
-        CGFloat heightOffset = tableView.contentOffset.y;
-        
-        NSInteger sectionCount = tableView.numberOfSections;
-        NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount-1];
-        return contentHeight - heightOffset < contentHeight*0.2 && sectionCount > 0 && rowCount > 0;
-    }];
-    
-    CHDDashboardMessagesViewModel *viewModel = self.viewModel;
-    [self.viewModel rac_liftSelector:@selector(fetchMoreMessagesFromDate:) withSignals:[[refreshSignal map:^id(UITableView *tableView) {
-        NSInteger sectionCount = tableView.numberOfSections;
-        NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount-1];
-        CHDMessage *message = viewModel.messages[rowCount-1];
-        return [message.changeDate dateByAddingTimeInterval:0.01];
-    }] startWith:[NSDate date]], nil];
+    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, messages), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+
+    if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
+        RACSignal *refreshSignal = [[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)] map:^id(RACTuple *tuple) {
+            return tuple.first;
+        }] filter:^BOOL(UITableView *tableView) {
+            CGFloat contentHeight = tableView.contentSize.height;
+            CGFloat heightOffset = tableView.contentOffset.y;
+
+            NSInteger sectionCount = tableView.numberOfSections;
+            NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount - 1];
+            return contentHeight - heightOffset < contentHeight * 0.2 && sectionCount > 0 && rowCount > 0;
+        }];
+
+        CHDDashboardMessagesViewModel *viewModel = self.viewModel;
+        [self.viewModel rac_liftSelector:@selector(fetchMoreMessagesFromDate:) withSignals:[[refreshSignal map:^id(UITableView *tableView) {
+            NSInteger sectionCount = tableView.numberOfSections;
+            NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount - 1];
+            CHDMessage *message = viewModel.messages[rowCount - 1];
+            return [message.changeDate dateByAddingTimeInterval:0.01];
+        }] startWith:[NSDate date]], nil];
+    }
 }
 
 -(void) makeViews {
@@ -87,7 +96,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewModel = [CHDDashboardMessagesViewModel new];
+    self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:(self.messageFilter == CHDMessagesFilterTypeUnreadMessages)];
 
     [self setupBindings];
     // Do any additional setup after loading the view.
@@ -115,14 +124,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    TTTTimeIntervalFormatter *timeInterValFormatter = [[TTTTimeIntervalFormatter alloc] init];
     static NSString* cellIdentifier = @"messagesCell";
 
     CHDMessage* message = self.viewModel.messages[indexPath.row];
+    CHDUser* user = self.viewModel.user;
+    CHDEnvironment *environment = self.viewModel.environment;
 
     CHDMessagesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.parishLabel.text = @"Parish";
-    cell.receivedTimeLabel.text = message.lastActivityDate.description;
-    cell.groupLabel.text = message.groupId.stringValue;
+    cell.parishLabel.text = [user siteWithWithId:message.site].name;
+    cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.lastActivityDate];
+    cell.groupLabel.text = [environment groupWithId:message.groupId].name;
     cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId];
     cell.contentLabel.text = message.messageLine;
     cell.receivedDot.dotColor = message.read? [UIColor clearColor] : [UIColor chd_blueColor];

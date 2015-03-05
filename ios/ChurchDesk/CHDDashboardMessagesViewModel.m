@@ -10,22 +10,33 @@
 #import "CHDAPIClient.h"
 #import "CHDEnvironment.h"
 #import "CHDPeerUser.h"
+#import "CHDUser.h"
 
 @interface CHDDashboardMessagesViewModel ()
 
 @property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) CHDEnvironment *environment;
+@property (nonatomic, strong) CHDUser* user;
+
+@property (nonatomic) BOOL unreadOnly;
 
 @end
 
 @implementation CHDDashboardMessagesViewModel
 
-- (instancetype)init {
+- (instancetype)initWithUnreadOnly: (BOOL) unreadOnly {
     self = [super init];
     if (self) {
-//        RAC(self, messages) = [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
-//            return [RACSignal empty];
-//        }];
+        self.unreadOnly = unreadOnly;
+        if(unreadOnly) {
+            RAC(self, messages) = [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }
+
+        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
         
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
@@ -40,6 +51,7 @@
 }
 
 - (void) fetchMoreMessagesFromDate: (NSDate*) date {
+    if(self.unreadOnly){return;}
     NSLog(@"Fetch messages from %@", date);
     [self rac_liftSelector:@selector(parseMessages:) withSignals:[[CHDAPIClient sharedInstance] getMessagesFromDate:date limit:50], nil];
 }
