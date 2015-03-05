@@ -140,6 +140,12 @@
     cell.receivedDot.dotColor = message.read? [UIColor clearColor] : [UIColor chd_blueColor];
     cell.accessoryEnabled = !message.read;
 
+    RACSignal *markAsRead = [[cell.markAsReadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal];
+
+    [self.viewModel rac_liftSelector:@selector(setMessageAsRead:) withSignals:[[markAsRead map:^id(id value) {
+        return message;
+    }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
     return cell;
 }
 

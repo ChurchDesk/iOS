@@ -11,6 +11,8 @@
 
 @class CHDEnvironment;
 @class CHDUser;
+@class CHDMessage;
+
 
 @interface CHDDashboardMessagesViewModel : NSObject <CHDMessagesViewModelProtocol>
 
@@ -20,6 +22,7 @@
 
 - (NSString*) authorNameWithId: (NSNumber*) authorId;
 
+-(void) setMessageAsRead: (CHDMessage*) message;
 - (void) fetchMoreMessagesFromDate: (NSDate*) date;
 
 - (instancetype)initWithUnreadOnly: (BOOL) unreadOnly;

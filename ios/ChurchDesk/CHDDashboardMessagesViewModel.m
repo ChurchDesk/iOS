@@ -9,8 +9,8 @@
 #import "CHDDashboardMessagesViewModel.h"
 #import "CHDAPIClient.h"
 #import "CHDEnvironment.h"
-#import "CHDPeerUser.h"
 #import "CHDUser.h"
+#import "CHDMessage.h"
 
 @interface CHDDashboardMessagesViewModel ()
 
@@ -44,6 +44,13 @@
     }
     return self;
 }
+
+- (void)setMessageAsRead:(CHDMessage *)message {
+    [[[CHDAPIClient sharedInstance] setMessageAsRead:message.messageId site:message.site] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }];
+}
+
 
 - (NSString*) authorNameWithId: (NSNumber*) authorId {
     CHDPeerUser *user = [self.environment userWithId:authorId];

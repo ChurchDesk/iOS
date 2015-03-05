@@ -199,7 +199,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 //This will return a 200 with no content
 - (RACSignal*) setMessageAsRead:(NSNumber *)messageId site:(NSString*) site {
-    return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@/mark-as-read?site=%@", messageId, site] resultClass:nil withResource:nil];
+    SHPAPIManager *manager = self.manager;
+    return [[self resourcesForPath:[NSString stringWithFormat:@"messages/%@/mark-as-read?site=%@", messageId, site] resultClass:[NSDictionary class] withResource:nil] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:@"*messages/unread*"];
+    }];
 }
 
 #pragma mark - Refresh token
