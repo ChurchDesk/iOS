@@ -89,4 +89,35 @@
     return formattedDate;
 }
 
+-(void) setInivationAccept:(CHDInvitation *) invitation {
+    NSLog(@"Invitation id %@", invitation.invitationId);
+    [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationAccept] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }] subscribeNext:^(id x) {
+        NSLog(@"Success");
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+-(void) setInivationMaybe:(CHDInvitation *) invitation {
+    [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationMaybe] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }] subscribeNext:^(id x) {
+        NSLog(@"Success");
+    } error:^(NSError *error) {
+
+    }];
+}
+
+-(void) setInivationDecline:(CHDInvitation *) invitation {
+    [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationDecline] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }] subscribeNext:^(id x) {
+        NSLog(@"Success");
+    } error:^(NSError *error) {
+
+    }];
+}
+
 @end
