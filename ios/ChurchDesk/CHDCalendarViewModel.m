@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSArray *sections;
 @property (nonatomic, strong) NSDictionary *sectionRows;
 @property (nonatomic, strong) NSArray *holidays;
+@property (nonatomic, strong) CHDUser *user;
 
 @end
 
@@ -26,6 +27,7 @@
     self = [super init];
     if (self) {
         [self rac_liftSelector:@selector(fetchEventsFromReferenceDate:) withSignals:[RACObserve(self, referenceDate) ignore:nil], nil];
+        [self rac_liftSelector:@selector(setUser:) withSignals:[[CHDAPIClient sharedInstance] getCurrentUser], nil];
     }
     return self;
 }

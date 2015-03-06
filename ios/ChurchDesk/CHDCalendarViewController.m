@@ -19,6 +19,8 @@
 #import "CHDEvent.h"
 #import "CHDHoliday.h"
 #import "UITableView+ChurchDesk.h"
+#import "CHDUser.h"
+#import "CHDSite.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
@@ -106,6 +108,8 @@ static CGFloat kDayPickerHeight = 50.0f;
 - (void) setupBindings {
     NSDateFormatter *monthFormatter = [NSDateFormatter new];
     monthFormatter.dateFormat = @"MMMM";
+    
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, user)];
     
     [self rac_liftSelector:@selector(reloadDataWithPreviousSections:newSections:) withSignalOfArguments:[RACObserve(self.viewModel, sections) combinePreviousWithStart:nil reduce:^id(id previous, id current) {
         return RACTuplePack(previous, current);
@@ -207,7 +211,7 @@ static CGFloat kDayPickerHeight = 50.0f;
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
-    cell.parishLabel.text = event.siteId;
+    cell.parishLabel.text = self.viewModel.user.sites.count > 1 ? [self.viewModel.user siteWithId:event.siteId].name : @"";
     cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All Day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
     
     if(indexPath.item % 2 == 1) {
