@@ -10,11 +10,14 @@
 
 @class CHDEnvironment;
 @class CHDUser;
+@class CHDInvitation;
 
 @interface CHDDashboardInvitationsViewModel : NSObject
 
 @property (nonatomic, readonly) NSArray *invitations;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser *user;
+
+-(NSString*)getFormattedInvitationTimeFrom:(CHDInvitation *)invitation;
 
 @end

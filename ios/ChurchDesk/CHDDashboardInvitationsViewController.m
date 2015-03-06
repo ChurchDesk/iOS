@@ -101,7 +101,8 @@
     cell.locationLabel.text = invitation.location;
     cell.parishLabel.text = [user siteWithId:invitation.siteId].name;
     cell.invitedByLabel.text = invitedByString;
-    cell.eventTimeLabel.text = [invitation.startDate description];
+
+    cell.eventTimeLabel.text = [self.viewModel getFormattedInvitationTimeFrom:invitation];
     cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:invitation.changeDate];
 
     //Setup events for the buttons
