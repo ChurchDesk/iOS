@@ -67,6 +67,18 @@
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, event), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user)]] ignore:nil]];
 }
 
+#pragma mark - Actions
+
+- (void)directionsAction: (id) sender {
+    NSString *location = self.viewModel.event.location;
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to open Maps to get directions to \"%@\"?", @""), location];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Maps", @"") message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Open Maps", @""), nil];
+    
+    [self.viewModel rac_liftSelector:@selector(openMapsWithLocationString:) withSignals:[[[alert rac_buttonClickedSignal] ignore:@(alert.cancelButtonIndex)] mapReplace:location], nil];
+    
+    [alert show];
+}
+
 #pragma mark - UITableViewDelegate
 
 #pragma mark - UITableViewDataSource
@@ -113,6 +125,7 @@
     else if ([row isEqualToString:CHDEventInfoRowLocation]) {
         CHDEventLocationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"location" forIndexPath:indexPath];
         cell.titleLabel.text = event.location;
+        [self rac_liftSelector:@selector(directionsAction:) withSignals:[[cell.directionsButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal], nil];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowCategories]) {
@@ -201,6 +214,7 @@
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.backgroundColor = [UIColor chd_lightGreyColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
 
         [_tableView registerClass:[CHDEventTitleImageTableViewCell class] forCellReuseIdentifier:@"image"];
         [_tableView registerClass:[CHDEventInfoTableViewCell class] forCellReuseIdentifier:@"cell"];

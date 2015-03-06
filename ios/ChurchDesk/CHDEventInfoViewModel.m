@@ -12,6 +12,7 @@
 #import "CHDEnvironment.h"
 #import "CHDUser.h"
 #import "CHDSite.h"
+@import MapKit;
 
 NSString *const CHDEventInfoSectionImage = @"CHDEventInfoSectionImage";
 NSString *const CHDEventInfoSectionBase = @"CHDEventInfoSectionBase";
@@ -169,6 +170,20 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     NSString *toString = [timeFormatter stringFromDate:self.event.endDate];
     
     return [NSString stringWithFormat:@"%@ - %@", fromString, toString];
+}
+
+- (void) openMapsWithLocationString: (NSString*) location {
+        MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
+        request.naturalLanguageQuery = location;
+        
+        MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
+        
+        [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+            if (response) {
+                MKMapItem *mapItem = response.mapItems.firstObject;
+                [mapItem openInMapsWithLaunchOptions:nil];
+            }
+        }];
 }
 
 #pragma mark - Private

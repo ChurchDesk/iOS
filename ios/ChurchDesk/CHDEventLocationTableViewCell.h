@@ -10,4 +10,6 @@
 
 @interface CHDEventLocationTableViewCell : CHDEventInfoTableViewCell
 
+@property (nonatomic, readonly) UIButton *directionsButton;
+
 @end

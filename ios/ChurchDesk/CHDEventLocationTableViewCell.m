@@ -10,7 +10,7 @@
 
 @interface CHDEventLocationTableViewCell ()
 
-@property (nonatomic, strong) UIImageView *directionsImageView;
+@property (nonatomic, strong) UIButton *directionsButton;
 
 @end
 
@@ -20,6 +20,7 @@
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         self.iconImageView.image = kImgEventGroup;
         self.disclosureArrowHidden = YES;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [self setupSubviews];
         [self makeConstraints];
@@ -28,23 +29,25 @@
 }
 
 - (void) setupSubviews {
-    [self.contentView addSubview:self.directionsImageView];
+    [self.contentView addSubview:self.directionsButton];
 }
 
 - (void) makeConstraints {
-    [self.directionsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.directionsButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView);
-        make.right.equalTo(self.contentView).offset(-kSideMargin);
+        make.right.equalTo(self.contentView);
+        make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(44, 44)]);
     }];
 }
 
 #pragma mark - Lazy Initialization
 
-- (UIImageView *)directionsImageView {
-    if (!_directionsImageView) {
-        _directionsImageView = [[UIImageView alloc] initWithImage:kImgMapNavigationArrow];
+- (UIButton *)directionsButton {
+    if (!_directionsButton) {
+        _directionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_directionsButton setImage:kImgMapNavigationArrow forState:UIControlStateNormal];
     }
-    return _directionsImageView;
+    return _directionsButton;
 }
 
 @end
