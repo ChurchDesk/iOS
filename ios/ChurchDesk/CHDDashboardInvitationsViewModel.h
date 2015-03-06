@@ -20,4 +20,8 @@
 
 -(NSString*)getFormattedInvitationTimeFrom:(CHDInvitation *)invitation;
 
+-(void) setInivationAccept:(CHDInvitation *) invitation;
+-(void) setInivationMaybe:(CHDInvitation *) invitation;
+-(void) setInivationDecline:(CHDInvitation *) invitation;
+
 @end

@@ -22,6 +22,12 @@
  "response": 0
  }
  */
+typedef NS_ENUM(NSUInteger, CHDInvitationResponse) {
+    CHDInvitationNoAnswer,
+    CHDInvitationAccept,
+    CHDInvitationMaybe,
+    CHDInvitationDecline,
+};
 
 @interface CHDInvitation : CHDManagedModel
 

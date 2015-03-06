@@ -51,37 +51,73 @@
     NSDateComponents *toComponents = [gregorian components:unitFlags fromDate:invitation.endDate];
 
     //Set date format Templates
-    NSString *dateFormatTemplateFrom;
-    NSString *dateFormatTemplateTo;
+    NSString *dateComponentFrom;
+    NSString *dateComponentTo;
 
+    // Use "jj" instead of "HH" to create a 01-12(am/pm) and 00-23 template
+    // "jj" follows the local format
     if(fromComponents.year != toComponents.year){
-        dateFormatTemplateFrom = @"eee dd MMM',' HH':'mm";
-        dateFormatTemplateTo = @"eee dd MMM YYYY',' HH':'mm";
+        dateComponentFrom = @"eeeddMMMHHmm";
+        dateComponentTo = @"eeeddMMMYYYYHHmm";
     }else if(fromComponents.month != toComponents.month){
-        dateFormatTemplateFrom = @"eee dd MMM',' HH':'mm";
-        dateFormatTemplateTo = @"eee dd MMM',' HH':'mm";
+        dateComponentFrom = @"eeeddMMMHHmm";
+        dateComponentTo = @"eeeddMMMHHmm";
     }else if(fromComponents.day != toComponents.day){
-        dateFormatTemplateFrom = @"eee dd MMM',' HH':'mm";
-        dateFormatTemplateTo = @"eee dd',' HH':'mm";
+        dateComponentFrom = @"eeeddMMMHHmm";
+        dateComponentTo = @"eeeddHHmm";
     }else{
-        dateFormatTemplateFrom = @"eeee dd MMM',' HH':'mm";
-        dateFormatTemplateTo = @"HH':'mm";
+        dateComponentFrom = @"eeeeddMMMHHmm";
+        dateComponentTo = @"HHmm";
     }
 
-    [dateFormatterFrom setDateFormat:dateFormatTemplateFrom];
-    [dateFormatterTo setDateFormat:dateFormatTemplateTo];
+    //NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"da_DK"];
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *dateTemplateFrom = [NSDateFormatter dateFormatFromTemplate:dateComponentFrom options:0 locale:locale];
+    NSString *dateTemplateTo = [NSDateFormatter dateFormatFromTemplate:dateComponentTo options:0 locale:locale];
 
-    //NSLocale *daLocal = [[NSLocale alloc] initWithLocaleIdentifier:@"da_DK"];
+    [dateFormatterFrom setDateFormat:dateTemplateFrom];
+    [dateFormatterTo setDateFormat:dateTemplateTo];
 
     //Localize the date
-    dateFormatterFrom.locale = [NSLocale currentLocale];
-    dateFormatterTo.locale = [NSLocale currentLocale];
+    dateFormatterFrom.locale = locale;
+    dateFormatterTo.locale = locale;
     
     NSString *startDate = [dateFormatterFrom stringFromDate:invitation.startDate];
     NSString *endDate = [dateFormatterTo stringFromDate:invitation.endDate];
     NSString *formattedDate = [[startDate stringByAppendingString:@" - "] stringByAppendingString:endDate];
 
     return formattedDate;
+}
+
+-(void) setInivationAccept:(CHDInvitation *) invitation {
+    NSLog(@"Invitation id %@", invitation.invitationId);
+    [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationAccept] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }] subscribeNext:^(id x) {
+        NSLog(@"Success");
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+-(void) setInivationMaybe:(CHDInvitation *) invitation {
+    [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationMaybe] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }] subscribeNext:^(id x) {
+        NSLog(@"Success");
+    } error:^(NSError *error) {
+
+    }];
+}
+
+-(void) setInivationDecline:(CHDInvitation *) invitation {
+    [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationDecline] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }] subscribeNext:^(id x) {
+        NSLog(@"Success");
+    } error:^(NSError *error) {
+
+    }];
 }
 
 @end

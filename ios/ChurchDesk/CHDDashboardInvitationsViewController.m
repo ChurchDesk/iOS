@@ -106,7 +106,21 @@
     cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:invitation.changeDate];
 
     //Setup events for the buttons
-    [cell.acceptButton addTarget:self action:@selector(accepted) forControlEvents:UIControlEventTouchUpInside];
+    RACSignal *invitationAccept = [[cell.acceptButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal];
+    RACSignal *invitationMaybe = [[cell.maybeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal];
+    RACSignal *invitationDecline = [[cell.declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal];
+
+    [self.viewModel rac_liftSelector:@selector(setInivationAccept:) withSignals:[[invitationAccept map:^id(id value) {
+        return invitation;
+    }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
+    [self.viewModel rac_liftSelector:@selector(setInivationMaybe:) withSignals:[[invitationMaybe map:^id(id value) {
+        return invitation;
+    }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
+    [self.viewModel rac_liftSelector:@selector(setInivationDecline:) withSignals:[[invitationDecline map:^id(id value) {
+        return invitation;
+    }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
     if(indexPath.item % 2 == 1) {
         [cell.leftBorder setBackgroundColor:[UIColor chd_categoryOrangeColor]];
