@@ -61,6 +61,7 @@
     [self.receivedTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.right.equalTo(contentView).with.offset(-15);
         make.top.equalTo(contentView).with.offset(15);
+        make.left.greaterThanOrEqualTo(self.parishLabel.mas_right).offset(5);
     }];
 
     [self.receivedDot mas_makeConstraints:^(MASConstraintMaker *make){

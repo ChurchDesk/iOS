@@ -79,6 +79,7 @@
     [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.userNameLabel);
         make.right.equalTo(contentView).offset(-14);
+        make.left.greaterThanOrEqualTo(self.userNameLabel.mas_right).offset(5);
     }];
 
     [self.parishLabel mas_makeConstraints:^(MASConstraintMaker *make) {
