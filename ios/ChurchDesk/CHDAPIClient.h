@@ -19,6 +19,7 @@
 - (RACSignal*)getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
 - (RACSignal*) getInvitations;
 - (RACSignal*) getHolidaysFromYear: (NSInteger) year;
+- (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSNumber *) response;
 
 - (RACSignal*) getUnreadMessages;
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit;

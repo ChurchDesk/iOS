@@ -178,6 +178,14 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self resourcesForPath:[NSString stringWithFormat:@"holydays/%@", @(year)] resultClass:[CHDHoliday class] withResource:nil];
 }
 
+- (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSNumber *) response {
+    SHPAPIManager *manager = self.manager;
+    return [[self resourcesForPath:[NSString stringWithFormat:@"events/respond/%@/%@?site=%@", eventId, response, siteId] resultClass:[NSDictionary class] withResource:nil] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:@"*my-invites*"];
+        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"*events/%@*?site=%@", eventId, siteId]];
+    }];
+}
+
 #pragma mark - Messages
 
 - (RACSignal*) getUnreadMessages{
