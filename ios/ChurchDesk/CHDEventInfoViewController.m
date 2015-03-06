@@ -117,6 +117,7 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowDate]) {
         CHDEventInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.iconImageView.image = kImgEventTime;
         cell.titleLabel.text = [self.viewModel eventDateString];
         cell.disclosureArrowHidden = YES;

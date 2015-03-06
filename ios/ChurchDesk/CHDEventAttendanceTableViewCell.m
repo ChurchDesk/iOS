@@ -21,6 +21,8 @@
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         self.disclosureArrowHidden = YES;
         self.titleLabel.text = NSLocalizedString(@"Attendance", @"");
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         [self setupSubviews];
         [self makeConstraints];
     }

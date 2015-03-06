@@ -20,6 +20,7 @@
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         self.iconImageView.image = kImgEventGroup;
         self.disclosureArrowHidden = YES;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [self setupSubviews];
         [self makeConstraints];
