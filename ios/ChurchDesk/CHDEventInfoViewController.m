@@ -23,6 +23,7 @@
 #import "CHDEventTextValueTableViewCell.h"
 #import "CHDEventDescriptionTableViewCell.h"
 #import "CHDEnvironment.h"
+#import "CHDEditEventViewController.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -55,6 +56,8 @@
 
 - (void) setupSubviews {
     [self.view addSubview:self.tableView];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editEventAction:)];
 }
 
 - (void) makeConstraints {
@@ -68,6 +71,12 @@
 }
 
 #pragma mark - Actions
+
+- (void)editEventAction: (id) sender {
+    CHDEditEventViewController *vc = [[CHDEditEventViewController alloc] initWithEvent:self.viewModel.event];
+    vc.title = NSLocalizedString(@"Edit Event", @"");
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
+}
 
 - (void)directionsAction: (id) sender {
     NSString *location = self.viewModel.event.location;

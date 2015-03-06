@@ -105,6 +105,10 @@
 		76A541C71A9F5E5F00176D6D /* CHDEventGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541C61A9F5E5F00176D6D /* CHDEventGroupTableViewCell.m */; };
 		76A541CA1A9F600B00176D6D /* CHDEventLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541C91A9F600B00176D6D /* CHDEventLocationTableViewCell.m */; };
 		76A541CD1A9F625700176D6D /* CHDDividerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A541CC1A9F625700176D6D /* CHDDividerTableViewCell.m */; };
+		76B212921AA9B1D300E4104C /* CHDEditEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B212911AA9B1D300E4104C /* CHDEditEventViewController.m */; };
+		76B212951AA9B7CA00E4104C /* CHDEditEventViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B212941AA9B7CA00E4104C /* CHDEditEventViewModel.m */; };
+		76B2129A1AA9D61A00E4104C /* CHDEventTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B212991AA9D61A00E4104C /* CHDEventTextFieldCell.m */; };
+		76B2129D1AA9D9C900E4104C /* CHDEventValueTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B2129C1AA9D9C900E4104C /* CHDEventValueTableViewCell.m */; };
 		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -307,6 +311,14 @@
 		76A541C91A9F600B00176D6D /* CHDEventLocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventLocationTableViewCell.m; sourceTree = "<group>"; };
 		76A541CB1A9F625700176D6D /* CHDDividerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDividerTableViewCell.h; sourceTree = "<group>"; };
 		76A541CC1A9F625700176D6D /* CHDDividerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDividerTableViewCell.m; sourceTree = "<group>"; };
+		76B212901AA9B1D300E4104C /* CHDEditEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEditEventViewController.h; sourceTree = "<group>"; };
+		76B212911AA9B1D300E4104C /* CHDEditEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEditEventViewController.m; sourceTree = "<group>"; };
+		76B212931AA9B7CA00E4104C /* CHDEditEventViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEditEventViewModel.h; sourceTree = "<group>"; };
+		76B212941AA9B7CA00E4104C /* CHDEditEventViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEditEventViewModel.m; sourceTree = "<group>"; };
+		76B212981AA9D61A00E4104C /* CHDEventTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTextFieldCell.h; sourceTree = "<group>"; };
+		76B212991AA9D61A00E4104C /* CHDEventTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventTextFieldCell.m; sourceTree = "<group>"; };
+		76B2129B1AA9D9C900E4104C /* CHDEventValueTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventValueTableViewCell.h; sourceTree = "<group>"; };
+		76B2129C1AA9D9C900E4104C /* CHDEventValueTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventValueTableViewCell.m; sourceTree = "<group>"; };
 		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
 		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -546,6 +558,7 @@
 				36E1592F1A94EDF00046F6EA /* Dashboard */,
 				762D16CE1A9B1DFC00588730 /* Calendar */,
 				76A541B41A9F23CE00176D6D /* Event Information */,
+				76B212961AA9B7DC00E4104C /* Edit Event */,
 				762D16CA1A9B19F400588730 /* Model */,
 				76143F181A97762400651CEA /* API */,
 				3667D9D11A923017003716A2 /* generated_resource_images.h */,
@@ -771,6 +784,29 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		76B212961AA9B7DC00E4104C /* Edit Event */ = {
+			isa = PBXGroup;
+			children = (
+				76B212971AA9D5E200E4104C /* Cells */,
+				76B212901AA9B1D300E4104C /* CHDEditEventViewController.h */,
+				76B212911AA9B1D300E4104C /* CHDEditEventViewController.m */,
+				76B212931AA9B7CA00E4104C /* CHDEditEventViewModel.h */,
+				76B212941AA9B7CA00E4104C /* CHDEditEventViewModel.m */,
+			);
+			name = "Edit Event";
+			sourceTree = "<group>";
+		};
+		76B212971AA9D5E200E4104C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				76B212981AA9D61A00E4104C /* CHDEventTextFieldCell.h */,
+				76B212991AA9D61A00E4104C /* CHDEventTextFieldCell.m */,
+				76B2129B1AA9D9C900E4104C /* CHDEventValueTableViewCell.h */,
+				76B2129C1AA9D9C900E4104C /* CHDEventValueTableViewCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		8C7033242449DD2B32139BB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -904,6 +940,7 @@
 				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
 				761247511AA59D01004E7D05 /* CHDAccessToken.m in Sources */,
+				76B2129D1AA9D9C900E4104C /* CHDEventValueTableViewCell.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
 				761247381AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m in Sources */,
 				7612473B1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m in Sources */,
@@ -930,9 +967,11 @@
 				36C4622B1A9DBD2100775FBE /* CHDMessageViewController.m in Sources */,
 				3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */,
 				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
+				76B212921AA9B1D300E4104C /* CHDEditEventViewController.m in Sources */,
 				76A541941A9CBE1500176D6D /* CHDDashboardInvitationsViewModel.m in Sources */,
 				761247261AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m in Sources */,
 				761247291AA45174004E7D05 /* CHDMultiViewTableViewCell.m in Sources */,
+				76B2129A1AA9D61A00E4104C /* CHDEventTextFieldCell.m in Sources */,
 				762D16CD1A9B1A1800588730 /* CHDManagedModel.m in Sources */,
 				360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */,
 				76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */,
@@ -964,6 +1003,7 @@
 				365DD9031A9CCDFA00CC6009 /* CHDMessage.m in Sources */,
 				761247351AA4688D004E7D05 /* CHDEventUsersTableViewCell.m in Sources */,
 				7612475D1AA5F58E004E7D05 /* CHDHoliday.m in Sources */,
+				76B212951AA9B7CA00E4104C /* CHDEditEventViewModel.m in Sources */,
 				762D16DA1A9B4E1A00588730 /* UILabel+ChurchDesk.m in Sources */,
 				76A541BA1A9F25B500176D6D /* CHDEventInfoViewModel.m in Sources */,
 				3667E29D1A95DD3A00141520 /* CHDMessagesTableViewCell.m in Sources */,
