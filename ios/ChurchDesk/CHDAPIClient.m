@@ -118,13 +118,29 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         request.method = method;
         request.ignoreCache = YES;
         NSError *error = nil;
-        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+        NSData *data = dictionary ? [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error] : nil;
         request.body = data;
-        if (!data) {
+        if (!data && dictionary) {
             NSLog(@"Error encoding JSON: %@", error);
         }
     }];
 }
+
+- (RACSignal*)postHeaderDictionary:(NSDictionary*) dictionary resultClass: (Class) resultClass toPath:(NSString*)path {
+    return [self resourcesForPath:path resultClass:resultClass ?: [NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        request.ignoreCache = YES;
+        if(dictionary) {
+            [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+                //Escape the value string
+                [request setValue:value forQueryParameterKey:key];
+            }];
+        }
+
+    }];
+}
+
+
 
 #pragma mark - User
 
@@ -178,9 +194,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self resourcesForPath:[NSString stringWithFormat:@"holydays/%@", @(year)] resultClass:[CHDHoliday class] withResource:nil];
 }
 
-- (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSNumber *) response {
+- (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSInteger) response {
     SHPAPIManager *manager = self.manager;
-    return [[self resourcesForPath:[NSString stringWithFormat:@"events/respond/%@/%@?site=%@", eventId, response, siteId] resultClass:[NSDictionary class] withResource:nil] doNext:^(id x) {
+
+    return [[self postHeaderDictionary:@{@"site" : siteId} resultClass:[NSDictionary class] toPath:[NSString stringWithFormat:@"events/respond/%@/%li", eventId, (long) response]] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"*my-invites*"];
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"*events/%@*?site=%@", eventId, siteId]];
     }];
