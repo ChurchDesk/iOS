@@ -8,6 +8,7 @@
 
 #import "CHDEditEventViewModel.h"
 #import "CHDEvent.h"
+#import "CHDAPIClient.h"
 
 NSString *const CHDEventEditSectionTitle = @"CHDEventEditSectionTitle";
 NSString *const CHDEventEditSectionDate = @"CHDEventEditSectionDate";
@@ -41,6 +42,9 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 @property (nonatomic, strong) NSArray *sections;
 @property (nonatomic, strong) NSDictionary *sectionRows;
 
+@property (nonatomic, strong) CHDEnvironment *environment;
+@property (nonatomic, strong) CHDUser *user;
+
 @end
 
 @implementation CHDEditEventViewModel
@@ -49,6 +53,9 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     self = [super init];
     if (self) {
         _event = event;
+        
+        [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
+        [self rac_liftSelector:@selector(setUser:) withSignals:[[CHDAPIClient sharedInstance] getCurrentUser], nil];
         
         self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc];
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],

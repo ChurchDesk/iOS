@@ -35,11 +35,14 @@ extern NSString *const CHDEventEditRowVisibility;
 
 extern NSString *const CHDEventEditRowDivider;
 
-@class CHDEvent;
+@class CHDEvent, CHDEnvironment, CHDUser;
 
 @interface CHDEditEventViewModel : NSObject
 
 @property (nonatomic, strong) CHDEvent *event;
+@property (nonatomic, readonly) CHDEnvironment *environment;
+@property (nonatomic, readonly) CHDUser *user;
+
 @property (nonatomic, readonly) NSArray *sections;
 
 - (instancetype)initWithEvent: (CHDEvent*) event;

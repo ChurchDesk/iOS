@@ -13,6 +13,7 @@
 #import "CHDEventTextFieldCell.h"
 #import "CHDEventValueTableViewCell.h"
 #import "CHDEvent.h"
+#import "CHDUser.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -38,6 +39,7 @@
     
     [self setupSubviews];
     [self makeConstraints];
+    [self setupBindings];
 }
 
 - (void) setupSubviews {
@@ -51,6 +53,10 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+}
+
+- (void) setupBindings {
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user)]] ignore:nil]];
 }
 
 #pragma mark - Actions
@@ -106,7 +112,7 @@
     else if ([row isEqualToString:CHDEventEditRowParish]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Parish", @"");
-        cell.valueLabel.text = event.siteId;
+        cell.valueLabel.text = [self.viewModel.user siteWithId:event.siteId].name;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowGroup]) {

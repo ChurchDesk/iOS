@@ -5,8 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CHDManagedModel.h"
-
-@class CHDSite;
+#import "CHDSite.h"
 
 @interface CHDUser : CHDManagedModel
 
