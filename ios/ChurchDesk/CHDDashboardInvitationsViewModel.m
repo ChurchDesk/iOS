@@ -25,6 +25,8 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.invitations = @[];
+
         RAC(self, invitations) = [[[CHDAPIClient sharedInstance] getInvitations] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
