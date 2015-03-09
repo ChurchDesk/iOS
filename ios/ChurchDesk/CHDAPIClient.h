@@ -21,6 +21,7 @@
 - (RACSignal*) getHolidaysFromYear: (NSInteger) year;
 - (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSInteger) response;
 - (RACSignal*) createMessageWithTitle:(NSString*) title message:(NSString*) message siteId: (NSString*) siteId groupId:(NSNumber*) groupId;
+- (RACSignal*) createCommentForMessageId:(NSNumber*) targetId siteId: (NSString*) siteId body:(NSString*) message;
 
 - (RACSignal*) getUnreadMessages;
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit;

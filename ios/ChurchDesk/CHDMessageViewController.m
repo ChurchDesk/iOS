@@ -90,6 +90,15 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, message), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, latestComment), RACObserve(self.viewModel, user)]]];
     [self shprac_liftSelector:@selector(showAllComments) withSignal:RACObserve(self.viewModel, showAllComments)];
+
+    //Bind the input field to the viewModel
+    RAC(self.replyView.replyButton, enabled) = RACObserve(self.viewModel, canSendComment);
+
+    RAC(self.viewModel, comment) = [[self.replyView.replyTextView rac_textSignal] map:^id(NSString *string) {
+        return string?: @"";
+    }];
+
+    [self.viewModel shprac_liftSelector:@selector(sendComment) withSignal:[self.replyView.replyButton rac_signalForControlEvents:UIControlEventTouchUpInside]];
 }
 
 -(UITableView*) tableView{

@@ -240,6 +240,14 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"messages"];
 }
 
+- (RACSignal*) createCommentForMessageId:(NSNumber*) targetId siteId: (NSString*) siteId body:(NSString*) message {
+    SHPAPIManager *manager = self.manager;
+    NSDictionary *body = @{@"site": siteId, @"targetId": targetId, @"body": message};
+    return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"comments"] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"*messages/%@*", targetId]];
+    }];
+}
+
 #pragma mark - Refresh token
 
 - (RACSignal *)tokenValidationWrapper:(RACSignal *)requestSignal {

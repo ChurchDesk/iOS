@@ -9,9 +9,14 @@
 #import "CHDMessage.h"
 #import "CHDComment.h"
 #import "CHDUser.h"
+#import "CHDAPICreate.h"
 
 
 @interface CHDMessageViewModel()
+@property (nonatomic) BOOL hasMessage;
+@property (nonatomic) BOOL canSendComment;
+@property (nonatomic, strong) CHDAPICreate *apiResponse;
+
 @property (nonatomic, strong) NSArray *allComments;
 @property (nonatomic, strong) CHDComment *latestComment;
 @property (nonatomic, strong) CHDMessage *message;
@@ -65,8 +70,34 @@
             };
             return @[];
         }];
+
+        RAC(self, canSendComment) = [RACObserve(self, comment) map:^id(NSString *string) {
+            return @(![string isEqualToString:@""]);
+        }];
+
+        //[self rac_liftSelector:@selector(didSendComment:) withSignals:RACObserve(self, apiResponse), nil];
     }
     return self;
 }
+
+- (void) didSendComment: (CHDAPICreate *) apiResponse {
+    if(apiResponse.error){
+
+    }else if(apiResponse.createId){
+
+    }
+}
+
+- (void)sendComment {
+    if(self.canSendComment){
+        NSNumber *messageId = self.message.messageId;
+        NSString *siteId = self.message.siteId;
+        NSString *comment = self.comment;
+        RAC(self, apiResponse) = [[[CHDAPIClient sharedInstance] createCommentForMessageId:messageId siteId:siteId body:comment] catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+    }
+}
+
 
 @end

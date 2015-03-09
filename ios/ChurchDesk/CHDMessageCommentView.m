@@ -26,6 +26,7 @@
         self.backgroundColor = [UIColor shpui_colorWithHexValue:0xf7f7f7];
         [self makeViews];
         [self makeConstraints];
+        [self makeBindings];
     }
     return self;
 }
@@ -57,6 +58,10 @@
         make.left.equalTo(self.replyTextView).offset(8);
         make.centerY.equalTo(self.replyTextView);
     }];
+}
+
+-(void) makeBindings {
+    [self rac_liftSelector:@selector(textDidChange:) withSignals:[self.replyTextView rac_textSignal], nil];
 }
 
 -(UIButton*) replyButton{
@@ -98,11 +103,10 @@
     return CGSizeMake(0, 50);
 }
 
-#pragma mark - TextView delegate
-
-- (void)textViewDidChange:(UITextView *)textView {
-    CGSize size = textView.contentSize;
-    if(![textView.text isEqual:@""]){
+#pragma mark - TextView
+- (void)textDidChange:(NSString *)text {
+    CGSize size = self.replyTextView.contentSize;
+    if(![self.replyTextView.text isEqual:@""]){
         [self.placeholder removeFromSuperview];
     }
     if(size.height > 150){
