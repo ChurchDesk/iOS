@@ -7,7 +7,6 @@
 //
 
 #import "CHDEditEventViewController.h"
-#import "CHDEventInfoTableViewCell.h"
 #import "CHDEditEventViewModel.h"
 #import "CHDDividerTableViewCell.h"
 #import "CHDEventTextFieldCell.h"
@@ -17,6 +16,9 @@
 #import "CHDEnvironment.h"
 #import "CHDEventTextViewTableViewCell.h"
 #import "SHPKeyboardAwareness.h"
+#import "CHDListSelectorViewController.h"
+#import "CHDGroup.h"
+#import "CHDEventCategory.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -32,7 +34,7 @@
 - (instancetype)initWithEvent: (CHDEvent*) event {
     self = [super init];
     if (self) {
-        self.viewModel = [[CHDEditEventViewModel alloc] initWithEvent:event];
+        self.viewModel = [[CHDEditEventViewModel alloc] initWithEvent:[event copy]];
     }
     return self;
 }
@@ -45,6 +47,12 @@
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
 }
 
 - (void) setupSubviews {
@@ -61,7 +69,7 @@
 }
 
 - (void) setupBindings {
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user)]] ignore:nil]];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds)]] ignore:nil]];
     
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignal], nil];
 }
@@ -97,6 +105,83 @@
         return 36;
     }
     return 49;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *row = [self.viewModel rowsForSectionAtIndex:indexPath.section][indexPath.row];
+    CHDEvent *event = self.viewModel.event;
+    CHDEnvironment *environment = self.viewModel.environment;
+    CHDUser *user = self.viewModel.user;
+    
+    NSMutableArray *items = [NSMutableArray new];
+    NSString *title = nil;
+    BOOL selectMultiple = NO;
+    
+    if ([row isEqualToString:CHDEventEditRowParish]) {
+        title = NSLocalizedString(@"Select Parish", @"");
+        for (CHDSite *site in user.sites) {
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:site.name color:nil selected:[event.siteId isEqualToString:site.siteId] refObject:site.siteId]];
+        }
+    }
+    else if ([row isEqualToString:CHDEventEditRowGroup]) {
+        title = NSLocalizedString(@"Select Group", @"");
+        for (CHDGroup *group in environment.groups) {
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:group.name color:nil selected:[event.groupId isEqualToNumber:group.groupId] refObject:group.groupId]];
+        }
+    }
+    else if ([row isEqualToString:CHDEventEditRowCategories]) {
+        title = NSLocalizedString(@"Select Category", @"");
+        selectMultiple = YES;
+        for (CHDEventCategory *category in environment.eventCategories) {
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:category.name color:category.color selected:[event.eventCategoryIds containsObject:category.categoryId] refObject:category.categoryId]];
+        }
+    }
+    else if ([row isEqualToString:CHDEventEditRowUsers]) {
+        title = NSLocalizedString(@"Select Users", @"");
+        selectMultiple = YES;
+        for (CHDPeerUser *user in environment.users) {
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name color:nil selected:[event.userIds containsObject:user.userId] refObject:user.userId]];
+        }
+    }
+    else if ([row isEqualToString:CHDEventEditRowResources]) {
+        title = NSLocalizedString(@"Select Resources", @"");
+        selectMultiple = YES;
+        for (CHDResource *resource in environment.resources) {
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:resource.name color:resource.color selected:[event.resourceIds containsObject:resource.resourceId] refObject:resource.resourceId]];
+        }
+    }
+    
+    if (items.count) {
+        CHDListSelectorViewController *vc = [[CHDListSelectorViewController alloc] initWithSelectableItems:items];
+        vc.title = title;
+        vc.selectMultiple = selectMultiple;
+        
+        RACSignal *selectedSignal = [[[RACObserve(vc, selectedItems) map:^id(NSArray *selectedItems) {
+            return [selectedItems valueForKey:@"refObject"];
+        }] skip:1] takeUntil:vc.rac_willDeallocSignal];
+        
+        RACSignal *selectedSingleSignal = [selectedSignal map:^id(NSArray *selectedItems) {
+            return selectedItems.firstObject;
+        }];
+        
+        if ([row isEqualToString:CHDEventEditRowParish]) {
+            RAC(self.viewModel.event, siteId) = selectedSingleSignal;
+        }
+        else if ([row isEqualToString:CHDEventEditRowGroup]) {
+            RAC(self.viewModel.event, groupId) = selectedSingleSignal;
+        }
+        else if ([row isEqualToString:CHDEventEditRowCategories]) {
+            RAC(self.viewModel.event, eventCategoryIds) = selectedSignal;
+        }
+        else if ([row isEqualToString:CHDEventEditRowUsers]) {
+            RAC(self.viewModel.event, userIds) = selectedSignal;
+        }
+        else if ([row isEqualToString:CHDEventEditRowResources]) {
+            RAC(self.viewModel.event, resourceIds) = selectedSignal;
+        }
+        
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -219,7 +304,7 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 49;
-        [_tableView registerClass:[CHDEventInfoTableViewCell class] forCellReuseIdentifier:@"cell"];
+        
         [_tableView registerClass:[CHDEventTextFieldCell class] forCellReuseIdentifier:@"textfield"];
         [_tableView registerClass:[CHDEventValueTableViewCell class] forCellReuseIdentifier:@"value"];
         [_tableView registerClass:[CHDEventTextViewTableViewCell class] forCellReuseIdentifier:@"textview"];

@@ -7,6 +7,7 @@
 //
 
 #import "CHDEvent.h"
+#import "Autocoding.h"
 
 @implementation CHDEvent
 
@@ -57,8 +58,22 @@
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 
+- (id)copyWithZone:(id)zone
+{
+    id copy = [[[self class] alloc] init];
+    for (NSString *key in [self codableProperties])
+    {
+        [copy setValue:[self valueForKey:key] forKey:key];
+    }
+    return copy;
+}
+
+- (NSUInteger)hash {
+    return self.eventId.hash;
+}
+
 - (BOOL)isEqual:(CHDEvent*)object {
-    return [object.eventId isEqualToNumber:self.eventId];
+    return self.eventId ? [object.eventId isEqualToNumber:self.eventId] : NO;
 }
 
 @end

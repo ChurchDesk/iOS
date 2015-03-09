@@ -64,6 +64,11 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
     return _tableView;
 }
 
+- (NSArray *)selectedItems {
+    return [self.selectableElements shp_filter:^BOOL(CHDListSelectorConfigModel *element) {
+        return element.selected;
+    }];
+}
 
 #pragma mark - Table Delegate
 
@@ -73,7 +78,10 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
     CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
     BOOL elementSelectedPreStage = element.selected;
 
+    [self willChangeValueForKey:@"selectedItems"];
     element.selected = YES;
+    [self didChangeValueForKey:@"selectedItems"];
+    
     [self.selectorDelegate chdListSelectorDidSelect:element];
 
     //Only pop if the stage has changed
@@ -85,7 +93,10 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
 
+    [self willChangeValueForKey:@"selectedItems"];
     element.selected = NO;
+    [self didChangeValueForKey:@"selectedItems"];
+
     [tableView cellForRowAtIndexPath:indexPath].selected = NO;
 }
 

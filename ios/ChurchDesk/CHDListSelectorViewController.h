@@ -13,6 +13,7 @@
 @interface CHDListSelectorViewController : CHDAbstractViewController  <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, assign) BOOL selectMultiple;
 @property (weak) id<CHDListSelectorDelegate> selectorDelegate;
+@property (nonatomic, readonly) NSArray *selectedItems;
 
 -(instancetype)initWithSelectableItems: (NSArray*) items;
 @end

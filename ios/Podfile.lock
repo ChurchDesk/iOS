@@ -1,4 +1,5 @@
 PODS:
+  - AutoCoding (2.2.1)
   - DCIntrospect-ARC (HEAD based on 0.0.8)
   - dyci (0.1.5.6):
     - dyci/Injections (= 0.1.5.6)
@@ -47,6 +48,7 @@ PODS:
   - SSKeychain (1.2.2)
 
 DEPENDENCIES:
+  - Autocoding
   - DCIntrospect-ARC (HEAD)
   - FormatterKit (~> 1.8.0)
   - Haneke (~> 1.0.1)
@@ -72,6 +74,7 @@ CHECKOUT OPTIONS:
     :git: git@github.com:miklselsoe/SHPCalendarPicker.git
 
 SPEC CHECKSUMS:
+  AutoCoding: 5165b83fa6199573cc82dfb5d2cc72e11b458a1f
   DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
   dyci: 86668b266b8a281cb6db02843150f6a210c34ee9
   FormatterKit: 547a808c41172136a3f3acb424ac9361d38bb32f

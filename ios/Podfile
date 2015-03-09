@@ -20,6 +20,7 @@ pod 'Haneke', '~> 1.0.1'
 pod 'SHPKeyboardAwareness', '~> 1.2.0'
 pod 'SSKeychain', '~> 1.2.2'
 pod 'FormatterKit', '~> 1.8.0'
+pod 'Autocoding', '~> 2.2.1'
 
 # pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'
 
