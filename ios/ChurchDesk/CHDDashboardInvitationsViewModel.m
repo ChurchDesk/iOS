@@ -59,17 +59,17 @@
     // Use "jj" instead of "HH" to create a 01-12(am/pm) and 00-23 template
     // "jj" follows the local format
     if(fromComponents.year != toComponents.year){
-        dateComponentFrom = @"eeeddMMMHHmm";
-        dateComponentTo = @"eeeddMMMYYYYHHmm";
+        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMHHmm";
+        dateComponentTo = invitation.allDay? @"eeeddMMMYYYY" : @"eeeddMMMYYYYHHmm";
     }else if(fromComponents.month != toComponents.month){
-        dateComponentFrom = @"eeeddMMMHHmm";
-        dateComponentTo = @"eeeddMMMHHmm";
+        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMHHmm";
+        dateComponentTo = invitation.allDay? @"eeeddMMM" :@"eeeddMMMHHmm";
     }else if(fromComponents.day != toComponents.day){
-        dateComponentFrom = @"eeeddMMMHHmm";
-        dateComponentTo = @"eeeddHHmm";
+        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMHHmm";
+        dateComponentTo = invitation.allDay? @"eeedd" : @"eeeddHHmm";
     }else{
-        dateComponentFrom = @"eeeeddMMMHHmm";
-        dateComponentTo = @"HHmm";
+        dateComponentFrom = invitation.allDay? @"eeeeddMMM" : @"eeeeddMMMHHmm";
+        dateComponentTo = invitation.allDay? @"" : @"HHmm";
     }
 
     //NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"da_DK"];
@@ -86,7 +86,7 @@
     
     NSString *startDate = [dateFormatterFrom stringFromDate:invitation.startDate];
     NSString *endDate = [dateFormatterTo stringFromDate:invitation.endDate];
-    NSString *formattedDate = [[startDate stringByAppendingString:@" - "] stringByAppendingString:endDate];
+    NSString *formattedDate = [endDate isEqualToString:@""]? startDate : [[startDate stringByAppendingString:@" - "] stringByAppendingString:endDate];
 
     return formattedDate;
 }
