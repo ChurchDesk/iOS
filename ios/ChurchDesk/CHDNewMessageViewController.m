@@ -16,6 +16,7 @@
 #import "CHDListSelectorViewController.h"
 #import "CHDNewMessageViewModel.h"
 #import "CHDGroup.h"
+#import "CHDAPICreate.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -78,7 +79,17 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 -(void) rightBarButtonTouch{
     //create a new message
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self rac_liftSelector:@selector(didCreateMessage:) withSignals:RACObserve(self.messageViewModel, createMessageAPIResponse), nil];
+
+    [self.messageViewModel sendMessage];
+}
+
+-(void) didCreateMessage:(CHDAPICreate *)apiResponse{
+    if(apiResponse.error){
+        //Handle the error
+    }else if(apiResponse.createId != nil){
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - TableView delegate

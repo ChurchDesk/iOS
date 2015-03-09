@@ -19,6 +19,7 @@
 #import "NSDateFormatter+ChurchDesk.h"
 #import "CHDUser.h"
 #import "CHDHoliday.h"
+#import "CHDAPICreate.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -102,6 +103,8 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [[[self tokenValidationWrapper:requestSignal] replayLazily] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
+
+        [[CHDAuthenticationManager sharedInstance] signOut];
     }];
 }
 
@@ -230,6 +233,11 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [[self resourcesForPath:[NSString stringWithFormat:@"messages/%@/mark-as-read?site=%@", messageId, siteId] resultClass:[NSDictionary class] withResource:nil] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"*messages/unread*"];
     }];
+}
+
+- (RACSignal*) createMessageWithTitle:(NSString*) title message:(NSString*) message siteId: (NSString*) siteId groupId:(NSNumber*) groupId{
+    NSDictionary *body = @{@"site": siteId, @"groupId": groupId, @"title": title, @"body": message};
+    return [self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"messages"];
 }
 
 #pragma mark - Refresh token

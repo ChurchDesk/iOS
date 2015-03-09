@@ -6,8 +6,8 @@
 #import "CHDNewMessageViewModel.h"
 #import "CHDAPIClient.h"
 #import "CHDListSelectorConfigModel.h"
-#import "CHDGroup.h"
 #import "CHDUser.h"
+#import "CHDAPICreate.h"
 
 @interface CHDNewMessageViewModel()
 @property (nonatomic, assign) CHDEnvironment *environment;
@@ -21,6 +21,8 @@
 @property (nonatomic, strong) NSString* selectedParishName;
 
 @property (nonatomic, assign) CHDUser *user;
+
+@property (nonatomic, strong) CHDAPICreate *createMessageAPIResponse;
 @end
 @implementation CHDNewMessageViewModel
 
@@ -76,6 +78,7 @@
 
 -(NSString*) selectedParishName{
     if(!self.selectedSite){
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         return NSLocalizedString(@"Last used", @"");
     }
     return self.selectedSite.name;
@@ -87,5 +90,11 @@
     }
     return self.selectedGroup.name;
 }
+
+- (void)sendMessage {
+    if(!self.canSendMessage){return;}
+    RAC(self, createMessageAPIResponse) = [[CHDAPIClient sharedInstance] createMessageWithTitle:self.title message:self.message siteId:self.selectedSite.siteId groupId:self.selectedGroup.groupId];
+}
+
 
 @end
