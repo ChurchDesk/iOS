@@ -55,6 +55,7 @@
         _textField.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _textField.textColor = [UIColor chd_textDarkColor];
         _textField.returnKeyType = UIReturnKeyDone;
+        _textField.delegate = self;
     }
     return _textField;
 }

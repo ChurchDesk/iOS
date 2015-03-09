@@ -40,6 +40,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.tableView.backgroundColor = [UIColor chd_lightGreyColor];
+    
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
@@ -115,6 +117,8 @@
     
     if ([row isEqualToString:CHDEventEditRowDivider]) {
         CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"divider" forIndexPath:indexPath];
+        cell.hideTopLine = indexPath.section == 0 && indexPath.row == 0;
+        cell.hideBottomLine = indexPath.section == [tableView numberOfSections]-1 && indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowTitle]) {
@@ -165,6 +169,12 @@
         cell.valueLabel.text = event.resourceIds.count <= 1 ? [self.viewModel.environment resourceWithId:event.resourceIds.firstObject].name : [@(event.resourceIds.count) stringValue];
         returnCell = cell;
     }
+    else if ([row isEqualToString:CHDEventEditRowUsers]) {
+        CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Users", @"");
+        cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject].name : [@(event.userIds.count) stringValue];
+        returnCell = cell;
+    }
     else if ([row isEqualToString:CHDEventEditRowInternalNote] || [row isEqualToString:CHDEventEditRowDescription]) {
         CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
         cell.placeholder = [row isEqualToString:CHDEventEditRowInternalNote] ? NSLocalizedString(@"Internal note", @"") : NSLocalizedString(@"Description", @"");
@@ -185,15 +195,10 @@
         cell.textField.text = event.price;
         returnCell = cell;
     }
-    else if ([row isEqualToString:CHDEventEditRowGroup]) {
+    else if ([row isEqualToString:CHDEventEditRowVisibility]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
-        cell.valueLabel.text = @"";
-        returnCell = cell;
-    }
-    else {
-        CHDEventInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-        cell.titleLabel.text = row;
+        cell.valueLabel.text = event.publicEvent ? NSLocalizedString(@"Public", @"") : NSLocalizedString(@"Internal", @"");
         returnCell = cell;
     }
     

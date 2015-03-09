@@ -57,7 +57,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
         [self rac_liftSelector:@selector(setUser:) withSignals:[[CHDAPIClient sharedInstance] getCurrentUser], nil];
         
-        self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc];
+        self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowStartDate, CHDEventEditRowEndDate],
                              CHDEventEditSectionRecipients : @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories],
@@ -65,7 +65,8 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                              CHDEventEditSectionBooking : @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers],
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility]};
+                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility],
+                             CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
     }
     return self;
 }
