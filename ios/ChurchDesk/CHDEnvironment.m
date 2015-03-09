@@ -43,27 +43,27 @@
 }
 
 - (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId {
-    return [self.eventCategories shp_detect:^BOOL(CHDEventCategory *eventCategory) {
+    return eventCategoryId ? [self.eventCategories shp_detect:^BOOL(CHDEventCategory *eventCategory) {
         return [eventCategory.categoryId isEqualToNumber:eventCategoryId];
-    }];
+    }] : nil;
 }
 
 - (CHDResource*) resourceWithId: (NSNumber*) resourceId {
-    return [self.resources shp_detect:^BOOL(CHDResource *resource) {
+    return resourceId ? [self.resources shp_detect:^BOOL(CHDResource *resource) {
         return [resource.resourceId isEqualToNumber:resourceId];
-    }];
+    }] : nil;
 }
 
 - (CHDGroup*) groupWithId: (NSNumber*) groupId {
-    return [self.groups shp_detect:^BOOL(CHDGroup *group) {
+    return groupId ? [self.groups shp_detect:^BOOL(CHDGroup *group) {
         return [group.groupId isEqualToNumber:groupId];
-    }];
+    }] : nil;
 }
 
 - (CHDPeerUser*) userWithId: (NSNumber*) userId {
-    return [self.users shp_detect:^BOOL(CHDPeerUser *user) {
+    return userId ? [self.users shp_detect:^BOOL(CHDPeerUser *user) {
         return [user.userId isEqualToNumber:userId];
-    }];
+    }] : nil;
 }
 
 @end
