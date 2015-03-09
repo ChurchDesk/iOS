@@ -132,13 +132,13 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     if((newMessagesSections)indexPath.row == selectParishSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Parish", @"");
-        cell.selectedLabel.text = self.messageViewModel.selectedParishName;
+        RAC(cell.selectedLabel, text) = [RACObserve(self.messageViewModel, selectedParishName) takeUntil: cell.rac_prepareForReuseSignal];
         return cell;
     }
     if((newMessagesSections)indexPath.row == selectGroupSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Group", @"");
-        cell.selectedLabel.text = self.messageViewModel.selectedGroupName;
+        RAC(cell.selectedLabel, text) = [RACObserve(self.messageViewModel, selectedGroupName) takeUntil: cell.rac_prepareForReuseSignal];
         cell.dividerLineHidden = YES;
         return cell;
     }
