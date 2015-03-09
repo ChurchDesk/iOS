@@ -26,4 +26,11 @@
     return [super mapPropertyForPropertyWithName: propName];
 }
 
+- (Class)nestedClassForArrayPropertyWithName:(NSString *)propName {
+    if([propName isEqualToString:@"eventCategories"]){
+        return [NSNumber class];
+    }
+    return [super nestedClassForArrayPropertyWithName:propName];
+}
+
 @end

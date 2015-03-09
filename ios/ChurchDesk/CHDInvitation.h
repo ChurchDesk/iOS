@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, CHDInvitationResponse) {
 @property (nonatomic, strong) NSNumber *invitationId;
 @property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, assign) NSInteger eventCategoryId;
+@property (nonatomic, strong) NSArray *eventCategories;
 @property (nonatomic, assign) BOOL allDay;
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;
@@ -42,6 +42,5 @@ typedef NS_ENUM(NSUInteger, CHDInvitationResponse) {
 @property (nonatomic, strong) NSString *location;
 @property (nonatomic, assign) NSNumber *invitedByUserId;
 @property (nonatomic, assign) NSInteger response;
-
 
 @end

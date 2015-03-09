@@ -92,6 +92,8 @@
     CHDEnvironment *environment = self.viewModel.environment;
     CHDUser *user = self.viewModel.user;
 
+    //Get the first eventCategory
+    CHDEventCategory *category = (invitation.eventCategories && invitation.eventCategories.count > 0)?[environment eventCategoryWithId: invitation.eventCategories[0]] : nil;
     CHDPeerUser *invitedByUser = [environment userWithId:invitation.invitedByUserId];
     NSString *invitedByString = NSLocalizedString(@"Invited by ", @"");
 
@@ -122,11 +124,8 @@
         return invitation;
     }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
-    if(indexPath.item % 2 == 1) {
-        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryOrangeColor]];
-    }else{
-        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryPurpleColor]];
-    }
+    UIColor *borderColor = category.color?: [UIColor clearColor];
+    [cell.leftBorder setBackgroundColor:borderColor];
 
     return cell;
 }
