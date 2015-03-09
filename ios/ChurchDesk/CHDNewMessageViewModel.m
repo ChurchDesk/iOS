@@ -6,8 +6,11 @@
 #import "CHDNewMessageViewModel.h"
 #import "CHDAPIClient.h"
 #import "CHDListSelectorConfigModel.h"
-#import "CHDGroup.h"
 #import "CHDUser.h"
+#import "CHDAPICreate.h"
+
+static NSString* kDefaultsSiteIdLastUsed = @"messageSiteIdLastUsed";
+static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 
 @interface CHDNewMessageViewModel()
 @property (nonatomic, assign) CHDEnvironment *environment;
@@ -21,6 +24,8 @@
 @property (nonatomic, strong) NSString* selectedParishName;
 
 @property (nonatomic, assign) CHDUser *user;
+
+@property (nonatomic, strong) CHDAPICreate *createMessageAPIResponse;
 @end
 @implementation CHDNewMessageViewModel
 
@@ -45,47 +50,98 @@
 
         }];
 
-        [self rac_liftSelector:@selector(selectableGroupsMake:) withSignals:RACObserve(self, environment), nil];
+        [self shprac_liftSelector:@selector(selectableGroupsMake) withSignal:[RACSignal merge:@[RACObserve(self, environment), RACObserve(self, selectedSite)]]];
 
         [self rac_liftSelector:@selector(selectableSitesMake:) withSignals:RACObserve(self, user), nil];
+
+        RAC(self, selectedParishName) = [RACObserve(self, selectedSite) map:^id(CHDSite * site) {
+            if(site){
+                return site.name;
+            }
+            return @"";
+        }];
+
+        RAC(self, selectedGroupName) = [RACObserve(self, selectedGroup) map:^id(CHDGroup * group) {
+            if(group){
+                return group.name;
+            }
+            return @"";
+        }];
     }
     return self;
 }
 
--(void) selectableGroupsMake: (CHDEnvironment*)environment {
-    if(environment != nil) {
+-(void) selectableGroupsMake {
+    if(self.environment != nil) {
         NSMutableArray *groups = [[NSMutableArray alloc] init];
-        [environment.groups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
-            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:NO refObject:group];
+
+        CHDGroup *selectedGroup = self.selectedGroup;
+        __block CHDGroup *newSelectedGroup = nil;
+
+        NSNumber *lastUsedId = nil;
+
+        if(selectedGroup == nil){
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            lastUsedId = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kDefaultsGroupIdLastUsed]];
+        }
+
+        NSArray *filteredGroups = @[];
+
+        if(self.selectedSite) {
+            filteredGroups = [self.environment groupsWithSiteId:self.selectedSite.siteId];
+        }else{
+            filteredGroups = self.environment.groups;
+        }
+
+        [filteredGroups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
+            BOOL groupIsSelected = group.groupId == selectedGroup.groupId || group.groupId == lastUsedId;
+            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:groupIsSelected refObject:group];
             [groups addObject:selectable];
+
+            if(groupIsSelected){
+                newSelectedGroup = group;
+            }
         }];
+
+        self.selectedGroup = newSelectedGroup;
+
         self.selectableGroups = [groups copy];
     }
 }
 
 -(void) selectableSitesMake: (CHDUser*)user {
     if(user != nil){
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString* lastUsedId = [defaults stringForKey:kDefaultsSiteIdLastUsed];
+
         NSMutableArray *sites = [[NSMutableArray alloc] init];
         [user.sites enumerateObjectsUsingBlock:^(CHDSite * site, NSUInteger idx, BOOL *stop) {
-            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:NO refObject:site];
+            if(lastUsedId != nil && [site.siteId isEqualToString:lastUsedId]){
+                self.selectedSite = site;
+            }
+            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:(lastUsedId != nil && [site.siteId isEqualToString:lastUsedId]) refObject:site];
             [sites addObject:selectable];
         }];
         self.selectableSites = [sites copy];
     }
 }
 
--(NSString*) selectedParishName{
-    if(!self.selectedSite){
-        return NSLocalizedString(@"Last used", @"");
+-(void) storeDefaults {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if(self.selectedSite){
+        [defaults setObject:self.selectedSite.siteId forKey:kDefaultsSiteIdLastUsed];
     }
-    return self.selectedSite.name;
+
+    if(self.selectedGroup){
+        [defaults setObject:self.selectedGroup.groupId forKey:kDefaultsGroupIdLastUsed];
+    }
 }
 
--(NSString*) selectedGroupName {
-    if(!self.selectedGroup){
-        return NSLocalizedString(@"Last used", @"");
-    }
-    return self.selectedGroup.name;
+- (void)sendMessage {
+    if(!self.canSendMessage){return;}
+    [self storeDefaults];
+    RAC(self, createMessageAPIResponse) = [[CHDAPIClient sharedInstance] createMessageWithTitle:self.title message:self.message siteId:self.selectedSite.siteId groupId:self.selectedGroup.groupId];
 }
+
 
 @end

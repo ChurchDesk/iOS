@@ -175,29 +175,32 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         CHDMessage *message = self.viewModel.message;
         CHDEnvironment *environment = self.viewModel.environment;
         CHDUser *user = self.viewModel.user;
-        
+        CHDGroup *group = [environment groupWithId:message.groupId];
+        CHDPeerUser *authorUser = [environment userWithId: message.authorId];
+        CHDSite *authorSite = [user siteWithId:authorUser.siteId];
+
         CHDMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCellIdentifier forIndexPath:indexPath];
         cell.titleLabel.text = message.title;
-        cell.groupLabel.text = ([environment groupWithId:message.groupId]).name;
-        cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.changeDate];
+        cell.groupLabel.text = group? group.name : @"";
+        cell.createdDateLabel.text = message.changeDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.changeDate] : @"";
         cell.messageLabel.text = message.body;
+        cell.parishLabel.text = authorSite ? authorSite.name : @"";
+        cell.userNameLabel.text = authorUser? authorUser.name : @"";
+        cell.profileImageView.image = authorUser? [UIImage imageWithData:[NSData dataWithContentsOfURL:authorUser.pictureURL]] : nil;
+        
 
-        CHDPeerUser *authorUser = [environment userWithId: message.authorId];
-        CHDSite *autherSite = [user siteWithId:authorUser.siteId];
-        cell.parishLabel.text = autherSite.name;
-        cell.userNameLabel.text = [environment userWithId:message.authorId].name;
-        cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([environment userWithId:message.authorId]).pictureURL]];
         return cell;
     }
     if((messageSections)indexPath.section == commentsSection){
         CHDMessageCommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCommentsCellIdentifier forIndexPath:indexPath];
 
         CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComment;
+        CHDPeerUser *author = [self.viewModel.environment userWithId:comment.authorId];
 
         cell.messageLabel.text = comment.body;
-        cell.createdDateLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate];
-        cell.profileImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:([self.viewModel.environment userWithId:comment.authorId]).pictureURL]];
-        cell.userNameLabel.text = [self.viewModel.environment userWithId:comment.authorId].name;
+        cell.createdDateLabel.text = comment.createdDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate] : @"";
+        cell.profileImageView.image = author? [UIImage imageWithData:[NSData dataWithContentsOfURL:author.pictureURL]] : nil;
+        cell.userNameLabel.text = author? author.name : @"";
 
         return cell;
     }

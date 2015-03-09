@@ -9,6 +9,8 @@
 
 #import "CHDSite.h"
 
+@class CHDAPICreate;
+
 @interface CHDNewMessageViewModel : NSObject
 @property (nonatomic, assign) NSString *message;
 @property (nonatomic, assign) NSString *title;
@@ -22,4 +24,7 @@
 @property (nonatomic, assign) CHDGroup *selectedGroup;
 @property (nonatomic, readonly) NSString *selectedGroupName;
 @property (nonatomic, readonly) NSArray *selectableGroups;
+
+@property (nonatomic, readonly) CHDAPICreate *createMessageAPIResponse;
+-(void) sendMessage;
 @end

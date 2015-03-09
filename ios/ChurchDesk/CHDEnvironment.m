@@ -60,6 +60,14 @@
     }] : nil;
 }
 
+- (NSArray*) groupsWithSiteId: (NSString*) siteId {
+    RACSequence *results = [self.groups.rac_sequence filter:^BOOL(CHDGroup * group) {
+        return [group.siteId isEqualToString:siteId];
+    }];
+
+    return results.array;
+}
+
 - (CHDPeerUser*) userWithId: (NSNumber*) userId {
     return userId ? [self.users shp_detect:^BOOL(CHDPeerUser *user) {
         return [user.userId isEqualToNumber:userId];
