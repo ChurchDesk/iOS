@@ -48,19 +48,55 @@
         }];
 
         [self rac_liftSelector:@selector(selectableGroupsMake:) withSignals:RACObserve(self, environment), nil];
-
+        [self shprac_liftSelector:@selector(didChangeSelectedSite) withSignal:RACObserve(self, selectedSite)];
         [self rac_liftSelector:@selector(selectableSitesMake:) withSignals:RACObserve(self, user), nil];
     }
     return self;
 }
 
+-(void) didChangeSelectedSite {
+    NSMutableArray *groups = [[NSMutableArray alloc] init];
+
+    if(self.selectedSite) {
+        NSArray *filteredGroups = [self.environment groupsWithSiteId:self.selectedSite.siteId];
+
+        CHDGroup *selectedGroup = self.selectedGroup;
+        __block CHDGroup *newSelectedGroup = nil;
+        
+        [filteredGroups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
+            BOOL groupIsSelected = group.groupId == selectedGroup.groupId;
+            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:groupIsSelected refObject:group];
+            [groups addObject:selectable];
+
+            if(groupIsSelected){
+                newSelectedGroup = group;
+            }
+        }];
+
+        self.selectedGroup = newSelectedGroup;
+
+        self.selectableGroups = [groups copy];
+    }
+}
+
 -(void) selectableGroupsMake: (CHDEnvironment*)environment {
     if(environment != nil) {
         NSMutableArray *groups = [[NSMutableArray alloc] init];
-        [environment.groups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
-            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:NO refObject:group];
-            [groups addObject:selectable];
-        }];
+
+        if(self.selectedSite){
+            NSArray *filteredGroups = [environment groupsWithSiteId:self.selectedSite.siteId];
+
+            [filteredGroups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
+                CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:NO refObject:group];
+                [groups addObject:selectable];
+            }];
+        }else{
+            [environment.groups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
+                CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:NO refObject:group];
+                [groups addObject:selectable];
+            }];
+        }
+
         self.selectableGroups = [groups copy];
     }
 }
@@ -79,14 +115,14 @@
 -(NSString*) selectedParishName{
     if(!self.selectedSite){
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        return NSLocalizedString(@"Last used", @"");
+        return @"";
     }
     return self.selectedSite.name;
 }
 
 -(NSString*) selectedGroupName {
     if(!self.selectedGroup){
-        return NSLocalizedString(@"Last used", @"");
+        return @"";
     }
     return self.selectedGroup.name;
 }
