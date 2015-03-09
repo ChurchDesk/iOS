@@ -219,7 +219,9 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId {
-    return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@?site=%@", messageId, siteId] resultClass:[CHDMessage class] withResource:nil];
+    return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@", messageId] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:siteId forQueryParameterKey:@"site"];
+    }];
 }
 
 //This will return a 200 with no content
