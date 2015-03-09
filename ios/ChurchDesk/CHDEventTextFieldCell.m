@@ -8,7 +8,7 @@
 
 #import "CHDEventTextFieldCell.h"
 
-@interface CHDEventTextFieldCell ()
+@interface CHDEventTextFieldCell () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UITextField *textField;
 
@@ -40,6 +40,13 @@
     }];
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 #pragma mark - Lazy Initialization
 
 - (UITextField *)textField {
@@ -47,6 +54,7 @@
         _textField = [UITextField new];
         _textField.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _textField.textColor = [UIColor chd_textDarkColor];
+        _textField.returnKeyType = UIReturnKeyDone;
     }
     return _textField;
 }

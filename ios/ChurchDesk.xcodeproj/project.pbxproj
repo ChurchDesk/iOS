@@ -76,6 +76,7 @@
 		76143F171A9634FA00651CEA /* CHDMagicNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76143F161A9634FA00651CEA /* CHDMagicNavigationBarView.m */; };
 		76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 76143F1A1A9779ED00651CEA /* CHDAPIClient.m */; };
 		76143F1E1A977CA400651CEA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76143F1D1A977CA400651CEA /* Crashlytics.framework */; };
+		761E46D81AAD91EC00247CEC /* CHDEventTextViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E46D71AAD91EC00247CEC /* CHDEventTextViewTableViewCell.m */; };
 		762D16CD1A9B1A1800588730 /* CHDManagedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 762D16CC1A9B1A1800588730 /* CHDManagedModel.m */; };
 		762D16D11A9B1E2E00588730 /* CHDCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 762D16D01A9B1E2E00588730 /* CHDCalendarViewController.m */; };
 		762D16D41A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 762D16D31A9B293200588730 /* SHPCalendarPickerView+ChurchDesk.m */; };
@@ -252,6 +253,8 @@
 		76143F191A9779ED00651CEA /* CHDAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAPIClient.h; sourceTree = "<group>"; };
 		76143F1A1A9779ED00651CEA /* CHDAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAPIClient.m; sourceTree = "<group>"; };
 		76143F1D1A977CA400651CEA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		761E46D61AAD91EC00247CEC /* CHDEventTextViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTextViewTableViewCell.h; sourceTree = "<group>"; };
+		761E46D71AAD91EC00247CEC /* CHDEventTextViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventTextViewTableViewCell.m; sourceTree = "<group>"; };
 		762D16CB1A9B1A1800588730 /* CHDManagedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDManagedModel.h; sourceTree = "<group>"; };
 		762D16CC1A9B1A1800588730 /* CHDManagedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDManagedModel.m; sourceTree = "<group>"; };
 		762D16CF1A9B1E2E00588730 /* CHDCalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDCalendarViewController.h; sourceTree = "<group>"; };
@@ -803,6 +806,8 @@
 				76B212991AA9D61A00E4104C /* CHDEventTextFieldCell.m */,
 				76B2129B1AA9D9C900E4104C /* CHDEventValueTableViewCell.h */,
 				76B2129C1AA9D9C900E4104C /* CHDEventValueTableViewCell.m */,
+				761E46D61AAD91EC00247CEC /* CHDEventTextViewTableViewCell.h */,
+				761E46D71AAD91EC00247CEC /* CHDEventTextViewTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -933,6 +938,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76A541B31A9F199700176D6D /* CHDPeerUser.m in Sources */,
+				761E46D81AAD91EC00247CEC /* CHDEventTextViewTableViewCell.m in Sources */,
 				76A541A41A9F0F3900176D6D /* UINavigationController+ChurchDesk.m in Sources */,
 				7612474B1AA4ADE3004E7D05 /* CHDLoginViewModel.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,

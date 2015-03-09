@@ -14,6 +14,9 @@
 #import "CHDEventValueTableViewCell.h"
 #import "CHDEvent.h"
 #import "CHDUser.h"
+#import "CHDEnvironment.h"
+#import "CHDEventTextViewTableViewCell.h"
+#import "SHPKeyboardAwareness.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -57,6 +60,8 @@
 
 - (void) setupBindings {
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user)]] ignore:nil]];
+    
+    [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignal], nil];
 }
 
 #pragma mark - Actions
@@ -69,7 +74,28 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void) handleKeyboardEvent: (SHPKeyboardEvent*) event {
+    
+    if (event.keyboardEventType == SHPKeyboardEventTypeShow) {
+        event.originalOffset = self.tableView.contentOffset.y;
+    }
+    
+    [UIView animateWithDuration:event.keyboardAnimationDuration delay:0 options:event.keyboardAnimationOptionCurve animations:^{
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, event.keyboardFrame.size.height, 0);
+        self.tableView.contentOffset = CGPointMake(0, event.keyboardEventType == SHPKeyboardEventTypeShow ? self.tableView.contentOffset.y - event.requiredViewOffset : event.originalOffset);
+        self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+    } completion:nil];
+}
+
 #pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *row = [self.viewModel rowsForSectionAtIndex:indexPath.section][indexPath.row];
+    if ([row isEqualToString:CHDEventEditRowDivider]) {
+        return 36;
+    }
+    return 49;
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -118,13 +144,13 @@
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Group", @"");
-        cell.valueLabel.text = [event.groupId stringValue];
+        cell.valueLabel.text = [self.viewModel.environment groupWithId:event.groupId].name;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
-        cell.valueLabel.text = @"3";//[event.eventCategoryIds];
+        cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject].name : [@(event.eventCategoryIds.count) stringValue];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowLocation]) {
@@ -136,7 +162,15 @@
     else if ([row isEqualToString:CHDEventEditRowResources]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Resources", @"");
-        cell.valueLabel.text = [event.groupId stringValue];
+        cell.valueLabel.text = event.resourceIds.count <= 1 ? [self.viewModel.environment resourceWithId:event.resourceIds.firstObject].name : [@(event.resourceIds.count) stringValue];
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDEventEditRowInternalNote] || [row isEqualToString:CHDEventEditRowDescription]) {
+        CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
+        cell.placeholder = [row isEqualToString:CHDEventEditRowInternalNote] ? NSLocalizedString(@"Internal note", @"") : NSLocalizedString(@"Description", @"");
+        cell.textView.text = [row isEqualToString:CHDEventEditRowInternalNote] ? event.internalNote : event.eventDescription;
+        cell.tableView = tableView;
+        
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowContributor]) {
@@ -179,9 +213,11 @@
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.estimatedRowHeight = 49;
         [_tableView registerClass:[CHDEventInfoTableViewCell class] forCellReuseIdentifier:@"cell"];
         [_tableView registerClass:[CHDEventTextFieldCell class] forCellReuseIdentifier:@"textfield"];
         [_tableView registerClass:[CHDEventValueTableViewCell class] forCellReuseIdentifier:@"value"];
+        [_tableView registerClass:[CHDEventTextViewTableViewCell class] forCellReuseIdentifier:@"textview"];
         [_tableView registerClass:[CHDDividerTableViewCell class] forCellReuseIdentifier:@"divider"];
     }
     return _tableView;
