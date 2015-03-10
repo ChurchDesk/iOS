@@ -112,6 +112,10 @@
     sideMenuController.leftViewController = leftViewController;
     [sideMenuController setSelectedViewController:dashboardNavigationController];
     
+    [sideMenuController rac_liftSelector:@selector(setSelectedViewController:closeMenu:) withSignals:[[[RACObserve([CHDAuthenticationManager sharedInstance], userID) skip:1] filter:^BOOL(id value) {
+        return value == nil;
+    }] mapReplace:dashboardNavigationController], [RACSignal return:@YES], nil];
+    
     return sideMenuController;
     
 #endif

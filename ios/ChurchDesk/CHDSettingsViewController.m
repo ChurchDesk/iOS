@@ -9,6 +9,7 @@
 #import "CHDSettingsViewController.h"
 #import "CHDSettingsTableViewCell.h"
 #import "CHDDescriptionTableViewCell.h"
+#import "CHDAuthenticationManager.h"
 
 typedef NS_ENUM(NSUInteger, notificationSettings) {
     eventsChanged,
@@ -24,20 +25,11 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
 @implementation CHDSettingsViewController
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        self.title = NSLocalizedString(@"Settings", @"");
-        [self makeViews];
-        [self makeConstraints];
-    }
-    return self;
-}
-
 #pragma mark - lazy initializations
 - (void) makeViews {
     [self.view addSubview:self.settingsTable];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Log Out", @"") style:UIBarButtonItemStylePlain target:self action:@selector(signOutAction:)];
 }
 
 -(void) makeConstraints {
@@ -60,10 +52,19 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     return _settingsTable;
 }
 
+#pragma mark - Actions
+
+- (void) signOutAction: (id) sender {
+    [[CHDAuthenticationManager sharedInstance] signOut];
+}
+
 #pragma mark - ViewController methods
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.title = NSLocalizedString(@"Settings", @"");
+    [self makeViews];
+    [self makeConstraints];
 }
 
 #pragma mark - UITableViewDataSource
@@ -111,15 +112,5 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
