@@ -29,7 +29,6 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
-        self.viewModel = [CHDDashboardInvitationsViewModel new];
     }
     return self;
 }
@@ -37,6 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.viewModel = [CHDDashboardInvitationsViewModel new];
     
     [self makeViews];
     [self makeConstraints];
