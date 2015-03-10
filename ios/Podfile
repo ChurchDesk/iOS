@@ -11,7 +11,7 @@ pod 'SHPSideMenu', '~> 1.1.0'
 pod 'DCIntrospect-ARC', :head, :configurations => ['Debug']
 pod 'Masonry', '~> 0.6.1'
 pod 'ReactiveCocoa', '~> 2.4.7'
-pod 'SHPNetworking', '~> 7.6.1'
+pod 'SHPNetworking', '~> 7.6.2'
 pod 'SHPCalendarPicker', :git => 'git@github.com:miklselsoe/SHPCalendarPicker.git'
 #pod 'SHPCalendarPicker', :path => '~/Development/SHPCalendarPicker'
 pod 'SHPRACAdditions', '~> 0.1.2'
