@@ -150,6 +150,14 @@
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:resource.name color:resource.color selected:[event.resourceIds containsObject:resource.resourceId] refObject:resource.resourceId]];
         }
     }
+    else if ([row isEqualToString:CHDEventEditRowVisibility]) {
+        title = NSLocalizedString(@"Select Visibility", @"");
+        NSArray *visibilityTypes = @[@(CHDEventVisibilityPublicOnWebsite), @(CHDEventVisibilityOnlyInGroup)];
+        for (NSNumber *nVisibility in visibilityTypes) {
+            CHDEventVisibility visibility = nVisibility.unsignedIntegerValue;
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:[event localizedVisibilityStringForVisibility:visibility] color:nil selected:event.visibility == visibility refObject:nVisibility]];
+        }
+    }
     
     if (items.count) {
         CHDListSelectorViewController *vc = [[CHDListSelectorViewController alloc] initWithSelectableItems:items];
@@ -179,7 +187,12 @@
         else if ([row isEqualToString:CHDEventEditRowResources]) {
             RAC(self.viewModel.event, resourceIds) = selectedSignal;
         }
+        else if ([row isEqualToString:CHDEventEditRowVisibility]) {
+            RAC(self.viewModel.event, visibility) = [selectedSingleSignal ignore:nil];
+        }
         
+        CGPoint offset = self.tableView.contentOffset;
+        [self.tableView rac_liftSelector:@selector(setContentOffset:) withSignals:[[[self rac_signalForSelector:@selector(viewDidLayoutSubviews)] takeUntil:vc.rac_willDeallocSignal] mapReplace:[NSValue valueWithCGPoint:offset]], nil];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -283,7 +296,7 @@
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
-        cell.valueLabel.text = event.publicEvent ? NSLocalizedString(@"Public", @"") : NSLocalizedString(@"Internal", @"");
+        cell.valueLabel.text = [event localizedVisibilityString];
         returnCell = cell;
     }
     

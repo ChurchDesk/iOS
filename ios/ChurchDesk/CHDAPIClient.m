@@ -42,6 +42,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) SHPAPIManager *oauthManager;
+@property (nonatomic, strong) RACSignal *refreshSignal;
 
 @end
 
@@ -256,8 +257,18 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [requestSignal catch:^(NSError *error) {
         // Catch the error, refresh the token, and then do the request again.
         if ([self errorCausedByExpiredToken:error]) {
-            NSLog(@"Will attempt to refresh access token.");
-            return [[[self refreshToken] ignoreValues] concat:requestSignal];
+            if (!self.refreshSignal) {
+                NSLog(@"Will attempt to refresh access token.");
+                self.refreshSignal = [self refreshToken];
+                [self rac_liftSelector:@selector(setRefreshSignal:) withSignals:[[[self.refreshSignal ignoreValues] doNext:^(id x) {
+                    NSLog(@"Refresh token completed");
+                }] mapReplace:nil], nil];
+            }
+            else {
+                NSLog(@"Access token already being refreshed.");
+            }
+            
+            return [[self.refreshSignal ignoreValues] concat:[requestSignal retry]];
         }
         return requestSignal;
     }];

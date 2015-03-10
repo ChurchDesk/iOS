@@ -192,7 +192,7 @@
     else if ([row isEqualToString:CHDEventInfoRowVisibility]) {
         CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
-        cell.valueLabel.text = event.publicEvent ? NSLocalizedString(@"Public on website", @"") : NSLocalizedString(@"Private event", @"");
+        cell.valueLabel.text = [event localizedVisibilityString];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowCreated]) {

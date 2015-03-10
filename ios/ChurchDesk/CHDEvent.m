@@ -21,9 +21,6 @@
     if ([propName isEqualToString:@"allDayEvent"]) {
         return @"allDay";
     }
-    if ([propName isEqualToString:@"publicEvent"]) {
-        return @"publish";
-    }
     if ([propName isEqualToString:@"eventDescription"]) {
         return @"description";
     }
@@ -55,8 +52,26 @@
     if ([propName isEqualToString:@"pictureURL"]) {
         return [NSURL URLWithString:value];
     }
+    if ([propName isEqualToString:@"visibility"]) {
+        return [value integerValue] == 2 ? @(CHDEventVisibilityOnlyInGroup) : @(CHDEventVisibilityPublicOnWebsite);
+    }
     return [super transformedValueForPropertyWithName:propName value:value];
 }
+
+- (NSString *)localizedVisibilityString {
+    return [self localizedVisibilityStringForVisibility:self.visibility];
+}
+
+- (NSString *)localizedVisibilityStringForVisibility:(CHDEventVisibility) visibility {
+    switch (visibility) {
+        case CHDEventVisibilityPublicOnWebsite:
+            return NSLocalizedString(@"Visible on website", @"");
+        case CHDEventVisibilityOnlyInGroup:
+            return NSLocalizedString(@"Visible only in group", @"");
+    }
+}
+
+#pragma mark - NSObject
 
 - (id)copyWithZone:(id)zone
 {
