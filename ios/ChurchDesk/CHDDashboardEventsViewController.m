@@ -11,11 +11,19 @@
 #import "CHDEventTableViewCell.h"
 #import "CHDExpandableButtonView.h"
 #import "CHDNewMessageViewController.h"
+#import "CHDDashboardEventViewModel.h"
+#import "CHDEvent.h"
+#import "CHDSite.h"
+#import "CHDUser.h"
+#import "CHDEventCategory.h"
+#import "CHDEnvironment.h"
 
 @interface CHDDashboardEventsViewController ()
 
 @property (nonatomic, retain) UITableView* eventTable;
 @property (nonatomic, strong) CHDExpandableButtonView *actionButtonView;
+
+@property (nonatomic, strong) CHDDashboardEventViewModel *viewModel;
 @end
 
 @implementation CHDDashboardEventsViewController
@@ -26,13 +34,6 @@
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
         self.edgesForExtendedLayout = UIRectEdgeNone;
-
-        [self makeViews];
-        [self makeConstraints];
-
-        //Setup target action
-        //[self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
-        [self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
@@ -56,10 +57,23 @@
     }];
 }
 
+-(void) makeBindings {
+
+    //Setup target action
+    //[self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
+    [self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
+    [self.eventTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, events), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+}
+
 #pragma mark - View methods
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    self.viewModel = [CHDDashboardEventViewModel new];
+
+    [self makeViews];
+    [self makeConstraints];
+    [self makeBindings];
 }
 
 - (void) newMessageShow {
@@ -71,26 +85,27 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.viewModel.events? self.viewModel.events.count: 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     static NSString* cellIdentifier = @"dashboardCell";
+    CHDEvent* event = self.viewModel.events[indexPath.row];
+    CHDUser* user = self.viewModel.user;
+    CHDSite* site = [user siteWithId:event.siteId];
+    CHDEnvironment *environment = self.viewModel.environment;
+
+    //Get the first eventCategory
+    CHDEventCategory *category = (event.eventCategoryIds && event.eventCategoryIds.count > 0)?[environment eventCategoryWithId: event.eventCategoryIds[0]] : nil;
 
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    //cell.textLabel.text = cellTitle;
-    cell.titleLabel.text = @"Title";
-    cell.locationLabel.text = @"Location";
-    cell.parishLabel.text = @"The Parish";
-    cell.dateTimeLabel.text = @"Today";
-    //cell.
+    cell.titleLabel.text = event.title;
+    cell.locationLabel.text = event.location;
+    cell.parishLabel.text = site.name;
+    cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event];
 
-    if(indexPath.item % 2 == 1) {
-        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryBlueColor]];
-    }else{
-        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryRedColor]];
-    }
+    [cell.leftBorder setBackgroundColor:category.color?: [UIColor clearColor]];
 
     return cell;
 }
