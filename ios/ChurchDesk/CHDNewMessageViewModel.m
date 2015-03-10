@@ -67,6 +67,14 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
             }
             return @"";
         }];
+
+        RAC(self, canSelectGroup) = [RACObserve(self, selectableGroups) map:^id(NSArray *groups) {
+            return @(groups.count > 1);
+        }];
+
+        RAC(self, canSelectParish) = [RACObserve(self, selectableSites) map:^id(NSArray *users) {
+            return @(users.count > 1);
+        }];
     }
     return self;
 }
@@ -74,6 +82,12 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 -(void) selectableGroupsMake {
     if(self.environment != nil) {
         NSMutableArray *groups = [[NSMutableArray alloc] init];
+
+        //If only a single group is available, skip the selectability
+        if(groups.count == 1){
+            self.selectedGroup = groups[0];
+            return;
+        }
 
         CHDGroup *selectedGroup = self.selectedGroup;
         __block CHDGroup *newSelectedGroup = nil;
@@ -111,6 +125,12 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 
 -(void) selectableSitesMake: (CHDUser*)user {
     if(user != nil){
+        //If only a single site is available, skip the selectability
+        if(user.sites.count == 1){
+            self.selectedSite = user.sites[0];
+            return;
+        }
+
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString* lastUsedId = [defaults stringForKey:kDefaultsSiteIdLastUsed];
 
