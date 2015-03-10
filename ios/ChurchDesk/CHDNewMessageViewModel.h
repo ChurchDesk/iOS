@@ -17,10 +17,12 @@
 
 @property (nonatomic, readonly) BOOL canSendMessage;
 
+@property (nonatomic, readonly) BOOL canSelectParish;
 @property (nonatomic, readonly) NSString *selectedParishName;
 @property (nonatomic, assign) CHDSite *selectedSite;
 @property (nonatomic, readonly) NSArray *selectableSites;
 
+@property (nonatomic, readonly) BOOL canSelectGroup;
 @property (nonatomic, assign) CHDGroup *selectedGroup;
 @property (nonatomic, readonly) NSString *selectedGroupName;
 @property (nonatomic, readonly) NSArray *selectableGroups;

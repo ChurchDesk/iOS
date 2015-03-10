@@ -95,7 +95,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 #pragma mark - TableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if((newMessagesSections)indexPath.row == selectParishSection){
+    if((newMessagesSections)indexPath.section == selectParishSection && indexPath.row == 0){
         if(self.messageViewModel.selectableSites.count > 0) {
             CHDListSelectorViewController *selectorViewController = [[CHDListSelectorViewController new] initWithSelectableItems:self.messageViewModel.selectableSites];
             selectorViewController.title = NSLocalizedString(@"Parish", @"");
@@ -106,7 +106,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         }
     }
 
-    if((newMessagesSections)indexPath.row == selectGroupSection){
+    if((newMessagesSections)indexPath.section == selectGroupSection  && indexPath.row == 0){
         if(self.messageViewModel.selectableGroups.count > 0) {
             CHDListSelectorViewController *selectorViewController = [[CHDListSelectorViewController new] initWithSelectableItems:self.messageViewModel.selectableGroups];
             selectorViewController.title = NSLocalizedString(@"Group", @"");
@@ -119,36 +119,56 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 #pragma mark - TableView datasource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return newMessagesCountSections;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    newMessagesSections sectionType = section;
+    if(sectionType == divider1Section){
+        return (self.messageViewModel.canSelectGroup || self.messageViewModel.canSelectParish);
+    }
+    if(sectionType == selectGroupSection){
+        return self.messageViewModel.canSelectGroup;
+    }
+    if(sectionType == selectParishSection){
+        return self.messageViewModel.canSelectParish;
+    }
+    if( (sectionType == devider2Section) || (sectionType == titleInputSection) || (sectionType == messageInputSection)){
+        return 1;
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if((newMessagesSections)indexPath.row == divider1Section || (newMessagesSections)indexPath.row == devider2Section){
+    if((newMessagesSections)indexPath.section == divider1Section || (newMessagesSections)indexPath.section == devider2Section){
         CHDDividerTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageDividerCell forIndexPath:indexPath];
         return cell;
     }
-    if((newMessagesSections)indexPath.row == selectParishSection){
+    if((newMessagesSections)indexPath.section == selectParishSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Parish", @"");
         RAC(cell.selectedLabel, text) = [RACObserve(self.messageViewModel, selectedParishName) takeUntil: cell.rac_prepareForReuseSignal];
+
+        //Only show the dividing line if groups can be selected
+        cell.dividerLineHidden = !self.messageViewModel.canSelectGroup;
         return cell;
     }
-    if((newMessagesSections)indexPath.row == selectGroupSection){
+    if((newMessagesSections)indexPath.section == selectGroupSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Group", @"");
         RAC(cell.selectedLabel, text) = [RACObserve(self.messageViewModel, selectedGroupName) takeUntil: cell.rac_prepareForReuseSignal];
         cell.dividerLineHidden = YES;
         return cell;
     }
-    if((newMessagesSections)indexPath.row == titleInputSection){
+    if((newMessagesSections)indexPath.section == titleInputSection){
         CHDNewMessageTextFieldCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageTextFieldCell forIndexPath:indexPath];
 
         RAC(self.messageViewModel, title) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
         return cell;
     }
-    if((newMessagesSections)indexPath.row == messageInputSection){
+    if((newMessagesSections)indexPath.section == messageInputSection){
         CHDNewMessageTextViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageTextViewCell forIndexPath:indexPath];
         cell.dividerLineHidden = YES;
         cell.tableView = tableView;
@@ -192,6 +212,8 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     RAC(self.navigationItem.rightBarButtonItem, tintColor) = [RACObserve(self.navigationItem.rightBarButtonItem, enabled) map:^id(NSNumber *SelectedNumber) {
         return SelectedNumber.boolValue? [UIColor whiteColor] : [UIColor chd_textDarkColor];
     }];
+
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.messageViewModel, canSelectGroup), RACObserve(self.messageViewModel, canSelectParish)]]];
 }
 
 
