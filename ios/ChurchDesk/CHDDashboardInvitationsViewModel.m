@@ -27,7 +27,12 @@
     if (self) {
         self.invitations = @[];
 
-        RAC(self, invitations) = [[[CHDAPIClient sharedInstance] getInvitations] catch:^RACSignal *(NSError *error) {
+        RAC(self, invitations) = [[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
+            RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
+                return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
+            }];
+            return results.array;
+        }] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
 
@@ -43,14 +48,14 @@
 }
 
 -(NSString*)getFormattedInvitationTimeFrom:(CHDInvitation *)invitation{
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
 
     NSDateFormatter *dateFormatterFrom = [NSDateFormatter new];
     NSDateFormatter *dateFormatterTo = [NSDateFormatter new];
 
-    NSDateComponents *fromComponents = [gregorian components:unitFlags fromDate:invitation.startDate];
-    NSDateComponents *toComponents = [gregorian components:unitFlags fromDate:invitation.endDate];
+    NSDateComponents *fromComponents = [calendar components:unitFlags fromDate:invitation.startDate];
+    NSDateComponents *toComponents = [calendar components:unitFlags fromDate:invitation.endDate];
 
     //Set date format Templates
     NSString *dateComponentFrom;
@@ -96,7 +101,7 @@
     [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationAccept] catch:^RACSignal *(NSError *error) {
         return [RACSignal empty];
     }] subscribeNext:^(id x) {
-        NSLog(@"Success");
+        NSLog(@"Success with id %@", x);
     } error:^(NSError *error) {
         
     }];
@@ -106,7 +111,7 @@
     [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationMaybe] catch:^RACSignal *(NSError *error) {
         return [RACSignal empty];
     }] subscribeNext:^(id x) {
-        NSLog(@"Success");
+        NSLog(@"Success with id %@", x);
     } error:^(NSError *error) {
 
     }];
@@ -116,7 +121,7 @@
     [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationDecline] catch:^RACSignal *(NSError *error) {
         return [RACSignal empty];
     }] subscribeNext:^(id x) {
-        NSLog(@"Success");
+        NSLog(@"Success with id %@", x);
     } error:^(NSError *error) {
 
     }];

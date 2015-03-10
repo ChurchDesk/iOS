@@ -200,7 +200,9 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 - (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSInteger) response {
     SHPAPIManager *manager = self.manager;
 
-    return [[self postHeaderDictionary:@{@"site" : siteId} resultClass:[NSDictionary class] toPath:[NSString stringWithFormat:@"events/respond/%@/%li", eventId, (long) response]] doNext:^(id x) {
+    return [[[self postHeaderDictionary:@{@"site" : siteId} resultClass:nil toPath:[NSString stringWithFormat:@"events/respond/%@/%li", eventId, (long) response]] map:^id(id value) {
+        return eventId;
+    }] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"*my-invites*"];
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"*events/%@*?site=%@", eventId, siteId]];
     }];

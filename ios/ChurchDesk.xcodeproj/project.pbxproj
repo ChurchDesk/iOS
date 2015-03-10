@@ -42,6 +42,7 @@
 		60372537A920B1F6B9D84F96 /* CHDMessageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */; };
 		603727A658CF12614D27D8E9 /* CHDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037245E9E98EC53CCA15CEA /* CHDUser.m */; };
 		6037287C919D4E250ACD51E9 /* CHDSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372E23E447786367BBF99E /* CHDSite.m */; };
+		603728972A785A759863CD81 /* CHDDashboardEventViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603728A5A13F1CDE17B7CB88 /* CHDDashboardEventViewModel.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
@@ -194,6 +195,7 @@
 		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		60372743A3FC21FB9AD65E5D /* CHDComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDComment.h; sourceTree = "<group>"; };
 		60372756CFB9BD18E5548D93 /* CHDListSelectorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectorDelegate.h; sourceTree = "<group>"; };
+		603728A5A13F1CDE17B7CB88 /* CHDDashboardEventViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventViewModel.m; sourceTree = "<group>"; };
 		6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessageViewModel.m; sourceTree = "<group>"; };
 		6037291CD14A440979FA04E4 /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
 		603729828D5FB2B8CBB39464 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 		60372E5E7BDC9C61A7F6FBED /* CHDSitePermission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSitePermission.h; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		60372EAACA9BDF0C410F3D77 /* CHDDashboardEventViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventViewModel.h; sourceTree = "<group>"; };
 		761247211AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventAttendanceTableViewCell.h; sourceTree = "<group>"; };
 		761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventAttendanceTableViewCell.m; sourceTree = "<group>"; };
 		761247241AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTitleImageTableViewCell.h; sourceTree = "<group>"; };
@@ -479,6 +482,8 @@
 				769E7B991A9480DC00812715 /* CHDDashboardEventsViewController.m */,
 				365351851A94DC5500932D90 /* CHDEventTableViewCell.h */,
 				365351861A94DC5500932D90 /* CHDEventTableViewCell.m */,
+				603728A5A13F1CDE17B7CB88 /* CHDDashboardEventViewModel.m */,
+				60372EAACA9BDF0C410F3D77 /* CHDDashboardEventViewModel.h */,
 			);
 			name = Events;
 			sourceTree = "<group>";
@@ -1040,6 +1045,7 @@
 				60372F2D900CB28905D9D508 /* CHDSitePermission.m in Sources */,
 				60372537A920B1F6B9D84F96 /* CHDMessageViewModel.m in Sources */,
 				60372D7B54E198FD42FF0260 /* CHDComment.m in Sources */,
+				603728972A785A759863CD81 /* CHDDashboardEventViewModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
