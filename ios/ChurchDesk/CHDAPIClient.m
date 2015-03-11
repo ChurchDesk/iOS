@@ -204,8 +204,8 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [[[self postHeaderDictionary:@{@"site" : siteId} resultClass:nil toPath:[NSString stringWithFormat:@"events/respond/%@/%li", eventId, (long) response]] map:^id(id value) {
         return eventId;
     }] doNext:^(id x) {
-        [manager.cache invalidateObjectsMatchingRegex:@"*my-invites*"];
-        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"*events/%@*?site=%@", eventId, siteId]];
+        [manager.cache invalidateObjectsMatchingRegex:@"(my-invites)"];
+        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(events/%@?.*site=%@)", eventId, siteId]];
     }];
 }
 
@@ -234,7 +234,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 - (RACSignal*)setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId {
     SHPAPIManager *manager = self.manager;
     return [[self resourcesForPath:[NSString stringWithFormat:@"messages/%@/mark-as-read?site=%@", messageId, siteId] resultClass:[NSDictionary class] withResource:nil] doNext:^(id x) {
-        [manager.cache invalidateObjectsMatchingRegex:@"*messages/unread*"];
+        [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
     }];
 }
 
@@ -247,7 +247,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     SHPAPIManager *manager = self.manager;
     NSDictionary *body = @{@"site": siteId, @"targetId": targetId, @"body": message};
     return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"comments"] doNext:^(id x) {
-        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"*messages/%@*", targetId]];
+        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", targetId]];
     }];
 }
 
