@@ -101,11 +101,14 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     }];
 #endif
     
+    @weakify(self)
     return [[[self tokenValidationWrapper:requestSignal] replayLazily] doError:^(NSError *error) {
+        @strongify(self)
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
-
-        [[CHDAuthenticationManager sharedInstance] signOut];
+        if (response.statusCode == 401 && ![self errorCausedByExpiredToken:error]) {
+            [[CHDAuthenticationManager sharedInstance] signOut];
+        }
     }];
 }
 
@@ -190,6 +193,33 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self resourcesForPath:[NSString stringWithFormat:@"events/%@?site=%@", eventId, siteId] resultClass:[CHDEvent class] withResource:nil];
 }
 
+- (RACSignal*)createEventWithDictionary: (NSDictionary*) eventDictionary {
+    return [self resourcesForPath:@"events" resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        
+        NSError *error = nil;
+        NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
+        request.body = data;
+        if (!data && eventDictionary) {
+            NSLog(@"Error encoding JSON: %@", error);
+        }
+    }];
+}
+
+- (RACSignal*)updateEventWithId: (NSNumber*) eventId siteId: (NSString*) siteId dictionary: (NSDictionary*) eventDictionary {
+    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@", eventId] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPUT;
+        [request setValue:siteId ?: @"" forQueryParameterKey:@"site"];
+        
+        NSError *error = nil;
+        NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
+        request.body = data;
+        if (!data && eventDictionary) {
+            NSLog(@"Error encoding JSON: %@", error);
+        }
+    }];
+}
+
 - (RACSignal*) getInvitations {
     return [self resourcesForPath:@"my-invites" resultClass:[CHDInvitation class] withResource:nil];
 }
@@ -254,15 +284,20 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 #pragma mark - Refresh token
 
 - (RACSignal *)tokenValidationWrapper:(RACSignal *)requestSignal {
+    @weakify(self)
     return [requestSignal catch:^(NSError *error) {
+        @strongify(self)
+        
         // Catch the error, refresh the token, and then do the request again.
+        
         if ([self errorCausedByExpiredToken:error]) {
             if (!self.refreshSignal) {
                 NSLog(@"Will attempt to refresh access token.");
                 self.refreshSignal = [self refreshToken];
-                [self rac_liftSelector:@selector(setRefreshSignal:) withSignals:[[[self.refreshSignal ignoreValues] doNext:^(id x) {
+                [self.refreshSignal doCompleted:^{
                     NSLog(@"Refresh token completed");
-                }] mapReplace:nil], nil];
+                    self.refreshSignal = nil;
+                }];
             }
             else {
                 NSLog(@"Access token already being refreshed.");
@@ -270,7 +305,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
             
             return [[self.refreshSignal ignoreValues] concat:[requestSignal retry]];
         }
-        return requestSignal;
+        return [RACSignal error:error];
     }];
 }
 

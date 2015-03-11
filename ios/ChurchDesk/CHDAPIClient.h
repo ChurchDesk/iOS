@@ -17,6 +17,10 @@
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month;
 - (RACSignal*)getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
+- (RACSignal*)createEventWithDictionary: (NSDictionary*) eventDictionary;
+- (RACSignal*)updateEventWithId: (NSNumber*) eventId siteId: (NSString*) siteId dictionary: (NSDictionary*) eventDictionary;
+
+
 - (RACSignal*) getInvitations;
 - (RACSignal*) getHolidaysFromYear: (NSInteger) year;
 - (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSInteger) response;
