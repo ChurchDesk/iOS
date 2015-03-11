@@ -20,9 +20,15 @@
 @property (nonatomic, strong) NSArray *users;
 
 - (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId;
-- (CHDResource*) resourceWithId: (NSNumber*) resourceId;
-- (CHDGroup*) groupWithId: (NSNumber*) groupId;
-- (CHDPeerUser*) userWithId: (NSNumber*) userId;
+- (NSArray*) eventCategoriesWithSiteId: (NSString*) siteId;
 
+- (CHDResource*) resourceWithId: (NSNumber*) resourceId;
+- (NSArray*) resourcesWithSiteId: (NSString*) siteId;
+
+- (CHDGroup*) groupWithId: (NSNumber*) groupId;
 - (NSArray*) groupsWithSiteId: (NSString*) siteId;
+
+- (CHDPeerUser*) userWithId: (NSNumber*) userId;
+- (NSArray*) usersWithSiteId: (NSString*) siteId;
+
 @end

@@ -42,17 +42,35 @@
     return [super nestedClassForArrayPropertyWithName:propName];
 }
 
+#pragma mark - Categories
+
 - (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId {
     return eventCategoryId ? [self.eventCategories shp_detect:^BOOL(CHDEventCategory *eventCategory) {
         return [eventCategory.categoryId isEqualToNumber:eventCategoryId];
     }] : nil;
 }
 
+- (NSArray*) eventCategoriesWithSiteId: (NSString*) siteId {
+    return siteId ? [self.eventCategories shp_filter:^BOOL(CHDEventCategory *eventCategory) {
+        return [eventCategory.siteId isEqualToString:siteId];
+    }] : nil;
+}
+
+#pragma mark - Resources
+
 - (CHDResource*) resourceWithId: (NSNumber*) resourceId {
     return resourceId ? [self.resources shp_detect:^BOOL(CHDResource *resource) {
         return [resource.resourceId isEqualToNumber:resourceId];
     }] : nil;
 }
+
+- (NSArray*) resourcesWithSiteId: (NSString*) siteId {
+    return siteId ? [self.resources shp_filter:^BOOL(CHDResource *resource) {
+        return [resource.siteId isEqualToString:siteId];
+    }] : nil;
+}
+
+#pragma mark - Groups
 
 - (CHDGroup*) groupWithId: (NSNumber*) groupId {
     return groupId ? [self.groups shp_detect:^BOOL(CHDGroup *group) {
@@ -68,9 +86,17 @@
     return results.array;
 }
 
+#pragma mark - Users
+
 - (CHDPeerUser*) userWithId: (NSNumber*) userId {
     return userId ? [self.users shp_detect:^BOOL(CHDPeerUser *user) {
         return [user.userId isEqualToNumber:userId];
+    }] : nil;
+}
+
+- (NSArray*) usersWithSiteId: (NSString*) siteId {
+    return siteId ? [self.users shp_filter:^BOOL(CHDPeerUser *user) {
+        return [user.siteId isEqualToString:siteId];
     }] : nil;
 }
 

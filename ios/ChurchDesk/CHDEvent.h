@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 
 @property (nonatomic, assign) CHDEventVisibility visibility;
 @property (nonatomic, assign) BOOL allDayEvent;
+@property (nonatomic, assign) BOOL allowDoubleBooking;
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *eventDescription;
@@ -51,6 +52,8 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 @property (nonatomic, strong) NSArray *userIds;
 
 - (NSString*)localizedVisibilityString;
-- (NSString *)localizedVisibilityStringForVisibility:(CHDEventVisibility) visibility;
+- (NSString*)localizedVisibilityStringForVisibility:(CHDEventVisibility) visibility;
+
+- (NSDictionary*) dictionaryRepresentation;
 
 @end

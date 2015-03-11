@@ -8,6 +8,13 @@
 
 #import "CHDEvent.h"
 #import "Autocoding.h"
+#import "NSDateFormatter+ChurchDesk.h"
+
+@interface CHDEvent ()
+
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+
+@end
 
 @implementation CHDEvent
 
@@ -71,6 +78,58 @@
     }
 }
 
+- (NSDictionary*) dictionaryRepresentation {
+    NSMutableDictionary *mDict = [NSMutableDictionary new];
+    if (self.siteId) {
+        mDict[@"site"] = self.siteId;
+    }
+    if (self.groupId) {
+        mDict[@"groupId"] = self.groupId;
+    }
+    if (self.title) {
+        mDict[@"title"] = self.title;
+    }
+    if (self.startDate) {
+        mDict[@"startDate"] = [self.dateFormatter stringFromDate:self.startDate];
+    }
+    if (self.endDate) {
+        mDict[@"endDate"] = [self.dateFormatter stringFromDate:self.endDate];
+    }
+    if (self.resourceIds) {
+        mDict[@"resources"] = self.resourceIds;
+    }
+    if (self.userIds) {
+        mDict[@"resources"] = self.userIds;
+    }
+    if (self.location) {
+        mDict[@"location"] = self.location;
+    }
+    if (self.location) {
+        mDict[@"location"] = self.location;
+    }
+    if (self.price) {
+        mDict[@"price"] = self.price;
+    }
+    if (self.contributor) {
+        mDict[@"person"] = self.contributor;
+    }
+    if (self.eventCategoryIds) {
+        mDict[@"eventCategories"] = self.eventCategoryIds;
+    }
+    if (self.internalNote) {
+        mDict[@"internalNote"] = self.internalNote;
+    }
+    if (self.eventDescription) {
+        mDict[@"description"] = self.eventDescription;
+    }
+
+    mDict[@"allowDoubleBooking"] = @(self.allowDoubleBooking);
+    mDict[@"publish"] = @(self.visibility == CHDEventVisibilityPublicOnWebsite);
+    mDict[@"allDay"] = @(self.allDayEvent);
+    
+    return [mDict copy];
+}
+
 #pragma mark - NSObject
 
 - (id)copyWithZone:(id)zone
@@ -89,6 +148,15 @@
 
 - (BOOL)isEqual:(CHDEvent*)object {
     return self.eventId ? [object.eventId isEqualToNumber:self.eventId] : NO;
+}
+
+#pragma mark - Lazy Initialization
+
+- (NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        _dateFormatter = [NSDateFormatter chd_apiDateFormatter];
+    }
+    return _dateFormatter;
 }
 
 @end

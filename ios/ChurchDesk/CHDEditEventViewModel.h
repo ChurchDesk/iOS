@@ -31,6 +31,7 @@ extern NSString *const CHDEventEditRowInternalNote;
 extern NSString *const CHDEventEditRowDescription;
 extern NSString *const CHDEventEditRowContributor;
 extern NSString *const CHDEventEditRowPrice;
+extern NSString *const CHDEventEditRowDoubleBooking;
 extern NSString *const CHDEventEditRowVisibility;
 
 extern NSString *const CHDEventEditRowDivider;
@@ -40,13 +41,16 @@ extern NSString *const CHDEventEditRowDivider;
 @interface CHDEditEventViewModel : NSObject
 
 @property (nonatomic, strong) CHDEvent *event;
+@property (nonatomic, assign) BOOL newEvent;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser *user;
-
 @property (nonatomic, readonly) NSArray *sections;
+@property (nonatomic, readonly) RACCommand *saveCommand;
 
 - (instancetype)initWithEvent: (CHDEvent*) event;
 
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section;
+
+- (void) saveEvent;
 
 @end

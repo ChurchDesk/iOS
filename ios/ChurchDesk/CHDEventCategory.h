@@ -14,6 +14,6 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSString *colorString;
-@property (nonatomic, readonly) UIColor *color;
+@property (nonatomic, strong) UIColor *color;
 
 @end

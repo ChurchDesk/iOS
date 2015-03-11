@@ -7,9 +7,6 @@
 //
 
 #import "CHDEventCategory.h"
-@interface CHDEventCategory ()
-@property (nonatomic, strong) UIColor *color;
-@end
 
 @implementation CHDEventCategory
 
@@ -26,9 +23,12 @@
     return [super mapPropertyForPropertyWithName:propName];
 }
 
--(UIColor*) color {
-    NSString *hexString = [self.colorString stringByReplacingOccurrencesOfString:@"#" withString:@""];
-    return [UIColor shpui_colorFromStringWithHexValue:hexString];
+- (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
+    if([propName isEqualToString:@"colorString"]){
+        NSString *hexString = [value stringByReplacingOccurrencesOfString:@"#" withString:@""];
+        return [UIColor shpui_colorFromStringWithHexValue:hexString];
+    }
+    return [super transformedValueForPropertyWithName:propName value:value];
 }
 
 @end

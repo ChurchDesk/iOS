@@ -33,6 +33,7 @@ NSString *const CHDEventEditRowInternalNote = @"CHDEventEditRowInternalNote";
 NSString *const CHDEventEditRowDescription = @"CHDEventEditRowDescription";
 NSString *const CHDEventEditRowContributor = @"CHDEventEditRowContributor";
 NSString *const CHDEventEditRowPrice = @"CHDEventEditRowPrice";
+NSString *const CHDEventEditRowDoubleBooking = @"CHDEventEditRowDoubleBooking";
 NSString *const CHDEventEditRowVisibility = @"CHDEventEditRowVisibility";
 
 NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
@@ -44,6 +45,8 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic, strong) CHDUser *user;
+
+@property (nonatomic, strong) RACCommand *saveCommand;
 
 @end
 
@@ -65,7 +68,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                              CHDEventEditSectionBooking : @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers],
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility],
+                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility],
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
     }
     return self;
@@ -73,6 +76,28 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section {
     return self.sectionRows[self.sections[section]];
+}
+
+- (void) saveEvent {
+    [self.saveCommand execute:RACTuplePack(@(self.newEvent), self.event)];
+}
+
+#pragma mark - Lazy Initialization
+
+- (RACCommand *)saveCommand {
+    if (!_saveCommand) {
+        _saveCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            BOOL newEvent = [tuple.first boolValue];
+            CHDEvent *event = tuple.second;
+            if (newEvent) {
+                return [[CHDAPIClient sharedInstance] createEventWithDictionary: [event dictionaryRepresentation]];
+            }
+            else {
+                return [[CHDAPIClient sharedInstance] updateEventWithId:event.eventId siteId:event.siteId dictionary:[event dictionaryRepresentation]];
+            }
+        }];
+    }
+    return _saveCommand;
 }
 
 @end
