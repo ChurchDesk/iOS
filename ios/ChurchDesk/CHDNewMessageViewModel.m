@@ -19,9 +19,11 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 
 @property (nonatomic, strong) NSArray* selectableGroups;
 @property (nonatomic, strong) NSString* selectedGroupName;
+@property (nonatomic, strong) NSNumber *groupIdLastUsed;
 
 @property (nonatomic, strong) NSArray* selectableSites;
 @property (nonatomic, strong) NSString* selectedParishName;
+@property (nonatomic, strong) NSString *siteIdLastUsed;
 
 @property (nonatomic, assign) CHDUser *user;
 
@@ -32,6 +34,10 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 - (instancetype)init {
     self = [super init];
     if (self) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        self.groupIdLastUsed = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kDefaultsGroupIdLastUsed]];
+        self.siteIdLastUsed = [defaults stringForKey:kDefaultsSiteIdLastUsed];
+
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
@@ -52,7 +58,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 
         [self shprac_liftSelector:@selector(selectableGroupsMake) withSignal:[RACSignal merge:@[RACObserve(self, environment), RACObserve(self, selectedSite)]]];
 
-        [self shprac_liftSelector:@selector(selectableSitesMake) withSignal:[RACSignal merge:@[RACObserve(self, user), RACObserve(self, selectedSite)]]];
+        [self shprac_liftSelector:@selector(selectableSitesMake) withSignal:RACObserve(self, user)];
 
         RAC(self, selectedParishName) = [RACObserve(self, selectedSite) map:^id(CHDSite * site) {
             if(site){
@@ -76,18 +82,18 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
             return @(users.count > 1);
         }];
 
-        [self shprac_liftSelector:@selector(checkSiteForSelectedGroup) withSignal:[RACObserve(self, selectedGroup) filter:^BOOL(id value) {
-            return self.selectedSite == nil;
-        }]];
+        [self shprac_liftSelector:@selector(checkSiteForSelectedGroup) withSignal:RACObserve(self, selectedGroup)];
     }
     return self;
 }
 
+//Fired when a group is selected
+//Checks whether there's already a site selected, if not, a site representing the group is set
+//This will allow the user to "just" select the desired group
 -(void) checkSiteForSelectedGroup {
-    if( self.selectedSite || !self.user ){return;}
+    if( !!self.selectedSite || !self.selectedGroup || !self.user || !self.user.sites ){return;}
 
     NSString *siteId = self.selectedGroup.siteId;
-
     self.selectedSite = [self.user siteWithId:siteId];
 }
 
@@ -109,8 +115,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
         NSNumber *lastUsedId = nil;
 
         if(selectedGroup == nil){
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            lastUsedId = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kDefaultsGroupIdLastUsed]];
+            lastUsedId = self.groupIdLastUsed;
         }
 
         NSArray *filteredGroups = @[];
@@ -144,19 +149,25 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
             self.selectedSite = self.user.sites[0];
             return;
         }
+        
+        //set selected site
+        if(!self.selectedSite){
+            NSString* lastUsedId = self.siteIdLastUsed;
+            CHDSite *lastUsed = [self.user siteWithId:lastUsedId];
+
+            self.selectedSite = lastUsed;
+        }
 
         CHDSite *selectedSite = self.selectedSite;
 
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString* lastUsedId = [defaults stringForKey:kDefaultsSiteIdLastUsed];
-
         NSMutableArray *sites = [[NSMutableArray alloc] init];
         [self.user.sites enumerateObjectsUsingBlock:^(CHDSite * site, NSUInteger idx, BOOL *stop) {
-            BOOL siteIsSelected = [selectedSite.siteId isEqualToString:site.siteId] || (selectedSite == nil && [site.siteId isEqualToString:lastUsedId]);
-            if(lastUsedId != nil && [site.siteId isEqualToString:lastUsedId]){
-                self.selectedSite = site;
-            }
+            BOOL siteIsSelected = [selectedSite.siteId isEqualToString:site.siteId];
+
             CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:siteIsSelected refObject:site];
+            RAC(selectable, selected) = [RACObserve(self, selectedSite) map:^id(CHDSite * observedSite) {
+                return @([observedSite.siteId isEqualToString:site.siteId]);
+            }];
             [sites addObject:selectable];
         }];
         self.selectableSites = [sites copy];
