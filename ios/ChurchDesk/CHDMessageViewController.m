@@ -94,8 +94,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     //Bind the input field to the viewModel
     RAC(self.replyView.replyButton, enabled) = RACObserve(self.viewModel, canSendComment);
 
-    RAC(self.viewModel, comment) = [[self.replyView.replyTextView rac_textSignal] map:^id(NSString *string) {
-        return string?: @"";
+    RAC(self.viewModel, comment) = [[self.replyView.replyTextView rac_textSignal] map:^id(NSString *newCommentText) {
+        return newCommentText? newCommentText: @"";
     }];
 
     [self.viewModel shprac_liftSelector:@selector(sendComment) withSignal:[self.replyView.replyButton rac_signalForControlEvents:UIControlEventTouchUpInside]];

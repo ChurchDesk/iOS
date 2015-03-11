@@ -17,7 +17,7 @@
 @property (nonatomic, assign) BOOL showAllComments;
 @property (nonatomic, readonly) BOOL canSendComment;
 
-@property (nonatomic, assign) NSString *comment;
+@property (nonatomic, strong) NSString *comment;
 
 @property (nonatomic, readonly) CHDComment *latestComment;
 @property (nonatomic, readonly) NSArray *allComments;
