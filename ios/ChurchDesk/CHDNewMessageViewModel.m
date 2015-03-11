@@ -19,9 +19,11 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 
 @property (nonatomic, strong) NSArray* selectableGroups;
 @property (nonatomic, strong) NSString* selectedGroupName;
+@property (nonatomic, strong) NSNumber *groupIdLastUsed;
 
 @property (nonatomic, strong) NSArray* selectableSites;
 @property (nonatomic, strong) NSString* selectedParishName;
+@property (nonatomic, strong) NSString *siteIdLastUsed;
 
 @property (nonatomic, assign) CHDUser *user;
 
@@ -32,6 +34,10 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 - (instancetype)init {
     self = [super init];
     if (self) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        self.groupIdLastUsed = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kDefaultsGroupIdLastUsed]];
+        self.siteIdLastUsed = [defaults stringForKey:kDefaultsSiteIdLastUsed];
+
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
@@ -52,7 +58,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 
         [self shprac_liftSelector:@selector(selectableGroupsMake) withSignal:[RACSignal merge:@[RACObserve(self, environment), RACObserve(self, selectedSite)]]];
 
-        [self rac_liftSelector:@selector(selectableSitesMake:) withSignals:RACObserve(self, user), nil];
+        [self shprac_liftSelector:@selector(selectableSitesMake) withSignal:RACObserve(self, user)];
 
         RAC(self, selectedParishName) = [RACObserve(self, selectedSite) map:^id(CHDSite * site) {
             if(site){
@@ -75,9 +81,23 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
         RAC(self, canSelectParish) = [RACObserve(self, selectableSites) map:^id(NSArray *users) {
             return @(users.count > 1);
         }];
+
+        [self shprac_liftSelector:@selector(checkSiteForSelectedGroup) withSignal:RACObserve(self, selectedGroup)];
     }
     return self;
 }
+
+//Fired when a group is selected
+//Checks whether there's already a site selected, if not, a site representing the group is set
+//This will allow the user to "just" select the desired group
+-(void) checkSiteForSelectedGroup {
+    if( !!self.selectedSite || !self.selectedGroup || !self.user || !self.user.sites ){return;}
+
+    NSString *siteId = self.selectedGroup.siteId;
+    self.selectedSite = [self.user siteWithId:siteId];
+}
+
+#pragma mark - Setup selectable groups/sites
 
 -(void) selectableGroupsMake {
     if(self.environment != nil) {
@@ -95,8 +115,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
         NSNumber *lastUsedId = nil;
 
         if(selectedGroup == nil){
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            lastUsedId = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kDefaultsGroupIdLastUsed]];
+            lastUsedId = self.groupIdLastUsed;
         }
 
         NSArray *filteredGroups = @[];
@@ -123,28 +142,39 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
     }
 }
 
--(void) selectableSitesMake: (CHDUser*)user {
-    if(user != nil){
+-(void) selectableSitesMake {
+    if(self.user != nil){
         //If only a single site is available, skip the selectability
-        if(user.sites.count == 1){
-            self.selectedSite = user.sites[0];
+        if(self.user.sites.count == 1){
+            self.selectedSite = self.user.sites[0];
             return;
         }
+        
+        //set selected site
+        if(!self.selectedSite){
+            NSString* lastUsedId = self.siteIdLastUsed;
+            CHDSite *lastUsed = [self.user siteWithId:lastUsedId];
 
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString* lastUsedId = [defaults stringForKey:kDefaultsSiteIdLastUsed];
+            self.selectedSite = lastUsed;
+        }
+
+        CHDSite *selectedSite = self.selectedSite;
 
         NSMutableArray *sites = [[NSMutableArray alloc] init];
-        [user.sites enumerateObjectsUsingBlock:^(CHDSite * site, NSUInteger idx, BOOL *stop) {
-            if(lastUsedId != nil && [site.siteId isEqualToString:lastUsedId]){
-                self.selectedSite = site;
-            }
-            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:(lastUsedId != nil && [site.siteId isEqualToString:lastUsedId]) refObject:site];
+        [self.user.sites enumerateObjectsUsingBlock:^(CHDSite * site, NSUInteger idx, BOOL *stop) {
+            BOOL siteIsSelected = [selectedSite.siteId isEqualToString:site.siteId];
+
+            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:siteIsSelected refObject:site];
+            RAC(selectable, selected) = [RACObserve(self, selectedSite) map:^id(CHDSite * observedSite) {
+                return @([observedSite.siteId isEqualToString:site.siteId]);
+            }];
             [sites addObject:selectable];
         }];
         self.selectableSites = [sites copy];
     }
 }
+
+#pragma mark -
 
 -(void) storeDefaults {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
