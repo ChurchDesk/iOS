@@ -33,11 +33,10 @@
 
         self.showAllComments = NO;
 
-        RACSignal *messageSignal = [[[[CHDAPIClient sharedInstance] getMessageWithId:messageId siteId:siteId] map:^id(CHDMessage * message) {
-            NSArray *comments = message.comments;
-            message.comments = [[comments reverseObjectEnumerator] allObjects];
+        RACSignal *messageSignal = [[[[CHDAPIClient sharedInstance] getMessageWithId:messageId siteId:siteId] map:^id(CHDMessage *message) {
             return message;
-        }] catch:^RACSignal *(NSError *error) {
+        }]
+        catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
 
@@ -61,9 +60,8 @@
 
         RAC(self, latestComment) = [messageSignal map:^id(CHDMessage *message) {
             if (message != nil) {
-                //Get the newest message (newest in top)
-                NSUInteger commentCount = message.comments.count;
-                CHDComment *comment = commentCount > 0 ? message.comments[0] : nil;
+                CHDComment *comment = message.comments.lastObject;
+                NSLog(@"Comment %@", comment.body);
                 return comment;
             };
             return @[];

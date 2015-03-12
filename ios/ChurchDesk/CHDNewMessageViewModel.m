@@ -27,6 +27,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 
 @property (nonatomic, assign) CHDUser *user;
 
+@property (nonatomic) BOOL isSending;
 @property (nonatomic, strong) CHDAPICreate *createMessageAPIResponse;
 @end
 @implementation CHDNewMessageViewModel
@@ -190,6 +191,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 - (void)sendMessage {
     if(!self.canSendMessage){return;}
     [self storeDefaults];
+    self.isSending = YES;
     RAC(self, createMessageAPIResponse) = [[CHDAPIClient sharedInstance] createMessageWithTitle:self.title message:self.message siteId:self.selectedSite.siteId groupId:self.selectedGroup.groupId];
 }
 

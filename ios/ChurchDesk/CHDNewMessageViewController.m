@@ -17,6 +17,7 @@
 #import "CHDNewMessageViewModel.h"
 #import "CHDGroup.h"
 #import "CHDAPICreate.h"
+#import "CHDStatusView.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -36,6 +37,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 @interface CHDNewMessageViewController ()
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) CHDNewMessageViewModel *messageViewModel;
+@property (nonatomic, strong) CHDStatusView *statusView;
 @end
 
 @implementation CHDNewMessageViewController
@@ -55,7 +57,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
@@ -196,6 +197,13 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 -(void) makeViews {
     [self.view addSubview:self.tableView];
+    
+    self.statusView = [[CHDStatusView alloc] init];
+    self.statusView.successText = NSLocalizedString(@"Your message was sent", @"");
+    self.statusView.errorText = NSLocalizedString(@"There was a problem, please try again", @"");
+    self.statusView.processingText = NSLocalizedString(@"Sending message..", @"");
+    self.statusView.autoHideOnSuccessAfterTime = 1.0;
+    self.statusView.autoHideOnErrorAfterTime = 1.0;
 }
 
 -(void) makeConstraints {
@@ -214,6 +222,23 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     }];
 
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.messageViewModel, canSelectGroup), RACObserve(self.messageViewModel, canSelectParish)]]];
+
+    //Handle status view
+    RAC(self.statusView, show) = RACObserve(self.messageViewModel, isSending);
+
+    RAC(self.statusView, currentStatus) = [RACSignal combineLatest:@[RACObserve(self.messageViewModel, isSending), RACObserve(self.messageViewModel, createMessageAPIResponse)] reduce:^(NSNumber *iSending, CHDAPICreate *apiResponse) {
+        BOOL isSending = iSending.boolValue;
+        if(isSending && apiResponse == nil){
+            return @(CHDStatusViewProcessing);
+        }
+        if(isSending && apiResponse.createId != nil && apiResponse.createId > 0){
+            return @(CHDStatusViewSuccess);
+        }
+        if(isSending && apiResponse.error != nil){
+            return @(CHDStatusViewError);
+        }
+        return @(CHDStatusViewHidden);
+    }];
 }
 
 
