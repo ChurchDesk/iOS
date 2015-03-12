@@ -105,6 +105,7 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
         _addEventButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_addEventButton setImage:kImgCreateEvent forState:UIControlStateNormal];
         _addEventButton.transform = CGAffineTransformRotate(CGAffineTransformIdentity, k45Degrees);
+        [_addEventButton addTarget:self action:@selector(toggleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _addEventButton;
 }
@@ -114,6 +115,7 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
         _addMessageButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_addMessageButton setImage:kImgCreateMessage forState:UIControlStateNormal];
         _addMessageButton.transform = CGAffineTransformRotate(CGAffineTransformIdentity, k45Degrees);
+        [_addMessageButton addTarget:self action:@selector(toggleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _addMessageButton;
 }

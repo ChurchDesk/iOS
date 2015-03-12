@@ -17,8 +17,10 @@
 #import "CHDUser.h"
 #import "CHDEventCategory.h"
 #import "CHDEnvironment.h"
+#import "CHDEventInfoViewController.h"
+#import "CHDEditEventViewController.h"
 
-@interface CHDDashboardEventsViewController ()
+@interface CHDDashboardEventsViewController ()  <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) UITableView* eventTable;
 @property (nonatomic, strong) CHDExpandableButtonView *actionButtonView;
@@ -60,8 +62,9 @@
 -(void) makeBindings {
 
     //Setup target action
-    //[self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
     [self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
+    [self.actionButtonView.addEventButton addTarget:self action:@selector(newEventAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.eventTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, events), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 }
 
@@ -76,10 +79,30 @@
     [self makeBindings];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.eventTable deselectRowAtIndexPath:[self.eventTable indexPathForSelectedRow] animated:animated];
+}
+
 - (void) newMessageShow {
     CHDNewMessageViewController* newMessageViewController = [CHDNewMessageViewController new];
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
     [self presentViewController:navigationVC animated:YES completion:nil];
+}
+
+- (void) newEventAction: (id) sender {
+    CHDEditEventViewController *vc = [[CHDEditEventViewController alloc] initWithEvent:nil];
+    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
+    [self presentViewController:navigationVC animated:YES completion:nil];
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CHDEvent* event = self.viewModel.events[indexPath.row];
+    
+    CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -125,6 +148,7 @@
         _eventTable.rowHeight = 65;
         [_eventTable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"dashboardCell"];
         _eventTable.dataSource = self;
+        _eventTable.delegate = self;
     }
     return _eventTable;
 }

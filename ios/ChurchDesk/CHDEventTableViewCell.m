@@ -19,8 +19,6 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         RAC(self.locationIconView, hidden) = [RACObserve(self.locationLabel, text) map:^id(NSString *text) {
             return @(text.length == 0);
         }];
