@@ -327,7 +327,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
         [request setMethod:SHPHTTPRequestMethodGET];
         [request setValue:@"refresh_token" forQueryParameterKey:@"grant_type"];
-        [request setValue:authManager.authenticationToken.refreshToken forQueryParameterKey:@"refresh_token"];
+        [request setValue:authManager.authenticationToken.refreshToken ?: @"" forQueryParameterKey:@"refresh_token"];
 #ifdef DEBUG
         // This will generate a refresh token error
         //        [request addValue:@"afaf" forQueryParameterKey:@"refresh_token"];
