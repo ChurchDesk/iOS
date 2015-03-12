@@ -35,4 +35,29 @@
     }
     return [super nestedClassForArrayPropertyWithName:propName];
 }
+
+- (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
+    if([propName isEqualToString:@"comments"] && [value isKindOfClass:[NSArray class]]){
+        NSArray *rawComments = value;
+        NSMutableArray *comments = [[NSMutableArray alloc] init];
+
+        [rawComments enumerateObjectsUsingBlock:^(NSDictionary * obj, NSUInteger idx, BOOL *stop) {
+            CHDComment *comment = [[CHDComment alloc] initWithDictionary:obj];
+            [comments addObject:comment];
+        }];
+
+        if(comments.count == 1){
+            return @[comments.firstObject];
+        }
+
+        NSArray *newComments = [comments sortedArrayUsingComparator:^NSComparisonResult(CHDComment *comment1, CHDComment *comment2) {
+            return [comment1.createdDate compare:comment2.createdDate];
+        }];
+
+        return newComments;
+    }
+
+    return [super transformedValueForPropertyWithName:propName value:value];
+}
+
 @end
