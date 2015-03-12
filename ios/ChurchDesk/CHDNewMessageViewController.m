@@ -74,11 +74,14 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 #pragma mark - Bar button handlers
 -(void) leftBarButtonTouch{
+    [self.view endEditing:YES];
+    
     //Cancel the creation of new message
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) rightBarButtonTouch{
+    [self.view endEditing:YES];
     //create a new message
     [self rac_liftSelector:@selector(didCreateMessage:) withSignals:RACObserve(self.messageViewModel, createMessageAPIResponse), nil];
 
