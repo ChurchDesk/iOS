@@ -41,7 +41,7 @@ extern NSString *const CHDEventEditRowDivider;
 @interface CHDEditEventViewModel : NSObject
 
 @property (nonatomic, strong) CHDEvent *event;
-@property (nonatomic, assign) BOOL newEvent;
+@property (nonatomic, readonly) BOOL newEvent;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser *user;
 @property (nonatomic, readonly) NSArray *sections;
@@ -51,6 +51,6 @@ extern NSString *const CHDEventEditRowDivider;
 
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section;
 
-- (void) saveEvent;
+- (RACSignal*) saveEvent;
 
 @end

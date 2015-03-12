@@ -99,10 +99,7 @@
         mDict[@"resources"] = self.resourceIds;
     }
     if (self.userIds) {
-        mDict[@"resources"] = self.userIds;
-    }
-    if (self.location) {
-        mDict[@"location"] = self.location;
+        mDict[@"users"] = self.userIds;
     }
     if (self.location) {
         mDict[@"location"] = self.location;

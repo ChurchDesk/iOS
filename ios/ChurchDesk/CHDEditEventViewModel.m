@@ -42,6 +42,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 
 @property (nonatomic, strong) NSArray *sections;
 @property (nonatomic, strong) NSDictionary *sectionRows;
+@property (nonatomic, assign) BOOL newEvent;
 
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic, strong) CHDUser *user;
@@ -55,15 +56,19 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 - (instancetype)initWithEvent: (CHDEvent*) event {
     self = [super init];
     if (self) {
-        _event = event;
+        _event = event ? [event copy] : [CHDEvent new];
+        _newEvent = event == nil;
         
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
         [self rac_liftSelector:@selector(setUser:) withSignals:[[CHDAPIClient sharedInstance] getCurrentUser], nil];
         
         self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
+        
+        NSArray *recipientsRows = _newEvent ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
+        
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowStartDate, CHDEventEditRowEndDate],
-                             CHDEventEditSectionRecipients : @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories],
+                             CHDEventEditSectionRecipients : recipientsRows,
                              CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
                              CHDEventEditSectionBooking : @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers],
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
@@ -78,8 +83,8 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     return self.sectionRows[self.sections[section]];
 }
 
-- (void) saveEvent {
-    [self.saveCommand execute:RACTuplePack(@(self.newEvent), self.event)];
+- (RACSignal*) saveEvent {
+    return [self.saveCommand execute:RACTuplePack(@(self.newEvent), self.event)];
 }
 
 #pragma mark - Lazy Initialization
@@ -93,6 +98,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                 return [[CHDAPIClient sharedInstance] createEventWithDictionary: [event dictionaryRepresentation]];
             }
             else {
+                
                 return [[CHDAPIClient sharedInstance] updateEventWithId:event.eventId siteId:event.siteId dictionary:[event dictionaryRepresentation]];
             }
         }];

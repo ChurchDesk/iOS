@@ -77,6 +77,11 @@
 - (void)editEventAction: (id) sender {
     CHDEditEventViewController *vc = [[CHDEditEventViewController alloc] initWithEvent:self.viewModel.event];
     vc.title = NSLocalizedString(@"Edit Event", @"");
+    
+    RACSignal *saveSignal = [RACObserve(vc, event) skip:1];
+    [self.viewModel rac_liftSelector:@selector(setEvent:) withSignals:saveSignal, nil];
+    [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
+    
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
 }
 

@@ -12,6 +12,8 @@
 
 @interface CHDEditEventViewController : CHDAbstractViewController
 
+@property (nonatomic, readonly) CHDEvent *event;
+
 - (instancetype)initWithEvent: (CHDEvent*) event;
 
 @end

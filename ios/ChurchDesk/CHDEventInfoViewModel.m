@@ -39,7 +39,6 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 @interface CHDEventInfoViewModel ()
 
-@property (nonatomic, strong) CHDEvent *event;
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic, strong) CHDUser *user;
 

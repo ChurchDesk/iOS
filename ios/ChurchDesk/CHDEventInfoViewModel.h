@@ -37,7 +37,7 @@ extern NSString *const CHDEventInfoRowDivider;
 @interface CHDEventInfoViewModel : NSObject
 
 @property (nonatomic, readonly) NSArray *sections;
-@property (nonatomic, readonly) CHDEvent *event;
+@property (nonatomic, strong) CHDEvent *event;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser *user;
 

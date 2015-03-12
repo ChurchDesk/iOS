@@ -25,6 +25,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, strong) CHDEvent *event;
 @property (nonatomic, strong) CHDEditEventViewModel *viewModel;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
@@ -35,8 +36,8 @@
 - (instancetype)initWithEvent: (CHDEvent*) event {
     self = [super init];
     if (self) {
-        self.viewModel = [[CHDEditEventViewModel alloc] initWithEvent: event ? [event copy] : [CHDEvent new]];
-        self.viewModel.newEvent = event == nil;
+        _event = event;
+        self.viewModel = [[CHDEditEventViewModel alloc] initWithEvent: event];
     }
     return self;
 }
@@ -87,10 +88,7 @@
 }
 
 - (void) saveAction: (id) sender {
-    [self.presentingViewController rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignalOfArguments:[self.viewModel.saveCommand.executionSignals map:^id(id value) {
-        return RACTuplePack(@YES, nil);
-    }]];
-    [self.viewModel saveEvent];
+    [self shprac_liftSelector:@selector(setEvent:) withSignal:[[self.viewModel saveEvent] mapReplace:self.viewModel.event]];
 }
 
 - (void) handleKeyboardEvent: (SHPKeyboardEvent*) event {
@@ -296,7 +294,7 @@
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Resources", @"");
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, resourceIds) map:^id(NSArray *resourceIds) {
-            return resourceIds.count <= 1 ? [environment eventCategoryWithId:event.resourceIds.firstObject].name : [NSString stringWithFormat:@"%lu", resourceIds.count];
+            return resourceIds.count <= 1 ? [environment resourceWithId:event.resourceIds.firstObject].name : [NSString stringWithFormat:@"%lu", resourceIds.count];
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         
         returnCell = cell;
