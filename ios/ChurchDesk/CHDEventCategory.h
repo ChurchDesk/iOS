@@ -13,7 +13,6 @@
 @property (nonatomic, strong) NSNumber *categoryId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *siteId;
-@property (nonatomic, strong) NSString *colorString;
 @property (nonatomic, strong) UIColor *color;
 
 @end

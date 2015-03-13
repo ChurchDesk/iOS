@@ -17,18 +17,7 @@
     if([propName isEqualToString:@"siteId"]) {
         return @"site";
     }
-    if([propName isEqualToString:@"colorString"]){
-        return @"color";
-    }
     return [super mapPropertyForPropertyWithName:propName];
-}
-
-- (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
-    if([propName isEqualToString:@"colorString"]){
-        NSString *hexString = [value stringByReplacingOccurrencesOfString:@"#" withString:@""];
-        return [UIColor shpui_colorFromStringWithHexValue:hexString];
-    }
-    return [super transformedValueForPropertyWithName:propName value:value];
 }
 
 @end
