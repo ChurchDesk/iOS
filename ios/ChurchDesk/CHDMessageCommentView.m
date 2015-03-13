@@ -46,12 +46,13 @@
         make.top.greaterThanOrEqualTo(self).offset(10);
     }];
 
+    CGFloat lineHeight = self.replyTextView.font.lineHeight;
     [self.replyTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.replyButton.mas_left).offset(-15);
         make.left.equalTo(self).offset(8);
         make.bottom.equalTo(self).offset(-8);
         make.top.equalTo(self).offset(8);
-        self.replyTextViewHeight = make.height.greaterThanOrEqualTo(@10);
+        self.replyTextViewHeight = make.height.greaterThanOrEqualTo(@(lineHeight));
     }];
 
     [self.placeholder mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -83,7 +84,7 @@
         _replyTextView.layer.borderWidth = 1.0;
         _replyTextView.layer.cornerRadius = 3.0;
         _replyTextView.delegate = self;
-        _replyTextView.scrollEnabled = YES;
+        _replyTextView.scrollEnabled = NO;
         _replyTextView.inputAccessoryView = [CHDInputAccessoryObserveView new];
     }
     return _replyTextView;
@@ -103,16 +104,53 @@
     return CGSizeMake(0, 50);
 }
 
+- (void)clearTextInput {
+    self.replyTextView.text = @"";
+    [self textDidChange:@""];
+}
+
+
 #pragma mark - TextView
 - (void)textDidChange:(NSString *)text {
-    CGSize size = self.replyTextView.contentSize;
+
     if(![self.replyTextView.text isEqual:@""]){
-        [self.placeholder removeFromSuperview];
+        self.placeholder.hidden = YES;
+    }else{
+        self.placeholder.hidden = NO;
     }
-    if(size.height > 150){
-        self.replyTextViewHeight.offset(150);
-    }else {
-        self.replyTextViewHeight.offset(size.height);
+
+    if(![self doesFit:self.replyTextView]){
+        self.replyTextView.scrollEnabled = YES;
+    }else{
+        self.replyTextView.scrollEnabled = NO;
     }
+
+    CGFloat lineHeight = self.replyTextView.font.lineHeight;
+
+    CGRect sizeToFit = [[self.replyTextView layoutManager] usedRectForTextContainer:self.replyTextView.textContainer];
+    CGFloat numberOfLines = (sizeToFit.size.height / lineHeight);
+
+    CGFloat newHeight = numberOfLines * lineHeight;
+
+    self.replyTextViewHeight.offset(newHeight);
+}
+
+- (BOOL)doesFit:(UITextView*)textView {
+    // Get the textView frame
+    CGFloat viewHeight = textView.frame.size.height;
+    CGFloat width = textView.textContainer.size.width;
+
+    NSMutableAttributedString *atrs = [[NSMutableAttributedString alloc] initWithAttributedString: textView.textStorage];
+
+    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:atrs];
+    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize: CGSizeMake(width, FLT_MAX)];
+    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+
+    [layoutManager addTextContainer:textContainer];
+    [textStorage addLayoutManager:layoutManager];
+    CGFloat textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+
+    return !(textHeight > (viewHeight + 2));
+
 }
 @end

@@ -11,4 +11,5 @@
 @interface CHDMessageCommentView : UIView <UITextViewDelegate>
 @property (nonatomic, readonly) UIButton* replyButton;
 @property (nonatomic, readonly) UITextView *replyTextView;
+-(void) clearTextInput;
 @end

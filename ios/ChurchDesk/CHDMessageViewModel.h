@@ -17,15 +17,21 @@
 @property (nonatomic, assign) BOOL showAllComments;
 @property (nonatomic, readonly) BOOL canSendComment;
 
-@property (nonatomic, strong) NSString *comment;
+//The latest comments
+@property (nonatomic, readonly) NSArray *latestComments;
 
-@property (nonatomic, readonly) CHDComment *latestComment;
+//All available comments
 @property (nonatomic, readonly) NSArray *allComments;
-@property (nonatomic, readonly) NSInteger commentCount;
+
+//Number of not shown comments
+@property (nonatomic, readonly) NSInteger notShownCommentCount;
+
 @property (nonatomic, readonly) CHDMessage *message;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser *user;
 
--(void) sendComment;
+-(void) sendCommentWithText: (NSString*) body;
+
+-(RACCommand*)saveCommand;
 
 @end

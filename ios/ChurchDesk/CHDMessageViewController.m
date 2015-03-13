@@ -63,7 +63,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
-#pragma mark - Lazy initializing
+#pragma mark - Setup views constrains etc.
+
 -(void) makeViews {
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.replyView];
@@ -78,6 +79,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
     [self.replyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.left.equalTo(self.view);
+        make.top.greaterThanOrEqualTo(self.view);
         self.replyBottomConstraint = make.bottom.equalTo(self.view);
     }];
 }
@@ -88,18 +90,53 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
     [self rac_liftSelector:@selector(chd_didChangeKeyboardFrame:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification object:nil], nil];
 
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, message), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, latestComment), RACObserve(self.viewModel, user)]]];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, environment),RACObserve(self.viewModel, user)]]];
     [self shprac_liftSelector:@selector(showAllComments) withSignal:RACObserve(self.viewModel, showAllComments)];
 
-    //Bind the input field to the viewModel
-    RAC(self.replyView.replyButton, enabled) = RACObserve(self.viewModel, canSendComment);
+    RACSignal *showAllCommentsSignal = [[RACObserve(self.viewModel, showAllComments) skip:1] take:1];
 
-    RAC(self.viewModel, comment) = [[self.replyView.replyTextView rac_textSignal] map:^id(NSString *newCommentText) {
-        return newCommentText? newCommentText: @"";
+    //Stop the signal from latests when all is shown
+    RACSignal *latestCommentsSignal = [[RACObserve(self.viewModel, latestComments) combinePreviousWithStart:@[] reduce:^id(NSArray *previous, NSArray *current) {
+        return RACTuplePack(previous, current);
+    }] takeUntil:showAllCommentsSignal];
+
+    //Setup signal when all comments are shown
+    RACSignal *allCommentsSignal = [showAllCommentsSignal flattenMap:^RACStream *(id value) {
+        return [[RACObserve(self.viewModel, allComments) combinePreviousWithStart:@[] reduce:^id(NSArray *previous, NSArray *current) {
+            return RACTuplePack(previous, current);
+        }] skip:1];
     }];
 
-    [self.viewModel shprac_liftSelector:@selector(sendComment) withSignal:[self.replyView.replyButton rac_signalForControlEvents:UIControlEventTouchUpInside]];
+    RACSignal *messageSignal = [RACObserve(self.viewModel, message) combinePreviousWithStart:nil reduce:^id(CHDMessage *previous, CHDMessage *current) {
+        return RACTuplePack(previous, current);
+    }];
+
+    [self rac_liftSelector:@selector(updateTableWithMessageTuple:) withSignals:messageSignal, nil];
+    [self rac_liftSelector:@selector(updateTableWithCommentsTuble:) withSignals:[RACSignal merge:@[latestCommentsSignal, allCommentsSignal]], nil];
+
+
+        //Bind the input field to the viewModel
+        RACSignal *validCommentTextSignal = [self.replyView.replyTextView.rac_textSignal map:^id(NSString *commentString) {
+        return @(commentString != nil && commentString.length > 0);
+    }];
+
+    RAC(self.replyView.replyButton, enabled) = [RACSignal combineLatest:@[validCommentTextSignal, self.viewModel.saveCommand.executing] reduce:^(NSNumber *iCanSend, NSNumber *iExecuting) {
+        return @(iCanSend.boolValue && !iExecuting.boolValue);
+    }];
+
+    RAC(self.replyView.replyTextView, editable) = [self.viewModel.saveCommand.executing not];
+
+    [self.replyView.replyButton addTarget:self action:@selector(sendAction:) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (void) sendAction: (id) sender {
+    NSString *commentText = self.replyView.replyTextView.text;
+    [self.viewModel sendCommentWithText:commentText];
+
+    [self.replyView clearTextInput];
+}
+
+#pragma mark - Lazy initializing
 
 -(UITableView*) tableView{
     if(!_tableView){
@@ -126,6 +163,53 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     return _replyView;
 }
 
+-(void) updateTableWithMessageTuple: (RACTuple*) messageTuple {
+    RACTupleUnpack(CHDMessage *previousMessage, CHDMessage *currentMessage) = messageTuple;
+
+    //Insert new message in tableView
+    if(previousMessage == nil && currentMessage != nil){
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:messageSection];
+
+        [self.tableView beginUpdates];
+
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+
+        [self.tableView endUpdates];
+    }
+}
+
+-(void) updateTableWithCommentsTuble: (RACTuple*) commentTuple {
+    RACTupleUnpack(NSArray *previousComments, NSArray *currentComments) = commentTuple;
+
+    if(previousComments.count < currentComments.count){
+        NSIndexPath *loadCommentsIndexPath = [NSIndexPath indexPathForRow:0 inSection:loadCommentsSection];
+
+        NSUInteger startIndex = previousComments.count; // == 0? 0 : previousComments.count;
+        NSUInteger numberOfNewComments = currentComments.count;
+
+        NSMutableArray *commentsIndexs = [[NSMutableArray alloc] init];
+
+        for(; startIndex < numberOfNewComments; startIndex++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:startIndex inSection:commentsSection];
+            [commentsIndexs addObject:indexPath];
+        }
+
+        BOOL insertLoadComments = previousComments.count == 0 && self.viewModel.notShownCommentCount > 0;
+
+        [self.tableView beginUpdates];
+
+        if(insertLoadComments){
+            [self.tableView insertRowsAtIndexPaths:@[loadCommentsIndexPath] withRowAnimation:UITableViewRowAnimationTop];
+        }
+
+        [self.tableView insertRowsAtIndexPaths:commentsIndexs withRowAnimation:UITableViewRowAnimationTop];
+
+        [self.tableView endUpdates];
+
+        [self.tableView scrollToRowAtIndexPath:commentsIndexs.lastObject atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    }
+}
+
 -(void) showAllComments {
 
     if(!self.viewModel.showAllComments){return;}
@@ -133,7 +217,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     NSMutableArray *newIndexPaths = [[NSMutableArray alloc]init];
     //Create indexpaths to insert
     [self.viewModel.allComments enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if(idx < self.viewModel.allComments.count -1){
+        if(idx < self.viewModel.notShownCommentCount){
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:commentsSection];
             [newIndexPaths addObject:indexPath];
         }
@@ -161,11 +245,12 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         if(self.viewModel.showAllComments) {
             return self.viewModel.allComments.count;
         }else{
-            return (self.viewModel.latestComment != nil)? 1 : 0;
+            //return (self.viewModel.latestComment != nil)? 1 : 0;
+            return self.viewModel.latestComments.count;
         }
     }
     if((messageSections)section == loadCommentsSection){
-        return (self.viewModel.showAllComments || self.viewModel.commentCount <= 1)? 0 : 1;
+        return (self.viewModel.showAllComments || self.viewModel.notShownCommentCount < 1 )? 0 : 1;
     }
     return 0;
 }
@@ -173,8 +258,6 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return messageSectionsCount;
 }
-
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TTTTimeIntervalFormatter *timeInterValFormatter = [[TTTTimeIntervalFormatter alloc] init];
@@ -196,27 +279,28 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.parishLabel.text = authorSite ? authorSite.name : @"";
         cell.userNameLabel.text = authorUser? authorUser.name : @"";
         cell.profileImageView.image = authorUser? [UIImage imageWithData:[NSData dataWithContentsOfURL:authorUser.pictureURL]] : nil;
-        
+
 
         return cell;
     }
     if((messageSections)indexPath.section == commentsSection){
         CHDMessageCommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCommentsCellIdentifier forIndexPath:indexPath];
 
-        CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComment;
+        //CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComment;
+        CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComments[indexPath.row];
         CHDPeerUser *author = [self.viewModel.environment userWithId:comment.authorId];
 
         cell.messageLabel.text = comment.body;
         cell.createdDateLabel.text = comment.createdDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate] : @"";
         cell.profileImageView.image = author? [UIImage imageWithData:[NSData dataWithContentsOfURL:author.pictureURL]] : nil;
-        cell.userNameLabel.text = author? author.name : @"";
+        cell.userNameLabel.text = ![comment.authorName isEqualToString:@""]? comment.authorName : author? author.name : @"";
 
         return cell;
     }
     if((messageSections)indexPath.section == loadCommentsSection){
         CHDMessageLoadCommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageLoadCommentsCellIdentifier forIndexPath:indexPath];
         cell.messageLabel.text = NSLocalizedString(@"Load more comments", @"");
-        cell.countLabel.text = [NSString stringWithFormat:@"(%@)", @(self.viewModel.commentCount-1)];
+        cell.countLabel.text = [NSString stringWithFormat:@"(%@)", @(self.viewModel.notShownCommentCount)];
         return cell;
     }
     return nil;
@@ -239,7 +323,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     // Skips this if it's not the expected textView.
     // Checking the keyboard height constant helps to disable the view constraints update on iPad when the keyboard is undocked.
     // Checking the keyboard status allows to keep the inputAccessoryView valid when still reacing the bottom of the screen.
-    if (![self.replyView.replyTextView isFirstResponder]){// || (self.keyboardHC.constant == 0 && self.keyboardStatus == SLKKeyboardStatusDidHide)) {
+    if (![self.replyView.replyTextView isFirstResponder]){
         return;
     }
     if(self.tableView.isDragging){

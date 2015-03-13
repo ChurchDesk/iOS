@@ -31,4 +31,6 @@
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit;
 - (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId;
 - (RACSignal*)setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId;
+
+- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId;
 @end

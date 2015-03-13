@@ -255,7 +255,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId {
-    return [self resourcesForPath:[NSString stringWithFormat:@"messages/%@", messageId] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
+    return [self resourcesForPath:[self resourcePathForGetMessageWithId:messageId] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:siteId forQueryParameterKey:@"site"];
     }];
 }
@@ -280,6 +280,9 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", targetId]];
     }];
 }
+
+#pragma mark - Resources paths
+- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%@", messageId];}
 
 #pragma mark - Refresh token
 
