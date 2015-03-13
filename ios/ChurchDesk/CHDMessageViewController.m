@@ -205,8 +205,6 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         [self.tableView insertRowsAtIndexPaths:commentsIndexs withRowAnimation:UITableViewRowAnimationTop];
 
         [self.tableView endUpdates];
-
-        [self.tableView scrollToRowAtIndexPath:commentsIndexs.lastObject atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
 }
 
@@ -357,14 +355,23 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     self.replyBottomConstraint.offset(-kbSize.height);
     [self.replyView setNeedsLayout];
 
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-    [UIView setAnimationBeginsFromCurrentState:YES];
+    double duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    UIViewAnimationOptions options = (UIViewAnimationOptions)[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];// | UIViewAnimationOptionBeginFromCurrentState;
 
-    [self.replyView layoutIfNeeded];
 
-    [UIView commitAnimations];
+    [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
+        [self.replyView layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        if(finished){
+            NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:commentsSection];
+            if(rowCount > 0) {
+                NSInteger lastIndex = rowCount - 1;
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastIndex inSection:commentsSection];
+
+                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+            }
+        }
+    }];
 
     self.movingKeyboard = NO;
 }
@@ -373,16 +380,26 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     self.replyBottomConstraint.offset(0);
     [self.replyView setNeedsLayout];
 
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-    [UIView setAnimationCurve:[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue]];
-    [UIView setAnimationBeginsFromCurrentState:YES];
+    double duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    UIViewAnimationOptions options = (UIViewAnimationOptions)[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];// | UIViewAnimationOptionBeginFromCurrentState;
+    
+    
+    [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
+        [self.replyView layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        if(finished){
+            NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:commentsSection];
+            if(rowCount > 0) {
+                NSInteger lastIndex = rowCount - 1;
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastIndex inSection:commentsSection];
 
-    [self.replyView layoutIfNeeded];
-
-    [UIView commitAnimations];
+                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+            }
+        }
+    }];
 
     self.movingKeyboard = NO;
 }
+
 
 @end
