@@ -73,8 +73,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 -(void) makeConstraints {
     UIView *containerView = self.view;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(containerView);
-        make.bottom.equalTo(self.replyView.mas_top);
+        make.top.left.right.bottom.equalTo(containerView);
+        //make.bottom.equalTo(self.replyView.mas_top);
     }];
 
     [self.replyView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -146,6 +146,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         _tableView.backgroundColor = [UIColor chd_lightGreyColor];
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 140;
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
         [_tableView registerClass:[CHDMessageCommentsTableViewCell class] forCellReuseIdentifier:kMessageCommentsCellIdentifier];
         [_tableView registerClass:[CHDMessageTableViewCell class] forCellReuseIdentifier:kMessageCellIdentifier];
         [_tableView registerClass:[CHDMessageLoadCommentsTableViewCell class] forCellReuseIdentifier:kMessageLoadCommentsCellIdentifier];
@@ -361,6 +362,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
     [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
         [self.replyView layoutIfNeeded];
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, kbSize.height + 50, 0);
     } completion:^(BOOL finished) {
         if(finished){
             NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:commentsSection];
@@ -386,6 +388,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     
     [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
         [self.replyView layoutIfNeeded];
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     } completion:^(BOOL finished) {
         if(finished){
             NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:commentsSection];
