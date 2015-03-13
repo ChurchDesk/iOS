@@ -242,7 +242,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 #pragma mark - Messages
 
 - (RACSignal*) getUnreadMessages{
-  return [self resourcesForPath:@"messages/unread" resultClass:[CHDMessage class] withResource:nil];
+  return [self resourcesForPath: [self resourcePathForGetUnreadMessages] resultClass:[CHDMessage class] withResource:nil];
 }
 
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit {
@@ -269,8 +269,12 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*) createMessageWithTitle:(NSString*) title message:(NSString*) message siteId: (NSString*) siteId groupId:(NSNumber*) groupId{
+    SHPAPIManager *manager = self.manager;
+
     NSDictionary *body = @{@"site": siteId, @"groupId": groupId, @"title": title, @"body": message};
-    return [self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"messages"];
+    return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"messages"] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
+    }];
 }
 
 - (RACSignal*) createCommentForMessageId:(NSNumber*) targetId siteId: (NSString*) siteId body:(NSString*) message {
@@ -283,7 +287,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 #pragma mark - Resources paths
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%@", messageId];}
-
+- (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}
 #pragma mark - Refresh token
 
 - (RACSignal *)tokenValidationWrapper:(RACSignal *)requestSignal {

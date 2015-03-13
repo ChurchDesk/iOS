@@ -29,15 +29,34 @@
     if (self) {
         self.unreadOnly = unreadOnly;
         if(unreadOnly) {
-            RAC(self, messages) = [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
+            //Inital model signal
+            RACSignal *initialModelSignal = [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
+
+            //Update signal
+            CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+            RACSignal *updateTriggerSignal = [[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
+                NSString *regex = tuple.first;
+                NSString *resourcePath = [apiClient resourcePathForGetUnreadMessages];
+                return [regex rangeOfString:resourcePath].location != NSNotFound;
+            }];
+
+            RACSignal *updateSignal = [updateTriggerSignal flattenMap:^RACStream *(id value) {
+                return [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
+                    return [RACSignal empty];
+                }];
+            }];
+
+            RAC(self, messages) = [RACSignal merge:@[initialModelSignal, updateSignal]];
+        }else{
+            [self fetchMoreMessagesFromDate:[NSDate new]];
         }
 
         RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
-        
+
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];

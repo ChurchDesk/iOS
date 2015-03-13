@@ -33,4 +33,5 @@
 - (RACSignal*)setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId;
 
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId;
+- (NSString*)resourcePathForGetUnreadMessages;
 @end
