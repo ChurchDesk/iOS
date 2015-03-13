@@ -40,8 +40,8 @@
 - (UITextField *)textField {
     if(!_textField){
         _textField = [UITextField new];
-        _textField.placeholder = NSLocalizedString(@"Title", @"");
         _textField.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
+        _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Title", @"") attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
         _textField.textColor = [UIColor chd_textDarkColor];
     }
     return _textField;
