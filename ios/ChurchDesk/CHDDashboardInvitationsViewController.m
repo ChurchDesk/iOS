@@ -43,6 +43,11 @@
     [self setupBindings];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.inviteTable reloadData];
+}
+
 #pragma mark - setup views
 
 -(void) makeViews {
