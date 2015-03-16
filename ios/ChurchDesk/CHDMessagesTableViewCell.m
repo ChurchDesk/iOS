@@ -41,13 +41,20 @@
         make.top.left.equalTo(contentView).with.offset(15);
     }];
 
+    [self.receivedTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
+        make.right.equalTo(contentView).with.offset(-15);
+        make.top.equalTo(contentView).with.offset(15);
+        //make.left.greaterThanOrEqualTo(self.parishLabel.mas_right).offset(5);
+    }];
+
     [self.parishLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.equalTo(self.groupLabel);
         make.left.equalTo(self.groupLabel.mas_right).with.offset(4);
+        make.right.lessThanOrEqualTo(self.receivedTimeLabel.mas_left).offset(-5);
     }];
 
     [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.groupLabel.mas_baseline).with.offset(5);
+        make.top.equalTo(contentView).offset(33.5);
         make.left.equalTo(self.groupLabel);
     }];
 
@@ -56,12 +63,6 @@
         make.top.greaterThanOrEqualTo(self.receivedTimeLabel.mas_baseline).with.offset(13);
         make.left.equalTo(self.groupLabel);
         make.right.equalTo(self.receivedDot.mas_left).offset(-6);
-    }];
-
-    [self.receivedTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.right.equalTo(contentView).with.offset(-15);
-        make.top.equalTo(contentView).with.offset(15);
-        make.left.greaterThanOrEqualTo(self.parishLabel.mas_right).offset(5);
     }];
 
     [self.receivedDot mas_makeConstraints:^(MASConstraintMaker *make){

@@ -18,4 +18,5 @@
 @property (nonatomic, readonly) CHDDotView* receivedDot;
 
 @property (nonatomic, readonly) UIButton *markAsReadButton;
+
 @end
