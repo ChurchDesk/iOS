@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
+#import <SHPNetworking/SHPAPIManager+ReactiveExtension.h>
 #import "CHDNewMessageViewController.h"
 #import "CHDDividerTableViewCell.h"
 #import "CHDNewMessageSelectorCell.h"
@@ -15,8 +16,6 @@
 #import "SHPKeyboardEvent.h"
 #import "CHDListSelectorViewController.h"
 #import "CHDNewMessageViewModel.h"
-#import "CHDGroup.h"
-#import "CHDAPICreate.h"
 #import "CHDStatusView.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
@@ -85,18 +84,32 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 -(void) rightBarButtonTouch{
     [self.view endEditing:YES];
     //create a new message
-    //[self rac_liftSelector:@selector(didCreateMessage:) withSignals:RACObserve(self.messageViewModel, createMessageAPIResponse), nil];
+    [self didChangeSendingStatus:CHDStatusViewProcessing];
+    [[self.messageViewModel sendMessage] subscribeError:^(NSError *error) {
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        switch(response.statusCode){
+            case 406:
+            case 400:
+                self.statusView.errorText = NSLocalizedString(@"Please check message content", @"");
+                break;
+            case 401:
+                self.statusView.errorText = NSLocalizedString(@"Unauthorized. Please login again", @"");
+                break;
+            case 403:
+                self.statusView.errorText = NSLocalizedString(@"Access denied", @"");
+                break;
 
-    [self.messageViewModel sendMessage];
+            case 429:
+                self.statusView.errorText = NSLocalizedString(@"Too many requests, try again later", @"");
+                break;
+            default:
+                self.statusView.errorText = NSLocalizedString(@"There was a problem, please try again", @"");
+        }
+        [self didChangeSendingStatus:CHDStatusViewError];
+    } completed:^{
+        [self didChangeSendingStatus:CHDStatusViewSuccess];
+    }];
 }
-
-/*-(void) didCreateMessage:(CHDAPICreate *)apiResponse{
-    if(apiResponse.error){
-        //Handle the error
-    }else if(apiResponse.createId != nil){
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-}*/
 
 #pragma mark - TableView delegate
 
@@ -205,7 +218,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     
     self.statusView = [[CHDStatusView alloc] init];
     self.statusView.successText = NSLocalizedString(@"Your message was sent", @"");
-    self.statusView.errorText = NSLocalizedString(@"There was a problem, please try again", @"");
     self.statusView.processingText = NSLocalizedString(@"Sending message..", @"");
     self.statusView.autoHideOnSuccessAfterTime = 0;
     self.statusView.autoHideOnErrorAfterTime = 0;
@@ -224,23 +236,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
 
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.messageViewModel, canSelectGroup), RACObserve(self.messageViewModel, canSelectParish)]]];
-
-    //Handle status view
-    RACSignal *sendingStatusSignal = [RACSignal combineLatest:@[self.messageViewModel.saveCommand.executing, RACObserve(self.messageViewModel, createMessageAPIResponse)] reduce:^(NSNumber *iSending, CHDAPICreate *apiResponse) {
-        BOOL isSending = iSending.boolValue;
-        if(isSending && apiResponse == nil){
-            return @(CHDStatusViewProcessing);
-        }
-        if(apiResponse.createId != nil && apiResponse.createId > 0){
-            return @(CHDStatusViewSuccess);
-        }
-        if(apiResponse.error != nil){
-            return @(CHDStatusViewError);
-        }
-        return @(CHDStatusViewHidden);
-    }];
-
-    [self rac_liftSelector:@selector(didChangeSendingStatus:) withSignals:sendingStatusSignal, nil];
 }
 
 -(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
@@ -266,7 +261,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             self.statusView.show = NO;
-            [self dismissViewControllerAnimated:YES completion:nil];
         });
         return;
     }

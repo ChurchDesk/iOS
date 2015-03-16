@@ -68,6 +68,8 @@
 
     [self.statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
+        make.left.greaterThanOrEqualTo(self);
+        make.right.lessThanOrEqualTo(self);
         make.bottom.equalTo(self).offset(-100);
     }];
 }
@@ -200,6 +202,8 @@
         _statusLabel.text = @"";
         _statusLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:20];
         _statusLabel.textColor =[UIColor chd_blueColor];
+        _statusLabel.adjustsFontSizeToFitWidth = YES;
+        _statusLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _statusLabel;
 }

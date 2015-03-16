@@ -29,6 +29,6 @@
 
 @property (nonatomic, readonly) BOOL isSending;
 @property (nonatomic, readonly) RACCommand *saveCommand;
-@property (nonatomic, readonly) CHDAPICreate *createMessageAPIResponse;
--(void) sendMessage;
+
+- (RACSignal*) sendMessage;
 @end
