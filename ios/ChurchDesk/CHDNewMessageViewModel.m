@@ -27,6 +27,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 
 @property (nonatomic, assign) CHDUser *user;
 
+@property (nonatomic, strong) RACCommand *saveCommand;
 @property (nonatomic) BOOL isSending;
 @property (nonatomic, strong) CHDAPICreate *createMessageAPIResponse;
 @end
@@ -192,7 +193,25 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
     if(!self.canSendMessage){return;}
     [self storeDefaults];
     self.isSending = YES;
-    RAC(self, createMessageAPIResponse) = [[CHDAPIClient sharedInstance] createMessageWithTitle:self.title message:self.message siteId:self.selectedSite.siteId groupId:self.selectedGroup.groupId];
+    CHDMessage *message = [CHDMessage new];
+    message.body = self.message;
+    message.title = self.title;
+    message.siteId = self.selectedSite.siteId;
+    message.groupId = self.selectedGroup.groupId;
+
+    RAC(self, createMessageAPIResponse) = [self.saveCommand execute:RACTuplePack(message)];
+    //RAC(self, createMessageAPIResponse) = [[CHDAPIClient sharedInstance] createMessageWithTitle:self.title message:self.message siteId:self.selectedSite.siteId groupId:self.selectedGroup.groupId];
+}
+
+-(RACCommand*)saveCommand {
+    if(!_saveCommand){
+        _saveCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDMessage *message = tuple.first;
+
+            return [[CHDAPIClient sharedInstance] createMessageWithTitle:message.title message:message.body siteId:message.siteId groupId:message.groupId];
+        }];
+    }
+    return _saveCommand;
 }
 
 

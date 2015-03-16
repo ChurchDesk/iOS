@@ -85,18 +85,18 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 -(void) rightBarButtonTouch{
     [self.view endEditing:YES];
     //create a new message
-    [self rac_liftSelector:@selector(didCreateMessage:) withSignals:RACObserve(self.messageViewModel, createMessageAPIResponse), nil];
+    //[self rac_liftSelector:@selector(didCreateMessage:) withSignals:RACObserve(self.messageViewModel, createMessageAPIResponse), nil];
 
     [self.messageViewModel sendMessage];
 }
 
--(void) didCreateMessage:(CHDAPICreate *)apiResponse{
+/*-(void) didCreateMessage:(CHDAPICreate *)apiResponse{
     if(apiResponse.error){
         //Handle the error
     }else if(apiResponse.createId != nil){
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-}
+}*/
 
 #pragma mark - TableView delegate
 
@@ -207,8 +207,8 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     self.statusView.successText = NSLocalizedString(@"Your message was sent", @"");
     self.statusView.errorText = NSLocalizedString(@"There was a problem, please try again", @"");
     self.statusView.processingText = NSLocalizedString(@"Sending message..", @"");
-    self.statusView.autoHideOnSuccessAfterTime = 1.0;
-    self.statusView.autoHideOnErrorAfterTime = 1.0;
+    self.statusView.autoHideOnSuccessAfterTime = 0;
+    self.statusView.autoHideOnErrorAfterTime = 0;
 }
 
 -(void) makeConstraints {
@@ -222,28 +222,58 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
     //Change the state of the send button
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
-    /*RAC(self.navigationItem.rightBarButtonItem, tintColor) = [RACObserve(self.navigationItem.rightBarButtonItem, enabled) map:^id(NSNumber *SelectedNumber) {
-        return SelectedNumber.boolValue? [UIColor whiteColor] : [UIColor chd_textDarkColor];
-    }];*/
 
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.messageViewModel, canSelectGroup), RACObserve(self.messageViewModel, canSelectParish)]]];
 
     //Handle status view
-    RAC(self.statusView, show) = RACObserve(self.messageViewModel, isSending);
-
-    RAC(self.statusView, currentStatus) = [RACSignal combineLatest:@[RACObserve(self.messageViewModel, isSending), RACObserve(self.messageViewModel, createMessageAPIResponse)] reduce:^(NSNumber *iSending, CHDAPICreate *apiResponse) {
+    RACSignal *sendingStatusSignal = [RACSignal combineLatest:@[self.messageViewModel.saveCommand.executing, RACObserve(self.messageViewModel, createMessageAPIResponse)] reduce:^(NSNumber *iSending, CHDAPICreate *apiResponse) {
         BOOL isSending = iSending.boolValue;
         if(isSending && apiResponse == nil){
             return @(CHDStatusViewProcessing);
         }
-        if(isSending && apiResponse.createId != nil && apiResponse.createId > 0){
+        if(apiResponse.createId != nil && apiResponse.createId > 0){
             return @(CHDStatusViewSuccess);
         }
-        if(isSending && apiResponse.error != nil){
+        if(apiResponse.error != nil){
             return @(CHDStatusViewError);
         }
         return @(CHDStatusViewHidden);
     }];
+
+    [self rac_liftSelector:@selector(didChangeSendingStatus:) withSignals:sendingStatusSignal, nil];
+}
+
+-(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
+    self.statusView.currentStatus = status;
+
+    if(status == CHDStatusViewProcessing){
+        self.statusView.show = YES;
+        return;
+    }
+    if(status == CHDStatusViewSuccess){
+        self.statusView.show = YES;
+        double delayInSeconds = 2.f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.statusView.show = NO;
+            [self dismissViewControllerAnimated:YES completion:nil];
+        });
+        return;
+    }
+    if(status == CHDStatusViewError){
+        self.statusView.show = YES;
+        double delayInSeconds = 2.f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.statusView.show = NO;
+            [self dismissViewControllerAnimated:YES completion:nil];
+        });
+        return;
+    }
+    if(status == CHDStatusViewHidden){
+        self.statusView.show = NO;
+        return;
+    }
 }
 
 
