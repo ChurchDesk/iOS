@@ -20,6 +20,8 @@
 
 @property (nonatomic) BOOL unreadOnly;
 
+@property (nonatomic, strong) RACCommand *readCommand;
+
 @end
 
 @implementation CHDDashboardMessagesViewModel
@@ -64,10 +66,32 @@
     return self;
 }
 
-- (void)setMessageAsRead:(CHDMessage *)message {
-    [[[CHDAPIClient sharedInstance] setMessageAsRead:message.messageId siteId:message.siteId] catch:^RACSignal *(NSError *error) {
-        return [RACSignal empty];
-    }];
+- (BOOL)removeMessageWithIndex:(NSUInteger)idx {
+    if(self.messages.count < idx){return NO;}
+
+    NSMutableArray *messages = [[NSMutableArray alloc] initWithArray:self.messages];
+    [messages removeObjectAtIndex:idx];
+
+    self.messages = [messages copy];
+    return YES;
+}
+
+
+-(RACSignal*) setMessageAsRead:(CHDMessage *)message {
+    return [self.readCommand execute:RACTuplePack(message)];
+}
+
+-(RACCommand*)readCommand{
+    if(!_readCommand){
+        _readCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDMessage *message = tuple.first;
+
+            return [[[CHDAPIClient sharedInstance] setMessageAsRead:message.messageId siteId:message.siteId] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }];
+    }
+    return _readCommand;
 }
 
 

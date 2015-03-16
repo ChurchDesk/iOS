@@ -255,16 +255,25 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId {
-    return [self resourcesForPath:[self resourcePathForGetMessageWithId:messageId] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
+    SHPAPIManager *manager = self.manager;
+    return [[self resourcesForPath:[self resourcePathForGetMessageWithId:messageId] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:siteId forQueryParameterKey:@"site"];
+    }] doNext:^(CHDMessage *message) {
+        //Invalidate unread - only if message is unread
+        if(!message.read){
+            [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
+        }
     }];
 }
 
 //This will return a 200 with no content
 - (RACSignal*)setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId {
     SHPAPIManager *manager = self.manager;
-    return [[self resourcesForPath:[NSString stringWithFormat:@"messages/%@/mark-as-read?site=%@", messageId, siteId] resultClass:[NSDictionary class] withResource:nil] doNext:^(id x) {
+
+    return [[[self postHeaderDictionary:@{@"site" : siteId} resultClass:[NSArray class] toPath:[NSString stringWithFormat:@"messages/%@/mark-as-read", messageId]] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
+    }] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
     }];
 }
 

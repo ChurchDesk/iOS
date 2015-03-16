@@ -16,15 +16,16 @@
 
 @interface CHDDashboardMessagesViewModel : NSObject <CHDMessagesViewModelProtocol>
 
+@property (nonatomic, assign) BOOL isEditingMessages;
 @property (nonatomic, readonly) NSArray *messages;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser* user;
 
 - (NSString*) authorNameWithId: (NSNumber*) authorId;
 
--(void) setMessageAsRead: (CHDMessage*) message;
+-(RACSignal*) setMessageAsRead: (CHDMessage*) message;
 - (void) fetchMoreMessagesFromDate: (NSDate*) date;
 
 - (instancetype)initWithUnreadOnly: (BOOL) unreadOnly;
-
+- (BOOL) removeMessageWithIndex: (NSUInteger) idx;
 @end

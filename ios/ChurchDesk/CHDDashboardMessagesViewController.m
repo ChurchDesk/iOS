@@ -41,7 +41,18 @@
 #pragma mark - setup views
 
 - (void) setupBindings {
-    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, messages), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+
+    RACSignal *messagesEditingSignal = RACObserve(self.viewModel, isEditingMessages);
+    RACSignal *messagesSignal = RACObserve(self.viewModel, messages);
+
+    RACSignal *messagesReloadSignal = [[messagesEditingSignal filter:^BOOL(NSNumber *isEditing) {
+        return !isEditing.boolValue;
+    }] flattenMap:^RACStream *(id value) {
+        return messagesSignal;
+    }];
+
+    
+    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[messagesReloadSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
     if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
         RACSignal *refreshSignal = [[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)] map:^id(RACTuple *tuple) {
@@ -112,10 +123,31 @@
 
 #pragma mark - UIScrollView
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    //
 }
      
 #pragma mark - UITableViewDataSource
+-(void) markAsReadWithMessageIndexTuple: (RACTuple *) tuple {
+    RACTupleUnpack(CHDMessage *message, NSIndexPath *indexPath) = tuple;
+
+    //Set flag on viewModel to avoid reload of data while editing
+    self.viewModel.isEditingMessages = YES;
+
+    //Remove index from table
+    [self.messagesTable beginUpdates];
+
+    //Remove index from model
+    if([self.viewModel removeMessageWithIndex:indexPath.row]){
+
+        [self.messagesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+
+    }
+    [self.messagesTable endUpdates];
+
+    //Setup some handling for errors and success
+    [self.viewModel setMessageAsRead:message];
+
+    self.viewModel.isEditingMessages = NO;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDMessage* message = self.viewModel.messages[indexPath.row];
@@ -147,8 +179,8 @@
 
     RACSignal *markAsRead = [[cell.markAsReadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal];
 
-    [self.viewModel rac_liftSelector:@selector(setMessageAsRead:) withSignals:[[markAsRead map:^id(id value) {
-        return message;
+    [self rac_liftSelector:@selector(markAsReadWithMessageIndexTuple:) withSignals:[[markAsRead map:^id(id value) {
+        return RACTuplePack(message, indexPath);
     }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
     return cell;
