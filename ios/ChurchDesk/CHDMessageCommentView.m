@@ -63,6 +63,10 @@
 
 -(void) makeBindings {
     [self rac_liftSelector:@selector(textDidChange:) withSignals:[self.replyTextView rac_textSignal], nil];
+
+    RAC(self.replyTextView, backgroundColor) = [RACObserve(self.replyTextView, editable) map:^id(NSNumber * iEnabled) {
+        return iEnabled.boolValue? [UIColor whiteColor] : [UIColor chd_lightGreyColor];
+    }];
 }
 
 -(UIButton*) replyButton{
@@ -70,7 +74,8 @@
         _replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _replyButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
         [_replyButton setTitle:NSLocalizedString(@"Reply", @"") forState:UIControlStateNormal];
-        [_replyButton setTitleColor:[UIColor shpui_colorWithHexValue:0xa8a8a8] forState:UIControlStateNormal];
+        [_replyButton setTitleColor:[UIColor chd_textDarkColor] forState:UIControlStateNormal];
+        [_replyButton setTitleColor:[UIColor shpui_colorWithHexValue:0xa8a8a8] forState:UIControlStateDisabled];
     }
     return _replyButton;
 }

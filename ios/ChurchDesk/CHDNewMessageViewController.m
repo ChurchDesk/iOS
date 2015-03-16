@@ -48,8 +48,10 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     if (self) {
         self.title = NSLocalizedString(@"New message", @"");
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonTouch)];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Send", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
-
+        UIBarButtonItem *sendButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Send", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
+        [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+        [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
+        self.navigationItem.rightBarButtonItem = sendButton;
         self.messageViewModel = [CHDNewMessageViewModel new];
     }
     return self;
@@ -220,9 +222,9 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
     //Change the state of the send button
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
-    RAC(self.navigationItem.rightBarButtonItem, tintColor) = [RACObserve(self.navigationItem.rightBarButtonItem, enabled) map:^id(NSNumber *SelectedNumber) {
+    /*RAC(self.navigationItem.rightBarButtonItem, tintColor) = [RACObserve(self.navigationItem.rightBarButtonItem, enabled) map:^id(NSNumber *SelectedNumber) {
         return SelectedNumber.boolValue? [UIColor whiteColor] : [UIColor chd_textDarkColor];
-    }];
+    }];*/
 
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.messageViewModel, canSelectGroup), RACObserve(self.messageViewModel, canSelectParish)]]];
 
