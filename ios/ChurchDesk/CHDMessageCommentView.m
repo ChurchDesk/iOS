@@ -12,6 +12,8 @@
 @interface CHDMessageCommentView()
 @property (nonatomic, strong) UIButton* replyButton;
 @property (nonatomic, strong) UITextView *replyTextView;
+@property (nonatomic) BOOL hasText;
+
 @property (nonatomic, strong) UILabel *placeholder;
 
 @property (nonatomic, strong) MASConstraint *replyTextViewHeight;
@@ -120,8 +122,10 @@
 
     if(![self.replyTextView.text isEqual:@""]){
         self.placeholder.hidden = YES;
+        self.hasText = YES;
     }else{
         self.placeholder.hidden = NO;
+        self.hasText = NO;
     }
 
     if(![self doesFit:self.replyTextView]){

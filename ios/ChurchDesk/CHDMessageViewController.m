@@ -90,7 +90,6 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [self rac_liftSelector:@selector(chd_willHideKeyboard:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil], nil];
     [self rac_liftSelector:@selector(chd_didChangeKeyboardFrame:) withSignals:[[NSNotificationCenter defaultCenter] rac_addObserverForName:CHDInputAccessoryViewKeyboardFrameDidChangeNotification object:nil], nil];
 
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, environment),RACObserve(self.viewModel, user)]]];
     [self shprac_liftSelector:@selector(showAllComments) withSignal:RACObserve(self.viewModel, showAllComments)];
 
     RACSignal *showAllCommentsSignal = [[RACObserve(self.viewModel, showAllComments) skip:1] take:1];
@@ -111,20 +110,28 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         return RACTuplePack(previous, current);
     }];
 
-    [self rac_liftSelector:@selector(updateTableWithMessageTuple:) withSignals:messageSignal, nil];
-    [self rac_liftSelector:@selector(updateTableWithCommentsTuble:) withSignals:[RACSignal merge:@[latestCommentsSignal, allCommentsSignal]], nil];
+    //On first load the message and previous comments should not animate in, only new comments should
+    RACSignal *firstMessageSignal = [[messageSignal skip:1] take:1];
+    RACSignal *MessageUpdateSignal = [[messageSignal skip:2] take:1];
 
+    RACSignal *firstCommentSignal = [[latestCommentsSignal skip:1] take:1];
+    RACSignal *latestCommentsUpdateSignal = [latestCommentsSignal skip:2];
 
-        //Bind the input field to the viewModel
-        RACSignal *validCommentTextSignal = [self.replyView.replyTextView.rac_textSignal map:^id(NSString *commentString) {
-        return @(commentString != nil && commentString.length > 0);
+    [self rac_liftSelector:@selector(updateTableWithMessageTuple:) withSignals:MessageUpdateSignal, nil];
+    [self rac_liftSelector:@selector(updateTableWithCommentsTuble:) withSignals:[RACSignal merge:@[latestCommentsUpdateSignal, allCommentsSignal]], nil];
+
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[firstMessageSignal, firstCommentSignal, RACObserve(self.viewModel, environment),RACObserve(self.viewModel, user)]]];
+
+    //Bind the input field to the viewModel
+    RACSignal *validCommentTextSignal = RACObserve(self.replyView, hasText);
+
+    RAC(self.replyView.replyButton, enabled) = [RACSignal combineLatest:@[validCommentTextSignal, self.viewModel.saveCommand.executing, RACObserve(self.viewModel, hasMessage)] reduce:^(NSNumber *iCanSend, NSNumber *iExecuting, NSNumber *iHasMessage) {
+        return @(iCanSend.boolValue && !iExecuting.boolValue && iHasMessage.boolValue);
     }];
 
-    RAC(self.replyView.replyButton, enabled) = [RACSignal combineLatest:@[validCommentTextSignal, self.viewModel.saveCommand.executing] reduce:^(NSNumber *iCanSend, NSNumber *iExecuting) {
-        return @(iCanSend.boolValue && !iExecuting.boolValue);
+    RAC(self.replyView.replyTextView, editable) = [RACSignal combineLatest:@[[self.viewModel.saveCommand.executing not], RACObserve(self.viewModel, hasMessage)] reduce:^(NSNumber *iNotExecuting, NSNumber *iHasMessage) {
+        return @(iNotExecuting.boolValue && iHasMessage.boolValue);
     }];
-
-    RAC(self.replyView.replyTextView, editable) = [self.viewModel.saveCommand.executing not];
 
     [self.replyView.replyButton addTarget:self action:@selector(sendAction:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -384,8 +391,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
     double duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     UIViewAnimationOptions options = (UIViewAnimationOptions)[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];// | UIViewAnimationOptionBeginFromCurrentState;
-    
-    
+
+
     [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
         [self.replyView layoutIfNeeded];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
