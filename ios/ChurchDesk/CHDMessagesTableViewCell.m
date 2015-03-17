@@ -40,13 +40,13 @@
     [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.left.equalTo(contentView).with.offset(15);
     }];
-
+    [self.receivedTimeLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.receivedTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.right.equalTo(contentView).with.offset(-15);
         make.top.equalTo(contentView).with.offset(15);
-        //make.left.greaterThanOrEqualTo(self.parishLabel.mas_right).offset(5);
     }];
 
+    [self.parishLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.parishLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.equalTo(self.groupLabel);
         make.left.equalTo(self.groupLabel.mas_right).with.offset(4);
