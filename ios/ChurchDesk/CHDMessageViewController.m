@@ -134,6 +134,18 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     }];
 
     [self.replyView.replyButton addTarget:self action:@selector(sendAction:) forControlEvents:UIControlEventTouchUpInside];
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTableView:)];
+    tap.numberOfTapsRequired = 1;
+    tap.numberOfTouchesRequired = 1;
+
+    [self.tableView addGestureRecognizer:tap];
+
+
+}
+
+-(void) touchedTableView: (id) sender {
+    [self.view endEditing:YES];
 }
 
 - (void) sendAction: (id) sender {
