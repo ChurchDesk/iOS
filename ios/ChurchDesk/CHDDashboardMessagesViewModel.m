@@ -22,6 +22,8 @@
 
 @property (nonatomic, strong) RACCommand *readCommand;
 
+@property (nonatomic, strong) RACCommand *getMessagesCommand;
+
 @end
 
 @implementation CHDDashboardMessagesViewModel
@@ -50,9 +52,7 @@
                 }];
             }];
 
-            RAC(self, messages) = [RACSignal merge:@[initialModelSignal, updateSignal]];
-        }else{
-            [self fetchMoreMessagesFromDate:[NSDate new]];
+            [self rac_liftSelector:@selector(parseMessages:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], nil];
         }
 
         RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
@@ -100,14 +100,37 @@
     return user.name;
 }
 
+- (RACCommand*) getMessagesCommand {
+    if(!_getMessagesCommand){
+        _getMessagesCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            NSDate *date = tuple.first;
+
+            return [[[CHDAPIClient sharedInstance] getMessagesFromDate:date limit:50] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }];
+    }
+    return _getMessagesCommand;
+}
+
 - (void) fetchMoreMessagesFromDate: (NSDate*) date {
     if(self.unreadOnly){return;}
     NSLog(@"Fetch messages from %@", date);
-    [self rac_liftSelector:@selector(parseMessages:) withSignals:[[CHDAPIClient sharedInstance] getMessagesFromDate:date limit:50], nil];
+    [self rac_liftSelector:@selector(parseMessages:) withSignals:[self.getMessagesCommand execute:RACTuplePack(date)], nil];
 }
 
 - (void) parseMessages: (NSArray*) messages {
-    self.messages = [(self.messages ?: @[]) arrayByAddingObjectsFromArray:messages];
+
+    NSArray *sortedMessages = [messages sortedArrayUsingComparator:^NSComparisonResult(CHDMessage *message1, CHDMessage *message2) {
+        return [message2.lastActivityDate compare:message1.lastActivityDate];
+    }];
+
+    if(self.unreadOnly){
+        self.messages = sortedMessages;
+        return;
+    }
+
+    self.messages = [(self.messages ?: @[]) arrayByAddingObjectsFromArray:sortedMessages];
 }
 
 @end

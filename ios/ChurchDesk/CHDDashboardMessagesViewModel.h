@@ -21,6 +21,8 @@
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser* user;
 
+@property (nonatomic, readonly) RACCommand *getMessagesCommand;
+
 - (NSString*) authorNameWithId: (NSNumber*) authorId;
 
 -(RACSignal*) setMessageAsRead: (CHDMessage*) message;

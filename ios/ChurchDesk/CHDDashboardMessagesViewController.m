@@ -51,7 +51,7 @@
         return messagesSignal;
     }];
 
-    
+
     [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[messagesReloadSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
     if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
@@ -63,15 +63,23 @@
 
             NSInteger sectionCount = tableView.numberOfSections;
             NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount - 1];
+
             return contentHeight - heightOffset < contentHeight * 0.2 && sectionCount > 0 && rowCount > 0;
         }];
 
+        RACSignal *refreshFilter = [[self.viewModel.getMessagesCommand.executing filter:^BOOL(NSNumber *iExecuting) {
+            return !iExecuting.boolValue;
+        }] flattenMap:^RACStream *(id value) {
+            return refreshSignal;
+        }];
+
         CHDDashboardMessagesViewModel *viewModel = self.viewModel;
-        [self.viewModel rac_liftSelector:@selector(fetchMoreMessagesFromDate:) withSignals:[[refreshSignal map:^id(UITableView *tableView) {
+        [self.viewModel rac_liftSelector:@selector(fetchMoreMessagesFromDate:) withSignals:[[refreshFilter map:^id(UITableView *tableView) {
             NSInteger sectionCount = tableView.numberOfSections;
             NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount - 1];
             CHDMessage *message = viewModel.messages[rowCount - 1];
-            return [message.changeDate dateByAddingTimeInterval:0.01];
+            //return [message.changeDate dateByAddingTimeInterval:0.01];
+            return [message.lastActivityDate dateByAddingTimeInterval:0.01];
         }] startWith:[NSDate date]], nil];
     }
 }
@@ -123,8 +131,9 @@
 
 #pragma mark - UIScrollView
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    //
 }
-     
+
 #pragma mark - UITableViewDataSource
 -(void) markAsReadWithMessageIndexTuple: (RACTuple *) tuple {
     RACTupleUnpack(CHDMessage *message, NSIndexPath *indexPath) = tuple;
