@@ -8,6 +8,8 @@
 
 #import "SHPAPI.h"
 
+@class CHDNotificationSettings;
+
 @interface CHDAPIClient : SHPAPI
 
 - (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password;
@@ -31,6 +33,9 @@
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit;
 - (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId;
 - (RACSignal*)setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId;
+
+- (RACSignal*) getNotificationSettings;
+- (RACSignal*) updateNotificationSettingsWithSettings: (CHDNotificationSettings *) settings;
 
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId;
 - (NSString*)resourcePathForGetUnreadMessages;

@@ -20,6 +20,7 @@
 #import "CHDUser.h"
 #import "CHDHoliday.h"
 #import "CHDAPICreate.h"
+#import "CHDNotificationSettings.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -293,6 +294,22 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", targetId]];
     }];
 }
+
+#pragma mark - Notifications
+- (RACSignal*) getNotificationSettings {
+    return [self resourcesForPath:@"push-notifications/settings" resultClass:[CHDNotificationSettings class] withResource:nil];
+}
+
+- (RACSignal *)updateNotificationSettingsWithSettings:(CHDNotificationSettings *)settings {
+    NSDictionary *settingsDict = @{
+        @"bookingUpdated" : [NSNumber numberWithBool:settings.bookingUpdated],
+        @"bookingCanceled" : [NSNumber numberWithBool:settings.bookingCanceled],
+        @"bookingCreated" : [NSNumber numberWithBool:settings.bookingCreated],
+        @"message" : [NSNumber numberWithBool:settings.message],
+    };
+    return [self postBodyDictionary:settingsDict resultClass:[NSDictionary class] toPath:@"push-notifications/settings"];
+}
+
 
 #pragma mark - Resources paths
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%@", messageId];}

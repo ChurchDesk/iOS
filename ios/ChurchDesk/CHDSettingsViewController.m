@@ -10,6 +10,8 @@
 #import "CHDSettingsTableViewCell.h"
 #import "CHDDescriptionTableViewCell.h"
 #import "CHDAuthenticationManager.h"
+#import "CHDSettingsViewModel.h"
+#import "CHDNotificationSettings.h"
 
 typedef NS_ENUM(NSUInteger, notificationSettings) {
     eventsChanged,
@@ -21,6 +23,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
 @interface CHDSettingsViewController ()
 @property (nonatomic, strong) UITableView* settingsTable;
+@property (nonatomic, strong) CHDSettingsViewModel *viewModel;
 @end
 
 @implementation CHDSettingsViewController
@@ -36,6 +39,10 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     [self.settingsTable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+}
+
+-(void) makeBindings {
+    [self.settingsTable shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, notificationSettings)];
 }
 
 - (UITableView*) settingsTable {
@@ -63,8 +70,10 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"Settings", @"");
+    self.viewModel = [CHDSettingsViewModel new];
     [self makeViews];
     [self makeConstraints];
+    [self makeBindings];
 }
 
 #pragma mark - UITableViewDataSource
@@ -84,16 +93,20 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
         switch ((notificationSettings) indexPath.row) {
             case eventsChanged:
-                cell.titleLabel.text = NSLocalizedString(@"Reserved events changes", @"");
+                cell.titleLabel.text = NSLocalizedString(@"Reserved events created", @"");
+                cell.aSwitch.on = (self.viewModel.notificationSettings)? self.viewModel.notificationSettings.bookingCreated : NO;
                 break;
             case eventsUpdated:
                 cell.titleLabel.text = NSLocalizedString(@"Reserved events updates", @"");
+                cell.aSwitch.on = (self.viewModel.notificationSettings)? self.viewModel.notificationSettings.bookingUpdated : NO;
                 break;
             case eventsCancels:
                 cell.titleLabel.text = NSLocalizedString(@"Reserved events cancels ", @"");
+                cell.aSwitch.on = (self.viewModel.notificationSettings)? self.viewModel.notificationSettings.bookingCanceled : NO;
                 break;
             case messagesNewAndUpdate:
                 cell.titleLabel.text = NSLocalizedString(@"New or updates group message", @"");
+                cell.aSwitch.on = (self.viewModel.notificationSettings)? self.viewModel.notificationSettings.message : NO;
                 [cell borderAsLast:YES];
                 break;
             default:
