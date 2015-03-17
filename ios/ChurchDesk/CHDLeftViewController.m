@@ -10,11 +10,15 @@
 #import "CHDLeftMenuTableViewCell.h"
 #import "CHDMenuItem.h"
 #import "SHPSideMenu.h"
+#import "CHDLeftMenuViewModel.h"
+#import "CHDUser.h"
 
 @interface CHDLeftViewController ()
 @property (nonatomic, strong) UITableView* menuTable;
 @property (nonatomic, strong) UILabel* userNameLabel;
 @property (nonatomic, strong) UIImageView* userImageView;
+
+@property (nonatomic, strong) CHDLeftMenuViewModel *viewModel;
 @end
 
 @implementation CHDLeftViewController
@@ -35,8 +39,9 @@
     if (self) {
         [self makeViews];
         [self makeConstraints];
+        [self makeBindings];
 
-        self.userNameLabel.text = @"Peter Christensen";
+        //self.userNameLabel.text = @"Peter Christensen";
     }
     return self;
 }
@@ -44,6 +49,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.viewModel = [CHDLeftMenuViewModel new];
+
     // Do any additional setup after loading the view.
     UIColor *color = [UIColor chd_menuDarkBlue];
     self.view.backgroundColor = color;
@@ -76,6 +84,22 @@
         make.top.equalTo(containerView).with.offset(40);
         make.centerX.equalTo(containerView);
         make.width.height.equalTo(@104);
+    }];
+}
+
+-(void) makeBindings {
+    RACSignal *userSignal = RACObserve(self.viewModel, user);
+
+    RAC(self.userNameLabel, text) = [userSignal map:^id(CHDUser *user) {
+        return user.name;
+    }];
+
+    RAC(self.userImageView, image) = [[[userSignal map:^id(CHDUser *user) {
+        return user.pictureURL;
+    }] filter:^BOOL(NSURL *url) {
+        return url != nil && ([url respondsToSelector:@selector(absoluteString)]? ![url.absoluteString isEqualToString:@""] : NO);
+    }] map:^id(NSURL *url) {
+        return [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
     }];
 }
 
@@ -149,16 +173,5 @@
     [self.shp_sideMenuController setSelectedViewController:item.viewController];
     [self.shp_sideMenuController close];
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

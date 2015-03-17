@@ -43,6 +43,7 @@
 		603727A658CF12614D27D8E9 /* CHDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037245E9E98EC53CCA15CEA /* CHDUser.m */; };
 		6037287C919D4E250ACD51E9 /* CHDSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372E23E447786367BBF99E /* CHDSite.m */; };
 		603728972A785A759863CD81 /* CHDDashboardEventViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603728A5A13F1CDE17B7CB88 /* CHDDashboardEventViewModel.m */; };
+		6037293A67800020916A620C /* CHDLeftMenuViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BECBF65AF34EA9E2CB1 /* CHDLeftMenuViewModel.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
@@ -188,6 +189,7 @@
 		6037235603A27B48E408C420 /* CHDMessageViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMessageViewModel.h; sourceTree = "<group>"; };
 		6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSitePermission.m; sourceTree = "<group>"; };
 		603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDListSelectorConfigModel.m; sourceTree = "<group>"; };
+		6037242978D2743FC2A06978 /* CHDLeftMenuViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuViewModel.h; sourceTree = "<group>"; };
 		6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextViewCell.m; sourceTree = "<group>"; };
 		6037245E9E98EC53CCA15CEA /* CHDUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDUser.m; sourceTree = "<group>"; };
 		6037249E0210641467B98003 /* CHDListSelectorConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectorConfigModel.h; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 		603729828D5FB2B8CBB39464 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
 		60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextFieldCell.m; sourceTree = "<group>"; };
 		60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
+		60372BECBF65AF34EA9E2CB1 /* CHDLeftMenuViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuViewModel.m; sourceTree = "<group>"; };
 		60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageViewModel.m; sourceTree = "<group>"; };
 		60372D58E8F4677269419267 /* CHDNewMessageViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageViewModel.h; sourceTree = "<group>"; };
 		60372E23E447786367BBF99E /* CHDSite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSite.m; sourceTree = "<group>"; };
@@ -361,6 +364,8 @@
 				360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */,
 				360B4DF51A973C86001CC8B0 /* CHDMenuItem.h */,
 				360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */,
+				60372BECBF65AF34EA9E2CB1 /* CHDLeftMenuViewModel.m */,
+				6037242978D2743FC2A06978 /* CHDLeftMenuViewModel.h */,
 			);
 			name = MainNavigation;
 			sourceTree = "<group>";
@@ -1058,6 +1063,7 @@
 				60372D7B54E198FD42FF0260 /* CHDComment.m in Sources */,
 				603728972A785A759863CD81 /* CHDDashboardEventViewModel.m in Sources */,
 				60372E47AEA97053556F78E2 /* CHDStatusView.m in Sources */,
+				6037293A67800020916A620C /* CHDLeftMenuViewModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
