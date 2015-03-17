@@ -7,6 +7,7 @@
 //
 
 #import "CHDAbstractViewController.h"
+#import "CHDDashboardTabBarViewController.h"
 
 @interface CHDAbstractViewController ()
 

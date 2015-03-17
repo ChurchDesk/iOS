@@ -14,6 +14,7 @@
 #import "CHDEnvironment.h"
 #import "CHDUser.h"
 #import "CHDSite.h"
+#import "CHDDashboardTabBarViewController.h"
 
 @interface CHDDashboardInvitationsViewController ()
 
@@ -63,6 +64,20 @@
 
 - (void) setupBindings {
     [self.inviteTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.viewModel, invitations), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+    if(self.chd_tabbarViewController != nil){
+        [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, invitations) map:^id(NSArray *invitations) {
+            if(invitations != nil){
+                return @(invitations.count > 0);
+            }
+            return @(NO);
+        }], nil];
+    }
+}
+
+-(void) setUnread: (BOOL) hasUnread {
+    if(self.chd_tabbarViewController) {
+        [self.chd_tabbarViewController notificationsForIndex:self.chd_tabbarIdx show:hasUnread];
+    }
 }
 
 -(UITableView *)inviteTable {

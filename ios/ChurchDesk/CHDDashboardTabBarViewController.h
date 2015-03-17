@@ -12,4 +12,5 @@
 + (instancetype) dashboardTabBarViewController;
 
 -(instancetype) initWithTabItems: (NSArray*) items;
+- (void) notificationsForIndex: (NSUInteger) idx show: (BOOL) show;
 @end

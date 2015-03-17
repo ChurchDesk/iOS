@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHDAbstractViewController : UIViewController
+@class CHDDashboardTabBarViewController;
 
+@interface CHDAbstractViewController : UIViewController
+@property (nonatomic, weak) CHDDashboardTabBarViewController *chd_tabbarViewController;
+@property (nonatomic) NSUInteger chd_tabbarIdx;
 @end

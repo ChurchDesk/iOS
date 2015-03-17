@@ -17,6 +17,7 @@
 #import "CHDGroup.h"
 #import "CHDUser.h"
 #import "CHDSite.h"
+#import "CHDDashboardTabBarViewController.h"
 
 @interface CHDDashboardMessagesViewController ()
 
@@ -51,9 +52,16 @@
         return messagesSignal;
     }];
 
-
     [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[messagesReloadSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
+    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages && self.chd_tabbarViewController != nil){
+        [self rac_liftSelector:@selector(setUnread:) withSignals:[messagesSignal map:^id(NSArray *messages) {
+            if(messages != nil){
+                return @(messages.count > 0);
+            }
+            return @(NO);
+        }], nil];
+    }
     if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
         RACSignal *refreshSignal = [[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)] map:^id(RACTuple *tuple) {
             return tuple.first;
@@ -78,9 +86,15 @@
             NSInteger sectionCount = tableView.numberOfSections;
             NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount - 1];
             CHDMessage *message = viewModel.messages[rowCount - 1];
-            //return [message.changeDate dateByAddingTimeInterval:0.01];
+
             return [message.lastActivityDate dateByAddingTimeInterval:0.01];
         }] startWith:[NSDate date]], nil];
+    }
+}
+
+-(void) setUnread: (BOOL) hasUnread {
+    if(self.chd_tabbarViewController) {
+        [self.chd_tabbarViewController notificationsForIndex:self.chd_tabbarIdx show:hasUnread];
     }
 }
 

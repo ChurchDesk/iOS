@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CHDAbstractViewController.h"
 
-@interface CHDDashboardInvitationsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface CHDDashboardInvitationsViewController : CHDAbstractViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end

@@ -38,14 +38,14 @@
     invitationsItem.imageNormal = kImgTabInvitationPassive;
     invitationsItem.imageSelected = kImgTabInvitationActive;
     invitationsItem.title = NSLocalizedString(@"Invitations", @"");
-    invitationsItem.showNotification = YES;
+    invitationsItem.showNotification = NO;
 
     CHDTabItem* messagesItem = [CHDTabItem new];
     messagesItem.viewController = dashboardMessagesViewController;
     messagesItem.imageNormal = kImgTabMailunread;
     messagesItem.imageSelected = kImgTabMailActive;
     messagesItem.title = NSLocalizedString(@"Messages", @"");
-    messagesItem.showNotification = YES;
+    messagesItem.showNotification = NO;
 
     NSArray *viewControllersArray = @[eventsItem, invitationsItem, messagesItem];
 
@@ -78,6 +78,11 @@
 
     [items enumerateObjectsUsingBlock:^(CHDTabItem* item, NSUInteger idx, BOOL *stop) {
 
+        if([item.viewController isKindOfClass:[CHDAbstractViewController class]]){
+            CHDAbstractViewController *vc = (CHDAbstractViewController *)item.viewController;
+            vc.chd_tabbarViewController = self;
+            vc.chd_tabbarIdx = idx;
+        }
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:item.imageNormal forState:UIControlStateNormal];
         [button setImage:item.imageSelected forState:UIControlStateSelected];
@@ -161,7 +166,7 @@
     [selectedVC didMoveToParentViewController:self];
 }
 
-- (void) notificationsForIndex: (u_int) idx show: (BOOL) show {
+- (void) notificationsForIndex: (NSUInteger) idx show: (BOOL) show {
     if(self.buttons.count > idx){
         CHDTabItem* item = self.buttons[idx];
         item.showNotification = show;
