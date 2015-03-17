@@ -138,6 +138,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchedTableView:)];
     tap.numberOfTapsRequired = 1;
     tap.numberOfTouchesRequired = 1;
+    tap.cancelsTouchesInView = NO;
 
     [self.tableView addGestureRecognizer:tap];
 
