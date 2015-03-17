@@ -21,6 +21,8 @@
 @property(nonatomic, strong) CHDDashboardInvitationsViewModel *viewModel;
 @property(nonatomic, retain) UITableView*inviteTable;
 
+@property(nonatomic, strong) UIRefreshControl *refreshControl;
+
 @end
 
 @implementation CHDDashboardInvitationsViewController
@@ -53,6 +55,7 @@
 
 -(void) makeViews {
     [self.view addSubview:self.inviteTable];
+    [self.inviteTable addSubview:self.refreshControl];
 }
 
 -(void) makeConstraints {
@@ -64,6 +67,9 @@
 
 - (void) setupBindings {
     [self.inviteTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.viewModel, invitations), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+
+    [self shprac_liftSelector:@selector(endRefresh) withSignal:RACObserve(self.viewModel, invitations)];
+
     if(self.chd_tabbarViewController != nil){
         [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, invitations) map:^id(NSArray *invitations) {
             if(invitations != nil){
@@ -96,7 +102,21 @@
     return _inviteTable;
 }
 
+-(UIRefreshControl*) refreshControl {
+    if(!_refreshControl){
+        _refreshControl = [[UIRefreshControl alloc] init];
+        [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _refreshControl;
+}
+
 #pragma mark - UITableViewDataSource
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [self.viewModel reload];
+}
+-(void)endRefresh {
+    [self.refreshControl endRefreshing];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.viewModel.invitations? self.viewModel.invitations.count : 0;

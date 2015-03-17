@@ -22,8 +22,9 @@
 @interface CHDDashboardMessagesViewController ()
 
 @property(nonatomic, retain) UITableView* messagesTable;
+@property(nonatomic, strong) UIRefreshControl *refreshControl;
 @property(nonatomic, strong) CHDDashboardMessagesViewModel *viewModel;
-@property (nonatomic) CHDMessagesFilterType messageFilter;
+@property(nonatomic) CHDMessagesFilterType messageFilter;
 
 @end
 
@@ -53,6 +54,8 @@
     }];
 
     [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[messagesReloadSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+
+    [self shprac_liftSelector:@selector(endRefresh) withSignal:messagesReloadSignal];
 
     if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages && self.chd_tabbarViewController != nil){
         [self rac_liftSelector:@selector(setUnread:) withSignals:[messagesSignal map:^id(NSArray *messages) {
@@ -100,6 +103,9 @@
 
 -(void) makeViews {
     [self.view addSubview:self.messagesTable];
+    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages) {
+        [self.messagesTable addSubview:self.refreshControl];
+    }
 }
 
 -(void) makeConstraints {
@@ -123,6 +129,14 @@
         _messagesTable.delegate = self;
     }
     return _messagesTable;
+}
+
+-(UIRefreshControl*) refreshControl {
+    if(!_refreshControl){
+        _refreshControl = [[UIRefreshControl alloc] init];
+        [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _refreshControl;
 }
 
 #pragma mark - View methods
@@ -149,6 +163,13 @@
 }
 
 #pragma mark - UITableViewDataSource
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [self.viewModel reload];
+}
+-(void)endRefresh {
+    [self.refreshControl endRefreshing];
+}
+
 -(void) markAsReadWithMessageIndexTuple: (RACTuple *) tuple {
     RACTupleUnpack(CHDMessage *message, NSIndexPath *indexPath) = tuple;
 

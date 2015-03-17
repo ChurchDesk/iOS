@@ -24,4 +24,6 @@
 -(void) setInivationMaybe:(CHDInvitation *) invitation;
 -(void) setInivationDecline:(CHDInvitation *) invitation;
 
+-(void) reload;
+
 @end

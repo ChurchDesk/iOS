@@ -127,4 +127,18 @@
     }];
 }
 
+-(void) reload {
+    CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+    [[[apiClient manager] cache] invalidateObjectsMatchingRegex:[apiClient resourcePathForGetInvitations]];
+
+    [self rac_liftSelector:@selector(setInvitations:) withSignals:[[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
+        RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
+            return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
+        }];
+        return results.array;
+    }] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }], nil];
+}
+
 @end

@@ -39,4 +39,6 @@
 
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId;
 - (NSString*)resourcePathForGetUnreadMessages;
+- (NSString*)resourcePathForGetMessagesFromDate;
+- (NSString*)resourcePathForGetInvitations;
 @end

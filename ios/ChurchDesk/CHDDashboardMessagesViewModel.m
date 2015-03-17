@@ -133,4 +133,11 @@
     self.messages = [(self.messages ?: @[]) arrayByAddingObjectsFromArray:sortedMessages];
 }
 
+- (void)reload {
+    CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+    NSString *resoursePath = [apiClient resourcePathForGetUnreadMessages];
+    [[[apiClient manager] cache] invalidateObjectsMatchingRegex:resoursePath];
+}
+
+
 @end

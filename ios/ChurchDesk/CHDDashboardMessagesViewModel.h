@@ -30,4 +30,6 @@
 
 - (instancetype)initWithUnreadOnly: (BOOL) unreadOnly;
 - (BOOL) removeMessageWithIndex: (NSUInteger) idx;
+
+-(void) reload;
 @end

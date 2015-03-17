@@ -222,7 +222,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*) getInvitations {
-    return [self resourcesForPath:@"my-invites" resultClass:[CHDInvitation class] withResource:nil];
+    return [self resourcesForPath:self.resourcePathForGetInvitations resultClass:[CHDInvitation class] withResource:nil];
 }
 
 - (RACSignal*) getHolidaysFromYear: (NSInteger) year {
@@ -314,6 +314,9 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 #pragma mark - Resources paths
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%@", messageId];}
 - (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}
+- (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}
+- (NSString*)resourcePathForGetInvitations{return @"my-invites";}
+
 #pragma mark - Refresh token
 
 - (RACSignal *)tokenValidationWrapper:(RACSignal *)requestSignal {
