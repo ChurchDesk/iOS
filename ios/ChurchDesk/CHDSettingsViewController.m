@@ -49,6 +49,8 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     if(!_settingsTable){
         _settingsTable = [UITableView new];
         _settingsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _settingsTable.rowHeight = UITableViewAutomaticDimension;
+        _settingsTable.estimatedRowHeight = 44;
         _settingsTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
         _settingsTable.backgroundColor = [UIColor chd_lightGreyColor];
         _settingsTable.contentInset = UIEdgeInsetsMake(35, 0, 0, 0);
@@ -116,8 +118,8 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     }else{
         CHDDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"descriptionCell" forIndexPath:indexPath];
 
-        cell.titleLabel.text = @"Notifications";
-        cell.descriptionLabel.text = @"Here you can change all settings regarding notifications on your phone.";
+        cell.titleLabel.text = NSLocalizedString(@"Notifications", @"");
+        cell.descriptionLabel.text = NSLocalizedString(@"Here you can change all settings regarding notifications on your phone.", @"");
         return cell;
     }
 }

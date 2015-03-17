@@ -48,11 +48,12 @@
         make.height.equalTo(@1);
     }];
 
+    [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(contentView).with.offset(28);
         make.left.equalTo(contentView).with.offset(15);
     }];
-
+    [self.descriptionLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_baseline).with.offset(14);
         make.left.equalTo(self.titleLabel);
