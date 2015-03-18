@@ -196,6 +196,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDMessage* message = self.viewModel.messages[indexPath.row];
+    message.read = YES;
     CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:message.messageId site:message.siteId];
 
     [self.navigationController pushViewController:messageViewController animated:YES];
