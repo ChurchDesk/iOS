@@ -155,6 +155,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 - (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password {
     SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
     resource.resultObjectClass = [CHDAccessToken class];
+    SHPAPIManager *manager = self.manager;
 
     RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
     
@@ -168,9 +169,11 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         [request addValue:@"application/json" forHeaderField:@"Content-Type"];
     } withBodyContent:nil toResource:resource];
     
-    return [[requestSignal replayLazily] doError:^(NSError *error) {
+    return [[[requestSignal replayLazily] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
+    }] doNext:^(id x) {
+        [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
     }];
 }
 
