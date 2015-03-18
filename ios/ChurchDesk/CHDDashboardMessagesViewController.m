@@ -173,24 +173,33 @@
 -(void) markAsReadWithMessageIndexTuple: (RACTuple *) tuple {
     RACTupleUnpack(CHDMessage *message, NSIndexPath *indexPath) = tuple;
 
-    //Set flag on viewModel to avoid reload of data while editing
-    self.viewModel.isEditingMessages = YES;
+    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages) {
+        //Set flag on viewModel to avoid reload of data while editing
+        self.viewModel.isEditingMessages = YES;
 
-    //Remove index from table
-    [self.messagesTable beginUpdates];
+        //Remove index from table
+        [self.messagesTable beginUpdates];
 
-    //Remove index from model
-    if([self.viewModel removeMessageWithIndex:indexPath.row]){
+        //Remove index from model
+        if ([self.viewModel removeMessageWithIndex:indexPath.row]) {
 
-        [self.messagesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+            [self.messagesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
 
+        }
+        [self.messagesTable endUpdates];
+
+        //Setup some handling for errors and success
+        [self.viewModel setMessageAsRead:message];
+
+        self.viewModel.isEditingMessages = NO;
+        return;
     }
-    [self.messagesTable endUpdates];
 
-    //Setup some handling for errors and success
-    [self.viewModel setMessageAsRead:message];
-
-    self.viewModel.isEditingMessages = NO;
+    if(self.messageFilter == CHDMessagesFilterTypeAllMessages){
+        [self.viewModel setMessageAsRead:message];
+        [self.messagesTable reloadData];
+        return;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

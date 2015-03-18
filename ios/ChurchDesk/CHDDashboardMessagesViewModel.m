@@ -78,6 +78,7 @@
 
 
 -(RACSignal*) setMessageAsRead:(CHDMessage *)message {
+    message.read = YES;
     return [self.readCommand execute:RACTuplePack(message)];
 }
 
