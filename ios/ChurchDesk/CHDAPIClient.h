@@ -12,15 +12,15 @@
 
 @interface CHDAPIClient : SHPAPI
 
-- (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password;
+- (RACSignal*) loginWithUserName: (NSString*) username password: (NSString*) password;
 - (RACSignal*) getCurrentUser;
 
 - (RACSignal*) getEnvironment;
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month;
-- (RACSignal*)getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
-- (RACSignal*)createEventWithDictionary: (NSDictionary*) eventDictionary;
-- (RACSignal*)updateEventWithId: (NSNumber*) eventId siteId: (NSString*) siteId dictionary: (NSDictionary*) eventDictionary;
+- (RACSignal*) getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
+- (RACSignal*) createEventWithDictionary: (NSDictionary*) eventDictionary;
+- (RACSignal*) updateEventWithId: (NSNumber*) eventId siteId: (NSString*) siteId dictionary: (NSDictionary*) eventDictionary;
 
 
 - (RACSignal*) getInvitations;
@@ -31,14 +31,23 @@
 
 - (RACSignal*) getUnreadMessages;
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit;
-- (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId;
-- (RACSignal*)setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId;
+- (RACSignal*) getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId;
+- (RACSignal*) setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId;
 
 - (RACSignal*) getNotificationSettings;
 - (RACSignal*) updateNotificationSettingsWithSettings: (CHDNotificationSettings *) settings;
 
-- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId;
-- (NSString*)resourcePathForGetUnreadMessages;
-- (NSString*)resourcePathForGetMessagesFromDate;
-- (NSString*)resourcePathForGetInvitations;
+#pragma mark - ResourcePath for
+- (NSString*) resourcePathForGetCurrentUser;
+- (NSString*) resourcePathForGetEnvironment;
+- (NSString*) resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month;
+- (NSString*) resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
+
+- (NSString*) resourcePathForGetInvitations;
+- (NSString*) resourcePathForGetHolidaysFromYear: (NSInteger) year;
+
+- (NSString*) resourcePathForGetUnreadMessages;
+- (NSString*) resourcePathForGetMessagesFromDate;
+- (NSString*) resourcePathForGetMessageWithId:(NSNumber *)messageId;
+- (NSString*) resourcePathForGetNotificationSettings;
 @end

@@ -175,23 +175,23 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*) getCurrentUser {
-    return [self resourcesForPath:@"users" resultClass:[CHDUser class] withResource:nil];
+    return [self resourcesForPath:[self resourcePathForGetCurrentUser] resultClass:[CHDUser class] withResource:nil];
 }
 
 #pragma mark - Environment
 
 - (RACSignal*) getEnvironment {
-    return [self resourcesForPath:@"dictionaries" resultClass:[CHDEnvironment class] withResource:nil];
+    return [self resourcesForPath:[self resourcePathForGetEnvironment] resultClass:[CHDEnvironment class] withResource:nil];
 }
 
 #pragma mark - Calendar
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month {
-    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@/%@", @(year), @(month)] resultClass:[CHDEvent class] withResource:nil];
+    return [self resourcesForPath:[self resourcePathForGetEventsFromYear:year month:month] resultClass:[CHDEvent class] withResource:nil];
 }
 
 - (RACSignal*)getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId {
-    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@?site=%@", eventId, siteId] resultClass:[CHDEvent class] withResource:nil];
+    return [self resourcesForPath:[self resourcePathForGetEventWithId:eventId siteId:siteId] resultClass:[CHDEvent class] withResource:nil];
 }
 
 - (RACSignal*)createEventWithDictionary: (NSDictionary*) eventDictionary {
@@ -222,11 +222,11 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*) getInvitations {
-    return [self resourcesForPath:self.resourcePathForGetInvitations resultClass:[CHDInvitation class] withResource:nil];
+    return [self resourcesForPath:[self resourcePathForGetInvitations] resultClass:[CHDInvitation class] withResource:nil];
 }
 
 - (RACSignal*) getHolidaysFromYear: (NSInteger) year {
-    return [self resourcesForPath:[NSString stringWithFormat:@"holydays/%@", @(year)] resultClass:[CHDHoliday class] withResource:nil];
+    return [self resourcesForPath:[self resourcePathForGetHolidaysFromYear:year] resultClass:[CHDHoliday class] withResource:nil];
 }
 
 - (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSInteger) response {
@@ -297,7 +297,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 #pragma mark - Notifications
 - (RACSignal*) getNotificationSettings {
-    return [self resourcesForPath:@"push-notifications/settings" resultClass:[CHDNotificationSettings class] withResource:nil];
+    return [self resourcesForPath:[self resourcePathForGetNotificationSettings] resultClass:[CHDNotificationSettings class] withResource:nil];
 }
 
 - (RACSignal *)updateNotificationSettingsWithSettings:(CHDNotificationSettings *)settings {
@@ -310,12 +310,19 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self postBodyDictionary:settingsDict resultClass:[NSDictionary class] toPath:@"push-notifications/settings"];
 }
 
-
 #pragma mark - Resources paths
-- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%@", messageId];}
+- (NSString*)resourcePathForGetCurrentUser{return @"users";}
+- (NSString*)resourcePathForGetEnvironment{return @"dictionaries";}
+- (NSString*)resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month{return [NSString stringWithFormat:@"events/%@/%@", @(year), @(month)];}
+- (NSString*)resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId{return [NSString stringWithFormat:@"events/%@?site=%@", eventId, siteId];}
+
+- (NSString*)resourcePathForGetInvitations{return @"my-invites";}
+- (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year{return [NSString stringWithFormat:@"holydays/%@", @(year)];}
+
 - (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}
 - (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}
-- (NSString*)resourcePathForGetInvitations{return @"my-invites";}
+- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%@", messageId];}
+- (NSString*)resourcePathForGetNotificationSettings{return @"push-notifications/settings";}
 
 #pragma mark - Refresh token
 
