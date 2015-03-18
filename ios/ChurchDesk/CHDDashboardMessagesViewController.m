@@ -18,6 +18,7 @@
 #import "CHDUser.h"
 #import "CHDSite.h"
 #import "CHDDashboardTabBarViewController.h"
+#import "UIViewController+UIViewController_ChurchDesk.h"
 
 @interface CHDDashboardMessagesViewController ()
 
@@ -93,6 +94,8 @@
 -(void) makeViews {
     [self.view addSubview:self.messagesTable];
     [self.messagesTable addSubview:self.refreshControl];
+
+    [self setupAddButton];
 }
 
 -(void) makeConstraints {

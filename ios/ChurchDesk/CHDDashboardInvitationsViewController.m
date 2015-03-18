@@ -15,6 +15,7 @@
 #import "CHDUser.h"
 #import "CHDSite.h"
 #import "CHDDashboardTabBarViewController.h"
+#import "UIViewController+UIViewController_ChurchDesk.h"
 
 @interface CHDDashboardInvitationsViewController ()
 
@@ -56,6 +57,8 @@
 -(void) makeViews {
     [self.view addSubview:self.inviteTable];
     [self.inviteTable addSubview:self.refreshControl];
+
+    [self setupAddButton];
 }
 
 -(void) makeConstraints {

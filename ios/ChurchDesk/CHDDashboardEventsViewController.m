@@ -19,11 +19,11 @@
 #import "CHDEnvironment.h"
 #import "CHDEventInfoViewController.h"
 #import "CHDEditEventViewController.h"
+#import "UIViewController+UIViewController_ChurchDesk.h"
 
 @interface CHDDashboardEventsViewController ()  <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) UITableView* eventTable;
-@property (nonatomic, strong) CHDExpandableButtonView *actionButtonView;
 
 @property (nonatomic, strong) CHDDashboardEventViewModel *viewModel;
 @end
@@ -44,7 +44,8 @@
 
 -(void) makeViews {
     [self.view addSubview:self.eventTable];
-    [self.view addSubview:self.actionButtonView];
+
+    [self setupAddButton];
 }
 
 -(void) makeConstraints {
@@ -52,19 +53,9 @@
     [self.eventTable mas_makeConstraints:^(MASConstraintMaker *make){
         make.edges.equalTo(superview);
     }];
-    
-    [self.actionButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(superview);
-        make.bottom.equalTo(superview).offset(-5);
-    }];
 }
 
 -(void) makeBindings {
-
-    //Setup target action
-    [self.actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow) forControlEvents:UIControlEventTouchUpInside];
-    [self.actionButtonView.addEventButton addTarget:self action:@selector(newEventAction:) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.eventTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, events), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 }
 
@@ -82,18 +73,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.eventTable deselectRowAtIndexPath:[self.eventTable indexPathForSelectedRow] animated:animated];
-}
-
-- (void) newMessageShow {
-    CHDNewMessageViewController* newMessageViewController = [CHDNewMessageViewController new];
-    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
-    [self presentViewController:navigationVC animated:YES completion:nil];
-}
-
-- (void) newEventAction: (id) sender {
-    CHDEditEventViewController *vc = [[CHDEditEventViewController alloc] initWithEvent:nil];
-    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
-    [self presentViewController:navigationVC animated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDelegate
@@ -151,14 +130,6 @@
         _eventTable.delegate = self;
     }
     return _eventTable;
-}
-
-
-- (CHDExpandableButtonView *)actionButtonView {
-    if (!_actionButtonView) {
-        _actionButtonView = [CHDExpandableButtonView new];
-    }
-    return _actionButtonView;
 }
 
 @end

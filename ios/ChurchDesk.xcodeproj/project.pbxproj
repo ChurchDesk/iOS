@@ -28,6 +28,7 @@
 		3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3667E2A01A95ECE900141520 /* CHDDotView.m */; };
 		3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3667E2A31A9616DC00141520 /* CHDTabItem.m */; };
 		366899B61AADAA270061769F /* CHDAPICreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 366899B51AADAA270061769F /* CHDAPICreate.m */; };
+		3668F9801AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3668F97F1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m */; };
 		3695BED21A9F315F0077E09F /* CHDInputAccessoryObserveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3695BED11A9F315F0077E09F /* CHDInputAccessoryObserveView.m */; };
 		36C462261A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462251A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m */; };
 		36C4622B1A9DBD2100775FBE /* CHDMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C4622A1A9DBD2100775FBE /* CHDMessageViewController.m */; };
@@ -164,6 +165,8 @@
 		3667E2A31A9616DC00141520 /* CHDTabItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDTabItem.m; sourceTree = "<group>"; };
 		366899B41AADAA270061769F /* CHDAPICreate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAPICreate.h; sourceTree = "<group>"; };
 		366899B51AADAA270061769F /* CHDAPICreate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAPICreate.m; sourceTree = "<group>"; };
+		3668F97E1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+UIViewController_ChurchDesk.h"; sourceTree = "<group>"; };
+		3668F97F1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+UIViewController_ChurchDesk.m"; sourceTree = "<group>"; };
 		3695BED01A9F315F0077E09F /* CHDInputAccessoryObserveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDInputAccessoryObserveView.h; sourceTree = "<group>"; };
 		3695BED11A9F315F0077E09F /* CHDInputAccessoryObserveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDInputAccessoryObserveView.m; sourceTree = "<group>"; };
 		36C462241A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewModel.h; sourceTree = "<group>"; };
@@ -396,6 +399,8 @@
 			children = (
 				3625A61F1A937E0300BF430B /* UIColor+ChurchDesk.h */,
 				3625A6201A937E0300BF430B /* UIColor+ChurchDesk.m */,
+				3668F97E1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.h */,
+				3668F97F1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m */,
 				76143F111A9606AB00651CEA /* UIFont+ChurchDesk.h */,
 				76143F121A9606AB00651CEA /* UIFont+ChurchDesk.m */,
 				360B4DF81A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.h */,
@@ -987,6 +992,7 @@
 				7612473B1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m in Sources */,
 				761247451AA48444004E7D05 /* CHDIconTextFieldView.m in Sources */,
 				7612473E1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m in Sources */,
+				3668F9801AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m in Sources */,
 				76A5419B1A9DC26200176D6D /* CHDDayCollectionViewCell.m in Sources */,
 				365A773E1AA0A582006CA0B1 /* CHDNewMessageSelectorCell.m in Sources */,
 				762D16D71A9B4B9000588730 /* CHDCalendarHeaderView.m in Sources */,
