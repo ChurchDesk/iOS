@@ -26,6 +26,7 @@
 @property (nonatomic, strong) CHDUser *user;
 
 @property (nonatomic, strong) RACCommand *saveCommand;
+@property (nonatomic, strong) RACCommand *markAsReadCommand;
 @end
 
 @implementation CHDMessageViewModel
@@ -71,14 +72,11 @@
         }];
 
         [self rac_liftSelector:@selector(didFetchNewMessage:) withSignals:combinedMessageSignal, nil];
-
     }
     return self;
 }
 
 -(void) didFetchNewMessage: (CHDMessage*) message {
-    //Update self.message
-
     NSArray *latestComments = nil;
 
     //No message has been set
@@ -106,6 +104,10 @@
     self.allComments = [message.comments copy];
     self.hasMessage = message != nil;
     self.message = message;
+
+    if(message.read == NO){
+        [self.markAsReadCommand execute:RACTuplePack(message)];
+    }
 }
 
 -(RACCommand*)saveCommand {
@@ -118,6 +120,17 @@
         }];
     }
     return _saveCommand;
+}
+
+-(RACCommand*)markAsReadCommand {
+    if(!_markAsReadCommand){
+        _markAsReadCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDMessage *message = tuple.first;
+
+            return [[CHDAPIClient sharedInstance] setMessageAsRead:message.messageId siteId:message.siteId];
+        }];
+    }
+    return _markAsReadCommand;
 }
 
 - (void)sendCommentWithText:(NSString *)body {

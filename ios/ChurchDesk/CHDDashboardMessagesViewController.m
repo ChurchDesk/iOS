@@ -44,18 +44,15 @@
 
 - (void) setupBindings {
 
-    RACSignal *messagesEditingSignal = RACObserve(self.viewModel, isEditingMessages);
-    RACSignal *messagesSignal = RACObserve(self.viewModel, messages);
-
-    RACSignal *messagesReloadSignal = [[messagesEditingSignal filter:^BOOL(NSNumber *isEditing) {
+    RACSignal *messagesSignal = [[RACObserve(self.viewModel, isEditingMessages) filter:^BOOL(NSNumber *isEditing) {
         return !isEditing.boolValue;
     }] flattenMap:^RACStream *(id value) {
-        return messagesSignal;
+        return RACObserve(self.viewModel, messages);;
     }];
 
-    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[messagesReloadSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+    [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[messagesSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
-    [self shprac_liftSelector:@selector(endRefresh) withSignal:messagesReloadSignal];
+    [self shprac_liftSelector:@selector(endRefresh) withSignal:messagesSignal];
 
     if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages && self.chd_tabbarViewController != nil){
         [self rac_liftSelector:@selector(setUnread:) withSignals:[messagesSignal map:^id(NSArray *messages) {
@@ -66,9 +63,14 @@
         }], nil];
     }
     if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
-        RACSignal *refreshSignal = [[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)] map:^id(RACTuple *tuple) {
+
+        RACSignal *refreshSignal = [[RACSignal combineLatest:@[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)], self.viewModel.getMessagesCommand.executing, RACObserve(self.viewModel, canFetchNewMessages)] reduce:^id(RACTuple *tuple, NSNumber *iExecuting, NSNumber *iCanFetch) {
+            if(iExecuting.boolValue || !iCanFetch.boolValue){
+                return nil;
+            }
             return tuple.first;
         }] filter:^BOOL(UITableView *tableView) {
+            if(tableView == nil){return NO;}
             CGFloat contentHeight = tableView.contentSize.height;
             CGFloat heightOffset = tableView.contentOffset.y;
 
@@ -78,20 +80,7 @@
             return contentHeight - heightOffset < contentHeight * 0.2 && sectionCount > 0 && rowCount > 0;
         }];
 
-        RACSignal *refreshFilter = [[self.viewModel.getMessagesCommand.executing filter:^BOOL(NSNumber *iExecuting) {
-            return !iExecuting.boolValue;
-        }] flattenMap:^RACStream *(id value) {
-            return refreshSignal;
-        }];
-
-        CHDDashboardMessagesViewModel *viewModel = self.viewModel;
-        [self.viewModel rac_liftSelector:@selector(fetchMoreMessagesFromDate:) withSignals:[[refreshFilter map:^id(UITableView *tableView) {
-            NSInteger sectionCount = tableView.numberOfSections;
-            NSInteger rowCount = [tableView numberOfRowsInSection:sectionCount - 1];
-            CHDMessage *message = viewModel.messages[rowCount - 1];
-
-            return [message.lastActivityDate dateByAddingTimeInterval:0.01];
-        }] startWith:[NSDate date]], nil];
+        [self.viewModel shprac_liftSelector:@selector(fetchMoreMessages) withSignal:refreshSignal];
     }
 }
 
@@ -103,9 +92,7 @@
 
 -(void) makeViews {
     [self.view addSubview:self.messagesTable];
-    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages) {
-        [self.messagesTable addSubview:self.refreshControl];
-    }
+    [self.messagesTable addSubview:self.refreshControl];
 }
 
 -(void) makeConstraints {
@@ -164,7 +151,12 @@
 
 #pragma mark - UITableViewDataSource
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    [self.viewModel reload];
+    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages) {
+        [self.viewModel reloadUnread];
+    }
+    if(self.messageFilter == CHDMessagesFilterTypeAllMessages){
+        [self.viewModel reloadAll];
+    }
 }
 -(void)endRefresh {
     [self.refreshControl endRefreshing];

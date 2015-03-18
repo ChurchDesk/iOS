@@ -13,7 +13,7 @@
 #import "CHDMessage.h"
 
 @interface CHDDashboardMessagesViewModel ()
-
+@property (nonatomic) BOOL canFetchNewMessages;
 @property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic, strong) CHDUser* user;
@@ -21,9 +21,7 @@
 @property (nonatomic) BOOL unreadOnly;
 
 @property (nonatomic, strong) RACCommand *readCommand;
-
 @property (nonatomic, strong) RACCommand *getMessagesCommand;
-
 @end
 
 @implementation CHDDashboardMessagesViewModel
@@ -32,6 +30,7 @@
     self = [super init];
     if (self) {
         self.unreadOnly = unreadOnly;
+        self.canFetchNewMessages = YES;
         if(unreadOnly) {
             //Inital model signal
             RACSignal *initialModelSignal = [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
@@ -53,6 +52,8 @@
             }];
 
             [self rac_liftSelector:@selector(parseMessages:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], nil];
+        }else{
+            [self fetchMoreMessages];
         }
 
         RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
@@ -114,13 +115,24 @@
     return _getMessagesCommand;
 }
 
+-(void) fetchMoreMessages {
+    CHDMessage *message = self.messages.lastObject;
+    if(message != nil) {
+        [self fetchMoreMessagesFromDate:[message.lastActivityDate dateByAddingTimeInterval:0.01]];
+    }else{
+        [self fetchMoreMessagesFromDate:[NSDate date]];
+    }
+}
+
 - (void) fetchMoreMessagesFromDate: (NSDate*) date {
-    if(self.unreadOnly){return;}
+    if(self.unreadOnly || !self.canFetchNewMessages){return;}
     NSLog(@"Fetch messages from %@", date);
     [self rac_liftSelector:@selector(parseMessages:) withSignals:[self.getMessagesCommand execute:RACTuplePack(date)], nil];
 }
 
 - (void) parseMessages: (NSArray*) messages {
+    NSLog(@"Parsing messages %i", (uint) messages.count);
+    self.canFetchNewMessages = messages.count > 0;
 
     NSArray *sortedMessages = [messages sortedArrayUsingComparator:^NSComparisonResult(CHDMessage *message1, CHDMessage *message2) {
         return [message2.lastActivityDate compare:message1.lastActivityDate];
@@ -134,11 +146,25 @@
     self.messages = [(self.messages ?: @[]) arrayByAddingObjectsFromArray:sortedMessages];
 }
 
-- (void)reload {
+- (void) reloadUnread {
     CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
     NSString *resoursePath = [apiClient resourcePathForGetUnreadMessages];
     [[[apiClient manager] cache] invalidateObjectsMatchingRegex:resoursePath];
 }
 
+-(void) reloadAll {
+    CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+    NSString *resoursePath = [apiClient resourcePathForGetMessagesFromDate];
+    [[[apiClient manager] cache] invalidateObjectsMatchingRegex:resoursePath];
+
+    [self rac_liftSelector:@selector(setMessages:) withSignals:[[[self.getMessagesCommand execute:RACTuplePack([NSDate date])] filter:^BOOL(NSArray *messages) {
+        return messages.count > 0;
+    }] map:^id(NSArray *messages) {
+        NSArray *sortedMessages = [messages sortedArrayUsingComparator:^NSComparisonResult(CHDMessage *message1, CHDMessage *message2) {
+            return [message2.lastActivityDate compare:message1.lastActivityDate];
+        }];
+        return sortedMessages;
+    }], nil];
+}
 
 @end

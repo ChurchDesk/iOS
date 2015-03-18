@@ -16,7 +16,9 @@
 
 @interface CHDDashboardMessagesViewModel : NSObject <CHDMessagesViewModelProtocol>
 
+// Subscribe to the isEditing, and filter, to eg. avoid reload of messages while animating tableViews
 @property (nonatomic, assign) BOOL isEditingMessages;
+@property (nonatomic, readonly) BOOL canFetchNewMessages;
 @property (nonatomic, readonly) NSArray *messages;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser* user;
@@ -25,11 +27,13 @@
 
 - (NSString*) authorNameWithId: (NSNumber*) authorId;
 
--(RACSignal*) setMessageAsRead: (CHDMessage*) message;
+- (RACSignal*) setMessageAsRead: (CHDMessage*) message;
+- (void) fetchMoreMessages;
 - (void) fetchMoreMessagesFromDate: (NSDate*) date;
 
 - (instancetype)initWithUnreadOnly: (BOOL) unreadOnly;
 - (BOOL) removeMessageWithIndex: (NSUInteger) idx;
 
--(void) reload;
+-(void) reloadUnread;
+-(void) reloadAll;
 @end
