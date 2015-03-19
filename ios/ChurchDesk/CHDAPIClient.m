@@ -102,8 +102,9 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     }];
 #endif
     
+    requestSignal.name = path;
     @weakify(self)
-    return [[[self tokenValidationWrapper:requestSignal] replayLazily] doError:^(NSError *error) {
+    return [[self tokenValidationWrapper:requestSignal] doError:^(NSError *error) {
         @strongify(self)
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
@@ -331,79 +332,96 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 - (RACSignal *)tokenValidationWrapper:(RACSignal *)requestSignal {
     @weakify(self)
-    return [requestSignal catch:^(NSError *error) {
+    RACSignal* (^refreshBlock)(void) = ^RACSignal*(void) {
         @strongify(self)
-        
+        NSLog(@"Refresh signal %@. Will retry request upon completion.", _refreshSignal ? @"exists" : @"does not exist");
+        return [self.refreshSignal flattenMap:^RACStream *(id value) {
+            NSLog(@"Retrying request: %@", requestSignal.name);
+            return requestSignal;
+        }];
+    };
+    
+    if ([CHDAuthenticationManager sharedInstance].authenticationToken.expired) {
+        NSLog(@"Authentication token expired");
+        return refreshBlock();
+    }
+    
+    RACSignal *deferedRequestSignal = [RACSignal defer:^RACSignal *{
+        return requestSignal;
+    }];
+    
+    return [deferedRequestSignal catch:^(NSError *error) {
         // Catch the error, refresh the token, and then do the request again.
-        
         if ([self errorCausedByExpiredToken:error]) {
-            if (!self.refreshSignal) {
-                NSLog(@"Will attempt to refresh access token.");
-                self.refreshSignal = [self refreshToken];
-                [self.refreshSignal doCompleted:^{
-                    NSLog(@"Refresh token completed");
-                    self.refreshSignal = nil;
-                }];
-            }
-            else {
-                NSLog(@"Access token already being refreshed.");
-            }
-            
-            return [[self.refreshSignal ignoreValues] concat:[requestSignal retry]];
+            NSLog(@"Server reported expired token");
+            return refreshBlock();
         }
         return [RACSignal error:error];
     }];
 }
 
-- (RACSignal *)refreshToken {
-    CHDAuthenticationManager *authManager = [CHDAuthenticationManager sharedInstance];
-    NSString *userId = authManager.userID;
-    
-    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
-    [resource addValidator:[SHPBlockValidator validatorWithValidationBlock:^BOOL(id input, __autoreleasing NSError **error) {
-        NSString *accessToken = [input objectForKey:@"access_token"];
-        if (accessToken) {
-            return YES;
-        } else {
-            if (error != NULL) *error = [NSError errorWithDescription:@"Unable to retrieve access token with refresh token" code:-1];
-            return NO;
-        }
-    }]];
-    resource.resultObjectClass = [CHDAccessToken class];
-    RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
-        [request setMethod:SHPHTTPRequestMethodGET];
-        [request setValue:@"refresh_token" forQueryParameterKey:@"grant_type"];
-        [request setValue:authManager.authenticationToken.refreshToken ?: @"" forQueryParameterKey:@"refresh_token"];
+- (RACSignal *)refreshSignal {
+    if (!_refreshSignal) {
+        CHDAuthenticationManager *authManager = [CHDAuthenticationManager sharedInstance];
+        NSString *userId = authManager.userID;
+        
+        SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
+        resource.resultObjectClass = [CHDAccessToken class];
+        [resource addValidator:[SHPBlockValidator validatorWithValidationBlock:^BOOL(id input, __autoreleasing NSError **error) {
+            NSString *accessToken = [input objectForKey:@"access_token"];
+            if (accessToken) {
+                return YES;
+            } else {
+                if (error != NULL) {
+                    *error = [NSError errorWithDescription:@"Unable to retrieve access token with refresh token" code:-1];
+                }
+                return NO;
+            }
+        }]];
+        
+        @weakify(self)
+        RACSignal *dispatchSignal = [[[[self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
+            [request setMethod:SHPHTTPRequestMethodGET];
+            [request setValue:@"refresh_token" forQueryParameterKey:@"grant_type"];
+            [request setValue:authManager.authenticationToken.refreshToken ?: @"" forQueryParameterKey:@"refresh_token"];
+            [request setValue:kClientID forQueryParameterKey:@"client_id"];
+            [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
+        } withBodyContent:nil toResource:resource] doError:^(NSError *error) {
+            SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+            NSLog(@"Error during token refresh. Signing out.\nHTTP Status: %lu\nResponse: %@", response.statusCode, response.body);
+            [authManager signOut];
+        }] finally:^{
+            @strongify(self)
+            NSLog(@"Refresh token completed");
+            self->_refreshSignal = nil;
+        }] replayLazily];
+        
+        RACSignal *authSignal = [dispatchSignal flattenMap:^RACStream *(CHDAccessToken *token) {
+            if (token.accessToken && [authManager.userID isEqualToString:userId]) {
 #ifdef DEBUG
-        // This will generate a refresh token error
-        //        [request addValue:@"afaf" forQueryParameterKey:@"refresh_token"];
-#endif
-        [request setValue:kClientID forQueryParameterKey:@"client_id"];
-        [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
-    } withBodyContent:nil toResource:resource];
-    
-    [requestSignal subscribeNext:^(CHDAccessToken *token) {
-        if (token.accessToken && [authManager.userID isEqualToString:userId]) {
-#ifdef DEBUG
-            NSLog(@"New access token obtained: %@", token.accessToken);
+                NSLog(@"New access token obtained: %@", token.accessToken);
 #else
-            NSLog(@"New access token obtained");
+                NSLog(@"New access token obtained");
 #endif
-            [authManager authenticateWithToken:token userID:userId];
-        }
-        else {
-            if (!token.accessToken) {
-                NSLog(@"Error: No new access token obtained");
+                return [RACSignal return:RACTuplePack(token, userId)];
             }
             else {
-                NSLog(@"Error: User %@ no longer logged in. Current user: %@", userId, authManager.userID);
+                NSString *description = nil;
+                if (!token.accessToken) {
+                    description = @"Error: No new access token obtained";
+                }
+                else {
+                    description = [NSString stringWithFormat:@"Error: User %@ no longer logged in. Current user: %@", userId, authManager.userID];
+                }
+                NSLog(@"%@", description);
+                return [RACSignal error:[NSError errorWithDescription:description code:-1]];
             }
-        }
-    } error:^(NSError *error) {
-        NSLog(@"Unable to refresh token: %@", error);
-    }];
-    
-    return requestSignal;
+        }];
+        
+        [authManager rac_liftSelector:@selector(authenticateWithToken:userID:) withSignalOfArguments:authSignal];
+        _refreshSignal = dispatchSignal;
+    }
+    return _refreshSignal;
 }
 
 

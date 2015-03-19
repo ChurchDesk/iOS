@@ -55,4 +55,8 @@
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 
+- (BOOL)expired {
+    return [self.expiryDate timeIntervalSinceNow] < 0;
+}
+
 @end

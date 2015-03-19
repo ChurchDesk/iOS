@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSString *scope;
 @property (nonatomic, strong) NSString *tokenType;
 @property (nonatomic, strong) NSString *refreshToken;
+@property (nonatomic, readonly) BOOL expired;
 
 @end
