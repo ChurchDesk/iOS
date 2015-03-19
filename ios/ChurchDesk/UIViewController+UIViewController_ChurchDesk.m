@@ -13,18 +13,24 @@
 
 //code in here
 @implementation UIViewController (UIViewController_ChurchDesk)
-- (void) setupAddButton {
+- (CHDExpandableButtonView*) setupAddButton {
+    return [self setupAddButtonWithView:self.view withConstraints:YES];
+}
+- (CHDExpandableButtonView*) setupAddButtonWithView: (UIView*) view withConstraints: (BOOL) setConstraints {
     CHDExpandableButtonView *actionButtonView = [CHDExpandableButtonView new];
-    [self.view addSubview:actionButtonView];
+    [view addSubview:actionButtonView];
     
-    UIView* superview = self.view;
+    if(setConstraints){
     [actionButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(superview);
-        make.bottom.equalTo(superview).offset(-5);
+        make.right.equalTo(view);
+        make.bottom.equalTo(view).offset(-5);
     }];
+    }
     
     [actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow:) forControlEvents:UIControlEventTouchUpInside];
     [actionButtonView.addEventButton addTarget:self action:@selector(newEventAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return actionButtonView;
 }
 - (void) newMessageShow: (id) sender {
     CHDNewMessageViewController* newMessageViewController = [CHDNewMessageViewController new];
