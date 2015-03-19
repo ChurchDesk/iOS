@@ -29,6 +29,7 @@
 		3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3667E2A31A9616DC00141520 /* CHDTabItem.m */; };
 		366899B61AADAA270061769F /* CHDAPICreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 366899B51AADAA270061769F /* CHDAPICreate.m */; };
 		3668F9801AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3668F97F1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m */; };
+		368EA9531AB9BC820035A5F6 /* CHDDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 368EA9521AB9BC820035A5F6 /* CHDDatePickerViewController.m */; };
 		3695BED21A9F315F0077E09F /* CHDInputAccessoryObserveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3695BED11A9F315F0077E09F /* CHDInputAccessoryObserveView.m */; };
 		36C462261A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462251A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m */; };
 		36C4622B1A9DBD2100775FBE /* CHDMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C4622A1A9DBD2100775FBE /* CHDMessageViewController.m */; };
@@ -167,6 +168,8 @@
 		366899B51AADAA270061769F /* CHDAPICreate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAPICreate.m; sourceTree = "<group>"; };
 		3668F97E1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+UIViewController_ChurchDesk.h"; sourceTree = "<group>"; };
 		3668F97F1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+UIViewController_ChurchDesk.m"; sourceTree = "<group>"; };
+		368EA9511AB9BC820035A5F6 /* CHDDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDatePickerViewController.h; sourceTree = "<group>"; };
+		368EA9521AB9BC820035A5F6 /* CHDDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDatePickerViewController.m; sourceTree = "<group>"; };
 		3695BED01A9F315F0077E09F /* CHDInputAccessoryObserveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDInputAccessoryObserveView.h; sourceTree = "<group>"; };
 		3695BED11A9F315F0077E09F /* CHDInputAccessoryObserveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDInputAccessoryObserveView.m; sourceTree = "<group>"; };
 		36C462241A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewModel.h; sourceTree = "<group>"; };
@@ -460,6 +463,15 @@
 			name = "custom cells";
 			sourceTree = "<group>";
 		};
+		368EA9501AB9BC370035A5F6 /* DatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				368EA9511AB9BC820035A5F6 /* CHDDatePickerViewController.h */,
+				368EA9521AB9BC820035A5F6 /* CHDDatePickerViewController.m */,
+			);
+			name = DatePicker;
+			sourceTree = "<group>";
+		};
 		36C462281A9DBCDB00775FBE /* Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,6 +688,7 @@
 		76143F141A9633F400651CEA /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				368EA9501AB9BC370035A5F6 /* DatePicker */,
 				76A541CE1A9F6CE000176D6D /* Cells */,
 				36592B471AA4991D00C1B386 /* ListSelectorViewController */,
 				3667E29F1A95ECE900141520 /* CHDDotView.h */,
@@ -983,6 +996,7 @@
 				7612474B1AA4ADE3004E7D05 /* CHDLoginViewModel.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				76A541CD1A9F625700176D6D /* CHDDividerTableViewCell.m in Sources */,
+				368EA9531AB9BC820035A5F6 /* CHDDatePickerViewController.m in Sources */,
 				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
 				761247511AA59D01004E7D05 /* CHDAccessToken.m in Sources */,
