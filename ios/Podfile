@@ -5,7 +5,7 @@ source 'git@github.com:shapehq/ShapePodSpecs.git'
 platform :ios, '8.0'
 inhibit_all_warnings!
 
-pod 'SHPFoundation', '~> 2.3.2'
+pod 'SHPFoundation', '~> 2.4.0'
 pod 'SHPUIKit', '~> 2.1.0'
 pod 'SHPSideMenu', '~> 1.1.0'
 pod 'DCIntrospect-ARC', :head, :configurations => ['Debug']

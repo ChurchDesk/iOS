@@ -38,6 +38,20 @@ static NSString *const kBaseUrl = @"http://private-anon-83c43a3ef-churchdeskapi.
 static NSString *const kURLAPIPart = @"api/v1/";
 static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
+@interface CHDNopDataTransformer : NSObject <SHPDataTransformer>
+@end
+
+@implementation CHDNopDataTransformer
+
+- (id)objectWithData:(NSData *)data error:(__autoreleasing NSError **)error {
+    return @{};
+}
+
+- (NSData *)dataWithObject:(id)object error:(__autoreleasing NSError **)error {
+    return [NSData data];
+}
+
+@end
 
 @interface CHDAPIClient ()
 
@@ -312,6 +326,27 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         @"message" : [NSNumber numberWithBool:settings.message],
     };
     return [self postBodyDictionary:settingsDict resultClass:[NSDictionary class] toPath:@"push-notifications/settings"];
+}
+
+- (RACSignal*)postDeviceToken: (NSString*) deviceToken {
+    if (!deviceToken) {
+        return [RACSignal empty];
+    }
+    NSString *environment = [NSBundle mainBundle].infoDictionary[@"PUSH_ENVIRONMENT"];
+    NSString *path = [NSString stringWithFormat:@"push-notifications/register-token/%@/ios/%@", deviceToken, environment];
+    
+    return [self resourcesForPath:path resultClass:[NSDictionary class] withResource:^(SHPAPIResource *resource) {
+        NSValue *extraRangeValue = [NSValue valueWithRange:NSMakeRange(409, 1)]; // allow status code 409 (meaning device is already registered)
+        resource.acceptableStatusCodeRanges = [resource.acceptableStatusCodeRanges arrayByAddingObject:extraRangeValue];
+        resource.dataTransformer = [CHDNopDataTransformer new];
+    } request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        [request addValue:@"" forHeaderField:@"Content-Type"];
+    }];
+}
+
+- (RACSignal*)deleteDeviceToken: (NSString*) deviceToken {
+    return [RACSignal empty];
 }
 
 #pragma mark - Resources paths

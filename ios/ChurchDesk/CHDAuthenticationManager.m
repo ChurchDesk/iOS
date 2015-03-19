@@ -9,8 +9,10 @@
 #import "CHDAuthenticationManager.h"
 #import "SSKeyChain.h"
 #import "CHDAccessToken.h"
+#import "CHDAPIClient.h"
 
 static NSString * const KeychainService = @"dk.churchdesk";
+static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
 
 @interface CHDAuthenticationManager ()
 
@@ -19,7 +21,9 @@ static NSString * const KeychainService = @"dk.churchdesk";
 
 @end
 
-@implementation CHDAuthenticationManager
+@implementation CHDAuthenticationManager {
+    NSString *_deviceToken;
+}
 
 + (instancetype) sharedInstance {
     static CHDAuthenticationManager *_sharedManager = nil;
@@ -48,6 +52,7 @@ static NSString * const KeychainService = @"dk.churchdesk";
             if ([query fetch:&error]) {
                 _authenticationToken = query.passwordData ? [NSKeyedUnarchiver unarchiveObjectWithData:query.passwordData] : nil;
                 _userID = query.account;
+                [self registerRemoteNotificationTypes];
             }
             else {
                 NSLog(@"Error fetching from Keychain: %@", error);
@@ -82,6 +87,7 @@ static NSString * const KeychainService = @"dk.churchdesk";
     else {
         self.userID = userID;
         self.authenticationToken = token;
+        [self registerRemoteNotificationTypes];
     }
 }
 
@@ -99,4 +105,39 @@ static NSString * const KeychainService = @"dk.churchdesk";
     self.userID = nil;
     self.authenticationToken = nil;
 }
+
+- (void)registerRemoteNotificationTypes {
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert categories:nil];
+    [application registerUserNotificationSettings:settings];
+    [application registerForRemoteNotifications];
+}
+
+#pragma mark - Device token
+
+- (void) setDeviceToken: (NSString*) deviceToken {
+    if (deviceToken) {
+        [[[CHDAPIClient sharedInstance] postDeviceToken:deviceToken] subscribeNext:^(id x) {
+            NSLog(@"Device token posted to server");
+            [SSKeychain setPassword:deviceToken forService:KeychainService account:kDeviceTokenAccountName];
+        }];
+    }
+    else {
+        [[[CHDAPIClient sharedInstance] deleteDeviceToken:_deviceToken] subscribeNext:^(id x) {
+            NSLog(@"Device token deleted from server");
+        }];
+        
+        [SSKeychain deletePasswordForService:KeychainService account:kDeviceTokenAccountName];
+    }
+    _deviceToken = deviceToken;
+}
+
+- (NSString*) deviceToken {
+    if (!_deviceToken) {
+        _deviceToken = [SSKeychain passwordForService:KeychainService account:kDeviceTokenAccountName];
+    }
+    return _deviceToken;
+}
+
 @end

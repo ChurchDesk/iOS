@@ -14,6 +14,7 @@
 
 @property (nonatomic, readonly) NSString *userID;
 @property (nonatomic, readonly) CHDAccessToken *authenticationToken;
+@property (nonatomic, strong) NSString *deviceToken;
 
 + (instancetype) sharedInstance;
 

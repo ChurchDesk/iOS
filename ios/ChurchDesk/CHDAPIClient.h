@@ -36,6 +36,8 @@
 
 - (RACSignal*) getNotificationSettings;
 - (RACSignal*) updateNotificationSettingsWithSettings: (CHDNotificationSettings *) settings;
+- (RACSignal*) postDeviceToken: (NSString*) deviceToken;
+- (RACSignal*) deleteDeviceToken: (NSString*) deviceToken;
 
 #pragma mark - ResourcePath for
 - (NSString*) resourcePathForGetCurrentUser;

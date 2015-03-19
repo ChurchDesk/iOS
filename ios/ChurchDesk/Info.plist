@@ -11,7 +11,7 @@
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>dk.shape.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>$(BUNDLE_ID)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -26,6 +26,8 @@
 	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>PUSH_ENVIRONMENT</key>
+	<string>$(ENVIRONMENT)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MavenPro-Black.ttf</string>
