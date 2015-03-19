@@ -145,11 +145,17 @@
     
     __block BOOL animated = authenticationManager.userID != nil; // user is logged in initially. Next presentation is animated
     
-    [[rootVC rac_liftSelector:@selector(presentSecondaryViewControllerAnimated:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
+    [rootVC rac_liftSelector:@selector(presentSecondaryViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;
-    }] mapReplace:@(animated)], nil] doNext:^(id x) {
+    }] flattenMap:^RACStream *(id value) {
+        return [RACSignal return:@(animated)];
+    }], [RACSignal return:^(BOOL finished) {
+        if (animated) {
+            NSLog(@"Replacing view controller hierarchy");
+            rootVC.primaryViewController = [self viewControllerHierarchy];
+        }
         animated = YES;
-    }];
+    }], nil];
     
     [rootVC rac_liftSelector:@selector(dismissSecondaryViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token != nil;

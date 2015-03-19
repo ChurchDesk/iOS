@@ -10,9 +10,12 @@
 
 @interface CHDRootViewController : UIViewController
 
+@property (nonatomic, strong) UIViewController *primaryViewController;
+
 - (instancetype)initWithPrimaryViewController: (UIViewController*) primaryViewController secondaryViewControllerClass: (Class) secondaryViewControllerClass;
 
 - (void) presentSecondaryViewControllerAnimated: (BOOL) animated;
+- (void) presentSecondaryViewControllerAnimated: (BOOL) animated completion:(void (^)(BOOL finished))completion;
 - (void) dismissSecondaryViewControllerAnimated: (BOOL) animated completion:(void (^)(BOOL finished))completion;
 
 @end

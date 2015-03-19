@@ -10,7 +10,6 @@
 
 @interface CHDRootViewController ()
 
-@property (nonatomic, strong) UIViewController *primaryViewController;
 @property (nonatomic, strong) UIViewController *secondaryViewController;
 @property (nonatomic, strong) Class secondaryViewControllerClass;
 
@@ -27,16 +26,35 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void) setPrimaryViewController:(UIViewController *)primaryViewController {
+    if (primaryViewController == _primaryViewController) {
+        return;
+    }
     
-    [self addChildViewController:self.primaryViewController];
-    [self.view addSubview:self.primaryViewController.view];
-    self.primaryViewController.view.frame = self.view.bounds;
-    [self.primaryViewController didMoveToParentViewController:self];
+    [_primaryViewController willMoveToParentViewController:nil];
+    [_primaryViewController.view removeFromSuperview];
+    [_primaryViewController removeFromParentViewController];
+    
+    _primaryViewController = primaryViewController;
+    
+    [self addChildViewController:_primaryViewController];
+    if (self.secondaryViewController) {
+        [self.view insertSubview:_primaryViewController.view belowSubview:self.secondaryViewController.view];
+    }
+    else {
+        [self.view addSubview:_primaryViewController.view];
+    }
+    [_primaryViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    [_primaryViewController didMoveToParentViewController:self];
 }
 
-- (void) presentSecondaryViewControllerAnimated: (BOOL) animated {
+- (void)presentSecondaryViewControllerAnimated:(BOOL)animated {
+    [self presentSecondaryViewControllerAnimated:animated completion:nil];
+}
+
+- (void) presentSecondaryViewControllerAnimated: (BOOL) animated completion:(void (^)(BOOL finished))completion {
     
     UINavigationController *secondary = [self.secondaryViewControllerClass new];
     self.secondaryViewController = secondary;
@@ -50,6 +68,10 @@
         secondary.view.frame = self.view.bounds;
     } completion:^(BOOL finished) {
         [secondary didMoveToParentViewController:self];
+        
+        if (completion) {
+            completion(finished);
+        }
     }];
 }
 
@@ -62,6 +84,7 @@
         [viewController willMoveToParentViewController:nil];
         [viewController.view removeFromSuperview];
         [viewController removeFromParentViewController];
+        self.secondaryViewController = nil;
         
         if (completion) {
             completion(finished);
