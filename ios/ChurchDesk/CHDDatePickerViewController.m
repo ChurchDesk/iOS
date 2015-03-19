@@ -222,7 +222,8 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
 #pragma mark - Actions
 
 - (void) cancelAction: (id) sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) saveAction: (id) sender {
@@ -231,15 +232,18 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     unsigned timeUnitFlags = NSCalendarUnitHour | NSCalendarUnitMinute;
 
     NSDateComponents *dateComponents = [calendar components:dateUnitFlags fromDate:self.dateSelected];
-    NSDateComponents *timeComponents = [calendar components:timeUnitFlags fromDate:self.timeSelected];
 
-    [dateComponents setHour:timeComponents.hour];
-    [dateComponents setMinute:timeComponents.minute];
+    if(self.timeSelected) {
+        NSDateComponents *timeComponents = [calendar components:timeUnitFlags fromDate:self.timeSelected];
 
+        [dateComponents setHour:timeComponents.hour];
+        [dateComponents setMinute:timeComponents.minute];
+    }
     self.allDay = self.allDaySelected;
     self.date = [calendar dateFromComponents:dateComponents];
 
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Set toggle button titles

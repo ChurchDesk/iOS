@@ -222,9 +222,10 @@
 
         CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.startDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
         vc.title = title;
-        UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
+        [self.navigationController pushViewController:vc animated:YES];
+        //UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
 
-        [self presentViewController:navigationVC animated:YES completion:nil];
+        //[self presentViewController:navigationVC animated:YES completion:nil];
 
         RACSignal *selectedDateSignal = [[RACObserve(vc, date) takeUntil:vc.rac_willDeallocSignal] skip:1];
         RACSignal *selectedAllDaySignal = [[RACObserve(vc, allDay) takeUntil:vc.rac_willDeallocSignal] skip:1];
@@ -239,9 +240,10 @@
     else if([row isEqualToString:CHDEventEditRowEndDate]){
         CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.endDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
         vc.title = title;
-        UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
+        [self.navigationController pushViewController:vc animated:YES];
+        //UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
 
-        [self presentViewController:navigationVC animated:YES completion:nil];
+        //[self presentViewController:navigationVC animated:YES completion:nil];
         RACSignal *selectedDateSignal = [[RACObserve(vc, date) takeUntil:vc.rac_willDeallocSignal] skip:1];
         [self.viewModel.event rac_liftSelector:@selector(setEndDate:) withSignals:selectedDateSignal, nil];
     }
