@@ -10,7 +10,8 @@
 @class CHDExpandableButtonView;
 
 @interface UIViewController (UIViewController_ChurchDesk)
-- (void) setupAddButton;
+- (CHDExpandableButtonView*) setupAddButton;
+- (CHDExpandableButtonView*) setupAddButtonWithView: (UIView*) view withConstraints: (BOOL) setConstraints;
 - (void) newMessageShow: (id) sender;
 - (void) newEventAction: (id) sender;
 @end

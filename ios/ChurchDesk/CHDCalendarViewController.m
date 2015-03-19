@@ -21,6 +21,8 @@
 #import "UITableView+ChurchDesk.h"
 #import "CHDUser.h"
 #import "CHDSite.h"
+#import "UIViewController+UIViewController_ChurchDesk.h"
+#import "CHDExpandableButtonView.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
@@ -41,6 +43,8 @@ static CGFloat kDayPickerHeight = 50.0f;
 @property (nonatomic, strong) NSDateFormatter *timeFormatter;
 @property (nonatomic, strong) NSDateFormatter *weekdayFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayFormatter;
+
+@property (nonatomic, strong) CHDExpandableButtonView *addButton;
 
 @end
 
@@ -71,6 +75,8 @@ static CGFloat kDayPickerHeight = 50.0f;
     [self.dayPickerViewController didMoveToParentViewController:self];
     
     self.navigationItem.titleView = self.titleView;
+    
+    self.addButton = [self setupAddButtonWithView:self.view withConstraints:NO];
 }
 
 - (void)makeConstraints {
@@ -102,7 +108,11 @@ static CGFloat kDayPickerHeight = 50.0f;
         self.dayPickerBottomConstraint = make.bottom.equalTo(self.view);
         make.height.equalTo(@(kDayPickerHeight));
     }];
-
+    
+    [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.dayPickerViewController.view.mas_top).offset(-5);
+    }];
 }
 
 - (void) setupBindings {
