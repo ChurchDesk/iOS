@@ -15,4 +15,5 @@
 
 - (CHDSite*) siteWithId: (NSString*) siteId;
 
+- (NSNumber*) userIdForSiteId: (NSString*) siteId;
 @end

@@ -147,6 +147,18 @@
     return self.eventId ? [object.eventId isEqualToNumber:self.eventId] : NO;
 }
 
+- (BOOL)eventForUserWithId:(NSNumber *)userId {
+    __block BOOL foundUser = NO;
+    [self.userIds enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
+        if([eventUserId isEqualToNumber:userId]){
+            foundUser = YES;
+            stop = YES;
+        }
+    }];
+    return foundUser;
+}
+
+
 #pragma mark - Lazy Initialization
 
 - (NSDateFormatter *)dateFormatter {

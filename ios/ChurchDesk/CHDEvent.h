@@ -56,4 +56,6 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 
 - (NSDictionary*) dictionaryRepresentation;
 
+- (BOOL) eventForUserWithId: (NSNumber*) userId;
+
 @end

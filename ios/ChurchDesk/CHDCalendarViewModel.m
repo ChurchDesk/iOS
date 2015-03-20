@@ -10,9 +10,11 @@
 #import "CHDAPIClient.h"
 #import "CHDEvent.h"
 #import "CHDHoliday.h"
+#import "CHDUser.h"
 
 @interface CHDCalendarViewModel ()
 
+@property (nonatomic, strong) NSArray *noneFilteredEvents;
 @property (nonatomic, strong) NSArray *events;
 @property (nonatomic, strong) NSArray *sections;
 @property (nonatomic, strong) NSDictionary *sectionRows;
@@ -28,8 +30,20 @@
     if (self) {
         [self rac_liftSelector:@selector(fetchEventsFromReferenceDate:) withSignals:[RACObserve(self, referenceDate) ignore:nil], nil];
         [self rac_liftSelector:@selector(setUser:) withSignals:[[CHDAPIClient sharedInstance] getCurrentUser], nil];
+
+        [[self shprac_liftSelector:@selector(filterEvents) withSignal:RACObserve(self, myEventsOnly)] skip:1];
     }
     return self;
+}
+
+- (void) filterEvents {
+    self.events = @[];
+    self.sectionRows = [[NSDictionary alloc] init];
+    self.holidays = @[];
+    self.sections = @[];
+    if(self.noneFilteredEvents.count > 0) {
+        [self addEvents:self.noneFilteredEvents holidays:self.holidays];
+    }
 }
 
 - (void) fetchEventsFromReferenceDate: (NSDate*) referenceDate {
@@ -71,11 +85,15 @@
 
 - (void) addEvents:(NSArray *)events holidays: (NSArray*) holidays {
     NSMutableArray *mEvents = self.events ? [self.events mutableCopy] : [NSMutableArray arrayWithCapacity:events.count];
+    NSMutableArray *mNoneFilteredEvents = self.noneFilteredEvents ? [self.noneFilteredEvents mutableCopy] : [NSMutableArray arrayWithCapacity:events.count];
     NSMutableDictionary *mSectionRows = [NSMutableDictionary new];
     
     [events enumerateObjectsUsingBlock:^(CHDEvent *event, NSUInteger idx, BOOL *stop) {
-        if (![mEvents containsObject:event]) {
+        if (![mEvents containsObject:event] && (self.myEventsOnly? [event eventForUserWithId:[self.user userIdForSiteId:event.siteId]] : YES)) {
             [mEvents addObject:event];
+        }
+        if(![mNoneFilteredEvents containsObject:event]){
+            [mNoneFilteredEvents addObject:event];
         }
     }];
 
@@ -103,6 +121,7 @@
     mSectionRows[section] = [mSectionEvents copy];
     
     self.events = [mEvents copy];
+    self.noneFilteredEvents = [mNoneFilteredEvents copy];
     self.sectionRows = [mSectionRows copy];
     self.holidays = holidays;
     self.sections = [mSections sortedArrayUsingComparator:^NSComparisonResult(NSDate *date1, NSDate *date2) {

@@ -11,9 +11,10 @@
 @class MASConstraint;
 
 @interface CHDMagicNavigationBarView : UIView
-
+@property (nonatomic, readonly) UIView *drawerView;
 @property (nonatomic, strong) MASConstraint *bottomConstraint;
 @property (nonatomic, assign) BOOL showDrawer;
+@property (nonatomic, readonly) BOOL drawerIsHidden;
 
 - (instancetype)initWithNavigationController: (UINavigationController*) navigationController navigationItem: (UINavigationItem*) navigationItem;
 
