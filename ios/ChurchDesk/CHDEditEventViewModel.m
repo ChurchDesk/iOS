@@ -87,6 +87,14 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     return [self.saveCommand execute:RACTuplePack(@(self.newEvent), self.event)];
 }
 
+- (NSString*) formatDate: (NSDate*) date allDay: (BOOL) isAllday {
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateStyle = NSDateFormatterLongStyle;
+    dateFormatter.timeStyle = isAllday? NSDateFormatterNoStyle : NSDateFormatterShortStyle;
+
+    return [dateFormatter stringFromDate:date];
+}
+
 #pragma mark - Lazy Initialization
 
 - (RACCommand *)saveCommand {

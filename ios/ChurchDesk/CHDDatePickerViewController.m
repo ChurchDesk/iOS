@@ -77,11 +77,16 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     }else{
         self.selectedControl = chdDatePickerDateSelection;
     }
+    self.allDaySwitch.on = self.allDaySelected;
 }
 
 - (void) setupSubviews {
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveAction:)];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveAction:)];
+
+    [saveButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+    [saveButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
+    self.navigationItem.rightBarButtonItem = saveButton;
 
     [self.view addSubview:self.containerView];
     [self.containerView addSubview:self.calendarPicker];
@@ -201,14 +206,22 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
         return datePicker.date;
     }];
 
+    RACSignal *dateSelectedSignal = RACObserve(self, dateSelected);
+
     [self.allDayRowView rac_liftSelector:@selector(setHidden:) withSignals:[RACObserve(self, allDaySelectable) not], nil];
 
-    [self rac_liftSelector:@selector(setSelectedControl:) withSignals:[RACObserve(self, dateSelected) map:^id(id value) {
+    [self rac_liftSelector:@selector(setSelectedControl:) withSignals:[dateSelectedSignal map:^id(id value) {
         return @(chdDatePickerTimeSelection);
     }], nil];
 
-    [self shprac_liftSelector:@selector(selectedDateChanged) withSignal:RACObserve(self, dateSelected)];
+    [self shprac_liftSelector:@selector(selectedDateChanged) withSignal:dateSelectedSignal];
     [self shprac_liftSelector:@selector(selectedTimeChanged) withSignal:[RACSignal merge:@[RACObserve(self, allDaySelected), RACObserve(self, timeSelected)]]];
+
+    RACSignal *canSaveSignal = [RACSignal combineLatest:@[dateSelectedSignal, RACObserve(self, timeSelected), RACObserve(self, allDaySelected)] reduce:^id(NSDate *date, NSDate *time, NSNumber *iAllDay) {
+        return @( (date != nil && (time != nil || iAllDay.boolValue) ) );
+    }];
+
+    RAC(self.navigationItem.rightBarButtonItem, enabled) = canSaveSignal;
 }
 
 #pragma mark - SHPCalendarPickerViewDelegate

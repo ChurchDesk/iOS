@@ -223,9 +223,6 @@
         CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.startDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
         vc.title = title;
         [self.navigationController pushViewController:vc animated:YES];
-        //UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
-
-        //[self presentViewController:navigationVC animated:YES completion:nil];
 
         RACSignal *selectedDateSignal = [[RACObserve(vc, date) takeUntil:vc.rac_willDeallocSignal] skip:1];
         RACSignal *selectedAllDaySignal = [[RACObserve(vc, allDay) takeUntil:vc.rac_willDeallocSignal] skip:1];
@@ -238,14 +235,14 @@
         }], nil];
     }
     else if([row isEqualToString:CHDEventEditRowEndDate]){
-        CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.endDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
-        vc.title = title;
-        [self.navigationController pushViewController:vc animated:YES];
-        //UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
+        if(self.viewModel.event.startDate) {
+            CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.endDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
+            vc.title = title;
+            [self.navigationController pushViewController:vc animated:YES];
 
-        //[self presentViewController:navigationVC animated:YES completion:nil];
-        RACSignal *selectedDateSignal = [[RACObserve(vc, date) takeUntil:vc.rac_willDeallocSignal] skip:1];
-        [self.viewModel.event rac_liftSelector:@selector(setEndDate:) withSignals:selectedDateSignal, nil];
+            RACSignal *selectedDateSignal = [[RACObserve(vc, date) takeUntil:vc.rac_willDeallocSignal] skip:1];
+            [self.viewModel.event rac_liftSelector:@selector(setEndDate:) withSignals:selectedDateSignal, nil];
+        }
     }
 }
 
@@ -284,13 +281,13 @@
     else if ([row isEqualToString:CHDEventEditRowStartDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Start", @"");
-        cell.valueLabel.text = [self.dateFormatter stringFromDate:event.startDate];
+        cell.valueLabel.text = [self.viewModel formatDate:event.startDate allDay:event.allDayEvent];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowEndDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"End", @"");
-        cell.valueLabel.text = [self.dateFormatter stringFromDate:event.endDate];
+        cell.valueLabel.text = [self.viewModel formatDate:event.endDate allDay:event.allDayEvent];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowParish]) {
