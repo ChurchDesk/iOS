@@ -20,6 +20,7 @@
 #import "CHDGroup.h"
 #import "CHDEventCategory.h"
 #import "CHDEventSwitchTableViewCell.h"
+#import "CHDDatePickerViewController.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -73,7 +74,7 @@
 }
 
 - (void) setupBindings {
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds)]] ignore:nil]];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate)]] ignore:nil]];
     
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignal], nil];
     
@@ -169,6 +170,11 @@
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:[event localizedVisibilityStringForVisibility:visibility] color:nil selected:event.visibility == visibility refObject:nVisibility]];
         }
     }
+    else if([row isEqualToString:CHDEventEditRowStartDate]){
+        title = NSLocalizedString(@"Choose start date", @"");
+    }else if([row isEqualToString:CHDEventEditRowEndDate]){
+        title = NSLocalizedString(@"Choose end date", @"");
+    }
     
     if (items.count) {
         CHDListSelectorViewController *vc = [[CHDListSelectorViewController alloc] initWithSelectableItems:items];
@@ -212,6 +218,32 @@
         [self.tableView rac_liftSelector:@selector(setContentOffset:) withSignals:[[[self rac_signalForSelector:@selector(viewDidLayoutSubviews)] takeUntil:vc.rac_willDeallocSignal] mapReplace:[NSValue valueWithCGPoint:offset]], nil];
         [self.navigationController pushViewController:vc animated:YES];
     }
+    else if([row isEqualToString:CHDEventEditRowStartDate]){
+
+        CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.startDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
+        vc.title = title;
+        [self.navigationController pushViewController:vc animated:YES];
+
+        RACSignal *selectedDateSignal = [[RACObserve(vc, date) takeUntil:vc.rac_willDeallocSignal] skip:1];
+        RACSignal *selectedAllDaySignal = [[RACObserve(vc, allDay) takeUntil:vc.rac_willDeallocSignal] skip:1];
+
+        [self.viewModel.event rac_liftSelector:@selector(setStartDate:) withSignals:selectedDateSignal, nil];
+        [self.viewModel.event rac_liftSelector:@selector(setAllDayEvent:) withSignals:selectedAllDaySignal, nil];
+
+        [self.viewModel.event rac_liftSelector:@selector(setEndDate:) withSignals:[selectedDateSignal map:^id(NSDate* startDate) {
+            return [startDate dateByAddingTimeInterval:60*60];
+        }], nil];
+    }
+    else if([row isEqualToString:CHDEventEditRowEndDate]){
+        if(self.viewModel.event.startDate) {
+            CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.endDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
+            vc.title = title;
+            [self.navigationController pushViewController:vc animated:YES];
+
+            RACSignal *selectedDateSignal = [[RACObserve(vc, date) takeUntil:vc.rac_willDeallocSignal] skip:1];
+            [self.viewModel.event rac_liftSelector:@selector(setEndDate:) withSignals:selectedDateSignal, nil];
+        }
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -249,13 +281,13 @@
     else if ([row isEqualToString:CHDEventEditRowStartDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Start", @"");
-        cell.valueLabel.text = [self.dateFormatter stringFromDate:event.endDate];
+        cell.valueLabel.text = [self.viewModel formatDate:event.startDate allDay:event.allDayEvent];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowEndDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"End", @"");
-        cell.valueLabel.text = [self.dateFormatter stringFromDate:event.endDate];
+        cell.valueLabel.text = [self.viewModel formatDate:event.endDate allDay:event.allDayEvent];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowParish]) {

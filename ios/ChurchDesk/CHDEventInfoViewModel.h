@@ -57,5 +57,4 @@ extern NSString *const CHDEventInfoRowDivider;
 - (NSArray*) userNames;
 
 - (void) openMapsWithLocationString: (NSString*) location;
-
 @end

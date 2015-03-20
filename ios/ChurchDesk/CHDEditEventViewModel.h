@@ -49,6 +49,8 @@ extern NSString *const CHDEventEditRowDivider;
 
 - (instancetype)initWithEvent: (CHDEvent*) event;
 
+- (NSString*) formatDate: (NSDate*) date allDay: (BOOL) isAllday;
+
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section;
 
 - (RACSignal*) saveEvent;
