@@ -205,6 +205,8 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     return formattedDate;
 }
 
+#pragma mark - Actions
+
 - (void) openMapsWithLocationString: (NSString*) location {
         MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
         request.naturalLanguageQuery = location;
@@ -217,6 +219,16 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
                 [mapItem openInMapsWithLaunchOptions:nil];
             }
         }];
+}
+
+- (RACSignal*) respondToEventWithResponse: (CHDEventResponse) response {
+    CHDEvent *event = self.event;
+    CHDEventResponse oldResponse = event.eventResponse;
+    self.event.eventResponse = response;
+    
+    return [[[CHDAPIClient sharedInstance] setResponseForEventWithId:self.event.eventId siteId:self.event.siteId response:response] doError:^(NSError *error) {
+        event.eventResponse = oldResponse;
+    }];
 }
 
 #pragma mark - Private

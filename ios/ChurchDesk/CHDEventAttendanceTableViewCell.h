@@ -10,6 +10,6 @@
 
 @interface CHDEventAttendanceTableViewCell : CHDEventInfoTableViewCell
 
-@property (nonatomic, readonly) UILabel *attendanceLabel;
+@property (nonatomic, readonly) UIButton *attendanceButton;
 
 @end
