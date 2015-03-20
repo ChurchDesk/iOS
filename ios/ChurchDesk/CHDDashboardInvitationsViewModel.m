@@ -61,23 +61,20 @@
     NSString *dateComponentFrom;
     NSString *dateComponentTo;
 
-    // Use "jj" instead of "HH" to create a 01-12(am/pm) and 00-23 template
-    // "jj" follows the local format
     if(fromComponents.year != toComponents.year){
-        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMHHmm";
-        dateComponentTo = invitation.allDay? @"eeeddMMMYYYY" : @"eeeddMMMYYYYHHmm";
+        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMjjmm";
+        dateComponentTo = invitation.allDay? @"eeeddMMMYY" : @"eeeddMMMYYjjmm";
     }else if(fromComponents.month != toComponents.month){
-        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMHHmm";
-        dateComponentTo = invitation.allDay? @"eeeddMMM" :@"eeeddMMMHHmm";
+        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMjjmm";
+        dateComponentTo = invitation.allDay? @"eeeddMMM" :@"eeeddMMMjjmm";
     }else if(fromComponents.day != toComponents.day){
-        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMHHmm";
-        dateComponentTo = invitation.allDay? @"eeedd" : @"eeeddHHmm";
+        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMjjmm";
+        dateComponentTo = invitation.allDay? @"eeedd" : @"eeeddjjmm";
     }else{
-        dateComponentFrom = invitation.allDay? @"eeeeddMMM" : @"eeeeddMMMHHmm";
-        dateComponentTo = invitation.allDay? @"" : @"HHmm";
+        dateComponentFrom = invitation.allDay? @"eeeeddMMM" : @"eeeeddMMMjjmm";
+        dateComponentTo = invitation.allDay? @"" : @"jjmm";
     }
 
-    //NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"da_DK"];
     NSLocale *locale = [NSLocale currentLocale];
     NSString *dateTemplateFrom = [NSDateFormatter dateFormatFromTemplate:dateComponentFrom options:0 locale:locale];
     NSString *dateTemplateTo = [NSDateFormatter dateFormatFromTemplate:dateComponentTo options:0 locale:locale];

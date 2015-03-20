@@ -160,15 +160,49 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 }
 
 - (NSString*) eventDateString {
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"EEEE d LLL, HH:mm";
-    NSString *fromString = [dateFormatter stringFromDate:self.event.startDate];
-    
-    NSDateFormatter *timeFormatter = [NSDateFormatter new];
-    timeFormatter.dateFormat = @"HH:mm";
-    NSString *toString = [timeFormatter stringFromDate:self.event.endDate];
-    
-    return [NSString stringWithFormat:@"%@ - %@", fromString, toString];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
+
+    NSDateFormatter *dateFormatterFrom = [NSDateFormatter new];
+    NSDateFormatter *dateFormatterTo = [NSDateFormatter new];
+
+    NSDateComponents *fromComponents = [calendar components:unitFlags fromDate:self.event.startDate];
+    NSDateComponents *toComponents = [calendar components:unitFlags fromDate:self.event.endDate];
+
+    //Set date format Templates
+    NSString *dateComponentFrom;
+    NSString *dateComponentTo;
+
+    if(fromComponents.year != toComponents.year){
+        dateComponentFrom = self.event.allDayEvent? @"eeeddMMM" : @"eeeddMMMjjmm";
+        dateComponentTo = self.event.allDayEvent? @"eeeddMMMYY" : @"eeeddMMMYYjjmm";
+    }else if(fromComponents.month != toComponents.month){
+        dateComponentFrom = self.event.allDayEvent? @"eeeddMMM" : @"eeeddMMMjjmm";
+        dateComponentTo = self.event.allDayEvent? @"eeeddMMM" :@"eeeddMMMjjmm";
+    }else if(fromComponents.day != toComponents.day){
+        dateComponentFrom = self.event.allDayEvent? @"eeeddMMM" : @"eeeddMMMjjmm";
+        dateComponentTo = self.event.allDayEvent? @"eeedd" : @"eeeddjjmm";
+    }else{
+        dateComponentFrom = self.event.allDayEvent? @"eeeeddMMM" : @"eeeeddMMMjjmm";
+        dateComponentTo = self.event.allDayEvent? @"" : @"jjmm";
+    }
+
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *dateTemplateFrom = [NSDateFormatter dateFormatFromTemplate:dateComponentFrom options:0 locale:locale];
+    NSString *dateTemplateTo = [NSDateFormatter dateFormatFromTemplate:dateComponentTo options:0 locale:locale];
+
+    [dateFormatterFrom setDateFormat:dateTemplateFrom];
+    [dateFormatterTo setDateFormat:dateTemplateTo];
+
+    //Localize the date
+    dateFormatterFrom.locale = locale;
+    dateFormatterTo.locale = locale;
+
+    NSString *startDate = [dateFormatterFrom stringFromDate:self.event.startDate];
+    NSString *endDate = [dateFormatterTo stringFromDate:self.event.endDate];
+    NSString *formattedDate = [endDate isEqualToString:@""]? startDate : [[startDate stringByAppendingString:@" - "] stringByAppendingString:endDate];
+
+    return formattedDate;
 }
 
 - (void) openMapsWithLocationString: (NSString*) location {
