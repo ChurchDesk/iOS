@@ -65,7 +65,7 @@
 }
 
 - (void) setupBindings {
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, event), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user)]] ignore:nil]];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, event), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel, event.eventResponse)]] ignore:nil]];
     
     RAC(self.navigationItem, rightBarButtonItem) = [RACObserve(self.viewModel, event) map:^id(CHDEvent *event) {
         return event.canEdit ? [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editEventAction:)] : nil;
@@ -93,6 +93,35 @@
     [self.viewModel rac_liftSelector:@selector(openMapsWithLocationString:) withSignals:[[[alert rac_buttonClickedSignal] ignore:@(alert.cancelButtonIndex)] mapReplace:location], nil];
     
     [alert show];
+}
+
+- (void)reportAttendanceAction: (id) sender {
+    NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Are you going to the event '%@'?", @""), self.viewModel.event.title];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"I am going", @""), NSLocalizedString(@"Maybe", @""), NSLocalizedString(@"I am not going", @""), nil];
+    NSInteger firstOtherButtonIndex = sheet.firstOtherButtonIndex;
+    
+    @weakify(self)
+    [[self.viewModel rac_liftSelector:@selector(respondToEventWithResponse:) withSignals:[[sheet.rac_buttonClickedSignal ignore:@(sheet.cancelButtonIndex)] map:^id(NSNumber *nButtonIndex) {
+        if (nButtonIndex.integerValue == firstOtherButtonIndex) {
+            return @(CHDEventResponseGoing);
+        }
+        else if (nButtonIndex.integerValue == firstOtherButtonIndex+1) {
+            return @(CHDEventResponseMaybe);
+        }
+        else if (nButtonIndex.integerValue == firstOtherButtonIndex+2) {
+            return @(CHDEventResponseNotGoing);
+        }
+        else {
+            NSAssert(NO, @"Unknown button index");
+            return nil;
+        }
+    }], nil] subscribeError:^(NSError *error) {
+        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"An error occured while sending your response to the server. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil] show];
+        @strongify(self)
+        [self reportAttendanceAction:nil];
+    }];
+    
+    [sheet showInView:self.view];
 }
 
 #pragma mark - UITableViewDelegate
@@ -153,8 +182,10 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowAttendance]) {
         CHDEventAttendanceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"attendance" forIndexPath:indexPath];
-        cell.attendanceLabel.text = [self.viewModel textForEventResponse:event.eventResponse];
-        cell.attendanceLabel.textColor = [self.viewModel textColorForEventResponse:event.eventResponse];
+        [cell.attendanceButton setTitle:[self.viewModel textForEventResponse:event.eventResponse] forState:UIControlStateNormal];
+        [cell.attendanceButton setTitleColor:[self.viewModel textColorForEventResponse:event.eventResponse] forState:UIControlStateNormal];
+        [self rac_liftSelector:@selector(reportAttendanceAction:) withSignals:[[cell.attendanceButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal], nil];
+        
         returnCell = cell;
     }
     

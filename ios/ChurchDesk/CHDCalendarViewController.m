@@ -55,6 +55,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) NSDateFormatter *dayFormatter;
 
 @property (nonatomic, strong) CHDExpandableButtonView *addButton;
+@property (nonatomic, strong) UIButton *todayButton;
 
 @end
 
@@ -90,6 +91,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     self.navigationItem.titleView = self.titleView;
     self.addButton = [self setupAddButtonWithView:self.view withConstraints:NO];
+    [self.contentView addSubview:self.todayButton];
     [self.view addSubview:self.drawerBlockOutView];
 }
 
@@ -131,6 +133,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         make.height.equalTo(@(kDayPickerHeight));
     }];
 
+    [self.todayButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.dayPickerViewController.view.mas_top).offset(-15);
+        make.left.equalTo(self.contentView).offset(15);
+    }];
+
     [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view);
         make.bottom.equalTo(self.dayPickerViewController.view.mas_top).offset(-5);
@@ -147,7 +154,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         return RACTuplePack(previous, current);
     }]];
 
-    RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willAnimateToMonth:)] map:^id(RACTuple *tuple) {
+    RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willChangeToMonth:)] map:^id(RACTuple *tuple) {
         return tuple.second;
     }];
 
@@ -178,6 +185,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     RACSignal *touchedDrawerBlockOutViewSignal = [self.drawerBlockOutView rac_signalForSelector:@selector(touchesBegan:withEvent:)];
     [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:touchedDrawerBlockOutViewSignal];
+
+    [self rac_liftSelector:@selector(todayButtonTouch:) withSignals:[self.todayButton rac_signalForControlEvents:UIControlEventTouchUpInside], nil];
 }
 
 - (void) reloadDataWithPreviousSections: (NSArray*) previousSections newSections: (NSArray*) newSections {
@@ -206,7 +215,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self scrollToDate:date animated:NO];
 }
 
-- (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willAnimateToMonth:(NSDate *)date {
+- (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willChangeToMonth:(NSDate *)date {
     self.viewModel.referenceDate = date;
     [self scrollToDate:date animated:NO];
     [self.dayPickerViewController scrollToDate:date animated:NO];
@@ -295,6 +304,15 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     }
 }
 
+- (void) todayButtonTouch: (id) sender {
+    NSDate *today = [NSDate date];
+    self.viewModel.referenceDate = today;
+    [self.dayPickerViewController scrollToDate:today animated:NO];
+    [self.calendarPicker setCurrentMonth:today];
+    [self scrollToDate:today animated:NO];
+    [self.calendarPicker setSelectedDates:@[today]];
+}
+
 - (void) blockOutViewTouched {
     [self.magicNavigationBar setShowDrawer:NO animated:YES];
 }
@@ -309,7 +327,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 - (void) changeCalendarFilter: (CHDCalendarFilters) filter {
     [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:.8];
+        self.drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
     } completion:^(BOOL finished) {
         self.viewModel.myEventsOnly = filter == CHDCalendarFilterMyEvents;
         [UIView animateWithDuration:.3 delay:0.2 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -424,6 +442,14 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         _drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
     }
     return _drawerBlockOutView;
+}
+
+- (UIButton*) todayButton {
+    if(!_todayButton){
+        _todayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_todayButton setImage:kImgCalendarTodayIndicator forState:UIControlStateNormal];
+    }
+    return _todayButton;
 }
 
 @end

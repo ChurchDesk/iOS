@@ -132,7 +132,6 @@
     
     [UIView animateWithDuration:keyboardEvent.keyboardAnimationDuration delay:0 options:keyboardEvent.keyboardAnimationOptionCurve animations:^{
         self.scrollView.contentOffset = show ? CGPointMake(0, self.scrollView.contentOffset.y -keyboardEvent.requiredViewOffset + (self.scrollView.contentOffset.y == 0 ? 20 : 0)) : CGPointZero;
-//        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, keyboardEvent.keyboardFrame.size.height, 0);
         self.logoContainer.alpha = show ? 0.0 : 1.0;
     } completion:nil];
 }
