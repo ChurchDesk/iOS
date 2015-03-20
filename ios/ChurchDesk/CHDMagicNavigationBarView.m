@@ -163,6 +163,7 @@ static CGFloat kExpandedHeight = 108.0f;
     if (!_drawerView) {
         _drawerView = [UIView new];
         _drawerView.backgroundColor = [UIColor chd_darkBlueColor];
+        _drawerView.clipsToBounds = YES;
     }
     return _drawerView;
 }

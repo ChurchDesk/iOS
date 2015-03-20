@@ -326,7 +326,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 - (void) changeCalendarFilter: (CHDCalendarFilters) filter {
     [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:.8];
+        self.drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
     } completion:^(BOOL finished) {
         self.viewModel.myEventsOnly = filter == CHDCalendarFilterMyEvents;
         [UIView animateWithDuration:.3 delay:0.2 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
