@@ -152,7 +152,6 @@
     [self.userIds enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
         if([eventUserId isEqualToNumber:userId]){
             foundUser = YES;
-            stop = YES;
         }
     }];
     return foundUser;
