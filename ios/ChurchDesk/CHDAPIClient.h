@@ -14,6 +14,7 @@
 
 - (RACSignal*) loginWithUserName: (NSString*) username password: (NSString*) password;
 - (RACSignal*) getCurrentUser;
+- (RACSignal*) postResetPasswordForEmail: (NSString*) email;
 
 - (RACSignal*) getEnvironment;
 

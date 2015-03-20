@@ -16,4 +16,8 @@
     [[CHDAuthenticationManager sharedInstance] rac_liftSelector:@selector(authenticateWithToken:userID:) withSignals:[[CHDAPIClient sharedInstance] loginWithUserName:username password:password], [RACSignal return:username], nil];
 }
 
+- (RACSignal*) resetPasswordForEmail: (NSString*) email {
+    return [[CHDAPIClient sharedInstance] postResetPasswordForEmail:email];
+}
+
 @end

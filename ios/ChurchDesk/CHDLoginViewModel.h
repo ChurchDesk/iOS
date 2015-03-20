@@ -11,5 +11,6 @@
 @interface CHDLoginViewModel : NSObject
 
 - (void) loginWithUserName: (NSString*) username password: (NSString*) password;
+- (RACSignal*) resetPasswordForEmail: (NSString*) email;
 
 @end

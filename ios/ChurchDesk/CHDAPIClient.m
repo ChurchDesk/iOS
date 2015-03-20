@@ -196,6 +196,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self resourcesForPath:[self resourcePathForGetCurrentUser] resultClass:[CHDUser class] withResource:nil];
 }
 
+- (RACSignal*) postResetPasswordForEmail: (NSString*) email {
+    return [self postBodyDictionary:@{@"username" : email ?: @""} resultClass:[NSNumber class] toPath:@"users/password-reset"];
+}
+
 #pragma mark - Environment
 
 - (RACSignal*) getEnvironment {

@@ -11,7 +11,7 @@
 #import "SHPKeyboardAwareness.h"
 #import "CHDLoginViewModel.h"
 
-@interface CHDLoginViewController ()
+@interface CHDLoginViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *logoContainer;
@@ -53,6 +53,7 @@
     [self.scrollView addSubview:self.emailView];
     [self.scrollView addSubview:self.passwordView];
     [self.scrollView addSubview:self.loginButton];
+    [self.scrollView addSubview:self.forgotPasswordButton];
 }
 
 - (void) makeConstraints {
@@ -95,6 +96,11 @@
         make.top.equalTo(self.passwordView.mas_bottom).offset(20);
         make.bottom.equalTo(self.scrollView);
     }];
+    
+    [self.forgotPasswordButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-45);
+    }];
 }
 
 - (void) setupBindings {
@@ -103,6 +109,22 @@
 //    RAC(self.loginButton, enabled) = [RACSignal combineLatest:@[self.emailView.textField.rac_textSignal, self.passwordView.textField.rac_textSignal] reduce:^id (NSString *email, NSString *password) {
 //        return @([email shp_matchesEmailRegex] && password.length > 0);
 //    }];
+    
+    UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer new];
+    [self.view addGestureRecognizer:tapRecognizer];
+    [self.view shprac_liftSelector:@selector(endEditing:) withSignal:[[tapRecognizer rac_gestureSignal] mapReplace:@YES]];
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.emailView.textField) {
+        [self.passwordView.textField becomeFirstResponder];
+    }
+    else {
+        [self loginAction:nil];
+    }
+    return YES;
 }
 
 #pragma mark - Actions
@@ -120,7 +142,33 @@
 }
 
 - (void) loginAction: (id) sender {
+    [self.view endEditing:YES];
     [self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text];
+}
+
+- (void) forgotPasswordAction: (id) sender {
+    NSString *emailFieldText = self.emailView.textField.text;
+    BOOL validEmail = [emailFieldText shp_matchesEmailRegex];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Forgot Password", @"") message:validEmail ? NSLocalizedString(@"Instructions for resetting you password will be sent to your email.", @"") : NSLocalizedString(@"Please enter your email to receive instructions on how to reset your password.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Continue", @""), nil];
+    if (!validEmail) {
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        UITextField *textField = [alert textFieldAtIndex:0];
+        textField.placeholder = NSLocalizedString(@"E-mail address", @"");
+    }
+    
+    [[self.viewModel rac_liftSelector:@selector(resetPasswordForEmail:) withSignals:[[alert.rac_buttonClickedSignal ignore:@(alert.cancelButtonIndex)] map:^id(id value) {
+        return alert.alertViewStyle == UIAlertViewStylePlainTextInput ? [alert textFieldAtIndex:0].text : emailFieldText;
+    }], nil] subscribeNext:^(id x) {
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Instructions for resetting your password will be sent to '%@'.", @""), validEmail ? emailFieldText : [alert textFieldAtIndex:0].text];
+        UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", @"") message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        [successAlert show];
+    } error:^(NSError *error) {
+        NSLog(@"Error resetting password %@", error);
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password reset failed", @"") message:NSLocalizedString(@"Something when wrong while resetting your password. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        [errorAlert show];
+    }];
+    
+    [alert show];
 }
 
 #pragma mark - Lazy Initialization
@@ -161,6 +209,9 @@
     if (!_emailView) {
         _emailView = [CHDIconTextFieldView new];
         _emailView.textField.placeholder = NSLocalizedString(@"E-mail address", @"");
+        _emailView.textField.keyboardType = UIKeyboardTypeEmailAddress;
+        _emailView.textField.returnKeyType = UIReturnKeyNext;
+        _emailView.textField.delegate = self;
         _emailView.iconImageView.image = kImgLoginMail;
     }
     return _emailView;
@@ -171,6 +222,8 @@
         _passwordView = [CHDIconTextFieldView new];
         _passwordView.textField.placeholder = NSLocalizedString(@"Password", @"");
         _passwordView.textField.secureTextEntry = YES;
+        _passwordView.textField.returnKeyType = UIReturnKeyGo;
+        _passwordView.textField.delegate = self;
         _passwordView.iconImageView.image = kImgLoginPassword;
     }
     return _passwordView;
@@ -183,6 +236,17 @@
         [_loginButton addTarget:self action:@selector(loginAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
+}
+
+- (UIButton *)forgotPasswordButton {
+    if (!_forgotPasswordButton) {
+        _forgotPasswordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_forgotPasswordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _forgotPasswordButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
+        [_forgotPasswordButton setTitle: NSLocalizedString(@"Forgot password?", @"") forState:UIControlStateNormal];
+        [_forgotPasswordButton addTarget:self action:@selector(forgotPasswordAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _forgotPasswordButton;
 }
 
 @end
