@@ -153,7 +153,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         return RACTuplePack(previous, current);
     }]];
 
-    RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willAnimateToMonth:)] map:^id(RACTuple *tuple) {
+    RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willChangeToMonth:)] map:^id(RACTuple *tuple) {
         return tuple.second;
     }];
 
@@ -214,7 +214,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self scrollToDate:date animated:NO];
 }
 
-- (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willAnimateToMonth:(NSDate *)date {
+- (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willChangeToMonth:(NSDate *)date {
     self.viewModel.referenceDate = date;
     [self scrollToDate:date animated:NO];
     [self.dayPickerViewController scrollToDate:date animated:NO];
