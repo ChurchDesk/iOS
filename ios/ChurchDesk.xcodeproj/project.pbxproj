@@ -1290,7 +1290,7 @@
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c9ff408d-057f-4132-9bf4-ae3b49380cf3";
+				PROVISIONING_PROFILE = "b9b033df-da6b-4875-b29f-74391e06c0cd";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;

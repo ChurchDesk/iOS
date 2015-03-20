@@ -23,6 +23,8 @@ static NSUInteger kVisibleDayCount = 7;
 
 @property (nonatomic, strong) NSDate *referenceDate; // First visible day - should be a monday
 
+@property (nonatomic, assign) NSUInteger currentWeekNumber;
+
 @end
 
 @implementation CHDDayPickerViewController
@@ -102,7 +104,11 @@ static NSUInteger kVisibleDayCount = 7;
 - (void)scrollViewDidEndDecelerating:(UICollectionView *)collectionView {
     NSIndexPath *indexPath = [collectionView indexPathForItemAtPoint:collectionView.contentOffset];
 
-    [self reloadDataWithReferenceDate:[self dateForItemAtIndexPath:indexPath]];
+    NSDate *currentDate = [self dateForItemAtIndexPath:indexPath];
+    
+    [self reloadDataWithReferenceDate:currentDate];
+    
+    self.currentWeekNumber = [[NSCalendar currentCalendar] component:NSCalendarUnitWeekOfYear fromDate:currentDate];
 }
 
 #pragma mark - UICollectionViewDelegate

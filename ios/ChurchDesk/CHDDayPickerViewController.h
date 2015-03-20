@@ -11,6 +11,7 @@
 @interface CHDDayPickerViewController : UIViewController
 
 @property (nonatomic, strong) NSDate *selectedDate;
+@property (nonatomic, readonly) NSUInteger currentWeekNumber;
 
 - (void) scrollToDate: (NSDate*) date animated: (BOOL) animated;
 

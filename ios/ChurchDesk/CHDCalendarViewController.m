@@ -25,6 +25,7 @@
 #import "CHDExpandableButtonView.h"
 #import "CHDCalendarFilterView.h"
 #import "CHDPassthroughTouchView.h"
+#import <MBProgressHUD.h>
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
@@ -367,6 +368,21 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 - (CHDDayPickerViewController *)dayPickerViewController {
     if (!_dayPickerViewController) {
         _dayPickerViewController = [CHDDayPickerViewController new];
+        __weak CHDCalendarViewController *weakSelf = self;
+        [[RACObserve(_dayPickerViewController, currentWeekNumber) skip:1] subscribeNext:^(NSNumber *weekNumber) {
+            [MBProgressHUD hideAllHUDsForView:weakSelf.navigationController.view animated:YES];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.navigationController.view animated:YES];
+            
+            // Configure for text only and offset down
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = [NSString stringWithFormat:NSLocalizedString(@"Week\n%@", nil), weekNumber];
+            hud.detailsLabelFont = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:40];
+            hud.margin = 10.f;
+            hud.removeFromSuperViewOnHide = YES;
+            hud.userInteractionEnabled = NO;
+            
+            [hud hide:YES afterDelay:1];
+        }];
     }
     return _dayPickerViewController;
 }
