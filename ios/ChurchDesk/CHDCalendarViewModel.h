@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSDate *referenceDate;
 @property (nonatomic, readonly) CHDUser *user;
 
+@property (nonatomic, assign) BOOL myEventsOnly;
+
 - (NSArray*) eventsForSectionAtIndex: (NSUInteger) section;
 - (CHDHoliday*) holidayForDate: (NSDate*) date;
 - (NSIndexPath*) indexPathForDate: (NSDate*) date;

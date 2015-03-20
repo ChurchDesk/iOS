@@ -30,4 +30,10 @@
     }] : nil;
 }
 
+- (NSNumber *)userIdForSiteId:(NSString *)siteId {
+    CHDSite *site = [self siteWithId:siteId];
+    return site.userId;
+}
+
+
 @end

@@ -84,7 +84,12 @@ static NSUInteger kVisibleDayCount = 7;
 - (void) scrollToDate: (NSDate*) date animated: (BOOL) animated {
     NSDate *mondayOfDate = [self.viewModel dateForMondayOfWeekWithDate:date];
     NSIndexPath *newIndexPath = [self indexPathForItemAtDate:mondayOfDate];
-    
+
+    if(newIndexPath.item < 2){
+        [self reloadDataWithReferenceDate:mondayOfDate];
+        return;
+    }
+
     if (newIndexPath.item < kVisibleDayCount) {
         return;
     }

@@ -16,6 +16,7 @@ static CGFloat kExpandedHeight = 108.0f;
 
 @property (nonatomic, strong) UIView *drawerView;
 @property (nonatomic, strong) UIView *snapshotContainerView;
+@property (nonatomic) BOOL drawerIsHidden;
 
 @property (nonatomic, strong) MASConstraint *drawerHeightConstraint;
 @property (nonatomic, strong) MASConstraint *containerTopConstraint;
@@ -28,14 +29,15 @@ static CGFloat kExpandedHeight = 108.0f;
 - (instancetype)initWithNavigationController: (UINavigationController*) navigationController navigationItem: (UINavigationItem*) navigationItem {
     self = [super init];
     if (self) {
+        self.drawerIsHidden = YES;
         self.backgroundColor = [UIColor chd_blueColor];
         self.navigationController = navigationController;
-        
+
 //        self.layer.masksToBounds = NO;
 //        self.layer.shadowOffset = CGSizeMake(0, 0.5);
 //        self.layer.shadowRadius = 0.5;
 //        self.layer.shadowOpacity = 0.8;
-        
+
         [self setupSubviews];
         [self makeConstraints];
         [self setupBindings];
@@ -55,7 +57,7 @@ static CGFloat kExpandedHeight = 108.0f;
         make.top.equalTo(self).offset(20);
         self.drawerHeightConstraint = make.height.equalTo(@0);
     }];
-    
+
     [self.snapshotContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self);
         self.containerTopConstraint = make.top.equalTo(self).offset(20);
@@ -74,7 +76,7 @@ static CGFloat kExpandedHeight = 108.0f;
 - (void) setupBindings {
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] init];
     [self.snapshotContainerView addGestureRecognizer:tapRecognizer];
-    
+
     [self rac_liftSelector:@selector(setShowDrawer:animated:) withSignals:[tapRecognizer.rac_gestureSignal mapReplace:@NO], [RACSignal return:@YES], nil];
 }
 
@@ -86,7 +88,7 @@ static CGFloat kExpandedHeight = 108.0f;
     [self willChangeValueForKey:@"showDrawer"];
     _showDrawer = showDrawer;
     [self didChangeValueForKey:@"showDrawer"];
-    
+
     if (showDrawer) {
         [self showDrawerAnimated:animated];
     }
@@ -101,15 +103,16 @@ static CGFloat kExpandedHeight = 108.0f;
 }
 
 - (void) showDrawerAnimated: (BOOL) animated {
+    self.drawerIsHidden = NO;
     [self.bottomConstraint setOffset:kCollapsedHeight];
     self.navigationController.navigationBarHidden = YES;
     [self layoutIfNeeded];
-    
+
     [self.drawerHeightConstraint setOffset:kDrawerHeight];
     [self.containerTopConstraint setOffset:20 + kDrawerHeight];
     [self.bottomConstraint setOffset:kExpandedHeight];
     [self invalidateIntrinsicContentSize];
-    
+
     [UIView animateWithDuration: animated ? 0.4 : 0 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
         [self.superview layoutIfNeeded];
     } completion:nil];
@@ -121,14 +124,17 @@ static CGFloat kExpandedHeight = 108.0f;
     [self.containerTopConstraint setOffset:20];
     [self.bottomConstraint setOffset:kCollapsedHeight];
     [self invalidateIntrinsicContentSize];
-    
-    
+
+
     [UIView animateWithDuration: animated ? 0.4 : 0 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
         [self.superview layoutIfNeeded];
     } completion:^(BOOL finished) {
         [self.bottomConstraint setOffset:0];
         self.navigationController.navigationBarHidden = NO;
         [self layoutIfNeeded];
+        if(finished){
+            self.drawerIsHidden = YES;
+        }
     }];
 }
 

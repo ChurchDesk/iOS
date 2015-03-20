@@ -23,14 +23,23 @@
 #import "CHDSite.h"
 #import "UIViewController+UIViewController_ChurchDesk.h"
 #import "CHDExpandableButtonView.h"
+#import "CHDCalendarFilterView.h"
+#import "CHDPassthroughTouchView.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
+
+typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
+    CHDCalendarFilterAllEvents,
+    CHDCalendarFilterMyEvents,
+};
 
 @interface CHDCalendarViewController () <UITableViewDataSource, UITableViewDelegate, SHPCalendarPickerViewDelegate>
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) CHDMagicNavigationBarView *magicNavigationBar;
+@property (nonatomic, strong) CHDPassthroughTouchView *drawerBlockOutView;
+@property (nonatomic, strong) CHDCalendarFilterView *calendarFilterView;
 @property (nonatomic, strong) SHPCalendarPickerView *calendarPicker;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CHDCalendarTitleView *titleView;
@@ -45,6 +54,7 @@ static CGFloat kDayPickerHeight = 50.0f;
 @property (nonatomic, strong) NSDateFormatter *dayFormatter;
 
 @property (nonatomic, strong) CHDExpandableButtonView *addButton;
+@property (nonatomic, strong) UIButton *todayButton;
 
 @end
 
@@ -52,63 +62,81 @@ static CGFloat kDayPickerHeight = 50.0f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.viewModel = [[CHDCalendarViewModel alloc] init];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     [self setupSubviews];
     [self makeConstraints];
+    [self.calendarFilterView setupFiltersWithTitels:@[@"All events", @"My events"] filters:@[@(CHDCalendarFilterAllEvents),@(CHDCalendarFilterMyEvents)]];
+    self.calendarFilterView.selectedFilter = CHDCalendarFilterAllEvents;
+
     [self setupBindings];
-    
+
     self.viewModel.referenceDate = [NSDate date];
 }
 
 - (void)setupSubviews {
     [self.view addSubview:self.contentView];
     [self.view addSubview:self.magicNavigationBar];
+    [self.magicNavigationBar.drawerView addSubview:self.calendarFilterView];
     [self.contentView addSubview:self.calendarPicker];
     [self.contentView addSubview:self.tableView];
-    
+
     [self addChildViewController:self.dayPickerViewController];
     [self.view addSubview:self.dayPickerViewController.view];
     [self.dayPickerViewController didMoveToParentViewController:self];
-    
+
     self.navigationItem.titleView = self.titleView;
-    
     self.addButton = [self setupAddButtonWithView:self.view withConstraints:NO];
+    [self.contentView addSubview:self.todayButton];
+    [self.view addSubview:self.drawerBlockOutView];
 }
 
 - (void)makeConstraints {
-    
+
+    [self.drawerBlockOutView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.contentView);
+    }];
+
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.view);
         self.magicNavigationBar.bottomConstraint = make.top.equalTo(self.view);
     }];
-    
+
     [self.magicNavigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.contentView.mas_top);
     }];
-    
+
+    [self.calendarFilterView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.magicNavigationBar.drawerView);
+    }];
+
     [self.calendarPicker mas_makeConstraints:^(MASConstraintMaker *make) {
         self.calendarTopConstraint = make.top.equalTo(self.contentView).offset(-kCalendarHeight);
         make.left.right.equalTo(self.contentView);
         make.height.equalTo(@(kCalendarHeight));
     }];
-    
+
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.contentView);
         make.top.equalTo(self.calendarPicker.mas_bottom);
         make.bottom.equalTo(self.dayPickerViewController.view.mas_top);
     }];
-    
+
     [self.dayPickerViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         self.dayPickerBottomConstraint = make.bottom.equalTo(self.view);
         make.height.equalTo(@(kDayPickerHeight));
     }];
-    
+
+    [self.todayButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.dayPickerViewController.view.mas_top).offset(-15);
+        make.left.equalTo(self.contentView).offset(15);
+    }];
+
     [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view);
         make.bottom.equalTo(self.dayPickerViewController.view.mas_top).offset(-5);
@@ -118,28 +146,46 @@ static CGFloat kDayPickerHeight = 50.0f;
 - (void) setupBindings {
     NSDateFormatter *monthFormatter = [NSDateFormatter new];
     monthFormatter.dateFormat = @"MMMM";
-    
+
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:RACObserve(self.viewModel, user)];
-    
+
     [self rac_liftSelector:@selector(reloadDataWithPreviousSections:newSections:) withSignalOfArguments:[RACObserve(self.viewModel, sections) combinePreviousWithStart:nil reduce:^id(id previous, id current) {
         return RACTuplePack(previous, current);
     }]];
-    
+
     RACSignal *protocolSignal = [[self rac_signalForSelector:@selector(calendarPickerView:willAnimateToMonth:)] map:^id(RACTuple *tuple) {
         return tuple.second;
     }];
-    
+
     [self.titleView.titleButton rac_liftSelector:@selector(setTitle:forState:) withSignalOfArguments:[[RACSignal merge:@[RACObserve(self.calendarPicker, currentMonth), protocolSignal]] map:^id(NSDate *date) {
         return RACTuplePack([monthFormatter stringFromDate:date], @(UIControlStateNormal));
     }]];
-    
+
     [RACChannelTo(self.calendarPicker, selectedDates) shprac_connectWithMap:^id(NSArray *selectedDates) {
         return selectedDates.firstObject;
     } to:RACChannelTo(self.dayPickerViewController, selectedDate) withMap:^id(NSDate *selectedDate) {
         return @[selectedDate];
     }];
-    
+
     [self.calendarPicker rac_liftSelector:@selector(setCurrentMonth:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
+
+    [self rac_liftSelector:@selector(changeCalendarFilter:) withSignals:[RACObserve(self.calendarFilterView, selectedFilter) skip:1], nil];
+
+    //Handle when the drawer is shown/hidden
+    RACSignal *drawerIsShownSignal = RACObserve(self.magicNavigationBar, drawerIsHidden);
+
+    [self shprac_liftSelector:@selector(drawerDidHide) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
+        return iIsHidden.boolValue;
+    }]];
+
+    [self shprac_liftSelector:@selector(drawerWillShow) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
+        return !iIsHidden.boolValue;
+    }]];
+
+    RACSignal *touchedDrawerBlockOutViewSignal = [self.drawerBlockOutView rac_signalForSelector:@selector(touchesBegan:withEvent:)];
+    [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:touchedDrawerBlockOutViewSignal];
+
+    [self rac_liftSelector:@selector(todayButtonTouch:) withSignals:[self.todayButton rac_signalForControlEvents:UIControlEventTouchUpInside], nil];
 }
 
 - (void) reloadDataWithPreviousSections: (NSArray*) previousSections newSections: (NSArray*) newSections {
@@ -185,21 +231,21 @@ static CGFloat kDayPickerHeight = 50.0f;
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     CHDCalendarHeaderView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
-    
+
     NSDate *date = self.viewModel.sections[section];
     CHDHoliday *holiday = [self.viewModel holidayForDate:date];
-    
+
     header.dayLabel.text = [self.weekdayFormatter stringFromDate:date];
     header.dateLabel.text = [self.dayFormatter stringFromDate:date];
     header.nameLabel.text = holiday.name;
     header.dotColors = @[[UIColor chd_blueColor], [UIColor chd_greenColor], [UIColor magentaColor]];
-    
+
     return header;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDEvent *event = [self.viewModel eventsForSectionAtIndex:indexPath.section][indexPath.row];
-    
+
     CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -215,21 +261,21 @@ static CGFloat kDayPickerHeight = 50.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     CHDEvent *event = [self.viewModel eventsForSectionAtIndex:indexPath.section][indexPath.row];
-    
+
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
     cell.parishLabel.text = self.viewModel.user.sites.count > 1 ? [self.viewModel.user siteWithId:event.siteId].name : @"";
     cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All Day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
-    
+
     if(indexPath.item % 2 == 1) {
         [cell.leftBorder setBackgroundColor:[UIColor chd_categoryBlueColor]];
     }else{
         [cell.leftBorder setBackgroundColor:[UIColor chd_categoryRedColor]];
     }
-    
+
     return cell;
 }
 
@@ -239,7 +285,7 @@ static CGFloat kDayPickerHeight = 50.0f;
     BOOL showCalendar = self.calendarPicker.frame.origin.y < 0;
     [self.calendarTopConstraint setOffset:showCalendar ? 0 : -kCalendarHeight];
     [self.dayPickerBottomConstraint setOffset:showCalendar ? kDayPickerHeight : 0];
-    
+
     [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping: showCalendar ? 0.8 : 1.0 initialSpringVelocity:1.0 options:0 animations:^{
         self.titleView.pointArrowDown = !showCalendar;
         [self.view layoutIfNeeded];
@@ -255,6 +301,38 @@ static CGFloat kDayPickerHeight = 50.0f;
     if (indexPath) {
         [self.tableView setContentOffset:CGPointMake(0, [self.tableView rectForSection:indexPath.section].origin.y + offset) animated:animated];
     }
+}
+
+- (void) todayButtonTouch: (id) sender {
+    NSDate *today = [NSDate date];
+    self.viewModel.referenceDate = today;
+    [self.dayPickerViewController scrollToDate:today animated:NO];
+    [self.calendarPicker setCurrentMonth:today];
+    [self scrollToDate:today animated:NO];
+    [self.calendarPicker setSelectedDates:@[today]];
+}
+
+- (void) blockOutViewTouched {
+    [self.magicNavigationBar setShowDrawer:NO animated:YES];
+}
+
+- (void) drawerWillShow {
+    self.drawerBlockOutView.touchesPassThrough = NO;
+}
+
+-(void) drawerDidHide {
+    self.drawerBlockOutView.touchesPassThrough = YES;
+}
+
+- (void) changeCalendarFilter: (CHDCalendarFilters) filter {
+    [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:.8];
+    } completion:^(BOOL finished) {
+        self.viewModel.myEventsOnly = filter == CHDCalendarFilterMyEvents;
+        [UIView animateWithDuration:.3 delay:0.2 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
+        } completion:nil];
+    }];
 }
 
 #pragma mark - Lazy Initialization
@@ -333,6 +411,29 @@ static CGFloat kDayPickerHeight = 50.0f;
         _dayFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"dd MMMM" options:0 locale:[NSLocale currentLocale]];
     }
     return _dayFormatter;
+}
+
+- (CHDCalendarFilterView *)calendarFilterView{
+    if(!_calendarFilterView){
+        _calendarFilterView = [CHDCalendarFilterView new];
+    }
+    return _calendarFilterView;
+}
+
+-(CHDPassthroughTouchView*) drawerBlockOutView {
+    if(!_drawerBlockOutView){
+        _drawerBlockOutView = [CHDPassthroughTouchView new];
+        _drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
+    }
+    return _drawerBlockOutView;
+}
+
+- (UIButton*) todayButton {
+    if(!_todayButton){
+        _todayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_todayButton setImage:kImgCalendarTodayIndicator forState:UIControlStateNormal];
+    }
+    return _todayButton;
 }
 
 @end
