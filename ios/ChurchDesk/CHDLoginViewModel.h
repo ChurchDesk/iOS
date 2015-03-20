@@ -10,7 +10,10 @@
 
 @interface CHDLoginViewModel : NSObject
 
-- (void) loginWithUserName: (NSString*) username password: (NSString*) password;
+@property (nonatomic, readonly) RACCommand *loginCommand;
+@property (nonatomic, readonly) RACCommand *resetPasswordCommand;
+
+- (RACSignal*) loginWithUserName: (NSString*) username password: (NSString*) password;
 - (RACSignal*) resetPasswordForEmail: (NSString*) email;
 
 @end

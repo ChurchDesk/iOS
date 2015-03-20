@@ -39,10 +39,6 @@
     [self makeConstraints];
     [self setupBindings];
     
-#if DEBUG
-    self.emailView.textField.text = @"shape@churchdesk.com";
-    self.passwordView.textField.text = @"Shape2015";
-#endif
 }
 
 - (void) setupSubviews {
@@ -105,10 +101,12 @@
 
 - (void) setupBindings {
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignalForView:self.loginButton], nil];
+
+    RAC(self.loginButton, enabled) = [RACSignal combineLatest:@[self.emailView.textField.rac_textSignal, self.passwordView.textField.rac_textSignal, self.viewModel.loginCommand.executing] reduce:^id (NSString *email, NSString *password, NSNumber *nExecuting) {
+        return @([email shp_matchesEmailRegex] && password.length > 0 && !nExecuting.boolValue);
+    }];
     
-//    RAC(self.loginButton, enabled) = [RACSignal combineLatest:@[self.emailView.textField.rac_textSignal, self.passwordView.textField.rac_textSignal] reduce:^id (NSString *email, NSString *password) {
-//        return @([email shp_matchesEmailRegex] && password.length > 0);
-//    }];
+    RAC(self.forgotPasswordButton, enabled) = [self.viewModel.resetPasswordCommand.executing not];
     
     UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer new];
     [self.view addGestureRecognizer:tapRecognizer];
@@ -131,12 +129,10 @@
 
 - (void) handleKeyboardEvent: (SHPKeyboardEvent*) keyboardEvent {
     BOOL show = keyboardEvent.keyboardEventType == SHPKeyboardEventTypeShow;
-    if (show && keyboardEvent.requiredViewOffset == 0) {
-        return;
-    }
     
     [UIView animateWithDuration:keyboardEvent.keyboardAnimationDuration delay:0 options:keyboardEvent.keyboardAnimationOptionCurve animations:^{
-        self.scrollView.contentOffset = show ? CGPointMake(0, -keyboardEvent.requiredViewOffset + 20) : CGPointZero;
+        self.scrollView.contentOffset = show ? CGPointMake(0, self.scrollView.contentOffset.y -keyboardEvent.requiredViewOffset + (self.scrollView.contentOffset.y == 0 ? 20 : 0)) : CGPointZero;
+//        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, keyboardEvent.keyboardFrame.size.height, 0);
         self.logoContainer.alpha = show ? 0.0 : 1.0;
     } completion:nil];
 }

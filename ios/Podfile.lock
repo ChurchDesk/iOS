@@ -82,7 +82,7 @@ SPEC CHECKSUMS:
   Masonry: 2cb49fd14d203d2db5ca6bb017135b235dde9980
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
-  SHPCalendarPicker: 1a54afae7d57b21a258ce56f3726b4629701a4d4
+  SHPCalendarPicker: 6891bae29e787cbc66bae63cd7aa1f10bf9c3670
   SHPFoundation: 2d7363df3f66cf7b350c34abad7b81c5b5f83f9a
   SHPKeyboardAwareness: 00d6a4672621cba61604c4dd3cbd2c7e78006c2d
   SHPNetworking: 956d34a15ff98896a4987852752c38948a1dbeb4
@@ -92,4 +92,4 @@ SPEC CHECKSUMS:
   SHPUIKit: ba38ba4315b8fc931311cd91711139a2fb03fda5
   SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.0
