@@ -10,6 +10,7 @@
 #import "CHDNewMessageViewController.h"
 #import "CHDEditEventViewController.h"
 #import "CHDExpandableButtonView.h"
+#import "CHDEditEventViewModel.h"
 
 //code in here
 @implementation UIViewController (UIViewController_ChurchDesk)
@@ -41,6 +42,9 @@
     CHDEditEventViewController *vc = [[CHDEditEventViewController alloc] initWithEvent:nil];
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
     [self presentViewController:navigationVC animated:YES completion:nil];
+
+    RACSignal *saveSignal = [RACObserve(vc, event) skip:1];
+    [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
 }
 
 @end

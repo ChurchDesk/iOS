@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
+#import <SHPNetworking/SHPAPIManager+ReactiveExtension.h>
 #import "CHDEditEventViewController.h"
 #import "CHDEditEventViewModel.h"
 #import "CHDDividerTableViewCell.h"
@@ -21,6 +22,7 @@
 #import "CHDEventCategory.h"
 #import "CHDEventSwitchTableViewCell.h"
 #import "CHDDatePickerViewController.h"
+#import "CHDEventAlertView.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -45,10 +47,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.title = self.viewModel.newEvent ? NSLocalizedString(@"New Event", @"") : NSLocalizedString(@"Edit Event", @"");
     self.tableView.backgroundColor = [UIColor chd_lightGreyColor];
-    
+
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
@@ -56,13 +58,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
 }
 
 - (void) setupSubviews {
     [self.view addSubview:self.tableView];
-    
+
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveAction:)];
 }
@@ -75,9 +77,9 @@
 
 - (void) setupBindings {
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate)]] ignore:nil]];
-    
+
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignal], nil];
-    
+
     [self.navigationItem.leftBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:[self.viewModel.saveCommand.executing not], nil];
     [self.navigationItem.rightBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:[self.viewModel.saveCommand.executing not], nil];
 }
@@ -89,15 +91,50 @@
 }
 
 - (void) saveAction: (id) sender {
-    [self shprac_liftSelector:@selector(setEvent:) withSignal:[[self.viewModel saveEvent] mapReplace:self.viewModel.event]];
+//    RACDisposable *saveSignal = [[self.viewModel saveEvent] mapReplace:self.viewModel.event];
+//    [self shprac_liftSelector:@selector(setEvent:) withSignal:saveSignal];
+
+    CHDEditEventViewModel *viewModel = self.viewModel;
+
+    [self shprac_liftSelector:@selector(setEvent:) withSignal:[[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        if (response.statusCode == 406) {
+            if ([response.body isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *result = response.body;
+                NSString *htmlString = [result valueForKey:@"error"];
+
+                CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
+                alertView.show = YES;
+
+                RACSignal *statusSignal = [RACObserve(alertView, status) filter:^BOOL(NSNumber *iStatus) {
+                    return iStatus.unsignedIntegerValue != CHDEventAlertStatusNone;
+                }];
+
+                RAC(alertView, show) = [[statusSignal map:^id(id value) {
+                    return @(NO);
+                }] takeUntil:alertView.rac_willDeallocSignal];
+
+                return [statusSignal flattenMap:^RACStream *(NSNumber *iStatus) {
+                    if (iStatus.unsignedIntegerValue == CHDEventAlertStatusCancel) {
+                        return [RACSignal empty];
+                    }
+                    viewModel.event.allowDoubleBooking = YES;
+
+                    return [viewModel saveEvent];
+                }];
+
+            }
+        }
+        return [RACSignal empty];
+    }] mapReplace:self.viewModel.event]];
 }
 
 - (void) handleKeyboardEvent: (SHPKeyboardEvent*) event {
-    
+
     if (event.keyboardEventType == SHPKeyboardEventTypeShow) {
         event.originalOffset = self.tableView.contentOffset.y;
     }
-    
+
     [UIView animateWithDuration:event.keyboardAnimationDuration delay:0 options:event.keyboardAnimationOptionCurve animations:^{
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, event.keyboardFrame.size.height, 0);
         self.tableView.contentOffset = CGPointMake(0, event.keyboardEventType == SHPKeyboardEventTypeShow ? self.tableView.contentOffset.y - event.requiredViewOffset : event.originalOffset);
@@ -120,11 +157,11 @@
     CHDEvent *event = self.viewModel.event;
     CHDEnvironment *environment = self.viewModel.environment;
     CHDUser *user = self.viewModel.user;
-    
+
     NSMutableArray *items = [NSMutableArray new];
     NSString *title = nil;
     BOOL selectMultiple = NO;
-    
+
     if ([row isEqualToString:CHDEventEditRowParish]) {
         title = NSLocalizedString(@"Select Parish", @"");
         for (CHDSite *site in user.sites) {
@@ -175,23 +212,23 @@
     }else if([row isEqualToString:CHDEventEditRowEndDate]){
         title = NSLocalizedString(@"Choose end date", @"");
     }
-    
+
     if (items.count) {
         CHDListSelectorViewController *vc = [[CHDListSelectorViewController alloc] initWithSelectableItems:items];
         vc.title = title;
         vc.selectMultiple = selectMultiple;
-        
+
         RACSignal *selectedSignal = [[[RACObserve(vc, selectedItems) map:^id(NSArray *selectedItems) {
             return [selectedItems valueForKey:@"refObject"];
         }] skip:1] takeUntil:vc.rac_willDeallocSignal];
-        
+
         RACSignal *selectedSingleSignal = [selectedSignal map:^id(NSArray *selectedItems) {
             return selectedItems.firstObject;
         }];
-        
+
         if ([row isEqualToString:CHDEventEditRowParish]) {
             [self.viewModel.event shprac_liftSelector:@selector(setSiteId:) withSignal:selectedSingleSignal];
-            
+
             RACSignal *nilWhenSelectedSignal = [[selectedSingleSignal distinctUntilChanged] mapReplace:nil];
             [self.viewModel.event shprac_liftSelector:@selector(setEventCategoryIds:) withSignal:nilWhenSelectedSignal];
             [self.viewModel.event shprac_liftSelector:@selector(setGroupId:) withSignal:nilWhenSelectedSignal];
@@ -213,7 +250,7 @@
         else if ([row isEqualToString:CHDEventEditRowVisibility]) {
             [self.viewModel.event shprac_liftSelector:@selector(setVisibility:) withSignal:[selectedSingleSignal ignore:nil]];
         }
-        
+
         CGPoint offset = self.tableView.contentOffset;
         [self.tableView rac_liftSelector:@selector(setContentOffset:) withSignals:[[[self rac_signalForSelector:@selector(viewDidLayoutSubviews)] takeUntil:vc.rac_willDeallocSignal] mapReplace:[NSValue valueWithCGPoint:offset]], nil];
         [self.navigationController pushViewController:vc animated:YES];
@@ -259,11 +296,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *row = [self.viewModel rowsForSectionAtIndex:indexPath.section][indexPath.row];
     UITableViewCell *returnCell = nil;
-    
+
     CHDEvent *event = self.viewModel.event;
     CHDEnvironment *environment = self.viewModel.environment;
     CHDUser *user = self.viewModel.user;
-    
+
     if ([row isEqualToString:CHDEventEditRowDivider]) {
         CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"divider" forIndexPath:indexPath];
         cell.hideTopLine = indexPath.section == 0 && indexPath.row == 0;
@@ -275,7 +312,7 @@
         cell.textField.placeholder = NSLocalizedString(@"Title", @"");
         cell.textField.text = event.title;
         [event shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowStartDate]) {
@@ -296,7 +333,7 @@
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, siteId) map:^id(NSString *siteId) {
             return [user siteWithId:siteId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
@@ -305,7 +342,7 @@
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, groupId) map:^id(NSNumber *groupId) {
             return [environment groupWithId:groupId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
@@ -319,7 +356,7 @@
         cell.textField.placeholder = NSLocalizedString(@"Location", @"");
         cell.textField.text = event.location;
         [event shprac_liftSelector:@selector(setLocation:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowResources]) {
@@ -328,7 +365,7 @@
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, resourceIds) map:^id(NSArray *resourceIds) {
             return resourceIds.count <= 1 ? [environment resourceWithId:event.resourceIds.firstObject].name : [NSString stringWithFormat:@"%lu", resourceIds.count];
         }] takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
@@ -343,7 +380,7 @@
         cell.textView.text = event.internalNote;
         cell.tableView = tableView;
         [event shprac_liftSelector:@selector(setInternalNote:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowDescription]) {
@@ -352,7 +389,7 @@
         cell.textView.text = event.eventDescription;
         cell.tableView = tableView;
         [event shprac_liftSelector:@selector(setEventDescription:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowContributor]) {
@@ -360,7 +397,7 @@
         cell.textField.placeholder = NSLocalizedString(@"Contributor", @"");
         cell.textField.text = event.contributor;
         [event shprac_liftSelector:@selector(setContributor:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowPrice]) {
@@ -368,7 +405,7 @@
         cell.textField.placeholder = NSLocalizedString(@"Price", @"");
         cell.textField.text = event.price;
         [event shprac_liftSelector:@selector(setPrice:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowDoubleBooking]) {
@@ -377,7 +414,7 @@
         [event shprac_liftSelector:@selector(setAllowDoubleBooking:) withSignal:[[[cell.valueSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *valueSwitch) {
             return @(valueSwitch.on);
         }] takeUntil:cell.rac_prepareForReuseSignal]];
-        
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
@@ -386,11 +423,11 @@
         cell.valueLabel.text = [event localizedVisibilityString];
         returnCell = cell;
     }
-    
+
     if ([returnCell respondsToSelector:@selector(setDividerLineHidden:)]) {
         [(CHDEventInfoTableViewCell*)returnCell setDividerLineHidden: indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1];
     }
-    
+
     return returnCell;
 }
 
@@ -404,7 +441,7 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 49;
-        
+
         [_tableView registerClass:[CHDEventTextFieldCell class] forCellReuseIdentifier:@"textfield"];
         [_tableView registerClass:[CHDEventValueTableViewCell class] forCellReuseIdentifier:@"value"];
         [_tableView registerClass:[CHDEventTextViewTableViewCell class] forCellReuseIdentifier:@"textview"];

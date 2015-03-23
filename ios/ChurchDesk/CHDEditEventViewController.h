@@ -9,11 +9,12 @@
 #import "CHDAbstractViewController.h"
 
 @class CHDEvent;
+@class CHDEditEventViewModel;
 
 @interface CHDEditEventViewController : CHDAbstractViewController
 
 @property (nonatomic, readonly) CHDEvent *event;
-
+@property (nonatomic, readonly) CHDEditEventViewModel *viewModel;
 - (instancetype)initWithEvent: (CHDEvent*) event;
 
 @end

@@ -43,6 +43,7 @@
 		603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */; };
 		603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */; };
 		60372416A6237CB86FDF0514 /* CHDNewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */; };
+		60372465C00230C152BCF998 /* CHDEventAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037238A15212DE4CA3BEF3B /* CHDEventAlertView.m */; };
 		603724D71837B20CF488F1FF /* CHDCalendarFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372DA5403C18D5F9570C0C /* CHDCalendarFilterView.m */; };
 		60372537A920B1F6B9D84F96 /* CHDMessageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */; };
 		603727A658CF12614D27D8E9 /* CHDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037245E9E98EC53CCA15CEA /* CHDUser.m */; };
@@ -200,6 +201,7 @@
 		603722B1254455CC82CC5331 /* CHDNotificationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNotificationSettings.m; sourceTree = "<group>"; };
 		6037235603A27B48E408C420 /* CHDMessageViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMessageViewModel.h; sourceTree = "<group>"; };
 		6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSitePermission.m; sourceTree = "<group>"; };
+		6037238A15212DE4CA3BEF3B /* CHDEventAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventAlertView.m; sourceTree = "<group>"; };
 		603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDListSelectorConfigModel.m; sourceTree = "<group>"; };
 		6037242978D2743FC2A06978 /* CHDLeftMenuViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuViewModel.h; sourceTree = "<group>"; };
 		6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextViewCell.m; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		603725E089310809A460FFD0 /* CHDNewMessageTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageTextFieldCell.h; sourceTree = "<group>"; };
 		603725FCD9A96AF870E396EE /* ChurchDeskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChurchDeskTests.m; sourceTree = "<group>"; };
 		603726045A07B5DC865FD0FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		603726299680D5A6F498B93F /* CHDEventAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventAlertView.h; sourceTree = "<group>"; };
 		60372631488DA2406B7F0AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		603726D3D5191AFA92B54B21 /* CHDSettingsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSettingsViewModel.m; sourceTree = "<group>"; };
 		60372743A3FC21FB9AD65E5D /* CHDComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDComment.h; sourceTree = "<group>"; };
@@ -861,6 +864,8 @@
 				76B212911AA9B1D300E4104C /* CHDEditEventViewController.m */,
 				76B212931AA9B7CA00E4104C /* CHDEditEventViewModel.h */,
 				76B212941AA9B7CA00E4104C /* CHDEditEventViewModel.m */,
+				6037238A15212DE4CA3BEF3B /* CHDEventAlertView.m */,
+				603726299680D5A6F498B93F /* CHDEventAlertView.h */,
 			);
 			name = "Edit Event";
 			sourceTree = "<group>";
@@ -1114,6 +1119,7 @@
 				603724D71837B20CF488F1FF /* CHDCalendarFilterView.m in Sources */,
 				603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */,
 				60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */,
+				60372465C00230C152BCF998 /* CHDEventAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
