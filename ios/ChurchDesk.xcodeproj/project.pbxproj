@@ -38,6 +38,7 @@
 		36C462341A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462331A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m */; };
 		36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */; };
 		36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */; };
+		60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */; };
 		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
 		603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */; };
 		603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */; };
@@ -213,12 +214,14 @@
 		60372743A3FC21FB9AD65E5D /* CHDComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDComment.h; sourceTree = "<group>"; };
 		60372756CFB9BD18E5548D93 /* CHDListSelectorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectorDelegate.h; sourceTree = "<group>"; };
 		603727C09B2C630584742DBA /* CHDCalendarFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDCalendarFilterView.h; sourceTree = "<group>"; };
+		6037286CA436A45B892DCEEC /* CHDDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDescriptionViewController.h; sourceTree = "<group>"; };
 		603728A5A13F1CDE17B7CB88 /* CHDDashboardEventViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventViewModel.m; sourceTree = "<group>"; };
 		6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessageViewModel.m; sourceTree = "<group>"; };
 		6037291CD14A440979FA04E4 /* CHDDashboardTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardTabBarViewController.h; sourceTree = "<group>"; };
 		603729816B8C5E4F4E1D199F /* CHDStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDStatusView.m; sourceTree = "<group>"; };
 		603729828D5FB2B8CBB39464 /* CHDDashboardMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardMessagesViewController.h; sourceTree = "<group>"; };
 		60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextFieldCell.m; sourceTree = "<group>"; };
+		60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDescriptionViewController.m; sourceTree = "<group>"; };
 		60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
 		60372BECBF65AF34EA9E2CB1 /* CHDLeftMenuViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuViewModel.m; sourceTree = "<group>"; };
 		60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPassthroughTouchView.m; sourceTree = "<group>"; };
@@ -707,6 +710,8 @@
 				7612472E1AA46347004E7D05 /* CHDColorDotLabelView.m */,
 				60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */,
 				60372F16B00B5C9E5812F5E2 /* CHDPassthroughTouchView.h */,
+				60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */,
+				6037286CA436A45B892DCEEC /* CHDDescriptionViewController.h */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1108,6 +1113,7 @@
 				60372C2D98EA54DBC6205A5C /* CHDSettingsViewModel.m in Sources */,
 				603724D71837B20CF488F1FF /* CHDCalendarFilterView.m in Sources */,
 				603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */,
+				60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

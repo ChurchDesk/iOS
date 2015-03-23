@@ -24,6 +24,7 @@
 #import "CHDEventDescriptionTableViewCell.h"
 #import "CHDEnvironment.h"
 #import "CHDEditEventViewController.h"
+#import "CHDDescriptionViewController.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -250,6 +251,26 @@
     }
     return returnCell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CHDEvent *event = self.viewModel.event;
+
+    NSArray *sections = self.viewModel.sections;
+    NSString *section = sections[indexPath.section];
+    NSArray *rows = [self.viewModel rowsForSection:section];
+    NSString *row = rows[indexPath.row];
+    if([row isEqualToString:CHDEventInfoRowInternalNote]){
+        CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.internalNote];
+        detailedViewController.title = NSLocalizedString(@"Internal Note", @"");
+        [self.navigationController pushViewController:detailedViewController animated:YES];
+    }
+    else if ([row isEqualToString:CHDEventInfoRowDescription]) {
+        CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.eventDescription];
+        detailedViewController.title = NSLocalizedString(@"Description", @"");
+        [self.navigationController pushViewController:detailedViewController animated:YES];
+    }
+}
+
 
 #pragma mark - Lazy Initialization
 
