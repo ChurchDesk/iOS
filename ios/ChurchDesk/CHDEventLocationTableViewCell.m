@@ -18,7 +18,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        self.iconImageView.image = kImgEventGroup;
+        self.iconImageView.image = kImgEventLocation;
         self.disclosureArrowHidden = YES;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
