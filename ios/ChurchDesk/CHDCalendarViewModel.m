@@ -11,6 +11,7 @@
 #import "CHDEvent.h"
 #import "CHDHoliday.h"
 #import "CHDUser.h"
+#import "CHDEnvironment.h"
 
 @interface CHDCalendarViewModel ()
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) NSDictionary *sectionRows;
 @property (nonatomic, strong) NSArray *holidays;
 @property (nonatomic, strong) CHDUser *user;
+@property (nonatomic, strong) CHDEnvironment *environment;
 
 @end
 
@@ -30,6 +32,7 @@
     if (self) {
         [self rac_liftSelector:@selector(fetchEventsFromReferenceDate:) withSignals:[RACObserve(self, referenceDate) ignore:nil], nil];
         [self rac_liftSelector:@selector(setUser:) withSignals:[[CHDAPIClient sharedInstance] getCurrentUser], nil];
+        [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
 
         [[self shprac_liftSelector:@selector(filterEvents) withSignal:RACObserve(self, myEventsOnly)] skip:1];
     }
@@ -89,7 +92,8 @@
     NSMutableDictionary *mSectionRows = [NSMutableDictionary new];
     
     [events enumerateObjectsUsingBlock:^(CHDEvent *event, NSUInteger idx, BOOL *stop) {
-        if (![mEvents containsObject:event] && (self.myEventsOnly? [event eventForUserWithId:[self.user userIdForSiteId:event.siteId]] : YES)) {
+        BOOL usersEventsOnly = (self.myEventsOnly? [event eventForUserWithId:[self.user userIdForSiteId:event.siteId]] : YES);
+        if (![mEvents containsObject:event] && usersEventsOnly) {
             [mEvents addObject:event];
         }
         if(![mNoneFilteredEvents containsObject:event]){
@@ -111,6 +115,8 @@
             if (section != nil) {
                 mSectionRows[section] = [mSectionEvents copy];
             }
+
+            lastSectionComponents =  eventComps;
             
             section = [calendar dateFromComponents:eventComps];
             [mSections addObject:section];
