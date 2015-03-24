@@ -177,7 +177,7 @@
     CGFloat visibleHeight = (sectionRect.origin.y + sectionRect.size.height) - contentOffset.y;
     CGFloat cellHeight = sectionRect.size.height / eventsInSection.count;
 
-    //Show the color of the first cell if less than 25% of it is shown
+    //Show the color of the first cell if less than 35% of it is shown
     if( visibleHeight < ((cellHeight * 0.35) + cellHeight * (eventsInSection.count - 1)) && eventsInSection.count > 1) {
         NSRange range = NSMakeRange(0, indexPath.row + 1);
         NSArray *hiddenEvents = [eventsInSection subarrayWithRange:range];

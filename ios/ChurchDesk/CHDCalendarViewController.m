@@ -250,7 +250,14 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     header.dayLabel.text = [self.weekdayFormatter stringFromDate:date];
     header.dateLabel.text = [self.dayFormatter stringFromDate:date];
     header.nameLabel.text = holiday.name;
-    header.dotColors = @[];
+
+    NSIndexPath *indexPath = [self.tableView chd_indexPathForRowOrHeaderAtPoint:self.tableView.contentOffset];
+    if(indexPath.section == section) {
+        CGRect sectionRect = [self.tableView rectForSection:section];
+        header.dotColors = [self.viewModel rowColorsForSectionBeforeIndexPath:indexPath sectionRect:sectionRect contentOffset:self.tableView.contentOffset];
+    }else {
+        header.dotColors = @[];
+    }
 
     return header;
 }
@@ -295,10 +302,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     if(self.viewModel.sections.count > 0) {
         NSIndexPath *indexPath = [self.tableView chd_indexPathForRowOrHeaderAtPoint:self.tableView.contentOffset];
 
-        CGRect sectionRect = [self.tableView rectForSection:indexPath.section];
-
         CHDCalendarHeaderView *header = (CHDCalendarHeaderView *) [self tableView:self.tableView viewForHeaderInSection:indexPath.section];
-
+        CGRect sectionRect = [self.tableView rectForSection:indexPath.section];
         NSArray *colors = [self.viewModel rowColorsForSectionBeforeIndexPath:indexPath sectionRect:sectionRect contentOffset:self.tableView.contentOffset];
 
         header.dotColors = colors;
