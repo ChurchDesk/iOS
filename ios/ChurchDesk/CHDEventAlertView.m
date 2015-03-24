@@ -207,6 +207,8 @@
         configuration.mediaPlaybackAllowsAirPlay = NO;
         _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, 300, 300) configuration:configuration];
         _webView.allowsBackForwardNavigationGestures = NO;
+        _webView.scrollView.maximumZoomScale = 1;
+        _webView.scrollView.minimumZoomScale = 1;
     }
     return _webView;
 }
