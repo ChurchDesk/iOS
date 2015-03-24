@@ -8,6 +8,7 @@
 #import "CHDListSelectorConfigModel.h"
 #import "CHDUser.h"
 #import "CHDAPICreate.h"
+#import "CHDSitePermission.h"
 
 static NSString* kDefaultsSiteIdLastUsed = @"messageSiteIdLastUsed";
 static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
@@ -40,23 +41,54 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
         self.groupIdLastUsed = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kDefaultsGroupIdLastUsed]];
         self.siteIdLastUsed = [defaults stringForKey:kDefaultsSiteIdLastUsed];
 
-        RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+        RACSignal *getEnvironmentSignal = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
 
-        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+        //Filter sites so only sites with can create message is shown
+        RACSignal *userSignal = [[[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
+        }] map:^id(CHDUser *user) {
+            NSArray *noFilteredSites = [user.sites copy];
+            NSMutableArray *filteredSites = [[NSMutableArray alloc] init];
+
+            for(CHDSite *site in noFilteredSites){
+                if(site.permissions.canCreateMessage){
+                    [filteredSites addObject:site];
+                }
+            }
+            user.sites = filteredSites;
+            return user;
+        }];
+
+        RAC(self, user) = userSignal;
+
+        RAC(self, environment) = [RACSignal zip:@[getEnvironmentSignal, userSignal] reduce:^id(CHDEnvironment *environment, CHDUser *user) {
+            NSArray *sites = user.sites;
+            NSArray *nonFilteredGroups = [environment.groups copy];
+            NSMutableArray *filteredGroups = [[NSMutableArray alloc] init];
+
+            for(CHDGroup *group in nonFilteredGroups){
+                for(CHDSite* site in sites){
+                    if([group.siteId isEqualToString:site.siteId]){
+                        [filteredGroups addObject:group];
+                        break;
+                    }
+                }
+            }
+            environment.groups = [filteredGroups copy];
+            return environment;
         }];
 
         RAC(self, canSendMessage) = [RACSignal combineLatest:@[RACObserve(self, selectedGroup), RACObserve(self, selectedSite), RACObserve(self, message), RACObserve(self, title)]
-                          reduce:^(CHDGroup *group, CHDSite *site, NSString *message, NSString *title){
-                              BOOL validTitle = !([title isEqualToString:@""]);
-                              BOOL validMessage = !([message isEqualToString:@""]);
-                              BOOL validGroup = group != nil;
-                              BOOL validSite = site != nil;
-                              return @(validTitle && validMessage && validGroup && validSite);
+                                                      reduce:^(CHDGroup *group, CHDSite *site, NSString *message, NSString *title){
+                                                          BOOL validTitle = !([title isEqualToString:@""]);
+                                                          BOOL validMessage = !([message isEqualToString:@""]);
+                                                          BOOL validGroup = group != nil;
+                                                          BOOL validSite = site != nil;
+                                                          return @(validTitle && validMessage && validGroup && validSite);
 
-        }];
+                                                      }];
 
         [self shprac_liftSelector:@selector(selectableGroupsMake) withSignal:[RACSignal merge:@[RACObserve(self, environment), RACObserve(self, selectedSite)]]];
 
@@ -151,7 +183,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
             self.selectedSite = self.user.sites[0];
             return;
         }
-        
+
         //set selected site
         if(!self.selectedSite){
             NSString* lastUsedId = self.siteIdLastUsed;

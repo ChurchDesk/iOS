@@ -13,5 +13,5 @@
 @property (nonatomic, strong) NSNumber *userId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) BOOL attendenceEnabled;
-@property (nonatomic, strong) CHDSitePermission* permission;
+@property (nonatomic, strong) CHDSitePermission*permissions;
 @end
