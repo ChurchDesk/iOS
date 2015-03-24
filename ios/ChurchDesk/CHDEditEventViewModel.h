@@ -44,6 +44,7 @@ extern NSString *const CHDEventEditRowDivider;
 @property (nonatomic, readonly) BOOL newEvent;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser *user;
+@property (nonatomic, readonly) NSDictionary *sectionRows;
 @property (nonatomic, readonly) NSArray *sections;
 @property (nonatomic, readonly) RACCommand *saveCommand;
 

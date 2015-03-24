@@ -34,10 +34,26 @@ CGFloat const kIndentedRightMargin = 30.0f;
             make.right.equalTo(self.contentView).offset(-kSideMargin);
             make.centerY.equalTo(self.contentView);
         }];
-        
+
+        [self rac_liftSelector:@selector(setBackgroundColor:) withSignals:[RACObserve(self, disabled) map:^id(NSNumber *iDisabled) {
+            return iDisabled.boolValue? [UIColor shpui_colorWithHexValue:0xcfcfcf] : [UIColor whiteColor];
+        }], nil];
+
+        [self rac_liftSelector:@selector(setSelectionStyle:) withSignals:[RACObserve(self, disabled) map:^id(NSNumber *iDisabled) {
+            return iDisabled.boolValue? @(UITableViewCellSelectionStyleNone) : @(UITableViewCellSelectionStyleDefault);
+        }], nil];
+
+        RAC(disclosureArrow, alpha) = [RACObserve(self, disabled) map:^id(NSNumber *iDisabled) {
+            return iDisabled.boolValue? @(0.5) : @(1);
+        }];
+
         RAC(disclosureArrow, hidden) = RACObserve(self, disclosureArrowHidden);
     }
     return self;
+}
+
+- (void)prepareForReuse {
+    self.disabled = NO;
 }
 
 @end

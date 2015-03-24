@@ -76,7 +76,7 @@
 }
 
 - (void) setupBindings {
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate)]] ignore:nil]];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), RACObserve(self.viewModel, sectionRows)]] ignore:nil]];
 
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignal], nil];
 
@@ -322,6 +322,11 @@
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"End", @"");
         cell.valueLabel.text = [self.viewModel formatDate:event.endDate allDay:event.allDayEvent];
+
+        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(self.viewModel.event, startDate) map:^id(NSDate *startDate) {
+            return @(startDate == nil);
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowParish]) {
@@ -340,12 +345,21 @@
             return [environment groupWithId:groupId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
 
+        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
+            return @(siteId == nil);
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
         cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject].name : [@(event.eventCategoryIds.count) stringValue];
+
+        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
+            return @(siteId == nil);
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowLocation]) {
@@ -363,12 +377,21 @@
             return resourceIds.count <= 1 ? [environment resourceWithId:event.resourceIds.firstObject].name : [NSString stringWithFormat:@"%lu", resourceIds.count];
         }] takeUntil:cell.rac_prepareForReuseSignal]];
 
+        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
+            return @(siteId == nil);
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject].name : [@(event.userIds.count) stringValue];
+
+        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
+            return @(siteId == nil);
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowInternalNote]) {

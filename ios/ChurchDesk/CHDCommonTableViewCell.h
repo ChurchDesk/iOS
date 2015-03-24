@@ -16,4 +16,6 @@ extern CGFloat const kIndentedRightMargin;
 @property (nonatomic, assign) BOOL dividerLineHidden;
 @property (nonatomic, assign) BOOL disclosureArrowHidden;
 
+@property (nonatomic, assign) BOOL disabled;
+
 @end

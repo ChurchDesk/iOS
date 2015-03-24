@@ -9,6 +9,8 @@
 #import "CHDEditEventViewModel.h"
 #import "CHDEvent.h"
 #import "CHDAPIClient.h"
+#import "CHDEnvironment.h"
+#import "CHDUser.h"
 
 NSString *const CHDEventEditSectionTitle = @"CHDEventEditSectionTitle";
 NSString *const CHDEventEditSectionDate = @"CHDEventEditSectionDate";
@@ -60,23 +62,54 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         _newEvent = event == nil;
         
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
-        [self rac_liftSelector:@selector(setUser:) withSignals:[[CHDAPIClient sharedInstance] getCurrentUser], nil];
+        RACSignal *userSignal = [[CHDAPIClient sharedInstance] getCurrentUser];
+        [self rac_liftSelector:@selector(setUser:) withSignals:userSignal, nil];
         
         self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
         
-        NSArray *recipientsRows = _newEvent ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
-        
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowStartDate, CHDEventEditRowEndDate],
-                             CHDEventEditSectionRecipients : recipientsRows,
+                             CHDEventEditSectionRecipients : @[],
                              CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
-                             CHDEventEditSectionBooking : @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers],
+                             CHDEventEditSectionBooking : @[],
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
                              CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility],
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
+
+        [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[userSignal, [RACObserve(self.event, siteId) flattenMap:^RACStream *(id value) {
+            return [[CHDAPIClient sharedInstance] getCurrentUser];
+        }]]],nil];
+
     }
     return self;
+}
+
+-(void) setupSectionsWithUser: (CHDUser *) user{
+    NSArray *recipientsRows = _newEvent ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
+    NSArray *bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];
+    if(user.sites.count == 1){
+        recipientsRows = @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
+        self.event.siteId = ((CHDSite*)user.sites.firstObject).siteId;
+    }else if(_newEvent){
+        //set values from last use
+    }
+
+    if(!self.event.siteId){
+        recipientsRows = @[CHDEventEditRowDivider, CHDEventEditRowParish];
+        bookingRows = @[];
+    }
+
+    self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
+        CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowStartDate, CHDEventEditRowEndDate],
+        CHDEventEditSectionRecipients : recipientsRows,
+        CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
+        CHDEventEditSectionBooking : bookingRows,
+        CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
+        CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
+        CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility],
+        CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
+
 }
 
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section {
