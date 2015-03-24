@@ -12,6 +12,10 @@
 #import "CHDEnvironment.h"
 #import "CHDUser.h"
 
+NSString *const kEventDefaultsLastUsedSiteId = @"eventLastUsedSiteId";
+NSString *const kEventDefaultsLastUsedGroupId = @"eventLastUsedGroupId";
+NSString *const kEventDefaultsLastUsedCategoryIds = @"eventLastUsedCategoryIds";
+
 NSString *const CHDEventEditSectionTitle = @"CHDEventEditSectionTitle";
 NSString *const CHDEventEditSectionDate = @"CHDEventEditSectionDate";
 NSString *const CHDEventEditSectionRecipients = @"CHDEventEditSectionRecipients";
@@ -60,15 +64,22 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     if (self) {
         _event = event ? [event copy] : [CHDEvent new];
         _newEvent = event == nil;
-        
+
+        if(_newEvent){
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            self.event.groupId = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kEventDefaultsLastUsedGroupId]];
+            self.event.siteId = [defaults stringForKey:kEventDefaultsLastUsedSiteId];
+            self.event.eventCategoryIds = [defaults arrayForKey:kEventDefaultsLastUsedCategoryIds];
+        }
+
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
         RACSignal *userSignal = [[CHDAPIClient sharedInstance] getCurrentUser];
         [self rac_liftSelector:@selector(setUser:) withSignals:userSignal, nil];
-        
+
         self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
-        
+
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
-                             CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowStartDate, CHDEventEditRowEndDate],
+                             CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowStartDate],
                              CHDEventEditSectionRecipients : @[],
                              CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
                              CHDEventEditSectionBooking : @[],
@@ -77,9 +88,14 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                              CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility],
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
 
-        [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[userSignal, [RACObserve(self.event, siteId) flattenMap:^RACStream *(id value) {
-            return [[CHDAPIClient sharedInstance] getCurrentUser];
-        }]]],nil];
+        [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[userSignal,
+            [RACObserve(self.event, siteId) flattenMap:^RACStream *(id value) {
+                return [[CHDAPIClient sharedInstance] getCurrentUser];
+            }],
+            [RACObserve(self.event, startDate) flattenMap:^RACStream *(id value) {
+                return [[CHDAPIClient sharedInstance] getCurrentUser];
+            }]
+        ]],nil];
 
     }
     return self;
@@ -88,11 +104,10 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 -(void) setupSectionsWithUser: (CHDUser *) user{
     NSArray *recipientsRows = _newEvent ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
     NSArray *bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];
+
     if(user.sites.count == 1){
         recipientsRows = @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
         self.event.siteId = ((CHDSite*)user.sites.firstObject).siteId;
-    }else if(_newEvent){
-        //set values from last use
     }
 
     if(!self.event.siteId){
@@ -100,8 +115,10 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         bookingRows = @[];
     }
 
+    NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowStartDate];
+
     self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
-        CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowStartDate, CHDEventEditRowEndDate],
+        CHDEventEditSectionDate : dateRows,
         CHDEventEditSectionRecipients : recipientsRows,
         CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
         CHDEventEditSectionBooking : bookingRows,
@@ -117,6 +134,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 }
 
 - (RACSignal*) saveEvent {
+    [self storeDefaults];
     return [self.saveCommand execute:RACTuplePack(@(self.newEvent), self.event)];
 }
 
@@ -126,6 +144,21 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     dateFormatter.timeStyle = isAllday? NSDateFormatterNoStyle : NSDateFormatterShortStyle;
 
     return [dateFormatter stringFromDate:date];
+}
+
+-(void) storeDefaults {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if(self.event.siteId){
+        [defaults setObject:self.event.siteId forKey:kEventDefaultsLastUsedSiteId];
+    }
+
+    if(self.event.groupId){
+        [defaults setObject:self.event.groupId forKey:kEventDefaultsLastUsedGroupId];
+    }
+
+    if(self.event.eventCategoryIds != nil){
+        [defaults setObject:self.event.eventCategoryIds forKey:kEventDefaultsLastUsedCategoryIds];
+    }
 }
 
 #pragma mark - Lazy Initialization
@@ -139,7 +172,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                 return [[CHDAPIClient sharedInstance] createEventWithDictionary: [event dictionaryRepresentation]];
             }
             else {
-                
+
                 return [[CHDAPIClient sharedInstance] updateEventWithId:event.eventId siteId:event.siteId dictionary:[event dictionaryRepresentation]];
             }
         }];
