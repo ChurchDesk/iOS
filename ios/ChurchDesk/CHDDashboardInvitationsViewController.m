@@ -20,8 +20,8 @@
 @interface CHDDashboardInvitationsViewController ()
 
 @property(nonatomic, strong) CHDDashboardInvitationsViewModel *viewModel;
+@property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property(nonatomic, retain) UITableView*inviteTable;
-
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
@@ -81,6 +81,10 @@
             return @(NO);
         }], nil];
     }
+
+    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[[RACObserve(self.viewModel, invitations) skip:1] map:^id(NSArray *invitations) {
+        return @(invitations.count == 0);
+    }], nil];
 }
 
 -(void) setUnread: (BOOL) hasUnread {
@@ -111,6 +115,18 @@
         [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     }
     return _refreshControl;
+}
+
+-(UILabel *) emptyMessageLabel {
+    if(!_emptyMessageLabel){
+        _emptyMessageLabel = [UILabel new];
+        _emptyMessageLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
+        _emptyMessageLabel.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
+        _emptyMessageLabel.text = NSLocalizedString(@"No invitations", @"");
+        _emptyMessageLabel.textAlignment = NSTextAlignmentCenter;
+        _emptyMessageLabel.numberOfLines = 0;
+    }
+    return _emptyMessageLabel;
 }
 
 #pragma mark - UITableViewDataSource
@@ -179,6 +195,21 @@
 
 -(void) accepted {
     NSLog(@"Accepted");
+}
+
+#pragma mark -other methods
+-(void) emptyMessageShow: (BOOL) show {
+    if(show){
+        [self.view addSubview:self.emptyMessageLabel];
+        [self.emptyMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.view).offset(-30);
+            make.centerX.equalTo(self.view);
+            make.left.greaterThanOrEqualTo(self.view).offset(15);
+            make.right.lessThanOrEqualTo(self.view).offset(-15);
+        }];
+    }else {
+        [self.emptyMessageLabel removeFromSuperview];
+    }
 }
 
 @end

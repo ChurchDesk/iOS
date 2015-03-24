@@ -26,15 +26,37 @@
         NSInteger month = [calendar component:NSCalendarUnitMonth fromDate:referenceDate];
         NSInteger today = [calendar component:NSCalendarUnitDay fromDate:referenceDate];
 
-        RAC(self, events) = [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
-            RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
-                NSInteger compareDay = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
-                return compareDay == today;
+        //Initial signal
+        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
+                RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
+                    NSInteger compareDay = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
+                    return compareDay == today;
+                }];
+                return results.array;
+            }] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
             }];
-            return results.array;
-        }] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
+        
+        //Update signal
+        CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+
+        RACSignal *updateSignal = [[[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
+            NSString *regex = tuple.first;
+            NSString *resourcePath = [apiClient resourcePathForGetEventsFromYear:year month:month];
+            return [regex rangeOfString:resourcePath].location != NSNotFound;
+        }] flattenMap:^RACStream *(id value) {
+            return [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
+                RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
+                    NSInteger compareDay = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
+                    return compareDay == today;
+                }];
+                return results.array;
+            }] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
         }];
+
+        RAC(self, events) = [RACSignal merge:@[initialSignal, updateSignal]];
 
         RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];

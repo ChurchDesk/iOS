@@ -91,9 +91,6 @@
 }
 
 - (void) saveAction: (id) sender {
-//    RACDisposable *saveSignal = [[self.viewModel saveEvent] mapReplace:self.viewModel.event];
-//    [self shprac_liftSelector:@selector(setEvent:) withSignal:saveSignal];
-
     CHDEditEventViewModel *viewModel = self.viewModel;
 
     [self shprac_liftSelector:@selector(setEvent:) withSignal:[[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {

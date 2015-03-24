@@ -22,6 +22,7 @@
 
 @interface CHDDashboardMessagesViewController ()
 
+@property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property(nonatomic, retain) UITableView* messagesTable;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 @property(nonatomic, strong) CHDDashboardMessagesViewModel *viewModel;
@@ -48,12 +49,16 @@
     RACSignal *messagesSignal = [[RACObserve(self.viewModel, isEditingMessages) filter:^BOOL(NSNumber *isEditing) {
         return !isEditing.boolValue;
     }] flattenMap:^RACStream *(id value) {
-        return RACObserve(self.viewModel, messages);;
+        return RACObserve(self.viewModel, messages);
     }];
 
     [self.messagesTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[messagesSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
     [self shprac_liftSelector:@selector(endRefresh) withSignal:messagesSignal];
+
+    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[[RACObserve(self.viewModel, messages) skip:1] map:^id(NSArray *messages) {
+        return @(messages.count == 0);
+    }], nil];
 
     if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages && self.chd_tabbarViewController != nil){
         [self rac_liftSelector:@selector(setUnread:) withSignals:[messagesSignal map:^id(NSArray *messages) {
@@ -94,7 +99,6 @@
 -(void) makeViews {
     [self.view addSubview:self.messagesTable];
     [self.messagesTable addSubview:self.refreshControl];
-
     [self setupAddButton];
 }
 
@@ -127,6 +131,18 @@
         [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     }
     return _refreshControl;
+}
+
+-(UILabel *) emptyMessageLabel {
+    if(!_emptyMessageLabel){
+        _emptyMessageLabel = [UILabel new];
+        _emptyMessageLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
+        _emptyMessageLabel.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
+        _emptyMessageLabel.text = self.messageFilter == CHDMessagesFilterTypeUnreadMessages? NSLocalizedString(@"No unread messages", @"") : NSLocalizedString(@"No messages", @"");
+        _emptyMessageLabel.textAlignment = NSTextAlignmentCenter;
+        _emptyMessageLabel.numberOfLines = 0;
+    }
+    return _emptyMessageLabel;
 }
 
 #pragma mark - View methods
@@ -237,6 +253,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
+}
+
+#pragma mark -other methods
+-(void) emptyMessageShow: (BOOL) show {
+    if(show){
+        [self.view addSubview:self.emptyMessageLabel];
+        [self.emptyMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.view).offset(-30);
+            make.centerX.equalTo(self.view);
+            make.left.greaterThanOrEqualTo(self.view).offset(15);
+            make.right.lessThanOrEqualTo(self.view).offset(-15);
+        }];
+    }else {
+        [self.emptyMessageLabel removeFromSuperview];
+    }
 }
 
 @end
