@@ -169,4 +169,38 @@
     return nil;
 }
 
+// Colors for rows in section before indexPath
+-(NSArray*) rowColorsForSectionBeforeIndexPath: (NSIndexPath *) indexPath sectionRect: (CGRect) sectionRect contentOffset: (CGPoint)contentOffset {
+    NSMutableArray *hiddenEventsColors = [[NSMutableArray alloc] init];
+    NSArray *eventsInSection = [self eventsForSectionAtIndex:indexPath.section];
+
+    CGFloat visibleHeight = (sectionRect.origin.y + sectionRect.size.height) - contentOffset.y;
+    CGFloat cellHeight = sectionRect.size.height / eventsInSection.count;
+
+    //Show the color of the first cell if less than 25% of it is shown
+    if( visibleHeight < ((cellHeight * 0.35) + cellHeight * (eventsInSection.count - 1)) && eventsInSection.count > 1) {
+        NSRange range = NSMakeRange(0, indexPath.row + 1);
+        NSArray *hiddenEvents = [eventsInSection subarrayWithRange:range];
+
+        for (CHDEvent *event in hiddenEvents){
+            CHDEventCategory *category = [self.environment eventCategoryWithId:event.eventCategoryIds.firstObject];
+        
+            BOOL colorExists = NO;
+            for (UIColor *hiddenColor in hiddenEventsColors) {
+
+                if ([hiddenColor isEqual:category.color]) {
+                    colorExists = YES;
+                    break;
+                }
+            }
+    
+            if (!colorExists) {
+                [hiddenEventsColors addObject:category.color];
+            }
+        }
+    }
+
+    return [hiddenEventsColors copy];
+}
+
 @end

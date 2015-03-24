@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class CHDUser, CHDHoliday;
+@class CHDEnvironment;
 
 @interface CHDCalendarViewModel : NSObject
 
@@ -16,6 +17,7 @@
 @property (nonatomic, readonly) NSArray *sections;
 @property (nonatomic, strong) NSDate *referenceDate;
 @property (nonatomic, readonly) CHDUser *user;
+@property (nonatomic, readonly) CHDEnvironment *environment;
 
 @property (nonatomic, assign) BOOL myEventsOnly;
 
@@ -23,5 +25,5 @@
 - (CHDHoliday*) holidayForDate: (NSDate*) date;
 - (NSIndexPath*) indexPathForDate: (NSDate*) date;
 
-
+-(NSArray*) rowColorsForSectionBeforeIndexPath: (NSIndexPath *) indexPath sectionRect: (CGRect) sectionRect contentOffset: (CGPoint)contentOffset;
 @end

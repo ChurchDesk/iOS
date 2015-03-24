@@ -25,6 +25,7 @@
 #import "CHDExpandableButtonView.h"
 #import "CHDCalendarFilterView.h"
 #import "CHDPassthroughTouchView.h"
+#import "CHDEnvironment.h"
 #import <MBProgressHUD.h>
 
 static CGFloat kCalendarHeight = 330.0f;
@@ -206,6 +207,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     if (topSection) {
         [self scrollToDate:topSection animated:NO offset:sectionOffset];
     }
+    [self dotColorsForFirstVisibleSection];
 }
 
 #pragma mark - SHPCalendarPickerViewDelegate
@@ -224,14 +226,23 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidEndDecelerating:(UITableView *)tableView {
-    NSIndexPath *indexPath = [tableView chd_indexPathForRowOrHeaderAtPoint:tableView.contentOffset];
-    self.viewModel.referenceDate = self.viewModel.sections[indexPath.section];
+    if(self.viewModel.sections.count > 0) {
+        NSIndexPath *indexPath = [tableView chd_indexPathForRowOrHeaderAtPoint:tableView.contentOffset];
+        self.viewModel.referenceDate = self.viewModel.sections[indexPath.section];
+    }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self dotColorsForFirstVisibleSection];
 }
 
 #pragma mark - UITableViewDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    CHDCalendarHeaderView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+    if(self.viewModel.sections.count == 0){
+        return nil;
+    }
+    CHDCalendarHeaderView *header = [tableView headerViewForSection:section]?: [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
 
     NSDate *date = self.viewModel.sections[section];
     CHDHoliday *holiday = [self.viewModel holidayForDate:date];
@@ -239,7 +250,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     header.dayLabel.text = [self.weekdayFormatter stringFromDate:date];
     header.dateLabel.text = [self.dayFormatter stringFromDate:date];
     header.nameLabel.text = holiday.name;
-    header.dotColors = @[[UIColor chd_blueColor], [UIColor chd_greenColor], [UIColor magentaColor]];
+    header.dotColors = @[];
 
     return header;
 }
@@ -271,16 +282,28 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     cell.parishLabel.text = self.viewModel.user.sites.count > 1 ? [self.viewModel.user siteWithId:event.siteId].name : @"";
     cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All Day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
 
-    if(indexPath.item % 2 == 1) {
-        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryBlueColor]];
-    }else{
-        [cell.leftBorder setBackgroundColor:[UIColor chd_categoryRedColor]];
-    }
+
+    CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject];
+    [cell.leftBorder setBackgroundColor:category.color?: [UIColor clearColor]];
 
     return cell;
 }
 
 #pragma mark - Actions
+
+-(void) dotColorsForFirstVisibleSection {
+    if(self.viewModel.sections.count > 0) {
+        NSIndexPath *indexPath = [self.tableView chd_indexPathForRowOrHeaderAtPoint:self.tableView.contentOffset];
+
+        CGRect sectionRect = [self.tableView rectForSection:indexPath.section];
+
+        CHDCalendarHeaderView *header = (CHDCalendarHeaderView *) [self tableView:self.tableView viewForHeaderInSection:indexPath.section];
+
+        NSArray *colors = [self.viewModel rowColorsForSectionBeforeIndexPath:indexPath sectionRect:sectionRect contentOffset:self.tableView.contentOffset];
+
+        header.dotColors = colors;
+    }
+}
 
 - (void) titleButtonAction: (id) sender {
     BOOL showCalendar = self.calendarPicker.frame.origin.y < 0;
