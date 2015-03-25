@@ -11,6 +11,7 @@
 #import "SHPCalendarPickerView+ChurchDesk.h"
 
 static CGFloat kCalendarHeight = 330.0f;
+static NSInteger kMinuteInterval = 5;
 
 typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     chdDatePickerDateSelection,
@@ -194,6 +195,24 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
         return @(chdDatePickerTimeSelection);
     }]]], nil];
 
+    RACSignal *blankDateSignal = [[[RACSignal combineLatest:@[RACObserve(self, selectedControl), RACObserve(self, timeSelected)]] filter:^BOOL(RACTuple *tuple) {
+        NSNumber *iControl = tuple.first;
+        NSDate *selectedTime = tuple.second;
+
+        return (iControl.unsignedIntegerValue == chdDatePickerTimeSelection && selectedTime == nil);
+    }] map:^id(id value) {
+        NSDateComponents *time = [[NSCalendar currentCalendar] components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:[NSDate date]];
+        NSInteger minutes = [time minute];
+        NSInteger minuteMod = minutes % kMinuteInterval;
+        double minuteUnit = minuteMod > 2? ceil((double) minutes / kMinuteInterval) : floor((double) minutes / kMinuteInterval);
+        minutes = (NSInteger)(minuteUnit * kMinuteInterval);
+        [time setMinute: minutes];
+        return [[NSCalendar currentCalendar] dateFromComponents:time];
+    }];
+
+    [self rac_liftSelector:@selector(setTimeSelected:) withSignals:blankDateSignal, nil];
+    [self.timePicker rac_liftSelector:@selector(setDate:) withSignals:blankDateSignal, nil];
+
     [self.timePickerContainerView rac_liftSelector:@selector(setHidden:) withSignals:[timePickerSelectedSignal map:^id(NSNumber *iSelected) {
         return @(!iSelected.boolValue);
     }], nil];
@@ -332,7 +351,7 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     if(!_timePicker){
         _timePicker = [[UIDatePicker alloc] init];
         _timePicker.datePickerMode = UIDatePickerModeTime;
-        _timePicker.minuteInterval = 5;
+        _timePicker.minuteInterval = kMinuteInterval;
     }
     return _timePicker;
 }
