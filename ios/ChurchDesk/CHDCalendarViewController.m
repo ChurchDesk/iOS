@@ -171,6 +171,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     [self.calendarPicker rac_liftSelector:@selector(setCurrentMonth:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
 
+    [self rac_liftSelector:@selector(dayPickerDidSelectDate:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
     [self rac_liftSelector:@selector(changeCalendarFilter:) withSignals:[RACObserve(self.calendarFilterView, selectedFilter) skip:1], nil];
 
     //Handle when the drawer is shown/hidden
@@ -330,6 +331,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     if (indexPath) {
         [self.tableView setContentOffset:CGPointMake(0, [self.tableView rectForSection:indexPath.section].origin.y + offset) animated:animated];
     }
+}
+
+
+- (void) dayPickerDidSelectDate: (NSDate*) date {
+    [self scrollToDate:date animated:NO];
 }
 
 - (void) todayButtonTouch: (id) sender {
