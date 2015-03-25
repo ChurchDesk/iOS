@@ -28,7 +28,7 @@
 - (CHDGroup*) groupWithId: (NSNumber*) groupId;
 - (NSArray*) groupsWithSiteId: (NSString*) siteId;
 
-- (CHDPeerUser*) userWithId: (NSNumber*) userId;
+- (CHDPeerUser*) userWithId: (NSNumber*) userId siteId: (NSString*) siteId;
 - (NSArray*) usersWithSiteId: (NSString*) siteId;
 
 @end

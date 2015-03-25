@@ -25,7 +25,7 @@
 
 @property (nonatomic, readonly) RACCommand *getMessagesCommand;
 
-- (NSString*) authorNameWithId: (NSNumber*) authorId;
+- (NSString*) authorNameWithId: (NSNumber*) authorId authorSiteId: (NSString*) siteId;
 
 - (RACSignal*) setMessageAsRead: (CHDMessage*) message;
 - (void) fetchMoreMessages;

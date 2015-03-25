@@ -287,7 +287,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         CHDEnvironment *environment = self.viewModel.environment;
         CHDUser *user = self.viewModel.user;
         CHDGroup *group = [environment groupWithId:message.groupId];
-        CHDPeerUser *authorUser = [environment userWithId: message.authorId];
+        CHDPeerUser *authorUser = [environment userWithId: message.authorId siteId:message.siteId];
         CHDSite *authorSite = [user siteWithId:authorUser.siteId];
 
         CHDMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCellIdentifier forIndexPath:indexPath];
@@ -307,7 +307,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
         //CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComment;
         CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComments[indexPath.row];
-        CHDPeerUser *author = [self.viewModel.environment userWithId:comment.authorId];
+        CHDPeerUser *author = [self.viewModel.environment userWithId:comment.authorId siteId:self.viewModel.message.siteId];
 
         cell.messageLabel.text = comment.body;
         cell.createdDateLabel.text = comment.createdDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate] : @"";

@@ -97,8 +97,8 @@
 }
 
 
-- (NSString*) authorNameWithId: (NSNumber*) authorId {
-    CHDPeerUser *user = [self.environment userWithId:authorId];
+- (NSString*) authorNameWithId: (NSNumber*) authorId authorSiteId: (NSString*) siteId {
+    CHDPeerUser *user = [self.environment userWithId:authorId siteId:siteId];
     return user.name;
 }
 

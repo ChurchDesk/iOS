@@ -12,6 +12,6 @@
 
 @property (nonatomic, readonly) NSArray *messages;
 
-- (NSString*) authorNameWithId: (NSNumber*) authorId;
+- (NSString*) authorNameWithId: (NSNumber*) authorId authorSiteId: (NSString *) siteId;
 
 @end

@@ -237,7 +237,7 @@
     cell.parishLabel.text = [user siteWithId:message.siteId].name;
     cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.lastActivityDate];
     cell.groupLabel.text = [environment groupWithId:message.groupId].name;
-    cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId];
+    cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId authorSiteId:message.siteId];
     cell.contentLabel.text = message.messageLine;
     cell.receivedDot.dotColor = message.read? [UIColor clearColor] : [UIColor chd_blueColor];
     cell.accessoryEnabled = !message.read;
