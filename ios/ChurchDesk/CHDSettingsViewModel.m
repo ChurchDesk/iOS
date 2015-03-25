@@ -9,6 +9,7 @@
 
 @interface CHDSettingsViewModel()
 @property (nonatomic, strong) CHDNotificationSettings *notificationSettings;
+@property (nonatomic, strong) RACCommand *saveCommand;
 @end
 
 @implementation CHDSettingsViewModel
@@ -21,6 +22,22 @@
         }];
     }
     return self;
+}
+
+-(RACSignal*) saveSettings {
+    CHDNotificationSettings *settings = self.notificationSettings;
+    return [self.saveCommand execute:RACTuplePack(settings)];
+}
+
+-(RACCommand*) saveCommand {
+    if(!_saveCommand){
+        _saveCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDNotificationSettings *settings = tuple.first;
+
+            return [[CHDAPIClient sharedInstance] updateNotificationSettingsWithSettings:settings];
+        }];
+    }
+    return _saveCommand;
 }
 
 @end

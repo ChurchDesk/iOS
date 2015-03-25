@@ -9,4 +9,5 @@
 
 @interface CHDSettingsViewModel : NSObject
 @property (nonatomic, readonly) CHDNotificationSettings *notificationSettings;
+-(RACSignal*) saveSettings;
 @end

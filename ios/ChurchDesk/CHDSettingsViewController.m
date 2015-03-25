@@ -78,6 +78,10 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     [self makeBindings];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.viewModel saveSettings];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -89,26 +93,38 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString* cellIdentifier = @"settingCell";
-
+    CHDNotificationSettings *settings = self.viewModel.notificationSettings;
     if( indexPath.section == 1) {
         CHDSettingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
 
         switch ((notificationSettings) indexPath.row) {
             case eventsChanged:
                 cell.titleLabel.text = NSLocalizedString(@"Reserved events created", @"");
-                cell.aSwitch.on = (self.viewModel.notificationSettings)? self.viewModel.notificationSettings.bookingCreated : NO;
+                cell.aSwitch.on = (settings)? settings.bookingCreated : NO;
+                [settings rac_liftSelector:@selector(setBookingCreated:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
+                    return @(aSwitch.isOn);
+                }] takeUntil:cell.rac_prepareForReuseSignal], nil];
                 break;
             case eventsUpdated:
                 cell.titleLabel.text = NSLocalizedString(@"Reserved events updates", @"");
-                cell.aSwitch.on = (self.viewModel.notificationSettings)? self.viewModel.notificationSettings.bookingUpdated : NO;
+                cell.aSwitch.on = (settings)? settings.bookingUpdated : NO;
+                [settings rac_liftSelector:@selector(setBookingUpdated:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
+                    return @(aSwitch.isOn);
+                }] takeUntil:cell.rac_prepareForReuseSignal], nil];
                 break;
             case eventsCancels:
                 cell.titleLabel.text = NSLocalizedString(@"Reserved events cancels ", @"");
-                cell.aSwitch.on = (self.viewModel.notificationSettings)? self.viewModel.notificationSettings.bookingCanceled : NO;
+                cell.aSwitch.on = (settings)? settings.bookingCanceled : NO;
+                [settings rac_liftSelector:@selector(setBookingCanceled:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
+                    return @(aSwitch.isOn);
+                }] takeUntil:cell.rac_prepareForReuseSignal], nil];
                 break;
             case messagesNewAndUpdate:
                 cell.titleLabel.text = NSLocalizedString(@"New or updates group message", @"");
-                cell.aSwitch.on = (self.viewModel.notificationSettings)? self.viewModel.notificationSettings.message : NO;
+                cell.aSwitch.on = (settings)? settings.message : NO;
+                [settings rac_liftSelector:@selector(setMessage:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
+                    return @(aSwitch.isOn);
+                }] takeUntil:cell.rac_prepareForReuseSignal], nil];
                 [cell borderAsLast:YES];
                 break;
             default:
