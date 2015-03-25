@@ -26,6 +26,7 @@
 @property (nonatomic, retain) UITableView* eventTable;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property (nonatomic, strong) CHDDashboardEventViewModel *viewModel;
+@property(nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
 @implementation CHDDashboardEventsViewController
@@ -44,7 +45,7 @@
 
 -(void) makeViews {
     [self.view addSubview:self.eventTable];
-
+    [self.eventTable addSubview:self.refreshControl];
     [self setupAddButton];
 }
 
@@ -56,11 +57,14 @@
 }
 
 -(void) makeBindings {
-    [self.eventTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[RACObserve(self.viewModel, events), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+    RACSignal *newEventsSignal = RACObserve(self.viewModel, events);
+    [self.eventTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[newEventsSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
     [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[[RACObserve(self.viewModel, events) skip:1] map:^id(NSArray *events) {
         return @(events.count == 0);
     }], nil];
+
+    [self shprac_liftSelector:@selector(endRefresh) withSignal:newEventsSignal];
 }
 
 #pragma mark - View methods
@@ -89,7 +93,12 @@
 }
 
 #pragma mark - UITableViewDataSource
-
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [self.viewModel reload];
+}
+-(void)endRefresh {
+    [self.refreshControl endRefreshing];
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.viewModel.events? self.viewModel.events.count: 0;
 }
@@ -121,6 +130,14 @@
 }
 
 #pragma mark - Lazy Initialization
+
+-(UIRefreshControl*) refreshControl {
+    if(!_refreshControl){
+        _refreshControl = [[UIRefreshControl alloc] init];
+        [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _refreshControl;
+}
 
 -(UITableView*)eventTable {
     if(!_eventTable){

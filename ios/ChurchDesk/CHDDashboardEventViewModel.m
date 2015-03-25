@@ -13,6 +13,9 @@
 @property (nonatomic, strong) CHDUser *user;
 @property (nonatomic, strong) NSArray *events;
 @property (nonatomic, strong) CHDEnvironment *environment;
+
+@property (nonatomic) NSInteger year;
+@property (nonatomic) NSInteger month;
 @end
 
 @implementation CHDDashboardEventViewModel
@@ -22,8 +25,8 @@
     if (self) {
         NSDate *referenceDate = [NSDate new];
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSInteger year = [calendar component:NSCalendarUnitYear fromDate:referenceDate];
-        NSInteger month = [calendar component:NSCalendarUnitMonth fromDate:referenceDate];
+        NSInteger year = self.year = [calendar component:NSCalendarUnitYear fromDate:referenceDate];
+        NSInteger month = self.month = [calendar component:NSCalendarUnitMonth fromDate:referenceDate];
         NSInteger today = [calendar component:NSCalendarUnitDay fromDate:referenceDate];
 
         //Initial signal
@@ -90,6 +93,12 @@
     NSString *startDate = [dateFormatterFrom stringFromDate:event.startDate];
     NSString *endDate = [dateFormatterTo stringFromDate:event.endDate];
     return [endDate isEqualToString:@""]? startDate : [[startDate stringByAppendingString:@" - "] stringByAppendingString:endDate];
+}
+
+- (void)reload {
+    CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+    NSString *resoursePath = [apiClient resourcePathForGetEventsFromYear:self.year month:self.month];
+    [[[apiClient manager] cache] invalidateObjectsMatchingRegex:resoursePath];
 }
 
 

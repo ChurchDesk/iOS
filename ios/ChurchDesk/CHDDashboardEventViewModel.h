@@ -16,4 +16,5 @@
 @property (nonatomic, readonly) NSArray *events;
 
 -(NSString*) formattedTimeForEvent: (CHDEvent*) event;
+-(void) reload;
 @end
