@@ -84,7 +84,27 @@
         return holidays;
     }];
     
-    [self rac_liftSelector:@selector(addEvents:holidays:) withSignals:eventsSignal, holidaysSignal, nil];
+    //Listen for invalidation on the cache for the year month
+    CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+    NSString *resoucePathMonth = [apiClient resourcePathForGetEventsFromYear:year month:month];
+    NSString *resoucePathNextMonth = [apiClient resourcePathForGetEventsFromYear:nextMonthYear month:nextMonth];
+    NSString *resoucePathPrevMonth = [apiClient resourcePathForGetEventsFromYear:prevMonthYear month:prevMonth];
+
+    RACSignal *eventUpdateSignal = [[[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
+        NSString *regex = tuple.first;
+        return ([regex rangeOfString:resoucePathMonth].location != NSNotFound || [regex rangeOfString:resoucePathNextMonth].location != NSNotFound || [regex rangeOfString:resoucePathPrevMonth].location != NSNotFound);
+    }] flattenMap:^RACStream *(RACTuple *tuple) {
+        NSString *regex = tuple.first;
+        if([regex rangeOfString:resoucePathMonth].location != NSNotFound){
+            return [[CHDAPIClient sharedInstance] getEventsFromYear:year month:month];
+        }else if([regex rangeOfString:resoucePathNextMonth].location != NSNotFound){
+            return [[CHDAPIClient sharedInstance] getEventsFromYear:nextMonthYear month:nextMonth];
+        }else{
+            return [[CHDAPIClient sharedInstance] getEventsFromYear:prevMonthYear month:prevMonth];
+        }
+    }];
+
+    [self rac_liftSelector:@selector(addEvents:holidays:) withSignals:[RACSignal merge:@[eventsSignal, eventUpdateSignal]], holidaysSignal, nil];
 }
 
 - (void) addEvents:(NSArray *)events holidays: (NSArray*) holidays {
@@ -121,7 +141,9 @@
             
             section = [calendar dateFromComponents:eventComps];
             [mSections addObject:section];
-            mSectionEvents = [NSMutableArray array];
+
+            //get potential other event from this section to add to
+            mSectionEvents = mSectionRows[section] ? [NSMutableArray arrayWithArray:mSectionRows[section]] : [NSMutableArray array];
         }
         [mSectionEvents addObject:event];
     }
