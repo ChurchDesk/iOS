@@ -201,7 +201,7 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
 
         return (iControl.unsignedIntegerValue == chdDatePickerTimeSelection && selectedTime == nil);
     }] map:^id(id value) {
-        NSDateComponents *time = [[NSCalendar currentCalendar] components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:[NSDate date]];
+        NSDateComponents *time = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
         NSInteger minutes = [time minute];
         NSInteger minuteMod = minutes % kMinuteInterval;
         double minuteUnit = minuteMod > 2? ceil((double) minutes / kMinuteInterval) : floor((double) minutes / kMinuteInterval);

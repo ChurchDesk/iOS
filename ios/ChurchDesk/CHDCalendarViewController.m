@@ -333,7 +333,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 }
 
 - (void) todayButtonTouch: (id) sender {
-    NSDate *today = [NSDate date];
+    NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:[NSDate date]];
+
+    NSDate *today = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
     self.viewModel.referenceDate = today;
     [self.dayPickerViewController scrollToDate:today animated:NO];
     [self.calendarPicker setCurrentMonth:today];
