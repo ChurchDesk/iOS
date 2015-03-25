@@ -9,6 +9,7 @@
 #import "SHPAPI.h"
 
 @class CHDNotificationSettings;
+@class CHDEvent;
 
 @interface CHDAPIClient : SHPAPI
 
@@ -20,8 +21,8 @@
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month;
 - (RACSignal*) getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
-- (RACSignal*) createEventWithDictionary: (NSDictionary*) eventDictionary;
-- (RACSignal*) updateEventWithId: (NSNumber*) eventId siteId: (NSString*) siteId dictionary: (NSDictionary*) eventDictionary;
+- (RACSignal*) createEventWithEvent: (CHDEvent*) event;
+- (RACSignal*) updateEventWithEvent: (CHDEvent*) event;
 
 
 - (RACSignal*) getInvitations;

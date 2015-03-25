@@ -96,7 +96,6 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                 return [[CHDAPIClient sharedInstance] getCurrentUser];
             }]
         ]],nil];
-
     }
     return self;
 }
@@ -168,12 +167,12 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         _saveCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
             BOOL newEvent = [tuple.first boolValue];
             CHDEvent *event = tuple.second;
+
             if (newEvent) {
-                return [[CHDAPIClient sharedInstance] createEventWithDictionary: [event dictionaryRepresentation]];
+                return [[CHDAPIClient sharedInstance] createEventWithEvent:event];
             }
             else {
-
-                return [[CHDAPIClient sharedInstance] updateEventWithId:event.eventId siteId:event.siteId dictionary:[event dictionaryRepresentation]];
+                return [[CHDAPIClient sharedInstance] updateEventWithEvent:event];
             }
         }];
     }

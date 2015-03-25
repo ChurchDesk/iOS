@@ -35,6 +35,7 @@
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
 
         [[self shprac_liftSelector:@selector(filterEvents) withSignal:RACObserve(self, myEventsOnly)] skip:1];
+        
     }
     return self;
 }

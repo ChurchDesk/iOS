@@ -212,34 +212,50 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self resourcesForPath:[self resourcePathForGetEventsFromYear:year month:month] resultClass:[CHDEvent class] withResource:nil];
 }
 
-- (RACSignal*)getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId {
+- (RACSignal*) getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId {
     return [self resourcesForPath:[self resourcePathForGetEventWithId:eventId siteId:siteId] resultClass:[CHDEvent class] withResource:nil];
 }
 
-- (RACSignal*)createEventWithDictionary: (NSDictionary*) eventDictionary {
-    return [self resourcesForPath:@"events" resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+- (RACSignal*) createEventWithEvent: (CHDEvent*) event {
+    NSDateComponents *startDate = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:event.startDate];
+    NSString *eventsResourcePath = [self resourcePathForGetEventsFromYear:startDate.year month:startDate.month];
+    SHPAPIManager *manager = self.manager;
+    NSDictionary *eventDictionary = [event dictionaryRepresentation];
+
+    return [[self resourcesForPath:@"events" resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
-        
+
         NSError *error = nil;
         NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
         request.body = data;
         if (!data && eventDictionary) {
             NSLog(@"Error encoding JSON: %@", error);
         }
+    }] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:eventsResourcePath];
     }];
 }
+- (RACSignal*) updateEventWithEvent: (CHDEvent*) event {
+    NSDateComponents *startDate = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:event.startDate];
+    NSString *eventsResourcePath = [self resourcePathForGetEventsFromYear:startDate.year month:startDate.month];
+    SHPAPIManager *manager = self.manager;
 
-- (RACSignal*)updateEventWithId: (NSNumber*) eventId siteId: (NSString*) siteId dictionary: (NSDictionary*) eventDictionary {
-    return [self resourcesForPath:[NSString stringWithFormat:@"events/%@", eventId] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+    NSString *siteId = event.siteId;
+    NSNumber *eventId = event.eventId;
+    NSDictionary *eventDictionary = [event dictionaryRepresentation];
+
+    return [[self resourcesForPath:[NSString stringWithFormat:@"events/%@", eventId] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPUT;
         [request setValue:siteId ?: @"" forQueryParameterKey:@"site"];
-        
+
         NSError *error = nil;
         NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
         request.body = data;
         if (!data && eventDictionary) {
             NSLog(@"Error encoding JSON: %@", error);
         }
+    }] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:eventsResourcePath];
     }];
 }
 

@@ -10,9 +10,7 @@
 #import "CHDNewMessageViewController.h"
 #import "CHDEditEventViewController.h"
 #import "CHDExpandableButtonView.h"
-#import "CHDEditEventViewModel.h"
 
-//code in here
 @implementation UIViewController (UIViewController_ChurchDesk)
 - (CHDExpandableButtonView*) setupAddButton {
     return [self setupAddButtonWithView:self.view withConstraints:YES];
