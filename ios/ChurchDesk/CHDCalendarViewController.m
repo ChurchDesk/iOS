@@ -422,7 +422,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
             // Configure for text only and offset down
             hud.mode = MBProgressHUDModeText;
             hud.detailsLabelText = [NSString stringWithFormat:NSLocalizedString(@"Week\n%@", nil), weekNumber];
-            hud.detailsLabelFont = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:40];
+            hud.detailsLabelFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:40];
             hud.margin = 10.f;
             hud.removeFromSuperViewOnHide = YES;
             hud.userInteractionEnabled = NO;
