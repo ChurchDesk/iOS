@@ -25,6 +25,7 @@
 #import "CHDEnvironment.h"
 #import "CHDEditEventViewController.h"
 #import "CHDDescriptionViewController.h"
+#import "CHDEventUserDetailsViewController.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -268,6 +269,10 @@
         CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.eventDescription];
         detailedViewController.title = NSLocalizedString(@"Description", @"");
         [self.navigationController pushViewController:detailedViewController animated:YES];
+    }
+    else if ([row isEqualToString:CHDEventInfoRowUsers]) {
+        CHDEventUserDetailsViewController *vc = [[CHDEventUserDetailsViewController alloc] initWithEvent:event];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

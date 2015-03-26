@@ -34,9 +34,6 @@
     if ([propName isEqualToString:@"contributor"]) {
         return @"person";
     }
-    if ([propName isEqualToString:@"eventResponse"]) {
-        return @"attendenceStatus";
-    }
     if ([propName isEqualToString:@"resourceIds"]) {
         return @"resources";
     }
@@ -127,6 +124,28 @@
     return [mDict copy];
 }
 
+- (CHDEventResponse) attendanceStatusForUserWithId: (NSNumber*) userId {
+    if (!userId) {
+        return CHDEventResponseNone;
+    }
+    for (NSDictionary *dict in self.attendenceStatus) {
+        if ([dict[@"user"] isEqualToNumber:userId]) {
+            return [dict[@"status"] unsignedIntegerValue];
+        }
+    }
+    return CHDEventResponseNone;
+}
+
+- (BOOL)eventForUserWithId:(NSNumber *)userId {
+    __block BOOL foundUser = NO;
+    [self.userIds enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
+        if([eventUserId isEqualToNumber:userId]){
+            foundUser = YES;
+        }
+    }];
+    return foundUser;
+}
+
 #pragma mark - NSObject
 
 - (id)copyWithZone:(id)zone
@@ -146,17 +165,6 @@
 - (BOOL)isEqual:(CHDEvent*)object {
     return self.eventId ? [object.eventId isEqualToNumber:self.eventId] : NO;
 }
-
-- (BOOL)eventForUserWithId:(NSNumber *)userId {
-    __block BOOL foundUser = NO;
-    [self.userIds enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
-        if([eventUserId isEqualToNumber:userId]){
-            foundUser = YES;
-        }
-    }];
-    return foundUser;
-}
-
 
 #pragma mark - Lazy Initialization
 

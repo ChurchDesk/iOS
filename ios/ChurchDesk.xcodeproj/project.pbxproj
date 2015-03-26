@@ -60,6 +60,9 @@
 		60372E47AEA97053556F78E2 /* CHDStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 603729816B8C5E4F4E1D199F /* CHDStatusView.m */; };
 		60372EC2D5D62B4B79D52443 /* CHDNewMessageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */; };
 		60372F2D900CB28905D9D508 /* CHDSitePermission.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */; };
+		760AF8A21AC42C9600729427 /* CHDEventUserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 760AF8A11AC42C9600729427 /* CHDEventUserDetailsViewController.m */; };
+		760AF8A51AC4300300729427 /* CHDUserAttendanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 760AF8A41AC4300300729427 /* CHDUserAttendanceTableViewCell.m */; };
+		760AF8A81AC4405900729427 /* CHDEventUserDetailsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 760AF8A71AC4405900729427 /* CHDEventUserDetailsViewModel.m */; };
 		761247231AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */; };
 		761247261AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247251AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m */; };
 		761247291AA45174004E7D05 /* CHDMultiViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761247281AA45174004E7D05 /* CHDMultiViewTableViewCell.m */; };
@@ -239,6 +242,12 @@
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		60372EAACA9BDF0C410F3D77 /* CHDDashboardEventViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventViewModel.h; sourceTree = "<group>"; };
 		60372F16B00B5C9E5812F5E2 /* CHDPassthroughTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPassthroughTouchView.h; sourceTree = "<group>"; };
+		760AF8A01AC42C9600729427 /* CHDEventUserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventUserDetailsViewController.h; sourceTree = "<group>"; };
+		760AF8A11AC42C9600729427 /* CHDEventUserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventUserDetailsViewController.m; sourceTree = "<group>"; };
+		760AF8A31AC4300300729427 /* CHDUserAttendanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUserAttendanceTableViewCell.h; sourceTree = "<group>"; };
+		760AF8A41AC4300300729427 /* CHDUserAttendanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDUserAttendanceTableViewCell.m; sourceTree = "<group>"; };
+		760AF8A61AC4405900729427 /* CHDEventUserDetailsViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventUserDetailsViewModel.h; sourceTree = "<group>"; };
+		760AF8A71AC4405900729427 /* CHDEventUserDetailsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventUserDetailsViewModel.m; sourceTree = "<group>"; };
 		761247211AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventAttendanceTableViewCell.h; sourceTree = "<group>"; };
 		761247221AA0A60F004E7D05 /* CHDEventAttendanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventAttendanceTableViewCell.m; sourceTree = "<group>"; };
 		761247241AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTitleImageTableViewCell.h; sourceTree = "<group>"; };
@@ -673,6 +682,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		760AF89F1AC42C7200729427 /* User details */ = {
+			isa = PBXGroup;
+			children = (
+				760AF8A01AC42C9600729427 /* CHDEventUserDetailsViewController.h */,
+				760AF8A11AC42C9600729427 /* CHDEventUserDetailsViewController.m */,
+				760AF8A31AC4300300729427 /* CHDUserAttendanceTableViewCell.h */,
+				760AF8A41AC4300300729427 /* CHDUserAttendanceTableViewCell.m */,
+				760AF8A61AC4405900729427 /* CHDEventUserDetailsViewModel.h */,
+				760AF8A71AC4405900729427 /* CHDEventUserDetailsViewModel.m */,
+			);
+			name = "User details";
+			sourceTree = "<group>";
+		};
 		7612473F1AA483BA004E7D05 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -810,6 +832,7 @@
 				76A541B61A9F243500176D6D /* CHDEventInfoViewController.m */,
 				76A541B81A9F25B500176D6D /* CHDEventInfoViewModel.h */,
 				76A541B91A9F25B500176D6D /* CHDEventInfoViewModel.m */,
+				760AF89F1AC42C7200729427 /* User details */,
 			);
 			name = "Event Information";
 			sourceTree = "<group>";
@@ -1016,6 +1039,7 @@
 				7612474B1AA4ADE3004E7D05 /* CHDLoginViewModel.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
 				76A541CD1A9F625700176D6D /* CHDDividerTableViewCell.m in Sources */,
+				760AF8A81AC4405900729427 /* CHDEventUserDetailsViewModel.m in Sources */,
 				368EA9531AB9BC820035A5F6 /* CHDDatePickerViewController.m in Sources */,
 				76A541971A9DBE9400176D6D /* CHDDayPickerViewController.m in Sources */,
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
@@ -1055,6 +1079,7 @@
 				761247261AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m in Sources */,
 				761247291AA45174004E7D05 /* CHDMultiViewTableViewCell.m in Sources */,
 				76B2129A1AA9D61A00E4104C /* CHDEventTextFieldCell.m in Sources */,
+				760AF8A21AC42C9600729427 /* CHDEventUserDetailsViewController.m in Sources */,
 				762D16CD1A9B1A1800588730 /* CHDManagedModel.m in Sources */,
 				360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */,
 				76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */,
@@ -1063,6 +1088,7 @@
 				364C241B1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m in Sources */,
 				76A541C11A9F51D600176D6D /* CHDEventInfoTableViewCell.m in Sources */,
 				36C4622E1A9DBDA500775FBE /* CHDMessageTableViewCell.m in Sources */,
+				760AF8A51AC4300300729427 /* CHDUserAttendanceTableViewCell.m in Sources */,
 				364C241E1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m in Sources */,
 				3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */,
 				762D16D11A9B1E2E00588730 /* CHDCalendarViewController.m in Sources */,

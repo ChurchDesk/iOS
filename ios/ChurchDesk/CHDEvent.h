@@ -50,6 +50,7 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 
 @property (nonatomic, strong) NSArray *resourceIds;
 @property (nonatomic, strong) NSArray *userIds;
+@property (nonatomic, strong) NSArray *attendenceStatus;
 
 - (NSString*)localizedVisibilityString;
 - (NSString*)localizedVisibilityStringForVisibility:(CHDEventVisibility) visibility;
@@ -57,5 +58,6 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 - (NSDictionary*) dictionaryRepresentation;
 
 - (BOOL) eventForUserWithId: (NSNumber*) userId;
+- (CHDEventResponse) attendanceStatusForUserWithId: (NSNumber*) userId;
 
 @end
