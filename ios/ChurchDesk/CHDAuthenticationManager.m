@@ -119,7 +119,11 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
 - (void) setDeviceToken: (NSString*) deviceToken {
     if (deviceToken) {
         [[[CHDAPIClient sharedInstance] postDeviceToken:deviceToken] subscribeNext:^(id x) {
-            NSLog(@"Device token posted to server");
+#if DEBUG
+            NSLog(@"Device token %@ posted to server", deviceToken);
+#else 
+        NSLog(@"Device token posted to server");
+#endif
             [SSKeychain setPassword:deviceToken forService:KeychainService account:kDeviceTokenAccountName];
         }];
     }
