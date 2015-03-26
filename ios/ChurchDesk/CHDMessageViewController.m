@@ -112,7 +112,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
     //On first load the message and previous comments should not animate in, only new comments should
     RACSignal *firstMessageSignal = [[messageSignal skip:1] take:1];
-    RACSignal *MessageUpdateSignal = [[messageSignal skip:2] take:1];
+    RACSignal *MessageUpdateSignal = [messageSignal skip:2];
 
     RACSignal *firstCommentSignal = [[latestCommentsSignal skip:1] take:1];
     RACSignal *latestCommentsUpdateSignal = [latestCommentsSignal skip:2];
@@ -125,12 +125,12 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     //Bind the input field to the viewModel
     RACSignal *validCommentTextSignal = RACObserve(self.replyView, hasText);
 
-    RAC(self.replyView.replyButton, enabled) = [RACSignal combineLatest:@[validCommentTextSignal, self.viewModel.saveCommand.executing, RACObserve(self.viewModel, hasMessage)] reduce:^(NSNumber *iCanSend, NSNumber *iExecuting, NSNumber *iHasMessage) {
-        return @(iCanSend.boolValue && !iExecuting.boolValue && iHasMessage.boolValue);
+    RAC(self.replyView.replyButton, enabled) = [RACSignal combineLatest:@[validCommentTextSignal, self.viewModel.saveCommand.executing, self.viewModel.commentUpdateCommand.executing, RACObserve(self.viewModel, hasMessage)] reduce:^(NSNumber *iCanSend, NSNumber *iExecuting, NSNumber *iUpdateExecuting, NSNumber *iHasMessage) {
+        return @(iCanSend.boolValue && !iExecuting.boolValue && !iUpdateExecuting.boolValue && iHasMessage.boolValue);
     }];
 
-    RAC(self.replyView.replyTextView, editable) = [RACSignal combineLatest:@[[self.viewModel.saveCommand.executing not], RACObserve(self.viewModel, hasMessage)] reduce:^(NSNumber *iNotExecuting, NSNumber *iHasMessage) {
-        return @(iNotExecuting.boolValue && iHasMessage.boolValue);
+    RAC(self.replyView.replyTextView, editable) = [RACSignal combineLatest:@[[self.viewModel.saveCommand.executing not], [self.viewModel.commentUpdateCommand.executing not], RACObserve(self.viewModel, hasMessage)] reduce:^(NSNumber *iNotExecuting, NSNumber *iNotUpdateExecuting, NSNumber *iHasMessage) {
+        return @(iNotExecuting.boolValue && iNotUpdateExecuting.boolValue && iHasMessage.boolValue);
     }];
 
     [self.replyView.replyButton addTarget:self action:@selector(sendAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -142,7 +142,13 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
     [self.tableView addGestureRecognizer:tap];
 
+    [self.replyView rac_liftSelector:@selector(setTextInput:) withSignals:[RACObserve(self.viewModel, commentEdit) map:^id(CHDComment *comment) {
+        return comment != nil? comment.body : @"";
+    }], nil];
 
+    [self.replyView.replyTextView shprac_liftSelector:@selector(becomeFirstResponder) withSignal:[RACObserve(self.viewModel, commentEdit) filter:^BOOL(CHDComment *comment) {
+        return comment != nil;
+    }]];
 }
 
 -(void) touchedTableView: (id) sender {
@@ -150,10 +156,38 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 }
 
 - (void) sendAction: (id) sender {
-    NSString *commentText = self.replyView.replyTextView.text;
-    [self.viewModel sendCommentWithText:commentText];
+    if(!self.viewModel.commentEdit) {
+        NSString *commentText = self.replyView.replyTextView.text;
+        RACSignal *commentSentSignal = [[[self.viewModel sendCommentWithText:commentText] catch:^RACSignal *(NSError *error) {
+                //Error Handling
+                NSString *title = NSLocalizedString(@"Error sending comment", @"");
+                NSString *message = NSLocalizedString(@"Please try again later", @"");
+                NSString *cancelBtnTitle = NSLocalizedString(@"ok", @"");
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelBtnTitle otherButtonTitles:nil];
+                [alertView show];
+                return [RACSignal empty];
+            }] map:^id(id value) {
+                return nil;
+            }];
+        [self.replyView shprac_liftSelector:@selector(clearTextInput) withSignal:commentSentSignal];
+    }else{
+        NSString *commentText = self.replyView.replyTextView.text;
+        self.viewModel.commentEdit.body = commentText;
+        RACSignal *commentEditedSignal = [[[self.viewModel commentUpdateWithComment:self.viewModel.commentEdit] catch:^RACSignal *(NSError *error) {
+                //Error Handling
+                NSString *title = NSLocalizedString(@"Error updating comment", @"");
+                NSString *message = NSLocalizedString(@"Please try again later", @"");
+                NSString *cancelBtnTitle = NSLocalizedString(@"ok", @"");
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelBtnTitle otherButtonTitles:nil];
+                [alertView show];
+                return [RACSignal empty];
+            }] map:^id(id value) {
+                return nil;
+            }];
+        [self.viewModel rac_liftSelector:@selector(setCommentEdit:) withSignals:commentEditedSignal, nil];
 
-    [self.replyView clearTextInput];
+        [self.replyView shprac_liftSelector:@selector(clearTextInput) withSignal:commentEditedSignal];
+    }
 }
 
 #pragma mark - Lazy initializing
@@ -196,6 +230,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
 
         [self.tableView endUpdates];
+    }else{
+        [self.tableView reloadData];
     }
 }
 
@@ -299,7 +335,6 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.userNameLabel.text = authorUser? authorUser.name : @"";
         cell.profileImageView.image = authorUser? [UIImage imageWithData:[NSData dataWithContentsOfURL:authorUser.pictureURL]] : nil;
 
-
         return cell;
     }
     if((messageSections)indexPath.section == commentsSection){
@@ -313,6 +348,12 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.createdDateLabel.text = comment.createdDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate] : @"";
         cell.profileImageView.image = author? [UIImage imageWithData:[NSData dataWithContentsOfURL:author.pictureURL]] : nil;
         cell.userNameLabel.text = ![comment.authorName isEqualToString:@""]? comment.authorName : author? author.name : @"";
+        cell.canEdit = comment.canEdit || comment.canDelete;
+
+
+        [self rac_liftSelector:@selector(editCommentAction:) withSignals:[[[cell.editButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id sender) {
+            return RACTuplePack(sender, comment);
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
         return cell;
     }
@@ -330,6 +371,32 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         self.viewModel.showAllComments = YES;
     }
 }
+#pragma mark - Actions
+-(void) editCommentAction: (RACTuple*) tuple {
+    RACTupleUnpack(id sender, CHDComment *comment) = tuple;
+
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Edit", @""), NSLocalizedString(@"Delete", @""), nil];
+    sheet.destructiveButtonIndex = 1;
+    [self rac_liftSelector:@selector(editCommentSheetAction:) withSignals:[[sheet.rac_buttonClickedSignal ignore:@(sheet.cancelButtonIndex)] map:^id(NSNumber *buttonIndex) {
+        return RACTuplePack(buttonIndex, comment);
+    }], nil];
+    [sheet showInView:self.view];
+}
+
+-(void) editCommentSheetAction: (RACTuple*) tuple {
+    RACTupleUnpack(NSNumber *buttonIndex, CHDComment *comment) = tuple;
+
+    if(buttonIndex.integerValue == 0){
+        //edit
+        NSLog(@"Edit comment %@", comment.body);
+        self.viewModel.commentEdit = comment;
+    }else if(buttonIndex.integerValue == 1){
+        //Delete
+        NSLog(@"Delete comment %@", comment.body);
+        [self.viewModel commentDeleteWithComment:comment];
+    }
+}
+
 
 #pragma mark - Keyboard
 
@@ -380,20 +447,24 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     UIViewAnimationOptions options = (UIViewAnimationOptions)[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];// | UIViewAnimationOptionBeginFromCurrentState;
 
 
-    [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
-        [self.replyView layoutIfNeeded];
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, kbSize.height + 50, 0);
-    } completion:^(BOOL finished) {
-        if(finished){
-            NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:commentsSection];
-            if(rowCount > 0) {
-                NSInteger lastIndex = rowCount - 1;
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastIndex inSection:commentsSection];
 
-                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+        [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
+            [self.replyView layoutIfNeeded];
+            self.tableView.contentInset = UIEdgeInsetsMake(0, 0, kbSize.height + 50, 0);
+        }                completion:^(BOOL finished) {
+            if (finished) {
+                if(self.viewModel.commentEdit == nil) {
+                    NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:commentsSection];
+                    if (rowCount > 0) {
+                        NSInteger lastIndex = rowCount - 1;
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastIndex inSection:commentsSection];
+
+                        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+                    }
+                }
             }
-        }
-    }];
+        }];
+
 
     self.movingKeyboard = NO;
 }
@@ -411,13 +482,15 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     } completion:^(BOOL finished) {
         if(finished){
-            NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:commentsSection];
-            if(rowCount > 0) {
-                NSInteger lastIndex = rowCount - 1;
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastIndex inSection:commentsSection];
-
-                [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
-            }
+//            if(self.viewModel.commentEdit == nil) {
+//                NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:commentsSection];
+//                if (rowCount > 0) {
+//                    NSInteger lastIndex = rowCount - 1;
+//                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastIndex inSection:commentsSection];
+//
+//                    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+//                }
+//            }
         }
     }];
 

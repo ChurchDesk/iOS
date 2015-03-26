@@ -10,8 +10,10 @@
 #import "CHDTableViewCell.h"
 
 @interface CHDMessageCommentsTableViewCell : CHDTableViewCell
+@property (nonatomic, readonly) UIButton *editButton;
 @property (nonatomic, readonly) UIImageView *profileImageView;
 @property (nonatomic, readonly) UILabel *userNameLabel;
 @property (nonatomic, readonly) UILabel *createdDateLabel;
 @property (nonatomic, readonly) UILabel *messageLabel;
+@property (nonatomic, assign) BOOL canEdit;
 @end

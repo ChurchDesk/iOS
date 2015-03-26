@@ -14,6 +14,6 @@
 @property (nonatomic, strong) NSDate *createdDate;
 @property (nonatomic, strong) NSNumber *targetId;
 @property (nonatomic, strong) NSString *body;
-@property (nonatomic) BOOL *canEdit;
-@property (nonatomic) BOOL *canDelete;
+@property (nonatomic) BOOL canEdit;
+@property (nonatomic) BOOL canDelete;
 @end
