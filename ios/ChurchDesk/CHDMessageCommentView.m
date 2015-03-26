@@ -9,6 +9,8 @@
 #import "CHDMessageCommentView.h"
 #import "CHDInputAccessoryObserveView.h"
 
+NSInteger const kTextViewVerticalMargin = 16;
+
 @interface CHDMessageCommentView()
 @property (nonatomic, strong) UIButton* replyButton;
 @property (nonatomic, strong) UITextView *replyTextView;
@@ -69,6 +71,8 @@
     RAC(self.replyTextView, backgroundColor) = [RACObserve(self.replyTextView, editable) map:^id(NSNumber * iEnabled) {
         return iEnabled.boolValue? [UIColor whiteColor] : [UIColor chd_lightGreyColor];
     }];
+
+    [self shprac_liftSelector:@selector(relayoutTextField) withSignal:[RACObserve(self, textViewMaxHeight) skip:1]];
 }
 
 -(UIButton*) replyButton{
@@ -93,6 +97,7 @@
         _replyTextView.delegate = self;
         _replyTextView.scrollEnabled = NO;
         _replyTextView.inputAccessoryView = [CHDInputAccessoryObserveView new];
+        _replyTextView.allowsEditingTextAttributes = NO;
     }
     return _replyTextView;
 }
@@ -122,8 +127,13 @@
 
 #pragma mark - TextView
 - (void)textDidChange:(NSString *)text {
+    [self relayoutTextField];
+}
 
-    if(![self.replyTextView.text isEqual:@""]){
+-(void) relayoutTextField {
+    NSString *text = self.replyTextView.text;
+
+    if(![text isEqual:@""]){
         self.placeholder.hidden = YES;
         self.hasText = YES;
     }else{
@@ -131,20 +141,21 @@
         self.hasText = NO;
     }
 
-    if(![self doesFit:self.replyTextView]){
+    //Check whether scroll should enable
+    CGFloat textHeight = [self heightForText:text];
+
+    NSInteger maxHeight = self.textViewMaxHeight - kTextViewVerticalMargin;
+
+    maxHeight = maxHeight < 0? 50 : maxHeight;
+
+    if(!self.replyTextView.scrollEnabled && (textHeight + self.replyTextView.font.lineHeight) >= maxHeight) {
         self.replyTextView.scrollEnabled = YES;
-    }else{
+        self.replyTextViewHeight.offset(maxHeight);
+    }else if(!self.replyTextView.scrollEnabled){
+        self.replyTextViewHeight.offset(textHeight);
+    }else if(self.replyTextView.scrollEnabled  && (textHeight + self.replyTextView.font.lineHeight) <= maxHeight){
         self.replyTextView.scrollEnabled = NO;
     }
-
-    CGFloat lineHeight = self.replyTextView.font.lineHeight;
-
-    CGRect sizeToFit = [[self.replyTextView layoutManager] usedRectForTextContainer:self.replyTextView.textContainer];
-    CGFloat numberOfLines = (sizeToFit.size.height / lineHeight);
-
-    CGFloat newHeight = numberOfLines * lineHeight;
-
-    self.replyTextViewHeight.offset(newHeight);
 }
 
 - (BOOL)doesFit:(UITextView*)textView {
@@ -164,5 +175,22 @@
 
     return !(textHeight > (viewHeight + 2));
 
+}
+
+-(CGFloat) heightForText: (NSString*)text {
+    NSDictionary *attributes = @{
+        NSFontAttributeName : [self.replyTextView.font copy]
+    };
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:text attributes:attributes];
+
+    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:attrString];
+
+    CGFloat width = self.replyTextView.textContainer.size.width;
+    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize: CGSizeMake(width, FLT_MAX)];
+
+    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+    [layoutManager addTextContainer:textContainer];
+    [textStorage addLayoutManager:layoutManager];
+    return [layoutManager usedRectForTextContainer:textContainer].size.height;
 }
 @end

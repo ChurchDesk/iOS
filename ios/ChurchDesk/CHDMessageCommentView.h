@@ -12,6 +12,7 @@
 @property (nonatomic, readonly) UIButton* replyButton;
 @property (nonatomic, readonly) UITextView *replyTextView;
 @property (nonatomic, readonly) BOOL hasText;
+@property (nonatomic) NSInteger textViewMaxHeight;
 - (void) clearTextInput;
 - (void) setTextInput: (NSString*) text;
 @end

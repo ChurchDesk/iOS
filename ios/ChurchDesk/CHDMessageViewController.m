@@ -446,7 +446,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     double duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     UIViewAnimationOptions options = (UIViewAnimationOptions)[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];// | UIViewAnimationOptionBeginFromCurrentState;
 
-
+    self.replyView.textViewMaxHeight = (NSInteger)(self.view.frame.size.height - kbSize.height);
 
         [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
             [self.replyView layoutIfNeeded];
@@ -476,7 +476,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     double duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     UIViewAnimationOptions options = (UIViewAnimationOptions)[notification.userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];// | UIViewAnimationOptionBeginFromCurrentState;
 
-
+    self.replyView.textViewMaxHeight = (NSInteger)(self.view.frame.size.height);
     [UIView animateWithDuration:duration delay:0.0 options:options animations:^{
         [self.replyView layoutIfNeeded];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
