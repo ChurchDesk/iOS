@@ -19,6 +19,7 @@
 // Subscribe to the isEditing, and filter, to eg. avoid reload of messages while animating tableViews
 @property (nonatomic, assign) BOOL isEditingMessages;
 @property (nonatomic, readonly) BOOL canFetchNewMessages;
+@property (nonatomic, assign) BOOL unreadOnly;
 @property (nonatomic, readonly) NSArray *messages;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser* user;

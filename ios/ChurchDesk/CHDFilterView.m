@@ -3,13 +3,13 @@
 // Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
-#import "CHDCalendarFilterView.h"
+#import "CHDFilterView.h"
 
-@interface CHDCalendarFilterView()
+@interface CHDFilterView ()
 
 @end
 
-@implementation CHDCalendarFilterView
+@implementation CHDFilterView
 
 -(instancetype) init{
     self = [super init];

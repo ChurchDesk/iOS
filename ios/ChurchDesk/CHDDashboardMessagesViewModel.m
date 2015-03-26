@@ -18,8 +18,6 @@
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic, strong) CHDUser* user;
 
-@property (nonatomic) BOOL unreadOnly;
-
 @property (nonatomic, strong) RACCommand *readCommand;
 @property (nonatomic, strong) RACCommand *getMessagesCommand;
 @end
@@ -31,30 +29,36 @@
     if (self) {
         self.unreadOnly = unreadOnly;
         self.canFetchNewMessages = YES;
-        if(unreadOnly) {
-            //Inital model signal
-            RACSignal *initialModelSignal = [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
+        //Inital model signal
+        RACSignal *initialModelSignal = [[RACObserve(self, unreadOnly) filter:^BOOL(NSNumber *iUnreadnly) {
+            return iUnreadnly.boolValue;
+        }] flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
-            }];
+            }];;
+        }];
 
-            //Update signal
-            CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
-            RACSignal *updateTriggerSignal = [[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
+
+        //Update signal
+        CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+
+        RACSignal *updateSignal = [[[RACObserve(self, unreadOnly) filter:^BOOL(NSNumber *iUnreadnly) {
+            return iUnreadnly.boolValue;
+        }] flattenMap:^RACStream *(id value) {
+            return [[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
                 NSString *regex = tuple.first;
                 NSString *resourcePath = [apiClient resourcePathForGetUnreadMessages];
                 return [regex rangeOfString:resourcePath].location != NSNotFound;
             }];
-
-            RACSignal *updateSignal = [updateTriggerSignal flattenMap:^RACStream *(id value) {
-                return [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
-                    return [RACSignal empty];
-                }];
+        }] flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
             }];
+        }];
 
-            [self rac_liftSelector:@selector(parseMessages:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], nil];
-        }else{
-            [self fetchMoreMessages];
-        }
+        [self shprac_liftSelector:@selector(fetchMoreMessages) withSignal:[RACObserve(self, unreadOnly) not]];
+
+        [self rac_liftSelector:@selector(parseMessages:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], nil];
 
         RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];

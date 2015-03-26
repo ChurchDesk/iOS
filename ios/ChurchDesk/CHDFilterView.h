@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface CHDCalendarFilterView : UIView
+@interface CHDFilterView : UIView
 @property (nonatomic, assign) NSUInteger selectedFilter;
 
 - (void) setupFiltersWithTitels: (NSArray*) titles filters: (NSArray*) filters;
