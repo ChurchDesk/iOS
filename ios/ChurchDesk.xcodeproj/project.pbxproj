@@ -44,7 +44,7 @@
 		603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */; };
 		60372416A6237CB86FDF0514 /* CHDNewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */; };
 		60372465C00230C152BCF998 /* CHDEventAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037238A15212DE4CA3BEF3B /* CHDEventAlertView.m */; };
-		603724D71837B20CF488F1FF /* CHDCalendarFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372DA5403C18D5F9570C0C /* CHDCalendarFilterView.m */; };
+		603724D71837B20CF488F1FF /* CHDFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372DA5403C18D5F9570C0C /* CHDFilterView.m */; };
 		60372537A920B1F6B9D84F96 /* CHDMessageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */; };
 		603727A658CF12614D27D8E9 /* CHDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037245E9E98EC53CCA15CEA /* CHDUser.m */; };
 		6037287C919D4E250ACD51E9 /* CHDSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372E23E447786367BBF99E /* CHDSite.m */; };
@@ -216,7 +216,7 @@
 		603726D3D5191AFA92B54B21 /* CHDSettingsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSettingsViewModel.m; sourceTree = "<group>"; };
 		60372743A3FC21FB9AD65E5D /* CHDComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDComment.h; sourceTree = "<group>"; };
 		60372756CFB9BD18E5548D93 /* CHDListSelectorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectorDelegate.h; sourceTree = "<group>"; };
-		603727C09B2C630584742DBA /* CHDCalendarFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDCalendarFilterView.h; sourceTree = "<group>"; };
+		603727C09B2C630584742DBA /* CHDFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDFilterView.h; sourceTree = "<group>"; };
 		6037286CA436A45B892DCEEC /* CHDDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDescriptionViewController.h; sourceTree = "<group>"; };
 		603728A5A13F1CDE17B7CB88 /* CHDDashboardEventViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventViewModel.m; sourceTree = "<group>"; };
 		6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessageViewModel.m; sourceTree = "<group>"; };
@@ -232,7 +232,7 @@
 		60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageViewModel.m; sourceTree = "<group>"; };
 		60372CD7AB7960CDAE07E3F1 /* CHDNotificationSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNotificationSettings.h; sourceTree = "<group>"; };
 		60372D58E8F4677269419267 /* CHDNewMessageViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDNewMessageViewModel.h; sourceTree = "<group>"; };
-		60372DA5403C18D5F9570C0C /* CHDCalendarFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCalendarFilterView.m; sourceTree = "<group>"; };
+		60372DA5403C18D5F9570C0C /* CHDFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDFilterView.m; sourceTree = "<group>"; };
 		60372E23E447786367BBF99E /* CHDSite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSite.m; sourceTree = "<group>"; };
 		60372E5E7BDC9C61A7F6FBED /* CHDSitePermission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSitePermission.h; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -783,8 +783,8 @@
 				76A541981A9DC23100176D6D /* Day picker */,
 				761247551AA5BA3C004E7D05 /* CHDCalendarViewModel.h */,
 				761247561AA5BA3C004E7D05 /* CHDCalendarViewModel.m */,
-				60372DA5403C18D5F9570C0C /* CHDCalendarFilterView.m */,
-				603727C09B2C630584742DBA /* CHDCalendarFilterView.h */,
+				60372DA5403C18D5F9570C0C /* CHDFilterView.m */,
+				603727C09B2C630584742DBA /* CHDFilterView.h */,
 			);
 			name = Calendar;
 			sourceTree = "<group>";
@@ -1116,7 +1116,7 @@
 				6037293A67800020916A620C /* CHDLeftMenuViewModel.m in Sources */,
 				60372B3A9889AC0CF137F93D /* CHDNotificationSettings.m in Sources */,
 				60372C2D98EA54DBC6205A5C /* CHDSettingsViewModel.m in Sources */,
-				603724D71837B20CF488F1FF /* CHDCalendarFilterView.m in Sources */,
+				603724D71837B20CF488F1FF /* CHDFilterView.m in Sources */,
 				603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */,
 				60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */,
 				60372465C00230C152BCF998 /* CHDEventAlertView.m in Sources */,

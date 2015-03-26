@@ -23,7 +23,7 @@
 #import "CHDSite.h"
 #import "UIViewController+UIViewController_ChurchDesk.h"
 #import "CHDExpandableButtonView.h"
-#import "CHDCalendarFilterView.h"
+#import "CHDFilterView.h"
 #import "CHDPassthroughTouchView.h"
 #import "CHDEnvironment.h"
 #import <MBProgressHUD.h>
@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) CHDMagicNavigationBarView *magicNavigationBar;
 @property (nonatomic, strong) CHDPassthroughTouchView *drawerBlockOutView;
-@property (nonatomic, strong) CHDCalendarFilterView *calendarFilterView;
+@property (nonatomic, strong) CHDFilterView *calendarFilterView;
 @property (nonatomic, strong) SHPCalendarPickerView *calendarPicker;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CHDCalendarTitleView *titleView;
@@ -465,9 +465,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     return _dayFormatter;
 }
 
-- (CHDCalendarFilterView *)calendarFilterView{
+- (CHDFilterView *)calendarFilterView{
     if(!_calendarFilterView){
-        _calendarFilterView = [CHDCalendarFilterView new];
+        _calendarFilterView = [CHDFilterView new];
     }
     return _calendarFilterView;
 }
