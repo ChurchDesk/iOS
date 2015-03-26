@@ -12,5 +12,6 @@
 @property (nonatomic, readonly) UIButton* replyButton;
 @property (nonatomic, readonly) UITextView *replyTextView;
 @property (nonatomic, readonly) BOOL hasText;
--(void) clearTextInput;
+- (void) clearTextInput;
+- (void) setTextInput: (NSString*) text;
 @end

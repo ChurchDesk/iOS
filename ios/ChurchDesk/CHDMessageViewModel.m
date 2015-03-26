@@ -27,6 +27,8 @@
 
 @property (nonatomic, strong) RACCommand *saveCommand;
 @property (nonatomic, strong) RACCommand *markAsReadCommand;
+@property (nonatomic, strong) RACCommand *commentDeleteCommand;
+@property (nonatomic, strong) RACCommand *commentUpdateCommand;
 @end
 
 @implementation CHDMessageViewModel
@@ -44,14 +46,11 @@
         }];
 
         //Update signal
-        CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
-        RACSignal *updateSignal = [[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
+        RACSignal *updateMessageSignal = [[[[CHDAPIClient sharedInstance].manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
             NSString *regex = tuple.first;
-            NSString *resourcePath = [apiClient resourcePathForGetMessageWithId:messageId];
+            NSString *resourcePath = [[CHDAPIClient sharedInstance] resourcePathForGetMessageWithId:messageId];
             return [regex rangeOfString:resourcePath].location != NSNotFound;
-        }];
-
-        RACSignal *updateMessageSignal = [updateSignal flattenMap:^RACStream *(id value) {
+        }] flattenMap:^RACStream *(id value) {
             return [[[[CHDAPIClient sharedInstance] getMessageWithId:messageId siteId:siteId] map:^id(CHDMessage *message) {
                 return message;
             }] catch:^RACSignal *(NSError *error) {
@@ -59,9 +58,10 @@
             }];
         }];
 
-        RACSignal *combinedMessageSignal = [[RACSignal merge:@[initialMessageSignal, updateMessageSignal]] filter:^BOOL(CHDMessage *message) {
+        [self rac_liftSelector:@selector(didFetchNewMessage:) withSignals:[[RACSignal merge:@[initialMessageSignal, updateMessageSignal]] filter:^BOOL(CHDMessage *message) {
+            NSLog(@"Update message");
             return message != nil;
-        }];
+        }], nil];
 
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
@@ -70,8 +70,6 @@
         RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
-
-        [self rac_liftSelector:@selector(didFetchNewMessage:) withSignals:combinedMessageSignal, nil];
     }
     return self;
 }
@@ -133,7 +131,7 @@
     return _markAsReadCommand;
 }
 
-- (void)sendCommentWithText:(NSString *)body {
+- (RACSignal*)sendCommentWithText:(NSString *)body {
     //Assume that the call will go well and add the comment right away
     CHDComment *comment = [CHDComment new];
     comment.body = body;
@@ -147,7 +145,37 @@
     [self didFetchNewMessage:message];
 
     //Send the create comment request
-    [self.saveCommand execute:RACTuplePack(self.message, comment)];
+    return [self.saveCommand execute:RACTuplePack(self.message, comment)];
+}
+
+-(RACCommand*) commentDeleteCommand {
+    if(!_commentDeleteCommand){
+        _commentDeleteCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDComment *comment = tuple.first;
+            CHDMessage *message = tuple.second;
+            return [[CHDAPIClient sharedInstance] deleteCommentWithId:comment.commentId siteId:message.siteId messageId:message.messageId];
+        }];
+    }
+    return _commentDeleteCommand;
+}
+
+-(RACSignal *) commentDeleteWithComment: (CHDComment*) comment {
+    return [self.commentDeleteCommand execute:RACTuplePack(comment, self.message)];
+}
+
+- (RACCommand *)commentUpdateCommand {
+    if(!_commentUpdateCommand){
+        _commentUpdateCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDComment *comment = tuple.first;
+            CHDMessage *message = tuple.second;
+            return [[CHDAPIClient sharedInstance] updateCommentWithId:comment.commentId body:comment.body siteId:message.siteId messageId:message.messageId];
+        }];
+    }
+    return _commentUpdateCommand;
+}
+
+-(RACSignal *) commentUpdateWithComment: (CHDComment*) comment {
+    return [self.commentUpdateCommand execute:RACTuplePack(comment, self.message)];
 }
 
 

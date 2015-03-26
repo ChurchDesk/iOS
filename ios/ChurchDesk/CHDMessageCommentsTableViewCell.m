@@ -9,6 +9,7 @@
 #import "CHDMessageCommentsTableViewCell.h"
 
 @interface CHDMessageCommentsTableViewCell()
+@property (nonatomic, strong) UIButton *editButton;
 @property (nonatomic, strong) UIImageView *profileImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property (nonatomic, strong) UILabel *createdDateLabel;
@@ -21,6 +22,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        [self.editButton rac_liftSelector:@selector(setHidden:) withSignals:[RACObserve(self, canEdit) not], nil];
+        [self.editButton rac_liftSelector:@selector(setEnabled:) withSignals:RACObserve(self, canEdit), nil];
     }
     return self;
 }
@@ -35,6 +39,7 @@
     [contentView addSubview:self.userNameLabel];
     [contentView addSubview:self.createdDateLabel];
     [contentView addSubview:self.messageLabel];
+    [contentView addSubview:self.editButton];
 }
 
 -(void)makeConstraints {
@@ -63,8 +68,20 @@
         make.bottom.equalTo(contentView).offset(-20);
         make.left.equalTo(self.messageLabel);
     }];
+
+    [self.editButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(contentView).offset(-15);
+        make.top.equalTo(contentView).offset(15);
+    }];
 }
 
+-(UIButton*) editButton {
+    if(!_editButton){
+        _editButton = [UIButton new];
+        [_editButton setImage:kImgDisclosureArrowDown forState:UIControlStateNormal];
+    }
+    return _editButton;
+}
 
 -(UIImageView*) profileImageView {
     if(!_profileImageView){

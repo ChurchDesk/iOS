@@ -111,11 +111,14 @@
     return CGSizeMake(0, 50);
 }
 
-- (void)clearTextInput {
-    self.replyTextView.text = @"";
-    [self textDidChange:@""];
+- (void) clearTextInput {
+    [self setTextInput:@""];
 }
 
+- (void) setTextInput: (NSString*) text {
+    [self.replyTextView setText:text];
+    [self textDidChange:text];
+}
 
 #pragma mark - TextView
 - (void)textDidChange:(NSString *)text {

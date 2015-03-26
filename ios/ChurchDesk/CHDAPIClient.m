@@ -163,6 +163,19 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     }];
 }
 
+- (RACSignal*)deleteHeaderDictionary:(NSDictionary*) dictionary resultClass: (Class) resultClass toPath:(NSString*)path {
+    return [self resourcesForPath:path resultClass:resultClass ?: [NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodDELETE;
+        request.ignoreCache = YES;
+        if(dictionary) {
+            [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+                //Escape the value string
+                [request setValue:value forQueryParameterKey:key];
+            }];
+        }
+
+    }];
+}
 
 
 #pragma mark - User
@@ -330,6 +343,22 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     NSDictionary *body = @{@"site": siteId, @"targetId": targetId, @"body": message};
     return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"comments"] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", targetId]];
+    }];
+}
+
+- (RACSignal*) deleteCommentWithId: (NSNumber*) commentId siteId: (NSString*) siteId messageId: (NSNumber*) messageId {
+    SHPAPIManager *manager = self.manager;
+    NSDictionary *header = @{@"site": siteId};
+    return [[self deleteHeaderDictionary:header resultClass:nil toPath:[NSString stringWithFormat:@"comments/%@", commentId]] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", messageId]];
+    }];
+}
+
+- (RACSignal*) updateCommentWithId: (NSNumber*) commentId body:(NSString*) message siteId: (NSString*) siteId messageId: (NSNumber*) messageId {
+    SHPAPIManager *manager = self.manager;
+    NSDictionary *body = @{@"body": message};
+    return [[self putBodyDictionary:body resultClass:nil toPath:[NSString stringWithFormat:@"comments/%@?site=%@", commentId, siteId]] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", messageId]];
     }];
 }
 
