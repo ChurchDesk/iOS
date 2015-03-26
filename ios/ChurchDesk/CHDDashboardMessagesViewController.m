@@ -21,11 +21,13 @@
 #import "UIViewController+UIViewController_ChurchDesk.h"
 #import "CHDMagicNavigationBarView.h"
 #import "CHDFilterView.h"
+#import "CHDPassthroughTouchView.h"
 
 @interface CHDDashboardMessagesViewController ()
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) CHDMagicNavigationBarView *magicNavigationBar;
 @property (nonatomic, strong) CHDFilterView *filterView;
+@property (nonatomic, strong) CHDPassthroughTouchView *drawerBlockOutView;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property(nonatomic, retain) UITableView* messagesTable;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
@@ -93,6 +95,19 @@
         [self.viewModel shprac_liftSelector:@selector(fetchMoreMessages) withSignal:refreshSignal];
 
         [self rac_liftSelector:@selector(changeFilter:) withSignals:[RACObserve(self.filterView, selectedFilter) skip:1], nil];
+
+        [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:[self.drawerBlockOutView rac_signalForSelector:@selector(touchesBegan:withEvent:)]];
+
+        //Handle when the drawer is shown/hidden
+        RACSignal *drawerIsShownSignal = RACObserve(self.magicNavigationBar, drawerIsHidden);
+
+        [self shprac_liftSelector:@selector(drawerDidHide) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
+            return iIsHidden.boolValue;
+        }]];
+
+        [self shprac_liftSelector:@selector(drawerWillShow) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
+            return !iIsHidden.boolValue;
+        }]];
     }
 }
 
@@ -100,19 +115,24 @@
     [self.view addSubview:self.contentView];
     [self.contentView addSubview:self.messagesTable];
     [self.messagesTable addSubview:self.refreshControl];
-
+    [self setupAddButton];
+    
     if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
         [self.view addSubview:self.magicNavigationBar];
         [self.magicNavigationBar.drawerView addSubview:self.filterView];
 
         [self.filterView setupFiltersWithTitels:@[@"Show all", @"Show unread"] filters:@[@(CHDMessagesFilterTypeAllMessages), @(CHDMessagesFilterTypeUnreadMessages)]];
         self.filterView.selectedFilter = CHDMessagesFilterTypeAllMessages;
+        [self.view addSubview:self.drawerBlockOutView];
     }
-    [self setupAddButton];
 }
 
 -(void) makeConstraints {
     if(self.messageFilter == CHDMessagesFilterTypeAllMessages){
+        [self.drawerBlockOutView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView);
+        }];
+
         [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.right.equalTo(self.view);
             self.magicNavigationBar.bottomConstraint = make.top.equalTo(self.view);
@@ -194,6 +214,14 @@
         _filterView = [CHDFilterView new];
     }
     return _filterView;
+}
+
+-(CHDPassthroughTouchView*) drawerBlockOutView {
+    if(!_drawerBlockOutView){
+        _drawerBlockOutView = [CHDPassthroughTouchView new];
+        _drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
+    }
+    return _drawerBlockOutView;
 }
 
 #pragma mark - View methods
@@ -331,6 +359,18 @@
     }else {
         [self.emptyMessageLabel removeFromSuperview];
     }
+}
+
+- (void) blockOutViewTouched {
+    [self.magicNavigationBar setShowDrawer:NO animated:YES];
+}
+
+- (void) drawerWillShow {
+    self.drawerBlockOutView.touchesPassThrough = NO;
+}
+
+-(void) drawerDidHide {
+    self.drawerBlockOutView.touchesPassThrough = YES;
 }
 
 @end
