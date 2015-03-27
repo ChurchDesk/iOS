@@ -25,7 +25,11 @@
         make.bottom.equalTo(view).offset(-5);
     }];
     }
-    
+
+    [actionButtonView rac_liftSelector:@selector(buttonOn:) withSignals:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
+        return @(NO);
+    }], nil];
+
     [actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow:) forControlEvents:UIControlEventTouchUpInside];
     [actionButtonView.addEventButton addTarget:self action:@selector(newEventAction:) forControlEvents:UIControlEventTouchUpInside];
     
