@@ -27,14 +27,33 @@
     if (self) {
         self.invitations = @[];
 
-        RAC(self, invitations) = [[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
+        //Update signal
+        CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+
+        RACSignal *updateSignal = [[[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
+            NSString *regex = tuple.first;
+            NSString *resourcePath = [apiClient resourcePathForGetInvitations];
+            return [regex rangeOfString:resourcePath].location != NSNotFound;
+        }] flattenMap:^RACStream *(id value) {
+            return [[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
+                RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
+                    return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
+                }];
+                return results.array;
+            }] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }];
+
+
+        RAC(self, invitations) = [RACSignal merge:@[[[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
             RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
                 return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
             }];
             return results.array;
         }] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
-        }];
+        }], updateSignal]];
 
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
@@ -93,6 +112,17 @@
     return formattedDate;
 }
 
+-(BOOL) removeInvitationWithIndexPath:(NSIndexPath *) indexPath {
+    NSInteger idx = indexPath.row;
+    if(self.invitations.count < idx){return NO;}
+
+    NSMutableArray *messages = [[NSMutableArray alloc] initWithArray:self.invitations];
+    [messages removeObjectAtIndex:idx];
+
+    self.invitations = [messages copy];
+    return YES;
+}
+
 -(void) setInivationAccept:(CHDInvitation *) invitation {
     NSLog(@"Invitation id %@", invitation.invitationId);
     [[[[CHDAPIClient sharedInstance] setResponseForEventWithId:invitation.invitationId siteId:invitation.siteId response:CHDInvitationAccept] catch:^RACSignal *(NSError *error) {
@@ -127,15 +157,6 @@
 -(void) reload {
     CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
     [[[apiClient manager] cache] invalidateObjectsMatchingRegex:[apiClient resourcePathForGetInvitations]];
-
-    [self rac_liftSelector:@selector(setInvitations:) withSignals:[[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
-        RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
-            return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
-        }];
-        return results.array;
-    }] catch:^RACSignal *(NSError *error) {
-        return [RACSignal empty];
-    }], nil];
 }
 
 @end
