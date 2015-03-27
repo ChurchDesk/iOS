@@ -35,6 +35,10 @@
         NSArray* buttonTitles = @[NSLocalizedString(@"Confirm", @""), NSLocalizedString(@"Maybe", @""), NSLocalizedString(@"Decline", @"")];
         NSArray* buttonColors = @[[UIColor shpui_colorWithHexValue:0x62d963], [UIColor shpui_colorWithHexValue:0xc7c7cc], [UIColor shpui_colorWithHexValue:0xff3b30]];
         [self setAccessoryWithTitles:buttonTitles backgroundColors:buttonColors buttonWidth:80];
+
+        RAC(self.locationIconView, hidden) = [RACObserve(self.locationLabel, text) map:^id(NSString *text) {
+            return @(text.length == 0);
+        }];
     }
 
     return self;

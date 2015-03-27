@@ -193,10 +193,6 @@
     return 1;
 }
 
--(void) accepted {
-    NSLog(@"Accepted");
-}
-
 #pragma mark -other methods
 -(void) emptyMessageShow: (BOOL) show {
     if(show){
