@@ -149,10 +149,15 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [self.replyView.replyTextView shprac_liftSelector:@selector(becomeFirstResponder) withSignal:[RACObserve(self.viewModel, commentEdit) filter:^BOOL(CHDComment *comment) {
         return comment != nil;
     }]];
+
+    [self.replyView rac_liftSelector:@selector(setState:) withSignals:[RACObserve(self.viewModel, commentEdit) map:^id(CHDComment *comment) {
+        return (!comment)? @(CHDCommentViewStateReply) : @(CHDCommentViewStateUpdate);
+    }], nil];
 }
 
 -(void) touchedTableView: (id) sender {
     [self.view endEditing:YES];
+    self.viewModel.commentEdit = nil;
 }
 
 - (void) sendAction: (id) sender {

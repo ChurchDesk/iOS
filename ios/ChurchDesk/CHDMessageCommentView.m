@@ -73,13 +73,20 @@ NSInteger const kTextViewVerticalMargin = 16;
     }];
 
     [self shprac_liftSelector:@selector(relayoutTextField) withSignal:[RACObserve(self, textViewMaxHeight) skip:1]];
+
+
+    [self.replyButton rac_liftSelector:@selector(setTitle:forState:) withSignals:[RACObserve(self, state) map:^id(NSNumber *iState) {
+        if(iState.unsignedIntegerValue == CHDCommentViewStateUpdate){
+            return NSLocalizedString(@"Update", @"");
+        }
+        return NSLocalizedString(@"Reply", @"");
+    }], [RACSignal return:@(UIControlStateNormal)], nil];
 }
 
 -(UIButton*) replyButton{
     if(!_replyButton){
         _replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _replyButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
-        [_replyButton setTitle:NSLocalizedString(@"Reply", @"") forState:UIControlStateNormal];
         [_replyButton setTitleColor:[UIColor chd_textDarkColor] forState:UIControlStateNormal];
         [_replyButton setTitleColor:[UIColor shpui_colorWithHexValue:0xa8a8a8] forState:UIControlStateDisabled];
     }
@@ -90,7 +97,6 @@ NSInteger const kTextViewVerticalMargin = 16;
     if(!_replyTextView){
         _replyTextView = [UITextView new];
         _replyTextView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
-        //_replyTextView.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
         _replyTextView.layer.borderColor = [UIColor shpui_colorWithHexValue:0xc8c7cc].CGColor;
         _replyTextView.layer.borderWidth = 1.0;
         _replyTextView.layer.cornerRadius = 3.0;
@@ -156,25 +162,6 @@ NSInteger const kTextViewVerticalMargin = 16;
     }else if(self.replyTextView.scrollEnabled  && (textHeight + self.replyTextView.font.lineHeight) <= maxHeight){
         self.replyTextView.scrollEnabled = NO;
     }
-}
-
-- (BOOL)doesFit:(UITextView*)textView {
-    // Get the textView frame
-    CGFloat viewHeight = textView.frame.size.height;
-    CGFloat width = textView.textContainer.size.width;
-
-    NSMutableAttributedString *atrs = [[NSMutableAttributedString alloc] initWithAttributedString: textView.textStorage];
-
-    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:atrs];
-    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize: CGSizeMake(width, FLT_MAX)];
-    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
-
-    [layoutManager addTextContainer:textContainer];
-    [textStorage addLayoutManager:layoutManager];
-    CGFloat textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-
-    return !(textHeight > (viewHeight + 2));
-
 }
 
 -(CGFloat) heightForText: (NSString*)text {
