@@ -117,7 +117,7 @@
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
-    cell.parishLabel.text = site.name;
+    cell.parishLabel.text = user.sites.count > 1? site.name : @"";
     cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event];
 
     [cell.leftBorder setBackgroundColor:category.color?: [UIColor clearColor]];

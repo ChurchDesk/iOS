@@ -160,7 +160,7 @@
 
     cell.titleLabel.text = invitation.title;
     cell.locationLabel.text = invitation.location;
-    cell.parishLabel.text = [user siteWithId:invitation.siteId].name;
+    cell.parishLabel.text = (user.sites.count > 1)? [user siteWithId:invitation.siteId].name : @"";
     cell.invitedByLabel.text = invitedByString;
 
     cell.eventTimeLabel.text = [self.viewModel getFormattedInvitationTimeFrom:invitation];

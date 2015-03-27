@@ -331,7 +331,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.groupLabel.text = group? group.name : @"";
         cell.createdDateLabel.text = message.changeDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.changeDate] : @"";
         cell.messageLabel.text = message.body;
-        cell.parishLabel.text = authorSite ? authorSite.name : @"";
+        cell.parishLabel.text = (user.sites.count > 1)? authorSite ? authorSite.name : @"" : @"";
         cell.userNameLabel.text = authorUser? authorUser.name : @"";
         cell.profileImageView.image = authorUser? [UIImage imageWithData:[NSData dataWithContentsOfURL:authorUser.pictureURL]] : nil;
 
