@@ -40,6 +40,7 @@
 		36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */; };
 		60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */; };
 		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
+		60372266562664FED85A815C /* NSUserDefaults+CHDDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */; };
 		603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */; };
 		603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */; };
 		60372416A6237CB86FDF0514 /* CHDNewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */; };
@@ -199,6 +200,7 @@
 		60372089EA49349970627A31 /* CHDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUser.h; sourceTree = "<group>"; };
 		603720B107A7307EADD70B2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		603720B2421A9B94C77F5C6C /* CHDComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDComment.m; sourceTree = "<group>"; };
+		603720E365F294D09A0662B7 /* NSUserDefaults+CHDDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CHDDefaults.h"; sourceTree = "<group>"; };
 		603721CB7B785F7282839F87 /* CHDStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDStatusView.h; sourceTree = "<group>"; };
 		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		603722B1254455CC82CC5331 /* CHDNotificationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNotificationSettings.m; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 		60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextFieldCell.m; sourceTree = "<group>"; };
 		60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDescriptionViewController.m; sourceTree = "<group>"; };
 		60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
+		60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CHDDefaults.m"; sourceTree = "<group>"; };
 		60372BECBF65AF34EA9E2CB1 /* CHDLeftMenuViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuViewModel.m; sourceTree = "<group>"; };
 		60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPassthroughTouchView.m; sourceTree = "<group>"; };
 		60372C445CCDFCC5F6E3106E /* CHDSettingsViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSettingsViewModel.h; sourceTree = "<group>"; };
@@ -441,6 +444,8 @@
 				761247591AA5BC08004E7D05 /* NSDateFormatter+ChurchDesk.m */,
 				7612475E1AA7070B004E7D05 /* UITableView+ChurchDesk.h */,
 				7612475F1AA7070B004E7D05 /* UITableView+ChurchDesk.m */,
+				60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */,
+				603720E365F294D09A0662B7 /* NSUserDefaults+CHDDefaults.h */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1146,6 +1151,7 @@
 				603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */,
 				60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */,
 				60372465C00230C152BCF998 /* CHDEventAlertView.m in Sources */,
+				60372266562664FED85A815C /* NSUserDefaults+CHDDefaults.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

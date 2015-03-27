@@ -11,10 +11,7 @@
 #import "CHDAPIClient.h"
 #import "CHDEnvironment.h"
 #import "CHDUser.h"
-
-NSString *const kEventDefaultsLastUsedSiteId = @"eventLastUsedSiteId";
-NSString *const kEventDefaultsLastUsedGroupId = @"eventLastUsedGroupId";
-NSString *const kEventDefaultsLastUsedCategoryIds = @"eventLastUsedCategoryIds";
+#import "NSUserDefaults+CHDDefaults.h"
 
 NSString *const CHDEventEditSectionTitle = @"CHDEventEditSectionTitle";
 NSString *const CHDEventEditSectionDate = @"CHDEventEditSectionDate";
@@ -66,10 +63,8 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         _newEvent = event == nil;
 
         if(_newEvent){
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            self.event.groupId = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kEventDefaultsLastUsedGroupId]];
-            self.event.siteId = [defaults stringForKey:kEventDefaultsLastUsedSiteId];
-            self.event.eventCategoryIds = [defaults arrayForKey:kEventDefaultsLastUsedCategoryIds];
+            self.event.groupId = [[NSUserDefaults standardUserDefaults] chdDefaultGroupId];
+            self.event.siteId = [[NSUserDefaults standardUserDefaults] chdDefaultSiteId];
         }
 
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
@@ -101,11 +96,11 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 }
 
 -(void) setupSectionsWithUser: (CHDUser *) user{
-    NSArray *recipientsRows = _newEvent ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
+
+    NSArray *recipientsRows = _newEvent && user.sites.count > 1 ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
     NSArray *bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];
 
-    if(user.sites.count == 1){
-        recipientsRows = @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
+    if(self.event.siteId == nil){
         self.event.siteId = ((CHDSite*)user.sites.firstObject).siteId;
     }
 
@@ -146,17 +141,12 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 }
 
 -(void) storeDefaults {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if(self.event.siteId){
-        [defaults setObject:self.event.siteId forKey:kEventDefaultsLastUsedSiteId];
+        [[NSUserDefaults standardUserDefaults] chdSetDefaultSiteId:self.event.siteId];
     }
 
     if(self.event.groupId){
-        [defaults setObject:self.event.groupId forKey:kEventDefaultsLastUsedGroupId];
-    }
-
-    if(self.event.eventCategoryIds != nil){
-        [defaults setObject:self.event.eventCategoryIds forKey:kEventDefaultsLastUsedCategoryIds];
+        [[NSUserDefaults standardUserDefaults] chdSetDefaultGroupId:self.event.groupId];
     }
 }
 
