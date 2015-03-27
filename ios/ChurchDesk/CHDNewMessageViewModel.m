@@ -177,7 +177,7 @@
     if(self.user != nil){
         //If only a single site is available, skip the selectability
         if(self.user.sites.count == 1){
-            self.selectedSite = self.user.sites[0];
+            self.selectedSite = self.user.sites.firstObject;
             return;
         }
 
@@ -186,7 +186,7 @@
             NSString* lastUsedId = self.siteIdLastUsed;
             CHDSite *lastUsed = [self.user siteWithId:lastUsedId];
 
-            self.selectedSite = lastUsed;
+            self.selectedSite = lastUsed?: self.user.sites.firstObject;
         }
 
         CHDSite *selectedSite = self.selectedSite;
