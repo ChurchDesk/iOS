@@ -18,7 +18,7 @@
 
 // Subscribe to the isEditing, and filter, to eg. avoid reload of messages while animating tableViews
 @property (nonatomic, assign) BOOL isEditingMessages;
-@property (nonatomic, readonly) BOOL canFetchNewMessages;
+@property (nonatomic, readonly) BOOL canFetchMoreMessages;
 @property (nonatomic, assign) BOOL unreadOnly;
 @property (nonatomic, readonly) BOOL waitForSearch;
 @property (nonatomic, strong) NSString *searchQuery;

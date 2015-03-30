@@ -13,7 +13,7 @@
 #import "CHDMessage.h"
 
 @interface CHDDashboardMessagesViewModel ()
-@property (nonatomic) BOOL canFetchNewMessages;
+@property (nonatomic) BOOL canFetchMoreMessages;
 @property (nonatomic, strong) NSArray *messages;
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic, strong) CHDUser* user;
@@ -33,7 +33,7 @@
     self = [super init];
     if (self) {
         self.unreadOnly = unreadOnly;
-        self.canFetchNewMessages = YES;
+        self.canFetchMoreMessages = YES;
         CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
         
         //Inital model signal
@@ -45,7 +45,7 @@
             }];
         }];
 
-        [self rac_liftSelector:@selector(setCanFetchNewMessages:) withSignals:[RACObserve(self, unreadOnly) map:^id(id value) {
+        [self rac_liftSelector:@selector(setCanFetchMoreMessages:) withSignals:[RACObserve(self, unreadOnly) map:^id(id value) {
             return @(YES);
         }], nil];
 
@@ -142,7 +142,7 @@
 }
 
 -(void) filterChangedToAllMessages {
-    self.canFetchNewMessages = YES;
+    self.canFetchMoreMessages = YES;
     [self fetchMoreMessagesWithQuery:nil continuePagination:NO];
 }
 
@@ -160,14 +160,15 @@
 }
 
 - (void) fetchMoreMessagesFromDate: (NSDate*) date withQuery: (NSString*) query continuePagination: (BOOL) continuePagination {
-    if(self.unreadOnly || !self.canFetchNewMessages){return;}
+    if(self.unreadOnly || !self.canFetchMoreMessages){return;}
     NSLog(@"Fetch messages from %@", date);
     [self rac_liftSelector:@selector(parseMessages:append:) withSignals:[self.getMessagesCommand execute:RACTuplePack(date, query)], [RACSignal return:@(continuePagination)], nil];
 }
 
 - (void) parseMessages: (NSArray*) messages append: (BOOL) append {
     NSLog(@"Parsing messages %i", (uint) messages.count);
-    self.canFetchNewMessages = self.waitForSearch || messages.count > 0;
+    //If 0 messages is returned, set the flag to false (to block recursive call for additional messages)
+    self.canFetchMoreMessages = messages.count > 0;
 
     NSArray *sortedMessages = [messages sortedArrayUsingComparator:^NSComparisonResult(CHDMessage *message1, CHDMessage *message2) {
         return [message2.lastActivityDate compare:message1.lastActivityDate];
