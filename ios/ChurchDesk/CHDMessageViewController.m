@@ -410,6 +410,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 }
 
 -(void) editCommentSheetAction: (RACTuple*) tuple {
+    //This is called when an action within the action sheet is chosen
     RACTupleUnpack(NSNumber *buttonIndex, CHDComment *comment) = tuple;
 
     if(buttonIndex.integerValue == 0){
