@@ -493,7 +493,7 @@
 			name = DatePicker;
 			sourceTree = "<group>";
 		};
-		36C462281A9DBCDB00775FBE /* Messages */ = {
+		36C462281A9DBCDB00775FBE /* Message details */ = {
 			isa = PBXGroup;
 			children = (
 				36C462631A9E0EB500775FBE /* Custom cells */,
@@ -506,7 +506,7 @@
 				6037290F4826E8888F2CD8E1 /* CHDMessageViewModel.m */,
 				6037235603A27B48E408C420 /* CHDMessageViewModel.h */,
 			);
-			name = Messages;
+			name = "Message details";
 			sourceTree = "<group>";
 		};
 		36C462631A9E0EB500775FBE /* Custom cells */ = {
@@ -529,7 +529,6 @@
 				36E159311A94EE470046F6EA /* Invitations */,
 				36E159341A94EE6F0046F6EA /* General */,
 				36E159331A94EE620046F6EA /* Navigation */,
-				36E159321A94EE520046F6EA /* Messages */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -570,6 +569,7 @@
 				36C462241A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.h */,
 				36C462251A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m */,
 				36C462271A9DB24100775FBE /* CHDMessagesViewModelProtocol.h */,
+				760AF8AA1AC540FC00729427 /* Search */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -620,7 +620,8 @@
 			children = (
 				7612473F1AA483BA004E7D05 /* Login */,
 				365A77421AA0A5FF006CA0B1 /* NewMessage */,
-				36C462281A9DBCDB00775FBE /* Messages */,
+				36C462281A9DBCDB00775FBE /* Message details */,
+				36E159321A94EE520046F6EA /* Messages */,
 				360B4DFB1A978512001CC8B0 /* Settings */,
 				76143F141A9633F400651CEA /* Custom Views */,
 				360B4DF11A9739ED001CC8B0 /* MainNavigation */,
@@ -693,6 +694,13 @@
 				760AF8A71AC4405900729427 /* CHDEventUserDetailsViewModel.m */,
 			);
 			name = "User details";
+			sourceTree = "<group>";
+		};
+		760AF8AA1AC540FC00729427 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Search;
 			sourceTree = "<group>";
 		};
 		7612473F1AA483BA004E7D05 /* Login */ = {
@@ -1332,7 +1340,7 @@
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b9b033df-da6b-4875-b29f-74391e06c0cd";
+				PROVISIONING_PROFILE = "c9ff408d-057f-4132-9bf4-ae3b49380cf3";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;

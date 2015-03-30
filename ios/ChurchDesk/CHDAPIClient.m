@@ -298,11 +298,16 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit {
-    return [[self resourcesForPath:@"messages" resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
+    return [self getMessagesFromDate:date limit:limit query:nil];
+}
+
+- (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit query: (NSString*) query {
+    return [self resourcesForPath:@"messages" resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:[self.dateFormatter stringFromDate:date] forQueryParameterKey:@"start_date"];
         [request setValue:[NSString stringWithFormat:@"%lu", limit] forQueryParameterKey:@"limit"];
-    }] doNext:^(id x) {
-        
+        if (query) {
+            [request setValue:query forQueryParameterKey:@"query"];
+        }
     }];
 }
 

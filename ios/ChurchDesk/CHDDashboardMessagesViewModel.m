@@ -24,24 +24,30 @@
 
 @implementation CHDDashboardMessagesViewModel
 
+- (instancetype)initWaitForSearch: (BOOL) waitForSearch {
+    _waitForSearch = waitForSearch;
+    return [self initWithUnreadOnly:NO];
+}
+
 - (instancetype)initWithUnreadOnly: (BOOL) unreadOnly {
     self = [super init];
     if (self) {
         self.unreadOnly = unreadOnly;
         self.canFetchNewMessages = YES;
+        CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+        
         //Inital model signal
         RACSignal *initialModelSignal = [[RACObserve(self, unreadOnly) filter:^BOOL(NSNumber *iUnreadnly) {
             return iUnreadnly.boolValue;
         }] flattenMap:^RACStream *(id value) {
-            return [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
+            return [[apiClient getUnreadMessages] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
-            }];;
+            }];
         }];
-
-
+        
+        
         //Update signal
-        CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
-
+        
         RACSignal *updateSignal = [[[RACObserve(self, unreadOnly) filter:^BOOL(NSNumber *iUnreadnly) {
             return iUnreadnly.boolValue;
         }] flattenMap:^RACStream *(id value) {
@@ -51,20 +57,33 @@
                 return [regex rangeOfString:resourcePath].location != NSNotFound;
             }];
         }] flattenMap:^RACStream *(id value) {
-            return [[[CHDAPIClient sharedInstance] getUnreadMessages] catch:^RACSignal *(NSError *error) {
+            return [[apiClient getUnreadMessages] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
         }];
-
-        [self shprac_liftSelector:@selector(fetchMoreMessages) withSignal:[RACObserve(self, unreadOnly) not]];
-
+        
+        RACSignal *fetchAllMessagesSignal = [RACObserve(self, unreadOnly) filter:^BOOL(NSNumber *nUnreadOnly) {
+            return !nUnreadOnly.boolValue;
+        }];
+        if (self.waitForSearch) {
+            [self rac_liftSelector:@selector(fetchMoreMessagesWithQuery:continuePagination:) withSignals:[fetchAllMessagesSignal flattenMap:^RACStream *(id value) {
+                return [RACObserve(self, searchQuery) filter:^BOOL(NSString *searchQuery) {
+                    return searchQuery.length > 0;
+                }];
+            }], [RACSignal return:@NO], nil];
+        }
+        else {
+            [self shprac_liftSelector:@selector(fetchMoreMessages) withSignal:fetchAllMessagesSignal];
+        }
+        
         [self rac_liftSelector:@selector(parseMessages:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], nil];
-
-        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+        
+        
+        RAC(self, user) = [[apiClient getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
 
-        RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+        RAC(self, environment) = [[apiClient getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
     }
@@ -110,8 +129,9 @@
     if(!_getMessagesCommand){
         _getMessagesCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
             NSDate *date = tuple.first;
+            NSString *query = tuple.second;
 
-            return [[[CHDAPIClient sharedInstance] getMessagesFromDate:date limit:50] catch:^RACSignal *(NSError *error) {
+            return [[[CHDAPIClient sharedInstance] getMessagesFromDate:date limit:50 query:query] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
         }];
@@ -119,35 +139,39 @@
     return _getMessagesCommand;
 }
 
--(void) fetchMoreMessages {
-    CHDMessage *message = self.messages.lastObject;
-    if(message != nil) {
-        [self fetchMoreMessagesFromDate:[message.lastActivityDate dateByAddingTimeInterval:0.01]];
-    }else{
-        [self fetchMoreMessagesFromDate:[NSDate date]];
-    }
+- (void) fetchMoreMessages {
+    [self fetchMoreMessagesWithQuery:self.searchQuery continuePagination:NO];
+}
+
+- (void) fetchMoreMessagesWithQuery: (NSString*) query continuePagination: (BOOL) continuePagination {
+    CHDMessage *message = continuePagination ? self.messages.lastObject : nil;
+    [self fetchMoreMessagesFromDate: message != nil ? [message.lastActivityDate dateByAddingTimeInterval:-1.0] : [NSDate date] withQuery:query continuePagination:continuePagination];
 }
 
 - (void) fetchMoreMessagesFromDate: (NSDate*) date {
-    if(self.unreadOnly || !self.canFetchNewMessages){return;}
-    NSLog(@"Fetch messages from %@", date);
-    [self rac_liftSelector:@selector(parseMessages:) withSignals:[self.getMessagesCommand execute:RACTuplePack(date)], nil];
+    [self fetchMoreMessagesFromDate:date withQuery:nil continuePagination:YES];
 }
 
-- (void) parseMessages: (NSArray*) messages {
+- (void) fetchMoreMessagesFromDate: (NSDate*) date withQuery: (NSString*) query continuePagination: (BOOL) continuePagination {
+    if(self.unreadOnly || !self.canFetchNewMessages){return;}
+    NSLog(@"Fetch messages from %@", date);
+    [self rac_liftSelector:@selector(parseMessages:append:) withSignals:[self.getMessagesCommand execute:RACTuplePack(date, query)], [RACSignal return:@(continuePagination)], nil];
+}
+
+- (void) parseMessages: (NSArray*) messages append: (BOOL) append {
     NSLog(@"Parsing messages %i", (uint) messages.count);
-    self.canFetchNewMessages = messages.count > 0;
+    self.canFetchNewMessages = self.waitForSearch || messages.count > 0;
 
     NSArray *sortedMessages = [messages sortedArrayUsingComparator:^NSComparisonResult(CHDMessage *message1, CHDMessage *message2) {
         return [message2.lastActivityDate compare:message1.lastActivityDate];
     }];
 
-    if(self.unreadOnly){
+    if (self.unreadOnly || self.waitForSearch){
         self.messages = sortedMessages;
-        return;
     }
-
-    self.messages = [(self.messages ?: @[]) arrayByAddingObjectsFromArray:sortedMessages];
+    else {
+        self.messages = [(self.messages ?: @[]) arrayByAddingObjectsFromArray:sortedMessages];
+    }
 }
 
 - (void) reloadUnread {

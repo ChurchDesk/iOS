@@ -20,6 +20,8 @@
 @property (nonatomic, assign) BOOL isEditingMessages;
 @property (nonatomic, readonly) BOOL canFetchNewMessages;
 @property (nonatomic, assign) BOOL unreadOnly;
+@property (nonatomic, readonly) BOOL waitForSearch;
+@property (nonatomic, strong) NSString *searchQuery;
 @property (nonatomic, readonly) NSArray *messages;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser* user;
@@ -30,11 +32,14 @@
 
 - (RACSignal*) setMessageAsRead: (CHDMessage*) message;
 - (void) fetchMoreMessages;
-- (void) fetchMoreMessagesFromDate: (NSDate*) date;
+- (void) fetchMoreMessagesWithQuery: (NSString*) query continuePagination: (BOOL) continuePagination;
 
 - (instancetype)initWithUnreadOnly: (BOOL) unreadOnly;
+- (instancetype)initWaitForSearch: (BOOL) waitForSearch;
+
 - (BOOL) removeMessageWithIndex: (NSUInteger) idx;
 
 -(void) reloadUnread;
 -(void) reloadAll;
+
 @end

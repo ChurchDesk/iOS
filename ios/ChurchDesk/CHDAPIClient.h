@@ -35,6 +35,7 @@
 
 - (RACSignal*) getUnreadMessages;
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit;
+- (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit query: (NSString*) query;
 - (RACSignal*) getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId;
 - (RACSignal*) setMessageAsRead:(NSNumber *)messageId siteId:(NSString*)siteId;
 

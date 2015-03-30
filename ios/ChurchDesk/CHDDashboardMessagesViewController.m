@@ -23,27 +23,28 @@
 #import "CHDFilterView.h"
 #import "CHDPassthroughTouchView.h"
 
-@interface CHDDashboardMessagesViewController ()
+@interface CHDDashboardMessagesViewController () <UISearchBarDelegate>
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) CHDMagicNavigationBarView *magicNavigationBar;
 @property (nonatomic, strong) CHDFilterView *filterView;
+@property (nonatomic, strong) UIButton *searchButton;
 @property (nonatomic, strong) CHDPassthroughTouchView *drawerBlockOutView;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property(nonatomic, retain) UITableView* messagesTable;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 @property(nonatomic, strong) CHDDashboardMessagesViewModel *viewModel;
-@property(nonatomic) CHDMessagesFilterType messageFilter;
+@property(nonatomic) CHDMessagesStyle messageStyle;
 
 @end
 
 @implementation CHDDashboardMessagesViewController
 
-- (instancetype)initWithFilterType: (CHDMessagesFilterType) filterType
+- (instancetype)initWithStyle: (CHDMessagesStyle) style
 {
     self = [super init];
     if (self) {
-        self.title = NSLocalizedString(@"Dashboard", @"");
-        self.messageFilter = filterType;
+        self.title = style == CHDMessagesStyleSearch ? nil : NSLocalizedString(@"Dashboard", @"");
+        self.messageStyle = style;
     }
     return self;
 }
@@ -66,7 +67,7 @@
         return @(messages.count == 0);
     }], nil];
 
-    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages && self.chd_tabbarViewController != nil){
+    if(self.messageStyle == CHDMessagesStyleUnreadMessages && self.chd_tabbarViewController != nil){
         [self rac_liftSelector:@selector(setUnread:) withSignals:[messagesSignal map:^id(NSArray *messages) {
             if(messages != nil){
                 return @(messages.count > 0);
@@ -74,7 +75,7 @@
             return @(NO);
         }], nil];
     }
-    if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
+    if(self.messageStyle == CHDMessagesStyleAllMessages || self.messageStyle == CHDMessagesStyleSearch) {
 
         RACSignal *refreshSignal = [[RACSignal combineLatest:@[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)], self.viewModel.getMessagesCommand.executing, RACObserve(self.viewModel, canFetchNewMessages)] reduce:^id(RACTuple *tuple, NSNumber *iExecuting, NSNumber *iCanFetch) {
             if(iExecuting.boolValue || !iCanFetch.boolValue){
@@ -92,22 +93,32 @@
             return contentHeight - heightOffset < contentHeight * 0.2 && sectionCount > 0 && rowCount > 0;
         }];
 
-        [self.viewModel shprac_liftSelector:@selector(fetchMoreMessages) withSignal:refreshSignal];
-
-        [self rac_liftSelector:@selector(changeFilter:) withSignals:[RACObserve(self.filterView, selectedFilter) skip:1], nil];
-
-        [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:[self.drawerBlockOutView rac_signalForSelector:@selector(touchesBegan:withEvent:)]];
-
-        //Handle when the drawer is shown/hidden
-        RACSignal *drawerIsShownSignal = RACObserve(self.magicNavigationBar, drawerIsHidden);
-
-        [self shprac_liftSelector:@selector(drawerDidHide) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
-            return iIsHidden.boolValue;
-        }]];
-
-        [self shprac_liftSelector:@selector(drawerWillShow) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
-            return !iIsHidden.boolValue;
-        }]];
+        __block NSString *lastSearchQuery = nil;
+        CHDDashboardMessagesViewModel *viewModel = self.viewModel;
+        [self.viewModel rac_liftSelector:@selector(fetchMoreMessagesWithQuery:continuePagination:) withSignals:RACObserve(viewModel, searchQuery), [refreshSignal flattenMap:^RACStream *(id value) {
+            RACSignal *continuePaginationSignal = [[RACObserve(viewModel, searchQuery) take:1] map:^id(NSString *searchQuery) {
+                return @(searchQuery == lastSearchQuery || [searchQuery isEqualToString:lastSearchQuery]);
+            }];
+            lastSearchQuery = viewModel.searchQuery;
+            return continuePaginationSignal;
+        }], nil];
+        
+        if (self.messageStyle != CHDMessagesStyleSearch) {
+            [self rac_liftSelector:@selector(changeStyle:) withSignals:[RACObserve(self.filterView, selectedFilter) skip:1], nil];
+            
+            [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:[self.drawerBlockOutView rac_signalForSelector:@selector(touchesBegan:withEvent:)]];
+            
+            //Handle when the drawer is shown/hidden
+            RACSignal *drawerIsShownSignal = RACObserve(self.magicNavigationBar, drawerIsHidden);
+            
+            [self shprac_liftSelector:@selector(drawerDidHide) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
+                return iIsHidden.boolValue;
+            }]];
+            
+            [self shprac_liftSelector:@selector(drawerWillShow) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
+                return !iIsHidden.boolValue;
+            }]];
+        }
     }
 }
 
@@ -115,20 +126,32 @@
     [self.view addSubview:self.contentView];
     [self.contentView addSubview:self.messagesTable];
     [self.messagesTable addSubview:self.refreshControl];
-    [self setupAddButton];
     
-    if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
+    if(self.messageStyle == CHDMessagesStyleAllMessages) {
         [self.view addSubview:self.magicNavigationBar];
         [self.magicNavigationBar.drawerView addSubview:self.filterView];
+        [self.magicNavigationBar.drawerView addSubview:self.searchButton];
 
-        [self.filterView setupFiltersWithTitels:@[@"Show all", @"Show unread"] filters:@[@(CHDMessagesFilterTypeAllMessages), @(CHDMessagesFilterTypeUnreadMessages)]];
-        self.filterView.selectedFilter = CHDMessagesFilterTypeAllMessages;
+        [self.filterView setupFiltersWithTitels:@[@"Show all", @"Show unread"] filters:@[@(CHDMessagesStyleAllMessages), @(CHDMessagesStyleUnreadMessages)]];
+        self.filterView.selectedFilter = CHDMessagesStyleAllMessages;
         [self.view addSubview:self.drawerBlockOutView];
+    }
+    if (self.messageStyle == CHDMessagesStyleSearch) {
+        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+        searchBar.delegate = self;
+        UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
+        self.navigationItem.leftBarButtonItem = searchItem;
+        
+        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(searchCloseAction:)];
+        self.navigationItem.rightBarButtonItem = cancelItem;
+    }
+    else {
+        [self setupAddButton];
     }
 }
 
 -(void) makeConstraints {
-    if(self.messageFilter == CHDMessagesFilterTypeAllMessages){
+    if(self.messageStyle == CHDMessagesStyleAllMessages){
         [self.drawerBlockOutView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView);
         }];
@@ -144,6 +167,12 @@
         }];
         [self.filterView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.magicNavigationBar.drawerView);
+        }];
+        
+        [self.searchButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.magicNavigationBar.drawerView).offset(-4.5);
+            make.width.height.equalTo(@44);
+            make.bottom.equalTo(self.magicNavigationBar.drawerView);
         }];
 
     }else{
@@ -195,7 +224,7 @@
         _emptyMessageLabel = [UILabel new];
         _emptyMessageLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _emptyMessageLabel.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
-        _emptyMessageLabel.text = self.messageFilter == CHDMessagesFilterTypeUnreadMessages? NSLocalizedString(@"No unread messages", @"") : NSLocalizedString(@"No messages", @"");
+        _emptyMessageLabel.text = self.messageStyle == CHDMessagesStyleUnreadMessages? NSLocalizedString(@"No unread messages", @"") : NSLocalizedString(@"No messages", @"");
         _emptyMessageLabel.textAlignment = NSTextAlignmentCenter;
         _emptyMessageLabel.numberOfLines = 0;
     }
@@ -224,11 +253,26 @@
     return _drawerBlockOutView;
 }
 
+- (UIButton *)searchButton {
+    if (!_searchButton) {
+        _searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_searchButton setImage:kImgSearchPassive forState:UIControlStateNormal];
+        [_searchButton setImage:kImgSearchActive forState:UIControlStateHighlighted];
+        [_searchButton addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _searchButton;
+}
+
 #pragma mark - View methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:(self.messageFilter == CHDMessagesFilterTypeUnreadMessages)];
+    if (self.messageStyle == CHDMessagesStyleSearch) {
+        self.viewModel = [[CHDDashboardMessagesViewModel new] initWaitForSearch:YES];
+    }
+    else {
+        self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:(self.messageStyle == CHDMessagesStyleUnreadMessages)];
+    }
 
     [self setupBindings];
     // Do any additional setup after loading the view.
@@ -242,6 +286,13 @@
     [self.messagesTable reloadData];
 }
 
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    self.viewModel.searchQuery = searchBar.text;
+}
+
 #pragma mark - UIScrollView
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     //
@@ -249,10 +300,10 @@
 
 #pragma mark - UITableViewDataSource
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages) {
+    if(self.messageStyle == CHDMessagesStyleUnreadMessages) {
         [self.viewModel reloadUnread];
     }
-    if(self.messageFilter == CHDMessagesFilterTypeAllMessages){
+    if(self.messageStyle == CHDMessagesStyleAllMessages){
         [self.viewModel reloadAll];
     }
 }
@@ -263,7 +314,7 @@
 -(void) markAsReadWithMessageIndexTuple: (RACTuple *) tuple {
     RACTupleUnpack(CHDMessage *message, NSIndexPath *indexPath) = tuple;
 
-    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages) {
+    if(self.messageStyle == CHDMessagesStyleUnreadMessages) {
         //Set flag on viewModel to avoid reload of data while editing
         self.viewModel.isEditingMessages = YES;
 
@@ -285,7 +336,7 @@
         return;
     }
 
-    if(self.messageFilter == CHDMessagesFilterTypeAllMessages){
+    if(self.messageStyle == CHDMessagesStyleAllMessages){
         [self.viewModel setMessageAsRead:message];
         [self.messagesTable reloadData];
         return;
@@ -336,15 +387,28 @@
 
 #pragma mark -other methods
 
+- (void)searchAction: (id) sender {
+    CHDDashboardMessagesViewController *messagesVC = [[CHDDashboardMessagesViewController alloc] initWithStyle:CHDMessagesStyleSearch];
+    UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:messagesVC];
+    
+    [self presentViewController:navCtrl animated:YES completion:nil];
+}
+
+- (void) searchCloseAction: (id) sender {
+    [self.navigationItem.leftBarButtonItem.customView endEditing:YES];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 -(void) setUnread: (BOOL) hasUnread {
     if(self.chd_tabbarViewController) {
         [self.chd_tabbarViewController notificationsForIndex:self.chd_tabbarIdx show:hasUnread];
     }
 }
 
--(void) changeFilter: (CHDMessagesFilterType) filter {
-    self.messageFilter = filter;
-    self.viewModel.unreadOnly = filter == CHDMessagesFilterTypeUnreadMessages;
+-(void) changeStyle: (CHDMessagesStyle) style {
+    NSAssert(style != CHDMessagesStyleSearch, @"Cannot change to search style");
+    self.messageStyle = style;
+    self.viewModel.unreadOnly = style == CHDMessagesStyleUnreadMessages;
 }
 
 -(void) emptyMessageShow: (BOOL) show {

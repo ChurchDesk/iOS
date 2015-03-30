@@ -70,7 +70,7 @@
     }];
     
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
-    CHDDashboardMessagesViewController *messagesViewController = [[CHDDashboardMessagesViewController new] initWithFilterType:CHDMessagesFilterTypeAllMessages];
+    CHDDashboardMessagesViewController *messagesViewController = [[CHDDashboardMessagesViewController new] initWithStyle:CHDMessagesStyleAllMessages];
     messagesViewController.title = NSLocalizedString(@"Messages", @"");
     CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
     CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
