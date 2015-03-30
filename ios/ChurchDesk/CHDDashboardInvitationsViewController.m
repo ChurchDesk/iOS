@@ -33,6 +33,11 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
+        self.viewModel = [CHDDashboardInvitationsViewModel new];
+
+        [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, invitations) combinePreviousWithStart:@[] reduce:^id(NSArray *previousInvitations, NSArray *currentInvitations) {
+            return @(currentInvitations.count > previousInvitations.count);
+        }], nil];
     }
     return self;
 }
@@ -40,7 +45,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewModel = [CHDDashboardInvitationsViewModel new];
     
     [self makeViews];
     [self makeConstraints];
@@ -50,6 +54,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.inviteTable reloadData];
+    [self setUnread:NO];
 }
 
 #pragma mark - setup views
@@ -77,15 +82,6 @@
     [self.inviteTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[invitationsSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
     [self shprac_liftSelector:@selector(endRefresh) withSignal:RACObserve(self.viewModel, invitations)];
-
-    if(self.chd_tabbarViewController != nil){
-        [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, invitations) map:^id(NSArray *invitations) {
-            if(invitations != nil){
-                return @(invitations.count > 0);
-            }
-            return @(NO);
-        }], nil];
-    }
 
     [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[[RACObserve(self.viewModel, invitations) skip:1] map:^id(NSArray *invitations) {
         return @(invitations.count == 0);

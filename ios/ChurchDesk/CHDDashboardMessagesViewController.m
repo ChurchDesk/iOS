@@ -44,7 +44,15 @@
     self = [super init];
     if (self) {
         self.title = style == CHDMessagesStyleSearch ? nil : NSLocalizedString(@"Dashboard", @"");
+        self.messageFilter = filterType;
+        self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:(self.messageFilter == CHDMessagesFilterTypeUnreadMessages)];
+
+        if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages){
+            [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, messages) combinePreviousWithStart:@[] reduce:^id(NSArray *previousMessages, NSArray *currentMessages) {
+                return @(currentMessages.count > previousMessages.count);
+            }], nil];
         self.messageStyle = style;
+        }
     }
     return self;
 }
@@ -92,6 +100,19 @@
 
             return contentHeight - heightOffset < contentHeight * 0.2 && sectionCount > 0 && rowCount > 0;
         }];
+
+        [self.viewModel shprac_liftSelector:@selector(fetchMoreMessages) withSignal:refreshSignal];
+
+        [self rac_liftSelector:@selector(changeFilter:) withSignals:[RACObserve(self.filterView, selectedFilter) skip:1], nil];
+
+        [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:[self.drawerBlockOutView rac_signalForSelector:@selector(touchesBegan:withEvent:)]];
+
+        //Handle when the drawer is shown/hidden
+        RACSignal *drawerIsShownSignal = RACObserve(self.magicNavigationBar, drawerIsHidden);
+
+        [self shprac_liftSelector:@selector(drawerDidHide) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
+            return iIsHidden.boolValue;
+        }]];
 
         __block NSString *lastSearchQuery = nil;
         CHDDashboardMessagesViewModel *viewModel = self.viewModel;
@@ -284,12 +305,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.messagesTable reloadData];
+    [self setUnread:NO];
 }
 
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [searchBar resignFirstResponder];
+    [self setUnread:NO];
     self.viewModel.searchQuery = searchBar.text;
 }
 
