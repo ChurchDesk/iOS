@@ -76,7 +76,7 @@
             [self shprac_liftSelector:@selector(fetchMoreMessages) withSignal:fetchAllMessagesSignal];
         }
         
-        [self rac_liftSelector:@selector(parseMessages:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], nil];
+        [self rac_liftSelector:@selector(parseMessages:append:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], [RACSignal return:@NO], nil];
         
         
         RAC(self, user) = [[apiClient getCurrentUser] catch:^RACSignal *(NSError *error) {
