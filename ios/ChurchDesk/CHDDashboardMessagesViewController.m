@@ -44,6 +44,13 @@
     if (self) {
         self.title = NSLocalizedString(@"Dashboard", @"");
         self.messageFilter = filterType;
+        self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:(self.messageFilter == CHDMessagesFilterTypeUnreadMessages)];
+
+        if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages){
+            [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, messages) combinePreviousWithStart:@[] reduce:^id(NSArray *previousMessages, NSArray *currentMessages) {
+                return @(currentMessages.count > previousMessages.count);
+            }], nil];
+        }
     }
     return self;
 }
@@ -66,14 +73,6 @@
         return @(messages.count == 0);
     }], nil];
 
-    if(self.messageFilter == CHDMessagesFilterTypeUnreadMessages && self.chd_tabbarViewController != nil){
-        [self rac_liftSelector:@selector(setUnread:) withSignals:[messagesSignal map:^id(NSArray *messages) {
-            if(messages != nil){
-                return @(messages.count > 0);
-            }
-            return @(NO);
-        }], nil];
-    }
     if(self.messageFilter == CHDMessagesFilterTypeAllMessages) {
 
         RACSignal *refreshSignal = [[RACSignal combineLatest:@[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)], self.viewModel.getMessagesCommand.executing, RACObserve(self.viewModel, canFetchNewMessages)] reduce:^id(RACTuple *tuple, NSNumber *iExecuting, NSNumber *iCanFetch) {
@@ -228,7 +227,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:(self.messageFilter == CHDMessagesFilterTypeUnreadMessages)];
 
     [self setupBindings];
     // Do any additional setup after loading the view.
@@ -240,6 +238,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.messagesTable reloadData];
+    [self setUnread:NO];
 }
 
 #pragma mark - UIScrollView
