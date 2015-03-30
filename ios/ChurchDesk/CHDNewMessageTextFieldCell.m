@@ -16,7 +16,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if(self){
         self.disclosureArrowHidden = YES;
-        self.selectionStyle = UITableViewCellStyleDefault;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self makeViews];
         [self makeConstraints];
     }
@@ -35,6 +35,8 @@
     UIView *contentView = self.contentView;
 
     [contentView addSubview:self.textField];
+
+    self.selectedBackgroundView = nil;
 }
 
 - (UITextField *)textField {
