@@ -157,7 +157,7 @@
             cancelItemWidth = (CGFloat)0.0;
         }
 
-        CGFloat searchbarWidth = [[UIScreen mainScreen] bounds].size.width - (cancelItemWidth + 40);
+        CGFloat searchbarWidth = self.view.bounds.size.width - (cancelItemWidth + 40);
 
         UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, searchbarWidth, 40)];
         searchBar.delegate = self;
