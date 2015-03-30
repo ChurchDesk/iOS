@@ -44,10 +44,12 @@
                 return [RACSignal empty];
             }];
         }];
-        
-        
+
+        [self rac_liftSelector:@selector(setCanFetchNewMessages:) withSignals:[RACObserve(self, unreadOnly) map:^id(id value) {
+            return @(YES);
+        }], nil];
+
         //Update signal
-        
         RACSignal *updateSignal = [[[RACObserve(self, unreadOnly) filter:^BOOL(NSNumber *iUnreadnly) {
             return iUnreadnly.boolValue;
         }] flattenMap:^RACStream *(id value) {
@@ -73,7 +75,7 @@
             }], [RACSignal return:@NO], nil];
         }
         else {
-            [self shprac_liftSelector:@selector(fetchMoreMessages) withSignal:fetchAllMessagesSignal];
+            [self shprac_liftSelector:@selector(filterChangedToAllMessages) withSignal:fetchAllMessagesSignal];
         }
         
         [self rac_liftSelector:@selector(parseMessages:append:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], [RACSignal return:@NO], nil];
@@ -139,6 +141,11 @@
     return _getMessagesCommand;
 }
 
+-(void) filterChangedToAllMessages {
+    self.canFetchNewMessages = YES;
+    [self fetchMoreMessagesWithQuery:nil continuePagination:NO];
+}
+
 - (void) fetchMoreMessages {
     [self fetchMoreMessagesWithQuery:self.searchQuery continuePagination:NO];
 }
@@ -166,7 +173,7 @@
         return [message2.lastActivityDate compare:message1.lastActivityDate];
     }];
 
-    if (self.unreadOnly || self.waitForSearch){
+    if (self.unreadOnly || !append){
         self.messages = sortedMessages;
     }
     else {
