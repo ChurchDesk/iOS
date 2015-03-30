@@ -68,14 +68,17 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
 
 - (void) toggleButtonAction: (id) sender {
     BOOL toggleOn = CGAffineTransformEqualToTransform(self.buttonContainer.transform, CGAffineTransformIdentity);
-    CGAffineTransform transform = toggleOn ? CGAffineTransformMakeRotation(-k45Degrees) : CGAffineTransformIdentity;
-    
-    CGPoint eventOffset = toggleOn ? CGPointMake(-7, 33) : kDefaultCenterPoint;
-    CGPoint messageOffset = toggleOn ? CGPointMake(-7, -41) : kDefaultCenterPoint;
+    [self buttonOn:toggleOn];
+}
+
+-(void) buttonOn: (BOOL) on {
+    CGAffineTransform transform = on ? CGAffineTransformMakeRotation(-k45Degrees) : CGAffineTransformIdentity;
+    CGPoint eventOffset = on ? CGPointMake(-7, 33) : kDefaultCenterPoint;
+    CGPoint messageOffset = on ? CGPointMake(-7, -41) : kDefaultCenterPoint;
     [self.eventCenterConstraint setCenterOffset:eventOffset];
     [self.messageCenterConstraint setCenterOffset:messageOffset];
-    
-    [UIView animateWithDuration:toggleOn ? 0.7 : 0.4 delay:0 usingSpringWithDamping:toggleOn ? 0.6 : 0.8 initialSpringVelocity:1.0 options: UIViewAnimationOptionAllowUserInteraction animations:^{
+
+    [UIView animateWithDuration:on ? 0.7 : 0.4 delay:0 usingSpringWithDamping:on ? 0.6 : 0.8 initialSpringVelocity:1.0 options: UIViewAnimationOptionAllowUserInteraction animations:^{
         self.toggleButton.transform = transform;
         self.buttonContainer.transform = transform;
         [self layoutIfNeeded];

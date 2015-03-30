@@ -147,7 +147,8 @@
         }
         [mSectionEvents addObject:event];
     }
-    mSectionRows[section] = [mSectionEvents copy];
+
+    if(section){ mSectionRows[section] = [mSectionEvents copy];}
     
     self.events = [mEvents copy];
     self.noneFilteredEvents = [mNoneFilteredEvents copy];

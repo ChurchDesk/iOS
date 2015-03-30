@@ -38,14 +38,6 @@
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
-
-    #if DEBUG || INHOUSE
-
-    self.emailView.textField.text = @"shape@churchdesk.com";
-    self.passwordView.textField.text = @"Shape2015";
-
-    #endif
-    
 }
 
 - (void) setupSubviews {

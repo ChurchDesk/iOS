@@ -69,7 +69,12 @@
 }
 
 - (void) setupBindings {
-    [self.inviteTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.viewModel, invitations), RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
+    RACSignal *invitationsSignal = [[RACObserve(self.viewModel, isEditingMessages) filter:^BOOL(NSNumber *isEditing) {
+        return !isEditing.boolValue;
+    }] flattenMap:^RACStream *(id value) {
+        return RACObserve(self.viewModel, invitations);
+    }];
+    [self.inviteTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[invitationsSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
     [self shprac_liftSelector:@selector(endRefresh) withSignal:RACObserve(self.viewModel, invitations)];
 
@@ -160,28 +165,24 @@
 
     cell.titleLabel.text = invitation.title;
     cell.locationLabel.text = invitation.location;
-    cell.parishLabel.text = [user siteWithId:invitation.siteId].name;
+    cell.parishLabel.text = (user.sites.count > 1)? [user siteWithId:invitation.siteId].name : @"";
     cell.invitedByLabel.text = invitedByString;
 
     cell.eventTimeLabel.text = [self.viewModel getFormattedInvitationTimeFrom:invitation];
     cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:invitation.changeDate];
 
     //Setup events for the buttons
-    RACSignal *invitationAccept = [[cell.acceptButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal];
-    RACSignal *invitationMaybe = [[cell.maybeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal];
-    RACSignal *invitationDecline = [[cell.declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal];
+    [self rac_liftSelector:@selector(markAsAcceptedWithInvitationTuple:) withSignals:[[[cell.acceptButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] map:^id(id value) {
+        return RACTuplePack(invitation, indexPath);
+    }], nil];
 
-    [self.viewModel rac_liftSelector:@selector(setInivationAccept:) withSignals:[[invitationAccept map:^id(id value) {
-        return invitation;
-    }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+    [self rac_liftSelector:@selector(markAsMaybeWithInvitationTuple:) withSignals:[[[cell.maybeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] map:^id(id value) {
+        return RACTuplePack(invitation, indexPath);
+    }], nil];
 
-    [self.viewModel rac_liftSelector:@selector(setInivationMaybe:) withSignals:[[invitationMaybe map:^id(id value) {
-        return invitation;
-    }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
-    [self.viewModel rac_liftSelector:@selector(setInivationDecline:) withSignals:[[invitationDecline map:^id(id value) {
-        return invitation;
-    }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+    [self rac_liftSelector:@selector(markAsDeclineWithInvitationTuple:) withSignals:[[[cell.declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] map:^id(id value) {
+        return RACTuplePack(invitation, indexPath);
+    }], nil];
 
     UIColor *borderColor = category.color?: [UIColor clearColor];
     [cell.leftBorder setBackgroundColor:borderColor];
@@ -193,11 +194,42 @@
     return 1;
 }
 
--(void) accepted {
-    NSLog(@"Accepted");
+#pragma mark -other methods
+-(void) removeInvitationFromTableWithIndexPath:(NSIndexPath *) indexPath{
+    //Set flag on viewModel to avoid reload of data while editing
+    self.viewModel.isEditingMessages = YES;
+
+    //Remove index from table
+    [self.inviteTable beginUpdates];
+
+    //Remove index from model
+    if ([self.viewModel removeInvitationWithIndexPath:indexPath]) {
+
+        [self.inviteTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    }
+    [self.inviteTable endUpdates];
+
+    self.viewModel.isEditingMessages = NO;
 }
 
-#pragma mark -other methods
+-(void) markAsAcceptedWithInvitationTuple: (RACTuple*) tuple {
+    RACTupleUnpack(CHDInvitation *invitation, NSIndexPath *indexPath) = tuple;
+    [self removeInvitationFromTableWithIndexPath:indexPath];
+    [self.viewModel setInivationAccept:invitation];
+}
+
+-(void) markAsMaybeWithInvitationTuple: (RACTuple*) tuple {
+    RACTupleUnpack(CHDInvitation *invitation, NSIndexPath *indexPath) = tuple;
+    [self removeInvitationFromTableWithIndexPath:indexPath];
+    [self.viewModel setInivationMaybe:invitation];
+}
+
+-(void) markAsDeclineWithInvitationTuple: (RACTuple*) tuple {
+    RACTupleUnpack(CHDInvitation *invitation, NSIndexPath *indexPath) = tuple;
+    [self removeInvitationFromTableWithIndexPath:indexPath];
+    [self.viewModel setInivationDecline:invitation];
+}
+
 -(void) emptyMessageShow: (BOOL) show {
     if(show){
         [self.view addSubview:self.emptyMessageLabel];

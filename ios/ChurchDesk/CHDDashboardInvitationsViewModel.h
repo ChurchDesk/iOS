@@ -17,9 +17,10 @@
 @property (nonatomic, readonly) NSArray *invitations;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser *user;
+@property (nonatomic, assign) BOOL isEditingMessages;
 
 -(NSString*)getFormattedInvitationTimeFrom:(CHDInvitation *)invitation;
-
+-(BOOL) removeInvitationWithIndexPath:(NSIndexPath *) indexPath;
 -(void) setInivationAccept:(CHDInvitation *) invitation;
 -(void) setInivationMaybe:(CHDInvitation *) invitation;
 -(void) setInivationDecline:(CHDInvitation *) invitation;

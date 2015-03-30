@@ -22,6 +22,7 @@
 #import "CHDLoginViewController.h"
 #import "CHDRootViewController.h"
 #import "CHDAuthenticationManager.h"
+#import "NSUserDefaults+CHDDefaults.h"
 
 @interface AppDelegate ()
 
@@ -164,6 +165,11 @@
     [rootVC rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;
     }] mapReplace:@NO], [RACSignal return:nil], nil];
+
+
+    [[NSUserDefaults standardUserDefaults] shprac_liftSelector:@selector(chdClearDefaults) withSignal:[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
+        return token == nil;
+    }]];
 }
 
 #pragma mark - Push messages

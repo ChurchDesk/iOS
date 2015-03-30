@@ -9,9 +9,7 @@
 #import "CHDUser.h"
 #import "CHDAPICreate.h"
 #import "CHDSitePermission.h"
-
-static NSString* kDefaultsSiteIdLastUsed = @"messageSiteIdLastUsed";
-static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
+#import "NSUserDefaults+CHDDefaults.h"
 
 @interface CHDNewMessageViewModel()
 @property (nonatomic, assign) CHDEnvironment *environment;
@@ -37,9 +35,8 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        self.groupIdLastUsed = [[NSNumber alloc] initWithInteger: [defaults integerForKey:kDefaultsGroupIdLastUsed]];
-        self.siteIdLastUsed = [defaults stringForKey:kDefaultsSiteIdLastUsed];
+        self.groupIdLastUsed = [[NSUserDefaults standardUserDefaults] chdDefaultGroupId];
+        self.siteIdLastUsed = [[NSUserDefaults standardUserDefaults] chdDefaultSiteId];
 
         RACSignal *getEnvironmentSignal = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
@@ -180,7 +177,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
     if(self.user != nil){
         //If only a single site is available, skip the selectability
         if(self.user.sites.count == 1){
-            self.selectedSite = self.user.sites[0];
+            self.selectedSite = self.user.sites.firstObject;
             return;
         }
 
@@ -189,7 +186,7 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
             NSString* lastUsedId = self.siteIdLastUsed;
             CHDSite *lastUsed = [self.user siteWithId:lastUsedId];
 
-            self.selectedSite = lastUsed;
+            self.selectedSite = lastUsed?: self.user.sites.firstObject;
         }
 
         CHDSite *selectedSite = self.selectedSite;
@@ -211,13 +208,12 @@ static NSString* kDefaultsGroupIdLastUsed = @"messageGroupIdLastUsed";
 #pragma mark -
 
 -(void) storeDefaults {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if(self.selectedSite){
-        [defaults setObject:self.selectedSite.siteId forKey:kDefaultsSiteIdLastUsed];
+        [[NSUserDefaults standardUserDefaults] chdSetDefaultSiteId:self.selectedSite.siteId];
     }
 
     if(self.selectedGroup){
-        [defaults setObject:self.selectedGroup.groupId forKey:kDefaultsGroupIdLastUsed];
+        [[NSUserDefaults standardUserDefaults] chdSetDefaultGroupId:self.selectedGroup.groupId];
     }
 }
 

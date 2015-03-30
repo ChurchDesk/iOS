@@ -21,6 +21,7 @@
 #import "TTTTimeIntervalFormatter.h"
 #import "CHDUser.h"
 #import "CHDSite.h"
+#import "MBProgressHUD.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -149,10 +150,20 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [self.replyView.replyTextView shprac_liftSelector:@selector(becomeFirstResponder) withSignal:[RACObserve(self.viewModel, commentEdit) filter:^BOOL(CHDComment *comment) {
         return comment != nil;
     }]];
+
+    [self.replyView rac_liftSelector:@selector(setState:) withSignals:[RACObserve(self.viewModel, commentEdit) map:^id(CHDComment *comment) {
+        return (!comment)? @(CHDCommentViewStateReply) : @(CHDCommentViewStateUpdate);
+    }], nil];
+
+    [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.commentDeleteCommand.executing, nil];
+    [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.commentUpdateCommand.executing, nil];
 }
+
+#pragma mark -Actions
 
 -(void) touchedTableView: (id) sender {
     [self.view endEditing:YES];
+    self.viewModel.commentEdit = nil;
 }
 
 - (void) sendAction: (id) sender {
@@ -190,6 +201,21 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     }
 }
 
+-(void) showProgress: (BOOL) show {
+    if(show) {
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+    }else{
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    }
+}
+
 #pragma mark - Lazy initializing
 
 -(UITableView*) tableView{
@@ -217,6 +243,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     }
     return _replyView;
 }
+
+#pragma mark -Tableview Comment update
 
 -(void) updateTableWithMessageTuple: (RACTuple*) messageTuple {
     RACTupleUnpack(CHDMessage *previousMessage, CHDMessage *currentMessage) = messageTuple;
@@ -300,7 +328,6 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         if(self.viewModel.showAllComments) {
             return self.viewModel.allComments.count;
         }else{
-            //return (self.viewModel.latestComment != nil)? 1 : 0;
             return self.viewModel.latestComments.count;
         }
     }
@@ -331,7 +358,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.groupLabel.text = group? group.name : @"";
         cell.createdDateLabel.text = message.changeDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.changeDate] : @"";
         cell.messageLabel.text = message.body;
-        cell.parishLabel.text = authorSite ? authorSite.name : @"";
+        cell.parishLabel.text = (user.sites.count > 1)? authorSite ? authorSite.name : @"" : @"";
         cell.userNameLabel.text = authorUser? authorUser.name : @"";
         cell.profileImageView.image = authorUser? [UIImage imageWithData:[NSData dataWithContentsOfURL:authorUser.pictureURL]] : nil;
 
@@ -340,7 +367,6 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     if((messageSections)indexPath.section == commentsSection){
         CHDMessageCommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCommentsCellIdentifier forIndexPath:indexPath];
 
-        //CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComment;
         CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComments[indexPath.row];
         CHDPeerUser *author = [self.viewModel.environment userWithId:comment.authorId siteId:self.viewModel.message.siteId];
 
