@@ -51,7 +51,7 @@
             [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, messages) combinePreviousWithStart:@[] reduce:^id(NSArray *previousMessages, NSArray *currentMessages) {
                 return @(currentMessages.count > previousMessages.count);
             }], nil];
-        self.messageStyle = style;
+            self.messageStyle = style;
         }
     }
     return self;
@@ -110,19 +110,19 @@
             lastSearchQuery = viewModel.searchQuery;
             return continuePaginationSignal;
         }], nil];
-        
+
         if (self.messageStyle != CHDMessagesStyleSearch) {
             [self rac_liftSelector:@selector(changeStyle:) withSignals:[RACObserve(self.filterView, selectedFilter) skip:1], nil];
-            
+
             [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:[self.drawerBlockOutView rac_signalForSelector:@selector(touchesBegan:withEvent:)]];
-            
+
             //Handle when the drawer is shown/hidden
             RACSignal *drawerIsShownSignal = RACObserve(self.magicNavigationBar, drawerIsHidden);
-            
+
             [self shprac_liftSelector:@selector(drawerDidHide) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
                 return iIsHidden.boolValue;
             }]];
-            
+
             [self shprac_liftSelector:@selector(drawerWillShow) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
                 return !iIsHidden.boolValue;
             }]];
@@ -134,7 +134,7 @@
     [self.view addSubview:self.contentView];
     [self.contentView addSubview:self.messagesTable];
     [self.messagesTable addSubview:self.refreshControl];
-    
+
     if(self.messageStyle == CHDMessagesStyleAllMessages) {
         [self.view addSubview:self.magicNavigationBar];
         [self.magicNavigationBar.drawerView addSubview:self.filterView];
@@ -145,13 +145,25 @@
         [self.view addSubview:self.drawerBlockOutView];
     }
     if (self.messageStyle == CHDMessagesStyleSearch) {
-        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(searchCloseAction:)];
+        self.navigationItem.rightBarButtonItem = cancelItem;
+
+        UIView *view = [cancelItem valueForKey:@"view"];
+        CGFloat cancelItemWidth;
+        if(view){
+            cancelItemWidth = [view frame].size.width;
+        }
+        else{
+            cancelItemWidth = (CGFloat)0.0;
+        }
+
+        CGFloat searchbarWidth = [[UIScreen mainScreen] bounds].size.width - (cancelItemWidth + 40);
+
+        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, searchbarWidth, 40)];
         searchBar.delegate = self;
         UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
         self.navigationItem.leftBarButtonItem = searchItem;
-        
-        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(searchCloseAction:)];
-        self.navigationItem.rightBarButtonItem = cancelItem;
+
     }
     else {
         [self setupAddButton];
@@ -176,7 +188,7 @@
         [self.filterView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.magicNavigationBar.drawerView);
         }];
-        
+
         [self.searchButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.magicNavigationBar.drawerView).offset(-4.5);
             make.width.height.equalTo(@44);
@@ -399,7 +411,7 @@
 - (void)searchAction: (id) sender {
     CHDDashboardMessagesViewController *messagesVC = [[CHDDashboardMessagesViewController alloc] initWithStyle:CHDMessagesStyleSearch];
     UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:messagesVC];
-    
+
     [self presentViewController:navCtrl animated:YES completion:nil];
 }
 
