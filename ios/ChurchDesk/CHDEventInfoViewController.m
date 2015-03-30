@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "CHDEventInfoViewController.h"
 #import "CHDEventInfoViewModel.h"
 #import "CHDEventInfoTableViewCell.h"
@@ -26,6 +27,7 @@
 #import "CHDEditEventViewController.h"
 #import "CHDDescriptionViewController.h"
 #import "CHDEventUserDetailsViewController.h"
+#import "CHDUser.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -72,6 +74,14 @@
     RAC(self.navigationItem, rightBarButtonItem) = [RACObserve(self.viewModel, event) map:^id(CHDEvent *event) {
         return event.canEdit ? [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editEventAction:)] : nil;
     }];
+
+    //For better user-feedback this should be set to a command isExecuting instead
+    [self rac_liftSelector:@selector(showProgress:) withSignals:[[RACSignal combineLatest:@[RACObserve(self.viewModel, event), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user)]] map:^id(RACTuple *tuple) {
+        CHDEvent *event = tuple.first;
+        CHDEnvironment *environment = tuple.second;
+        CHDUser *user = tuple.third;
+        return @(event == nil || environment == nil || user == nil);
+    }], nil];
 }
 
 #pragma mark - Actions
@@ -124,6 +134,21 @@
     }];
     
     [sheet showInView:self.view];
+}
+
+-(void) showProgress: (BOOL) show {
+    if(show) {
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+    }else{
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    }
 }
 
 #pragma mark - UITableViewDelegate
