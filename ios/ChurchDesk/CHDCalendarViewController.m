@@ -189,6 +189,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:touchedDrawerBlockOutViewSignal];
 
     [self rac_liftSelector:@selector(todayButtonTouch:) withSignals:[self.todayButton rac_signalForControlEvents:UIControlEventTouchUpInside], nil];
+
+    [self rac_liftSelector:@selector(dayPickerWeekNumberDidChange:) withSignals:[RACObserve(self.dayPickerViewController, currentWeekNumber) skip:1], nil];
 }
 
 - (void) reloadDataWithPreviousSections: (NSArray*) previousSections newSections: (NSArray*) newSections {
@@ -209,6 +211,28 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         [self scrollToDate:topSection animated:NO offset:sectionOffset];
     }
     [self dotColorsForFirstVisibleSection];
+}
+#pragma mark - DayPicker actions
+-(void)dayPickerWeekNumberDidChange: (NSNumber*) weekNumber {
+    NSDate *date = self.dayPickerViewController.referenceDate;
+    if(date) {
+        NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+        NSDate *roundedDate = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
+        [self scrollToDate:roundedDate animated:NO];
+    }
+
+    [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+
+    // Configure for text only and offset down
+    hud.mode = MBProgressHUDModeText;
+    hud.detailsLabelText = [NSString stringWithFormat:NSLocalizedString(@"Week\n%@", nil), weekNumber];
+    hud.detailsLabelFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:40];
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    hud.userInteractionEnabled = NO;
+
+    [hud hide:YES afterDelay:1];
 }
 
 #pragma mark - SHPCalendarPickerViewDelegate
@@ -422,21 +446,6 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 - (CHDDayPickerViewController *)dayPickerViewController {
     if (!_dayPickerViewController) {
         _dayPickerViewController = [CHDDayPickerViewController new];
-        __weak CHDCalendarViewController *weakSelf = self;
-        [[RACObserve(_dayPickerViewController, currentWeekNumber) skip:1] subscribeNext:^(NSNumber *weekNumber) {
-            [MBProgressHUD hideAllHUDsForView:weakSelf.navigationController.view animated:YES];
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.navigationController.view animated:YES];
-            
-            // Configure for text only and offset down
-            hud.mode = MBProgressHUDModeText;
-            hud.detailsLabelText = [NSString stringWithFormat:NSLocalizedString(@"Week\n%@", nil), weekNumber];
-            hud.detailsLabelFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:40];
-            hud.margin = 10.f;
-            hud.removeFromSuperViewOnHide = YES;
-            hud.userInteractionEnabled = NO;
-            
-            [hud hide:YES afterDelay:1];
-        }];
     }
     return _dayPickerViewController;
 }

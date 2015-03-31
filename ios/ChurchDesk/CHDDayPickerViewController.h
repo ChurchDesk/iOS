@@ -10,6 +10,7 @@
 
 @interface CHDDayPickerViewController : UIViewController
 
+@property (nonatomic, readonly) NSDate *referenceDate;
 @property (nonatomic, strong) NSDate *selectedDate;
 @property (nonatomic, readonly) NSUInteger currentWeekNumber;
 
