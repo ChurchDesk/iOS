@@ -45,7 +45,11 @@
     if (self) {
         self.title = style == CHDMessagesStyleSearch ? nil : NSLocalizedString(@"Dashboard", @"");
         self.messageStyle = style;
-        self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:(self.messageStyle == CHDMessagesStyleUnreadMessages)];
+
+        //Model is loaded from init to be able to show unread messages in Dashboard
+        if (self.messageStyle == CHDMessagesStyleUnreadMessages) {
+            self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:YES];
+        }
 
         if(self.messageStyle == CHDMessagesStyleUnreadMessages){
             [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, messages) combinePreviousWithStart:@[] reduce:^id(NSArray *previousMessages, NSArray *currentMessages) {
@@ -287,11 +291,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //Only load search model in did load
     if (self.messageStyle == CHDMessagesStyleSearch) {
         self.viewModel = [[CHDDashboardMessagesViewModel new] initWaitForSearch:YES];
-    }
-    else {
-        self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:(self.messageStyle == CHDMessagesStyleUnreadMessages)];
+    }else if(self.messageStyle == CHDMessagesStyleAllMessages){
+        self.viewModel = [[CHDDashboardMessagesViewModel new] initWithUnreadOnly:NO];
     }
 
     [self setupBindings];
