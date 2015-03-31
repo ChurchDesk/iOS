@@ -32,8 +32,6 @@
         //Initial signal
         RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
-//                    NSInteger startDate = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
-//                    NSInteger endDate = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
                     return [self isDate:referenceDate inRangeFirstDate:event.startDate lastDate:event.endDate];
                 }];
                 return results.array;
@@ -51,7 +49,6 @@
         }] flattenMap:^RACStream *(id value) {
             return [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
-//                    NSInteger compareDay = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
                     return [self isDate:referenceDate inRangeFirstDate:event.startDate lastDate:event.endDate];
                 }];
                 return results.array;
@@ -66,9 +63,17 @@
             return [RACSignal empty];
         }];
 
-        RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+        RAC(self, environment) = [RACSignal merge:@[[[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
-        }];
+        }], [[[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
+            NSString *regex = tuple.first;
+            NSString *resourcePath = [apiClient resourcePathForGetEnvironment];
+            return [regex rangeOfString:resourcePath].location != NSNotFound;
+        }] flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }]]];
     }
     return self;
 }
