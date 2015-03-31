@@ -366,7 +366,7 @@
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
-        cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject].name : [@(event.eventCategoryIds.count) stringValue];
+        cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
 
         [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
             return @(siteId == nil);

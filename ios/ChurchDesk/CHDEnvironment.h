@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSArray *groups;
 @property (nonatomic, strong) NSArray *users;
 
-- (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId;
+- (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId siteId: (NSString*) siteId;
 - (NSArray*) eventCategoriesWithSiteId: (NSString*) siteId;
 
 - (CHDResource*) resourceWithId: (NSNumber*) resourceId;

@@ -207,7 +207,7 @@
         NSArray *hiddenEvents = [eventsInSection subarrayWithRange:range];
 
         for (CHDEvent *event in hiddenEvents){
-            CHDEventCategory *category = [self.environment eventCategoryWithId:event.eventCategoryIds.firstObject];
+            CHDEventCategory *category = [self.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
         
             BOOL colorExists = NO;
             for (UIColor *hiddenColor in hiddenEventsColors) {

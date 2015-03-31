@@ -291,7 +291,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All Day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
 
 
-    CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject];
+    CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
     [cell.leftBorder setBackgroundColor:category.color?: [UIColor clearColor]];
 
     return cell;

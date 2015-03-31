@@ -44,9 +44,9 @@
 
 #pragma mark - Categories
 
-- (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId {
+- (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId siteId: (NSString*) siteId{
     return eventCategoryId ? [self.eventCategories shp_detect:^BOOL(CHDEventCategory *eventCategory) {
-        return [eventCategory.categoryId isEqualToNumber:eventCategoryId];
+        return [eventCategory.categoryId isEqualToNumber:eventCategoryId] && [eventCategory.siteId isEqualToString:siteId];
     }] : nil;
 }
 

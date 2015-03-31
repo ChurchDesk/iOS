@@ -153,7 +153,7 @@
     CHDUser *user = self.viewModel.user;
 
     //Get the first eventCategory
-    CHDEventCategory *category = (invitation.eventCategories && invitation.eventCategories.count > 0)?[environment eventCategoryWithId: invitation.eventCategories[0]] : nil;
+    CHDEventCategory *category = (invitation.eventCategories && invitation.eventCategories.count > 0)?[environment eventCategoryWithId: invitation.eventCategories[0] siteId: invitation.siteId] : nil;
     CHDPeerUser *invitedByUser = [environment userWithId:invitation.invitedByUserId siteId:invitation.siteId];
     NSString *invitedByString = NSLocalizedString(@"Invited by ", @"");
 

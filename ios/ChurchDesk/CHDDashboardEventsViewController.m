@@ -112,7 +112,7 @@
     CHDEnvironment *environment = self.viewModel.environment;
 
     //Get the first eventCategory
-    CHDEventCategory *category = (event.eventCategoryIds && event.eventCategoryIds.count > 0)?[environment eventCategoryWithId: event.eventCategoryIds[0]] : nil;
+    CHDEventCategory *category = (event.eventCategoryIds && event.eventCategoryIds.count > 0)?[environment eventCategoryWithId: event.eventCategoryIds[0] siteId:event.siteId] : nil;
 
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.titleLabel.text = event.title;
