@@ -97,10 +97,12 @@
 #pragma mark - Actions
 
 - (void) cancelAction: (id) sender {
+    [self.view endEditing:YES];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) saveAction: (id) sender {
+    [self.view endEditing:YES];
     CHDEditEventViewModel *viewModel = self.viewModel;
 
     [self shprac_liftSelector:@selector(setEvent:) withSignal:[[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
