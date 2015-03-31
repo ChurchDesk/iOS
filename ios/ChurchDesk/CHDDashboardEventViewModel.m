@@ -27,13 +27,14 @@
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSInteger year = self.year = [calendar component:NSCalendarUnitYear fromDate:referenceDate];
         NSInteger month = self.month = [calendar component:NSCalendarUnitMonth fromDate:referenceDate];
-        NSInteger today = [calendar component:NSCalendarUnitDay fromDate:referenceDate];
+//        NSInteger today = [calendar component:NSCalendarUnitDay fromDate:referenceDate];
 
         //Initial signal
         RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
-                    NSInteger compareDay = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
-                    return compareDay == today;
+//                    NSInteger startDate = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
+//                    NSInteger endDate = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
+                    return [self isDate:referenceDate inRangeFirstDate:event.startDate lastDate:event.endDate];
                 }];
                 return results.array;
             }] catch:^RACSignal *(NSError *error) {
@@ -50,8 +51,8 @@
         }] flattenMap:^RACStream *(id value) {
             return [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
-                    NSInteger compareDay = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
-                    return compareDay == today;
+//                    NSInteger compareDay = [calendar component:NSCalendarUnitDay fromDate:event.startDate];
+                    return [self isDate:referenceDate inRangeFirstDate:event.startDate lastDate:event.endDate];
                 }];
                 return results.array;
             }] catch:^RACSignal *(NSError *error) {
@@ -71,6 +72,19 @@
     }
     return self;
 }
+- (BOOL)isDate:(NSDate *)date inRangeFirstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
+
+    NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:date];
+    NSDateComponents *firstDateComponents = [calendar components:unitFlags fromDate:firstDate];
+    NSDateComponents *lastDateComponents = [calendar components:unitFlags fromDate:lastDate];
+
+    BOOL first = dateComponents.day == firstDateComponents.day && dateComponents.month == firstDateComponents.month && dateComponents.year == firstDateComponents.year;
+    BOOL last = dateComponents.day == lastDateComponents.day && dateComponents.month == lastDateComponents.month && dateComponents.year == lastDateComponents.year;
+    
+    return ([date compare:firstDate] == NSOrderedDescending && [date compare:lastDate]  == NSOrderedAscending) || first || last;
+}
 
 - (NSString *)formattedTimeForEvent:(CHDEvent *)event {
 
@@ -78,21 +92,56 @@
         return NSLocalizedString(@"All day", @"");
     }
 
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *formattedDate = nil;
     NSDateFormatter *dateFormatterFrom = [NSDateFormatter new];
     NSDateFormatter *dateFormatterTo = [NSDateFormatter new];
-    NSLocale *locale = [NSLocale currentLocale];
-    NSString *dateTemplateFrom = [NSDateFormatter dateFormatFromTemplate:@"HHmm" options:0 locale:locale];
-    NSString *dateTemplateTo = [NSDateFormatter dateFormatFromTemplate:@"HHmm" options:0 locale:locale];
 
-    [dateFormatterFrom setDateFormat:dateTemplateFrom];
+    NSDateComponents *fromComponents = [calendar components:unitFlags fromDate:event.startDate];
+    NSDateComponents *toComponents = [calendar components:unitFlags fromDate:event.endDate];
+    NSDateComponents *todayComponents = [calendar components:unitFlags fromDate:[NSDate date]];
+
+    //Set date format Templates
+    NSString *dateComponentFrom = nil;
+    NSString *dateComponentTo = nil;
+
+    if(fromComponents.day != toComponents.day || fromComponents.month != toComponents.month || fromComponents.year != toComponents.year){
+        if(fromComponents.day == todayComponents.day){
+            dateComponentFrom = @"jjmm";
+            dateComponentTo = @"ddMMM";
+        }else if(toComponents.day == todayComponents.day){
+            dateComponentFrom = @"ddMMM";
+            dateComponentTo = @"jjmm";
+        }else{
+            dateComponentTo = @"ddMMM";
+        }
+    }else{
+        dateComponentFrom = @"jjmm";
+        dateComponentTo = @"jjmm";
+    }
+
+    NSString *startDate = NSLocalizedString(@"All day", @"");
+
+    if(dateComponentFrom) {
+        NSString *dateTemplateFrom = [NSDateFormatter dateFormatFromTemplate:dateComponentFrom options:0 locale:locale];
+        [dateFormatterFrom setDateFormat:dateTemplateFrom];
+
+        //Localize the date
+        dateFormatterFrom.locale = locale;
+        startDate = [dateFormatterFrom stringFromDate:event.startDate];
+    }
+    NSString *dateTemplateTo = [NSDateFormatter dateFormatFromTemplate:dateComponentTo options:0 locale:locale];
     [dateFormatterTo setDateFormat:dateTemplateTo];
-    //Localize the date
-    dateFormatterFrom.locale = locale;
-    dateFormatterTo.locale = locale;
 
-    NSString *startDate = [dateFormatterFrom stringFromDate:event.startDate];
+    //Localize the date
+    dateFormatterTo.locale = locale;
     NSString *endDate = [dateFormatterTo stringFromDate:event.endDate];
-    return [endDate isEqualToString:@""]? startDate : [[startDate stringByAppendingString:@" - "] stringByAppendingString:endDate];
+
+    formattedDate = [endDate isEqualToString:@""]? startDate : [[startDate stringByAppendingString:@" - "] stringByAppendingString:endDate];
+
+    return formattedDate;
 }
 
 - (void)reload {
