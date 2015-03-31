@@ -44,6 +44,7 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(kSideMargin);
         make.left.equalTo(self.iconImageView.mas_right).offset(6);
+        make.right.lessThanOrEqualTo(self.contentView).offset(-6);
         make.bottom.equalTo(self.contentView).offset(-kSideMargin);
     }];
     

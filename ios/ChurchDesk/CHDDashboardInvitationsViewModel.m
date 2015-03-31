@@ -81,8 +81,8 @@
     NSString *dateComponentTo;
 
     if(fromComponents.year != toComponents.year){
-        dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMjjmm";
-        dateComponentTo = invitation.allDay? @"eeeddMMMYY" : @"eeeddMMMYYjjmm";
+        dateComponentFrom = invitation.allDay? @"ddMMM" : @"ddMMMjjmm";
+        dateComponentTo = invitation.allDay? @"ddMMMYY" : @"ddMMMYYjjmm";
     }else if(fromComponents.month != toComponents.month){
         dateComponentFrom = invitation.allDay? @"eeeddMMM" : @"eeeddMMMjjmm";
         dateComponentTo = invitation.allDay? @"eeeddMMM" :@"eeeddMMMjjmm";

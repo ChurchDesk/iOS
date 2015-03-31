@@ -174,8 +174,8 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     NSString *dateComponentTo;
 
     if(fromComponents.year != toComponents.year){
-        dateComponentFrom = self.event.allDayEvent? @"eeeddMMM" : @"eeeddMMMjjmm";
-        dateComponentTo = self.event.allDayEvent? @"eeeddMMMYY" : @"eeeddMMMYYjjmm";
+        dateComponentFrom = self.event.allDayEvent? @"ddMMM" : @"ddMMMjjmm";
+        dateComponentTo = self.event.allDayEvent? @"ddMMMYY" : @"ddMMMYYjjmm";
     }else if(fromComponents.month != toComponents.month){
         dateComponentFrom = self.event.allDayEvent? @"eeeddMMM" : @"eeeddMMMjjmm";
         dateComponentTo = self.event.allDayEvent? @"eeeddMMM" :@"eeeddMMMjjmm";
