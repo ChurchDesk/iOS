@@ -106,6 +106,7 @@ static CGFloat kImageSize = 28.0f;
     if (!_userImageView) {
         _userImageView = [UIImageView new];
         _userImageView.layer.cornerRadius = kImageSize/2;
+        _userImageView.layer.backgroundColor = [UIColor chd_lightGreyColor].CGColor;
         _userImageView.clipsToBounds = YES;
     }
     return _userImageView;
