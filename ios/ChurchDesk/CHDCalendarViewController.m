@@ -218,7 +218,10 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     if(date) {
         NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
         NSDate *roundedDate = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
-        [self scrollToDate:roundedDate animated:NO];
+
+        [self.dayPickerViewController scrollToDate:roundedDate animated:NO];
+        [self.calendarPicker setCurrentMonth:roundedDate];
+        [self.calendarPicker setSelectedDates:@[roundedDate]];
     }
 
     [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
