@@ -48,6 +48,8 @@
     return self;
 }
 
+#pragma mark -Life cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -58,6 +60,12 @@
     [self setupBindings];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self showProgress:NO];
+}
+
+#pragma mark -setup
 - (void) setupSubviews {
     [self.view addSubview:self.tableView];
 }
