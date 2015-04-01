@@ -282,7 +282,7 @@
     }
     else if([row isEqualToString:CHDEventEditRowEndDate]){
         if(self.viewModel.event.startDate) {
-            CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.endDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
+            CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.endDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:NO];
             vc.title = title;
             [self.navigationController pushViewController:vc animated:YES];
 

@@ -33,6 +33,7 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
 
 @property (nonatomic, strong) UIView *timePickerContainerView;
 @property (nonatomic, strong) UIDatePicker *timePicker;
+@property (nonatomic, strong) UIView *seperatorLineView;
 @property (nonatomic, strong) UIView *allDayRowView;
 @property (nonatomic, strong) UILabel *allDayLabel;
 @property (nonatomic, strong) UISwitch *allDaySwitch;
@@ -73,7 +74,7 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     }
 
     [self makeBindings];
-    if(self.dateSelected){
+    if(self.dateSelected && ((!self.allDaySelectable  && !self.allDaySelected))){
         self.selectedControl = chdDatePickerTimeSelection;
     }else{
         self.selectedControl = chdDatePickerDateSelection;
@@ -97,12 +98,16 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     [self.timePickerContainerView addSubview:self.timePicker];
     [self.timePickerContainerView addSubview:self.allDayRowView];
 
+    [self.timePickerContainerView addSubview:self.seperatorLineView];
+
     [self.allDayRowView addSubview:self.allDayLabel];
     [self.allDayRowView addSubview:self.allDaySwitch];
 
     [self.view addSubview:self.toggleButtonView];
     [self.toggleButtonView addSubview:self.selectDateButton];
-    [self.toggleButtonView addSubview:self.selectTimeButton];
+    if(self.allDaySelectable || (!self.allDaySelectable  && !self.allDaySelected)) {
+        [self.toggleButtonView addSubview:self.selectTimeButton];
+    }
 }
 
 - (void) makeConstraints {
@@ -125,6 +130,12 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     [self.timePicker mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.timePickerContainerView);
         make.height.equalTo(@280);
+    }];
+
+    [self.seperatorLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.timePicker.mas_bottom);
+        make.left.right.equalTo(self.timePickerContainerView);
+        make.height.equalTo(@1);
     }];
 
     [self.allDayRowView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,13 +164,14 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
 
     [self.selectDateButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.height.equalTo(self.toggleButtonView);
-        make.width.equalTo(self.toggleButtonView).multipliedBy(0.5);
+        make.width.equalTo(self.toggleButtonView).multipliedBy(self.allDaySelectable || (!self.allDaySelectable  && !self.allDaySelected)? 0.5f : 1.f);
     }];
-
-    [self.selectTimeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.height.equalTo(self.toggleButtonView);
-        make.width.equalTo(self.toggleButtonView).multipliedBy(0.5);
-    }];
+    if(self.allDaySelectable || (!self.allDaySelectable  && !self.allDaySelected)) {
+        [self.selectTimeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.height.equalTo(self.toggleButtonView);
+            make.width.equalTo(self.toggleButtonView).multipliedBy(0.5);
+        }];
+    }
 }
 
 - (void) makeBindings {
@@ -189,11 +201,13 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
 
     [self.selectTimeButton rac_liftSelector:@selector(setSelected:) withSignals:timePickerSelectedSignal, nil];
 
-    [self rac_liftSelector:@selector(setSelectedControl:) withSignals:[RACSignal merge:@[[[self.selectDateButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
-        return @(chdDatePickerDateSelection);
-    }], [[self.selectTimeButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
-        return @(chdDatePickerTimeSelection);
-    }]]], nil];
+    if(self.allDaySelectable || (!self.allDaySelectable  && !self.allDaySelected)) {
+        [self rac_liftSelector:@selector(setSelectedControl:) withSignals:[RACSignal merge:@[[[self.selectDateButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
+            return @(chdDatePickerDateSelection);
+        }], [[self.selectTimeButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
+            return @(chdDatePickerTimeSelection);
+        }]]], nil];
+    }
 
     RACSignal *blankDateSignal = [[[RACSignal combineLatest:@[RACObserve(self, selectedControl), RACObserve(self, timeSelected)]] filter:^BOOL(RACTuple *tuple) {
         NSNumber *iControl = tuple.first;
@@ -229,9 +243,11 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
 
     [self.allDayRowView rac_liftSelector:@selector(setHidden:) withSignals:[RACObserve(self, allDaySelectable) not], nil];
 
-    [self rac_liftSelector:@selector(setSelectedControl:) withSignals:[dateSelectedSignal map:^id(id value) {
-        return @(chdDatePickerTimeSelection);
-    }], nil];
+    if(self.allDaySelectable || (!self.allDaySelectable  && !self.allDaySelected)) {
+        [self rac_liftSelector:@selector(setSelectedControl:) withSignals:[dateSelectedSignal map:^id(id value) {
+            return @(chdDatePickerTimeSelection);
+        }], nil];
+    }
 
     [self shprac_liftSelector:@selector(selectedDateChanged) withSignal:dateSelectedSignal];
     [self shprac_liftSelector:@selector(selectedTimeChanged) withSignal:[RACSignal merge:@[RACObserve(self, allDaySelected), RACObserve(self, timeSelected)]]];
@@ -241,6 +257,8 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     }];
 
     RAC(self.navigationItem.rightBarButtonItem, enabled) = canSaveSignal;
+
+    [self.timePicker rac_liftSelector:@selector(setUserInteractionEnabled:) withSignals:[RACObserve(self, allDaySelected) not], nil];
 }
 
 #pragma mark - SHPCalendarPickerViewDelegate
@@ -354,6 +372,14 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
         _timePicker.minuteInterval = kMinuteInterval;
     }
     return _timePicker;
+}
+
+- (UIView*) seperatorLineView {
+    if(!_seperatorLineView){
+        _seperatorLineView = [UIView new];
+        _seperatorLineView.backgroundColor = [UIColor shpui_colorWithHexValue:0xe9e9e9];
+    }
+    return _seperatorLineView;
 }
 
 - (UIView *) allDayRowView{
