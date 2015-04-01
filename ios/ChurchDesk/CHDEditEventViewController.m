@@ -385,9 +385,26 @@
     else if ([row isEqualToString:CHDEventEditRowResources]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Resources", @"");
-        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, resourceIds) map:^id(NSArray *resourceIds) {
-            return resourceIds.count <= 1 ? [environment resourceWithId:event.resourceIds.firstObject].name : [NSString stringWithFormat:@"%lu", resourceIds.count];
-        }] takeUntil:cell.rac_prepareForReuseSignal]];
+        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [RACSignal merge: @[[[RACObserve(event, siteId) map:^id(NSString *siteId) {
+            if(siteId != nil) {
+                return ([environment resourcesWithSiteId:event.siteId].count == 0)? NSLocalizedString(@"None available", @"") : @"";
+            }
+            return @"";
+        }] takeUntil:cell.rac_prepareForReuseSignal],
+            [[[RACObserve(event, resourceIds) filter:^BOOL(NSArray *resourceIds) {
+                return resourceIds.count > 0;
+            }] map:^id(NSArray *resourceIds) {
+                return resourceIds.count <= 1 ? [environment resourceWithId:event.resourceIds.firstObject].name : [NSString stringWithFormat:@"%lu", resourceIds.count];
+            }] takeUntil:cell.rac_prepareForReuseSignal]
+        ]]];
+
+        [cell rac_liftSelector:@selector(setDisclosureArrowHidden:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
+            if(siteId != nil) {
+                BOOL hideDisclosureArrow = ([environment resourcesWithSiteId:event.siteId].count == 0)? YES : NO;
+                return @(hideDisclosureArrow);
+            }
+            return @(YES);
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
         [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
             return @(siteId == nil);
