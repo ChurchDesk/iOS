@@ -22,7 +22,7 @@
 - (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId siteId: (NSString*) siteId;
 - (NSArray*) eventCategoriesWithSiteId: (NSString*) siteId;
 
-- (CHDResource*) resourceWithId: (NSNumber*) resourceId;
+- (CHDResource*) resourceWithId: (NSNumber*) resourceId siteId: (NSString*) siteId;
 - (NSArray*) resourcesWithSiteId: (NSString*) siteId;
 
 - (CHDGroup*) groupWithId: (NSNumber*) groupId;

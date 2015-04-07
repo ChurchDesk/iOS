@@ -60,7 +60,7 @@
     RACSignal *newEventsSignal = RACObserve(self.viewModel, events);
     [self.eventTable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[newEventsSignal, RACObserve(self.viewModel, user), RACObserve(self.viewModel, environment)]]];
 
-    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[[RACObserve(self.viewModel, events) skip:1] map:^id(NSArray *events) {
+    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[RACObserve(self.viewModel, events) map:^id(NSArray *events) {
         return @(events.count == 0);
     }], nil];
 

@@ -83,7 +83,7 @@
 
     [self shprac_liftSelector:@selector(endRefresh) withSignal:RACObserve(self.viewModel, invitations)];
 
-    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[[RACObserve(self.viewModel, invitations) skip:1] map:^id(NSArray *invitations) {
+    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[RACObserve(self.viewModel, invitations) map:^id(NSArray *invitations) {
         return @(invitations.count == 0);
     }], nil];
 }

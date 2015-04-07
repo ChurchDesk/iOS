@@ -75,7 +75,7 @@
 
     [self shprac_liftSelector:@selector(endRefresh) withSignal:messagesSignal];
 
-    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[[RACObserve(self.viewModel, messages) skip:1] map:^id(NSArray *messages) {
+    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[RACObserve(self.viewModel, messages) map:^id(NSArray *messages) {
         return @(messages.count == 0);
     }], nil];
 
