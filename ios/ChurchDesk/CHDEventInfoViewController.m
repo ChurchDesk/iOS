@@ -192,6 +192,7 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowGroup]) {
         CHDEventGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"group" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.titleLabel.text = [environment groupWithId:event.groupId].name;
         cell.groupLabel.text = [self.viewModel parishName];
         returnCell = cell;
@@ -252,6 +253,7 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowPrice]) {
         CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.titleLabel.text = NSLocalizedString(@"Price", @"");
         cell.valueLabel.text = event.price;
         returnCell = cell;
@@ -265,12 +267,14 @@
     // Visibility
     else if ([row isEqualToString:CHDEventInfoRowVisibility]) {
         CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
         cell.valueLabel.text = [event localizedVisibilityString];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowCreated]) {
         CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textValue" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.titleLabel.text = NSLocalizedString(@"Created On", @"");
         cell.valueLabel.text = [self.creationDateFormatter stringFromDate:event.creationDate];
         returnCell = cell;
