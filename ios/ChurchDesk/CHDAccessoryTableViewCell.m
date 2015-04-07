@@ -102,8 +102,7 @@
     [self.scrollContentViewWithOffsetSizeConstraint setSizeOffset:CGSizeMake(self.accessoryRightWidth, 0)];
 
     [buttonTitles enumerateObjectsUsingBlock:^(NSString* buttonTitle, NSUInteger idx, BOOL *stop) {
-        UIButton* button = [UIButton new];
-        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:16];
         button.titleLabel.textColor = [UIColor whiteColor];
         [button setBackgroundColor:buttonColors[idx]];

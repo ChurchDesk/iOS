@@ -80,6 +80,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
 - (void)viewWillDisappear:(BOOL)animated {
     [self.viewModel saveSettings];
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - UITableViewDataSource

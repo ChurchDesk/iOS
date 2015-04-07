@@ -149,7 +149,7 @@
             lastUsedId = self.groupIdLastUsed;
         }
 
-        NSArray *filteredGroups = @[];
+        NSArray *filteredGroups = nil;
 
         if(self.selectedSite) {
             filteredGroups = [self.environment groupsWithSiteId:self.selectedSite.siteId];

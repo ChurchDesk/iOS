@@ -399,7 +399,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 }
 #pragma mark - Actions
 -(void) editCommentAction: (RACTuple*) tuple {
-    RACTupleUnpack(id sender, CHDComment *comment) = tuple;
+    CHDComment *comment = tuple.second;
 
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Edit", @""), NSLocalizedString(@"Delete", @""), nil];
     sheet.destructiveButtonIndex = 1;
