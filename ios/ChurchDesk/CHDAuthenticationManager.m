@@ -50,7 +50,12 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
             NSString *userID = result.firstObject[kSSKeychainAccountKey];
             query.account = userID;
             if ([query fetch:&error]) {
-                _authenticationToken = query.passwordData ? [NSKeyedUnarchiver unarchiveObjectWithData:query.passwordData] : nil;
+                @try {
+                    _authenticationToken = query.passwordData ? [NSKeyedUnarchiver unarchiveObjectWithData:query.passwordData] : nil;
+                } @catch(NSException * e){
+                    NSLog(@"Authentication token issue");
+                    _authenticationToken = nil;
+                }
                 _userID = query.account;
                 [self registerRemoteNotificationTypes];
             }

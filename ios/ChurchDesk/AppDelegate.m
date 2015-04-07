@@ -23,6 +23,7 @@
 #import "CHDRootViewController.h"
 #import "CHDAuthenticationManager.h"
 #import "NSUserDefaults+CHDDefaults.h"
+#import "SSKeychainQuery.h"
 
 @interface AppDelegate ()
 
@@ -31,6 +32,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
 
 #if !DEBUG
     [Crashlytics startWithAPIKey:@"c7c174cb98f78bf0cd7b43db69eb37d1e2a46d11"];
