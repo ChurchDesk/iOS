@@ -17,6 +17,7 @@
 @property (nonatomic, assign) BOOL showAllComments;
 @property (nonatomic, readonly) BOOL canSendComment;
 
+@property (nonatomic, readonly) RACCommand *loadMessageCommand;
 @property (nonatomic, readonly) RACCommand *commentDeleteCommand;
 @property (nonatomic, readonly) RACCommand *commentUpdateCommand;
 

@@ -45,6 +45,8 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 @property (nonatomic, strong) NSDictionary *sectionRows;
 @property (nonatomic, strong) NSArray *sections;
 
+@property (nonatomic, strong) RACCommand *loadCommand;
+
 @end
 
 @implementation CHDEventInfoViewModel
@@ -61,7 +63,9 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
             return [RACSignal empty];
         }];
         
-        [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[[[CHDAPIClient sharedInstance] getEventWithId:event.eventId siteId:event.siteId] startWith:event]];
+        //[self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[[[CHDAPIClient sharedInstance] getEventWithId:event.eventId siteId:event.siteId] startWith:event]];
+
+        [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[self.loadCommand execute:RACTuplePack(event)]];
     }
     return self;
 }
@@ -229,6 +233,17 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     return [[[CHDAPIClient sharedInstance] setResponseForEventWithId:self.event.eventId siteId:self.event.siteId response:response] doError:^(NSError *error) {
         event.eventResponse = oldResponse;
     }];
+}
+
+-(RACCommand*)loadCommand {
+    if(!_loadCommand){
+        _loadCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDEvent *event = tuple.first;
+
+            return [[CHDAPIClient sharedInstance] getEventWithId:event.eventId siteId:event.siteId];
+        }];
+    }
+    return _loadCommand;
 }
 
 #pragma mark - Private

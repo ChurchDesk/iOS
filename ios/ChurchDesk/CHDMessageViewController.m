@@ -157,6 +157,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
     [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.commentDeleteCommand.executing, nil];
     [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.commentUpdateCommand.executing, nil];
+    [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.loadMessageCommand.executing, nil];
 }
 
 #pragma mark -Actions

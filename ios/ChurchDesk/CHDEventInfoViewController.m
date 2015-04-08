@@ -84,13 +84,7 @@
         return event.canEdit ? [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editEventAction:)] : nil;
     }];
 
-    //For better user-feedback this should be set to a command isExecuting instead
-    [self rac_liftSelector:@selector(showProgress:) withSignals:[[RACSignal combineLatest:@[RACObserve(self.viewModel, event), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user)]] map:^id(RACTuple *tuple) {
-        CHDEvent *event = tuple.first;
-        CHDEnvironment *environment = tuple.second;
-        CHDUser *user = tuple.third;
-        return @(event == nil || environment == nil || user == nil);
-    }], nil];
+    [self rac_liftSelector:@selector(showProgress:) withSignals:[self.viewModel.loadCommand executing], nil];
 }
 
 #pragma mark - Actions

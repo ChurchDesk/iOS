@@ -40,6 +40,7 @@ extern NSString *const CHDEventInfoRowDivider;
 @property (nonatomic, strong) CHDEvent *event;
 @property (nonatomic, readonly) CHDEnvironment *environment;
 @property (nonatomic, readonly) CHDUser *user;
+@property (nonatomic, readonly) RACCommand *loadCommand;
 
 - (instancetype)initWithEvent: (CHDEvent*) event;
 

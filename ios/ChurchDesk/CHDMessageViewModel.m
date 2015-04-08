@@ -25,6 +25,7 @@
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic, strong) CHDUser *user;
 
+@property (nonatomic, strong) RACCommand *loadMessageCommand;
 @property (nonatomic, strong) RACCommand *saveCommand;
 @property (nonatomic, strong) RACCommand *markAsReadCommand;
 @property (nonatomic, strong) RACCommand *commentDeleteCommand;
@@ -39,11 +40,7 @@
         self.showAllComments = NO;
 
         //Initial message signal
-        RACSignal *initialMessageSignal = [[[[CHDAPIClient sharedInstance] getMessageWithId:messageId siteId:siteId] map:^id(CHDMessage *message) {
-            return message;
-        }] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
-        }];
+        RACSignal *initialMessageSignal = [self.loadMessageCommand execute:RACTuplePack(messageId, siteId)];
 
         //Update signal
         RACSignal *updateMessageSignal = [[[[CHDAPIClient sharedInstance].manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
@@ -106,6 +103,21 @@
     if(message.read == NO){
         [self.markAsReadCommand execute:RACTuplePack(message)];
     }
+}
+
+-(RACCommand*)loadMessageCommand {
+    if(!_loadMessageCommand){
+        _loadMessageCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            NSNumber *messageId = tuple.first;
+            NSString *siteId = tuple.second;
+            return [[[[CHDAPIClient sharedInstance] getMessageWithId:messageId siteId:siteId] map:^id(CHDMessage *message) {
+                return message;
+            }] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }];
+    }
+    return _loadMessageCommand;
 }
 
 -(RACCommand*)saveCommand {
