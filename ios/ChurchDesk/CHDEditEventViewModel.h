@@ -19,6 +19,7 @@ extern NSString *const CHDEventEditSectionMisc;
 extern NSString *const CHDEventEditSectionDivider;
 
 extern NSString *const CHDEventEditRowTitle;
+extern NSString *const CHDEventEditRowAllDay;
 extern NSString *const CHDEventEditRowStartDate;
 extern NSString *const CHDEventEditRowEndDate;
 extern NSString *const CHDEventEditRowParish;

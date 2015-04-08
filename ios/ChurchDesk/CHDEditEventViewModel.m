@@ -24,6 +24,7 @@ NSString *const CHDEventEditSectionMisc = @"CHDEventEditSectionMisc";
 NSString *const CHDEventEditSectionDivider = @"CHDEventEditSectionDivider";
 
 NSString *const CHDEventEditRowTitle = @"CHDEventEditRowTitle";
+NSString *const CHDEventEditRowAllDay = @"CHDEventEditRowAllDay";
 NSString *const CHDEventEditRowStartDate = @"CHDEventEditRowStartDate";
 NSString *const CHDEventEditRowEndDate = @"CHDEventEditRowEndDate";
 NSString *const CHDEventEditRowParish = @"CHDEventEditRowParish";
@@ -74,7 +75,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
 
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
-                             CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowStartDate],
+                             CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate],
                              CHDEventEditSectionRecipients : @[],
                              CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
                              CHDEventEditSectionBooking : @[],
@@ -109,7 +110,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         bookingRows = @[];
     }
 
-    NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowStartDate];
+    NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate];
 
     self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
         CHDEventEditSectionDate : dateRows,

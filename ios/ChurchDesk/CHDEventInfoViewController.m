@@ -161,6 +161,17 @@
 }
 
 #pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *sections = self.viewModel.sections;
+    NSString *section = sections[indexPath.section];
+    NSArray *rows = [self.viewModel rowsForSection:section];
+    NSString *row = rows[indexPath.row];
+
+    if ([row isEqualToString:CHDEventInfoRowImage]) {
+        return 227;
+    }
+    return 45;
+}
 
 #pragma mark - UITableViewDataSource
 

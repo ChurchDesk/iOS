@@ -266,7 +266,7 @@
     }
     else if([row isEqualToString:CHDEventEditRowStartDate]){
 
-        CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.startDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:YES];
+        CHDDatePickerViewController *vc = [[CHDDatePickerViewController alloc] initWithDate:self.viewModel.event.startDate allDay:self.viewModel.event.allDayEvent canSelectAllDay:NO];
         vc.title = title;
         [self.navigationController pushViewController:vc animated:YES];
 
@@ -310,6 +310,8 @@
     CHDEnvironment *environment = self.viewModel.environment;
     CHDUser *user = self.viewModel.user;
 
+    CHDEditEventViewModel *viewModel = self.viewModel;
+
     if ([row isEqualToString:CHDEventEditRowDivider]) {
         CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"divider" forIndexPath:indexPath];
         cell.hideTopLine = indexPath.section == 0 && indexPath.row == 0;
@@ -321,19 +323,35 @@
         cell.textField.placeholder = NSLocalizedString(@"Title", @"");
         cell.textField.text = event.title;
         [event shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
+    }
+    else if([row isEqualToString:CHDEventEditRowAllDay]){
+        CHDEventSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"switch" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"All day", @"");
+        cell.valueSwitch.on = event.allDayEvent;
+        [event shprac_liftSelector:@selector(setAllDayEvent:) withSignal:[[[cell.valueSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *valueSwitch) {
+            return @(valueSwitch.on);
+        }] takeUntil:cell.rac_prepareForReuseSignal]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+
     }
     else if ([row isEqualToString:CHDEventEditRowStartDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Start", @"");
-        cell.valueLabel.text = [self.viewModel formatDate:event.startDate allDay:event.allDayEvent];
+        [cell.valueLabel rac_liftSelector:@selector(setText:) withSignals:[[RACObserve(event, allDayEvent) map:^id(NSNumber *allDay) {
+            return [viewModel formatDate:event.startDate allDay:event.allDayEvent];
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
+
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowEndDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"End", @"");
-        cell.valueLabel.text = [self.viewModel formatDate:event.endDate allDay:event.allDayEvent];
+        [cell.valueLabel rac_liftSelector:@selector(setText:) withSignals:[[RACObserve(event, allDayEvent) map:^id(NSNumber *allDay) {
+            return [viewModel formatDate:event.endDate allDay:event.allDayEvent];
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
         [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(self.viewModel.event, startDate) map:^id(NSDate *startDate) {
             return @(startDate == nil);
@@ -379,7 +397,7 @@
         cell.textField.placeholder = NSLocalizedString(@"Location", @"");
         cell.textField.text = event.location;
         [event shprac_liftSelector:@selector(setLocation:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowResources]) {
@@ -406,6 +424,8 @@
             return @(YES);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
             return @(siteId == nil);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
@@ -428,6 +448,7 @@
         cell.placeholder = NSLocalizedString(@"Internal note", @"");
         cell.textView.text = event.internalNote;
         cell.tableView = tableView;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setInternalNote:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
 
         returnCell = cell;
@@ -437,6 +458,7 @@
         cell.placeholder = NSLocalizedString(@"Description", @"");
         cell.textView.text = event.eventDescription;
         cell.tableView = tableView;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setEventDescription:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
 
         returnCell = cell;
@@ -446,7 +468,7 @@
         cell.textField.placeholder = NSLocalizedString(@"Contributor", @"");
         cell.textField.text = event.contributor;
         [event shprac_liftSelector:@selector(setContributor:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowPrice]) {
@@ -454,12 +476,14 @@
         cell.textField.placeholder = NSLocalizedString(@"Price", @"");
         cell.textField.text = event.price;
         [event shprac_liftSelector:@selector(setPrice:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowDoubleBooking]) {
         CHDEventSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"switch" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Allow Double Booking", @"");
+        cell.valueSwitch.on = event.allowDoubleBooking;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setAllowDoubleBooking:) withSignal:[[[cell.valueSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *valueSwitch) {
             return @(valueSwitch.on);
         }] takeUntil:cell.rac_prepareForReuseSignal]];

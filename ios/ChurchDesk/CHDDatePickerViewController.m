@@ -98,7 +98,7 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     [self.timePickerContainerView addSubview:self.timePicker];
     [self.timePickerContainerView addSubview:self.allDayRowView];
 
-    [self.timePickerContainerView addSubview:self.seperatorLineView];
+    [self.allDayRowView addSubview:self.seperatorLineView];
 
     [self.allDayRowView addSubview:self.allDayLabel];
     [self.allDayRowView addSubview:self.allDaySwitch];
@@ -133,8 +133,8 @@ typedef NS_ENUM(NSUInteger, CHDDatePickerSelectedControl) {
     }];
 
     [self.seperatorLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.timePicker.mas_bottom);
-        make.left.right.equalTo(self.timePickerContainerView);
+        make.top.equalTo(self.allDayRowView);
+        make.left.right.equalTo(self.allDayRowView);
         make.height.equalTo(@1);
     }];
 
