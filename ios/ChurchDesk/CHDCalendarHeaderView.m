@@ -27,7 +27,11 @@
         
         [self setupSubviews];
         [self makeConstraints];
-        [self rac_liftSelector:@selector(configureDotsWithColors:) withSignalsFromArray:@[RACObserve(self, dotColors)]];
+        [self rac_liftSelector:@selector(configureDotsWithColors:) withSignalsFromArray:@[[[RACObserve(self, dotColors) combinePreviousWithStart:@[] reduce:^id(NSArray *previous, NSArray *current) {
+            return [current isEqualToArray:previous] ? nil : current;
+        }] filter:^BOOL(NSArray *value) {
+            return value != nil;
+        }]]];
     }
     return self;
 }
@@ -70,6 +74,7 @@
 }
 
 - (void) configureDotsWithColors: (NSArray*) colors {
+
     [self.dotsContainer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     UIView *previousView = nil;
