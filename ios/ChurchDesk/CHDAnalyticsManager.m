@@ -36,7 +36,7 @@
 //    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
 #endif
 
-    [[GAI sharedInstance] trackerWithTrackingId:@"UA-61679466-1"];
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-61691166-1"];
 }
 
 - (void)trackVisitToScreen:(NSString *)screenName {
