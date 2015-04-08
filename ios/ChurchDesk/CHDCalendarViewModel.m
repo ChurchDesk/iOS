@@ -108,55 +108,60 @@
 }
 
 - (void) addEvents:(NSArray *)events holidays: (NSArray*) holidays {
-    NSMutableArray *mEvents = self.events ? [self.events mutableCopy] : [NSMutableArray arrayWithCapacity:events.count];
-    NSMutableArray *mNoneFilteredEvents = self.noneFilteredEvents ? [self.noneFilteredEvents mutableCopy] : [NSMutableArray arrayWithCapacity:events.count];
-    NSMutableDictionary *mSectionRows = [NSMutableDictionary new];
-    
-    [events enumerateObjectsUsingBlock:^(CHDEvent *event, NSUInteger idx, BOOL *stop) {
-        BOOL usersEventsOnly = (self.myEventsOnly? [event eventForUserWithId:[self.user userIdForSiteId:event.siteId]] : YES);
-        if (![mEvents containsObject:event] && usersEventsOnly) {
-            [mEvents addObject:event];
-        }
-        if(![mNoneFilteredEvents containsObject:event]){
-            [mNoneFilteredEvents addObject:event];
-        }
-    }];
 
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *lastSectionComponents = nil;
-    NSDate *section = nil;
-    NSMutableOrderedSet *mSections = [NSMutableOrderedSet orderedSetWithArray:[holidays shp_map:^id(CHDHoliday *holiday) {
-        return holiday.date;
-    }]];
-    NSMutableArray *mSectionEvents = [NSMutableArray array];
-    for (CHDEvent *event in mEvents) {
-        NSDateComponents *eventComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:event.startDate];
-        
-        if (eventComps.year != lastSectionComponents.year || eventComps.month != lastSectionComponents.month || eventComps.day != lastSectionComponents.day) {
-            if (section != nil) {
-                mSectionRows[section] = [mSectionEvents copy];
+    if(events.count > 0) {
+        NSMutableArray *mEvents = self.events ? [self.events mutableCopy] : [NSMutableArray arrayWithCapacity:events.count];
+        NSMutableArray *mNoneFilteredEvents = self.noneFilteredEvents ? [self.noneFilteredEvents mutableCopy] : [NSMutableArray arrayWithCapacity:events.count];
+        NSMutableDictionary *mSectionRows = [NSMutableDictionary new];
+
+        [events enumerateObjectsUsingBlock:^(CHDEvent *event, NSUInteger idx, BOOL *stop) {
+            BOOL usersEventsOnly = (self.myEventsOnly ? [event eventForUserWithId:[self.user userIdForSiteId:event.siteId]] : YES);
+            if (![mEvents containsObject:event] && usersEventsOnly) {
+                [mEvents addObject:event];
             }
+            if (![mNoneFilteredEvents containsObject:event]) {
+                [mNoneFilteredEvents addObject:event];
+            }
+        }];
 
-            lastSectionComponents =  eventComps;
-            
-            section = [calendar dateFromComponents:eventComps];
-            [mSections addObject:section];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *lastSectionComponents = nil;
+        NSDate *section = nil;
+        NSMutableOrderedSet *mSections = [NSMutableOrderedSet orderedSetWithArray:[holidays shp_map:^id(CHDHoliday *holiday) {
+            return holiday.date;
+        }]];
+        NSMutableArray *mSectionEvents = [NSMutableArray array];
+        for (CHDEvent *event in mEvents) {
+            NSDateComponents *eventComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:event.startDate];
 
-            //get potential other event from this section to add to
-            mSectionEvents = mSectionRows[section] ? [NSMutableArray arrayWithArray:mSectionRows[section]] : [NSMutableArray array];
+            if (eventComps.year != lastSectionComponents.year || eventComps.month != lastSectionComponents.month || eventComps.day != lastSectionComponents.day) {
+                if (section != nil) {
+                    mSectionRows[section] = [mSectionEvents copy];
+                }
+
+                lastSectionComponents = eventComps;
+
+                section = [calendar dateFromComponents:eventComps];
+                [mSections addObject:section];
+
+                //get potential other event from this section to add to
+                mSectionEvents = mSectionRows[section] ? [NSMutableArray arrayWithArray:mSectionRows[section]] : [NSMutableArray array];
+            }
+            [mSectionEvents addObject:event];
         }
-        [mSectionEvents addObject:event];
-    }
 
-    if(section){ mSectionRows[section] = [mSectionEvents copy];}
-    
-    self.events = [mEvents copy];
-    self.noneFilteredEvents = [mNoneFilteredEvents copy];
-    self.sectionRows = [mSectionRows copy];
-    self.holidays = holidays;
-    self.sections = [mSections sortedArrayUsingComparator:^NSComparisonResult(NSDate *date1, NSDate *date2) {
-        return [date1 compare:date2];
-    }];
+        if (section) {mSectionRows[section] = [mSectionEvents copy];}
+
+        self.events = [mEvents copy];
+        self.noneFilteredEvents = [mNoneFilteredEvents copy];
+        self.sectionRows = [mSectionRows copy];
+        self.sections = [mSections sortedArrayUsingComparator:^NSComparisonResult(NSDate *date1, NSDate *date2) {
+            return [date1 compare:date2];
+        }];
+    }
+    if(holidays.count > 0){
+        self.holidays = holidays;
+    }
 }
 
 - (NSArray*) eventsForSectionAtIndex: (NSUInteger) section {
@@ -209,16 +214,9 @@
         for (CHDEvent *event in hiddenEvents){
             CHDEventCategory *category = [self.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
         
-            BOOL colorExists = NO;
-            for (UIColor *hiddenColor in hiddenEventsColors) {
-
-                if ([hiddenColor isEqual:category.color]) {
-                    colorExists = YES;
-                    break;
-                }
-            }
+            BOOL colorExists = [hiddenEventsColors indexOfObject:category.color] != NSNotFound;
     
-            if (!colorExists) {
+            if (!colorExists && category.color) {
                 [hiddenEventsColors addObject:category.color];
             }
         }
