@@ -77,6 +77,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self setupBindings];
 
     self.viewModel.referenceDate = [NSDate date];
+
+    //Use viewModel as delegate for the dayPicker (for showing event dots on daypicker)
+    self.dayPickerViewController.delegate = self.viewModel;
 }
 
 - (void)setupSubviews {
@@ -191,6 +194,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self rac_liftSelector:@selector(todayButtonTouch:) withSignals:[self.todayButton rac_signalForControlEvents:UIControlEventTouchUpInside], nil];
 
     [self rac_liftSelector:@selector(dayPickerWeekNumberDidChange:) withSignals:[RACObserve(self.dayPickerViewController, currentWeekNumber) skip:1], nil];
+
+    //Reload the daypicker - primarily to show dots in the view
+    [self.dayPickerViewController shprac_liftSelector:@selector(reloadShownDates) withSignal:RACObserve(self.viewModel, sections)];
 }
 
 - (void) reloadDataWithPreviousSections: (NSArray*) previousSections newSections: (NSArray*) newSections {

@@ -13,5 +13,5 @@
 @property (nonatomic, readonly) UILabel *weekdayLabel;
 @property (nonatomic, readonly) UILabel *dayLabel;
 @property (nonatomic, assign) BOOL picked;
-
+@property (nonatomic, assign) BOOL showDot;
 @end

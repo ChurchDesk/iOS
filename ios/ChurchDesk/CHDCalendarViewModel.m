@@ -225,4 +225,13 @@
     return [hiddenEventsColors copy];
 }
 
+#pragma mark -CHDDayPicker delegate
+
+- (BOOL)chdDayPickerEventsExistsOnDay:(NSDate *)date {
+    NSIndexPath *indexPath = [self indexPathForDate:date];
+
+    return indexPath != nil && [self eventsForSectionAtIndex:indexPath.section].count > 0;
+}
+
+
 @end

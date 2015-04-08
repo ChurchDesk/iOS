@@ -67,7 +67,9 @@
     RAC(self.dotView, dotColor) = [pickedSignal map:^id(NSNumber *nPicked) {
         return nPicked.boolValue ? [UIColor whiteColor] : [UIColor shpui_colorWithHexValue:0xb0b0b0];
     }];
-    
+
+    RAC(self.dotView, hidden) = [RACObserve(self, showDot) not];
+
     RAC(self.weekdayLabel, textColor) = [pickedSignal map:^id(NSNumber *nPicked) {
         return nPicked.boolValue ? [UIColor whiteColor] : [UIColor chd_textDarkColor];
     }];
