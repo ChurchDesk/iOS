@@ -26,6 +26,7 @@
 #import "CHDFilterView.h"
 #import "CHDPassthroughTouchView.h"
 #import "CHDEnvironment.h"
+#import "CHDAnalyticsManager.h"
 #import <MBProgressHUD.h>
 
 static CGFloat kCalendarHeight = 330.0f;
@@ -80,6 +81,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     //Use viewModel as delegate for the dayPicker (for showing event dots on daypicker)
     self.dayPickerViewController.delegate = self.viewModel;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"calendar"];
 }
 
 - (void)setupSubviews {
@@ -321,7 +327,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
     cell.parishLabel.text = self.viewModel.user.sites.count > 1 ? [self.viewModel.user siteWithId:event.siteId].name : @"";
-    cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All Day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
+    cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
 
 
     CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
@@ -395,6 +401,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 }
 
 - (void) changeCalendarFilter: (CHDCalendarFilters) filter {
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_CALENDAR action:ANALYTICS_ACTION_FILTER label:filter == CHDCalendarFilterMyEvents? ANALYTICS_LABEL_MYEVENTS : ANALYTICS_LABEL_ALL];
+
     [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
     } completion:^(BOOL finished) {

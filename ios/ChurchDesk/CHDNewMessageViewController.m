@@ -17,6 +17,7 @@
 #import "CHDListSelectorViewController.h"
 #import "CHDNewMessageViewModel.h"
 #import "CHDStatusView.h"
+#import "CHDAnalyticsManager.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -65,6 +66,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"new_message"];
     [self.tableView reloadData];
 }
 
@@ -76,13 +78,16 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 #pragma mark - Bar button handlers
 -(void) leftBarButtonTouch{
     [self.view endEditing:YES];
-    
+
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_NEW_MESSAGE action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CANCEL];
+
     //Cancel the creation of new message
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) rightBarButtonTouch{
     [self.view endEditing:YES];
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_NEW_MESSAGE action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CREATE];
     //create a new message
     [self didChangeSendingStatus:CHDStatusViewProcessing];
     [[self.messageViewModel sendMessage] subscribeError:^(NSError *error) {

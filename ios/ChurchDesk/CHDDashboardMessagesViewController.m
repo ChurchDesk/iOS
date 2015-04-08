@@ -22,6 +22,7 @@
 #import "CHDMagicNavigationBarView.h"
 #import "CHDFilterView.h"
 #import "CHDPassthroughTouchView.h"
+#import "CHDAnalyticsManager.h"
 
 @interface CHDDashboardMessagesViewController () <UISearchBarDelegate>
 @property (nonatomic, strong) UIView *contentView;
@@ -307,6 +308,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if(self.messageStyle == CHDMessagesStyleUnreadMessages) {
+        [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_messages"];
+    }
+    else if(self.messageStyle == CHDMessagesStyleAllMessages) {
+        [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"messages"];
+    }
+    else if(self.messageStyle == CHDMessagesStyleSearch) {
+        [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"messages_search"];
+    }
     [self.messagesTable reloadData];
     [self setUnread:NO];
 }
@@ -434,6 +444,8 @@
     NSAssert(style != CHDMessagesStyleSearch, @"Cannot change to search style");
     self.messageStyle = style;
     self.viewModel.unreadOnly = style == CHDMessagesStyleUnreadMessages;
+
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_MESSAGES action:ANALYTICS_ACTION_FILTER label:style == CHDMessagesStyleUnreadMessages? ANALYTICS_LABEL_UNREAD : ANALYTICS_LABEL_ALL];
 }
 
 -(void) emptyMessageShow: (BOOL) show {

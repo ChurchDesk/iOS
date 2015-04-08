@@ -22,6 +22,7 @@ pod 'SSKeychain', '~> 1.2.2'
 pod 'FormatterKit', '~> 1.8.0'
 pod 'Autocoding', '~> 2.2.1'
 pod 'MBProgressHUD', '~> 0.9.1'
+pod 'GoogleAnalytics-iOS-SDK', '~> 3.10'
 
 # pod 'dyci', :git => 'https://github.com/DyCI/dyci-main.git'
 

@@ -12,6 +12,7 @@
 #import "CHDAuthenticationManager.h"
 #import "CHDSettingsViewModel.h"
 #import "CHDNotificationSettings.h"
+#import "CHDAnalyticsManager.h"
 
 typedef NS_ENUM(NSUInteger, notificationSettings) {
     eventsChanged,
@@ -64,6 +65,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 #pragma mark - Actions
 
 - (void) signOutAction: (id) sender {
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SETTINGS action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_SIGNUOUT];
     [[CHDAuthenticationManager sharedInstance] signOut];
 }
 
@@ -76,6 +78,11 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"settings"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

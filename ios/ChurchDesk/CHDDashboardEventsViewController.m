@@ -20,6 +20,7 @@
 #import "CHDEventInfoViewController.h"
 #import "CHDEditEventViewController.h"
 #import "UIViewController+UIViewController_ChurchDesk.h"
+#import "CHDAnalyticsManager.h"
 
 @interface CHDDashboardEventsViewController ()  <UITableViewDelegate, UITableViewDataSource>
 
@@ -80,6 +81,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_events"];
     [self.eventTable deselectRowAtIndexPath:[self.eventTable indexPathForSelectedRow] animated:animated];
 }
 

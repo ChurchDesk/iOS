@@ -23,6 +23,9 @@ PODS:
   - FormatterKit/TimeIntervalFormatter (1.8.0)
   - FormatterKit/UnitOfInformationFormatter (1.8.0)
   - FormatterKit/URLRequestFormatter (1.8.0)
+  - GoogleAnalytics-iOS-SDK (3.10):
+    - GoogleAnalytics-iOS-SDK/Core (= 3.10)
+  - GoogleAnalytics-iOS-SDK/Core (3.10)
   - Haneke (1.0.1)
   - Masonry (0.6.1)
   - MBProgressHUD (0.9.1)
@@ -52,6 +55,7 @@ DEPENDENCIES:
   - Autocoding (~> 2.2.1)
   - DCIntrospect-ARC (HEAD)
   - FormatterKit (~> 1.8.0)
+  - GoogleAnalytics-iOS-SDK (~> 3.10)
   - Haneke (~> 1.0.1)
   - Masonry (~> 0.6.1)
   - MBProgressHUD (~> 0.9.1)
@@ -76,23 +80,24 @@ CHECKOUT OPTIONS:
     :git: git@github.com:miklselsoe/SHPCalendarPicker.git
 
 SPEC CHECKSUMS:
-  AutoCoding: 5165b83fa6199573cc82dfb5d2cc72e11b458a1f
-  DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
-  dyci: 86668b266b8a281cb6db02843150f6a210c34ee9
-  FormatterKit: 547a808c41172136a3f3acb424ac9361d38bb32f
-  Haneke: 943f7121b50d31a31a0942afdacb7e6a26ea6181
-  Masonry: 2cb49fd14d203d2db5ca6bb017135b235dde9980
-  MBProgressHUD: f3747dcbd45a9e855a6b0674550651e0b7ed250c
-  pop: 2f14a1ea61339767af9e66741b418c831b3844df
-  ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
+  AutoCoding: b47e528426c84346371dd532b8e6458929e4da34
+  DCIntrospect-ARC: 68a97cc2e99420b21bfcd66865b5376701f8e7f5
+  dyci: 099c2e6dc98abb8f21b370cabbf1443ff700608a
+  FormatterKit: bddde83e054edf9d9ee14f9de3b3a5103db256f4
+  GoogleAnalytics-iOS-SDK: 4f98a376c1d61e6ac4ca47951655820314856eef
+  Haneke: d60be8b96b228633b24708dd153169d6849d6f78
+  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  ReactiveCocoa: eb38dee0a0e698f73a9b25e5c1faea2bb4c79240
   SHPCalendarPicker: 117f315701328336ebcf8bec07d4e7e8a28d895b
   SHPFoundation: 2d7363df3f66cf7b350c34abad7b81c5b5f83f9a
-  SHPKeyboardAwareness: 00d6a4672621cba61604c4dd3cbd2c7e78006c2d
+  SHPKeyboardAwareness: b62fdf2fea15b5623717c8ce6e9b8d05bf2a0d41
   SHPNetworking: 956d34a15ff98896a4987852752c38948a1dbeb4
   SHPRACAdditions: 3cd192f802347bb940b6b734d3eed64ca2523581
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
   SHPUIInjection: 57540250f83fb81a1438d5478c5f8d129e794ef1
   SHPUIKit: ba38ba4315b8fc931311cd91711139a2fb03fda5
-  SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
+  SSKeychain: 88767e903ee8d274ed380e364d96b7a101235286
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.36.1

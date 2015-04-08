@@ -24,6 +24,7 @@
 #import "CHDAuthenticationManager.h"
 #import "NSUserDefaults+CHDDefaults.h"
 #import "SSKeychainQuery.h"
+#import "CHDAnalyticsManager.h"
 
 @interface AppDelegate ()
 
@@ -37,7 +38,8 @@
 #if !DEBUG
     [Crashlytics startWithAPIKey:@"c7c174cb98f78bf0cd7b43db69eb37d1e2a46d11"];
 #endif
-    
+    [[CHDAnalyticsManager sharedInstance] startGoogleAnalytics];
+
     [self setupAppearance];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

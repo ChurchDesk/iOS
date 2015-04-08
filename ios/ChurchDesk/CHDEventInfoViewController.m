@@ -29,6 +29,7 @@
 #import "CHDEventUserDetailsViewController.h"
 #import "CHDUser.h"
 #import "CHDListViewController.h"
+#import "CHDAnalyticsManager.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -64,6 +65,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self showProgress:NO];
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"event information"];
 }
 
 #pragma mark -setup

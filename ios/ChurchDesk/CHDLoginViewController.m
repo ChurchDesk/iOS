@@ -10,6 +10,7 @@
 #import "CHDIconTextFieldView.h"
 #import "SHPKeyboardAwareness.h"
 #import "CHDLoginViewModel.h"
+#import "CHDAnalyticsManager.h"
 
 @interface CHDLoginViewController () <UITextFieldDelegate>
 
@@ -38,6 +39,11 @@
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"login"];
 }
 
 - (void) setupSubviews {
@@ -136,11 +142,13 @@
 }
 
 - (void) loginAction: (id) sender {
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SIGNIN action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_LOGIN];
     [self.view endEditing:YES];
     [self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text];
 }
 
 - (void) forgotPasswordAction: (id) sender {
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SIGNIN action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_FORGOT_PASSWORD];
     NSString *emailFieldText = self.emailView.textField.text;
     BOOL validEmail = [emailFieldText shp_matchesEmailRegex];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Forgot Password", @"") message:validEmail ? NSLocalizedString(@"Instructions for resetting you password will be sent to your email.", @"") : NSLocalizedString(@"Please enter your email to receive instructions on how to reset your password.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Continue", @""), nil];

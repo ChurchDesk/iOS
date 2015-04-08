@@ -16,6 +16,7 @@
 #import "CHDSite.h"
 #import "CHDDashboardTabBarViewController.h"
 #import "UIViewController+UIViewController_ChurchDesk.h"
+#import "CHDAnalyticsManager.h"
 
 @interface CHDDashboardInvitationsViewController ()
 
@@ -53,6 +54,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_invitations"];
     [self.inviteTable reloadData];
     [self setUnread:NO];
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		360846001AD57346009CC31B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 360846021AD57346009CC31B /* Localizable.strings */; };
 		360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */; };
 		360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */; };
 		360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF91A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m */; };
@@ -61,6 +62,7 @@
 		60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */; };
 		60372D7B54E198FD42FF0260 /* CHDComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B2421A9B94C77F5C6C /* CHDComment.m */; };
 		60372E47AEA97053556F78E2 /* CHDStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 603729816B8C5E4F4E1D199F /* CHDStatusView.m */; };
+		60372EBB494E1186B6373AB0 /* CHDAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A9B4206DD0435CE5EEF /* CHDAnalyticsManager.m */; };
 		60372EC2D5D62B4B79D52443 /* CHDNewMessageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */; };
 		60372F2D900CB28905D9D508 /* CHDSitePermission.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */; };
 		760AF8A21AC42C9600729427 /* CHDEventUserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 760AF8A11AC42C9600729427 /* CHDEventUserDetailsViewController.m */; };
@@ -134,6 +136,7 @@
 
 /* Begin PBXFileReference section */
 		2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		360846011AD57346009CC31B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		360B4DF21A973A46001CC8B0 /* CHDLeftMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuTableViewCell.h; sourceTree = "<group>"; };
 		360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuTableViewCell.m; sourceTree = "<group>"; };
 		360B4DF51A973C86001CC8B0 /* CHDMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMenuItem.h; sourceTree = "<group>"; };
@@ -236,6 +239,8 @@
 		60372A42A357B365388FE330 /* CHDNewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextFieldCell.m; sourceTree = "<group>"; };
 		60372A4B5A1158BF308AC80F /* CHDListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListViewController.h; sourceTree = "<group>"; };
 		60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDescriptionViewController.m; sourceTree = "<group>"; };
+		60372A9B4206DD0435CE5EEF /* CHDAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAnalyticsManager.m; sourceTree = "<group>"; };
+		60372AB38E7E3D71EB917390 /* CHDAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAnalyticsManager.h; sourceTree = "<group>"; };
 		60372B06F02750FED9A33AA9 /* CHDListConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDListConfigModel.m; sourceTree = "<group>"; };
 		60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
 		60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CHDDefaults.m"; sourceTree = "<group>"; };
@@ -653,6 +658,8 @@
 				76A541A01A9E1C8F00176D6D /* CHDAbstractViewController.m */,
 				761247521AA5AF7D004E7D05 /* CHDRootViewController.h */,
 				761247531AA5AF7D004E7D05 /* CHDRootViewController.m */,
+				60372AF9DD9683AF0AA167DC /* Analytics */,
+				360846021AD57346009CC31B /* Localizable.strings */,
 			);
 			path = ChurchDesk;
 			sourceTree = "<group>";
@@ -696,6 +703,15 @@
 				60372E6CAE020B6C8CD306CF /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		60372AF9DD9683AF0AA167DC /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				60372A9B4206DD0435CE5EEF /* CHDAnalyticsManager.m */,
+				60372AB38E7E3D71EB917390 /* CHDAnalyticsManager.h */,
+			);
+			name = Analytics;
 			sourceTree = "<group>";
 		};
 		60372EADD372446171E81756 /* Products */ = {
@@ -1009,6 +1025,7 @@
 				76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */,
 				76143F101A96066A00651CEA /* MavenPro-Regular.ttf in Resources */,
 				3667D9D01A92300E003716A2 /* Generated.xcassets in Resources */,
+				360846001AD57346009CC31B /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1182,10 +1199,22 @@
 				60372266562664FED85A815C /* NSUserDefaults+CHDDefaults.m in Sources */,
 				6037251E4D97DDC3CA4E5843 /* CHDListViewController.m in Sources */,
 				6037233DB7F608BF75FA40E0 /* CHDListConfigModel.m in Sources */,
+				60372EBB494E1186B6373AB0 /* CHDAnalyticsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		360846021AD57346009CC31B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				360846011AD57346009CC31B /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		3667D9D21A9236A1003716A2 /* Inhouse */ = {

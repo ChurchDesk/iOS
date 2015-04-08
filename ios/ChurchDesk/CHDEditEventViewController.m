@@ -23,6 +23,7 @@
 #import "CHDEventSwitchTableViewCell.h"
 #import "CHDDatePickerViewController.h"
 #import "CHDEventAlertView.h"
+#import "CHDAnalyticsManager.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -58,6 +59,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen: self.viewModel.newEvent? @"new event" :@"edit event"];
 
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
 }
@@ -98,11 +101,13 @@
 
 - (void) cancelAction: (id) sender {
     [self.view endEditing:YES];
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CANCEL];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) saveAction: (id) sender {
     [self.view endEditing:YES];
+    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CREATE];
     CHDEditEventViewModel *viewModel = self.viewModel;
 
     [self shprac_liftSelector:@selector(setEvent:) withSignal:[[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
