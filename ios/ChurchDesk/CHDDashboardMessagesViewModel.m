@@ -80,7 +80,7 @@
         }
         
         [self rac_liftSelector:@selector(parseMessages:append:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], [RACSignal return:@NO], nil];
-        
+
         RACSignal *authenticationTokenSignal = [RACObserve([CHDAuthenticationManager sharedInstance], authenticationToken) ignore:nil];
         
         [self shprac_liftSelector:@selector(setEnvironment:) withSignal:[authenticationTokenSignal flattenMap:^RACStream *(id value) {
@@ -94,11 +94,13 @@
                 return [RACSignal empty];
             }];
         }]];
-        
-        if (self.unreadOnly) {
-            [self shprac_liftSelector:@selector(reloadUnread) withSignal:authenticationTokenSignal];
-        } else {
-            [self shprac_liftSelector:@selector(reloadAll) withSignal:authenticationTokenSignal];
+
+        if(!self.waitForSearch) {
+            if (self.unreadOnly) {
+                [self shprac_liftSelector:@selector(reloadUnread) withSignal:authenticationTokenSignal];
+            } else {
+                [self shprac_liftSelector:@selector(reloadAll) withSignal:authenticationTokenSignal];
+            }
         }
     }
     return self;
