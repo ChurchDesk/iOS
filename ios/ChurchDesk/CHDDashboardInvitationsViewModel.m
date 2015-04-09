@@ -11,6 +11,7 @@
 #import "CHDEnvironment.h"
 #import "CHDUser.h"
 #import "CHDInvitation.h"
+#import "CHDAuthenticationManager.h"
 
 @interface CHDDashboardInvitationsViewModel ()
 
@@ -45,6 +46,7 @@
             }];
         }];
 
+        RACSignal *authenticationTokenSignal = [RACObserve([CHDAuthenticationManager sharedInstance], authenticationToken) ignore:nil];
 
         RAC(self, invitations) = [RACSignal merge:@[[[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
             RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
@@ -55,13 +57,19 @@
             return [RACSignal empty];
         }], updateSignal]];
 
-        RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
-        }];
-
-        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
-        }];
+        [self shprac_liftSelector:@selector(setEnvironment:) withSignal:[authenticationTokenSignal flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }]];
+        
+        [self shprac_liftSelector:@selector(setUser:) withSignal:[authenticationTokenSignal flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }]];
+        
+        [self shprac_liftSelector:@selector(reload) withSignal:authenticationTokenSignal];
     }
     return self;
 }

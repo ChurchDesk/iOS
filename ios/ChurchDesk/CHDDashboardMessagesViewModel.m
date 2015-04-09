@@ -11,6 +11,7 @@
 #import "CHDEnvironment.h"
 #import "CHDUser.h"
 #import "CHDMessage.h"
+#import "CHDAuthenticationManager.h"
 
 @interface CHDDashboardMessagesViewModel ()
 @property (nonatomic) BOOL canFetchMoreMessages;
@@ -80,14 +81,25 @@
         
         [self rac_liftSelector:@selector(parseMessages:append:) withSignals:[RACSignal merge:@[initialModelSignal, updateSignal]], [RACSignal return:@NO], nil];
         
+        RACSignal *authenticationTokenSignal = [RACObserve([CHDAuthenticationManager sharedInstance], authenticationToken) ignore:nil];
         
-        RAC(self, user) = [[apiClient getCurrentUser] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
-        }];
-
-        RAC(self, environment) = [[apiClient getEnvironment] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
-        }];
+        [self shprac_liftSelector:@selector(setEnvironment:) withSignal:[authenticationTokenSignal flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }]];
+        
+        [self shprac_liftSelector:@selector(setUser:) withSignal:[authenticationTokenSignal flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }]];
+        
+        if (self.unreadOnly) {
+            [self shprac_liftSelector:@selector(reloadUnread) withSignal:authenticationTokenSignal];
+        } else {
+            [self shprac_liftSelector:@selector(reloadAll) withSignal:authenticationTokenSignal];
+        }
     }
     return self;
 }

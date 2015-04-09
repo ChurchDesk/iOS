@@ -8,6 +8,7 @@
 #import "CHDEvent.h"
 #import "CHDUser.h"
 #import "CHDEnvironment.h"
+#import "CHDAuthenticationManager.h"
 
 @interface CHDDashboardEventViewModel()
 @property (nonatomic, strong) CHDUser *user;
@@ -41,6 +42,8 @@
         
         //Update signal
         CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
+        
+        RACSignal *authenticationTokenSignal = [RACObserve([CHDAuthenticationManager sharedInstance], authenticationToken) ignore:nil];
 
         RACSignal *updateSignal = [[[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
             NSString *regex = tuple.first;
@@ -59,21 +62,19 @@
 
         RAC(self, events) = [RACSignal merge:@[initialSignal, updateSignal]];
 
-        RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
-        }];
-
-        RAC(self, environment) = [RACSignal merge:@[[[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
-            return [RACSignal empty];
-        }], [[[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
-            NSString *regex = tuple.first;
-            NSString *resourcePath = [apiClient resourcePathForGetEnvironment];
-            return [regex rangeOfString:resourcePath].location != NSNotFound;
-        }] flattenMap:^RACStream *(id value) {
+        [self shprac_liftSelector:@selector(setEnvironment:) withSignal:[authenticationTokenSignal flattenMap:^RACStream *(id value) {
             return [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
-        }]]];
+        }]];
+        
+        [self shprac_liftSelector:@selector(setUser:) withSignal:[authenticationTokenSignal flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }]];
+        
+        [self shprac_liftSelector:@selector(reload) withSignal:authenticationTokenSignal];
     }
     return self;
 }

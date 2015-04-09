@@ -74,7 +74,7 @@ THE SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright (c) 2011&#8211;2015 Mattt Thompson (http://mattt.me/)
+			<string>Copyright (c) 2011–2015 Mattt Thompson (http://mattt.me/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -427,7 +427,7 @@ THE SOFTWARE.</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright (c) 2014 Mikkel Sels&#248;e S&#248;rensen &lt;mikkel@shape.dk&gt;
+			<string>Copyright (c) 2014 Mikkel Selsøe Sørensen &lt;mikkel@shape.dk&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
