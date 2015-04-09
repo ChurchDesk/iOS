@@ -365,10 +365,6 @@
             return [viewModel formatDate:event.endDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(self.viewModel.event, startDate) map:^id(NSDate *startDate) {
-            return @(startDate == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowParish]) {
@@ -387,20 +383,12 @@
             return [environment groupWithId:groupId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
 
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            return @(siteId == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
         cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
-
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            return @(siteId == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
         returnCell = cell;
     }
@@ -457,10 +445,6 @@
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
-
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            return @(siteId == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
         returnCell = cell;
     }
