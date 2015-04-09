@@ -233,7 +233,7 @@
         [cell.attendanceButton setTitle:[self.viewModel textForEventResponse:event.eventResponse] forState:UIControlStateNormal];
         [cell.attendanceButton setTitleColor:[self.viewModel textColorForEventResponse:event.eventResponse] forState:UIControlStateNormal];
         [self rac_liftSelector:@selector(reportAttendanceAction:) withSignals:[[cell.attendanceButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal], nil];
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
     }
     
