@@ -24,6 +24,7 @@
 #import "CHDDatePickerViewController.h"
 #import "CHDEventAlertView.h"
 #import "CHDAnalyticsManager.h"
+#import "CHDStatusView.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) CHDEvent *event;
 @property (nonatomic, strong) CHDEditEventViewModel *viewModel;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) CHDStatusView *statusView;
 
 @end
 
@@ -64,8 +66,20 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self didChangeSendingStatus:CHDStatusViewHidden];
+
+}
+
 - (void) setupSubviews {
     [self.view addSubview:self.tableView];
+
+    self.statusView = [[CHDStatusView alloc] init];
+    self.statusView.successText = NSLocalizedString(@"The event was saved", @"");
+    self.statusView.processingText = NSLocalizedString(@"saving event..", @"");
+    self.statusView.autoHideOnSuccessAfterTime = 0;
+    self.statusView.autoHideOnErrorAfterTime = 0;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveAction:)];
@@ -108,8 +122,10 @@
     [self.view endEditing:YES];
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CREATE];
     CHDEditEventViewModel *viewModel = self.viewModel;
-
+    [self didChangeSendingStatus:CHDStatusViewProcessing];
+    @weakify(self)
     [self shprac_liftSelector:@selector(setEvent:) withSignal:[[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
+        @strongify(self)
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         if (response.statusCode == 406) {
             if ([response.body isKindOfClass:[NSDictionary class]]) {
@@ -131,6 +147,7 @@
 
                     return [statusSignal flattenMap:^RACStream *(NSNumber *iStatus) {
                         if (iStatus.unsignedIntegerValue == CHDEventAlertStatusCancel) {
+                            [self didChangeSendingStatus:CHDStatusViewHidden];
                             return [RACSignal empty];
                         }
                         viewModel.event.allowDoubleBooking = YES;
@@ -138,6 +155,7 @@
                         return [viewModel saveEvent];
                     }];
                 }else {
+                    [self didChangeSendingStatus:CHDStatusViewHidden];
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:htmlString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
 
@@ -146,6 +164,7 @@
             }
         }
         [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
+        [self didChangeSendingStatus:CHDStatusViewHidden];
         return [RACSignal empty];
     }]  mapReplace:self.viewModel.event]];
 }
@@ -161,6 +180,38 @@
         self.tableView.contentOffset = CGPointMake(0, event.keyboardEventType == SHPKeyboardEventTypeShow ? self.tableView.contentOffset.y - event.requiredViewOffset : event.originalOffset);
         self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     } completion:nil];
+}
+
+-(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
+    self.statusView.currentStatus = status;
+
+    if(status == CHDStatusViewProcessing){
+        self.statusView.show = YES;
+        return;
+    }
+    if(status == CHDStatusViewSuccess){
+        self.statusView.show = YES;
+        double delayInSeconds = 2.f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.statusView.show = NO;
+            [self dismissViewControllerAnimated:YES completion:nil];
+        });
+        return;
+    }
+    if(status == CHDStatusViewError){
+        self.statusView.show = YES;
+        double delayInSeconds = 2.f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.statusView.show = NO;
+        });
+        return;
+    }
+    if(status == CHDStatusViewHidden){
+        self.statusView.show = NO;
+        return;
+    }
 }
 
 #pragma mark - UITableViewDelegate
