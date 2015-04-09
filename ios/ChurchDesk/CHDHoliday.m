@@ -28,4 +28,8 @@
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 
+- (BOOL)isEqual:(CHDHoliday*)object {
+    return [object.date isEqualToDate:self.date] && [object.name isEqualToString:self.name];
+}
+
 @end

@@ -43,7 +43,6 @@
 - (void) filterEvents {
     self.events = @[];
     self.sectionRows = [[NSDictionary alloc] init];
-    self.holidays = @[];
     self.sections = @[];
     if(self.noneFilteredEvents.count > 0) {
         [self addEvents:self.noneFilteredEvents holidays:self.holidays];
@@ -160,7 +159,14 @@
         }];
     }
     if(holidays.count > 0){
-        self.holidays = holidays;
+        if(self.holidays == nil){
+            self.holidays = @[];
+        }
+        NSArray *holidaysToAdd = [holidays shp_filter:^BOOL(CHDHoliday *holiday) {
+            return [self.holidays indexOfObject:holiday] == NSNotFound;
+        }];
+
+        self.holidays = [self.holidays arrayByAddingObjectsFromArray:holidaysToAdd];
     }
 }
 
