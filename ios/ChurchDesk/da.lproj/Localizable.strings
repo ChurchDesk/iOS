@@ -265,3 +265,5 @@
 /* No comment provided by engineer. */
 "ok" = "ok";
 
+
+"Wrong username or password" = "Wrong username or password";

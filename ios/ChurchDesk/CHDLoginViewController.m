@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Shape A/S. All rights reserved.
 //
 
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <SHPNetworking/SHPAPIManager+ReactiveExtension.h>
 #import "CHDLoginViewController.h"
 #import "CHDIconTextFieldView.h"
 #import "SHPKeyboardAwareness.h"
@@ -116,6 +118,8 @@
     UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer new];
     [self.view addGestureRecognizer:tapRecognizer];
     [self.view shprac_liftSelector:@selector(endEditing:) withSignal:[[tapRecognizer rac_gestureSignal] mapReplace:@YES]];
+
+    [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.loginCommand.executing, nil];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -144,7 +148,14 @@
 - (void) loginAction: (id) sender {
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SIGNIN action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_LOGIN];
     [self.view endEditing:YES];
-    [self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text];
+    [[self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text] subscribeError:^(NSError *error) {
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        if (response.statusCode == 400) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Wrong username or password", @"Message shown on wrong username password") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alertView show];
+        }
+
+    }];
 }
 
 - (void) forgotPasswordAction: (id) sender {
@@ -171,6 +182,21 @@
     }];
     
     [alert show];
+}
+
+-(void) showProgress: (BOOL) show {
+    if(show) {
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+    }else{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }
 }
 
 #pragma mark - Lazy Initialization
@@ -235,6 +261,8 @@
     if (!_loginButton) {
         _loginButton = [UIButton chd_roundedBlueButton];
         [_loginButton setTitle:NSLocalizedString(@"Login", @"") forState:UIControlStateNormal];
+        [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_loginButton setTitleColor:[UIColor chd_darkBlueColor] forState:UIControlStateDisabled];
         [_loginButton addTarget:self action:@selector(loginAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
