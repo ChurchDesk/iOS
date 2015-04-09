@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UIView *dotsContainer;
 @property (nonatomic, strong) UIView *lineView;
 
+@property (nonatomic, strong) MASConstraint *dotViewWidthConstraint;
+
 @end
 
 @implementation CHDCalendarHeaderView
@@ -28,9 +30,10 @@
         [self setupSubviews];
         [self makeConstraints];
         [self rac_liftSelector:@selector(configureDotsWithColors:) withSignalsFromArray:@[[[RACObserve(self, dotColors) combinePreviousWithStart:@[] reduce:^id(NSArray *previous, NSArray *current) {
-            return [current isEqualToArray:previous] ? nil : current;
-        }] filter:^BOOL(NSArray *value) {
-            return value != nil;
+            return RACTuplePack(previous, current);
+        }] filter:^BOOL(RACTuple *value) {
+            RACTupleUnpack(NSArray *previous, NSArray *current) = value;
+            return ![current isEqualToArray:previous];
         }]]];
     }
     return self;
@@ -64,6 +67,7 @@
     
     [self.dotsContainer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView).offset(-8);
+        self.dotViewWidthConstraint = make.width.equalTo(@0);
         make.centerY.equalTo(self.contentView);
     }];
     
@@ -73,27 +77,46 @@
     }];
 }
 
-- (void) configureDotsWithColors: (NSArray*) colors {
-
+-(void) configureDotsWithColors: (RACTuple *) tuple {
+    RACTupleUnpack(NSArray* previousColors, NSArray* newColors) = tuple;
     [self.dotsContainer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
+
     UIView *previousView = nil;
-    for (UIColor *color in colors) {
+    __block MASConstraint *lastRightConstraint = nil;
+    __block MASConstraint *lastLeftConstraint = nil;
+    for (UIColor *color in newColors) {
         CHDDotView *dotView = [CHDDotView new];
         dotView.dotColor = color;
-        
+
         [self.dotsContainer addSubview:dotView];
         [dotView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.equalTo(self.dotsContainer);
-            make.left.equalTo(previousView ? previousView.mas_right : self.dotsContainer).offset(previousView ? 4 : 7).priorityLow();
             make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(8, 8)]).priorityLow();
-            
-            if (color == colors.lastObject) {
-                make.right.equalTo(self.dotsContainer);
+
+            if (color == newColors.lastObject) {
+                lastRightConstraint = make.right.equalTo(self.dotsContainer).offset(newColors.count > previousColors.count? 16 : -8);
+                lastLeftConstraint = make.left.equalTo(previousView ? previousView.mas_right : self.dotsContainer).offset(previousView ? 12 : 15).priorityLow();
+            }else{
+                make.left.equalTo(previousView ? previousView.mas_right : self.dotsContainer).offset(previousView ? 4 : 7).priorityLow();
             }
         }];
-        
+
         previousView = dotView;
+    }
+    if(lastRightConstraint) {
+        float colorCount = newColors.count;
+        float dotViewWidth = colorCount * 8.f + (colorCount -1) * 4 + 7;
+        [self layoutIfNeeded];
+        self.dotViewWidthConstraint.offset( dotViewWidth );
+        lastRightConstraint.offset(0);
+        if(lastLeftConstraint) {
+            lastLeftConstraint.offset(previousView ? 4 : 7);
+        }
+        [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:3 initialSpringVelocity:6 options:0 animations:^{
+            [self layoutIfNeeded];
+        } completion:nil];
+    }else{
+        self.dotViewWidthConstraint.offset(0);
     }
 }
 
