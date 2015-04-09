@@ -27,6 +27,7 @@
 // Actions
 #define ANALYTICS_ACTION_BUTTON @"button_touch"
 #define ANALYTICS_ACTION_FILTER @"set_filter"
+#define ANALYTICS_ACTION_SENDING @"sending"
 
 // Labels
 #define ANALYTICS_LABEL_CREATE @"create"
@@ -37,6 +38,8 @@
 #define ANALYTICS_LABEL_SIGNUOUT @"signout"
 #define ANALYTICS_LABEL_LOGIN @"login"
 #define ANALYTICS_LABEL_FORGOT_PASSWORD @"forgot_password"
+#define ANALYTICS_LABEL_ERROR @"error"
+#define ANALYTICS_LABEL_SUCCESS @"success"
 
 @interface CHDAnalyticsManager: NSObject
 

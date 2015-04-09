@@ -139,8 +139,9 @@
 
             }
         }
+        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
         return [RACSignal empty];
-    }] mapReplace:self.viewModel.event]];
+    }]  mapReplace:self.viewModel.event]];
 }
 
 - (void) handleKeyboardEvent: (SHPKeyboardEvent*) event {

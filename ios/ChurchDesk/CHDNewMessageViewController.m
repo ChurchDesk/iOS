@@ -91,6 +91,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     //create a new message
     [self didChangeSendingStatus:CHDStatusViewProcessing];
     [[self.messageViewModel sendMessage] subscribeError:^(NSError *error) {
+        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_NEW_MESSAGE action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         switch(response.statusCode){
             case 406:
@@ -112,6 +113,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         }
         [self didChangeSendingStatus:CHDStatusViewError];
     } completed:^{
+        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_NEW_MESSAGE action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_SUCCESS];
         [self didChangeSendingStatus:CHDStatusViewSuccess];
     }];
 }
