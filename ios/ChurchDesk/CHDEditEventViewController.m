@@ -499,6 +499,10 @@
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
         cell.valueLabel.text = [event localizedVisibilityString];
+        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal:[[RACObserve(event, visibility) map:^id(id value) {
+            return [event localizedVisibilityString];
+        }] takeUntil:cell.rac_prepareForReuseSignal]];
+
         returnCell = cell;
     }
 
