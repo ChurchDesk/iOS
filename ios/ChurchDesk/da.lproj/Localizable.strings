@@ -1,0 +1,267 @@
+/* No comment provided by engineer. */
+"?" = "?";
+
+/* No comment provided by engineer. */
+"Access denied" = "Adgang nægtet";
+
+/* No comment provided by engineer. */
+"All day" = "Hele dagen";
+
+/* No comment provided by engineer. */
+"Allow double booking" = "Tillad dobbeltbooking";
+
+/* No comment provided by engineer. */
+"An error occured while sending your response to the server. Please try again." = "Der skete en fejl i kommunikationen med serveren. Prøv venligst igen.";
+
+/* No comment provided by engineer. */
+"Are you going to the event '%@'?" = "Deltager du i begivenheden '%@'? ";
+
+/* No comment provided by engineer. */
+"Attendance" = "Deltagelse";
+
+/* No comment provided by engineer. */
+"Calendar" = "Kalender";
+
+/* No comment provided by engineer. */
+"Cancel" = "Annuller";
+
+/* No comment provided by engineer. */
+"Categories" = "Kategorier";
+
+/* No comment provided by engineer. */
+"Category" = "Kategori";
+
+/* No comment provided by engineer. */
+"Choose end date" = "Vælg slutdato";
+
+/* No comment provided by engineer. */
+"Choose start date" = "Vælt startdato";
+
+/* No comment provided by engineer. */
+"Close" = "Luk";
+
+/* No comment provided by engineer. */
+"Confirm" = "Bekræft";
+
+/* No comment provided by engineer. */
+"Continue" = "Næste";
+
+/* No comment provided by engineer. */
+"Created On" = "Tilføjet den";
+
+/* No comment provided by engineer. */
+"Dashboard" = "Dashboard";
+
+/* No comment provided by engineer. */
+"Date" = "Dato";
+
+/* No comment provided by engineer. */
+"Decline" = "Afvis";
+
+/* No comment provided by engineer. */
+"Delete" = "Slet";
+
+/* No comment provided by engineer. */
+"Description" = "Beskrivelse";
+
+/* No comment provided by engineer. */
+"Double booking" = "Dobbeltbooking";
+
+/* No comment provided by engineer. */
+"E-mail address" = "E-mailadresse";
+
+/* No comment provided by engineer. */
+"Edit" = "Rediger";
+
+/* No comment provided by engineer. */
+"Edit Event" = "Rediger begivenhed";
+
+/* No comment provided by engineer. */
+"End" = "Slut";
+
+/* No comment provided by engineer. */
+"Error" = "Fejl";
+
+/* No comment provided by engineer. */
+"Error sending comment" = "Fejl ved afsendelse af kommentar";
+
+/* No comment provided by engineer. */
+"Error updating comment" = "Fejl ved opdatering af kommentar";
+
+/* No comment provided by engineer. */
+"Event Information" = "Information";
+
+/* No comment provided by engineer. */
+"Events" = "Begivenheder";
+
+/* No comment provided by engineer. */
+"Forgot Password" = "Glemt kodeord";
+
+/* No comment provided by engineer. */
+"Forgot password?" = "Glemt kodeord?";
+
+/* No comment provided by engineer. */
+"Going" = "Deltager";
+
+/* No comment provided by engineer. */
+"Group" = "Gruppe";
+
+/* No comment provided by engineer. */
+"Here you can change all settings regarding notifications on your phone." = "Her kan du ændre indstillinger for notifikationer på din telefon.";
+
+/* No comment provided by engineer. */
+"I am going" = "Jeg deltager";
+
+/* No comment provided by engineer. */
+"I am not going" = "Jeg deltager ikke";
+
+/* No comment provided by engineer. */
+"Instructions for resetting you password will be sent to your email." = "Vejledning til at nulstille dit kodeord er blevet sendt til din e-mail.";
+
+/* No comment provided by engineer. */
+"Instructions for resetting your password will be sent to '%@'." = "Vejledning til at nulstille dit kodeord er sendt til '%@'. ";
+
+/* No comment provided by engineer. */
+"Internal note" = "Intern note";
+
+/* No comment provided by engineer. */
+"Invitations" = "Invitationer";
+
+/* No comment provided by engineer. */
+"Invited by " = "Inviteret af ";
+
+/* No comment provided by engineer. */
+"Load more comments" = "Hent flere kommentarer";
+
+/* No comment provided by engineer. */
+"Location" = "Sted";
+
+/* No comment provided by engineer. */
+"Log Out" = "Log ud";
+
+/* No comment provided by engineer. */
+"Login" = "Log ind";
+
+/* No comment provided by engineer. */
+"Maps" = "Kort";
+
+/* No comment provided by engineer. */
+"Mark as read" = "Marker som læst";
+
+/* No comment provided by engineer. */
+"Maybe" = "Måske";
+
+/* No comment provided by engineer. */
+"Message" = "Besked";
+
+/* No comment provided by engineer. */
+"Messages" = "Beskeder";
+
+/* No comment provided by engineer. */
+"More church, less administration" = "Mere kirke - mindre administration";
+
+/* No comment provided by engineer. */
+"New Event" = "Ny begivenhed";
+
+/* No comment provided by engineer. */
+"New message" = "Ny besked";
+
+/* No comment provided by engineer. */
+"No events today" = "Ingen begivenheder i dag";
+
+/* No comment provided by engineer. */
+"No invitations" = "Ingen invitationer";
+
+/* No comment provided by engineer. */
+"No messages" = "Ingen beskeder";
+
+/* No comment provided by engineer. */
+"No unread messages" = "Ingen ulæste beskeder";
+
+/* No comment provided by engineer. */
+"Not going" = "Deltager ikke";
+
+/* No comment provided by engineer. */
+"Notifications" = "Notifikationer";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Parish" = "Sogn";
+
+/* No comment provided by engineer. */
+"Password" = "Kodeord";
+
+/* No comment provided by engineer. */
+"Password reset failed" = "Fejl ved nulstilling af kodeord";
+
+/* No comment provided by engineer. */
+"Please enter your email to receive instructions on how to reset your password." = "Angiv venligst din e-mail for at få tilsendt yderligere oplysninger om hvordan du nulstiller til nyt kodeord.";
+
+/* No comment provided by engineer. */
+"Please try again later" = "Prøv venligst igen senere";
+
+/* No comment provided by engineer. */
+"Price" = "Pris";
+
+/* No comment provided by engineer. */
+"Reply" = "Besvar";
+
+/* No comment provided by engineer. */
+"Resources" = "Ressourcer";
+
+/* No comment provided by engineer. */
+"Save" = "Gem";
+
+/* No comment provided by engineer. */
+"Select Category" = "Vælg kategori";
+
+/* No comment provided by engineer. */
+"Select Group" = "Vælg gruppe";
+
+/* No comment provided by engineer. */
+"Select Parish" = "Vælg sogn";
+
+/* No comment provided by engineer. */
+"Select Resources" = "Vælg ressourcer";
+
+/* No comment provided by engineer. */
+"Select Users" = "Vælg brugere";
+
+/* No comment provided by engineer. */
+"Send" = "Send";
+
+/* No comment provided by engineer. */
+"Sending message.." = "Sender besked...";
+
+/* No comment provided by engineer. */
+"Settings" = "Indstillinger";
+
+/* No comment provided by engineer. */
+"Something when wrong while resetting your password. Please try again." = "Der gik noget galt ved nulstilling af dit kodeord. Prøv venligst igen.";
+
+/* No comment provided by engineer. */
+"Start" = "Start";
+
+/* No comment provided by engineer. */
+"There was a problem, please try again" = "Der er sket et problem, prøv venligst igen.";
+
+/* No comment provided by engineer. */
+"Time" = "Tid";
+
+/* No comment provided by engineer. */
+"Title" = "Titel";
+
+/* No comment provided by engineer. */
+"Update" = "Opdater";
+
+/* No comment provided by engineer. */
+"Users" = "Brugere";
+
+/* No comment provided by engineer. */
+"Your message was sent" = "Din besked er sendt";
+
+/* No comment provided by engineer. */
+"ok" = "ok";
+

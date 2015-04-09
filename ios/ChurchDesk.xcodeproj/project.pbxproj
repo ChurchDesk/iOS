@@ -39,6 +39,7 @@
 		36C462341A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462331A9DBF9D00775FBE /* CHDMessageLoadCommentsTableViewCell.m */; };
 		36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */; };
 		36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */; };
+		36E869E61AD651AB003743D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 36E869E81AD651AB003743D2 /* InfoPlist.strings */; };
 		60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */; };
 		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
 		60372266562664FED85A815C /* NSUserDefaults+CHDDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */; };
@@ -200,6 +201,8 @@
 		36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDMessageCommentView.m; sourceTree = "<group>"; };
 		36DEC3251A9B128800FDBB70 /* CHDLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftViewController.h; sourceTree = "<group>"; };
 		36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
+		36E869E31AD651AA003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		36E869E71AD651AB003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6037208164EB947D72C14C08 /* CHDSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSite.h; sourceTree = "<group>"; };
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		60372089EA49349970627A31 /* CHDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUser.h; sourceTree = "<group>"; };
@@ -689,6 +692,7 @@
 		603726AC62FEF768227A022C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				36E869E81AD651AB003743D2 /* InfoPlist.strings */,
 				76143F081A96036100651CEA /* Fonts */,
 				60372631488DA2406B7F0AB9 /* Info.plist */,
 				603720B107A7307EADD70B2C /* main.m */,
@@ -1021,6 +1025,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */,
+				36E869E61AD651AB003743D2 /* InfoPlist.strings in Resources */,
 				76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */,
 				76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */,
 				76143F101A96066A00651CEA /* MavenPro-Regular.ttf in Resources */,
@@ -1210,8 +1215,17 @@
 			isa = PBXVariantGroup;
 			children = (
 				360846011AD57346009CC31B /* en */,
+				36E869E31AD651AA003743D2 /* da */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		36E869E81AD651AB003743D2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				36E869E71AD651AB003743D2 /* da */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
