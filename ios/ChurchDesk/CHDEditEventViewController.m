@@ -415,9 +415,17 @@
     else if ([row isEqualToString:CHDEventEditRowResources]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Resources", @"");
-        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [RACSignal merge: @[[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            if(siteId != nil) {
-                return ([environment resourcesWithSiteId:event.siteId].count == 0)? NSLocalizedString(@"None available", @"") : @"";
+
+        RACSignal *resourcesCountSignal = [[RACObserve(event, siteId) map:^id(NSString *siteId) {
+                if(siteId != nil) {
+                    return @([environment resourcesWithSiteId:event.siteId].count);
+                }
+                return @(0);
+            }] takeUntil:cell.rac_prepareForReuseSignal];
+        
+        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [RACSignal merge: @[[[resourcesCountSignal map:^id(NSNumber *resourcesCount) {
+            if(resourcesCount != nil) {
+                return (resourcesCount.integerValue == 0)? NSLocalizedString(@"None available", @"") : @"";
             }
             return @"";
         }] takeUntil:cell.rac_prepareForReuseSignal],
@@ -428,18 +436,19 @@
             }] takeUntil:cell.rac_prepareForReuseSignal]
         ]]];
 
+        [cell shprac_liftSelector:@selector(setSelectionStyle:) withSignal:[[resourcesCountSignal map:^id(NSNumber *resourcesCount) {
+            if(resourcesCount != nil) {
+                return (resourcesCount.integerValue == 0)? @(UITableViewCellSelectionStyleNone) : @(UITableViewCellSelectionStyleDefault);
+            }
+            return @(UITableViewCellSelectionStyleNone);
+        }] takeUntil:cell.rac_prepareForReuseSignal]];
+
         [cell rac_liftSelector:@selector(setDisclosureArrowHidden:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
             if(siteId != nil) {
                 BOOL hideDisclosureArrow = ([environment resourcesWithSiteId:event.siteId].count == 0)? YES : NO;
                 return @(hideDisclosureArrow);
             }
             return @(YES);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            return @(siteId == nil);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
         returnCell = cell;
