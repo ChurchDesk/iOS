@@ -85,6 +85,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"calendar"];
 }
 

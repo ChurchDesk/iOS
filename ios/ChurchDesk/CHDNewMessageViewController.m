@@ -67,6 +67,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"new_message"];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [self.tableView reloadData];
 }
 

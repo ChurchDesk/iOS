@@ -61,8 +61,7 @@
     [super viewWillAppear:animated];
 
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen: self.viewModel.newEvent? @"new event" :@"edit event"];
-
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void) setupSubviews {

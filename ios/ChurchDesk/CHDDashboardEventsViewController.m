@@ -82,7 +82,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_events"];
-    [self.eventTable deselectRowAtIndexPath:[self.eventTable indexPathForSelectedRow] animated:animated];
+    [self.eventTable deselectRowAtIndexPath:[self.eventTable indexPathForSelectedRow] animated:YES];
 }
 
 #pragma mark - UITableViewDelegate

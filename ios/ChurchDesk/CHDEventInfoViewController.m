@@ -69,6 +69,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"event information"];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 #pragma mark -setup

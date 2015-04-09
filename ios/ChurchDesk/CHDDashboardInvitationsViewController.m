@@ -55,6 +55,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_invitations"];
+    [self.inviteTable deselectRowAtIndexPath:[self.inviteTable indexPathForSelectedRow] animated:YES];
     [self.inviteTable reloadData];
     [self setUnread:NO];
 }

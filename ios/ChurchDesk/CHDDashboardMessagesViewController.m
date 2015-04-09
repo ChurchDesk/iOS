@@ -308,6 +308,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.messagesTable deselectRowAtIndexPath:[self.messagesTable indexPathForSelectedRow] animated:YES];
     if(self.messageStyle == CHDMessagesStyleUnreadMessages) {
         [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_messages"];
     }
