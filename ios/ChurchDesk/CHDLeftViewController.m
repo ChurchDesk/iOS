@@ -40,8 +40,6 @@
         [self makeViews];
         [self makeConstraints];
         [self makeBindings];
-
-        //self.userNameLabel.text = @"Peter Christensen";
     }
     return self;
 }
