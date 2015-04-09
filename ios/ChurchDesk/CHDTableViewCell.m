@@ -8,6 +8,22 @@
 
 #import "CHDTableViewCell.h"
 
+@interface CHDBlendView : UIView
+
+@end
+
+@implementation CHDBlendView
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetBlendMode(context, kCGBlendModeMultiply);
+    [self.superview.layer renderInContext:context];
+    [self.layer renderInContext:context];
+}
+
+
+@end
+
 @interface CHDTableViewCell()
 @property (nonatomic, strong) UIView* leftBorder;
 @property (nonatomic, strong) UIView* separatorView;
@@ -28,8 +44,8 @@
 
 -(void) makeViews {
     self.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:self.leftBorder];
     [self addSubview:self.separatorView];
+    [self addSubview:self.leftBorder];
 
     self.leftBorder.backgroundColor = [UIColor whiteColor];
 }
@@ -53,7 +69,7 @@
 
 - (UIView *)leftBorder {
     if (!_leftBorder) {
-        _leftBorder = [UIView new];
+        _leftBorder = [CHDBlendView new];
     }
     return _leftBorder;
 }
