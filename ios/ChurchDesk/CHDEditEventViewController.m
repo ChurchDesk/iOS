@@ -88,10 +88,10 @@
     [self.navigationItem.leftBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:[self.viewModel.saveCommand.executing not], nil];
 
     //Required -> Site, Group, title, startDate, endDate
-    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
-        RACTupleUnpack(NSString *siteId, NSNumber *groupId, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
+    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
+        RACTupleUnpack(NSString *siteId, NSNumber *groupId, NSArray *categoryIds, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
         
-        return @(![siteId isEqualToString:@""] && groupId != nil && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
+        return @(![siteId isEqualToString:@""] && groupId != nil && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
     }];
     [self.navigationItem.rightBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:canSendSignal, nil];
 }
@@ -115,27 +115,34 @@
             if ([response.body isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = response.body;
                 NSString *htmlString = [result valueForKey:@"error"];
+                NSNumber *isDoubleBooking = [result valueForKey:@"html"];
 
-                CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
-                alertView.show = YES;
+                if(isDoubleBooking.boolValue) {
+                    CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
+                    alertView.show = YES;
 
-                RACSignal *statusSignal = [RACObserve(alertView, status) filter:^BOOL(NSNumber *iStatus) {
-                    return iStatus.unsignedIntegerValue != CHDEventAlertStatusNone;
-                }];
+                    RACSignal *statusSignal = [RACObserve(alertView, status) filter:^BOOL(NSNumber *iStatus) {
+                        return iStatus.unsignedIntegerValue != CHDEventAlertStatusNone;
+                    }];
 
-                RAC(alertView, show) = [[statusSignal map:^id(id value) {
-                    return @(NO);
-                }] takeUntil:alertView.rac_willDeallocSignal];
+                    RAC(alertView, show) = [[statusSignal map:^id(id value) {
+                        return @(NO);
+                    }] takeUntil:alertView.rac_willDeallocSignal];
 
-                return [statusSignal flattenMap:^RACStream *(NSNumber *iStatus) {
-                    if (iStatus.unsignedIntegerValue == CHDEventAlertStatusCancel) {
-                        return [RACSignal empty];
-                    }
-                    viewModel.event.allowDoubleBooking = YES;
+                    return [statusSignal flattenMap:^RACStream *(NSNumber *iStatus) {
+                        if (iStatus.unsignedIntegerValue == CHDEventAlertStatusCancel) {
+                            return [RACSignal empty];
+                        }
+                        viewModel.event.allowDoubleBooking = YES;
 
-                    return [viewModel saveEvent];
-                }];
+                        return [viewModel saveEvent];
+                    }];
+                }else {
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:htmlString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [alertView show];
 
+                    return [RACSignal empty];
+                }
             }
         }
         [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
