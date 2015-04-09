@@ -225,12 +225,33 @@
     return [hiddenEventsColors copy];
 }
 
+#pragma mark - private methods
+- (BOOL)isDate:(NSDate *)date inRangeFirstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
+
+    NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:date];
+    NSDateComponents *firstDateComponents = [calendar components:unitFlags fromDate:firstDate];
+    NSDateComponents *lastDateComponents = [calendar components:unitFlags fromDate:lastDate];
+
+    BOOL first = dateComponents.day == firstDateComponents.day && dateComponents.month == firstDateComponents.month && dateComponents.year == firstDateComponents.year;
+    BOOL last = dateComponents.day == lastDateComponents.day && dateComponents.month == lastDateComponents.month && dateComponents.year == lastDateComponents.year;
+
+    return ([date compare:firstDate] == NSOrderedDescending && [date compare:lastDate]  == NSOrderedAscending) || first || last;
+}
+
 #pragma mark -CHDDayPicker delegate
 
 - (BOOL)chdDayPickerEventsExistsOnDay:(NSDate *)date {
     NSIndexPath *indexPath = [self indexPathForDate:date];
-
-    return indexPath != nil && [self eventsForSectionAtIndex:indexPath.section].count > 0;
+    if(indexPath != nil) {
+        NSArray *events = [[self eventsForSectionAtIndex:indexPath.section] shp_filter:^BOOL(CHDEvent *event) {
+            return [self isDate:date inRangeFirstDate:event.startDate lastDate:event.endDate];
+        }];
+        NSUInteger eventsCount = events.count;
+        return eventsCount > 0;
+    }
+    return NO;
 }
 
 
