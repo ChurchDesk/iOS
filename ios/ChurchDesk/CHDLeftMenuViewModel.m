@@ -5,6 +5,7 @@
 
 #import "CHDLeftMenuViewModel.h"
 #import "CHDAPIClient.h"
+#import "CHDAuthenticationManager.h"
 
 @interface CHDLeftMenuViewModel()
 @property (nonatomic, strong) CHDUser *user;
@@ -30,6 +31,12 @@
         RACSignal *initialSignal = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
+
+        [self shprac_liftSelector:@selector(setUser:) withSignal:[[RACObserve([CHDAuthenticationManager sharedInstance], authenticationToken) ignore:nil] flattenMap:^RACStream *(id value) {
+            return [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
+                return [RACSignal empty];
+            }];
+        }]];
         
         RAC(self, user) = [RACSignal merge:@[initialSignal, updateSignal]];
     }

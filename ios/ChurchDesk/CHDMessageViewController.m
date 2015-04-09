@@ -155,9 +155,7 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         return (!comment)? @(CHDCommentViewStateReply) : @(CHDCommentViewStateUpdate);
     }], nil];
 
-    [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.commentDeleteCommand.executing, nil];
-    [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.commentUpdateCommand.executing, nil];
-    [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.loadMessageCommand.executing, nil];
+    [self shprac_liftSelector:@selector(showProgress:) withSignal:[RACSignal merge:@[self.viewModel.saveCommand.executing, self.viewModel.commentDeleteCommand.executing, self.viewModel.commentUpdateCommand.executing, self.viewModel.loadMessageCommand.executing]]];
 }
 
 #pragma mark -Actions

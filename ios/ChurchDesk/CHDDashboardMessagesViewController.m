@@ -136,6 +136,7 @@
 }
 
 -(void) makeViews {
+    self.view.backgroundColor = [UIColor chd_lightGreyColor];
     [self.view addSubview:self.contentView];
     [self.contentView addSubview:self.messagesTable];
     [self.messagesTable addSubview:self.refreshControl];
@@ -223,8 +224,8 @@
     if (!_messagesTable) {
         _messagesTable = [[UITableView alloc] init];
         _messagesTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _messagesTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
-        _messagesTable.backgroundColor = [UIColor chd_lightGreyColor];
+        _messagesTable.backgroundView.backgroundColor = [UIColor clearColor];
+        _messagesTable.backgroundColor = [UIColor clearColor];
 
         _messagesTable.rowHeight = 85;
 
@@ -303,7 +304,6 @@
     // Do any additional setup after loading the view.
     [self makeViews];
     [self makeConstraints];
-    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

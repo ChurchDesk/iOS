@@ -24,6 +24,7 @@
 #import "CHDDatePickerViewController.h"
 #import "CHDEventAlertView.h"
 #import "CHDAnalyticsManager.h"
+#import "CHDStatusView.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) CHDEvent *event;
 @property (nonatomic, strong) CHDEditEventViewModel *viewModel;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) CHDStatusView *statusView;
 
 @end
 
@@ -64,8 +66,20 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self didChangeSendingStatus:CHDStatusViewHidden];
+
+}
+
 - (void) setupSubviews {
     [self.view addSubview:self.tableView];
+
+    self.statusView = [[CHDStatusView alloc] init];
+    self.statusView.successText = NSLocalizedString(@"The event was saved", @"");
+    self.statusView.processingText = NSLocalizedString(@"saving event..", @"");
+    self.statusView.autoHideOnSuccessAfterTime = 0;
+    self.statusView.autoHideOnErrorAfterTime = 0;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)];
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveAction:)];
@@ -88,10 +102,10 @@
     [self.navigationItem.leftBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:[self.viewModel.saveCommand.executing not], nil];
 
     //Required -> Site, Group, title, startDate, endDate
-    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
-        RACTupleUnpack(NSString *siteId, NSNumber *groupId, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
+    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
+        RACTupleUnpack(NSString *siteId, NSNumber *groupId, NSArray *categoryIds, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
         
-        return @(![siteId isEqualToString:@""] && groupId != nil && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
+        return @(![siteId isEqualToString:@""] && groupId != nil && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
     }];
     [self.navigationItem.rightBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:canSendSignal, nil];
 }
@@ -108,37 +122,49 @@
     [self.view endEditing:YES];
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CREATE];
     CHDEditEventViewModel *viewModel = self.viewModel;
-
+    [self didChangeSendingStatus:CHDStatusViewProcessing];
+    @weakify(self)
     [self shprac_liftSelector:@selector(setEvent:) withSignal:[[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
+        @strongify(self)
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         if (response.statusCode == 406) {
             if ([response.body isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = response.body;
                 NSString *htmlString = [result valueForKey:@"error"];
+                NSNumber *isDoubleBooking = [result valueForKey:@"html"];
 
-                CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
-                alertView.show = YES;
+                if(isDoubleBooking.boolValue) {
+                    CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
+                    alertView.show = YES;
 
-                RACSignal *statusSignal = [RACObserve(alertView, status) filter:^BOOL(NSNumber *iStatus) {
-                    return iStatus.unsignedIntegerValue != CHDEventAlertStatusNone;
-                }];
+                    RACSignal *statusSignal = [RACObserve(alertView, status) filter:^BOOL(NSNumber *iStatus) {
+                        return iStatus.unsignedIntegerValue != CHDEventAlertStatusNone;
+                    }];
 
-                RAC(alertView, show) = [[statusSignal map:^id(id value) {
-                    return @(NO);
-                }] takeUntil:alertView.rac_willDeallocSignal];
+                    RAC(alertView, show) = [[statusSignal map:^id(id value) {
+                        return @(NO);
+                    }] takeUntil:alertView.rac_willDeallocSignal];
 
-                return [statusSignal flattenMap:^RACStream *(NSNumber *iStatus) {
-                    if (iStatus.unsignedIntegerValue == CHDEventAlertStatusCancel) {
-                        return [RACSignal empty];
-                    }
-                    viewModel.event.allowDoubleBooking = YES;
+                    return [statusSignal flattenMap:^RACStream *(NSNumber *iStatus) {
+                        if (iStatus.unsignedIntegerValue == CHDEventAlertStatusCancel) {
+                            [self didChangeSendingStatus:CHDStatusViewHidden];
+                            return [RACSignal empty];
+                        }
+                        viewModel.event.allowDoubleBooking = YES;
 
-                    return [viewModel saveEvent];
-                }];
+                        return [viewModel saveEvent];
+                    }];
+                }else {
+                    [self didChangeSendingStatus:CHDStatusViewHidden];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:htmlString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [alertView show];
 
+                    return [RACSignal empty];
+                }
             }
         }
         [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
+        [self didChangeSendingStatus:CHDStatusViewHidden];
         return [RACSignal empty];
     }]  mapReplace:self.viewModel.event]];
 }
@@ -154,6 +180,38 @@
         self.tableView.contentOffset = CGPointMake(0, event.keyboardEventType == SHPKeyboardEventTypeShow ? self.tableView.contentOffset.y - event.requiredViewOffset : event.originalOffset);
         self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     } completion:nil];
+}
+
+-(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
+    self.statusView.currentStatus = status;
+
+    if(status == CHDStatusViewProcessing){
+        self.statusView.show = YES;
+        return;
+    }
+    if(status == CHDStatusViewSuccess){
+        self.statusView.show = YES;
+        double delayInSeconds = 2.f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.statusView.show = NO;
+            [self dismissViewControllerAnimated:YES completion:nil];
+        });
+        return;
+    }
+    if(status == CHDStatusViewError){
+        self.statusView.show = YES;
+        double delayInSeconds = 2.f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.statusView.show = NO;
+        });
+        return;
+    }
+    if(status == CHDStatusViewHidden){
+        self.statusView.show = NO;
+        return;
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -358,10 +416,6 @@
             return [viewModel formatDate:event.endDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(self.viewModel.event, startDate) map:^id(NSDate *startDate) {
-            return @(startDate == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowParish]) {
@@ -380,20 +434,12 @@
             return [environment groupWithId:groupId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
 
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            return @(siteId == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
         cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
-
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            return @(siteId == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
         returnCell = cell;
     }
@@ -408,9 +454,17 @@
     else if ([row isEqualToString:CHDEventEditRowResources]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Resources", @"");
-        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [RACSignal merge: @[[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            if(siteId != nil) {
-                return ([environment resourcesWithSiteId:event.siteId].count == 0)? NSLocalizedString(@"None available", @"") : @"";
+
+        RACSignal *resourcesCountSignal = [[RACObserve(event, siteId) map:^id(NSString *siteId) {
+                if(siteId != nil) {
+                    return @([environment resourcesWithSiteId:event.siteId].count);
+                }
+                return @(0);
+            }] takeUntil:cell.rac_prepareForReuseSignal];
+        
+        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [RACSignal merge: @[[[resourcesCountSignal map:^id(NSNumber *resourcesCount) {
+            if(resourcesCount != nil) {
+                return (resourcesCount.integerValue == 0)? NSLocalizedString(@"None available", @"") : @"";
             }
             return @"";
         }] takeUntil:cell.rac_prepareForReuseSignal],
@@ -421,6 +475,13 @@
             }] takeUntil:cell.rac_prepareForReuseSignal]
         ]]];
 
+        [cell shprac_liftSelector:@selector(setSelectionStyle:) withSignal:[[resourcesCountSignal map:^id(NSNumber *resourcesCount) {
+            if(resourcesCount != nil) {
+                return (resourcesCount.integerValue == 0)? @(UITableViewCellSelectionStyleNone) : @(UITableViewCellSelectionStyleDefault);
+            }
+            return @(UITableViewCellSelectionStyleNone);
+        }] takeUntil:cell.rac_prepareForReuseSignal]];
+
         [cell rac_liftSelector:@selector(setDisclosureArrowHidden:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
             if(siteId != nil) {
                 BOOL hideDisclosureArrow = ([environment resourcesWithSiteId:event.siteId].count == 0)? YES : NO;
@@ -429,22 +490,12 @@
             return @(YES);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            return @(siteId == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
-
-        [cell rac_liftSelector:@selector(setDisabled:) withSignals:[[RACObserve(event, siteId) map:^id(NSString *siteId) {
-            return @(siteId == nil);
-        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
 
         returnCell = cell;
     }
@@ -499,6 +550,10 @@
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
         cell.valueLabel.text = [event localizedVisibilityString];
+        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal:[[RACObserve(event, visibility) map:^id(id value) {
+            return [event localizedVisibilityString];
+        }] takeUntil:cell.rac_prepareForReuseSignal]];
+
         returnCell = cell;
     }
 

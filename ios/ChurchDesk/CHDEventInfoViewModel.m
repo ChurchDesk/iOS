@@ -107,7 +107,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) categoryTitles {
     NSArray *categories = [self.environment.eventCategories shp_filter:^BOOL(CHDEventCategory *category) {
-        return [self.event.eventCategoryIds containsObject:category.categoryId];
+        return [self.event.eventCategoryIds containsObject:category.categoryId] && [self.event.siteId isEqualToString:category.siteId];
     }];
     
     return [categories shp_map:^id(CHDEventCategory *category) {

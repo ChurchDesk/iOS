@@ -28,10 +28,6 @@
 - (void) _setupSubviews {
     [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.titleLabel];
-
-    RAC(self.titleLabel, textColor) = [RACObserve(self, disabled) map:^id(NSNumber *iDisabled) {
-        return iDisabled.boolValue? [UIColor shpui_colorWithHexValue:0x646464] : [UIColor chd_textDarkColor];
-    }];
 }
 
 - (void) _makeConstraints {
