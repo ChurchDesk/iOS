@@ -4,6 +4,7 @@
 //
 
 #import "CHDNewMessageTextViewCell.h"
+static CGFloat kNewMessageMinimumHeight = 87;
 
 @interface CHDNewMessageTextViewCell()
 @property (nonatomic, strong) UITextView* textView;
@@ -29,13 +30,12 @@
     UIView *contentView = self.contentView;
 
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.equalTo(contentView).offset(8);
-        make.right.equalTo(contentView).offset(-8);
-        make.bottom.equalTo(contentView).offset(-20);
+        make.edges.equalTo(self.contentView);
+        self.textViewHeight = make.height.equalTo(@0).offset(kNewMessageMinimumHeight);
     }];
 
     [self.placeholder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(contentView).offset(14);
+        make.left.equalTo(contentView).offset(kSideMargin);
         make.top.equalTo(contentView).offset(14);
     }];
 }
@@ -54,11 +54,14 @@
 - (UITextView *)textView {
     if(!_textView){
         _textView = [UITextView new];
-        _textView.delegate = self;
-        _textView.scrollEnabled = NO;
         _textView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        _textView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _textView.textColor = [UIColor chd_textDarkColor];
+        _textView.scrollEnabled = NO;
+        _textView.textContainerInset = UIEdgeInsetsMake(kSideMargin, kSideMargin-2, 0, kSideMargin);
+        _textView.delegate = self;
+        _textView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
+        _textView.clipsToBounds = YES;
+        _textView.textContainer.widthTracksTextView = YES;
     }
     return _textView;
 }
@@ -84,22 +87,13 @@
         self.placeholder.hidden = NO;
     }
 
-    CGFloat lineHeight = self.textView.font.lineHeight;
+    CGSize contentSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
+    contentSize.height = MAX(kNewMessageMinimumHeight, contentSize.height);
 
-    CGRect sizeToFit = [[self.textView layoutManager] usedRectForTextContainer:self.textView.textContainer];
-    CGFloat numberOfLines = ceil(sizeToFit.size.height / lineHeight);
-
-    CGRect frame = self.textView.frame;
-    frame.size.height = numberOfLines * lineHeight;
-
-    self.textView.frame = frame;
+    [self.textViewHeight setOffset:contentSize.height + (kSideMargin*2)];
 
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
 }
 
-/*- (CGPoint) cursorPositionForTextView: (UITextView *)textView {
-    CGRect cursorPosition = [textView caretRectForPosition:textView.selectedTextRange.start];
-    return cursorPosition.origin;
-}*/
 @end
