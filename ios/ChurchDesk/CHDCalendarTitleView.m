@@ -73,6 +73,7 @@
 - (UIButton *)titleButton {
     if (!_titleButton) {
         _titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _titleButton.hitTestEdgeInsets = UIEdgeInsetsMake(-5, -10, -10, -15);
         _titleButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:20];
         [_titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }

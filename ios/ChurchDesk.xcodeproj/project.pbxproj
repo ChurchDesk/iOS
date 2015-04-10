@@ -56,6 +56,7 @@
 		6037287C919D4E250ACD51E9 /* CHDSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372E23E447786367BBF99E /* CHDSite.m */; };
 		603728972A785A759863CD81 /* CHDDashboardEventViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603728A5A13F1CDE17B7CB88 /* CHDDashboardEventViewModel.m */; };
 		6037293A67800020916A620C /* CHDLeftMenuViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BECBF65AF34EA9E2CB1 /* CHDLeftMenuViewModel.m */; };
+		603729DC2E02539143536775 /* UIButton+CHDCalendarTitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721391E2FC8DF091F9B81 /* UIButton+CHDCalendarTitleButton.m */; };
 		60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */; };
 		60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */; };
 		60372B3A9889AC0CF137F93D /* CHDNotificationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 603722B1254455CC82CC5331 /* CHDNotificationSettings.m */; };
@@ -212,6 +213,7 @@
 		603720B107A7307EADD70B2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		603720B2421A9B94C77F5C6C /* CHDComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDComment.m; sourceTree = "<group>"; };
 		603720E365F294D09A0662B7 /* NSUserDefaults+CHDDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CHDDefaults.h"; sourceTree = "<group>"; };
+		603721391E2FC8DF091F9B81 /* UIButton+CHDCalendarTitleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+CHDCalendarTitleButton.m"; sourceTree = "<group>"; };
 		603721CB7B785F7282839F87 /* CHDStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDStatusView.h; sourceTree = "<group>"; };
 		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		603722B1254455CC82CC5331 /* CHDNotificationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNotificationSettings.m; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 		60372E5E7BDC9C61A7F6FBED /* CHDSitePermission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSitePermission.h; sourceTree = "<group>"; };
 		60372E5F1693B6ECA20D0E7C /* ChurchDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60372E6CAE020B6C8CD306CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		60372E89C9D25442B8EFD24E /* UIButton+CHDCalendarTitleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+CHDCalendarTitleButton.h"; sourceTree = "<group>"; };
 		60372EAACA9BDF0C410F3D77 /* CHDDashboardEventViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDashboardEventViewModel.h; sourceTree = "<group>"; };
 		60372F16B00B5C9E5812F5E2 /* CHDPassthroughTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPassthroughTouchView.h; sourceTree = "<group>"; };
 		760AF8A01AC42C9600729427 /* CHDEventUserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventUserDetailsViewController.h; sourceTree = "<group>"; };
@@ -464,6 +467,8 @@
 				7612475F1AA7070B004E7D05 /* UITableView+ChurchDesk.m */,
 				60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */,
 				603720E365F294D09A0662B7 /* NSUserDefaults+CHDDefaults.h */,
+				603721391E2FC8DF091F9B81 /* UIButton+CHDCalendarTitleButton.m */,
+				60372E89C9D25442B8EFD24E /* UIButton+CHDCalendarTitleButton.h */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1211,6 +1216,7 @@
 				6037251E4D97DDC3CA4E5843 /* CHDListViewController.m in Sources */,
 				6037233DB7F608BF75FA40E0 /* CHDListConfigModel.m in Sources */,
 				60372EBB494E1186B6373AB0 /* CHDAnalyticsManager.m in Sources */,
+				603729DC2E02539143536775 /* UIButton+CHDCalendarTitleButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

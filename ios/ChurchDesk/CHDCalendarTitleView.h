@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIButton+CHDCalendarTitleButton.h"
 
 @interface CHDCalendarTitleView : UIView
 
