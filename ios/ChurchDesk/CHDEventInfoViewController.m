@@ -348,6 +348,10 @@
         vc.title = NSLocalizedString(@"Resources", @"");
         [self.navigationController pushViewController:vc animated:YES];
     }
+    else if ([row isEqualToString:CHDEventInfoRowAttendance]) {
+        [self.view endEditing:YES];
+        [self reportAttendanceAction:nil];
+    }
 }
 
 
