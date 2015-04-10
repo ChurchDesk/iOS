@@ -184,7 +184,7 @@
     }], nil];
 
     UIColor *borderColor = category.color?: [UIColor clearColor];
-    [cell.leftBorder setBackgroundColor:borderColor];
+    [cell.cellBackgroundView setBorderColor:borderColor];
 
     return cell;
 }

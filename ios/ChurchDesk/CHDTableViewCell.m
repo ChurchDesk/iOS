@@ -8,25 +8,8 @@
 
 #import "CHDTableViewCell.h"
 
-@interface CHDBlendView : UIView
-
-@end
-
-@implementation CHDBlendView
-
-- (void)drawRect:(CGRect)rect {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetBlendMode(context, kCGBlendModeMultiply);
-    [self.superview.layer renderInContext:context];
-    [self.layer renderInContext:context];
-}
-
-
-@end
-
 @interface CHDTableViewCell()
-@property (nonatomic, strong) UIView* leftBorder;
-@property (nonatomic, strong) UIView* separatorView;
+@property (nonatomic, strong) CHDCellBackgroundView* cellBackgroundView;
 
 @end
 
@@ -44,58 +27,25 @@
 
 -(void) makeViews {
     self.backgroundColor = [UIColor whiteColor];
-    [self addSubview:self.separatorView];
-    [self addSubview:self.leftBorder];
+    
+    [self insertSubview:self.cellBackgroundView atIndex:0];
 
-    self.leftBorder.backgroundColor = [UIColor whiteColor];
+    self.cellBackgroundView.backgroundColor = [UIColor whiteColor];
 }
 
 -(void) makeConstraints{
-    UIView*contentView = self.contentView;
-    UIView* superview = self;
-
-    [self.leftBorder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.left.equalTo(contentView);
-        make.width.equalTo(@3.5);
+    [self.cellBackgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
     }];
 
-    [self.separatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.right.left.equalTo(superview);
-        make.height.equalTo(@1);
-    }];
-}
-
-- (void)prepareForReuse
-{
-    [super prepareForReuse];
-    [_leftBorder removeFromSuperview];
-    _leftBorder = nil;
-    [self addSubview:self.leftBorder];
-    
-    self.leftBorder.backgroundColor = [UIColor whiteColor];
-    
-    [self.leftBorder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.left.equalTo(self.contentView);
-        make.width.equalTo(@3.5);
-    }];
 }
 
 #pragma mark - Sub Views initialization
 
-- (UIView *)leftBorder {
-    if (!_leftBorder) {
-        _leftBorder = [CHDBlendView new];
+- (CHDCellBackgroundView *)cellBackgroundView {
+    if (!_cellBackgroundView) {
+        _cellBackgroundView = [CHDCellBackgroundView new];
     }
-    return _leftBorder;
-}
-
-
--(UIView *) separatorView{
-    if(!_separatorView){
-        _separatorView = [UIView new];
-        _separatorView.backgroundColor = [UIColor chd_categoryGreyColor];
-    }
-
-    return _separatorView;
+    return _cellBackgroundView;
 }
 @end

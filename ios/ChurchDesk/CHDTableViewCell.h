@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CHDCellBackgroundView.h"
 
 @interface CHDTableViewCell : UITableViewCell
 -(void) makeViews;
 -(void) makeConstraints;
-@property (nonatomic, readonly) UIView* leftBorder;
+@property (nonatomic, readonly) CHDCellBackgroundView* cellBackgroundView;
+@property (nonatomic, strong) UIColor *borderColor;
 
 @end

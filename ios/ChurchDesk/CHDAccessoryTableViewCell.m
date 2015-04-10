@@ -52,8 +52,8 @@
     [self.scrollContentViewWithOffset addSubview:self.scrollContentView];
 
     //Replace the leftBorder
-    [self.leftBorder removeFromSuperview];
-    [self.scrollContentView addSubview:self.leftBorder];
+    [self.cellBackgroundView removeFromSuperview];
+    [self.scrollContentView addSubview:self.cellBackgroundView];
 }
 
 -(void) makeConstraints {
@@ -81,9 +81,8 @@
 
     //Clear out old constraints
     //[self.leftBorder removeConstraints:self.leftBorder.constraints];
-    [self.leftBorder mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.bottom.equalTo(self.scrollContentView);
-        make.width.equalTo(@3.5);
+    [self.cellBackgroundView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.scrollContentView);
     }];
 }
 

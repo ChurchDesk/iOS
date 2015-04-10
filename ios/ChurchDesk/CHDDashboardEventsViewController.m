@@ -122,7 +122,7 @@
     cell.parishLabel.text = user.sites.count > 1? site.name : @"";
     cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event];
 
-    [cell.leftBorder setBackgroundColor:category.color?: [UIColor clearColor]];
+    [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
 
     return cell;
 }

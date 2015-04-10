@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A0E77D51AD7D4E50022EE71 /* CHDCellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0E77D41AD7D4E50022EE71 /* CHDCellBackgroundView.m */; };
 		360846001AD57346009CC31B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 360846021AD57346009CC31B /* Localizable.strings */; };
 		360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */; };
 		360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */; };
@@ -136,6 +137,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A0E77D31AD7D4E50022EE71 /* CHDCellBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDCellBackgroundView.h; sourceTree = "<group>"; };
+		0A0E77D41AD7D4E50022EE71 /* CHDCellBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCellBackgroundView.m; sourceTree = "<group>"; };
 		2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		360846011AD57346009CC31B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		360B4DF21A973A46001CC8B0 /* CHDLeftMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuTableViewCell.h; sourceTree = "<group>"; };
@@ -788,6 +791,8 @@
 				60372F16B00B5C9E5812F5E2 /* CHDPassthroughTouchView.h */,
 				60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */,
 				6037286CA436A45B892DCEEC /* CHDDescriptionViewController.h */,
+				0A0E77D31AD7D4E50022EE71 /* CHDCellBackgroundView.h */,
+				0A0E77D41AD7D4E50022EE71 /* CHDCellBackgroundView.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1102,6 +1107,7 @@
 				76B2129D1AA9D9C900E4104C /* CHDEventValueTableViewCell.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
 				761247381AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m in Sources */,
+				0A0E77D51AD7D4E50022EE71 /* CHDCellBackgroundView.m in Sources */,
 				7612473B1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m in Sources */,
 				761247451AA48444004E7D05 /* CHDIconTextFieldView.m in Sources */,
 				7612473E1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m in Sources */,
