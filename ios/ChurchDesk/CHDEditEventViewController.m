@@ -123,8 +123,11 @@
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CREATE];
     CHDEditEventViewModel *viewModel = self.viewModel;
     [self didChangeSendingStatus:CHDStatusViewProcessing];
+
+
     @weakify(self)
-    [self shprac_liftSelector:@selector(setEvent:) withSignal:[[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
+    [[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
+        //Handle double booking responses from the server
         @strongify(self)
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         if (response.statusCode == 406) {
@@ -166,7 +169,16 @@
         [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
         [self didChangeSendingStatus:CHDStatusViewHidden];
         return [RACSignal empty];
-    }]  mapReplace:self.viewModel.event]];
+    }] subscribeNext:^(id x) {
+        [self didChangeSendingStatus:CHDStatusViewSuccess];
+    } error:^(NSError *error) {
+        //Handle error after the initial error handling is done (Them it's something we don't know how to handle)
+        [self didChangeSendingStatus:CHDStatusViewHidden];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:@"Please contact system administrator" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    } completed:^{
+        NSLog(@"Event done");
+    }];
 }
 
 - (void) handleKeyboardEvent: (SHPKeyboardEvent*) event {
@@ -195,7 +207,8 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             self.statusView.show = NO;
-            [self dismissViewControllerAnimated:YES completion:nil];
+//            [self dismissViewControllerAnimated:YES completion:nil];
+            [self setEvent:self.viewModel.event];
         });
         return;
     }
