@@ -275,6 +275,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self dotColorsForFirstVisibleSection];
+    [self checkTodayWithinView];
 }
 
 #pragma mark - UITableViewDelegate
@@ -350,6 +351,45 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         NSArray *colors = [self.viewModel rowColorsForSectionBeforeIndexPath:indexPath sectionRect:sectionRect contentOffset:self.tableView.contentOffset];
 
         header.dotColors = colors;
+    }
+}
+
+-(void) checkTodayWithinView {
+
+    if(self.viewModel.sections.count > 0) {
+        NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:[NSDate date]];
+
+        NSDate *today = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
+
+        CGPoint contentOffset = self.tableView.contentOffset;
+        NSIndexPath *topIndexPath = [self.tableView chd_indexPathForRowOrHeaderAtPoint:contentOffset];
+
+        CGPoint bottomOffset = CGPointMake(contentOffset.x, contentOffset.y + self.tableView.frame.size.height);
+        NSIndexPath *bottomIndexPath = [self.tableView chd_indexPathForRowOrHeaderAtPoint:bottomOffset];
+
+        NSDate *firstDate = self.viewModel.sections[topIndexPath.section];
+        NSDate *lastDate = self.viewModel.sections[bottomIndexPath.section];
+
+        if(firstDate.timeIntervalSince1970 <= today.timeIntervalSince1970 && lastDate.timeIntervalSince1970 >= today.timeIntervalSince1970){
+            if(!self.todayButton.isHidden) {
+                [UIView animateWithDuration:0.3 animations:^{
+                    self.todayButton.alpha = 0;
+                } completion:^(BOOL finished) {
+                    if(finished) {
+                        self.todayButton.hidden = YES;
+                    }
+                }];
+            }
+        }else{
+            if(self.todayButton.isHidden) {
+                self.todayButton.hidden = NO;
+                [UIView animateWithDuration:0.3 animations:^{
+                    self.todayButton.alpha = 1;
+                } completion:^(BOOL finished) {
+
+                }];
+            }
+        }
     }
 }
 
