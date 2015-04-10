@@ -77,7 +77,7 @@
 
     self.statusView = [[CHDStatusView alloc] init];
     self.statusView.successText = NSLocalizedString(@"The event was saved", @"");
-    self.statusView.processingText = NSLocalizedString(@"saving event..", @"");
+    self.statusView.processingText = NSLocalizedString(@"Saving event..", @"");
     self.statusView.autoHideOnSuccessAfterTime = 0;
     self.statusView.autoHideOnErrorAfterTime = 0;
 
