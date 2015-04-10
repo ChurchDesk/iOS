@@ -22,6 +22,7 @@
 #import "CHDUser.h"
 #import "CHDSite.h"
 #import "MBProgressHUD.h"
+#import "CHDAnalyticsManager.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -62,6 +63,16 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     [self makeBindings];
 
     self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"message"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self showProgress:NO];
 }
 
 #pragma mark - Setup views constrains etc.
