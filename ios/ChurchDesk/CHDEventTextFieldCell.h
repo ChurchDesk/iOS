@@ -10,6 +10,7 @@
 
 @interface CHDEventTextFieldCell : CHDEventInfoTableViewCell
 
+@property (nonatomic, assign) NSInteger textFieldMaxLength;
 @property (nonatomic, readonly) UITextField *textField;
 
 @end

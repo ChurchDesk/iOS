@@ -207,7 +207,7 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             self.statusView.show = NO;
-//            [self dismissViewControllerAnimated:YES completion:nil];
+            //View will be dissmissed when the event is set
             [self setEvent:self.viewModel.event];
         });
         return;
@@ -398,6 +398,7 @@
         CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Title", @"");
         cell.textField.text = event.title;
+        cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
@@ -460,6 +461,7 @@
         CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Location", @"");
         cell.textField.text = event.location;
+        cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setLocation:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
@@ -536,6 +538,7 @@
         CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Contributor", @"");
         cell.textField.text = event.contributor;
+        cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setContributor:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
@@ -544,6 +547,7 @@
         CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Price", @"");
         cell.textField.text = event.price;
+        cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setPrice:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
