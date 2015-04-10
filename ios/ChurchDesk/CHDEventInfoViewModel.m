@@ -117,7 +117,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) categoryColors {
     NSArray *categories = [self.environment.eventCategories shp_filter:^BOOL(CHDEventCategory *category) {
-        return [self.event.eventCategoryIds containsObject:category.categoryId];
+        return [self.event.eventCategoryIds containsObject:category.categoryId] && [self.event.siteId isEqualToString:category.siteId];
     }];
     
     return [categories shp_map:^id(CHDEventCategory *category) {
@@ -137,7 +137,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) resourceColors {
     NSArray *resources = [self.environment.resources shp_filter:^BOOL(CHDResource *resource) {
-        return [self.event.resourceIds containsObject:resource.resourceId];
+        return [self.event.resourceIds containsObject:resource.resourceId] && [resource.siteId isEqualToString:self.event.siteId];
     }];
     
     return [resources shp_map:^id(CHDResource *resource) {
