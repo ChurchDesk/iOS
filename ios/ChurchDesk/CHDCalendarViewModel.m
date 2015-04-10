@@ -131,22 +131,41 @@
         }]];
         NSMutableArray *mSectionEvents = [NSMutableArray array];
         for (CHDEvent *event in mEvents) {
-            NSDateComponents *eventComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:event.startDate];
+            NSDateComponents *eventStartDateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:event.startDate];
+            NSDateComponents *eventEndDateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:event.endDate];
 
-            if (eventComps.year != lastSectionComponents.year || eventComps.month != lastSectionComponents.month || eventComps.day != lastSectionComponents.day) {
-                if (section != nil) {
-                    mSectionRows[section] = [mSectionEvents copy];
+            //Use a temporary eventDate to iterate over days in between start and end date
+            __block NSDate *eventDate = nil;
+            __block NSDateComponents *eventComps = nil;
+
+
+            do{
+                if(eventDate == nil){
+                    eventDate = [event.startDate copy];
+                    eventComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:eventDate];
                 }
 
-                lastSectionComponents = eventComps;
+                if (eventComps.year != lastSectionComponents.year || eventComps.month != lastSectionComponents.month || eventComps.day != lastSectionComponents.day) {
+                    if (section != nil) {
+                        mSectionRows[section] = [mSectionEvents copy];
+                    }
 
-                section = [calendar dateFromComponents:eventComps];
-                [mSections addObject:section];
+                    lastSectionComponents = eventComps;
 
-                //get potential other event from this section to add to
-                mSectionEvents = mSectionRows[section] ? [NSMutableArray arrayWithArray:mSectionRows[section]] : [NSMutableArray array];
-            }
-            [mSectionEvents addObject:event];
+                    section = [calendar dateFromComponents:eventComps];
+                    [mSections addObject:section];
+
+                    //get potential other event from this section to add to
+                    mSectionEvents = mSectionRows[section] ? [NSMutableArray arrayWithArray:mSectionRows[section]] : [NSMutableArray array];
+                }
+                [mSectionEvents addObject:event];
+
+                //Add a day to the event day (for events over multiple days)
+                NSDate *tmpDate = [eventDate dateByAddingTimeInterval:60*60*24];
+                eventDate = [tmpDate copy];
+                eventComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:tmpDate];
+
+            }while ([[calendar dateFromComponents:eventComps] compare:[calendar dateFromComponents:eventEndDateComps]] == NSOrderedAscending || [[calendar dateFromComponents:eventComps] compare:[calendar dateFromComponents:eventEndDateComps]] == NSOrderedSame);
         }
 
         if (section) {mSectionRows[section] = [mSectionEvents copy];}
