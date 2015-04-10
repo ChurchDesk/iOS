@@ -20,8 +20,16 @@
         RAC(self, notificationSettings) = [[[CHDAPIClient sharedInstance] getNotificationSettings] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
+
+        [self shprac_liftSelector:@selector(didLoadModel:) withSignal:RACObserve(self, notificationSettings)];
     }
     return self;
+}
+
+-(void) didLoadModel: (CHDNotificationSettings*) model {
+    if(model) {
+        [self shprac_liftSelector:@selector(saveSettings) withSignal:[RACSignal merge:@[RACObserve(self.notificationSettings, bookingCreated), RACObserve(self.notificationSettings, bookingCanceled), RACObserve(self.notificationSettings, bookingUpdated), RACObserve(self.notificationSettings, message)]]];
+    }
 }
 
 -(RACSignal*) saveSettings {
