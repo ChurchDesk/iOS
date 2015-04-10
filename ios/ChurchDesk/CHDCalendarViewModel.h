@@ -11,6 +11,7 @@
 
 @class CHDUser, CHDHoliday;
 @class CHDEnvironment;
+@class CHDEvent;
 
 @interface CHDCalendarViewModel : NSObject <CHDDayPickerDelegateProtocol>
 
@@ -25,6 +26,7 @@
 - (NSArray*) eventsForSectionAtIndex: (NSUInteger) section;
 - (CHDHoliday*) holidayForDate: (NSDate*) date;
 - (NSIndexPath*) indexPathForDate: (NSDate*) date;
+- (NSString *)formattedTimeForEvent:(CHDEvent *)event referenceDate: (NSDate*) referenceDate;
 
 -(NSArray*) rowColorsForSectionBeforeIndexPath: (NSIndexPath *) indexPath sectionRect: (CGRect) sectionRect contentOffset: (CGPoint)contentOffset;
 @end

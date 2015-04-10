@@ -324,11 +324,13 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     CHDEvent *event = [self.viewModel eventsForSectionAtIndex:indexPath.section][indexPath.row];
 
+    NSDate *sectionDate = self.viewModel.sections[indexPath.section];
+
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
     cell.parishLabel.text = self.viewModel.user.sites.count > 1 ? [self.viewModel.user siteWithId:event.siteId].name : @"";
-    cell.dateTimeLabel.text = event.allDayEvent ? NSLocalizedString(@"All day", @"") : [NSString stringWithFormat:@"%@ - %@", [self.timeFormatter stringFromDate:event.startDate], [self.timeFormatter stringFromDate:event.endDate]];
+    cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event referenceDate:sectionDate];
 
 
     CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];

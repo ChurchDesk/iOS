@@ -250,6 +250,64 @@
     return [hiddenEventsColors copy];
 }
 
+- (NSString *)formattedTimeForEvent:(CHDEvent *)event referenceDate: (NSDate*) referenceDate {
+
+    if(event.allDayEvent){
+        return NSLocalizedString(@"All day", @"");
+    }
+
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *formattedDate = nil;
+    NSDateFormatter *dateFormatterFrom = [NSDateFormatter new];
+    NSDateFormatter *dateFormatterTo = [NSDateFormatter new];
+
+    NSDateComponents *fromComponents = [calendar components:unitFlags fromDate:event.startDate];
+    NSDateComponents *toComponents = [calendar components:unitFlags fromDate:event.endDate];
+    NSDateComponents *todayComponents = [calendar components:unitFlags fromDate:referenceDate];
+
+    //Set date format Templates
+    NSString *dateComponentFrom = nil;
+    NSString *dateComponentTo = nil;
+
+    if(fromComponents.day != toComponents.day || fromComponents.month != toComponents.month || fromComponents.year != toComponents.year){
+        if(fromComponents.day == todayComponents.day){
+            dateComponentFrom = @"jjmm";
+            dateComponentTo = @"ddMMM";
+        }else if(toComponents.day == todayComponents.day){
+            dateComponentFrom = @"ddMMM";
+            dateComponentTo = @"jjmm";
+        }else{
+            dateComponentTo = @"ddMMM";
+        }
+    }else{
+        dateComponentFrom = @"jjmm";
+        dateComponentTo = @"jjmm";
+    }
+
+    NSString *startDate = NSLocalizedString(@"All day", @"");
+
+    if(dateComponentFrom) {
+        NSString *dateTemplateFrom = [NSDateFormatter dateFormatFromTemplate:dateComponentFrom options:0 locale:locale];
+        [dateFormatterFrom setDateFormat:dateTemplateFrom];
+
+        //Localize the date
+        dateFormatterFrom.locale = locale;
+        startDate = [dateFormatterFrom stringFromDate:event.startDate];
+    }
+    NSString *dateTemplateTo = [NSDateFormatter dateFormatFromTemplate:dateComponentTo options:0 locale:locale];
+    [dateFormatterTo setDateFormat:dateTemplateTo];
+
+    //Localize the date
+    dateFormatterTo.locale = locale;
+    NSString *endDate = [dateFormatterTo stringFromDate:event.endDate];
+
+    formattedDate = [endDate isEqualToString:@""]? startDate : [[startDate stringByAppendingString:@" - "] stringByAppendingString:endDate];
+
+    return formattedDate;
+}
+
 #pragma mark - private methods
 - (BOOL)isDate:(NSDate *)date inRangeFirstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate {
     NSCalendar *calendar = [NSCalendar currentCalendar];
