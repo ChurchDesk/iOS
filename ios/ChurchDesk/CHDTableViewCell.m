@@ -65,6 +65,21 @@
     }];
 }
 
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    [_leftBorder removeFromSuperview];
+    _leftBorder = nil;
+    [self addSubview:self.leftBorder];
+    
+    self.leftBorder.backgroundColor = [UIColor whiteColor];
+    
+    [self.leftBorder mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.left.equalTo(self.contentView);
+        make.width.equalTo(@3.5);
+    }];
+}
+
 #pragma mark - Sub Views initialization
 
 - (UIView *)leftBorder {
