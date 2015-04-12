@@ -185,6 +185,7 @@
     if(!_backgroundView){
         UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         _backgroundView = [[UIVisualEffectView alloc] initWithEffect:effect];
+        _backgroundView.alpha = 0.75;
     }
     return _backgroundView;
 }
