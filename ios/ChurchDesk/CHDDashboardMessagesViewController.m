@@ -88,6 +88,11 @@
             return @(NO);
         }], nil];
     }
+
+    [self.emptyMessageLabel shprac_liftSelector:@selector(setText:) withSignal:[RACObserve(self, messageStyle) map:^id(NSNumber *style) {
+        return style.unsignedIntegerValue == CHDMessagesStyleUnreadMessages? NSLocalizedString(@"No unread messages", @"") : NSLocalizedString(@"No messages", @"");;
+    }]];
+
     if(self.messageStyle == CHDMessagesStyleAllMessages || self.messageStyle == CHDMessagesStyleSearch) {
 
         RACSignal *refreshSignal = [[RACSignal combineLatest:@[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)], self.viewModel.getMessagesCommand.executing, RACObserve(self.viewModel, canFetchMoreMessages)] reduce:^id(RACTuple *tuple, NSNumber *iExecuting, NSNumber *iCanFetch) {
