@@ -72,6 +72,10 @@
 
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
 - (void) setupSubviews {
     [self.view addSubview:self.tableView];
 
@@ -95,6 +99,8 @@
 }
 
 - (void) setupBindings {
+    [self shprac_liftSelector:@selector(titleAsFirstResponder) withSignal:[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1]];
+
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), RACObserve(self.viewModel, sectionRows)]] ignore:nil]];
 
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignal], nil];
@@ -224,6 +230,17 @@
     if(status == CHDStatusViewHidden){
         self.statusView.show = NO;
         return;
+    }
+}
+
+-(void) titleAsFirstResponder {
+    NSUInteger section = [self.viewModel.sections indexOfObject:CHDEventEditSectionTitle];
+    NSUInteger row = [self.viewModel.sectionRows[CHDEventEditSectionTitle] indexOfObject:CHDEventEditRowTitle];
+
+    if(section != NSNotFound && row != NSNotFound) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+        CHDEventTextFieldCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+        [cell.textField becomeFirstResponder];
     }
 }
 
@@ -401,7 +418,7 @@
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowTitle]) {
-        CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
+        CHDEventTextFieldCell *cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Title", @"");
         cell.textField.text = event.title;
         cell.textFieldMaxLength = 255;

@@ -71,6 +71,10 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     [self.tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -190,9 +194,9 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         return cell;
     }
     if((newMessagesSections)indexPath.section == titleInputSection){
-        CHDNewMessageTextFieldCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageTextFieldCell forIndexPath:indexPath];
+        CHDNewMessageTextFieldCell* cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:kNewMessageTextFieldCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        RAC(self.messageViewModel, title) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+        [self.messageViewModel shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         return cell;
     }
     if((newMessagesSections)indexPath.section == messageInputSection){
@@ -200,8 +204,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         cell.dividerLineHidden = YES;
         cell.tableView = tableView;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        RAC(self.messageViewModel, message) = [cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+        [self.messageViewModel shprac_liftSelector:@selector(setMessage:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         return cell;
     }
     return nil;
@@ -217,6 +220,13 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     if([selection.refObject isKindOfClass:[CHDSite class] ]){
         self.messageViewModel.selectedSite = (CHDSite *)selection.refObject;
     }
+}
+
+#pragma mark - Private actions
+-(void) titleAsFirstResponder {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:titleInputSection];
+    CHDNewMessageTextFieldCell* cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    [cell.textField becomeFirstResponder];
 }
 
 
@@ -245,6 +255,8 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
 
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.messageViewModel, canSelectGroup), RACObserve(self.messageViewModel, canSelectParish)]]];
+
+    [self shprac_liftSelector:@selector(titleAsFirstResponder) withSignal:[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1]];
 }
 
 -(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
