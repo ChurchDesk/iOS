@@ -256,6 +256,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 - (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView didSelectDate:(NSDate *)date {
     self.viewModel.referenceDate = date;
     [self scrollToDate:date animated:NO];
+    [self showCalendar: NO];
 }
 
 - (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willChangeToMonth:(NSDate *)date {
@@ -395,11 +396,15 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 - (void) titleButtonAction: (id) sender {
     BOOL showCalendar = self.calendarPicker.frame.origin.y < 0;
-    [self.calendarTopConstraint setOffset:showCalendar ? 0 : -kCalendarHeight];
-    [self.dayPickerBottomConstraint setOffset:showCalendar ? kDayPickerHeight : 0];
+    [self showCalendar:showCalendar];
+}
 
-    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping: showCalendar ? 0.8 : 1.0 initialSpringVelocity:1.0 options:0 animations:^{
-        self.titleView.pointArrowDown = !showCalendar;
+-(void) showCalendar: (BOOL) show {
+    [self.calendarTopConstraint setOffset:show ? 0 : -kCalendarHeight];
+    [self.dayPickerBottomConstraint setOffset:show ? kDayPickerHeight : 0];
+
+    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping: show ? 0.8 : 1.0 initialSpringVelocity:1.0 options:0 animations:^{
+        self.titleView.pointArrowDown = !show;
         [self.view layoutIfNeeded];
     } completion:nil];
 }
