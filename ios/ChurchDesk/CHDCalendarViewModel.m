@@ -132,7 +132,7 @@
         }]];
         NSMutableArray *mSectionEvents = [NSMutableArray array];
         for (CHDEvent *event in mEvents) {
-            NSDateComponents *eventStartDateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:event.startDate];
+//            NSDateComponents *eventStartDateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:event.startDate];
             NSDateComponents *eventEndDateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:event.endDate];
 
             //Use a temporary eventDate to iterate over days in between start and end date
