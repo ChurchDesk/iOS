@@ -364,6 +364,12 @@
 
             RACSignal *selectedDateSignal = [[RACObserve(vc, date) takeUntil:vc.rac_willDeallocSignal] skip:1];
             [self.viewModel.event rac_liftSelector:@selector(setEndDate:) withSignals:selectedDateSignal, nil];
+
+            [self.viewModel.event shprac_liftSelector:@selector(setStartDate:) withSignal:[[selectedDateSignal filter:^BOOL(NSDate *endDate) {
+                return endDate.timeIntervalSince1970 < event.startDate.timeIntervalSince1970;
+            }] map:^id(NSDate *endDate) {
+                return [endDate dateByAddingTimeInterval:-60*60];
+            }]];
         }
     }
 }
