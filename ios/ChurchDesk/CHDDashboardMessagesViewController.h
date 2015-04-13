@@ -7,6 +7,7 @@
 //
 
 #import "CHDAbstractViewController.h"
+#import "CHDDashboardTabBarViewController.h"
 
 typedef NS_ENUM(NSUInteger, CHDMessagesStyle) {
     CHDMessagesStyleAllMessages,
@@ -14,7 +15,7 @@ typedef NS_ENUM(NSUInteger, CHDMessagesStyle) {
     CHDMessagesStyleSearch,
 };
 
-@interface CHDDashboardMessagesViewController : CHDAbstractViewController <UITableViewDelegate, UITableViewDataSource>
+@interface CHDDashboardMessagesViewController : CHDAbstractViewController <UITableViewDelegate, UITableViewDataSource, CHDNotificationEventResponder>
 
 - (instancetype)initWithStyle: (CHDMessagesStyle) style;
 

@@ -217,6 +217,21 @@
     }];
 }
 
+#pragma mark - CHDNotificationEventResponder
+
+- (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
+    NSDictionary *content = userInfo[@"identifier"];
+    return [content[@"type"] isEqualToString:@"message"];
+}
+
+- (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
+    NSDictionary *content = userInfo[@"identifier"];
+    if ([content[@"type"] isEqualToString:@"message"]) {
+        CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:content[@"id"] site:content[@"site"]];
+        [self.navigationController pushViewController:messageViewController animated:NO];
+    }
+}
+
 #pragma mark -Lazy initialisation
 - (UIView *)contentView {
     if (!_contentView) {

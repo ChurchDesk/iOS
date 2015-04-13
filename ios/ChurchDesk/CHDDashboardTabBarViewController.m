@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UIView* buttonContainer;
 @property (nonatomic, assign) NSUInteger selectedIndex;
 @property (nonatomic, assign) NSArray* buttons;
+@property (nonatomic, strong) NSArray *items;
+
 @end
 
 @implementation CHDDashboardTabBarViewController
@@ -147,6 +149,8 @@
         UIViewController *currentVC = currentIdx == NSNotFound ? nil : [(CHDTabItem*)items[currentIdx] viewController];
         return RACTuplePack(previousVC, currentVC);
     }], nil];
+    
+    self.items = items;
 }
 
 - (void) setSelectedViewController: (RACTuple*) tuple {
@@ -171,6 +175,21 @@
         CHDTabItem* item = self.buttons[idx];
         item.showNotification = show;
     }
+}
+
+- (BOOL) handleNotificationEventWithUserInfo: (NSDictionary*) userInfo {
+    for (CHDTabItem *item in self.items) {
+        UIViewController<CHDNotificationEventResponder> *viewController = (UIViewController<CHDNotificationEventResponder> *)item.viewController;
+        if ([viewController respondsToSelector:@selector(canHandleEventWithUserInfo:)] && [viewController respondsToSelector:@selector(handleEventWithUserInfo:)]) {
+            NSUInteger index = [self.items indexOfObject:item];
+            if (self.selectedIndex != index) {
+                self.selectedIndex = index;
+            }
+            [viewController handleEventWithUserInfo:userInfo];
+                return YES;
+        }
+    }
+    return NO;
 }
 
 @end

@@ -225,7 +225,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 #pragma mark - Private actions
 -(void) titleAsFirstResponder {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:titleInputSection];
-    CHDNewMessageTextFieldCell* cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+    CHDNewMessageTextFieldCell* cell = (CHDNewMessageTextFieldCell*)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
     [cell.textField becomeFirstResponder];
 }
 

@@ -239,7 +239,7 @@
 
     if(section != NSNotFound && row != NSNotFound) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-        CHDEventTextFieldCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
+        CHDEventTextFieldCell *cell = (CHDEventTextFieldCell*)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
         [cell.textField becomeFirstResponder];
     }
 }

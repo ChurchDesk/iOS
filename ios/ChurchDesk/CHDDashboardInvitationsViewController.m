@@ -133,6 +133,15 @@
     return _emptyMessageLabel;
 }
 
+#pragma mark - CHDNotificationEventResponder
+
+- (BOOL)handleEventWithUserInfo:(NSDictionary *)userInfo {
+    if ([userInfo[@"identifier"][@"type"] isEqualToString:@"bookingCreated"]) {
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark - UITableViewDataSource
 - (void)refresh:(UIRefreshControl *)refreshControl {
     [self.viewModel reload];
