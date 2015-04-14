@@ -278,7 +278,7 @@
         }
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
-        title = NSLocalizedString(@"Select Category", @"");
+        title = NSLocalizedString(@"Select Categories", @"");
         selectMultiple = YES;
         NSArray *categories = [environment eventCategoriesWithSiteId:event.siteId];
         for (CHDEventCategory *category in categories) {

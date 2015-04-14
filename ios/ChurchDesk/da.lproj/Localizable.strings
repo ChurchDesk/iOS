@@ -47,6 +47,9 @@
 "Continue" = "Næste";
 
 /* No comment provided by engineer. */
+"Contributor" = "Medvirkende";
+
+/* No comment provided by engineer. */
 "Created On" = "Tilføjet den";
 
 /* No comment provided by engineer. */
@@ -176,7 +179,13 @@
 "No messages" = "Ingen beskeder";
 
 /* No comment provided by engineer. */
+"No reply" = "Intet svar";
+
+/* No comment provided by engineer. */
 "No unread messages" = "Ingen ulæste beskeder";
+
+/* No comment provided by engineer. */
+"None available" = "Ingen tilgængelige";
 
 /* No comment provided by engineer. */
 "Not going" = "Deltager ikke";
@@ -186,6 +195,9 @@
 
 /* No comment provided by engineer. */
 "OK" = "OK";
+
+/* No comment provided by engineer. */
+"Open Maps" = "Åbn kort";
 
 /* No comment provided by engineer. */
 "Parish" = "Sogn";
@@ -215,7 +227,7 @@
 "Save" = "Gem";
 
 /* No comment provided by engineer. */
-"Select Category" = "Vælg kategori";
+"Select Categories" = "Vælg kategori";
 
 /* No comment provided by engineer. */
 "Select Group" = "Vælg gruppe";
@@ -228,6 +240,9 @@
 
 /* No comment provided by engineer. */
 "Select Users" = "Vælg brugere";
+
+/* No comment provided by engineer. */
+"Select Visibility" = "Vælg synlighed";
 
 /* No comment provided by engineer. */
 "Send" = "Send";
@@ -254,10 +269,40 @@
 "Title" = "Titel";
 
 /* No comment provided by engineer. */
+"Too many requests, try again later" = "Der er for mange forespørgsler, prøv igen senere.";
+
+/* No comment provided by engineer. */
+"Unauthorized. Please login again" = "Ingen adgang. Log venligst ind igen.";
+
+/* No comment provided by engineer. */
 "Update" = "Opdater";
 
 /* No comment provided by engineer. */
 "Users" = "Brugere";
+
+/* No comment provided by engineer. */
+"Users booked" = "Brugere reserveret";
+
+/* No comment provided by engineer. */
+"Visibility" = "Synlighed";
+
+/* No comment provided by engineer. */
+"Visible on website" = "Synlig på hjemmeside";
+
+/* No comment provided by engineer. */
+"Visible only in group" = "Synlig kun i gruppe";
+
+/* No comment provided by engineer. */
+"Week\n%@" = "Uge\n%@";
+
+/* No comment provided by engineer. */
+"Write a comment" = "Skriv en kommentar";
+
+/* No comment provided by engineer. */
+"Write your message here..." = "Skriv din besked her...";
+
+/* No comment provided by engineer. */
+"You are about to make a double booking of one or more resources/users." = "Du er ved at dobbeltbooke en eller flere ressourcer/brugere";
 
 /* No comment provided by engineer. */
 "Your message was sent" = "Din besked er sendt";
@@ -265,5 +310,3 @@
 /* No comment provided by engineer. */
 "ok" = "ok";
 
-
-"Wrong username or password" = "Wrong username or password";

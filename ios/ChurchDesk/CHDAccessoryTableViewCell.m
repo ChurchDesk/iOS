@@ -104,6 +104,8 @@
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:16];
         button.titleLabel.textColor = [UIColor whiteColor];
+        button.titleLabel.textAlignment = NSTextAlignmentCenter;
+        button.titleLabel.numberOfLines = 0;
         [button setBackgroundColor:buttonColors[idx]];
         [button setTitle:buttonTitle forState:UIControlStateNormal];
 

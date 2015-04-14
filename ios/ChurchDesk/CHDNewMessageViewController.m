@@ -98,10 +98,12 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     [[self.messageViewModel sendMessage] subscribeError:^(NSError *error) {
         [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_NEW_MESSAGE action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSDictionary *result = response.body;
+        NSString *htmlString = [result valueForKey:@"error"];
         switch(response.statusCode){
             case 406:
             case 400:
-                self.statusView.errorText = NSLocalizedString(@"Please check message content", @"");
+                self.statusView.errorText = [NSString stringWithFormat:NSLocalizedString(@"Please check message content, %@", @""), htmlString];
                 break;
             case 401:
                 self.statusView.errorText = NSLocalizedString(@"Unauthorized. Please login again", @"");

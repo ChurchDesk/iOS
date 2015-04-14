@@ -218,7 +218,7 @@
         _allowButton = [UIButton new];
         _allowButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
         [_allowButton setTitleColor:[UIColor chd_blueColor] forState:UIControlStateNormal];
-        [_allowButton setTitle:NSLocalizedString(@"Allow double booking", @"") forState:UIControlStateNormal];
+        [_allowButton setTitle:NSLocalizedString(@"Allow Double Booking", @"") forState:UIControlStateNormal];
         _allowButton.backgroundColor = [UIColor whiteColor];
         _allowButton.layer.cornerRadius = 4;
 

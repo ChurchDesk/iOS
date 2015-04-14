@@ -19,6 +19,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        [self.cellBackgroundView setBorderColor:[UIColor clearColor]];
     }
     return self;
 }

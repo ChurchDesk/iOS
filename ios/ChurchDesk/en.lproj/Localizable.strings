@@ -29,7 +29,7 @@
 "Edit Event" = "Edit Event";
 "Select Parish" = "Select Parish";
 "Select Group" = "Select Group";
-"Select Category" = "Select Category";
+"Select Categories" = "Select Categories";
 "Select Users" = "Select Users";
 "Select Resources" = "Select Resources";
 "Select Visibility" = "Select Visibility";
@@ -55,11 +55,9 @@
 "Visible only in group" = "Visible only in group";
 "Double booking" = "Double booking";
 "You are about to make a double booking of one or more resources/users." = "You are about to make a double booking of one or more resources/users.";
-"Allow double booking" = "Allow double booking";
 "Attendance" = "Attendance";
 "Event Information" = "Event Information";
 "Edit" = "Edit";
-"Do you want to open Maps to get directions to \"%@\"?" = "Do you want to open Maps to get directions to \"%@\"?";
 "Maps" = "Maps";
 "Are you going to the event '%@'?" = "Are you going to the event '%@'?";
 "Error" = "Error";
@@ -69,7 +67,6 @@
 "Maybe" = "Maybe";
 "I am not going" = "I am not going";
 "OK" = "OK";
-"Do you want to open Maps to get directions to \"%@\"?" = "Do you want to open Maps to get directions to \"%@\"?";
 "Do you want to open Maps to get directions to \"%@\"?" = "Do you want to open Maps to get directions to \"%@\"?";
 "Categories" = "Categories";
 "Created On" = "Created On";
@@ -103,7 +100,7 @@
 "Write your message here..." = "Write your message here...";
 "New message" = "New message";
 "Send" = "Send";
-"Please check message content" = "Please check message content";
+"Please check message content, %@" = "Please check message content, %@";
 "Unauthorized. Please login again" = "Unauthorized. Please login again";
 "Access denied" = "Access denied";
 "Too many requests, try again later" = "Too many requests, try again later";
