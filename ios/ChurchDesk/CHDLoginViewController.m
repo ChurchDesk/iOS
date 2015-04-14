@@ -69,6 +69,8 @@
     [self.logoContainer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.scrollView);
         make.centerY.equalTo(self.scrollView.mas_top).offset(screenHeight/4.0f);
+        make.left.greaterThanOrEqualTo(self.scrollView.mas_left);
+        make.right.lessThanOrEqualTo(self.scrollView.mas_right);
     }];
     
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -228,6 +230,9 @@
     if (!_titleLabel) {
         _titleLabel = [UILabel chd_regularLabelWithSize:18];
         _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.numberOfLines = 0;
+        _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.text = NSLocalizedString(@"More church, less administration", @"");
     }
     return _titleLabel;
