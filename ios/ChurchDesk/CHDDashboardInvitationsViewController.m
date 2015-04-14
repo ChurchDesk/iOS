@@ -135,11 +135,15 @@
 
 #pragma mark - CHDNotificationEventResponder
 
-- (BOOL)handleEventWithUserInfo:(NSDictionary *)userInfo {
+- (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
+    NSDictionary *content = userInfo[@"identifier"];
+    return [content[@"type"] isEqualToString:@"bookingCreated"];
+}
+
+- (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
     if ([userInfo[@"identifier"][@"type"] isEqualToString:@"bookingCreated"]) {
-        return YES;
+        [self.viewModel reload];
     }
-    return NO;
 }
 
 #pragma mark - UITableViewDataSource

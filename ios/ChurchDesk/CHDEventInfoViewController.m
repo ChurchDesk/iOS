@@ -43,6 +43,13 @@
 
 @implementation CHDEventInfoViewController
 
+- (instancetype)initWithEventId: (NSNumber*) eventId siteId: (NSString*) siteId {
+    if (self = [super init]) {
+        self.viewModel = [[CHDEventInfoViewModel alloc] initWithEventId:eventId siteId:siteId];
+    }
+    return self;
+}
+
 - (instancetype)initWithEvent: (CHDEvent*) event {
     if (self = [super init]) {
         self.viewModel = [[CHDEventInfoViewModel alloc] initWithEvent:event];

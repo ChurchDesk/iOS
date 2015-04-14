@@ -42,6 +42,7 @@ extern NSString *const CHDEventInfoRowDivider;
 @property (nonatomic, readonly) CHDUser *user;
 @property (nonatomic, readonly) RACCommand *loadCommand;
 
+- (instancetype)initWithEventId: (NSNumber*) eventId siteId: (NSString*) siteId;
 - (instancetype)initWithEvent: (CHDEvent*) event;
 
 - (NSArray*) rowsForSection: (NSString*) section;

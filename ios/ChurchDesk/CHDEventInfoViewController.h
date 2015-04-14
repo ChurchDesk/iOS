@@ -12,6 +12,7 @@
 
 @interface CHDEventInfoViewController : CHDAbstractViewController
 
+- (instancetype)initWithEventId: (NSNumber*) eventId siteId: (NSString*) siteId;
 - (instancetype)initWithEvent: (CHDEvent*) event;
 
 @end

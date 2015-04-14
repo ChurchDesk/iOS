@@ -52,9 +52,14 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 @implementation CHDEventInfoViewModel
 
 - (instancetype)initWithEvent: (CHDEvent*) event {
+    _event = event;
+    return [self initWithEventId:event.eventId siteId:event.siteId];
+}
+
+- (instancetype)initWithEventId: (NSNumber*) eventId siteId: (NSString*) siteId {
     self = [super init];
     if (self) {
-        _event = event;
+        
         RAC(self, environment) = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
@@ -62,10 +67,8 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
         RAC(self, user) = [[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
-        
-        //[self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[[[CHDAPIClient sharedInstance] getEventWithId:event.eventId siteId:event.siteId] startWith:event]];
 
-        [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[self.loadCommand execute:RACTuplePack(event)]];
+        [self shprac_liftSelector:@selector(configureSectionsWithEvent:) withSignal:[self.loadCommand execute:RACTuplePack(eventId, siteId)]];
     }
     return self;
 }
@@ -238,9 +241,10 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 -(RACCommand*)loadCommand {
     if(!_loadCommand){
         _loadCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
-            CHDEvent *event = tuple.first;
+            NSNumber *eventId = tuple.first;
+            NSString *siteId = tuple.second;
 
-            return [[CHDAPIClient sharedInstance] getEventWithId:event.eventId siteId:event.siteId];
+            return [[CHDAPIClient sharedInstance] getEventWithId:eventId siteId:siteId];
         }];
     }
     return _loadCommand;

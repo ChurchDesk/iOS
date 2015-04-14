@@ -68,6 +68,22 @@
     [self shprac_liftSelector:@selector(endRefresh) withSignal:newEventsSignal];
 }
 
+#pragma mark - CHDNotificationEventResponder
+
+- (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
+    NSDictionary *content = userInfo[@"identifier"];
+    return [content[@"type"] isEqualToString:@"bookingUpdate"];
+}
+
+- (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
+    NSDictionary *content = userInfo[@"identifier"];
+    if ([content[@"type"] isEqualToString:@"bookingUpdate"]) {
+        
+        CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEventId:content[@"id"] siteId:content[@"site"]];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
 #pragma mark - View methods
 - (void)viewDidLoad {
     [super viewDidLoad];

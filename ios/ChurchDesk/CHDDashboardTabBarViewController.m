@@ -180,7 +180,7 @@
 - (BOOL) handleNotificationEventWithUserInfo: (NSDictionary*) userInfo {
     for (CHDTabItem *item in self.items) {
         UIViewController<CHDNotificationEventResponder> *viewController = (UIViewController<CHDNotificationEventResponder> *)item.viewController;
-        if ([viewController respondsToSelector:@selector(canHandleEventWithUserInfo:)] && [viewController respondsToSelector:@selector(handleEventWithUserInfo:)]) {
+        if ([viewController respondsToSelector:@selector(canHandleEventWithUserInfo:)] && [viewController canHandleEventWithUserInfo:userInfo]) {
             NSUInteger index = [self.items indexOfObject:item];
             if (self.selectedIndex != index) {
                 self.selectedIndex = index;

@@ -121,9 +121,13 @@
         return value == nil;
     }] mapReplace:dashboardNavigationController], [RACSignal return:@YES], nil];
     
-    [dashboardTabBar rac_liftSelector:@selector(handleNotificationEventWithUserInfo:) withSignals:[[self rac_signalForSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)] map:^id(RACTuple *tuple) {
+    RACSignal *notificationSignal = [self rac_signalForSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+    
+    [dashboardTabBar rac_liftSelector:@selector(handleNotificationEventWithUserInfo:) withSignals:[notificationSignal map:^id(RACTuple *tuple) {
         return tuple.second;
     }], nil];
+    
+    [sideMenuController rac_liftSelector:@selector(setSelectedViewController:closeMenu:) withSignalOfArguments:[notificationSignal mapReplace:RACTuplePack(dashboardNavigationController, @YES)]];
     
     return sideMenuController;
     
