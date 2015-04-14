@@ -112,6 +112,10 @@ static NSUInteger kVisibleDayCount = 7;
 
 #pragma mark - UIScrollViewDelegate
 
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    scrollView.scrollEnabled = NO;
+}
+
 - (void)scrollViewDidEndDecelerating:(UICollectionView *)collectionView {
     NSIndexPath *indexPath = [collectionView indexPathForItemAtPoint:collectionView.contentOffset];
 
@@ -120,6 +124,8 @@ static NSUInteger kVisibleDayCount = 7;
     [self reloadDataWithReferenceDate:currentDate];
     
     self.currentWeekNumber = [[NSCalendar currentCalendar] component:NSCalendarUnitWeekOfYear fromDate:currentDate];
+    
+    collectionView.scrollEnabled = YES;
 }
 
 #pragma mark - UICollectionViewDelegate
