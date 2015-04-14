@@ -151,7 +151,7 @@
         [self.magicNavigationBar.drawerView addSubview:self.filterView];
         [self.magicNavigationBar.drawerView addSubview:self.searchButton];
 
-        [self.filterView setupFiltersWithTitels:@[@"Show all", @"Show unread"] filters:@[@(CHDMessagesStyleAllMessages), @(CHDMessagesStyleUnreadMessages)]];
+        [self.filterView setupFiltersWithTitels:@[NSLocalizedString(@"Show all", @""), NSLocalizedString(@"Show unread", @"")] filters:@[@(CHDMessagesStyleAllMessages), @(CHDMessagesStyleUnreadMessages)]];
         self.filterView.selectedFilter = CHDMessagesStyleAllMessages;
         [self.view addSubview:self.drawerBlockOutView];
     }
