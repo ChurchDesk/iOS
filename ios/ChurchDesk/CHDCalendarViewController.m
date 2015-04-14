@@ -72,7 +72,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     [self setupSubviews];
     [self makeConstraints];
-    [self.calendarFilterView setupFiltersWithTitels:@[@"All events", @"My events"] filters:@[@(CHDCalendarFilterAllEvents),@(CHDCalendarFilterMyEvents)]];
+    [self.calendarFilterView setupFiltersWithTitels:@[NSLocalizedString(@"All events", @"Calendar filter"), NSLocalizedString(@"My events", @"Calendar filter")] filters:@[@(CHDCalendarFilterAllEvents),@(CHDCalendarFilterMyEvents)]];
     self.calendarFilterView.selectedFilter = CHDCalendarFilterAllEvents;
 
     [self setupBindings];

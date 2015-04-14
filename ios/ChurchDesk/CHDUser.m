@@ -35,5 +35,12 @@
     return site.userId;
 }
 
+- (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
+    if ([propName isEqualToString:@"pictureURL"]) {
+        return [NSURL URLWithString:value];
+    }
+    return [super transformedValueForPropertyWithName:propName value:value];
+}
+
 
 @end

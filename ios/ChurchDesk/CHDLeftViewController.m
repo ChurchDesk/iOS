@@ -12,6 +12,7 @@
 #import "SHPSideMenu.h"
 #import "CHDLeftMenuViewModel.h"
 #import "CHDUser.h"
+#import "UIImageView+Haneke.h"
 
 @interface CHDLeftViewController ()
 @property (nonatomic, strong) UITableView* menuTable;
@@ -92,13 +93,16 @@
         return user.name;
     }];
 
-    RAC(self.userImageView, image) = [[[userSignal map:^id(CHDUser *user) {
+    [self rac_liftSelector:@selector(userImageWithUrl:) withSignals:[userSignal map:^id(CHDUser *user) {
         return user.pictureURL;
-    }] filter:^BOOL(NSURL *url) {
-        return url != nil && ([url respondsToSelector:@selector(absoluteString)]? ![url.absoluteString isEqualToString:@""] : NO);
-    }] map:^id(NSURL *url) {
-        return [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-    }];
+    }], nil];
+}
+
+-(void) userImageWithUrl: (NSURL*) URL{
+    if(URL) {
+        [self.userImageView layoutIfNeeded];
+        [self.userImageView hnk_setImageFromURL:URL placeholder:nil];
+    }
 }
 
 -(UITableView *)menuTable {
