@@ -97,6 +97,8 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
 }
 
 - (void) signOut {
+    self.deviceToken = nil;
+    
     SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
     query.service = KeychainService;
     query.synchronizationMode = SSKeychainQuerySynchronizationModeNo;
