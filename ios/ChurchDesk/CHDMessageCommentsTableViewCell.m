@@ -25,6 +25,7 @@
 
         [self.editButton rac_liftSelector:@selector(setHidden:) withSignals:[RACObserve(self, canEdit) not], nil];
         [self.editButton rac_liftSelector:@selector(setEnabled:) withSignals:RACObserve(self, canEdit), nil];
+        [self.cellBackgroundView setBorderColor:[UIColor clearColor]];
     }
     return self;
 }
