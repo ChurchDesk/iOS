@@ -1,0 +1,318 @@
+/* No comment provided by engineer. */
+"Access denied" = "Zugriff verweigert";
+
+/* No comment provided by engineer. */
+"All day" = "Ganztägig";
+
+/* No comment provided by engineer. */
+"Allow Double Booking" = "Doppelbuchung zulassen";
+
+/* No comment provided by engineer. */
+"Allow double booking" = "Doppelbuchung zulassen";
+
+/* No comment provided by engineer. */
+"An error occured while sending your response to the server. Please try again." = "Während des Verbindungsaufbaus zum Server ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.";
+
+/* No comment provided by engineer. */
+"Are you going to the event '%@'?" = "Nehmen Sie am Ereignis '%@'? teil?";
+
+/* No comment provided by engineer. */
+"Attendance" = "Teilnahme";
+
+/* No comment provided by engineer. */
+"Calendar" = "Kalender";
+
+/* No comment provided by engineer. */
+"Cancel" = "Abbrechen";
+
+/* No comment provided by engineer. */
+"Categories" = "Kategorien";
+
+/* No comment provided by engineer. */
+"Category" = "Kategorie";
+
+/* No comment provided by engineer. */
+"Choose end date" = "Enddatum auswählen";
+
+/* No comment provided by engineer. */
+"Choose start date" = "Startdatum auswählen";
+
+/* No comment provided by engineer. */
+"Close" = "Schließen";
+
+/* No comment provided by engineer. */
+"Confirm" = "Bestätigen";
+
+/* No comment provided by engineer. */
+"Continue" = "Weiter";
+
+/* No comment provided by engineer. */
+"Contributor" = "Mitwirkende";
+
+/* No comment provided by engineer. */
+"Created On" = "Hinzugefügt am";
+
+/* No comment provided by engineer. */
+"Dashboard" = "Dashboard";
+
+/* No comment provided by engineer. */
+"Date" = "Datum";
+
+/* No comment provided by engineer. */
+"Decline" = "Ablehnen";
+
+/* No comment provided by engineer. */
+"Delete" = "Löschen";
+
+/* No comment provided by engineer. */
+"Description" = "Beschreibung";
+
+/* No comment provided by engineer. */
+"Double booking" = "Doppelbuchung";
+
+/* No comment provided by engineer. */
+"E-mail address" = "E-Mail-Adresse";
+
+/* No comment provided by engineer. */
+"Edit" = "Bearbeiten";
+
+/* No comment provided by engineer. */
+"Edit Event" = "Ereignis bearbeiten";
+
+/* No comment provided by engineer. */
+"End" = "Ende";
+
+/* No comment provided by engineer. */
+"Error" = "Fehler";
+
+/* No comment provided by engineer. */
+"Error sending comment" = "Beim Versenden des Kommentars ist ein Fehler aufgetreten";
+
+/* No comment provided by engineer. */
+"Error updating comment" = "Fehler bei der Aktualisierung des Kommentars";
+
+/* No comment provided by engineer. */
+"Event Information" = "Ereignisinformationen";
+
+/* No comment provided by engineer. */
+"Events" = "Ereignisse";
+
+/* No comment provided by engineer. */
+"Forgot Password" = "Passwort vergessen";
+
+/* No comment provided by engineer. */
+"Forgot password?" = "Passwort vergessen?";
+
+/* No comment provided by engineer. */
+"Going" = "Teilnehmer";
+
+/* No comment provided by engineer. */
+"Group" = "Gruppe";
+
+/* No comment provided by engineer. */
+"Here you can change all settings regarding notifications on your phone." = "Hier können Sie die Einstellungen für Benachrichtigung auf Ihrem Handy anpassen.";
+
+/* No comment provided by engineer. */
+"I am going" = "Ich nehme teil";
+
+/* No comment provided by engineer. */
+"I am not going" = "Ich nehme nicht teil";
+
+/* No comment provided by engineer. */
+"Instructions for resetting you password will be sent to your email." = "Ihnen wurde eine Anleitung für das Zurücksetzen Ihres Passworts an Ihre E-Mail-Adresse geschickt.";
+
+/* No comment provided by engineer. */
+"Instructions for resetting your password will be sent to '%@'." = "Eine Anleitung für das Zurücksetzen Ihres Passworts wurde an '%@' geschickt.";
+
+/* No comment provided by engineer. */
+"Internal Note" = "Interner Vermerk";
+
+/* No comment provided by engineer. */
+"Internal note" = "Interner Vermerk";
+
+/* No comment provided by engineer. */
+"Invitations" = "Einladungen";
+
+/* No comment provided by engineer. */
+"Invited by " = "Eingeladen von ";
+
+/* No comment provided by engineer. */
+"Load more comments" = "Weitere Kommentare laden";
+
+/* No comment provided by engineer. */
+"Location" = "Ort";
+
+/* No comment provided by engineer. */
+"Log Out" = "Abmelden";
+
+/* No comment provided by engineer. */
+"Login" = "Anmelden";
+
+/* No comment provided by engineer. */
+"Maps" = "Karte";
+
+/* No comment provided by engineer. */
+"Mark as read" = "Als gelesen markieren";
+
+/* No comment provided by engineer. */
+"Maybe" = "Vielleicht";
+
+/* No comment provided by engineer. */
+"Message" = "Nachricht";
+
+/* No comment provided by engineer. */
+"Messages" = "Nachrichten";
+
+/* No comment provided by engineer. */
+"More church, less administration" = "Mehr Gemeinde. Weniger Administration.";
+
+/* No comment provided by engineer. */
+"New Event" = "Neues Ereignis";
+
+/* No comment provided by engineer. */
+"New message" = "Neue Nachricht";
+
+/* No comment provided by engineer. */
+"New or updates group message" = "Neue oder aktualisierte Gruppennachricht";
+
+/* No comment provided by engineer. */
+"No events today" = "Heute stehen keine Ereignisse an";
+
+/* No comment provided by engineer. */
+"No invitations" = "Keine Einladungen";
+
+/* No comment provided by engineer. */
+"No messages" = "Keine Nachrichten";
+
+/* No comment provided by engineer. */
+"No reply" = "Keine Antworten";
+
+/* No comment provided by engineer. */
+"No unread messages" = "Keine ungelesenen Nachrichten";
+
+/* No comment provided by engineer. */
+"None available" = "Keine vorhanden";
+
+/* No comment provided by engineer. */
+"Not going" = "Nicht teilnehmen";
+
+/* No comment provided by engineer. */
+"Notifications" = "Benachrichtigungen";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Open Maps" = "Karte öffnen";
+
+/* No comment provided by engineer. */
+"Parish" = "Gemeinde";
+
+/* No comment provided by engineer. */
+"Password" = "Passwort";
+
+/* No comment provided by engineer. */
+"Password reset failed" = "Beim Zurücksetzen des Passworts ist ein Fehler aufgetreten";
+
+/* No comment provided by engineer. */
+"Please enter your email to receive instructions on how to reset your password." = "Bitte geben Sie Ihre E-Mail-Adresse an. Sie erhalten dann weitere Informationen darüber, wie Sie Ihr Passwort zurücksetzen können.";
+
+/* No comment provided by engineer. */
+"Please try again later" = "Bitte versuchen Sie es später noch einmal";
+
+/* No comment provided by engineer. */
+"Price" = "Preis";
+
+/* No comment provided by engineer. */
+"Reply" = "Antworten";
+
+/* No comment provided by engineer. */
+"Resources" = "Ressourcen";
+
+/* No comment provided by engineer. */
+"Save" = "Speichern";
+
+/* No comment provided by engineer. */
+"Select Category" = "Kategorie auswählen";
+
+/* No comment provided by engineer. */
+"Select Group" = "Gruppe auswählen";
+
+/* No comment provided by engineer. */
+"Select Parish" = "Gemeinde auswählen";
+
+/* No comment provided by engineer. */
+"Select Resources" = "Ressourcen auswählen";
+
+/* No comment provided by engineer. */
+"Select Users" = "Benutzer auswählen";
+
+/* No comment provided by engineer. */
+"Select Visibility" = "Sichtbarkeit auswählen";
+
+/* No comment provided by engineer. */
+"Send" = "Senden";
+
+/* No comment provided by engineer. */
+"Sending message.." = "Nachricht senden";
+
+/* No comment provided by engineer. */
+"Settings" = "Einstellungen";
+
+/* No comment provided by engineer. */
+"Something when wrong while resetting your password. Please try again." = "Beim zurücksetzen Ihres Passworts ist ein Fehler aufgetreten. Bitte versuchen Sie es noch einmal.";
+
+/* No comment provided by engineer. */
+"Start" = "Start";
+
+/* No comment provided by engineer. */
+"There was a problem, please try again" = "Es ist ein Problem aufgetreten. Bitte versuchen Sie es erneut.";
+
+/* No comment provided by engineer. */
+"Time" = "Zeit";
+
+/* No comment provided by engineer. */
+"Title" = "Titel";
+
+/* No comment provided by engineer. */
+"Too many requests, try again later" = "Es sind zu viele Anfragen vorhanden, bitte versuchen Sie es später noch einmal.";
+
+/* No comment provided by engineer. */
+"Unauthorized. Please login again" = "Zugriff verweigert. Bitte melden Sie wieder an.";
+
+/* No comment provided by engineer. */
+"Update" = "Aktualisieren";
+
+/* No comment provided by engineer. */
+"Users" = "Benutzer";
+
+/* No comment provided by engineer. */
+"Users booked" = "Nutzer gebucht";
+
+/* No comment provided by engineer. */
+"Visibility" = "Sichtbarkeit";
+
+/* No comment provided by engineer. */
+"Visible on website" = "Auf der Internetseite anzeigen";
+
+/* No comment provided by engineer. */
+"Visible only in group" = "Nur in der Gruppe sichtbar";
+
+/* No comment provided by engineer. */
+"Week\n%@" = "Woche %@";
+
+/* No comment provided by engineer. */
+"Write a comment" = "Einen Kommentar verfassen";
+
+/* No comment provided by engineer. */
+"Write your message here..." = "Schreiben Sie hier Ihren Kommentar...";
+
+/* No comment provided by engineer. */
+"You are about to make a double booking of one or more resources/users." = "Sie sind im Begriff, eine oder mehrere Ressourcen/Benutzer doppelt zu belegen";
+
+/* No comment provided by engineer. */
+"Your message was sent" = "Ihre Nachricht wurde versendet";
+
+/* No comment provided by engineer. */
+"ok" = "ok";
+

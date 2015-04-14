@@ -187,6 +187,10 @@
 		366899B51AADAA270061769F /* CHDAPICreate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAPICreate.m; sourceTree = "<group>"; };
 		3668F97E1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+UIViewController_ChurchDesk.h"; sourceTree = "<group>"; };
 		3668F97F1AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+UIViewController_ChurchDesk.m"; sourceTree = "<group>"; };
+		366FCFEC1ADCF50300131AAB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		366FCFED1ADCF50400131AAB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		366FCFEE1ADCF51500131AAB /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		366FCFEF1ADCF51600131AAB /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		368EA9511AB9BC820035A5F6 /* CHDDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDatePickerViewController.h; sourceTree = "<group>"; };
 		368EA9521AB9BC820035A5F6 /* CHDDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDatePickerViewController.m; sourceTree = "<group>"; };
 		3695BED01A9F315F0077E09F /* CHDInputAccessoryObserveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDInputAccessoryObserveView.h; sourceTree = "<group>"; };
@@ -1234,6 +1238,8 @@
 			children = (
 				360846011AD57346009CC31B /* en */,
 				36E869E31AD651AA003743D2 /* da */,
+				366FCFEC1ADCF50300131AAB /* de */,
+				366FCFEE1ADCF51500131AAB /* nb */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1242,6 +1248,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				36E869E71AD651AB003743D2 /* da */,
+				366FCFED1ADCF50400131AAB /* de */,
+				366FCFEF1ADCF51600131AAB /* nb */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
