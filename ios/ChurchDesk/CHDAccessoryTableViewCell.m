@@ -106,6 +106,7 @@
         button.titleLabel.textColor = [UIColor whiteColor];
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
         button.titleLabel.numberOfLines = 0;
+        button.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
         [button setBackgroundColor:buttonColors[idx]];
         [button setTitle:buttonTitle forState:UIControlStateNormal];
 
