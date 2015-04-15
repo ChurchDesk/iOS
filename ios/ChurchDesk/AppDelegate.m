@@ -70,8 +70,7 @@
     
     SHPSideMenuController *sideMenuController = [SHPSideMenuController sideMenuControllerWithBuilder:^(SHPSideMenuControllerBuilder *builder) {
         builder.statusBarBehaviour = SHPSideMenuStatusBarBehaviourMove;
-        builder.panningBehaviour = SHPSideMenuPanningBehaviourFullView; //SHPSideMenuPanningBehaviourOff;
-        // More customizations
+        builder.panningBehaviour = SHPSideMenuPanningBehaviourNavigationBar;
     }];
     
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];

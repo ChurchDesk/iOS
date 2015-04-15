@@ -62,7 +62,6 @@ static NSUInteger kVisibleDayCount = 7;
 
 - (void) setupBindings {
     [self rac_liftSelector:@selector(scrollToDate:animated:) withSignals:[RACObserve(self, selectedDate) ignore:nil], [RACSignal return:@YES], nil];
-    
     [self shprac_liftSelector:@selector(updateCellSelection) withSignal:RACObserve(self, selectedDate)];
 }
 
@@ -112,7 +111,7 @@ static NSUInteger kVisibleDayCount = 7;
 
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
     scrollView.scrollEnabled = NO;
 }
 
