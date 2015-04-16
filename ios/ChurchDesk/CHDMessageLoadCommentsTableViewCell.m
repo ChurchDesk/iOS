@@ -39,8 +39,7 @@
     UIView *contentView = self.contentView;
 
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(contentView).offset(17);
-        make.left.equalTo(contentView).offset(15);
+        make.top.left.equalTo(contentView).offset(15);
         make.baseline.equalTo(contentView).offset(-17);
     }];
 

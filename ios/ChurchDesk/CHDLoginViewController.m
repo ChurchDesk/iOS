@@ -246,6 +246,7 @@
         _emailView.textField.returnKeyType = UIReturnKeyNext;
         _emailView.textField.delegate = self;
         _emailView.iconImageView.image = kImgLoginMail;
+        _emailView.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     }
     return _emailView;
 }

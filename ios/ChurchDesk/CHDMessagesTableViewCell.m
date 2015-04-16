@@ -39,19 +39,20 @@
     UIView* contentView = self.scrollContentView;
 
     [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.left.equalTo(contentView).with.offset(15);
+        make.left.equalTo(contentView).with.offset(15);
+        make.top.equalTo(contentView).offset(12.5);
     }];
     [self.receivedTimeLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.receivedTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.right.equalTo(contentView).with.offset(-15);
-        make.top.equalTo(contentView).with.offset(15);
+        make.top.equalTo(self.groupLabel);
     }];
 
     [self.parishLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.parishLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.equalTo(self.groupLabel);
         make.left.equalTo(self.groupLabel.mas_right).with.offset(4);
-        make.right.lessThanOrEqualTo(self.receivedTimeLabel.mas_left).offset(-5);
+        make.right.lessThanOrEqualTo(self.receivedTimeLabel.mas_left).offset(-8);
     }];
 
     [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make){
@@ -125,7 +126,7 @@
     if(!_receivedTimeLabel){
         _receivedTimeLabel = [UILabel new];
         _receivedTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];;
-        _receivedTimeLabel.textColor = [UIColor chd_textLightColor];
+        _receivedTimeLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _receivedTimeLabel;
 }

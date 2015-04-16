@@ -49,7 +49,7 @@
     
     [self.titleArrowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView);
-        make.centerY.equalTo(self.contentView);
+        make.centerY.equalTo(self.contentView).offset(2);
         make.left.equalTo(self.titleButton.mas_right).offset(6);
     }];
 }

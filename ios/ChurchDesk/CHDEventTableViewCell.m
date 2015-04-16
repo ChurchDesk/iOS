@@ -43,12 +43,12 @@
 
     [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.left.equalTo(contentView).with.offset(15);
+        make.top.left.equalTo(contentView).with.offset(10);
         make.right.lessThanOrEqualTo(self.dateTimeLabel.mas_left).offset(-4);
     }];
 
     [self.locationIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).with.offset(44);
+        make.centerY.equalTo(self.locationLabel);
         make.left.equalTo(self.titleLabel);
     }];
     [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,7 +70,7 @@
 -(UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [UILabel new];
-        _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
+        _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:18];
         _titleLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _titleLabel;
@@ -80,8 +80,6 @@
         _locationLabel = [UILabel new];
         _locationLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
         _locationLabel.textColor = [UIColor chd_textLightColor];
-        //.pointSize = 28.0;
-
     }
     return _locationLabel;
 }
