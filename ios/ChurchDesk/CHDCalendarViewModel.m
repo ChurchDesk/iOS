@@ -217,10 +217,11 @@
         NSDate *section = self.sections[sectionIdx];
         NSDateComponents *sectionComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:section];
         
-        if ((sectionComps.year == dateComps.year && sectionComps.month == dateComps.month && sectionComps.day == dateComps.day) || [date laterDate:section] == section) {
+        if ((sectionComps.year == dateComps.year && sectionComps.month == dateComps.month && sectionComps.day == dateComps.day) || [date laterDate:section] == section || sectionIdx == self.sections.count-1) {
             return [NSIndexPath indexPathForRow:[self eventsForSectionAtIndex:sectionIdx].count > 0 ? 0 : NSNotFound inSection:sectionIdx];
         }
     };
+    
     return nil;
 }
 
