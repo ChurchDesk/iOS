@@ -327,6 +327,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     }
     if (visibilityRows.count > 0) {
         [mSections addObject:CHDEventInfoSectionVisibility];
+        [mSections addObject:CHDEventInfoSectionDivider];
     }
     
     self.sections = [mSections copy];

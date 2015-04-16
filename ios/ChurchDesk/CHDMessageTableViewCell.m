@@ -66,12 +66,11 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.profileImageView.mas_bottom).offset(16);
         make.left.equalTo(contentView).offset(15);
-        //make.bottom.equalTo(self.messageLabel.mas_top).offset(-3);
+        make.right.equalTo(contentView).offset(-15);
     }];
 
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        //make.top.equalTo(self.titleLabel.mas_baseline).offset(3);
-        make.top.equalTo(self.profileImageView.mas_bottom).offset(42);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(3);
         make.left.equalTo(self.titleLabel);
         make.right.equalTo(contentView).offset(-14);
         make.bottom.equalTo(contentView.mas_bottom).offset(-25);
@@ -120,6 +119,7 @@
         _titleLabel = [UILabel new];
         _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:20];
         _titleLabel.textColor = [UIColor blackColor];
+        _titleLabel.numberOfLines = 0;
     }
     return _titleLabel;
 }

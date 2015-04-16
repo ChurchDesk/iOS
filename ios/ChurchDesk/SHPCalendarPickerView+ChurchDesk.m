@@ -7,6 +7,7 @@
 //
 
 #import "SHPCalendarPickerView+ChurchDesk.h"
+#import "SHPCalendarPickerWeekDayHeaderView.h"
 
 @implementation SHPCalendarPickerView (ChurchDesk)
 
@@ -34,6 +35,22 @@
     calendarPickerView.buttonTitleDateFormat = @"MMMM";
     calendarPickerView.prevButtonHorizontalOffset = -11;
     calendarPickerView.nextButtonHorizontalOffset = 11;
+    
+    UIEdgeInsets nextImageInsets = calendarPickerView.headerView.nextButton.imageEdgeInsets;
+    nextImageInsets.top += 4;
+    calendarPickerView.headerView.nextButton.imageEdgeInsets = nextImageInsets;
+
+    UIEdgeInsets prevImageInsets = calendarPickerView.headerView.prevButton.imageEdgeInsets;
+    prevImageInsets.top += 4;
+    calendarPickerView.headerView.prevButton.imageEdgeInsets = prevImageInsets;
+
+    UIView *bottomLine = [UIView new];
+    bottomLine.backgroundColor = [UIColor chd_cellDividerColor];
+    [calendarPickerView addSubview:bottomLine];
+    [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(calendarPickerView);
+        make.height.equalTo(@1);
+    }];
     
     return calendarPickerView;
 }

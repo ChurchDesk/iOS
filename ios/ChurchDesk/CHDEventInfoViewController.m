@@ -300,7 +300,9 @@
     
     // Dividers
     else if ([section isEqualToString:CHDEventInfoSectionDivider]) {
-        returnCell = [tableView dequeueReusableCellWithIdentifier:@"divider" forIndexPath:indexPath];
+        CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"divider" forIndexPath:indexPath];
+        cell.hideBottomLine = indexPath.section == tableView.numberOfSections-1 && indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1;
+        returnCell = cell;
     }
     
     if ([returnCell respondsToSelector:@selector(setDividerLineHidden:)]) {
@@ -373,7 +375,6 @@
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.backgroundColor = [UIColor chd_lightGreyColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
 
         [_tableView registerClass:[CHDEventTitleImageTableViewCell class] forCellReuseIdentifier:@"image"];
         [_tableView registerClass:[CHDEventInfoTableViewCell class] forCellReuseIdentifier:@"cell"];
