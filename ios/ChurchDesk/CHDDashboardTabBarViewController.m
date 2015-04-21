@@ -32,7 +32,7 @@
     eventsItem.viewController = dashboardEventsViewController;
     eventsItem.imageNormal = kImgTabCalendarPassive;
     eventsItem.imageSelected = kImgTabCalendarActive;
-    eventsItem.title = NSLocalizedString(@"Events", @"");
+    eventsItem.title = NSLocalizedString(@"Today", @"");
     eventsItem.showNotification = NO;
 
     CHDTabItem* invitationsItem = [CHDTabItem new];

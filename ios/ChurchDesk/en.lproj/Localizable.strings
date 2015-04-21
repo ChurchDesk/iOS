@@ -19,7 +19,7 @@
 "Close" = "Close";
 "No unread messages" = "No unread messages";
 "No messages" = "No messages";
-"Events" = "Events";
+"Today" = "Today";
 "Invitations" = "Invitations";
 "Cancel" = "Cancel";
 "Save" = "Save";
@@ -100,7 +100,7 @@
 "Write your message here..." = "Write your message here...";
 "New message" = "New message";
 "Send" = "Send";
-"Please check message content, %@" = "Please check message content, %@";
+"And unknown error was received:" = "And unknown error was received:";
 "Unauthorized. Please login again" = "Unauthorized. Please login again";
 "Access denied" = "Access denied";
 "Too many requests, try again later" = "Too many requests, try again later";
@@ -108,12 +108,12 @@
 "Your message was sent" = "Your message was sent";
 "Sending message.." = "Sending message..";
 "Log Out" = "Log Out";
-"Reserved events created" = "Reserved events created";
-"Reserved events updates" = "Reserved events updates";
-"Reserved events cancels " = "Reserved events cancels ";
-"New or updates group message" = "New or updates group message";
+"An invitation is received" = "An invitation is received";
+"An invitation is updated" = "An invitation is updated";
+"An invitation is cancelled" = "An invitation is cancelled";
+"New messages and comments" = "New messages and comments";
 "Notifications" = "Notifications";
-"Here you can change all settings regarding notifications on your phone." = "Here you can change all settings regarding notifications on your phone.";
+"Here you can choose when to receive notifications on your phone." = "Here you can choose when to receive notifications on your phone.";
 "Wrong username or password" = "Wrong username or password";
 "All events" = "All events";
 "My events" = "My events";
