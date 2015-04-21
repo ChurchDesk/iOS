@@ -42,7 +42,8 @@
 }
 
 - (void) filterEvents {
-    self.events = @[];
+    // Don't set events to a value if not already set, to indicate it hasn't yet been loaded.
+    self.events = self.events ? @[] : nil;
     self.sectionRows = [[NSDictionary alloc] init];
     self.sections = @[];
     if(self.noneFilteredEvents.count > 0) {

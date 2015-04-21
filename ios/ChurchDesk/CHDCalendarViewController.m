@@ -47,6 +47,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CHDCalendarTitleView *titleView;
 @property (nonatomic, strong) CHDDayPickerViewController *dayPickerViewController;
+@property (nonatomic, strong) MBProgressHUD *spinnerHUD;
 
 @property (nonatomic, strong) MASConstraint *calendarTopConstraint;
 @property (nonatomic, strong) MASConstraint *dayPickerBottomConstraint;
@@ -204,6 +205,10 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     //Reload the daypicker - primarily to show dots in the view
     [self.dayPickerViewController shprac_liftSelector:@selector(reloadShownDates) withSignal:RACObserve(self.viewModel, sections)];
+    
+    [self rac_liftSelector:@selector(showSpinner:) withSignals:[RACObserve(self.viewModel, events) map:^id(NSArray *events) {
+        return @(events == nil);
+    }], nil];
 }
 
 - (void) reloadDataWithPreviousSections: (NSArray*) previousSections newSections: (NSArray*) newSections {
@@ -225,6 +230,27 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     }
     [self dotColorsForFirstVisibleSection];
 }
+
+-(void) showSpinner: (BOOL) show {
+    if(show) {
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+    }else{
+        NSArray *allHUDs = [MBProgressHUD allHUDsForView:self.navigationController.view];
+        for (MBProgressHUD *hud in allHUDs) {
+            if (hud.mode == MBProgressHUDModeIndeterminate) {
+                [hud hide:YES];
+            }
+        }
+    }
+}
+
 #pragma mark - DayPicker actions
 -(void)dayPickerWeekNumberDidChange: (NSNumber*) weekNumber {
     NSDate *date = self.dayPickerViewController.referenceDate;
