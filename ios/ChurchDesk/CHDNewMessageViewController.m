@@ -103,7 +103,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         switch(response.statusCode){
             case 406:
             case 400:
-                self.statusView.errorText = [NSString stringWithFormat:NSLocalizedString(@"And unknown error was received: %@", @""), htmlString];
+                self.statusView.errorText = NSLocalizedString(@"And unknown error occured, please try again", @"");
                 break;
             case 401:
                 self.statusView.errorText = NSLocalizedString(@"Unauthorized. Please login again", @"");
