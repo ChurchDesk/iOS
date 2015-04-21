@@ -107,28 +107,28 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
         switch ((notificationSettings) indexPath.row) {
             case eventsChanged:
-                cell.titleLabel.text = NSLocalizedString(@"Reserved events created", @"");
+                cell.titleLabel.text = NSLocalizedString(@"An invitation is received", @"");
                 cell.aSwitch.on = (settings)? settings.bookingCreated : NO;
                 [settings rac_liftSelector:@selector(setBookingCreated:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
                     return @(aSwitch.isOn);
                 }] takeUntil:cell.rac_prepareForReuseSignal], nil];
                 break;
             case eventsUpdated:
-                cell.titleLabel.text = NSLocalizedString(@"Reserved events updates", @"");
+                cell.titleLabel.text = NSLocalizedString(@"An invitation is updated", @"");
                 cell.aSwitch.on = (settings)? settings.bookingUpdated : NO;
                 [settings rac_liftSelector:@selector(setBookingUpdated:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
                     return @(aSwitch.isOn);
                 }] takeUntil:cell.rac_prepareForReuseSignal], nil];
                 break;
             case eventsCancels:
-                cell.titleLabel.text = NSLocalizedString(@"Reserved events cancels ", @"");
+                cell.titleLabel.text = NSLocalizedString(@"An invitation is cancelled", @"");
                 cell.aSwitch.on = (settings)? settings.bookingCanceled : NO;
                 [settings rac_liftSelector:@selector(setBookingCanceled:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
                     return @(aSwitch.isOn);
                 }] takeUntil:cell.rac_prepareForReuseSignal], nil];
                 break;
             case messagesNewAndUpdate:
-                cell.titleLabel.text = NSLocalizedString(@"New or updates group message", @"");
+                cell.titleLabel.text = NSLocalizedString(@"New messages and comments", @"");
                 cell.aSwitch.on = (settings)? settings.message : NO;
                 [settings rac_liftSelector:@selector(setMessage:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
                     return @(aSwitch.isOn);
@@ -143,7 +143,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
         CHDDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"descriptionCell" forIndexPath:indexPath];
 
         cell.titleLabel.text = NSLocalizedString(@"Notifications", @"");
-        cell.descriptionLabel.text = NSLocalizedString(@"Here you can change all settings regarding notifications on your phone.", @"");
+        cell.descriptionLabel.text = NSLocalizedString(@"Here you can choose when to receive notifications on your phone.", @"");
         return cell;
     }
 }

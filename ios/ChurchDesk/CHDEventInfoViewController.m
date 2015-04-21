@@ -115,7 +115,7 @@
 
 - (void)directionsAction: (id) sender {
     NSString *location = self.viewModel.event.location;
-    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to open Maps to get directions to \"%@\"?", @""), location];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to open Maps to get directions to \'%@\'?", @""), location];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Maps", @"") message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Open Maps", @""), nil];
     
     [self.viewModel rac_liftSelector:@selector(openMapsWithLocationString:) withSignals:[[[alert rac_buttonClickedSignal] ignore:@(alert.cancelButtonIndex)] mapReplace:location], nil];
