@@ -41,7 +41,7 @@ PODS:
   - SHPFoundation (2.4.0)
   - SHPKeyboardAwareness (2.0.0):
     - ReactiveCocoa (~> 2.4.7)
-  - SHPNetworking (7.6.2)
+  - SHPNetworking (7.6.3)
   - SHPRACAdditions (0.1.2):
     - ReactiveCocoa (~> 2.4.4)
   - SHPSideMenu (1.1.0):
@@ -63,7 +63,7 @@ DEPENDENCIES:
   - SHPCalendarPicker (from `git@github.com:miklselsoe/SHPCalendarPicker.git`)
   - SHPFoundation (~> 2.4.0)
   - SHPKeyboardAwareness (~> 2.0.0)
-  - SHPNetworking (~> 7.6.2)
+  - SHPNetworking (~> 7.6.3)
   - SHPRACAdditions (~> 0.1.2)
   - SHPSideMenu (~> 1.1.0)
   - SHPUIInjection (HEAD)
@@ -93,11 +93,11 @@ SPEC CHECKSUMS:
   SHPCalendarPicker: 117f315701328336ebcf8bec07d4e7e8a28d895b
   SHPFoundation: 2d7363df3f66cf7b350c34abad7b81c5b5f83f9a
   SHPKeyboardAwareness: b62fdf2fea15b5623717c8ce6e9b8d05bf2a0d41
-  SHPNetworking: 956d34a15ff98896a4987852752c38948a1dbeb4
+  SHPNetworking: 27d01b5ba8c480c358c23e98e8aa76daebaf7f00
   SHPRACAdditions: 3cd192f802347bb940b6b734d3eed64ca2523581
   SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
   SHPUIInjection: 57540250f83fb81a1438d5478c5f8d129e794ef1
   SHPUIKit: ba38ba4315b8fc931311cd91711139a2fb03fda5
   SSKeychain: 88767e903ee8d274ed380e364d96b7a101235286
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.36.4
