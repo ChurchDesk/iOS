@@ -85,7 +85,7 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [UILabel chd_regularLabelWithSize:17];
+        _titleLabel = [UILabel chd_mediumLabelWithSize:17];
     }
     return _titleLabel;
 }

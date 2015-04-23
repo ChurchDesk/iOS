@@ -21,6 +21,7 @@
         self.iconImageView.image = kImgEventLocation;
         self.disclosureArrowHidden = YES;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:self.titleLabel.font.pointSize];
         
         [self setupSubviews];
         [self makeConstraints];

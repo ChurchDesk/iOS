@@ -223,6 +223,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.iconImageView.image = kImgEventTime;
         cell.titleLabel.text = [self.viewModel eventDateString];
+        cell.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:cell.titleLabel.font.pointSize];
         cell.disclosureArrowHidden = YES;
         returnCell = cell;
     }
