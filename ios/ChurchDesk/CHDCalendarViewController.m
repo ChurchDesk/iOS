@@ -583,7 +583,12 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 - (UIButton*) todayButton {
     if(!_todayButton){
         _todayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_todayButton setImage:kImgCalendarTodayIndicator forState:UIControlStateNormal];
+        [_todayButton setBackgroundImage:kImgCalendarTodayIndicator forState:UIControlStateNormal];
+        [_todayButton setBackgroundImage:kImgCalendarTodayIndicatorPressed forState:UIControlStateHighlighted];
+        [_todayButton setTitle:NSLocalizedString(@"Now", @"") forState:UIControlStateNormal];
+        [_todayButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _todayButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:13];
+        _todayButton.titleEdgeInsets = UIEdgeInsetsMake(-4, 0, 4, 0);
     }
     return _todayButton;
 }
