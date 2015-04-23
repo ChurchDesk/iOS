@@ -1,17 +1,29 @@
 /* No comment provided by engineer. */
-"?" = "?";
-
-/* No comment provided by engineer. */
 "Access denied" = "Adgang nægtet";
 
 /* No comment provided by engineer. */
 "All day" = "Hele dagen";
 
+/* Calendar filter */
+"All events" = "Alle begivenheder";
+
 /* No comment provided by engineer. */
-"Allow double booking" = "Tillad dobbeltbooking";
+"Allow Double Booking" = "Tillad dobbeltbooking";
 
 /* No comment provided by engineer. */
 "An error occured while sending your response to the server. Please try again." = "Der skete en fejl i kommunikationen med serveren. Prøv venligst igen.";
+
+/* No comment provided by engineer. */
+"An invitation is cancelled" = "En invitation bliver annulleret";
+
+/* No comment provided by engineer. */
+"An invitation is received" = "Du modtager en ny invitation";
+
+/* No comment provided by engineer. */
+"An invitation is updated" = "En invitation er opdateret";
+
+/* No comment provided by engineer. */
+"And unknown error occured, please try again" = "Der skete ukendt fejl, prøv venligst igen";
 
 /* No comment provided by engineer. */
 "Are you going to the event '%@'?" = "Deltager du i begivenheden '%@'? ";
@@ -67,6 +79,9 @@
 /* No comment provided by engineer. */
 "Description" = "Beskrivelse";
 
+/* (No Commment) */
+"Do you want to open Maps to get directions to \\'%@\\'?" = "Vil du åbne dit kortprogram og finde vej til \\'%@\\'?";
+
 /* No comment provided by engineer. */
 "Double booking" = "Dobbeltbooking";
 
@@ -95,9 +110,6 @@
 "Event Information" = "Information";
 
 /* No comment provided by engineer. */
-"Events" = "Begivenheder";
-
-/* No comment provided by engineer. */
 "Forgot Password" = "Glemt kodeord";
 
 /* No comment provided by engineer. */
@@ -110,7 +122,7 @@
 "Group" = "Gruppe";
 
 /* No comment provided by engineer. */
-"Here you can change all settings regarding notifications on your phone." = "Her kan du ændre indstillinger for notifikationer på din telefon.";
+"Here you can choose when to receive notifications on your phone." = "Her kan du vælge hvornår du vil have notifikationer på din telefon.";
 
 /* No comment provided by engineer. */
 "I am going" = "Jeg deltager";
@@ -123,6 +135,9 @@
 
 /* No comment provided by engineer. */
 "Instructions for resetting your password will be sent to '%@'." = "Vejledning til at nulstille dit kodeord er sendt til '%@'. ";
+
+/* No comment provided by engineer. */
+"Internal Note" = "Intern note";
 
 /* No comment provided by engineer. */
 "Internal note" = "Intern note";
@@ -163,11 +178,17 @@
 /* No comment provided by engineer. */
 "More church, less administration" = "Mere kirke - mindre administration";
 
+/* Calendar filter */
+"My events" = "Mine begivenheder";
+
 /* No comment provided by engineer. */
 "New Event" = "Ny begivenhed";
 
 /* No comment provided by engineer. */
 "New message" = "Ny besked";
+
+/* No comment provided by engineer. */
+"New messages and comments" = "Nye meddelelser og kommentarer";
 
 /* No comment provided by engineer. */
 "No events today" = "Ingen begivenheder i dag";
@@ -227,7 +248,10 @@
 "Save" = "Gem";
 
 /* No comment provided by engineer. */
-"Select Categories" = "Vælg kategori";
+"Saving event.." = "Gemmer begivenhed...";
+
+/* No comment provided by engineer. */
+"Select Categories" = "Vælg kategorier";
 
 /* No comment provided by engineer. */
 "Select Group" = "Vælg gruppe";
@@ -254,10 +278,22 @@
 "Settings" = "Indstillinger";
 
 /* No comment provided by engineer. */
+"Show all" = "Vis alle";
+
+/* No comment provided by engineer. */
+"Show unread" = "Vis ulæste";
+
+/* No comment provided by engineer. */
 "Something when wrong while resetting your password. Please try again." = "Der gik noget galt ved nulstilling af dit kodeord. Prøv venligst igen.";
 
 /* No comment provided by engineer. */
 "Start" = "Start";
+
+/* No comment provided by engineer. */
+"Success" = "Succes";
+
+/* No comment provided by engineer. */
+"The event was saved" = "Begivenheden er gemt";
 
 /* No comment provided by engineer. */
 "There was a problem, please try again" = "Der er sket et problem, prøv venligst igen.";
@@ -267,6 +303,9 @@
 
 /* No comment provided by engineer. */
 "Title" = "Titel";
+
+/* No comment provided by engineer. */
+"Today" = "I dag";
 
 /* No comment provided by engineer. */
 "Too many requests, try again later" = "Der er for mange forespørgsler, prøv igen senere.";
@@ -301,6 +340,9 @@
 /* No comment provided by engineer. */
 "Write your message here..." = "Skriv din besked her...";
 
+/* Message shown on wrong username password */
+"Wrong username or password" = "Forkert brugernavn eller kodeord";
+
 /* No comment provided by engineer. */
 "You are about to make a double booking of one or more resources/users." = "Du er ved at dobbeltbooke en eller flere ressourcer/brugere";
 
@@ -310,7 +352,3 @@
 /* No comment provided by engineer. */
 "ok" = "ok";
 
-"All events" = "All events";
-"My events" = "My events";
-"Show all" = "Show all";
-"Show unread" = "Show unread";
