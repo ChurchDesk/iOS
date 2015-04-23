@@ -98,8 +98,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     [[self.messageViewModel sendMessage] subscribeError:^(NSError *error) {
         [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_NEW_MESSAGE action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-        NSDictionary *result = response.body;
-        NSString *htmlString = [result valueForKey:@"error"];
         switch(response.statusCode){
             case 406:
             case 400:
