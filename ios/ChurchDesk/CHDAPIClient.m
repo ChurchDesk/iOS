@@ -269,6 +269,11 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         }
     }] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:eventsResourcePath];
+        NSString *regexReady = [self resourcePathForGetEventWithId:eventId siteId:siteId];
+        regexReady = [regexReady stringByReplacingOccurrencesOfString:@"?" withString:@"\\?"];
+        regexReady = [regexReady stringByReplacingOccurrencesOfString:@"\\." withString:@"\\."];
+        regexReady = [regexReady stringByReplacingOccurrencesOfString:@"/" withString:@"\\/"];
+        [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@".*%@.*", regexReady]];
     }];
 }
 
