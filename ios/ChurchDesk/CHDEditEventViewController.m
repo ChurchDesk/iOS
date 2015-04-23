@@ -369,7 +369,10 @@
         [self.viewModel.event rac_liftSelector:@selector(setStartDate:) withSignals:selectedDateSignal, nil];
         [self.viewModel.event rac_liftSelector:@selector(setAllDayEvent:) withSignals:selectedAllDaySignal, nil];
 
-        [self.viewModel.event rac_liftSelector:@selector(setEndDate:) withSignals:[selectedDateSignal map:^id(NSDate* startDate) {
+        CHDEvent *event = self.viewModel.event;
+        [self.viewModel.event rac_liftSelector:@selector(setEndDate:) withSignals:[[selectedDateSignal takeWhileBlock:^BOOL(NSDate *startDate) {
+            return event.endDate == nil || [[startDate earlierDate:event.endDate] isEqualToDate: event.endDate];
+        }] map:^id(NSDate* startDate) {
             return [startDate dateByAddingTimeInterval:60*60];
         }], nil];
     }
