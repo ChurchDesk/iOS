@@ -183,7 +183,7 @@
 
 -(UIVisualEffectView *)backgroundView {
     if(!_backgroundView){
-        UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         _backgroundView = [[UIVisualEffectView alloc] initWithEffect:effect];
     }
     return _backgroundView;
@@ -191,7 +191,7 @@
 
 -(UIActivityIndicatorView *)spinner {
     if(!_spinner){
-        _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     }
     return _spinner;
 }
@@ -201,7 +201,7 @@
         _statusLabel = [UILabel new];
         _statusLabel.text = @"";
         _statusLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:20];
-        _statusLabel.textColor =[UIColor chd_blueColor];
+        _statusLabel.textColor = [UIColor whiteColor];
         _statusLabel.adjustsFontSizeToFitWidth = YES;
         _statusLabel.textAlignment = NSTextAlignmentCenter;
     }
