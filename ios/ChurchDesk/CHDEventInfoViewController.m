@@ -39,6 +39,8 @@
 @property (nonatomic, strong) NSDateFormatter *creationDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *eventDateFormatter;
 
+@property (nonatomic, strong) UIBarButtonItem *editItem;
+
 @end
 
 @implementation CHDEventInfoViewController
@@ -93,8 +95,9 @@
 - (void) setupBindings {
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, event), RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel, event.eventResponse)]] ignore:nil]];
     
+    UIBarButtonItem *editItem = self.editItem;
     RAC(self.navigationItem, rightBarButtonItem) = [RACObserve(self.viewModel, event) map:^id(CHDEvent *event) {
-        return event.canEdit ? [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editEventAction:)] : nil;
+        return event.canEdit ? editItem : nil;
     }];
 
     [self rac_liftSelector:@selector(showProgress:) withSignals:[self.viewModel.loadCommand executing], nil];
@@ -399,6 +402,13 @@
         _creationDateFormatter.timeStyle = NSDateFormatterNoStyle;
     }
     return _creationDateFormatter;
+}
+
+- (UIBarButtonItem *)editItem {
+    if (!_editItem) {
+        _editItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editEventAction:)];
+    }
+    return _editItem;
 }
 
 @end

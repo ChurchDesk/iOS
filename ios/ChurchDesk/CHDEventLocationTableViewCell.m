@@ -38,6 +38,13 @@
         make.right.equalTo(self.contentView);
         make.size.equalTo([NSValue valueWithCGSize:CGSizeMake(44, 44)]);
     }];
+    
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(kSideMargin);
+        make.left.equalTo(self.iconImageView.mas_right).offset(6);
+        make.right.lessThanOrEqualTo(self.directionsButton.mas_left).offset(-6);
+        make.bottom.equalTo(self.contentView).offset(-kSideMargin);
+    }];
 }
 
 #pragma mark - Lazy Initialization

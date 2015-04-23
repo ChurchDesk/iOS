@@ -51,9 +51,12 @@
         make.centerY.equalTo(self.locationLabel);
         make.left.equalTo(self.titleLabel);
     }];
+    
+    [self.locationLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_baseline).offset(8);
         make.left.equalTo(self.locationIconView.mas_right).with.offset(3);
+        make.right.lessThanOrEqualTo(self.parishLabel.mas_left).offset(-4);
     }];
 
     [self.dateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){

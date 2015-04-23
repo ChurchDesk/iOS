@@ -45,11 +45,12 @@
     
     [self.gradientView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.contentView);
-        make.top.equalTo(self.titleLabel).offset(-10) ;
+        make.top.equalTo(self.titleLabel).offset(-10);
     }];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView).offset(15);
+        make.right.equalTo(self.contentView).offset(-15);
         make.bottom.equalTo(self.contentView).offset(-17);
     }];
     
@@ -76,6 +77,7 @@
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.shadowColor = [UIColor blackColor];
         _titleLabel.shadowOffset = CGSizeMake(0, 1);
+        _titleLabel.numberOfLines = 0;
     }
     return _titleLabel;
 }
