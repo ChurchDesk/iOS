@@ -5,6 +5,7 @@
 #define kImgCalendarTime [UIImage imageNamed:@"calendar_time"]
 #define kImgCalendarTimeLocation [UIImage imageNamed:@"calendar_time_location"]
 #define kImgCalendarTodayIndicator [UIImage imageNamed:@"calendar_today_indicator"]
+#define kImgCalendarTodayIndicatorPressed [UIImage imageNamed:@"calendar_today_indicator_pressed"]
 #define kImgCheckmark [UIImage imageNamed:@"checkmark"]
 #define kImgCheckmarkMessagesent [UIImage imageNamed:@"checkmark_messagesent"]
 #define kImgCreateEvent [UIImage imageNamed:@"create_event"]
