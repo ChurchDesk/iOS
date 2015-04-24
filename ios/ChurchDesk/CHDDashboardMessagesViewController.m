@@ -90,7 +90,14 @@
     }
 
     [self.emptyMessageLabel shprac_liftSelector:@selector(setText:) withSignal:[RACObserve(self, messageStyle) map:^id(NSNumber *style) {
-        return style.unsignedIntegerValue == CHDMessagesStyleUnreadMessages? NSLocalizedString(@"No unread messages", @"") : NSLocalizedString(@"No messages", @"");;
+        if(style.unsignedIntegerValue == CHDMessagesStyleUnreadMessages){
+            return NSLocalizedString(@"No unread messages", @"");
+        }
+        else if(style.unsignedIntegerValue == CHDMessagesStyleSearch){
+            return NSLocalizedString(@"No messages", @"");
+        }else{
+            return NSLocalizedString(@"No messages", @"");
+        }
     }]];
 
     if(self.messageStyle == CHDMessagesStyleAllMessages || self.messageStyle == CHDMessagesStyleSearch) {
@@ -156,7 +163,7 @@
         [self.view addSubview:self.drawerBlockOutView];
     }
     if (self.messageStyle == CHDMessagesStyleSearch) {
-        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:self action:@selector(searchCloseAction:)];
+        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(searchCloseAction:)];
         self.navigationItem.rightBarButtonItem = cancelItem;
 
         UIView *view = [cancelItem valueForKey:@"view"];
@@ -171,6 +178,8 @@
         CGFloat searchbarWidth = self.view.bounds.size.width - (cancelItemWidth + 40);
 
         UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, searchbarWidth, 40)];
+//        searchBar.placeholder = NSLocalizedString(@"Search", @"");
+        [searchBar setImage:kImgSearchActive forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
         searchBar.delegate = self;
         UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
         self.navigationItem.leftBarButtonItem = searchItem;
@@ -446,6 +455,7 @@
 - (void)searchAction: (id) sender {
     CHDDashboardMessagesViewController *messagesVC = [[CHDDashboardMessagesViewController alloc] initWithStyle:CHDMessagesStyleSearch];
     UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:messagesVC];
+    navCtrl.navigationBar.barTintColor = [UIColor chd_darkBlueColor];
 
     [self presentViewController:navCtrl animated:YES completion:nil];
 }
