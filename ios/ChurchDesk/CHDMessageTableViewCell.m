@@ -70,7 +70,7 @@
     }];
 
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(3);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(7);
         make.left.equalTo(self.titleLabel);
         make.right.equalTo(contentView).offset(-14);
         make.bottom.equalTo(contentView.mas_bottom).offset(-25);
