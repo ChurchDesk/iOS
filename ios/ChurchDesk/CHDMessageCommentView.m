@@ -87,7 +87,7 @@ NSInteger const kTextViewVerticalMargin = 16;
     if(!_replyButton){
         _replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _replyButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
-        [_replyButton setTitleColor:[UIColor chd_textDarkColor] forState:UIControlStateNormal];
+        [_replyButton setTitleColor:[UIColor chd_blueColor] forState:UIControlStateNormal];
         [_replyButton setTitleColor:[UIColor shpui_colorWithHexValue:0xa8a8a8] forState:UIControlStateDisabled];
     }
     return _replyButton;
