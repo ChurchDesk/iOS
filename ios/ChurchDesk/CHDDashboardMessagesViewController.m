@@ -23,6 +23,7 @@
 #import "CHDFilterView.h"
 #import "CHDPassthroughTouchView.h"
 #import "CHDAnalyticsManager.h"
+#import "MBProgressHUD.h"
 
 @interface CHDDashboardMessagesViewController () <UISearchBarDelegate>
 @property (nonatomic, strong) UIView *contentView;
@@ -143,6 +144,10 @@
             [self shprac_liftSelector:@selector(drawerWillShow) withSignal:[drawerIsShownSignal filter:^BOOL(NSNumber *iIsHidden) {
                 return !iIsHidden.boolValue;
             }]];
+        }
+
+        if(self.messageStyle == CHDMessagesStyleSearch){
+            [self shprac_liftSelector:@selector(showProgress:) withSignal:self.viewModel.getMessagesCommand.executing];
         }
     }
 }
@@ -503,6 +508,21 @@
 
 -(void) drawerDidHide {
     self.drawerBlockOutView.touchesPassThrough = YES;
+}
+
+-(void) showProgress: (BOOL) show {
+    if(show) {
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+    }else{
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    }
 }
 
 @end
