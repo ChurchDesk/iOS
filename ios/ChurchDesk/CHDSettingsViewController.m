@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     notificationSettingsCount,
 };
 
-@interface CHDSettingsViewController ()
+@interface CHDSettingsViewController () <UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView* settingsTable;
 @property (nonatomic, strong) CHDSettingsViewModel *viewModel;
 @end
@@ -65,8 +65,8 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 #pragma mark - Actions
 
 - (void) signOutAction: (id) sender {
-    [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SETTINGS action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_SIGNUOUT];
-    [[CHDAuthenticationManager sharedInstance] signOut];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSLocalizedString(@"Log Out", @"") stringByAppendingString:@"?"] message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    [alertView show];
 }
 
 #pragma mark - ViewController methods
@@ -89,6 +89,16 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     [self.viewModel saveSettings];
     [super viewWillDisappear:animated];
 }
+
+#pragma mark -AlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex > 0) {
+        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SETTINGS action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_SIGNUOUT];
+        [[CHDAuthenticationManager sharedInstance] signOut];
+    }
+}
+
 
 #pragma mark - UITableViewDataSource
 
