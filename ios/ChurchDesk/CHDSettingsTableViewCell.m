@@ -55,13 +55,14 @@
     [self borderAsLast:NO];
     [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(contentView);
+        make.centerY.equalTo(self.aSwitch);
         make.left.equalTo(contentView).with.offset(15);
         make.right.lessThanOrEqualTo(self.aSwitch.mas_left).offset(-5);
     }];
 
     [self.aSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.titleLabel);
+        make.top.equalTo(contentView).offset(15);
+        make.bottom.equalTo(contentView).offset(-15);
         make.right.equalTo(contentView).with.offset(-15);
     }];
 }
