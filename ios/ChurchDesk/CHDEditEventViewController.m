@@ -574,6 +574,7 @@
         cell.textField.placeholder = NSLocalizedString(@"Price", @"");
         cell.textField.text = event.price;
         cell.textFieldMaxLength = 255;
+        [cell.textField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
         [event shprac_liftSelector:@selector(setPrice:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
