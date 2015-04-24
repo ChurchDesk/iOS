@@ -61,7 +61,7 @@
     [self.nameLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.dotsContainer.mas_left);
-        make.left.greaterThanOrEqualTo(self.dateLabel.mas_right).offset(4).priorityLow();
+        make.left.greaterThanOrEqualTo(self.dateLabel.mas_right).offset(45).priorityLow();
         make.centerY.equalTo(self.contentView);
     }];
     

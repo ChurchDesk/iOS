@@ -44,6 +44,7 @@
 		60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */; };
 		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
 		603721498133590553B49781 /* NSDate+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372F542CA3A1835F4A2584 /* NSDate+ChurchDesk.m */; };
+		60372227DFC4EE17CC51BEB5 /* CHDOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372789BC294E57871DB3C0 /* CHDOverlayView.m */; };
 		60372266562664FED85A815C /* NSUserDefaults+CHDDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */; };
 		603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */; };
 		603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */; };
@@ -63,6 +64,7 @@
 		60372B3A9889AC0CF137F93D /* CHDNotificationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 603722B1254455CC82CC5331 /* CHDNotificationSettings.m */; };
 		60372B88E086ED5360F1CB88 /* CHDCellBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372537FE9E89AA9AE64D99 /* CHDCellBorderView.m */; };
 		60372C2D98EA54DBC6205A5C /* CHDSettingsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603726D3D5191AFA92B54B21 /* CHDSettingsViewModel.m */; };
+		60372C3A1A8652BFBB41B2F8 /* CHDActiveFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037216E32E2878F5312B1BB /* CHDActiveFilterView.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
 		60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */; };
 		60372D7B54E198FD42FF0260 /* CHDComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B2421A9B94C77F5C6C /* CHDComment.m */; };
@@ -220,12 +222,14 @@
 		603720B2421A9B94C77F5C6C /* CHDComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDComment.m; sourceTree = "<group>"; };
 		603720E365F294D09A0662B7 /* NSUserDefaults+CHDDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CHDDefaults.h"; sourceTree = "<group>"; };
 		603721391E2FC8DF091F9B81 /* UIButton+CHDCalendarTitleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+CHDCalendarTitleButton.m"; sourceTree = "<group>"; };
+		6037216E32E2878F5312B1BB /* CHDActiveFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDActiveFilterView.m; sourceTree = "<group>"; };
 		603721CB7B785F7282839F87 /* CHDStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDStatusView.h; sourceTree = "<group>"; };
 		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		603722B1254455CC82CC5331 /* CHDNotificationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNotificationSettings.m; sourceTree = "<group>"; };
 		6037235603A27B48E408C420 /* CHDMessageViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMessageViewModel.h; sourceTree = "<group>"; };
 		6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSitePermission.m; sourceTree = "<group>"; };
 		6037238A15212DE4CA3BEF3B /* CHDEventAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventAlertView.m; sourceTree = "<group>"; };
+		60372397FD4AFE54BE67AFB2 /* CHDOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDOverlayView.h; sourceTree = "<group>"; };
 		603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDListSelectorConfigModel.m; sourceTree = "<group>"; };
 		6037242978D2743FC2A06978 /* CHDLeftMenuViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuViewModel.h; sourceTree = "<group>"; };
 		6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextViewCell.m; sourceTree = "<group>"; };
@@ -243,6 +247,7 @@
 		603726D3D5191AFA92B54B21 /* CHDSettingsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSettingsViewModel.m; sourceTree = "<group>"; };
 		60372743A3FC21FB9AD65E5D /* CHDComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDComment.h; sourceTree = "<group>"; };
 		60372756CFB9BD18E5548D93 /* CHDListSelectorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDListSelectorDelegate.h; sourceTree = "<group>"; };
+		60372789BC294E57871DB3C0 /* CHDOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDOverlayView.m; sourceTree = "<group>"; };
 		603727C09B2C630584742DBA /* CHDFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDFilterView.h; sourceTree = "<group>"; };
 		6037286CA436A45B892DCEEC /* CHDDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDescriptionViewController.h; sourceTree = "<group>"; };
 		603728A5A13F1CDE17B7CB88 /* CHDDashboardEventViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardEventViewModel.m; sourceTree = "<group>"; };
@@ -276,6 +281,7 @@
 		60372F0300A6DAC63AAAC46A /* NSDate+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ChurchDesk.h"; sourceTree = "<group>"; };
 		60372F16B00B5C9E5812F5E2 /* CHDPassthroughTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPassthroughTouchView.h; sourceTree = "<group>"; };
 		60372F542CA3A1835F4A2584 /* NSDate+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ChurchDesk.m"; sourceTree = "<group>"; };
+		60372F54D8786B7E1F04A3D6 /* CHDActiveFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDActiveFilterView.h; sourceTree = "<group>"; };
 		760AF8A01AC42C9600729427 /* CHDEventUserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventUserDetailsViewController.h; sourceTree = "<group>"; };
 		760AF8A11AC42C9600729427 /* CHDEventUserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventUserDetailsViewController.m; sourceTree = "<group>"; };
 		760AF8A31AC4300300729427 /* CHDUserAttendanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUserAttendanceTableViewCell.h; sourceTree = "<group>"; };
@@ -882,6 +888,10 @@
 				761247561AA5BA3C004E7D05 /* CHDCalendarViewModel.m */,
 				60372DA5403C18D5F9570C0C /* CHDFilterView.m */,
 				603727C09B2C630584742DBA /* CHDFilterView.h */,
+				6037216E32E2878F5312B1BB /* CHDActiveFilterView.m */,
+				60372F54D8786B7E1F04A3D6 /* CHDActiveFilterView.h */,
+				60372789BC294E57871DB3C0 /* CHDOverlayView.m */,
+				60372397FD4AFE54BE67AFB2 /* CHDOverlayView.h */,
 			);
 			name = Calendar;
 			sourceTree = "<group>";
@@ -1233,6 +1243,8 @@
 				603729DC2E02539143536775 /* UIButton+CHDCalendarTitleButton.m in Sources */,
 				603721498133590553B49781 /* NSDate+ChurchDesk.m in Sources */,
 				60372B88E086ED5360F1CB88 /* CHDCellBorderView.m in Sources */,
+				60372C3A1A8652BFBB41B2F8 /* CHDActiveFilterView.m in Sources */,
+				60372227DFC4EE17CC51BEB5 /* CHDOverlayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

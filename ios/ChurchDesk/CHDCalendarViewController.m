@@ -27,6 +27,7 @@
 #import "CHDPassthroughTouchView.h"
 #import "CHDEnvironment.h"
 #import "CHDAnalyticsManager.h"
+#import "CHDOverlayView.h"
 #import <MBProgressHUD.h>
 
 static CGFloat kCalendarHeight = 330.0f;
@@ -48,6 +49,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) CHDCalendarTitleView *titleView;
 @property (nonatomic, strong) CHDDayPickerViewController *dayPickerViewController;
 @property (nonatomic, strong) MBProgressHUD *spinnerHUD;
+@property (nonatomic, strong) CHDOverlayView *weekOverlay;
 
 @property (nonatomic, strong) MASConstraint *calendarTopConstraint;
 @property (nonatomic, strong) MASConstraint *dayPickerBottomConstraint;
@@ -106,6 +108,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     self.addButton = [self setupAddButtonWithView:self.view withConstraints:NO];
     [self.contentView addSubview:self.todayButton];
     [self.view addSubview:self.drawerBlockOutView];
+
+    [self.view addSubview:self.weekOverlay];
 }
 
 - (void)makeConstraints {
@@ -135,6 +139,12 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     }];
 
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.contentView);
+        make.top.equalTo(self.calendarPicker.mas_bottom);
+        make.bottom.equalTo(self.dayPickerViewController.view.mas_top);
+    }];
+
+    [self.weekOverlay mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.contentView);
         make.top.equalTo(self.calendarPicker.mas_bottom);
         make.bottom.equalTo(self.dayPickerViewController.view.mas_top);
@@ -239,6 +249,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         
         // Configure for text only and offset down
         hud.mode = MBProgressHUDModeIndeterminate;
+        hud.color = [UIColor colorWithWhite:1 alpha:0.7];
+        hud.labelColor = [UIColor chd_textDarkColor];
+        hud.activityIndicatorColor = [UIColor blackColor];
         hud.margin = 10.f;
         hud.removeFromSuperViewOnHide = YES;
         hud.userInteractionEnabled = NO;
@@ -264,18 +277,14 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         [self.calendarPicker setSelectedDates:@[roundedDate]];
     }
 
-    [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-
-    // Configure for text only and offset down
-    hud.mode = MBProgressHUDModeText;
-    hud.detailsLabelText = [NSString stringWithFormat:NSLocalizedString(@"Week\n%@", nil), weekNumber];
-    hud.detailsLabelFont = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:40];
-    hud.margin = 10.f;
-    hud.removeFromSuperViewOnHide = YES;
-    hud.userInteractionEnabled = NO;
-
-    [hud hide:YES afterDelay:1];
+    self.weekOverlay.titleLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Week\n%@", nil), weekNumber];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.weekOverlay.alpha = 1;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.5 delay:0.5 options:0 animations:^{
+            self.weekOverlay.alpha = 0;
+        } completion:nil];
+    }];
 }
 
 #pragma mark - SHPCalendarPickerViewDelegate
@@ -590,6 +599,14 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         _todayButton.titleEdgeInsets = UIEdgeInsetsMake(-4, 0, 4, 0);
     }
     return _todayButton;
+}
+-(CHDOverlayView*)weekOverlay{
+    if(!_weekOverlay){
+        _weekOverlay = [CHDOverlayView new];
+        _weekOverlay.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:40];
+        _weekOverlay.alpha = 0;
+    }
+    return _weekOverlay;
 }
 
 @end
