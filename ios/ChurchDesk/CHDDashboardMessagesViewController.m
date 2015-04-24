@@ -24,11 +24,15 @@
 #import "CHDPassthroughTouchView.h"
 #import "CHDAnalyticsManager.h"
 #import "MBProgressHUD.h"
+#import "CHDActiveFilterView.h"
+
+static CGFloat kMessagesFilterWarningHeight = 30.0f;
 
 @interface CHDDashboardMessagesViewController () <UISearchBarDelegate>
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) CHDMagicNavigationBarView *magicNavigationBar;
 @property (nonatomic, strong) CHDFilterView *filterView;
+@property (nonatomic, strong) CHDActiveFilterView *activeFilterWarningView;
 @property (nonatomic, strong) UIButton *searchButton;
 @property (nonatomic, strong) CHDPassthroughTouchView *drawerBlockOutView;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
@@ -36,6 +40,8 @@
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 @property(nonatomic, strong) CHDDashboardMessagesViewModel *viewModel;
 @property(nonatomic) CHDMessagesStyle messageStyle;
+
+@property (nonatomic, strong) MASConstraint *activeFilterWarningBottomContraint;
 
 @end
 
@@ -95,7 +101,7 @@
             return NSLocalizedString(@"No unread messages", @"");
         }
         else if(style.unsignedIntegerValue == CHDMessagesStyleSearch){
-            return NSLocalizedString(@"No messages", @"");
+            return NSLocalizedString(@"No messages found", @"");
         }else{
             return NSLocalizedString(@"No messages", @"");
         }
@@ -132,6 +138,10 @@
         if (self.messageStyle != CHDMessagesStyleSearch) {
             [self rac_liftSelector:@selector(changeStyle:) withSignals:[RACObserve(self.filterView, selectedFilter) skip:1], nil];
 
+            [self.filterView shprac_liftSelector:@selector(setSelectedFilter:) withSignal:[[self.activeFilterWarningView.closeButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
+                return @(CHDMessagesStyleAllMessages);
+            }]];
+
             [self shprac_liftSelector:@selector(blockOutViewTouched) withSignal:[self.drawerBlockOutView rac_signalForSelector:@selector(touchesBegan:withEvent:)]];
 
             //Handle when the drawer is shown/hidden
@@ -155,6 +165,7 @@
 -(void) makeViews {
     self.view.backgroundColor = [UIColor chd_lightGreyColor];
     [self.view addSubview:self.contentView];
+    [self.contentView addSubview:self.activeFilterWarningView];
     [self.contentView addSubview:self.messagesTable];
     [self.messagesTable addSubview:self.refreshControl];
 
@@ -183,7 +194,7 @@
         CGFloat searchbarWidth = self.view.bounds.size.width - (cancelItemWidth + 40);
 
         UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, searchbarWidth, 40)];
-//        searchBar.placeholder = NSLocalizedString(@"Search", @"");
+        searchBar.placeholder = NSLocalizedString(@"Search", @"");
         [searchBar setImage:kImgSearchActive forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
         searchBar.delegate = self;
         UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
@@ -225,9 +236,14 @@
             make.edges.equalTo(self.view);
         }];
     }
-
+    [self.activeFilterWarningView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@(kMessagesFilterWarningHeight));
+        make.left.right.equalTo(self.contentView);
+        self.activeFilterWarningBottomContraint = make.bottom.equalTo(self.contentView.mas_top);
+    }];
     [self.messagesTable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.contentView);
+        make.top.equalTo(self.activeFilterWarningView.mas_bottom);
+        make.left.right.bottom.equalTo(self.contentView);
     }];
 }
 
@@ -318,9 +334,18 @@
         _searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_searchButton setImage:kImgSearchPassive forState:UIControlStateNormal];
         [_searchButton setImage:kImgSearchActive forState:UIControlStateHighlighted];
+        [_searchButton setImage:[kImgSearchPassive imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateHighlighted];
         [_searchButton addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _searchButton;
+}
+
+-(CHDActiveFilterView *)activeFilterWarningView{
+    if(!_activeFilterWarningView){
+        _activeFilterWarningView = [CHDActiveFilterView new];
+        _activeFilterWarningView.filterName.text = NSLocalizedString(@"Unread", @"");
+    }
+    return _activeFilterWarningView;
 }
 
 #pragma mark - View methods
@@ -480,6 +505,11 @@
     NSAssert(style != CHDMessagesStyleSearch, @"Cannot change to search style");
     self.messageStyle = style;
     self.viewModel.unreadOnly = style == CHDMessagesStyleUnreadMessages;
+
+    [self.activeFilterWarningBottomContraint setOffset:style == CHDMessagesStyleAllMessages? 0 : kMessagesFilterWarningHeight];
+    [UIView animateWithDuration: 0.4 delay:style == CHDMessagesStyleAllMessages? 0 : 0.2 usingSpringWithDamping:0.8f initialSpringVelocity:1.0 options:0 animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
 
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_MESSAGES action:ANALYTICS_ACTION_FILTER label:style == CHDMessagesStyleUnreadMessages? ANALYTICS_LABEL_UNREAD : ANALYTICS_LABEL_ALL];
 }

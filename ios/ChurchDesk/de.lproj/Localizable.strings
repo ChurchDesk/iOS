@@ -354,3 +354,15 @@
 
 /* No comment provided by engineer. */
 "Now" = "Jetzt";
+
+/* No comment provided by engineer. */
+"title_before_filter" = "Zeigt";
+
+/* No comment provided by engineer. */
+"Unread" = "Ungelesene";
+
+/* No comment provided by engineer. */
+"Search" = "Suche";
+
+/* No comment provided by engineer. */
+"No messages found" = "keine Nachrichten gefunden";

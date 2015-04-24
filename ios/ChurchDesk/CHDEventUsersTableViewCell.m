@@ -12,7 +12,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        self.titleLabel.text = NSLocalizedString(@"Users", @"");
+        self.titleLabel.text = NSLocalizedString(@"Users booked", @"");
     }
     return self;
 }

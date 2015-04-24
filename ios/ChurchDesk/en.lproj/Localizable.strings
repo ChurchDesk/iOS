@@ -19,6 +19,7 @@
 "Close" = "Close";
 "No unread messages" = "No unread messages";
 "No messages" = "No messages";
+"No messages found" = "No messages found";
 "Today" = "Today";
 "Invitations" = "Invitations";
 "Cancel" = "Cancel";
@@ -120,3 +121,6 @@
 "Show all" = "Show all";
 "Show unread" = "Show unread";
 "Now" = "Now";
+"title_before_filter" = "Displaying";
+"Unread" = "Unread";
+"Search" = "Search";

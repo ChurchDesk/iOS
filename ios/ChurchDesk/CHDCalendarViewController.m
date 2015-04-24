@@ -28,10 +28,12 @@
 #import "CHDEnvironment.h"
 #import "CHDAnalyticsManager.h"
 #import "CHDOverlayView.h"
+#import "CHDActiveFilterView.h"
 #import <MBProgressHUD.h>
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
+static CGFloat kCalendarFilterWarningHeight = 30.0f;
 
 typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     CHDCalendarFilterAllEvents,
@@ -44,6 +46,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) CHDMagicNavigationBarView *magicNavigationBar;
 @property (nonatomic, strong) CHDPassthroughTouchView *drawerBlockOutView;
 @property (nonatomic, strong) CHDFilterView *calendarFilterView;
+@property (nonatomic, strong) CHDActiveFilterView *activeFilterWarningView;
 @property (nonatomic, strong) SHPCalendarPickerView *calendarPicker;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CHDCalendarTitleView *titleView;
@@ -51,6 +54,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) MBProgressHUD *spinnerHUD;
 @property (nonatomic, strong) CHDOverlayView *weekOverlay;
 
+@property (nonatomic, strong) MASConstraint *activeFilterWarningBottomContraint;
 @property (nonatomic, strong) MASConstraint *calendarTopConstraint;
 @property (nonatomic, strong) MASConstraint *dayPickerBottomConstraint;
 
@@ -97,6 +101,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self.view addSubview:self.contentView];
     [self.view addSubview:self.magicNavigationBar];
     [self.magicNavigationBar.drawerView addSubview:self.calendarFilterView];
+    [self.contentView addSubview:self.activeFilterWarningView];
     [self.contentView addSubview:self.calendarPicker];
     [self.contentView addSubview:self.tableView];
 
@@ -106,8 +111,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     self.navigationItem.titleView = self.titleView;
     self.addButton = [self setupAddButtonWithView:self.view withConstraints:NO];
+    [self.contentView addSubview:self.drawerBlockOutView];
     [self.contentView addSubview:self.todayButton];
-    [self.view addSubview:self.drawerBlockOutView];
+
 
     [self.view addSubview:self.weekOverlay];
 }
@@ -137,10 +143,15 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         make.left.right.equalTo(self.contentView);
         make.height.equalTo(@(kCalendarHeight));
     }];
-
+    [self.activeFilterWarningView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.contentView);
+        make.height.equalTo(@(kCalendarFilterWarningHeight));
+        self.activeFilterWarningBottomContraint = make.bottom.equalTo(self.calendarPicker.mas_bottom);
+    }];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.contentView);
-        make.top.equalTo(self.calendarPicker.mas_bottom);
+        make.top.equalTo(self.activeFilterWarningView.mas_bottom).priorityMedium();
+        make.top.equalTo(self.calendarPicker.mas_bottom).priorityMedium();
         make.bottom.equalTo(self.dayPickerViewController.view.mas_top);
     }];
 
@@ -195,6 +206,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     [self rac_liftSelector:@selector(dayPickerDidSelectDate:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
     [self rac_liftSelector:@selector(changeCalendarFilter:) withSignals:[RACObserve(self.calendarFilterView, selectedFilter) skip:1], nil];
+    [self.calendarFilterView shprac_liftSelector:@selector(setSelectedFilter:) withSignal:[[self.activeFilterWarningView.closeButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
+        return @(CHDCalendarFilterAllEvents);
+    }]];
 
     //Handle when the drawer is shown/hidden
     RACSignal *drawerIsShownSignal = RACObserve(self.magicNavigationBar, drawerIsHidden);
@@ -415,7 +429,6 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 }
 
 #pragma mark - Actions
-
 -(void) dotColorsForFirstVisibleSection {
     if(self.viewModel.sections.count > 0) {
         NSIndexPath *indexPath = [self.tableView chd_indexPathForRowOrHeaderAtPoint:self.tableView.contentOffset];
@@ -493,6 +506,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
             self.drawerBlockOutView.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
         } completion:nil];
     }];
+
+    [self.activeFilterWarningBottomContraint setOffset:filter == CHDCalendarFilterAllEvents? 0 : kCalendarFilterWarningHeight];
+    [UIView animateWithDuration: 0.4 delay:filter == CHDCalendarFilterAllEvents? 0 : 0.2 usingSpringWithDamping:0.8f initialSpringVelocity:1.0 options:0 animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
 }
 
 #pragma mark - Lazy Initialization
@@ -607,6 +625,13 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         _weekOverlay.alpha = 0;
     }
     return _weekOverlay;
+}
+-(CHDActiveFilterView *)activeFilterWarningView{
+    if(!_activeFilterWarningView){
+        _activeFilterWarningView = [CHDActiveFilterView new];
+        _activeFilterWarningView.filterName.text = NSLocalizedString(@"My events", @"");
+    }
+    return _activeFilterWarningView;
 }
 
 @end

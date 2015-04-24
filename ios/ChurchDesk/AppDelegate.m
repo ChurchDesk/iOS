@@ -146,7 +146,9 @@
 
     [UINavigationBar appearance].backIndicatorImage = kImgBackArrow;
     [UINavigationBar appearance].backIndicatorTransitionMaskImage = kImgBackArrow;
-    
+
+    [[UIButton appearance] setTintColor:[UIColor shpui_colorWithHexValue:0x0c485a]];
+
     [[UISwitch appearance] setOnTintColor:[UIColor chd_blueColor]];
     [[UISwitch appearance] setTintColor:[UIColor shpui_colorWithHexValue:0xc8c7cc]];
 }
