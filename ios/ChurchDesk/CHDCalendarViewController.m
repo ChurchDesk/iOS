@@ -66,7 +66,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) CHDExpandableButtonView *addButton;
 @property (nonatomic, strong) UIButton *todayButton;
 
-@property (nonatomic, assign) BOOL isScrolling;
+@property (nonatomic, assign) BOOL ignoreScrollCommands;
+@property (nonatomic, assign) BOOL isDragging;
 
 @end
 
@@ -288,9 +289,12 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
         NSDate *roundedDate = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
 
+        //[self scrollToDate:roundedDate animated:YES offset:0];
+        //self.ignoreScrollCommands = YES;
         [self.dayPickerViewController scrollToDate:roundedDate animated:NO];
         [self.calendarPicker setCurrentMonth:roundedDate];
         [self.calendarPicker setSelectedDates:@[roundedDate]];
+        //self.ignoreScrollCommands = NO;
     }
 
     self.weekOverlay.titleLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Week\n%@", nil), weekNumber];
@@ -324,6 +328,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         NSIndexPath *indexPath = [tableView chd_indexPathForRowOrHeaderAtPoint:tableView.contentOffset];
         self.viewModel.referenceDate = self.viewModel.sections[indexPath.section];
     }
+    
+    self.isDragging = NO;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -343,9 +349,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         NSDate *firstDate = self.viewModel.sections[topIndexPath.section];
         NSDate *lastDate = self.viewModel.sections[bottomIndexPath.section];
 
-        self.isScrolling = YES;
-        [self.dayPickerViewController setSelectedDate:firstDate];
-        self.isScrolling = NO;
+        if (self.isDragging) {
+            self.ignoreScrollCommands = YES;
+            [self.dayPickerViewController setSelectedDate:firstDate];
+            self.ignoreScrollCommands = NO;
+        }
 
         if(firstDate.timeIntervalSince1970 <= today.timeIntervalSince1970 && lastDate.timeIntervalSince1970 >= today.timeIntervalSince1970){
             if(!self.todayButton.isHidden) {
@@ -368,6 +376,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
             }
         }
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.isDragging = YES;
 }
 
 #pragma mark - UITableViewDelegate
@@ -466,14 +479,14 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 - (void) scrollToDate: (NSDate*) date animated: (BOOL) animated offset: (CGFloat) offset {
     NSIndexPath *indexPath = [self.viewModel indexPathForDate:date];
-    if (indexPath && !_isScrolling) {
+    if (indexPath && !_ignoreScrollCommands) {
         [self.tableView setContentOffset:CGPointMake(0, [self.tableView rectForSection:indexPath.section].origin.y + offset) animated:animated];
     }
 }
 
 
 - (void) dayPickerDidSelectDate: (NSDate*) date {
-    [self scrollToDate:date animated:NO];
+    [self scrollToDate:date animated:YES];
 }
 
 - (void) todayButtonTouch: (id) sender {
