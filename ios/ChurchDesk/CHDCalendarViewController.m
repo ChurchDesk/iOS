@@ -66,6 +66,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) CHDExpandableButtonView *addButton;
 @property (nonatomic, strong) UIButton *todayButton;
 
+@property (nonatomic, assign) BOOL isScrolling;
+
 @end
 
 @implementation CHDCalendarViewController
@@ -341,7 +343,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         NSDate *firstDate = self.viewModel.sections[topIndexPath.section];
         NSDate *lastDate = self.viewModel.sections[bottomIndexPath.section];
 
-        [self.dayPickerViewController scrollToDate:firstDate animated:NO];
+        self.isScrolling = YES;
+        [self.dayPickerViewController setSelectedDate:firstDate];
+        self.isScrolling = NO;
 
         if(firstDate.timeIntervalSince1970 <= today.timeIntervalSince1970 && lastDate.timeIntervalSince1970 >= today.timeIntervalSince1970){
             if(!self.todayButton.isHidden) {
@@ -462,7 +466,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 - (void) scrollToDate: (NSDate*) date animated: (BOOL) animated offset: (CGFloat) offset {
     NSIndexPath *indexPath = [self.viewModel indexPathForDate:date];
-    if (indexPath) {
+    if (indexPath && !_isScrolling) {
         [self.tableView setContentOffset:CGPointMake(0, [self.tableView rectForSection:indexPath.section].origin.y + offset) animated:animated];
     }
 }
