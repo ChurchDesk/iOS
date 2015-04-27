@@ -18,6 +18,8 @@
 #import "UIViewController+UIViewController_ChurchDesk.h"
 #import "CHDAnalyticsManager.h"
 #import "MBProgressHUD.h"
+#import "CHDEventInfoViewController.h"
+#import "CHDEvent.h"
 
 @interface CHDDashboardInvitationsViewController ()
 
@@ -115,6 +117,7 @@
         _inviteTable.separatorStyle = UITableViewCellSeparatorStyleNone;
         _inviteTable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
         _inviteTable.backgroundColor = [UIColor chd_lightGreyColor];
+        _inviteTable.delegate = self;
 
         _inviteTable.rowHeight = 106;
 
@@ -157,6 +160,20 @@
         [self.viewModel reload];
     }
 }
+
+#pragma mark -TableView delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CHDInvitation *invitation = (CHDInvitation *)self.viewModel.invitations[indexPath.row];
+
+    CHDEvent *event = [CHDEvent new];
+    event.eventId = [invitation.invitationId copy];
+    event.siteId = [invitation.siteId copy];
+
+    CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma mark - UITableViewDataSource
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -229,7 +246,7 @@
     //Remove index from model
     if ([self.viewModel removeInvitationWithIndexPath:indexPath]) {
 
-        [self.inviteTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+        [self.inviteTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
     [self.inviteTable endUpdates];
 

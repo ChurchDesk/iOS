@@ -432,7 +432,7 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
         //Remove index from model
         if ([self.viewModel removeMessageWithIndex:indexPath.row]) {
 
-            [self.messagesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+            [self.messagesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
 
         }
         [self.messagesTable endUpdates];
