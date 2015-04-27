@@ -36,7 +36,10 @@
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
                     return [self isDate:referenceDate inRangeFirstDate:event.startDate lastDate:event.endDate];
                 }];
-                return results.array;
+                //Earliest on top
+                return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDEvent *event1, CHDEvent *event2) {
+                    return [event1.startDate compare:event2.startDate];
+                }];
             }] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
@@ -55,7 +58,10 @@
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
                     return [self isDate:referenceDate inRangeFirstDate:event.startDate lastDate:event.endDate];
                 }];
-                return results.array;
+                //Earliest on top
+                return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDEvent *event1, CHDEvent *event2) {
+                    return [event1.startDate compare:event2.startDate];
+                }];
             }] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
