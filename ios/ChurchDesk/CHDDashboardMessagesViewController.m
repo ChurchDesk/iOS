@@ -519,12 +519,12 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
 
 -(void) emptyMessageShow: (BOOL) show {
     if(show){
-        [self.view addSubview:self.emptyMessageLabel];
+        [self.contentView addSubview:self.emptyMessageLabel];
         [self.emptyMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.view).offset(-30);
-            make.centerX.equalTo(self.view);
-            make.left.greaterThanOrEqualTo(self.view).offset(15);
-            make.right.lessThanOrEqualTo(self.view).offset(-15);
+            make.centerY.equalTo(self.contentView).offset(-30);
+            make.centerX.equalTo(self.contentView);
+            make.left.greaterThanOrEqualTo(self.contentView).offset(15);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-15);
         }];
     }else {
         [self.emptyMessageLabel removeFromSuperview];
