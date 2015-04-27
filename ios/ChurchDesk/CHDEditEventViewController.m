@@ -512,7 +512,7 @@
             [[[RACObserve(event, resourceIds) filter:^BOOL(NSArray *resourceIds) {
                 return resourceIds.count > 0;
             }] map:^id(NSArray *resourceIds) {
-                return resourceIds.count <= 1 ? [environment resourceWithId:event.resourceIds.firstObject siteId:event.siteId].name : [NSString stringWithFormat:@"%lu", resourceIds.count];
+                return resourceIds.count <= 1 ? [environment resourceWithId:event.resourceIds.firstObject siteId:event.siteId].name : [NSString stringWithFormat:@"%lu", (long)resourceIds.count];
             }] takeUntil:cell.rac_prepareForReuseSignal]
         ]]];
 
