@@ -84,6 +84,9 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     [self shprac_liftSelector:@selector(endRefresh) withSignal:messagesSignal];
 
     [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[RACObserve(self.viewModel, messages) map:^id(NSArray *messages) {
+        if(messages == nil){
+            return @NO;
+        }
         return @(messages.count == 0);
     }], nil];
 

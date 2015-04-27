@@ -36,7 +36,11 @@
         self.unreadOnly = unreadOnly;
         self.canFetchMoreMessages = YES;
         CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
-        
+
+        [self shprac_liftSelector:@selector(setMessages:) withSignal:[RACObserve(self, unreadOnly) map:^id(id value) {
+            return nil;
+        }]];
+
         //Inital model signal
         RACSignal *initialModelSignal = [[RACObserve(self, unreadOnly) filter:^BOOL(NSNumber *iUnreadnly) {
             return iUnreadnly.boolValue;
