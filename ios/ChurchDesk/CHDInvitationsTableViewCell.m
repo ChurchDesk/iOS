@@ -68,6 +68,7 @@
     UIView*contentView = self.scrollContentView;
 
     //"Lefthand side" of the cell
+    [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.left.equalTo(contentView).with.offset(15);
         make.right.lessThanOrEqualTo(self.receivedTimeLabel.mas_left).offset(-10);
@@ -102,6 +103,7 @@
     }];
 
     //"Righthand side" of the cell
+    [self.receivedTimeLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.receivedTimeLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.bottom.equalTo(self.titleLabel);
         make.right.equalTo(contentView).with.offset(-16);
@@ -109,7 +111,6 @@
     [self.parishLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.parishLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.locationLabel);
-//        make.right.equalTo(self.receivedTimeLabel);
         make.right.equalTo(contentView).with.offset(-16);
     }];
 }

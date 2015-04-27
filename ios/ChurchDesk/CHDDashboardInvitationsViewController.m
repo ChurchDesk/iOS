@@ -37,7 +37,7 @@
         self.title = NSLocalizedString(@"Dashboard", @"");
         self.viewModel = [CHDDashboardInvitationsViewModel new];
 
-        [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, invitations) combinePreviousWithStart:@[] reduce:^id(NSArray *previousInvitations, NSArray *currentInvitations) {
+        [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, invitations) combinePreviousWithStart:nil reduce:^id(NSArray *previousInvitations, NSArray *currentInvitations) {
             return @(currentInvitations.count > previousInvitations.count);
         }], nil];
     }

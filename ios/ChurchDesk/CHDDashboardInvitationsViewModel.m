@@ -26,7 +26,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.invitations = @[];
+//        self.invitations = @[];
 
         //Update signal
         CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
@@ -40,7 +40,11 @@
                 RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
                     return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
                 }];
-                return results.array;
+
+                //newest on top
+                return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDInvitation *invitation1, CHDInvitation *invitation2) {
+                    return [invitation2.changeDate compare:invitation1.changeDate];
+                }];
             }] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
@@ -52,7 +56,11 @@
             RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
                 return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
             }];
-            return results.array;
+
+            //newest on top
+            return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDInvitation *invitation1, CHDInvitation *invitation2) {
+                return [invitation2.changeDate compare:invitation1.changeDate];
+            }];
         }] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }], updateSignal]];
