@@ -8,6 +8,8 @@
 
 #import "CHDListSelectorViewController.h"
 #import "CHDSelectorTableViewCell.h"
+#import "CHDSelectorImageTableViewCell.h"
+#import "UIImageView+Haneke.h"
 
 
 @interface CHDListSelectorViewController ()
@@ -17,6 +19,7 @@
 @end
 
 NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
+NSString* const kSelectorImageCellIdentifyer = @"CHDSelectorImageTableViewCell";
 
 @implementation CHDListSelectorViewController
 
@@ -57,6 +60,7 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
         _tableView.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
         _tableView.backgroundColor = [UIColor chd_lightGreyColor];
         [_tableView registerClass:[CHDSelectorTableViewCell class] forCellReuseIdentifier:kSelectorCellIdentifyer];
+        [_tableView registerClass:[CHDSelectorImageTableViewCell class] forCellReuseIdentifier:kSelectorImageCellIdentifyer];
         _tableView.contentInset = UIEdgeInsetsMake(35, 0, 0, 0);
         _tableView.dataSource = self;
         _tableView.delegate = self;
@@ -106,20 +110,34 @@ NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorCellIdentifyer forIndexPath:indexPath];
-
     CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
 
-    cell.titleLabel.text = element.title;
-    if(element.selected){
-        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    if(element.imageURL){
+        CHDSelectorImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorImageCellIdentifyer forIndexPath:indexPath];
+        [cell layoutIfNeeded];
+        [cell.thumbnailImageView hnk_setImageFromURL:element.imageURL];
+        cell.nameLabel.text = element.title;
+        cell.selected = element.selected;
+        if(element.selected){
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
+        cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
+        [cell layoutIfNeeded];
+        return cell;
+    }else{
+        CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorCellIdentifyer forIndexPath:indexPath];
+
+        cell.titleLabel.text = element.title;
+        if(element.selected){
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
+        //cell.selected = element.selected;
+        cell.dotColor = element.dotColor;
+
+        cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
+
+        return cell;
     }
-    //cell.selected = element.selected;
-    cell.dotColor = element.dotColor;
-
-    cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
-
-    return cell;
 }
 
 @end

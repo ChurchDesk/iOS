@@ -46,6 +46,7 @@
 		603721498133590553B49781 /* NSDate+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372F542CA3A1835F4A2584 /* NSDate+ChurchDesk.m */; };
 		60372227DFC4EE17CC51BEB5 /* CHDOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372789BC294E57871DB3C0 /* CHDOverlayView.m */; };
 		60372266562664FED85A815C /* NSUserDefaults+CHDDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */; };
+		6037228EF28A5479B3BBDCF3 /* CHDSelectorImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037235919C82F24113CA8C5 /* CHDSelectorImageTableViewCell.m */; };
 		603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */; };
 		603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */; };
 		6037233DB7F608BF75FA40E0 /* CHDListConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B06F02750FED9A33AA9 /* CHDListConfigModel.m */; };
@@ -227,10 +228,12 @@
 		603721FB2DB83AEFDBFC55B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		603722B1254455CC82CC5331 /* CHDNotificationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNotificationSettings.m; sourceTree = "<group>"; };
 		6037235603A27B48E408C420 /* CHDMessageViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDMessageViewModel.h; sourceTree = "<group>"; };
+		6037235919C82F24113CA8C5 /* CHDSelectorImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSelectorImageTableViewCell.m; sourceTree = "<group>"; };
 		6037235B97FE641BA0ACFEDB /* CHDSitePermission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSitePermission.m; sourceTree = "<group>"; };
 		6037238A15212DE4CA3BEF3B /* CHDEventAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventAlertView.m; sourceTree = "<group>"; };
 		60372397FD4AFE54BE67AFB2 /* CHDOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDOverlayView.h; sourceTree = "<group>"; };
 		603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDListSelectorConfigModel.m; sourceTree = "<group>"; };
+		6037240ABED5BE6C868DFAA0 /* CHDSelectorImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSelectorImageTableViewCell.h; sourceTree = "<group>"; };
 		6037242978D2743FC2A06978 /* CHDLeftMenuViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuViewModel.h; sourceTree = "<group>"; };
 		6037244FF0CF935436669771 /* CHDNewMessageTextViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageTextViewCell.m; sourceTree = "<group>"; };
 		6037245E9E98EC53CCA15CEA /* CHDUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDUser.m; sourceTree = "<group>"; };
@@ -499,6 +502,8 @@
 				603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */,
 				6037249E0210641467B98003 /* CHDListSelectorConfigModel.h */,
 				60372756CFB9BD18E5548D93 /* CHDListSelectorDelegate.h */,
+				6037240ABED5BE6C868DFAA0 /* CHDSelectorImageTableViewCell.h */,
+				6037235919C82F24113CA8C5 /* CHDSelectorImageTableViewCell.m */,
 			);
 			name = ListSelectorViewController;
 			sourceTree = "<group>";
@@ -1245,6 +1250,7 @@
 				60372B88E086ED5360F1CB88 /* CHDCellBorderView.m in Sources */,
 				60372C3A1A8652BFBB41B2F8 /* CHDActiveFilterView.m in Sources */,
 				60372227DFC4EE17CC51BEB5 /* CHDOverlayView.m in Sources */,
+				6037228EF28A5479B3BBDCF3 /* CHDSelectorImageTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,13 +8,19 @@
 
 @implementation CHDListSelectorConfigModel
 -(instancetype)initWithTitle: (NSString*) title color: (UIColor*) color selected: (BOOL) selected refObject: (id) object{
+    return [self initWithTitle:title imageURL:nil color:color selected:selected refObject:object];
+}
+
+- (instancetype)initWithTitle:(NSString *)title imageURL:(NSURL *)imageURL color:(UIColor *)color selected:(BOOL)selected refObject:(id)object {
     if( (self = [super init])){
         self.dotColor = color;
         self.title = title;
         self.selected = selected;
         self.refObject = object;
+        self.imageURL = imageURL;
     }
     return self;
 }
+
 
 @end
