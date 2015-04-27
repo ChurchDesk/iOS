@@ -246,7 +246,7 @@
     //Remove index from model
     if ([self.viewModel removeInvitationWithIndexPath:indexPath]) {
 
-        [self.inviteTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        [self.inviteTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
     [self.inviteTable endUpdates];
 
