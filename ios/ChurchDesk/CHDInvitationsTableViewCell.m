@@ -70,6 +70,7 @@
     //"Lefthand side" of the cell
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.top.left.equalTo(contentView).with.offset(15);
+        make.right.lessThanOrEqualTo(self.receivedTimeLabel.mas_left).offset(-10);
     }];
 
     [self.invitedByLabel mas_makeConstraints:^(MASConstraintMaker *make){
@@ -83,9 +84,11 @@
         make.left.equalTo(contentView).with.offset(16);
     }];
 
+    [self.locationLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.locationIconView);
         make.left.equalTo(self.locationIconView.mas_right).with.offset(3);
+        make.right.lessThanOrEqualTo(self.parishLabel.mas_left).offset(-10);
     }];
 
     [self.eventTimeIconView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -95,6 +98,7 @@
     [self.eventTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.eventTimeIconView);
         make.left.equalTo(self.eventTimeIconView.mas_right).with.offset(3);
+        make.right.lessThanOrEqualTo(contentView).offset(-10);
     }];
 
     //"Righthand side" of the cell
@@ -102,10 +106,11 @@
         make.bottom.equalTo(self.titleLabel);
         make.right.equalTo(contentView).with.offset(-16);
     }];
-
+    [self.parishLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.parishLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.locationLabel);
-        make.right.equalTo(self.receivedTimeLabel);
+//        make.right.equalTo(self.receivedTimeLabel);
+        make.right.equalTo(contentView).with.offset(-16);
     }];
 }
 
