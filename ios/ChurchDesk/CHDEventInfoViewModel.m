@@ -232,10 +232,16 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     CHDEvent *event = self.event;
     CHDEventResponse oldResponse = event.eventResponse;
     self.event.eventResponse = response;
-    
-    return [[[CHDAPIClient sharedInstance] setResponseForEventWithId:self.event.eventId siteId:self.event.siteId response:response] doError:^(NSError *error) {
+
+    RACSignal *eventSignal = [[[CHDAPIClient sharedInstance] setResponseForEventWithId:self.event.eventId siteId:self.event.siteId response:response] doError:^(NSError *error) {
         event.eventResponse = oldResponse;
     }];
+
+    [eventSignal subscribeNext:^(id x) {
+        NSLog(@"Event response");
+    }];
+
+    return eventSignal;
 }
 
 -(RACCommand*)loadCommand {
