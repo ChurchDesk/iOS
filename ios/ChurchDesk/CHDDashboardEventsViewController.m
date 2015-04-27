@@ -71,12 +71,6 @@
 
     [self shprac_liftSelector:@selector(endRefresh) withSignal:newEventsSignal];
 
-    [[self rac_signalForSelector:@selector(viewWillAppear:)] flattenMap:^RACStream *(id value) {
-        return [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, events) map:^id(id value) {
-            return @(value == nil);
-        }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
-    }];
-
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
         return @NO;
     }]];
@@ -114,6 +108,13 @@
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_events"];
     [self.eventTable deselectRowAtIndexPath:[self.eventTable indexPathForSelectedRow] animated:YES];
+
+    [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, events) map:^id(id value) {
+        return @(value == nil);
+    }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
+}
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 #pragma mark - UITableViewDelegate

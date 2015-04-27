@@ -59,6 +59,10 @@
     [self.inviteTable deselectRowAtIndexPath:[self.inviteTable indexPathForSelectedRow] animated:YES];
     [self.inviteTable reloadData];
     [self setUnread:NO];
+
+    [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, invitations) map:^id(id value) {
+        return @(value == nil);
+    }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
 }
 
 #pragma mark - setup views
@@ -93,12 +97,6 @@
         }
         return @(invitations.count == 0);
     }], nil];
-
-    [[self rac_signalForSelector:@selector(viewWillAppear:)] flattenMap:^RACStream *(id value) {
-        return [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, invitations) map:^id(id value) {
-            return @(value == nil);
-        }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
-    }];
 
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
         return @NO;
