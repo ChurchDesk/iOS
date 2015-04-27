@@ -21,6 +21,7 @@
 #import "CHDEditEventViewController.h"
 #import "UIViewController+UIViewController_ChurchDesk.h"
 #import "CHDAnalyticsManager.h"
+#import "MBProgressHUD.h"
 
 @interface CHDDashboardEventsViewController ()  <UITableViewDelegate, UITableViewDataSource>
 
@@ -69,6 +70,17 @@
     }], nil];
 
     [self shprac_liftSelector:@selector(endRefresh) withSignal:newEventsSignal];
+
+    [[self rac_signalForSelector:@selector(viewWillAppear:)] flattenMap:^RACStream *(id value) {
+        return [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, events) map:^id(id value) {
+            return @(value == nil);
+        }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
+    }];
+
+    [self shprac_liftSelector:@selector(showProgress:) withSignal:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
+        return @NO;
+    }]];
+
 }
 
 #pragma mark - CHDNotificationEventResponder
@@ -200,5 +212,21 @@
         [self.emptyMessageLabel removeFromSuperview];
     }
 }
+-(void) showProgress: (BOOL) show {
+    if(show && self.navigationController.view) {
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.color = [UIColor colorWithWhite:1 alpha:0.7];
+        hud.labelColor = [UIColor chd_textDarkColor];
+        hud.activityIndicatorColor = [UIColor blackColor];
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+    }else{
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    }
+}
 @end

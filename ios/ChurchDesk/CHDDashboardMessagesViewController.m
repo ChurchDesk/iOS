@@ -110,6 +110,18 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
         }
     }]];
 
+    if(self.messageStyle != CHDMessagesStyleSearch){
+        [[self rac_signalForSelector:@selector(viewWillAppear:)] flattenMap:^RACStream *(id value) {
+            return [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, messages) map:^id(id value) {
+                return @(value == nil);
+            }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
+        }];
+
+        [self shprac_liftSelector:@selector(showProgress:) withSignal:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
+            return @NO;
+        }]];
+    }
+
     if(self.messageStyle == CHDMessagesStyleAllMessages || self.messageStyle == CHDMessagesStyleSearch) {
 
         RACSignal *refreshSignal = [[RACSignal combineLatest:@[[self rac_signalForSelector:@selector(scrollViewDidEndDecelerating:)], self.viewModel.getMessagesCommand.executing, RACObserve(self.viewModel, canFetchMoreMessages)] reduce:^id(RACTuple *tuple, NSNumber *iExecuting, NSNumber *iCanFetch) {
