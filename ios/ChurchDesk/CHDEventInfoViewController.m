@@ -128,7 +128,7 @@
 
 - (void)reportAttendanceAction: (id) sender {
     NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Are you going to the event '%@'?", @""), self.viewModel.event.title];
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Going", @""), NSLocalizedString(@"Maybe", @""), NSLocalizedString(@"I am not going", @""), nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Going", @""), NSLocalizedString(@"Maybe", @""), NSLocalizedString(@"Not going", @""), nil];
     NSInteger firstOtherButtonIndex = sheet.firstOtherButtonIndex;
     
     @weakify(self)
