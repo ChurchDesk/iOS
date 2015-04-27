@@ -61,7 +61,7 @@ static NSUInteger kVisibleDayCount = 7;
 }
 
 - (void) setupBindings {
-    [self rac_liftSelector:@selector(scrollToDate:animated:) withSignals:[RACObserve(self, selectedDate) ignore:nil], [RACSignal return:@YES], nil];
+    [self rac_liftSelector:@selector(scrollToDate:animated:) withSignals:[RACObserve(self, selectedDate) ignore:nil], [RACSignal return:@NO], nil];
     [self shprac_liftSelector:@selector(updateCellSelection) withSignal:RACObserve(self, selectedDate)];
 }
 
