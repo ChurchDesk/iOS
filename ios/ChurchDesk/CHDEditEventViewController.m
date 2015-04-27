@@ -291,7 +291,6 @@
         NSArray *users = [environment usersWithSiteId:event.siteId];
         for (CHDPeerUser *user in users) {
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds containsObject:user.userId] refObject:user.userId]];
-//            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name color:nil selected:[event.userIds containsObject:user.userId] refObject:user.userId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowResources]) {

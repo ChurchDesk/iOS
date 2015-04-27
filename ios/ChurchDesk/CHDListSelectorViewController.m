@@ -10,6 +10,7 @@
 #import "CHDSelectorTableViewCell.h"
 #import "CHDSelectorImageTableViewCell.h"
 #import "UIImageView+Haneke.h"
+#import "CHDDividerTableViewCell.h"
 
 
 @interface CHDListSelectorViewController ()
@@ -20,6 +21,7 @@
 
 NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
 NSString* const kSelectorImageCellIdentifyer = @"CHDSelectorImageTableViewCell";
+NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCell";
 
 @implementation CHDListSelectorViewController
 
@@ -61,7 +63,8 @@ NSString* const kSelectorImageCellIdentifyer = @"CHDSelectorImageTableViewCell";
         _tableView.backgroundColor = [UIColor chd_lightGreyColor];
         [_tableView registerClass:[CHDSelectorTableViewCell class] forCellReuseIdentifier:kSelectorCellIdentifyer];
         [_tableView registerClass:[CHDSelectorImageTableViewCell class] forCellReuseIdentifier:kSelectorImageCellIdentifyer];
-        _tableView.contentInset = UIEdgeInsetsMake(35, 0, 0, 0);
+        [_tableView registerClass:[CHDDividerTableViewCell class] forCellReuseIdentifier:kSelectorDeviderCellIdentifyer];
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         _tableView.dataSource = self;
         _tableView.delegate = self;
     }
@@ -74,8 +77,14 @@ NSString* const kSelectorImageCellIdentifyer = @"CHDSelectorImageTableViewCell";
     }];
 }
 
-#pragma mark - Table Delegate
+#pragma mark -TableData source
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+
+#pragma mark - Table Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView cellForRowAtIndexPath:indexPath].selected = YES;
     
@@ -106,10 +115,20 @@ NSString* const kSelectorImageCellIdentifyer = @"CHDSelectorImageTableViewCell";
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(section == 0 || section == [tableView numberOfSections]-1){
+        return 1;
+    }
     return self.selectableElements.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.section == 0 || indexPath.section == [self numberOfSectionsInTableView:tableView] - 1){
+        CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorDeviderCellIdentifyer forIndexPath:indexPath];
+        cell.hideTopLine = indexPath.section == 0 && indexPath.row == 0;
+        cell.hideBottomLine = indexPath.section == [tableView numberOfSections]-1 && indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1;
+        return cell;
+    }
+
     CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
 
     if(element.imageURL){
