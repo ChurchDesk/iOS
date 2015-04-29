@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CHDDayPickerDelegateProtocol.h"
+#import "CHDDayPickerDataDelegateProtocol.h"
 
 @class CHDUser, CHDHoliday;
 @class CHDEnvironment;
 @class CHDEvent;
 
-@interface CHDCalendarViewModel : NSObject <CHDDayPickerDelegateProtocol>
+@interface CHDCalendarViewModel : NSObject <CHDDayPickerDataDelegateProtocol>
 
 @property (nonatomic, readonly) NSArray *events;
 @property (nonatomic, readonly) NSArray *sections;

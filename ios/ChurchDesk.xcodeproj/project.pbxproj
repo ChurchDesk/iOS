@@ -269,6 +269,7 @@
 		60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardTabBarViewController.m; sourceTree = "<group>"; };
 		60372BAB298EBE69FAE3A907 /* NSUserDefaults+CHDDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CHDDefaults.m"; sourceTree = "<group>"; };
 		60372BECBF65AF34EA9E2CB1 /* CHDLeftMenuViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuViewModel.m; sourceTree = "<group>"; };
+		60372BEEA1945F1AC7CBB50F /* CHDDayPickerDataDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDDayPickerDataDelegateProtocol.h; sourceTree = "<group>"; };
 		60372BF9075B9603284EBC7E /* CHDPassthroughTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPassthroughTouchView.m; sourceTree = "<group>"; };
 		60372C445CCDFCC5F6E3106E /* CHDSettingsViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSettingsViewModel.h; sourceTree = "<group>"; };
 		60372CBBAAFF65B0D2E53E9E /* CHDNewMessageViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDNewMessageViewModel.m; sourceTree = "<group>"; };
@@ -911,6 +912,7 @@
 				76A5419C1A9DC9F500176D6D /* CHDDayPickerViewModel.h */,
 				76A5419D1A9DC9F500176D6D /* CHDDayPickerViewModel.m */,
 				6037256FF5C2688B290334DF /* CHDDayPickerDelegateProtocol.h */,
+				60372BEEA1945F1AC7CBB50F /* CHDDayPickerDataDelegateProtocol.h */,
 			);
 			name = "Day picker";
 			sourceTree = "<group>";

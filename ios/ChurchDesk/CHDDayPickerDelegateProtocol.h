@@ -6,6 +6,5 @@
 #import <Foundation/Foundation.h>
 
 @protocol CHDDayPickerDelegateProtocol <NSObject>
-//Returns true if the supplied date contains one or more events, the dayPicker will show a dot on the give day
--(BOOL) chdDayPickerEventsExistsOnDay: (NSDate*) date;
+-(void)chd_dayPickerDidSelectDate: (NSDate*)date;
 @end

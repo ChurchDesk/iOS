@@ -10,6 +10,7 @@
 #import "CHDDayCollectionViewCell.h"
 #import "CHDDayPickerViewModel.h"
 #import "CHDDayPickerDelegateProtocol.h"
+#import "CHDDayPickerDataDelegateProtocol.h"
 
 static CGFloat kTopLineHeight = 1.0f;
 static NSUInteger kItemCount = 21;
@@ -131,7 +132,11 @@ static NSUInteger kVisibleDayCount = 7;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     CHDDayCollectionViewCell *cellToSelect = (CHDDayCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    self.selectedDate = [self dateForItemAtIndexPath:indexPath];
+    NSDate *pickedDate = [self dateForItemAtIndexPath:indexPath];
+    if(![pickedDate isEqualToDate:self.selectedDate]) {
+        [self.delegate chd_dayPickerDidSelectDate:pickedDate];
+    }
+    self.selectedDate = pickedDate;
     for (CHDDayCollectionViewCell *cell in collectionView.visibleCells) {
         cell.picked = cell == cellToSelect;
     }
@@ -151,7 +156,7 @@ static NSUInteger kVisibleDayCount = 7;
     cell.weekdayLabel.text = [self.viewModel threeLetterWeekdayFromDate:date];
     cell.dayLabel.text = [self.viewModel dayOfMonthFromDate:date];
     cell.picked = [date isEqualToDate:self.selectedDate];
-    cell.showDot = [self.delegate chdDayPickerEventsExistsOnDay:date];
+    cell.showDot = [self.dataDelegate chdDayPickerEventsExistsOnDay:date];
 
     return cell;
 }

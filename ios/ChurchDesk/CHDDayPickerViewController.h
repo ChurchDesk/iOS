@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @protocol CHDDayPickerDelegateProtocol;
+@protocol CHDDayPickerDataDelegateProtocol;
 
 @interface CHDDayPickerViewController : UIViewController
 
 @property (nonatomic, readonly) NSDate *referenceDate;
 @property (nonatomic, strong) NSDate *selectedDate;
 @property (nonatomic, readonly) NSUInteger currentWeekNumber;
+@property (nonatomic, weak) id<CHDDayPickerDataDelegateProtocol> dataDelegate;
 @property (nonatomic, weak) id<CHDDayPickerDelegateProtocol> delegate;
 - (void) scrollToDate: (NSDate*) date animated: (BOOL) animated;
 -(void) reloadShownDates;

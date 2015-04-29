@@ -30,6 +30,7 @@
 #import "CHDOverlayView.h"
 #import "CHDActiveFilterView.h"
 #import <MBProgressHUD.h>
+#import "CHDDayPickerDelegateProtocol.h"
 
 static CGFloat kCalendarHeight = 330.0f;
 static CGFloat kDayPickerHeight = 50.0f;
@@ -40,7 +41,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     CHDCalendarFilterMyEvents,
 };
 
-@interface CHDCalendarViewController () <UITableViewDataSource, UITableViewDelegate, SHPCalendarPickerViewDelegate>
+@interface CHDCalendarViewController () <UITableViewDataSource, UITableViewDelegate, SHPCalendarPickerViewDelegate, CHDDayPickerDelegateProtocol>
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) CHDMagicNavigationBarView *magicNavigationBar;
@@ -67,6 +68,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, strong) UIButton *todayButton;
 
 @property (nonatomic, assign) BOOL ignoreScrollCommands;
+@property (nonatomic, assign) BOOL ignoreWeekChangedCommands;
 @property (nonatomic, assign) BOOL isDragging;
 
 @end
@@ -90,7 +92,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     self.viewModel.referenceDate = [NSDate date];
 
     //Use viewModel as delegate for the dayPicker (for showing event dots on daypicker)
-    self.dayPickerViewController.delegate = self.viewModel;
+    self.dayPickerViewController.dataDelegate = self.viewModel;
+    self.dayPickerViewController.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -207,7 +210,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     [self.calendarPicker rac_liftSelector:@selector(setCurrentMonth:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
 
-    [self rac_liftSelector:@selector(dayPickerDidSelectDate:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
+    //[self rac_liftSelector:@selector(dayPickerDidSelectDate:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
     [self rac_liftSelector:@selector(changeCalendarFilter:) withSignals:[RACObserve(self.calendarFilterView, selectedFilter) skip:1], nil];
     [self.calendarFilterView shprac_liftSelector:@selector(setSelectedFilter:) withSignal:[[self.activeFilterWarningView.closeButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
         return @(CHDCalendarFilterAllEvents);
@@ -229,11 +232,18 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     [self rac_liftSelector:@selector(todayButtonTouch:) withSignals:[self.todayButton rac_signalForControlEvents:UIControlEventTouchUpInside], nil];
 
-    [self rac_liftSelector:@selector(dayPickerWeekNumberDidChange:) withSignals:[RACObserve(self.dayPickerViewController, currentWeekNumber) skip:1], nil];
+    //This handles changes in the daypicker - to awoid a situation where the daypicker will stop ignoring changes in the calendar and calendar list,
+    // only fire "real" changes in the week number
+    // The week number will only be changed when the user actively scrolls in the daypicker view
+    [self rac_liftSelector:@selector(dayPickerWeekNumberDidChange:) withSignals:[[[RACObserve(self.dayPickerViewController, currentWeekNumber) combinePreviousWithStart:nil reduce:^id(NSNumber *previousWeek, NSNumber *currentWeek) {
+        return (currentWeek.integerValue != previousWeek.integerValue || previousWeek == nil) ? currentWeek : nil;
+    }] filter:^BOOL(NSNumber *value) {
+        return value != nil;
+    }] skip:1], nil];
 
     //Reload the daypicker - primarily to show dots in the view
     [self.dayPickerViewController shprac_liftSelector:@selector(reloadShownDates) withSignal:RACObserve(self.viewModel, sections)];
-    
+
     [self rac_liftSelector:@selector(showSpinner:) withSignals:[RACObserve(self.viewModel, events) map:^id(NSArray *events) {
         return @(events == nil);
     }], nil];
@@ -263,7 +273,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     if(show) {
         [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        
+
         // Configure for text only and offset down
         hud.mode = MBProgressHUDModeIndeterminate;
         hud.color = [UIColor colorWithWhite:0.7 alpha:0.7];
@@ -283,6 +293,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 #pragma mark - DayPicker actions
 -(void)dayPickerWeekNumberDidChange: (NSNumber*) weekNumber {
+    //When set to YES, the daypicker will ignore changes in calendar and changes in the scrollview (This is set to NO when the calendar has finished it's animation)
+    self.ignoreWeekChangedCommands = YES;
     NSDate *date = self.dayPickerViewController.referenceDate;
     if(date) {
         NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
@@ -293,6 +305,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         [self.dayPickerViewController scrollToDate:roundedDate animated:NO];
         [self.calendarPicker setCurrentMonth:roundedDate];
         [self.calendarPicker setSelectedDates:@[roundedDate]];
+        [self scrollToDate:date animated:YES];
         //self.ignoreScrollCommands = NO;
     }
 
@@ -306,6 +319,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     }];
 }
 
+-(void)chd_dayPickerDidSelectDate: (NSDate*)date{
+    self.ignoreWeekChangedCommands = YES;
+    [self scrollToDate:date animated:YES];
+}
+
 #pragma mark - SHPCalendarPickerViewDelegate
 
 - (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView didSelectDate:(NSDate *)date {
@@ -317,7 +335,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 - (void)calendarPickerView:(SHPCalendarPickerView *)calendarPickerView willChangeToMonth:(NSDate *)date {
     self.viewModel.referenceDate = date;
     [self scrollToDate:date animated:NO];
-    [self.dayPickerViewController scrollToDate:date animated:NO];
+    if(!_ignoreWeekChangedCommands) {
+        [self.dayPickerViewController scrollToDate:date animated:NO];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -327,7 +347,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         NSIndexPath *indexPath = [tableView chd_indexPathForRowOrHeaderAtPoint:tableView.contentOffset];
         self.viewModel.referenceDate = self.viewModel.sections[indexPath.section];
     }
-    
+
     self.isDragging = NO;
 }
 
@@ -350,7 +370,9 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
         if (self.isDragging) {
             self.ignoreScrollCommands = YES;
-            [self.dayPickerViewController setSelectedDate:firstDate];
+            if(!_ignoreWeekChangedCommands) {
+                [self.dayPickerViewController setSelectedDate:firstDate];
+            }
             self.ignoreScrollCommands = NO;
         }
 
@@ -376,6 +398,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         }
     }
 }
+
+
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -413,6 +437,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    //When set to NO, the daypicker will react on changes in calendar and changes in the scrollview
+    self.ignoreWeekChangedCommands = NO;
 }
 
 #pragma mark - UITableViewDataSource
@@ -481,11 +510,6 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     if (indexPath && !_ignoreScrollCommands) {
         [self.tableView setContentOffset:CGPointMake(0, [self.tableView rectForSection:indexPath.section].origin.y + offset) animated:animated];
     }
-}
-
-
-- (void) dayPickerDidSelectDate: (NSDate*) date {
-    [self scrollToDate:date animated:YES];
 }
 
 - (void) todayButtonTouch: (id) sender {
