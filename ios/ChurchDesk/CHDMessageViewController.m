@@ -38,6 +38,8 @@ typedef NS_ENUM(NSUInteger, messageSections) {
 @property (nonatomic, strong) MASConstraint *replyBottomConstraint;
 @property (nonatomic, assign, getter = isMovingKeyboard) BOOL movingKeyboard;
 
+@property (nonatomic, strong) HNKCacheFormat *hnk_cacheFormat;
+
 @property (nonatomic, strong) CHDMessageViewModel *viewModel;
 @end
 
@@ -59,6 +61,10 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 #pragma mark - ViewController methods
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.hnk_cacheFormat = [[HNKCacheFormat alloc] initWithName:@"cahe"];
+    self.hnk_cacheFormat.size = CGSizeMake(80, 80);
+
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
@@ -389,9 +395,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
         cell.userNameLabel.text = ![comment.authorName isEqualToString:@""]? comment.authorName : author? author.name : @"";
         cell.canEdit = comment.canEdit || comment.canDelete;
 
-        HNKCacheFormat *cacheFormat = [[HNKCacheFormat alloc] initWithName:@"cahe"];
-        cacheFormat.size = CGSizeMake(80, 80);
-        [cell.profileImageView setHnk_cacheFormat:cacheFormat];
+
+        [cell.profileImageView setHnk_cacheFormat:self.hnk_cacheFormat];
         [cell.profileImageView hnk_setImageFromURL:author.pictureURL];
 
         [self rac_liftSelector:@selector(editCommentAction:) withSignals:[[[cell.editButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id sender) {
