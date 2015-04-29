@@ -8,6 +8,7 @@
 #define kImgCalendarTodayIndicatorPressed [UIImage imageNamed:@"calendar_today_indicator_pressed"]
 #define kImgCheckmark [UIImage imageNamed:@"checkmark"]
 #define kImgCheckmarkMessagesent [UIImage imageNamed:@"checkmark_messagesent"]
+#define kImgCreateActive [UIImage imageNamed:@"create_active"]
 #define kImgCreateEvent [UIImage imageNamed:@"create_event"]
 #define kImgCreateMessage [UIImage imageNamed:@"create_message"]
 #define kImgCreatePassive [UIImage imageNamed:@"create_passive"]

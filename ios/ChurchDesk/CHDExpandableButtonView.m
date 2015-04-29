@@ -131,7 +131,9 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
     if (!_toggleButton) {
         _toggleButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_toggleButton setImage:kImgCreatePassive forState:UIControlStateNormal];
+        [_toggleButton setImage:kImgCreateActive forState:UIControlStateSelected];
         [_toggleButton addTarget:self action:@selector(toggleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_toggleButton shprac_liftSelector:@selector(setSelected:) withSignal:RACObserve(self, isExpanded)];
     }
     return _toggleButton;
 }
