@@ -47,6 +47,8 @@ static NSString* kMessageCommentsCellIdentifier = @"messageCommentsCell";
 static NSString* kMessageLoadCommentsCellIdentifier = @"messageLoadCommentsCell";
 static NSString* kMessageCellIdentifier = @"messageCell";
 
+static CGFloat kReplyViewHeight = 50.f;
+
 @implementation CHDMessageViewController
 - (instancetype)initWithMessageId: (NSNumber*)messageId site: (NSString*) site {
     self = [super init];
@@ -93,13 +95,12 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     UIView *containerView = self.view;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(containerView);
-        //make.bottom.equalTo(self.replyView.mas_top);
     }];
 
     [self.replyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.left.equalTo(self.view);
         make.top.greaterThanOrEqualTo(self.view);
-        self.replyBottomConstraint = make.bottom.equalTo(self.view);
+        self.replyBottomConstraint = make.bottom.equalTo(self.view).offset(kReplyViewHeight);
     }];
 }
 
@@ -151,6 +152,8 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     RAC(self.replyView.replyTextView, editable) = [RACSignal combineLatest:@[[self.viewModel.saveCommand.executing not], [self.viewModel.commentUpdateCommand.executing not], RACObserve(self.viewModel, hasMessage)] reduce:^(NSNumber *iNotExecuting, NSNumber *iNotUpdateExecuting, NSNumber *iHasMessage) {
         return @(iNotExecuting.boolValue && iNotUpdateExecuting.boolValue && iHasMessage.boolValue);
     }];
+
+    [self shprac_liftSelector:@selector(replyViewShow:) withSignal:[RACObserve(self.viewModel, hasMessage) skip:1]];
 
     [self.replyView.replyButton addTarget:self action:@selector(sendAction:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -233,6 +236,14 @@ static NSString* kMessageCellIdentifier = @"messageCell";
     }else{
         [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     }
+}
+
+-(void)replyViewShow:(BOOL)show{
+    self.replyBottomConstraint.offset(show? 0 : kReplyViewHeight);
+
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:0 animations:^{
+        [self.replyView layoutIfNeeded];
+    } completion:nil];
 }
 
 #pragma mark - Lazy initializing
