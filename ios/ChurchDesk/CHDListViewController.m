@@ -8,6 +8,7 @@
 
 #import "CHDListViewController.h"
 #import "CHDSelectorTableViewCell.h"
+#import "CHDDividerTableViewCell.h"
 
 
 @interface CHDListViewController ()
@@ -17,6 +18,7 @@
 @end
 
 NSString* const kListCellIdentifyer = @"CHDListTableViewCell";
+NSString* const kListDeviderCellIdentifyer = @"CHDListDeviderTableViewCell";
 
 @implementation CHDListViewController
 
@@ -56,7 +58,7 @@ NSString* const kListCellIdentifyer = @"CHDListTableViewCell";
         _tableView.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
         _tableView.backgroundColor = [UIColor chd_lightGreyColor];
         [_tableView registerClass:[CHDSelectorTableViewCell class] forCellReuseIdentifier:kListCellIdentifyer];
-        _tableView.contentInset = UIEdgeInsetsMake(35, 0, 0, 0);
+        [_tableView registerClass:[CHDDividerTableViewCell class] forCellReuseIdentifier:kListDeviderCellIdentifyer];
         _tableView.dataSource = self;
         _tableView.delegate = self;
     }
@@ -64,6 +66,9 @@ NSString* const kListCellIdentifyer = @"CHDListTableViewCell";
 }
 
 #pragma mark - Table Delegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
@@ -72,6 +77,12 @@ NSString* const kListCellIdentifyer = @"CHDListTableViewCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.section == 0 || indexPath.section == [self numberOfSectionsInTableView:tableView] - 1){
+        CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kListDeviderCellIdentifyer forIndexPath:indexPath];
+        cell.hideTopLine = indexPath.section == 0 && indexPath.row == 0;
+        cell.hideBottomLine = indexPath.section == [tableView numberOfSections]-1 && indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1;
+        return cell;
+    }
     CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kListCellIdentifyer forIndexPath:indexPath];
     CHDListConfigModel* element = self.elements[indexPath.row];
 

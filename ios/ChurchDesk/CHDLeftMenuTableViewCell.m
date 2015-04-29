@@ -57,7 +57,7 @@
 
 -(void) makeBindings{
     [self.titleLabel shprac_liftSelector:@selector(setFont:) withSignal:[RACObserve(self, selected) map:^id(NSNumber *iSelected) {
-        return iSelected.boolValue? [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18] : [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:18];
+        return iSelected.boolValue? [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:18] : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
     }]];
     [self.titleLabel shprac_liftSelector:@selector(setTextColor:) withSignal:[RACObserve(self, selected) map:^id(NSNumber *iSelected) {
         return iSelected.boolValue? [UIColor chd_menuSelectedColor] : [UIColor chd_menuNotSelectedColor];

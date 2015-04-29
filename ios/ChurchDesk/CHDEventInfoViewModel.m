@@ -130,7 +130,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) resourceTitles {
     NSArray *resources = [self.environment.resources shp_filter:^BOOL(CHDResource *resource) {
-        return [self.event.resourceIds containsObject:resource.resourceId];
+        return [self.event.resourceIds containsObject:resource.resourceId] && [self.event.siteId isEqualToString:resource.siteId];
     }];
     
     return [resources shp_map:^id(CHDResource *resource) {
@@ -150,7 +150,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) userNames {
     NSArray *resources = [self.environment.users shp_filter:^BOOL(CHDPeerUser *user) {
-        return [self.event.userIds containsObject:user.userId];
+        return [self.event.userIds containsObject:user.userId] && [self.event.siteId isEqualToString:user.siteId];
     }];
     
     return [resources shp_map:^id(CHDPeerUser *user) {
