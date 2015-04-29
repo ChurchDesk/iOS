@@ -315,6 +315,7 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
 - (CHDMagicNavigationBarView *)magicNavigationBar {
     if (!_magicNavigationBar) {
         _magicNavigationBar = [[CHDMagicNavigationBarView alloc] initWithNavigationController:self.navigationController navigationItem:self.navigationItem];
+        _magicNavigationBar.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _magicNavigationBar;
 }

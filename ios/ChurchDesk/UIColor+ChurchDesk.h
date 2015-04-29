@@ -41,4 +41,7 @@
 + (UIColor*) chd_categoryPurpleColor;
 + (UIColor*) chd_categoryGreyColor;
 + (UIColor*) chd_categoryDarkColor;
+
++ (UIColor*) chd_menuSelectedColor;
++ (UIColor*) chd_menuNotSelectedColor;
 @end

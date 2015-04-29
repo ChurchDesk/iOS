@@ -54,6 +54,9 @@
     // Do any additional setup after loading the view.
     UIColor *color = [UIColor chd_menuDarkBlue];
     self.view.backgroundColor = color;
+    if(self.menuItems.count > 0) {
+        [self.menuTable selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,6 +121,8 @@
 
         _menuTable.dataSource = self;
         _menuTable.delegate = self;
+        _menuTable.allowsSelection = YES;
+        _menuTable.allowsMultipleSelection = NO;
     }
     return _menuTable;
 }
@@ -154,9 +159,9 @@
 
     static NSString* cellIdentifier = @"menuCell";
 
-    CHDLeftMenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    CHDLeftMenuTableViewCell *cell = (CHDLeftMenuTableViewCell*)[tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.titleLabel.text = item.title;
-    cell.thumbnailLeft.image = item.image;
+    cell.thumbnailLeft.image = [item.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 
     return cell;
 }
@@ -166,8 +171,14 @@
 }
 
 #pragma mark - UITableViewDelegate
-
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if([self.menuTable indexPathForSelectedRow] != nil) {
+        [self tableView:self.menuTable cellForRowAtIndexPath:[self.menuTable indexPathForSelectedRow]].selected = NO;
+    }
+    return indexPath;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self tableView:self.menuTable cellForRowAtIndexPath:indexPath].selected = YES;
     //Get the menu item
     CHDMenuItem* item = self.menuItems[indexPath.row];
 

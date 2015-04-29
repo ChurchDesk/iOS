@@ -20,6 +20,7 @@
     if (self) {
         [self makeViews];
         [self makeConstraints];
+        [self makeBindings];
     }
     return self;
 }
@@ -54,6 +55,19 @@
     }];
 }
 
+-(void) makeBindings{
+    [self.titleLabel shprac_liftSelector:@selector(setFont:) withSignal:[RACObserve(self, selected) map:^id(NSNumber *iSelected) {
+        return iSelected.boolValue? [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18] : [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:18];
+    }]];
+    [self.titleLabel shprac_liftSelector:@selector(setTextColor:) withSignal:[RACObserve(self, selected) map:^id(NSNumber *iSelected) {
+        return iSelected.boolValue? [UIColor chd_menuSelectedColor] : [UIColor chd_menuNotSelectedColor];
+    }]];
+
+    [self.thumbnailLeft shprac_liftSelector:@selector(setTintColor:) withSignal:[RACObserve(self, selected) map:^id(NSNumber *iSelected) {
+        return iSelected.boolValue? [UIColor chd_menuSelectedColor] : [UIColor chd_menuNotSelectedColor];
+    }]];
+}
+
 #pragma mark - Sub Views lazy initialization
 -(UIView *) separatorView{
     if(!_separatorView){
@@ -74,8 +88,8 @@
 -(UILabel*)titleLabel {
     if(!_titleLabel){
         _titleLabel = [UILabel new];
-        _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
-        _titleLabel.textColor = [UIColor whiteColor];
+//        _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18];
+//        _titleLabel.textColor = [UIColor whiteColor];
     }
     return _titleLabel;
 }

@@ -23,6 +23,7 @@
 #import "CHDSite.h"
 #import "MBProgressHUD.h"
 #import "CHDAnalyticsManager.h"
+#import "UIImageView+Haneke.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -384,10 +385,14 @@ static NSString* kMessageCellIdentifier = @"messageCell";
 
         cell.messageLabel.text = comment.body;
         cell.createdDateLabel.text = comment.createdDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate] : @"";
-        cell.profileImageView.image = author? [UIImage imageWithData:[NSData dataWithContentsOfURL:author.pictureURL]] : nil;
+        cell.profileImageView.image = nil;
         cell.userNameLabel.text = ![comment.authorName isEqualToString:@""]? comment.authorName : author? author.name : @"";
         cell.canEdit = comment.canEdit || comment.canDelete;
 
+        HNKCacheFormat *cacheFormat = [[HNKCacheFormat alloc] initWithName:@"cahe"];
+        cacheFormat.size = CGSizeMake(80, 80);
+        [cell.profileImageView setHnk_cacheFormat:cacheFormat];
+        [cell.profileImageView hnk_setImageFromURL:author.pictureURL];
 
         [self rac_liftSelector:@selector(editCommentAction:) withSignals:[[[cell.editButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id sender) {
             return RACTuplePack(sender, comment);

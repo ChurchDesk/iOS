@@ -67,6 +67,14 @@
     return [UIColor shpui_colorWithHexValue:0x15667e];
 }
 
++ (UIColor *)chd_menuSelectedColor {
+    return [UIColor whiteColor];
+}
+
++ (UIColor *)chd_menuNotSelectedColor {
+    return [UIColor shpui_colorWithHexValue:0xabd3df];
+}
+
 
 #pragma mark - Font colors
 + (UIColor*) chd_textDarkColor{

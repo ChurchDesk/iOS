@@ -40,6 +40,11 @@
 
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    [self.cellBackgroundView setNeedsDisplay];
+}
+
 #pragma mark - Sub Views initialization
 
 - (CHDCellBackgroundView *)cellBackgroundView {
