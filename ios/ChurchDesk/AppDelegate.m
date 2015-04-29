@@ -48,7 +48,7 @@
 
 #if TARGET_IPHONE_SIMULATOR && DEBUG
     [[DCIntrospect sharedIntrospector] start];
-    [SHPUIInjection enable];
+    //[SHPUIInjection enable];
 #endif
 
 #if !SCREEN_SHOT_MODE

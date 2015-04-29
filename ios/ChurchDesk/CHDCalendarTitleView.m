@@ -23,13 +23,23 @@
         [self setupSubviews];
         [self makeConstraints];
         
-        RAC(self, frame) = RACObserve(self.contentView, bounds);
+        __weak CHDCalendarTitleView *weakSelf = self;
+        RAC(self, frame) = [RACObserve(self.contentView, bounds) map:^id(NSValue *value) {
+            CGRect rect = [value CGRectValue];
+            rect.origin = weakSelf.frame.origin;
+            return [NSValue valueWithCGRect:rect];
+        }];
         RAC(self.titleArrowView, transform) = [RACObserve(self, pointArrowDown) map:^id(NSNumber *nPointDown) {
             CGAffineTransform transform = nPointDown.boolValue ? CGAffineTransformRotate(CGAffineTransformIdentity, M_PI) : CGAffineTransformIdentity;
             return [NSValue valueWithCGAffineTransform:transform];
         }];
     }
     return self;
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
 }
 
 - (void) setupSubviews {

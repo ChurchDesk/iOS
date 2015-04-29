@@ -71,8 +71,8 @@
     }];
 
     [self.editButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(contentView).offset(-15);
-        make.top.equalTo(contentView).offset(15);
+        make.right.equalTo(contentView);
+        make.top.equalTo(contentView);
     }];
 }
 
@@ -80,6 +80,7 @@
     if(!_editButton){
         _editButton = [UIButton new];
         [_editButton setImage:kImgDisclosureArrowDown forState:UIControlStateNormal];
+        _editButton.contentEdgeInsets = UIEdgeInsetsMake(15, 15, 15, 15);
     }
     return _editButton;
 }

@@ -171,7 +171,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     }];
 
     [self.todayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.dayPickerViewController.view.mas_top).offset(-15);
+        make.bottom.equalTo(self.dayPickerViewController.view.mas_top).offset(-4);
         make.left.equalTo(self.contentView).offset(15);
     }];
 
@@ -266,9 +266,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         
         // Configure for text only and offset down
         hud.mode = MBProgressHUDModeIndeterminate;
-        hud.color = [UIColor colorWithWhite:1 alpha:0.7];
+        hud.color = [UIColor colorWithWhite:0.7 alpha:0.7];
         hud.labelColor = [UIColor chd_textDarkColor];
-        hud.activityIndicatorColor = [UIColor blackColor];
         hud.margin = 10.f;
         hud.removeFromSuperViewOnHide = YES;
         hud.userInteractionEnabled = NO;
@@ -632,6 +631,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         [_todayButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _todayButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:13];
         _todayButton.titleEdgeInsets = UIEdgeInsetsMake(-4, 0, 4, 0);
+        _todayButton.alpha = 0.0f;
     }
     return _todayButton;
 }

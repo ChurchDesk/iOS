@@ -43,7 +43,8 @@
 
     [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.left.equalTo(contentView).with.offset(10);
+        make.top.equalTo(contentView).with.offset(10);
+        make.left.equalTo(contentView).with.offset(13);
         make.right.lessThanOrEqualTo(self.dateTimeLabel.mas_left).offset(-4);
     }];
 

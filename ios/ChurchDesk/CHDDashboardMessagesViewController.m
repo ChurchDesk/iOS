@@ -36,6 +36,7 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
 @property (nonatomic, strong) UIButton *searchButton;
 @property (nonatomic, strong) CHDPassthroughTouchView *drawerBlockOutView;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
+@property(nonatomic, strong) UISearchBar *searchBar;
 @property(nonatomic, retain) UITableView* messagesTable;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 @property(nonatomic, strong) CHDDashboardMessagesViewModel *viewModel;
@@ -60,8 +61,8 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
         }
 
         if(self.messageStyle == CHDMessagesStyleUnreadMessages){
-            [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, messages) combinePreviousWithStart:@[] reduce:^id(NSArray *previousMessages, NSArray *currentMessages) {
-                return @(currentMessages.count > previousMessages.count);
+            [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, messages) map:^id(NSArray *currentMessages) {
+                return @(currentMessages.count > 0);
             }], nil];
             self.messageStyle = style;
         }
@@ -200,6 +201,7 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
         searchBar.placeholder = NSLocalizedString(@"Search", @"");
         [searchBar setImage:kImgSearchActive forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
         searchBar.delegate = self;
+        self.searchBar = searchBar;
         UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
         self.navigationItem.leftBarButtonItem = searchItem;
 
@@ -394,6 +396,15 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.searchBar) {
+        [self.searchBar becomeFirstResponder];
+    }
+}
+
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -470,13 +481,15 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     CHDMessage* message = self.viewModel.messages[indexPath.row];
     CHDUser* user = self.viewModel.user;
     CHDEnvironment *environment = self.viewModel.environment;
+    
+    BOOL hasComment = [message.lastCommentAuthorId shp_isNonEmpty];
 
     CHDMessagesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.parishLabel.text = (user.sites.count > 1)? [user siteWithId:message.siteId].name : @"";
     cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.lastActivityDate];
     cell.groupLabel.text = [environment groupWithId:message.groupId].name;
-    cell.authorLabel.text = [self.viewModel authorNameWithId:message.authorId authorSiteId:message.siteId];
-    cell.contentLabel.text = message.messageLine;
+    cell.authorLabel.text = [self.viewModel authorNameWithId:(hasComment ? message.lastCommentAuthorId : message.authorId) authorSiteId:message.siteId];
+    cell.contentLabel.text = hasComment ? [NSString stringWithFormat:@"Re: %@", message.messageLine] : message.messageLine;
     cell.receivedDot.dotColor = message.read? [UIColor clearColor] : [UIColor chd_blueColor];
     cell.accessoryEnabled = !message.read;
 
@@ -560,9 +573,8 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
 
         // Configure for text only and offset down
         hud.mode = MBProgressHUDModeIndeterminate;
-        hud.color = [UIColor colorWithWhite:1 alpha:0.7];
+        hud.color = [UIColor colorWithWhite:0.7 alpha:0.7];
         hud.labelColor = [UIColor chd_textDarkColor];
-        hud.activityIndicatorColor = [UIColor blackColor];
         hud.margin = 10.f;
         hud.removeFromSuperViewOnHide = YES;
         hud.userInteractionEnabled = NO;

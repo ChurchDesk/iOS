@@ -11,7 +11,7 @@
 static const CGFloat k45Degrees = -0.785398163f;
 static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
 
-@interface CHDExpandableButtonView ()
+@interface CHDExpandableButtonView () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *buttonContainer;
 @property (nonatomic, strong) UIButton *toggleButton;
@@ -20,6 +20,9 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
 
 @property (nonatomic, strong) MASConstraint *eventCenterConstraint;
 @property (nonatomic, strong) MASConstraint *messageCenterConstraint;
+
+@property (nonatomic, assign) BOOL isExpanded;
+@property (nonatomic, strong) UIGestureRecognizer *gestureRecognizer;
 
 @end
 
@@ -33,6 +36,32 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
         [self makeConstraints];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self.superview removeGestureRecognizer:self.gestureRecognizer];
+    self.gestureRecognizer = nil;
+}
+
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+    
+    self.gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(superViewTapped:)];
+    self.gestureRecognizer.delegate = self;
+    self.gestureRecognizer.cancelsTouchesInView = YES;
+    [self.superview addGestureRecognizer:self.gestureRecognizer];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    return self.isExpanded;
+}
+
+- (void)superViewTapped:(UITapGestureRecognizer*)gest
+{
+    [self buttonOn:NO];
 }
 
 - (void) setupSubviews {
@@ -72,6 +101,8 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
 }
 
 -(void) buttonOn: (BOOL) on {
+    self.isExpanded = on;
+    
     CGAffineTransform transform = on ? CGAffineTransformMakeRotation(-k45Degrees) : CGAffineTransformIdentity;
     CGPoint eventOffset = on ? CGPointMake(-7, 33) : kDefaultCenterPoint;
     CGPoint messageOffset = on ? CGPointMake(-7, -41) : kDefaultCenterPoint;
@@ -82,7 +113,9 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
         self.toggleButton.transform = transform;
         self.buttonContainer.transform = transform;
         [self layoutIfNeeded];
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 #pragma mark - Lazy Initialization

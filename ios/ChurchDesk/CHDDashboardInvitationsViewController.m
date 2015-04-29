@@ -291,9 +291,8 @@
 
         // Configure for text only and offset down
         hud.mode = MBProgressHUDModeIndeterminate;
-        hud.color = [UIColor colorWithWhite:1 alpha:0.7];
+        hud.color = [UIColor colorWithWhite:0.7 alpha:0.7];
         hud.labelColor = [UIColor chd_textDarkColor];
-        hud.activityIndicatorColor = [UIColor blackColor];
         hud.margin = 10.f;
         hud.removeFromSuperViewOnHide = YES;
         hud.userInteractionEnabled = NO;
