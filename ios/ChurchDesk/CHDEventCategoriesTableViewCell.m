@@ -17,7 +17,7 @@
     [titles enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL *stop) {
         CHDColorDotLabelView *view = [CHDColorDotLabelView new];
         view.title = title;
-        view.color = colors[idx];
+        view.color = colors.count > idx? colors[idx] : nil;
         [mViews addObject:view];
     }];
     
