@@ -39,8 +39,15 @@
         self.title = NSLocalizedString(@"Dashboard", @"");
         self.viewModel = [CHDDashboardInvitationsViewModel new];
 
-        [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, invitations) combinePreviousWithStart:nil reduce:^id(NSArray *previousInvitations, NSArray *currentInvitations) {
-            return @(currentInvitations.count > previousInvitations.count);
+        [self rac_liftSelector:@selector(setUnread:) withSignals:[[RACObserve(self.viewModel, invitations) combinePreviousWithStart:nil reduce:^id(NSArray *previousInvitations, NSArray *currentInvitations) {
+            if (previousInvitations == nil && currentInvitations.count > 0) {
+                return @YES;
+            } else if (currentInvitations.count > previousInvitations.count) {
+                return @YES;
+            }
+            return @NO;
+        }] filter:^BOOL(NSNumber *iShouldFire) {
+            return iShouldFire.boolValue;
         }], nil];
     }
     return self;
@@ -65,6 +72,11 @@
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, invitations) map:^id(id value) {
         return @(value == nil);
     }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self setUnread:NO];
 }
 
 #pragma mark - setup views

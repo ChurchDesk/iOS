@@ -61,9 +61,16 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
         }
 
         if(self.messageStyle == CHDMessagesStyleUnreadMessages){
-            [self rac_liftSelector:@selector(setUnread:) withSignals:[RACObserve(self.viewModel, messages) map:^id(NSArray *currentMessages) {
-                return @(currentMessages.count > 0);
-            }], nil];
+                [self rac_liftSelector:@selector(setUnread:) withSignals:[[RACObserve(self.viewModel, messages) combinePreviousWithStart:nil reduce:^id(NSArray *previousMessages, NSArray *currentMessages) {
+                    if (previousMessages == nil && currentMessages.count > 0) {
+                        return @YES;
+                    } else if (currentMessages.count > previousMessages.count) {
+                        return @YES;
+                    }
+                    return @NO;
+                }] filter:^BOOL(NSNumber *iShouldFire) {
+                    return iShouldFire.boolValue;
+                }], nil];
             self.messageStyle = style;
         }
     }
@@ -90,15 +97,6 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
         }
         return @(messages.count == 0);
     }], nil];
-
-    if(self.messageStyle == CHDMessagesStyleUnreadMessages && self.chd_tabbarViewController != nil){
-        [self rac_liftSelector:@selector(setUnread:) withSignals:[messagesSignal map:^id(NSArray *messages) {
-            if(messages != nil){
-                return @(messages.count > 0);
-            }
-            return @(NO);
-        }], nil];
-    }
 
     [self.emptyMessageLabel shprac_liftSelector:@selector(setText:) withSignal:[RACObserve(self, messageStyle) map:^id(NSNumber *style) {
         if(style.unsignedIntegerValue == CHDMessagesStyleUnreadMessages){
@@ -404,6 +402,11 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     if (self.searchBar) {
         [self.searchBar becomeFirstResponder];
     }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self setUnread:NO];
 }
 
 #pragma mark - UISearchBarDelegate
