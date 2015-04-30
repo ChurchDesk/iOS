@@ -89,8 +89,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     [self setupBindings];
 
-    self.viewModel.referenceDate = [NSDate date];
-
+    self.viewModel.referenceDate = [self roundedDate:[NSDate date]];//[NSDate date];
+    [self.dayPickerViewController setSelectedDate:self.viewModel.referenceDate];
     //Use viewModel as delegate for the dayPicker (for showing event dots on daypicker)
     self.dayPickerViewController.dataDelegate = self.viewModel;
     self.dayPickerViewController.delegate = self;
@@ -210,7 +210,6 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     [self.calendarPicker rac_liftSelector:@selector(setCurrentMonth:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
 
-    //[self rac_liftSelector:@selector(dayPickerDidSelectDate:) withSignals:[RACObserve(self.dayPickerViewController, selectedDate) ignore:nil], nil];
     [self rac_liftSelector:@selector(changeCalendarFilter:) withSignals:[RACObserve(self.calendarFilterView, selectedFilter) skip:1], nil];
     [self.calendarFilterView shprac_liftSelector:@selector(setSelectedFilter:) withSignal:[[self.activeFilterWarningView.closeButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
         return @(CHDCalendarFilterAllEvents);
@@ -297,9 +296,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     self.ignoreWeekChangedCommands = YES;
     NSDate *date = self.dayPickerViewController.referenceDate;
     if(date) {
-        NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
-        NSDate *roundedDate = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
 
+        NSDate *roundedDate = [self roundedDate:date];
         //[self scrollToDate:roundedDate animated:YES offset:0];
         //self.ignoreScrollCommands = YES;
         [self.dayPickerViewController scrollToDate:roundedDate animated:NO];
@@ -551,6 +549,11 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [UIView animateWithDuration: 0.4 delay:filter == CHDCalendarFilterAllEvents? 0 : 0.2 usingSpringWithDamping:0.8f initialSpringVelocity:1.0 options:0 animations:^{
         [self.view layoutIfNeeded];
     } completion:nil];
+}
+
+-(NSDate*)roundedDate: (NSDate*) date{
+    NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+    return [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
 }
 
 #pragma mark - Lazy Initialization
