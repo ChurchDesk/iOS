@@ -42,11 +42,14 @@
         }]];
 
         //Inital model signal
+        __weak CHDDashboardMessagesViewModel *weakSelf = self;
         RACSignal *initialModelSignal = [[RACObserve(self, unreadOnly) filter:^BOOL(NSNumber *iUnreadnly) {
             return iUnreadnly.boolValue;
         }] flattenMap:^RACStream *(id value) {
-            return [[apiClient getUnreadMessages] catch:^RACSignal *(NSError *error) {
+            return [[[apiClient getUnreadMessages] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
+            }] filter:^BOOL(id value) {
+                return weakSelf.unreadOnly;
             }];
         }];
 
@@ -64,8 +67,10 @@
                 return [regex rangeOfString:resourcePath].location != NSNotFound;
             }];
         }] flattenMap:^RACStream *(id value) {
-            return [[apiClient getUnreadMessages] catch:^RACSignal *(NSError *error) {
+            return [[[apiClient getUnreadMessages] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
+            }] filter:^BOOL(id value) {
+                return weakSelf.unreadOnly;
             }];
         }];
         
@@ -180,7 +185,10 @@
 - (void) fetchMoreMessagesFromDate: (NSDate*) date withQuery: (NSString*) query continuePagination: (BOOL) continuePagination {
     if(self.unreadOnly || !self.canFetchMoreMessages){return;}
     NSLog(@"Fetch messages from %@", date);
-    [self rac_liftSelector:@selector(parseMessages:append:) withSignals:[self.getMessagesCommand execute:RACTuplePack(date, query)], [RACSignal return:@(continuePagination)], nil];
+    __weak CHDDashboardMessagesViewModel *weakSelf = self;
+    [self rac_liftSelector:@selector(parseMessages:append:) withSignals:[[self.getMessagesCommand execute:RACTuplePack(date, query)] filter:^BOOL(id value) {
+        return !weakSelf.unreadOnly;
+    }], [RACSignal return:@(continuePagination)], nil];
 }
 
 - (void) parseMessages: (NSArray*) messages append: (BOOL) append {
