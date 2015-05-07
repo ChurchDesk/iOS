@@ -169,6 +169,7 @@
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
         UITextField *textField = [alert textFieldAtIndex:0];
         textField.placeholder = NSLocalizedString(@"E-mail address", @"");
+        textField.keyboardType = UIKeyboardTypeEmailAddress;
     }
     
     [[self.viewModel rac_liftSelector:@selector(resetPasswordForEmail:) withSignals:[[alert.rac_buttonClickedSignal ignore:@(alert.cancelButtonIndex)] map:^id(id value) {
