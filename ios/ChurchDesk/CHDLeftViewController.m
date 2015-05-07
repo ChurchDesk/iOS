@@ -142,6 +142,7 @@
         _userImageView.layer.cornerRadius = 52;
         _userImageView.layer.backgroundColor = [UIColor chd_lightGreyColor].CGColor;
         _userImageView.layer.masksToBounds = YES;
+        _userImageView.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _userImageView;
 }
