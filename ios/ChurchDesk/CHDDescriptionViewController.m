@@ -13,10 +13,13 @@
 - (instancetype)initWithDescription:(NSString *)description {
     self = [super init];
     if(self){
+        self.view.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:self.descriptionView];
 
         [self.descriptionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.top.bottom.equalTo(self.view);
+            make.left.equalTo(self.view).offset(15);
+            make.right.equalTo(self.view).offset(-15);
         }];
 
         [self.descriptionView setText:description];
@@ -29,7 +32,8 @@
         _descriptionView = [UITextView new];
         _descriptionView.editable = NO;
         _descriptionView.scrollEnabled = YES;
-        _descriptionView.contentInset = UIEdgeInsetsMake(15, 15, 15, 15);
+        _descriptionView.showsHorizontalScrollIndicator = NO;
+        _descriptionView.contentInset = UIEdgeInsetsMake(15, 0, 15, 0);
         _descriptionView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _descriptionView.textColor = [UIColor chd_textDarkColor];
     }
