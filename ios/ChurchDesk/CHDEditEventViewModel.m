@@ -66,6 +66,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         if(_newEvent){
             self.event.groupId = [[NSUserDefaults standardUserDefaults] chdDefaultGroupId];
             self.event.siteId = [[NSUserDefaults standardUserDefaults] chdDefaultSiteId];
+            self.event.visibility = CHDEventVisibilityOnlyInGroup;
         }
 
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
