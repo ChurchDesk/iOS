@@ -215,7 +215,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*) postResetPasswordForEmail: (NSString*) email accessToken:(NSString*) token {
-    return [self postBodyDictionary:@{@"username" : email ?: @""} resultClass:[NSNumber class] toPath:[NSString stringWithFormat:@"users/password-reset?access_token=%@", token]];
+    return [self postBodyDictionary:@{@"username" : email ?: @""} resultClass:[NSArray class] toPath:[NSString stringWithFormat:@"users/password-reset?access_token=%@", token]];
 }
 
 #pragma mark - Environment
@@ -426,11 +426,6 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         [request addValue:@"application/json" forHeaderField:@"Accept"];
         [request addValue:@"application/json" forHeaderField:@"Content-Type"];
     } withBodyContent:nil toResource:resource];
-
-//    return [[requestSignal replayLazily] doError:^(NSError *error) {
-//        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-//        NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
-//    }];
 }
 
 #pragma mark - Resources paths
