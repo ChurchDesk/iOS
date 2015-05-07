@@ -70,6 +70,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 @property (nonatomic, assign) BOOL ignoreScrollCommands;
 @property (nonatomic, assign) BOOL ignoreWeekChangedCommands;
 @property (nonatomic, assign) BOOL isDragging;
+@property (nonatomic, assign) BOOL ignoreShowTodayButtonOnScroll;
 
 @end
 
@@ -373,25 +374,26 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
             }
             self.ignoreScrollCommands = NO;
         }
+        if(!self.ignoreShowTodayButtonOnScroll){
+            if(firstDate.timeIntervalSince1970 <= today.timeIntervalSince1970 && lastDate.timeIntervalSince1970 >= today.timeIntervalSince1970){
+                if(!self.todayButton.isHidden) {
+                    [UIView animateWithDuration:0.3 animations:^{
+                        self.todayButton.alpha = 0;
+                    } completion:^(BOOL finished) {
+                        if(finished) {
+                            self.todayButton.hidden = YES;
+                        }
+                    }];
+                }
+            }else{
+                if(self.todayButton.isHidden) {
+                    self.todayButton.hidden = NO;
+                    [UIView animateWithDuration:0.3 animations:^{
+                        self.todayButton.alpha = 1;
+                    } completion:^(BOOL finished) {
 
-        if(firstDate.timeIntervalSince1970 <= today.timeIntervalSince1970 && lastDate.timeIntervalSince1970 >= today.timeIntervalSince1970){
-            if(!self.todayButton.isHidden) {
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.todayButton.alpha = 0;
-                } completion:^(BOOL finished) {
-                    if(finished) {
-                        self.todayButton.hidden = YES;
-                    }
-                }];
-            }
-        }else{
-            if(self.todayButton.isHidden) {
-                self.todayButton.hidden = NO;
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.todayButton.alpha = 1;
-                } completion:^(BOOL finished) {
-
-                }];
+                    }];
+                }
             }
         }
     }
@@ -511,6 +513,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 }
 
 - (void) todayButtonTouch: (id) sender {
+    self.ignoreShowTodayButtonOnScroll = YES;
     NSDateComponents *todayComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:[NSDate date]];
 
     NSDate *today = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
@@ -519,6 +522,15 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self.calendarPicker setCurrentMonth:today];
     [self scrollToDate:today animated:NO];
     [self.calendarPicker setSelectedDates:@[today]];
+
+    [UIView animateWithDuration:0.3 animations:^{
+        self.todayButton.alpha = 0;
+    } completion:^(BOOL finished) {
+        if(finished) {
+            self.todayButton.hidden = YES;
+        }
+    }];
+    self.ignoreShowTodayButtonOnScroll = NO;
 }
 
 - (void) blockOutViewTouched {
