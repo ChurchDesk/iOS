@@ -30,6 +30,7 @@
 #import "CHDUser.h"
 #import "CHDListViewController.h"
 #import "CHDAnalyticsManager.h"
+#import "CHDEventTitleTableViewCell.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -212,6 +213,11 @@
         [cell layoutIfNeeded];
         [cell.titleImageView hnk_setImageFromURL:event.pictureURL];
         returnCell = cell;
+    }else if([row isEqualToString:CHDEventInfoRowTitle]){
+        CHDEventTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"title" forIndexPath:indexPath];
+        cell.titleLabel.text = event.title;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowGroup]) {
         CHDEventGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"group" forIndexPath:indexPath];
@@ -383,6 +389,7 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
         [_tableView registerClass:[CHDEventTitleImageTableViewCell class] forCellReuseIdentifier:@"image"];
+        [_tableView registerClass:[CHDEventTitleTableViewCell class] forCellReuseIdentifier:@"title"];
         [_tableView registerClass:[CHDEventInfoTableViewCell class] forCellReuseIdentifier:@"cell"];
         [_tableView registerClass:[CHDEventGroupTableViewCell class] forCellReuseIdentifier:@"group"];
         [_tableView registerClass:[CHDEventLocationTableViewCell class] forCellReuseIdentifier:@"location"];

@@ -15,6 +15,7 @@
 @import MapKit;
 
 NSString *const CHDEventInfoSectionImage = @"CHDEventInfoSectionImage";
+NSString *const CHDEventInfoSectionTitle = @"CHDEventInfoSectionTitle";
 NSString *const CHDEventInfoSectionBase = @"CHDEventInfoSectionBase";
 NSString *const CHDEventInfoSectionResources = @"CHDEventInfoSectionResources";
 NSString *const CHDEventInfoSectionContribution = @"CHDEventInfoSectionContribution";
@@ -22,6 +23,7 @@ NSString *const CHDEventInfoSectionVisibility = @"CHDEventInfoSectionVisibility"
 NSString *const CHDEventInfoSectionDivider = @"CHDEventInfoSectionDivider";
 
 NSString *const CHDEventInfoRowImage = @"CHDEventInfoRowImage";
+NSString *const CHDEventInfoRowTitle = @"CHDEventInfoRowTitle";
 NSString *const CHDEventInfoRowGroup = @"CHDEventInfoRowGroup";
 NSString *const CHDEventInfoRowDate = @"CHDEventInfoRowDate";
 NSString *const CHDEventInfoRowLocation = @"CHDEventInfoRowLocation";
@@ -265,6 +267,8 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     // Image section
     if (event.pictureURL) {
         mSectionRows[CHDEventInfoSectionImage] = @[CHDEventInfoRowImage];
+    }else{
+        mSectionRows[CHDEventInfoSectionTitle] = @[CHDEventInfoRowTitle];
     }
     
     // Base section
@@ -318,6 +322,8 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     NSMutableArray *mSections = [NSMutableArray array];
     if (event.pictureURL) {
         [mSections addObject:CHDEventInfoSectionImage];
+    }else{
+        [mSections addObject:CHDEventInfoSectionTitle];
     }
     if (baseRows.count > 0) {
         [mSections addObject:CHDEventInfoSectionBase];

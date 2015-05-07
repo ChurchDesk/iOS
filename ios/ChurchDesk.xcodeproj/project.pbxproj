@@ -66,6 +66,7 @@
 		60372B88E086ED5360F1CB88 /* CHDCellBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372537FE9E89AA9AE64D99 /* CHDCellBorderView.m */; };
 		60372C2D98EA54DBC6205A5C /* CHDSettingsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603726D3D5191AFA92B54B21 /* CHDSettingsViewModel.m */; };
 		60372C3A1A8652BFBB41B2F8 /* CHDActiveFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037216E32E2878F5312B1BB /* CHDActiveFilterView.m */; };
+		60372CAED5169D6C6CB814EF /* CHDEventTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372F6C9C3E4B49EB9E58D9 /* CHDEventTitleTableViewCell.m */; };
 		60372CDAE1931B6F1E903540 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B107A7307EADD70B2C /* main.m */; };
 		60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372B7CA6DCAA6136CBEF6C /* CHDDashboardTabBarViewController.m */; };
 		60372D7B54E198FD42FF0260 /* CHDComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 603720B2421A9B94C77F5C6C /* CHDComment.m */; };
@@ -285,7 +286,9 @@
 		60372F0300A6DAC63AAAC46A /* NSDate+ChurchDesk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ChurchDesk.h"; sourceTree = "<group>"; };
 		60372F16B00B5C9E5812F5E2 /* CHDPassthroughTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPassthroughTouchView.h; sourceTree = "<group>"; };
 		60372F542CA3A1835F4A2584 /* NSDate+ChurchDesk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ChurchDesk.m"; sourceTree = "<group>"; };
+		60372F54978E010754A83BE8 /* CHDEventTitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventTitleTableViewCell.h; sourceTree = "<group>"; };
 		60372F54D8786B7E1F04A3D6 /* CHDActiveFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDActiveFilterView.h; sourceTree = "<group>"; };
+		60372F6C9C3E4B49EB9E58D9 /* CHDEventTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventTitleTableViewCell.m; sourceTree = "<group>"; };
 		760AF8A01AC42C9600729427 /* CHDEventUserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventUserDetailsViewController.h; sourceTree = "<group>"; };
 		760AF8A11AC42C9600729427 /* CHDEventUserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventUserDetailsViewController.m; sourceTree = "<group>"; };
 		760AF8A31AC4300300729427 /* CHDUserAttendanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUserAttendanceTableViewCell.h; sourceTree = "<group>"; };
@@ -954,6 +957,8 @@
 				7612473A1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m */,
 				7612473C1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.h */,
 				7612473D1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m */,
+				60372F6C9C3E4B49EB9E58D9 /* CHDEventTitleTableViewCell.m */,
+				60372F54978E010754A83BE8 /* CHDEventTitleTableViewCell.h */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1253,6 +1258,7 @@
 				60372C3A1A8652BFBB41B2F8 /* CHDActiveFilterView.m in Sources */,
 				60372227DFC4EE17CC51BEB5 /* CHDOverlayView.m in Sources */,
 				6037228EF28A5479B3BBDCF3 /* CHDSelectorImageTableViewCell.m in Sources */,
+				60372CAED5169D6C6CB814EF /* CHDEventTitleTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
