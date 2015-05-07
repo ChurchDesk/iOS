@@ -4,7 +4,7 @@
 //
 
 #import "CHDNewMessageTextViewCell.h"
-static CGFloat kNewMessageMinimumHeight = 87;
+static CGFloat kNewMessageMinimumHeight = 240;
 
 @interface CHDNewMessageTextViewCell()
 @property (nonatomic, strong) UITextView* textView;
