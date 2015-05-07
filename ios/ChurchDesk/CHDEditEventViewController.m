@@ -25,6 +25,7 @@
 #import "CHDEventAlertView.h"
 #import "CHDAnalyticsManager.h"
 #import "CHDStatusView.h"
+#import "CHDSitePermission.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -142,7 +143,9 @@
                 NSString *htmlString = [result valueForKey:@"error"];
                 NSNumber *isDoubleBooking = [result valueForKey:@"html"];
 
-                if(isDoubleBooking.boolValue) {
+                BOOL permissionToDoubleBook = [viewModel.user siteWithId:viewModel.event.siteId].permissions.canDoubleBook;
+
+                if(isDoubleBooking.boolValue && permissionToDoubleBook) {
                     CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
                     alertView.show = YES;
 
@@ -163,8 +166,18 @@
 
                         return [viewModel saveEvent];
                     }];
-                }else {
+                }
+                else if(isDoubleBooking.boolValue && !permissionToDoubleBook){
                     [self didChangeSendingStatus:CHDStatusViewHidden];
+
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Doublebooking not allowed", @"") delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [alertView show];
+
+                    return [RACSignal empty];
+                }
+                else {
+                    [self didChangeSendingStatus:CHDStatusViewHidden];
+
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:htmlString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
 

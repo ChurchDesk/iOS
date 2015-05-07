@@ -12,6 +12,7 @@
 #import "CHDEnvironment.h"
 #import "CHDUser.h"
 #import "NSUserDefaults+CHDDefaults.h"
+#import "CHDSitePermission.h"
 
 NSString *const CHDEventEditSectionTitle = @"CHDEventEditSectionTitle";
 NSString *const CHDEventEditSectionDate = @"CHDEventEditSectionDate";
@@ -82,7 +83,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                              CHDEventEditSectionBooking : @[],
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility],
+                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility],
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
 
         [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[userSignal,
@@ -103,7 +104,12 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     NSArray *bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];
 
     if(self.event.siteId == nil){
-        self.event.siteId = ((CHDSite*)user.sites.firstObject).siteId;
+        for(CHDSite *site in user.sites){
+            if(site.permissions.canCreateEvent){
+                self.event.siteId = site.siteId;
+                break;
+            }
+        }
     }
 
     if(!self.event.siteId){
@@ -112,6 +118,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     }
 
     NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate];
+    NSArray *miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility];
 
     self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
         CHDEventEditSectionDate : dateRows,
@@ -120,7 +127,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         CHDEventEditSectionBooking : bookingRows,
         CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
         CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-        CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility],
+        CHDEventEditSectionMisc : miscRows,
         CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
 
 }
