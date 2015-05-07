@@ -28,6 +28,11 @@ static NSString *const kAuthorizationHeaderField = @"token";
 static NSString *const kClientID = @"2_3z9mhb9d9xmo8k0g00wkskckcs4444k4kkokw08gg4gs8k04ok";
 static NSString *const kClientSecret = @"hlymtmodq0gs48kcwwwsccogo8sc8o4sook8sgs8040w8s44o";
 
+//These credentials are used to obtain access token to reset password
+static NSString *const kClientCredentialsID = @"3_516ahy5oztkwsgg88wwo4wo08wccg0gwckkwgkk80o8k4ocgg0";
+static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40oskcw408448gk884w04c4s";
+
+
 #define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
@@ -209,8 +214,8 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     return [self resourcesForPath:[self resourcePathForGetCurrentUser] resultClass:[CHDUser class] withResource:nil];
 }
 
-- (RACSignal*) postResetPasswordForEmail: (NSString*) email {
-    return [self postBodyDictionary:@{@"username" : email ?: @""} resultClass:[NSNumber class] toPath:@"users/password-reset"];
+- (RACSignal*) postResetPasswordForEmail: (NSString*) email accessToken:(NSString*) token {
+    return [self postBodyDictionary:@{@"username" : email ?: @""} resultClass:[NSNumber class] toPath:[NSString stringWithFormat:@"users/password-reset?access_token=%@", token]];
 }
 
 #pragma mark - Environment
@@ -406,6 +411,26 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 - (RACSignal*)deleteDeviceToken: (NSString*) deviceToken {
     return [RACSignal empty];
+}
+
+- (RACSignal *)clientAccessToken {
+    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
+    resource.resultObjectClass = [NSDictionary class];
+
+    return [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
+
+        [request setValue:kClientCredentialsID forQueryParameterKey:@"client_id"];
+        [request setValue:kclientCredentialsSecret forQueryParameterKey:@"client_secret"];
+        [request setValue:@"client_credentials" forQueryParameterKey:@"grant_type"];
+
+        [request addValue:@"application/json" forHeaderField:@"Accept"];
+        [request addValue:@"application/json" forHeaderField:@"Content-Type"];
+    } withBodyContent:nil toResource:resource];
+
+//    return [[requestSignal replayLazily] doError:^(NSError *error) {
+//        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+//        NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
+//    }];
 }
 
 #pragma mark - Resources paths

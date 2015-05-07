@@ -121,7 +121,7 @@
     [self.view addGestureRecognizer:tapRecognizer];
     [self.view shprac_liftSelector:@selector(endEditing:) withSignal:[[tapRecognizer rac_gestureSignal] mapReplace:@YES]];
 
-    [self rac_liftSelector:@selector(showProgress:) withSignals:self.viewModel.loginCommand.executing, nil];
+    [self rac_liftSelector:@selector(showProgress:) withSignals:[RACSignal merge:@[self.viewModel.loginCommand.executing, self.viewModel.resetPasswordCommand.executing]], nil];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -171,11 +171,33 @@
         textField.placeholder = NSLocalizedString(@"E-mail address", @"");
         textField.keyboardType = UIKeyboardTypeEmailAddress;
     }
-    
-    [[self.viewModel rac_liftSelector:@selector(resetPasswordForEmail:) withSignals:[[alert.rac_buttonClickedSignal ignore:@(alert.cancelButtonIndex)] map:^id(id value) {
+
+
+    RACSignal *emailSignal = [[alert.rac_buttonClickedSignal ignore:@(alert.cancelButtonIndex)] map:^id(id value) {
         return alert.alertViewStyle == UIAlertViewStylePlainTextInput ? [alert textFieldAtIndex:0].text : emailFieldText;
-    }], nil] subscribeNext:^(id x) {
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Instructions for resetting your password will be sent to '%@'.", @""), validEmail ? emailFieldText : [alert textFieldAtIndex:0].text];
+    }];
+
+    RACSignal *emailValidSignal = [emailSignal filter:^BOOL(NSString *emailString) {
+        return [emailString shp_matchesEmailRegex];
+    }];
+
+    RACSignal *emailInValidSignal = [emailSignal filter:^BOOL(NSString *emailString) {
+        return ![emailString shp_matchesEmailRegex];
+    }];
+
+    [self shprac_liftSelector:@selector(resetPasswordForMail:) withSignal:emailValidSignal];
+
+    [emailInValidSignal subscribeNext:^(id x) {
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password reset failed", @"") message:NSLocalizedString(@"Something when wrong while resetting your password. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        [errorAlert show];
+    }];
+    
+    [alert show];
+}
+
+-(void) resetPasswordForMail: (NSString*) email {
+    [[self.viewModel resetPasswordForEmail:email] subscribeNext:^(id x) {
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Instructions for resetting your password will be sent to '%@'.", @""), email];
         UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", @"") message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [successAlert show];
     } error:^(NSError *error) {
@@ -183,8 +205,6 @@
         UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password reset failed", @"") message:NSLocalizedString(@"Something when wrong while resetting your password. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [errorAlert show];
     }];
-    
-    [alert show];
 }
 
 -(void) showProgress: (BOOL) show {

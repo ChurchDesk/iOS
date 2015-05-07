@@ -43,7 +43,11 @@
 - (RACCommand *)resetPasswordCommand {
     if (!_resetPasswordCommand) {
         _resetPasswordCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(NSString *email) {
-            return [[CHDAPIClient sharedInstance] postResetPasswordForEmail:email];
+            return [[[CHDAPIClient sharedInstance] clientAccessToken] flattenMap:^id(NSDictionary *accessTokenDictionary) {
+                NSString *token = (NSString*)[accessTokenDictionary valueForKey:@"access_token"];
+
+                return [[CHDAPIClient sharedInstance] postResetPasswordForEmail:email accessToken:token];
+            }];
         }];
     }
     return _resetPasswordCommand;

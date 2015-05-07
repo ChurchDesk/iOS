@@ -15,7 +15,7 @@
 
 - (RACSignal*) loginWithUserName: (NSString*) username password: (NSString*) password;
 - (RACSignal*) getCurrentUser;
-- (RACSignal*) postResetPasswordForEmail: (NSString*) email;
+- (RACSignal*) postResetPasswordForEmail: (NSString*) email accessToken:(NSString*) token;
 
 - (RACSignal*) getEnvironment;
 
@@ -43,6 +43,8 @@
 - (RACSignal*) updateNotificationSettingsWithSettings: (CHDNotificationSettings *) settings;
 - (RACSignal*) postDeviceToken: (NSString*) deviceToken;
 - (RACSignal*) deleteDeviceToken: (NSString*) deviceToken;
+
+- (RACSignal*) clientAccessToken;
 
 #pragma mark - ResourcePath for
 - (NSString*) resourcePathForGetCurrentUser;

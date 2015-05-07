@@ -186,20 +186,31 @@
             NSString* lastUsedId = self.siteIdLastUsed;
             CHDSite *lastUsed = [self.user siteWithId:lastUsedId];
 
-            self.selectedSite = lastUsed?: self.user.sites.firstObject;
+            if(lastUsed.permissions.canCreateMessage){
+                self.selectedSite = lastUsed;
+            }else{
+                for(CHDSite *site in self.user.sites){
+                    if(site.permissions.canCreateMessage){
+                        self.selectedSite = site;
+                        break;
+                    }
+                }
+            }
         }
 
         CHDSite *selectedSite = self.selectedSite;
 
         NSMutableArray *sites = [[NSMutableArray alloc] init];
         [self.user.sites enumerateObjectsUsingBlock:^(CHDSite * site, NSUInteger idx, BOOL *stop) {
-            BOOL siteIsSelected = [selectedSite.siteId isEqualToString:site.siteId];
+            if(site.permissions.canCreateMessage) {
+                BOOL siteIsSelected = [selectedSite.siteId isEqualToString:site.siteId];
 
-            CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:siteIsSelected refObject:site];
-            RAC(selectable, selected) = [RACObserve(self, selectedSite) map:^id(CHDSite * observedSite) {
-                return @([observedSite.siteId isEqualToString:site.siteId]);
-            }];
-            [sites addObject:selectable];
+                CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:siteIsSelected refObject:site];
+                RAC(selectable, selected) = [RACObserve(self, selectedSite) map:^id(CHDSite *observedSite) {
+                    return @([observedSite.siteId isEqualToString:site.siteId]);
+                }];
+                [sites addObject:selectable];
+            }
         }];
         self.selectableSites = [sites copy];
     }
