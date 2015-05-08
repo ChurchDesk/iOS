@@ -97,6 +97,10 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
 }
 
 - (void) signOut {
+    [[[CHDAPIClient sharedInstance] deleteDeviceToken:_deviceToken] subscribeNext:^(id x) {
+        NSLog(@"Device token deleted from server");
+    }];
+    
     self.deviceToken = nil;
     
     SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
