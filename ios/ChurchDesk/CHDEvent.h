@@ -9,7 +9,7 @@
 #import "CHDManagedModel.h"
 
 typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
-    CHDEventVisibilityPublicOnWebsite,
+    CHDEventVisibilityPublicOnWebsite = 1,
     CHDEventVisibilityOnlyInGroup,
 };
 

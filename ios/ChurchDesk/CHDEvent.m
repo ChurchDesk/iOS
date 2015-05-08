@@ -73,6 +73,7 @@
         case CHDEventVisibilityOnlyInGroup:
             return NSLocalizedString(@"Visible only in group", @"");
     }
+    return @"";
 }
 
 - (NSDictionary*) dictionaryRepresentation {
@@ -116,9 +117,12 @@
     if (self.eventDescription) {
         mDict[@"description"] = self.eventDescription;
     }
+    if(self.visibility){
+        mDict[@"visibility"] = @(self.visibility);
+    }
 
     mDict[@"allowDoubleBooking"] = @(self.allowDoubleBooking);
-    mDict[@"publish"] = @(self.visibility == CHDEventVisibilityPublicOnWebsite);
+    mDict[@"publish"] = @(YES);
     mDict[@"allDay"] = @(self.allDayEvent);
     
     return [mDict copy];

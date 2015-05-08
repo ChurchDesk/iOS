@@ -12,9 +12,6 @@
     if([propName isEqualToString:@"permissions"]){
         return [CHDSitePermission class];
     }
-//    if([propName isEqualToString:@"groupIds"]) {
-//        return [NSNumber class];
-//    }
     return [super nestedClassForArrayPropertyWithName:propName];
 }
 

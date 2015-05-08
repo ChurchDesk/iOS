@@ -30,11 +30,6 @@
     if ([propName isEqualToString:@"pictureURL"]) {
         return [NSURL URLWithString:value];
     }
-    else if ([propName isEqualToString:@"groupIds"]) {
-        return (NSArray *) [value shp_map:^id(NSString *numberAsString) {
-            return @([numberAsString integerValue]);
-        }];
-    }
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 
