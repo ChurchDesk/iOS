@@ -42,6 +42,11 @@ CGFloat const kIndentedRightMargin = 30.0f;
     return self;
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    [self.cellBackgroundView setNeedsDisplay];
+}
+
 #pragma mark - Sub Views initialization
 
 - (CHDCellBorderView *)cellBackgroundView {

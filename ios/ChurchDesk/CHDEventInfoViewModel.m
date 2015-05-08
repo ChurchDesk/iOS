@@ -267,12 +267,13 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     // Image section
     if (event.pictureURL) {
         mSectionRows[CHDEventInfoSectionImage] = @[CHDEventInfoRowImage];
-    }else{
-        mSectionRows[CHDEventInfoSectionTitle] = @[CHDEventInfoRowTitle];
     }
     
     // Base section
     NSMutableArray *baseRows = [NSMutableArray array];
+    if(!event.pictureURL){
+        [baseRows addObject:CHDEventInfoRowTitle];
+    }
     if (event.groupId) {
         [baseRows addObject:CHDEventInfoRowGroup];
     }

@@ -183,6 +183,9 @@
     if ([row isEqualToString:CHDEventInfoRowImage]) {
         return 227;
     }
+    else if([row isEqualToString:CHDEventInfoRowTitle]){
+        return 90;
+    }
     return 45;
 }
 
@@ -216,7 +219,7 @@
     }else if([row isEqualToString:CHDEventInfoRowTitle]){
         CHDEventTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"title" forIndexPath:indexPath];
         cell.titleLabel.text = event.title;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowGroup]) {
@@ -313,6 +316,7 @@
     // Dividers
     else if ([section isEqualToString:CHDEventInfoSectionDivider]) {
         CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"divider" forIndexPath:indexPath];
+        cell.hideTopLine = indexPath.section == 0;
         cell.hideBottomLine = indexPath.section == tableView.numberOfSections-1 && indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1;
         returnCell = cell;
     }

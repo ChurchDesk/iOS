@@ -14,6 +14,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.disclosureArrowHidden = YES;
         self.dividerLineHidden = NO;
+
         [self setupSubviews];
         [self makeConstraints];
     }
@@ -30,10 +31,13 @@
 
 - (void) makeConstraints {
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(17);
+        make.centerY.equalTo(self.contentView);
         make.left.equalTo(self.contentView).offset(15);
-        make.right.equalTo(self.contentView).offset(-15);
-        make.bottom.equalTo(self.contentView).offset(-17);
+        make.right.lessThanOrEqualTo(self.contentView).offset(-15);
+    }];
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+        make.height.equalTo(@90).priorityLow();
     }];
 }
 
