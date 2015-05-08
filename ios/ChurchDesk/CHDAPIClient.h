@@ -42,7 +42,7 @@
 - (RACSignal*) getNotificationSettings;
 - (RACSignal*) updateNotificationSettingsWithSettings: (CHDNotificationSettings *) settings;
 - (RACSignal*) postDeviceToken: (NSString*) deviceToken;
-- (RACSignal*) deleteDeviceToken: (NSString*) deviceToken;
+- (RACSignal*) deleteDeviceToken: (NSString*) deviceToken accessToken: (NSString*)accessToken;
 
 - (RACSignal*) clientAccessToken;
 

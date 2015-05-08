@@ -97,10 +97,10 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
 }
 
 - (void) signOut {
-    [[[CHDAPIClient sharedInstance] deleteDeviceToken:_deviceToken] subscribeNext:^(id x) {
+    [[[CHDAPIClient sharedInstance] deleteDeviceToken:_deviceToken accessToken:self.authenticationToken.accessToken] subscribeNext:^(id x) {
         NSLog(@"Device token deleted from server");
     }];
-    
+
     self.deviceToken = nil;
     
     SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
@@ -139,10 +139,13 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
         }];
     }
     else {
-        [[[CHDAPIClient sharedInstance] deleteDeviceToken:_deviceToken] subscribeNext:^(id x) {
-            NSLog(@"Device token deleted from server");
-        }];
-        
+        NSString *accessToken = self.authenticationToken.accessToken;
+        if(accessToken){
+            [[[CHDAPIClient sharedInstance] deleteDeviceToken:_deviceToken accessToken:accessToken] subscribeNext:^(id x) {
+                NSLog(@"Device token deleted from server");
+            }];
+        }
+
         [SSKeychain deletePasswordForService:KeychainService account:kDeviceTokenAccountName];
     }
     _deviceToken = deviceToken;
