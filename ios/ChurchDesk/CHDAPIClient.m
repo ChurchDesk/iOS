@@ -410,7 +410,21 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*)deleteDeviceToken: (NSString*) deviceToken {
-    return [RACSignal empty];
+    if(deviceToken != nil && deviceToken.length > 0) {
+        NSString *path = [NSString stringWithFormat:@"push-notifications/delete-token/%@", deviceToken];
+
+        return [self resourcesForPath:path resultClass:[NSDictionary class] withResource:^(SHPAPIResource *resource) {
+            NSValue *extraRangeValue = [NSValue valueWithRange:NSMakeRange(401, 1)]; //
+            resource.acceptableStatusCodeRanges = [resource.acceptableStatusCodeRanges arrayByAddingObject:extraRangeValue];
+            resource.dataTransformer = [CHDNopDataTransformer new];
+        }                     request:^(SHPHTTPRequest *request) {
+            request.method = SHPHTTPRequestMethodDELETE;
+            [request addValue:@"" forHeaderField:@"Content-Type"];
+        }];
+    }else{
+        return [RACSignal empty];
+    }
+
 }
 
 - (RACSignal *)clientAccessToken {
