@@ -379,7 +379,7 @@ static CGFloat kReplyViewHeight = 50.f;
         CHDMessage *message = self.viewModel.message;
         CHDEnvironment *environment = self.viewModel.environment;
         CHDUser *user = self.viewModel.user;
-        CHDGroup *group = [environment groupWithId:message.groupId];
+        CHDGroup *group = [environment groupWithId:message.groupId siteId:message.siteId];
         CHDPeerUser *authorUser = [environment userWithId: message.authorId siteId:message.siteId];
         CHDSite *authorSite = [user siteWithId:authorUser.siteId];
 
