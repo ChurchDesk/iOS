@@ -15,7 +15,7 @@
 @import MapKit;
 
 NSString *const CHDEventInfoSectionImage = @"CHDEventInfoSectionImage";
-NSString *const CHDEventInfoSectionTitle = @"CHDEventInfoSectionTitle";
+
 NSString *const CHDEventInfoSectionBase = @"CHDEventInfoSectionBase";
 NSString *const CHDEventInfoSectionResources = @"CHDEventInfoSectionResources";
 NSString *const CHDEventInfoSectionContribution = @"CHDEventInfoSectionContribution";
@@ -325,7 +325,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
         [mSections addObject:CHDEventInfoSectionImage];
     }else{
         [mSections addObject:CHDEventInfoSectionDivider];
-        [mSections addObject:CHDEventInfoSectionTitle];
+        //The title is added to the baseSection (in order to keep the seperator line)
     }
     if (baseRows.count > 0) {
         [mSections addObject:CHDEventInfoSectionBase];

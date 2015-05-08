@@ -10,7 +10,7 @@
 #import "CHDEvent.h"
 
 extern NSString *const CHDEventInfoSectionImage;
-extern NSString *const CHDEventInfoSectionTitle;
+
 extern NSString *const CHDEventInfoSectionBase;
 extern NSString *const CHDEventInfoSectionResources;
 extern NSString *const CHDEventInfoSectionContribution;
