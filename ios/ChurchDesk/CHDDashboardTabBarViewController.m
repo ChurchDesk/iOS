@@ -181,7 +181,11 @@
     NSLog(@"userInfo %@", userInfo);
     NSString *type = userInfo[@"aps"][@"alert"][@"identifier"][@"type"];
 
-    NSLog(@"Notification type %@", type);
+    if(type != nil){
+        NSLog(@"Notification type %@", type);
+    }else{
+        NSLog(@"The notification type was nil");
+    }
 
     for (CHDTabItem *item in self.items) {
         UIViewController<CHDNotificationEventResponder> *viewController = (UIViewController<CHDNotificationEventResponder> *)item.viewController;

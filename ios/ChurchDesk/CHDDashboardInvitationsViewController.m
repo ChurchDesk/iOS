@@ -164,7 +164,7 @@
 
 - (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
     NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    return [content[@"type"] isEqualToString:@"bookingCreated"];
+    return [content[@"type"] isEqualToString:@"bookingCreated"] || [content[@"type"] isEqualToString:@"getBookingCreated"];
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
