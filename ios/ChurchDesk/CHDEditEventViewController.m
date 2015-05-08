@@ -112,7 +112,7 @@
     RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
         RACTupleUnpack(NSString *siteId, NSNumber *groupId, NSArray *categoryIds, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
         
-        return @(![siteId isEqualToString:@""] && groupId != nil && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
+        return @(![siteId isEqualToString:@""] && groupId != nil && ![groupId isEqualToNumber:@0] && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
     }];
     [self.navigationItem.rightBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:canSendSignal, nil];
 }
@@ -285,7 +285,7 @@
     }
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
         title = NSLocalizedString(@"Select Group", @"");
-        NSArray *groups = [environment groupsWithSiteId:event.siteId];
+        NSArray *groups = [environment groupsWithSiteId:event.siteId groupIds:[user siteWithId:event.siteId].groupIds];
         for (CHDGroup *group in groups) {
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:group.name color:nil selected:[event.groupId isEqualToNumber:group.groupId] refObject:group.groupId]];
         }
@@ -301,7 +301,7 @@
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         title = NSLocalizedString(@"Select Users", @"");
         selectMultiple = YES;
-        NSArray *users = [environment usersWithSiteId:event.siteId];
+        NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
         for (CHDPeerUser *user in users) {
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds containsObject:user.userId] refObject:user.userId]];
         }

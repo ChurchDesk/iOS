@@ -21,6 +21,9 @@
     if ([propName isEqualToString:@"pictureURL"]) {
         return @"picture";
     }
+    if([propName isEqualToString:@"groupIds"]){
+        return @"groups";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 

@@ -87,7 +87,7 @@
 
                                                       }];
 
-        [self shprac_liftSelector:@selector(selectableGroupsMake) withSignal:[RACSignal merge:@[RACObserve(self, environment), RACObserve(self, selectedSite)]]];
+        [self shprac_liftSelector:@selector(selectableGroupsMake) withSignal:[RACSignal merge:@[[RACSignal zip:@[ [RACObserve(self, environment) ignore:nil], [RACObserve(self, user) ignore:nil] ]], RACObserve(self, selectedSite)]]];
 
         [self shprac_liftSelector:@selector(selectableSitesMake) withSignal:RACObserve(self, user)];
 
@@ -152,7 +152,7 @@
         NSArray *filteredGroups = nil;
 
         if(self.selectedSite) {
-            filteredGroups = [self.environment groupsWithSiteId:self.selectedSite.siteId];
+            filteredGroups = [self.environment groupsWithSiteId:self.selectedSite.siteId groupIds:self.selectedSite.groupIds];
         }else{
             filteredGroups = self.environment.groups;
         }

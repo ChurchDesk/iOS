@@ -92,6 +92,9 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
             }],
             [RACObserve(self.event, startDate) flattenMap:^RACStream *(id value) {
                 return [[CHDAPIClient sharedInstance] getCurrentUser];
+            }],
+            [RACObserve(self.event, groupId) flattenMap:^RACStream *(id value) {
+                return [[CHDAPIClient sharedInstance] getCurrentUser];
             }]
         ]],nil];
     }
@@ -115,6 +118,9 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     if(!self.event.siteId){
         recipientsRows = @[CHDEventEditRowDivider, CHDEventEditRowParish];
         bookingRows = @[];
+    }
+    else if([self.event.groupId isEqualToNumber:@0] || !self.event.groupId){
+        bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources];
     }
 
     NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate];

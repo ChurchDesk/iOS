@@ -86,6 +86,15 @@
     return results.array;
 }
 
+- (NSArray*) groupsWithSiteId: (NSString*) siteId groupIds: (NSArray*) groupIds {
+    RACSequence *results = [self.groups.rac_sequence filter:^BOOL(CHDGroup * group) {
+        return [group.siteId isEqualToString:siteId] && [groupIds containsObject:group.groupId];
+    }];
+
+    return results.array;
+}
+
+
 #pragma mark - Users
 
 - (CHDPeerUser*) userWithId: (NSNumber*) userId siteId: (NSString*) siteId {
@@ -94,9 +103,17 @@
     }] : nil;
 }
 
-- (NSArray*) usersWithSiteId: (NSString*) siteId {
+
+- (NSArray *)usersWithSiteId:(NSString *)siteId groupIds:(NSArray *)groupIds {
     return siteId ? [self.users shp_filter:^BOOL(CHDPeerUser *user) {
-        return [user.siteId isEqualToString:siteId];
+        BOOL validGroups = NO;
+        for(NSNumber *groupId in groupIds){
+            validGroups = [user.groupIds containsObject:groupId];
+            if(!validGroups){
+                break;
+            }
+        }
+        return [user.siteId isEqualToString:siteId] && validGroups;
     }] : nil;
 }
 

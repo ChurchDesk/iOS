@@ -323,6 +323,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     if (event.pictureURL) {
         [mSections addObject:CHDEventInfoSectionImage];
     }else{
+        [mSections addObject:CHDEventInfoSectionDivider];
         [mSections addObject:CHDEventInfoSectionTitle];
     }
     if (baseRows.count > 0) {

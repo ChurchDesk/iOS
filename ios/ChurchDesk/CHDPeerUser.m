@@ -20,12 +20,20 @@
     if([propName isEqualToString:@"siteId"]) {
         return @"site";
     }
+    if([propName isEqualToString:@"groupIds"]){
+        return @"groups";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 
 - (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
     if ([propName isEqualToString:@"pictureURL"]) {
         return [NSURL URLWithString:value];
+    }
+    else if ([propName isEqualToString:@"groupIds"]) {
+        return (NSArray *) [value shp_map:^id(NSString *numberAsString) {
+            return @([numberAsString integerValue]);
+        }];
     }
     return [super transformedValueForPropertyWithName:propName value:value];
 }

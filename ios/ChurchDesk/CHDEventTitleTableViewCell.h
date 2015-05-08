@@ -4,8 +4,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CHDCommonTableViewCell.h"
 
 
-@interface CHDEventTitleTableViewCell : UITableViewCell
+@interface CHDEventTitleTableViewCell : CHDCommonTableViewCell
 @property (nonatomic, readonly) UILabel *titleLabel;
 @end
