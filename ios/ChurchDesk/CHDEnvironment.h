@@ -25,7 +25,7 @@
 - (CHDResource*) resourceWithId: (NSNumber*) resourceId siteId: (NSString*) siteId;
 - (NSArray*) resourcesWithSiteId: (NSString*) siteId;
 
-- (CHDGroup*) groupWithId: (NSNumber*) groupId;
+- (CHDGroup*) groupWithId: (NSNumber*) groupId siteId: (NSString*) siteId;
 - (NSArray*) groupsWithSiteId: (NSString*) siteId;
 - (NSArray*) groupsWithSiteId: (NSString*) siteId groupIds: (NSArray*) groupIds;
 

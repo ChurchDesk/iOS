@@ -225,7 +225,7 @@
     else if ([row isEqualToString:CHDEventInfoRowGroup]) {
         CHDEventGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"group" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.titleLabel.text = [environment groupWithId:event.groupId].name;
+        cell.titleLabel.text = [environment groupWithId:event.groupId siteId:event.siteId].name;
         cell.groupLabel.text = [self.viewModel parishName];
         returnCell = cell;
     }

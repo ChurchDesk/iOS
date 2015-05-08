@@ -484,7 +484,7 @@
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Group", @"");
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, groupId) map:^id(NSNumber *groupId) {
-            return [environment groupWithId:groupId].name;
+            return [environment groupWithId:groupId siteId:event.siteId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
 
         returnCell = cell;

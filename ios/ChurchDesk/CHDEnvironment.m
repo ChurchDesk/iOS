@@ -72,9 +72,9 @@
 
 #pragma mark - Groups
 
-- (CHDGroup*) groupWithId: (NSNumber*) groupId {
+- (CHDGroup*) groupWithId: (NSNumber*) groupId siteId: (NSString*) siteId {
     return groupId ? [self.groups shp_detect:^BOOL(CHDGroup *group) {
-        return [group.groupId isEqualToNumber:groupId];
+        return [group.groupId isEqualToNumber:groupId] && [group.siteId isEqualToString:siteId];
     }] : nil;
 }
 
