@@ -80,12 +80,12 @@
 #pragma mark - CHDNotificationEventResponder
 
 - (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
-    NSDictionary *content = userInfo[@"identifier"];
+    NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
     return [content[@"type"] isEqualToString:@"bookingUpdate"];
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
-    NSDictionary *content = userInfo[@"identifier"];
+    NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
     if ([content[@"type"] isEqualToString:@"bookingUpdate"]) {
         
         CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEventId:content[@"id"] siteId:content[@"site"]];

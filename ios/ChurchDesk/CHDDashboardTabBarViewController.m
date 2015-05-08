@@ -179,6 +179,10 @@
 
 - (BOOL) handleNotificationEventWithUserInfo: (NSDictionary*) userInfo {
     NSLog(@"userInfo %@", userInfo);
+    NSString *type = userInfo[@"aps"][@"alert"][@"identifier"][@"type"];
+
+    NSLog(@"Notification type %@", type);
+
     for (CHDTabItem *item in self.items) {
         UIViewController<CHDNotificationEventResponder> *viewController = (UIViewController<CHDNotificationEventResponder> *)item.viewController;
         if ([viewController respondsToSelector:@selector(canHandleEventWithUserInfo:)] && [viewController canHandleEventWithUserInfo:userInfo]) {
@@ -187,7 +191,7 @@
                 self.selectedIndex = index;
             }
             [viewController handleEventWithUserInfo:userInfo];
-                return YES;
+            return YES;
         }
     }
     return NO;

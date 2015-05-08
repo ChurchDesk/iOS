@@ -163,12 +163,12 @@
 #pragma mark - CHDNotificationEventResponder
 
 - (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
-    NSDictionary *content = userInfo[@"identifier"];
+    NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
     return [content[@"type"] isEqualToString:@"bookingCreated"];
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
-    if ([userInfo[@"identifier"][@"type"] isEqualToString:@"bookingCreated"]) {
+    if ([userInfo[@"aps"][@"alert"][@"identifier"][@"type"] isEqualToString:@"bookingCreated"]) {
         [self.viewModel reload];
     }
 }
