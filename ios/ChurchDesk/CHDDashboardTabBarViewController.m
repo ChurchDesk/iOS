@@ -178,15 +178,6 @@
 }
 
 - (BOOL) handleNotificationEventWithUserInfo: (NSDictionary*) userInfo {
-    NSLog(@"userInfo %@", userInfo);
-    NSString *type = userInfo[@"aps"][@"alert"][@"identifier"][@"type"];
-
-    if(type != nil){
-        NSLog(@"Notification type %@", type);
-    }else{
-        NSLog(@"The notification type was nil");
-    }
-
     for (CHDTabItem *item in self.items) {
         UIViewController<CHDNotificationEventResponder> *viewController = (UIViewController<CHDNotificationEventResponder> *)item.viewController;
         if ([viewController respondsToSelector:@selector(canHandleEventWithUserInfo:)] && [viewController canHandleEventWithUserInfo:userInfo]) {
