@@ -168,7 +168,7 @@
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
-    if ([userInfo[@"aps"][@"alert"][@"identifier"][@"type"] isEqualToString:@"bookingCreated"]) {
+    if ([userInfo[@"aps"][@"alert"][@"identifier"][@"type"] isEqualToString:@"bookingCreated"] || [userInfo[@"aps"][@"alert"][@"identifier"][@"type"] isEqualToString:@"getBookingCreated"]) {
         [self.viewModel reload];
     }
 }

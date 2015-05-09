@@ -81,12 +81,12 @@
 
 - (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
     NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    return [content[@"type"] isEqualToString:@"bookingUpdate"];
+    return [content[@"type"] isEqualToString:@"bookingUpdate"] || [content[@"type"] isEqualToString:@"bookingCanceled"];
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
     NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    if ([content[@"type"] isEqualToString:@"bookingUpdate"]) {
+    if ([content[@"type"] isEqualToString:@"bookingUpdate"] || [content[@"type"] isEqualToString:@"bookingCanceled"]) {
         
         CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEventId:content[@"id"] siteId:content[@"site"]];
         [self.navigationController pushViewController:vc animated:YES];
