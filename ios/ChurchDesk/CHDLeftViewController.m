@@ -64,6 +64,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -Actions
+
+- (void)setSelectedViewController:(UIViewController *)viewController {
+    for(CHDMenuItem *item in self.menuItems){
+        if([item.viewController isEqual:viewController]){
+            NSUInteger index = [self.menuItems indexOfObject:item];
+            [self.menuTable selectRowAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+            return;
+        }
+    }
+}
+
+
+#pragma mark -setup
 -(void) makeViews{
     [self.view addSubview:self.menuTable];
     [self.view addSubview:self.userNameLabel];
@@ -101,6 +115,7 @@
     }], nil];
 }
 
+#pragma mark -lazy initialisation
 -(void) userImageWithUrl: (NSURL*) URL{
     if(URL) {
         [self.userImageView layoutIfNeeded];

@@ -127,7 +127,7 @@
     }], nil];
     
     [sideMenuController rac_liftSelector:@selector(setSelectedViewController:closeMenu:) withSignalOfArguments:[notificationSignal mapReplace:RACTuplePack(dashboardNavigationController, @YES)]];
-    
+    [leftViewController rac_liftSelector:@selector(setSelectedViewController:) withSignalOfArguments:[notificationSignal mapReplace:RACTuplePack(dashboardNavigationController)]];
     return sideMenuController;
     
 #endif

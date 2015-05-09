@@ -10,5 +10,6 @@
 
 @interface CHDLeftViewController : UIViewController  <UITableViewDelegate, UITableViewDataSource>
 - (instancetype) initWithMenuItems: (NSArray *) items;
+-(void)setSelectedViewController: (UIViewController*)viewController;
 @property (nonatomic, strong) NSArray* menuItems;
 @end
