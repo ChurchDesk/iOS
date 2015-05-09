@@ -73,6 +73,9 @@ NSString* const kListDeviderCellIdentifyer = @"CHDListDeviderTableViewCell";
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(section == 0 || section == [self numberOfSectionsInTableView:tableView] - 1){
+        return 1;
+    }
     return self.elements.count;
 }
 
