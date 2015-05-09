@@ -390,7 +390,9 @@ static CGFloat kReplyViewHeight = 50.f;
         cell.messageLabel.text = message.body;
         cell.parishLabel.text = (user.sites.count > 1)? authorSite ? authorSite.name : @"" : @"";
         cell.userNameLabel.text = authorUser? authorUser.name : @"";
-        cell.profileImageView.image = authorUser? [UIImage imageWithData:[NSData dataWithContentsOfURL:authorUser.pictureURL]] : nil;
+        cell.profileImageView.image = nil;
+        [cell.profileImageView setHnk_cacheFormat:self.hnk_cacheFormat];
+        [cell.profileImageView hnk_setImageFromURL:authorUser.pictureURL];
 
         return cell;
     }
