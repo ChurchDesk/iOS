@@ -70,7 +70,10 @@
     for(CHDMenuItem *item in self.menuItems){
         if([item.viewController isEqual:viewController]){
             NSUInteger index = [self.menuItems indexOfObject:item];
-            [self.menuTable selectRowAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+            if([self.menuTable indexPathForSelectedRow] != nil) {
+                [self tableView:self.menuTable cellForRowAtIndexPath:[self.menuTable indexPathForSelectedRow]].selected = NO;
+            }
+            [self tableView:self.menuTable cellForRowAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].selected = YES;
             return;
         }
     }
