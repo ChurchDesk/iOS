@@ -120,7 +120,7 @@
         return value == nil;
     }] mapReplace:dashboardNavigationController], [RACSignal return:@YES], nil];
     
-    RACSignal *notificationSignal = [self rac_signalForSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+    RACSignal *notificationSignal = [self rac_signalForSelector:@selector(application:didReceiveRemoteNotification:)];
     
     [dashboardTabBar rac_liftSelector:@selector(handleNotificationEventWithUserInfo:) withSignals:[notificationSignal map:^id(RACTuple *tuple) {
         return tuple.second;
@@ -202,7 +202,7 @@
     [CHDAuthenticationManager sharedInstance].deviceToken = nil;
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // For signaling
 }
 
