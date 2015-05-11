@@ -410,11 +410,11 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 }
 
 - (RACSignal*) deleteDeviceToken: (NSString*) deviceToken accessToken: (NSString*)accessToken {
-    if(deviceToken != nil && deviceToken.length > 0) {
+    if (deviceToken.length > 0 && accessToken.length > 0) {
         NSString *path = [NSString stringWithFormat:@"push-notifications/delete-token/%@", deviceToken];
         return [[self deleteHeaderDictionary:@{@"access_token" : accessToken} resultClass:nil toPath:path] doNext:^(id x) {
         }];
-    }else{
+    } else{
         return [RACSignal empty];
     }
 

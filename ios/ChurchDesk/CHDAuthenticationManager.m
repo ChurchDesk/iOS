@@ -53,7 +53,7 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
                 @try {
                     _authenticationToken = query.passwordData ? [NSKeyedUnarchiver unarchiveObjectWithData:query.passwordData] : nil;
                 } @catch(NSException * e){
-                    NSLog(@"Authentication token issue");
+                    NSLog(@"Authentication token issue %@", e);
                     _authenticationToken = nil;
                 }
                 _userID = query.account;
