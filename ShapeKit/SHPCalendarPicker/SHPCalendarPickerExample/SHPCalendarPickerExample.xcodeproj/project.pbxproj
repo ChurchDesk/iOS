@@ -1,0 +1,590 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		659F206B0488D7611DF302E1 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F273119EB683794D2793C /* Raleway-Regular.ttf */; };
+		659F2092A2D2042563E00279 /* SHPCalendarPickerExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 659F2A8CE592A3B58A9F9E71 /* SHPCalendarPickerExampleTests.m */; };
+		659F20C8B7B93441D45E619E /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2036CAA4DB541469798F /* OpenSans-ExtraBold.ttf */; };
+		659F21AAAA3D6B3ECD75D6DF /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F27B981A2605F89A42E81 /* OpenSans-LightItalic.ttf */; };
+		659F21FB9E9C45F91BC72B90 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2EE0E9A9A07F86BDEB6E /* OpenSans-Italic.ttf */; };
+		659F22AD265247C62F288C1A /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2E2C5C98959837D76986 /* OpenSans-ExtraBoldItalic.ttf */; };
+		659F22F05E5179D6C9CE3FBC /* proxima_nova_reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F201884BACB34C89ED72B /* proxima_nova_reg.ttf */; };
+		659F22FA50AECFDDB98DA67A /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2E4526C0C69D234FE154 /* OpenSans-BoldItalic.ttf */; };
+		659F233CF0001A73CCE0DC63 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F29A7E6C086D42D0C083D /* OpenSans-Light.ttf */; };
+		659F24DBB33B4181EFE59BD0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 659F2887B26B9CCF88570485 /* LaunchScreen.xib */; };
+		659F26229DF0991ACBDAC12B /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F25496E3B6CA519A3E57B /* Raleway-Medium.ttf */; };
+		659F26CA9705B6F64DD294DE /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2252C5CCA8E3A88D4D0D /* OpenSans-Regular.ttf */; };
+		659F277CEFF9C248FBF72477 /* ProximaNova-Reg.otf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2D4388A275872C234887 /* ProximaNova-Reg.otf */; };
+		659F288ABC553D5713F331F4 /* Playground.m in Sources */ = {isa = PBXBuildFile; fileRef = 659F2E451AB5DA773505FDD5 /* Playground.m */; };
+		659F28E31E1223D6D6BA1418 /* proxima_nova_sbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2AD2937D99B4A5091BF8 /* proxima_nova_sbold.ttf */; };
+		659F290CE28F6798C04ADB99 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2E72CDF9CA6AF5F719A2 /* OpenSans-Bold.ttf */; };
+		659F29A0A8616275E9A599C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 659F219E5C46FF7992BEA9F0 /* main.m */; };
+		659F2AF2BFC133F46A6CC403 /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F23296AAADDC49E8396B7 /* Raleway-Light.ttf */; };
+		659F2AFE046A0BB95B4578F8 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F25CCC027F6C66E36B878 /* OpenSans-SemiboldItalic.ttf */; };
+		659F2BEC368075AA2333A11C /* proxima_nova_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F275B5E1F6751C1DDDFDB /* proxima_nova_bold.ttf */; };
+		659F2C0BD898CBADC8367072 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 659F26C18FF0AC50F6B345EB /* UIKit.framework */; };
+		659F2C9BB7EA3989C1DF49CD /* Raleway-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F238BDEDB43A942317C42 /* Raleway-SemiBold.ttf */; };
+		659F2D425EE3A999417DEE3A /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 659F283C1EC2DA6795362D71 /* LICENSE.txt */; };
+		659F2DC8F96134B5A0126770 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 659F2C2055EB42AA0AF4D5A3 /* AppDelegate.m */; };
+		659F2DEE56AEC38F387408A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659F2661DC74375EAE334911 /* Images.xcassets */; };
+		659F2E67169A6D73BA426F9F /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2D68A468221CE6E7555D /* OpenSans-Semibold.ttf */; };
+		659F2F00067ED5FAD8726D19 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659F27AF351AA917A0FF9CAF /* Raleway-Bold.ttf */; };
+		659F2FA7A7E879FE1F05C1D9 /* ProximaNova-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 659F2549933AE9B4A3477477 /* ProximaNova-Light.otf */; };
+		7C504BB3B871464D97CB3BC6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 836E7147407C464297EE0B76 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		659F27F4BB4C6D5679DC6F4E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 659F2A3EEB3FFF66A0FC448E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 659F2B4BB7D8CC5A7C1CFB8C;
+			remoteInfo = SHPCalendarPickerExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6094C99F1E5EC49041F81A9E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		659F201884BACB34C89ED72B /* proxima_nova_reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = proxima_nova_reg.ttf; sourceTree = "<group>"; };
+		659F2036CAA4DB541469798F /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		659F219E5C46FF7992BEA9F0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		659F21A9CD8DBE66FABABCC8 /* SHPCalendarPickerExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SHPCalendarPickerExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		659F2252C5CCA8E3A88D4D0D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		659F23296AAADDC49E8396B7 /* Raleway-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "Raleway-Light.ttf"; sourceTree = "<group>"; };
+		659F238BDEDB43A942317C42 /* Raleway-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "Raleway-SemiBold.ttf"; sourceTree = "<group>"; };
+		659F25496E3B6CA519A3E57B /* Raleway-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "Raleway-Medium.ttf"; sourceTree = "<group>"; };
+		659F2549933AE9B4A3477477 /* ProximaNova-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file.otf; path = "ProximaNova-Light.otf"; sourceTree = "<group>"; };
+		659F25CCC027F6C66E36B878 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		659F2661DC74375EAE334911 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		659F26C18FF0AC50F6B345EB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		659F26C629BA44B92CC07F37 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		659F273119EB683794D2793C /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		659F275B5E1F6751C1DDDFDB /* proxima_nova_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = proxima_nova_bold.ttf; sourceTree = "<group>"; };
+		659F278A41CE99016EE254B6 /* Playground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playground.h; sourceTree = "<group>"; };
+		659F27AF351AA917A0FF9CAF /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
+		659F27B981A2605F89A42E81 /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		659F283C1EC2DA6795362D71 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		659F28CB4EB76A284190CEFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		659F29A7E6C086D42D0C083D /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		659F29EDB77661D24AF74113 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		659F2A8CE592A3B58A9F9E71 /* SHPCalendarPickerExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHPCalendarPickerExampleTests.m; sourceTree = "<group>"; };
+		659F2AD2937D99B4A5091BF8 /* proxima_nova_sbold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = proxima_nova_sbold.ttf; sourceTree = "<group>"; };
+		659F2BEFFD1A65C9A9378888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		659F2C2055EB42AA0AF4D5A3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		659F2D4388A275872C234887 /* ProximaNova-Reg.otf */ = {isa = PBXFileReference; lastKnownFileType = file.otf; path = "ProximaNova-Reg.otf"; sourceTree = "<group>"; };
+		659F2D68A468221CE6E7555D /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		659F2E2C5C98959837D76986 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		659F2E451AB5DA773505FDD5 /* Playground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playground.m; sourceTree = "<group>"; };
+		659F2E4526C0C69D234FE154 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		659F2E72CDF9CA6AF5F719A2 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		659F2EE0E9A9A07F86BDEB6E /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
+		659F2FD5EFBBB3CCB4C80964 /* SHPCalendarPickerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SHPCalendarPickerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		80C6BACBD63E388C595E25F9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		836E7147407C464297EE0B76 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		659F21EB3EA3D7BBCFA2794F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		659F27D171A2170E99EBA052 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				659F2C0BD898CBADC8367072 /* UIKit.framework in Frameworks */,
+				7C504BB3B871464D97CB3BC6 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5AF7DCACA2B5B61672076918 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6094C99F1E5EC49041F81A9E /* Pods.debug.xcconfig */,
+				80C6BACBD63E388C595E25F9 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		659F205ECB5C50315B6041BF /* Proxima Nova */ = {
+			isa = PBXGroup;
+			children = (
+				659F2D4388A275872C234887 /* ProximaNova-Reg.otf */,
+				659F201884BACB34C89ED72B /* proxima_nova_reg.ttf */,
+				659F275B5E1F6751C1DDDFDB /* proxima_nova_bold.ttf */,
+				659F2549933AE9B4A3477477 /* ProximaNova-Light.otf */,
+				659F2AD2937D99B4A5091BF8 /* proxima_nova_sbold.ttf */,
+			);
+			path = "Proxima Nova";
+			sourceTree = "<group>";
+		};
+		659F220CA9AA333E0C155DE5 = {
+			isa = PBXGroup;
+			children = (
+				659F2BDEE2344C1AAD17B440 /* Products */,
+				659F25D398D8047FAB1A162A /* SHPCalendarPickerExample */,
+				659F2CFF1C61794D3DF11D18 /* SHPCalendarPickerExampleTests */,
+				659F28AC964D8EC4D3B5020D /* Frameworks */,
+				5AF7DCACA2B5B61672076918 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		659F25A4F309BBB19C6FED23 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				659F2D4337BB739B40F33F51 /* Open_Sans */,
+				659F2A4F537BED0DAEA61528 /* raleway-2 */,
+				659F205ECB5C50315B6041BF /* Proxima Nova */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		659F25D398D8047FAB1A162A /* SHPCalendarPickerExample */ = {
+			isa = PBXGroup;
+			children = (
+				659F2D13E22554F04C76FDD6 /* Supporting Files */,
+				659F2661DC74375EAE334911 /* Images.xcassets */,
+				659F2887B26B9CCF88570485 /* LaunchScreen.xib */,
+				659F29EDB77661D24AF74113 /* AppDelegate.h */,
+				659F2C2055EB42AA0AF4D5A3 /* AppDelegate.m */,
+				659F25A4F309BBB19C6FED23 /* Fonts */,
+				659F2E451AB5DA773505FDD5 /* Playground.m */,
+				659F278A41CE99016EE254B6 /* Playground.h */,
+			);
+			path = SHPCalendarPickerExample;
+			sourceTree = "<group>";
+		};
+		659F27D4FBB8136B074E1FF1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				659F28CB4EB76A284190CEFA /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		659F28AC964D8EC4D3B5020D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				659F26C18FF0AC50F6B345EB /* UIKit.framework */,
+				836E7147407C464297EE0B76 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		659F2A4F537BED0DAEA61528 /* raleway-2 */ = {
+			isa = PBXGroup;
+			children = (
+				659F27AF351AA917A0FF9CAF /* Raleway-Bold.ttf */,
+				659F23296AAADDC49E8396B7 /* Raleway-Light.ttf */,
+				659F25496E3B6CA519A3E57B /* Raleway-Medium.ttf */,
+				659F273119EB683794D2793C /* Raleway-Regular.ttf */,
+				659F238BDEDB43A942317C42 /* Raleway-SemiBold.ttf */,
+			);
+			path = "raleway-2";
+			sourceTree = "<group>";
+		};
+		659F2BDEE2344C1AAD17B440 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				659F2FD5EFBBB3CCB4C80964 /* SHPCalendarPickerExample.app */,
+				659F21A9CD8DBE66FABABCC8 /* SHPCalendarPickerExampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		659F2CFF1C61794D3DF11D18 /* SHPCalendarPickerExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				659F27D4FBB8136B074E1FF1 /* Supporting Files */,
+				659F2A8CE592A3B58A9F9E71 /* SHPCalendarPickerExampleTests.m */,
+			);
+			path = SHPCalendarPickerExampleTests;
+			sourceTree = "<group>";
+		};
+		659F2D13E22554F04C76FDD6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				659F2BEFFD1A65C9A9378888 /* Info.plist */,
+				659F219E5C46FF7992BEA9F0 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		659F2D4337BB739B40F33F51 /* Open_Sans */ = {
+			isa = PBXGroup;
+			children = (
+				659F283C1EC2DA6795362D71 /* LICENSE.txt */,
+				659F2E72CDF9CA6AF5F719A2 /* OpenSans-Bold.ttf */,
+				659F29A7E6C086D42D0C083D /* OpenSans-Light.ttf */,
+				659F2EE0E9A9A07F86BDEB6E /* OpenSans-Italic.ttf */,
+				659F2252C5CCA8E3A88D4D0D /* OpenSans-Regular.ttf */,
+				659F2D68A468221CE6E7555D /* OpenSans-Semibold.ttf */,
+				659F2036CAA4DB541469798F /* OpenSans-ExtraBold.ttf */,
+				659F2E4526C0C69D234FE154 /* OpenSans-BoldItalic.ttf */,
+				659F27B981A2605F89A42E81 /* OpenSans-LightItalic.ttf */,
+				659F25CCC027F6C66E36B878 /* OpenSans-SemiboldItalic.ttf */,
+				659F2E2C5C98959837D76986 /* OpenSans-ExtraBoldItalic.ttf */,
+			);
+			path = Open_Sans;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		659F24B37FAF879C00C726A9 /* SHPCalendarPickerExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 659F23B1CAA3554BB54692E2 /* Build configuration list for PBXNativeTarget "SHPCalendarPickerExampleTests" */;
+			buildPhases = (
+				659F2FE4B7971319029363B3 /* Sources */,
+				659F21EB3EA3D7BBCFA2794F /* Frameworks */,
+				659F2CE066A6F3DA9A34C2AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				659F28E69A16F9801BC4BEF4 /* PBXTargetDependency */,
+			);
+			name = SHPCalendarPickerExampleTests;
+			productName = SHPCalendarPickerExampleTests;
+			productReference = 659F21A9CD8DBE66FABABCC8 /* SHPCalendarPickerExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		659F2B4BB7D8CC5A7C1CFB8C /* SHPCalendarPickerExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 659F2B56DB3202730822C095 /* Build configuration list for PBXNativeTarget "SHPCalendarPickerExample" */;
+			buildPhases = (
+				2393ED3D76644791BA2F32B5 /* Check Pods Manifest.lock */,
+				659F2072E230D6DD94F2812D /* Sources */,
+				659F27D171A2170E99EBA052 /* Frameworks */,
+				659F24BB85E2BC9B4413503E /* Resources */,
+				93A42269903946C49B9C4A6A /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SHPCalendarPickerExample;
+			productName = SHPCalendarPickerExample;
+			productReference = 659F2FD5EFBBB3CCB4C80964 /* SHPCalendarPickerExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		659F2A3EEB3FFF66A0FC448E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Peter Gammelgaard";
+			};
+			buildConfigurationList = 659F2691E7813700262C31A5 /* Build configuration list for PBXProject "SHPCalendarPickerExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 659F220CA9AA333E0C155DE5;
+			productRefGroup = 659F2BDEE2344C1AAD17B440 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				659F2B4BB7D8CC5A7C1CFB8C /* SHPCalendarPickerExample */,
+				659F24B37FAF879C00C726A9 /* SHPCalendarPickerExampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		659F24BB85E2BC9B4413503E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				659F2DEE56AEC38F387408A3 /* Images.xcassets in Resources */,
+				659F24DBB33B4181EFE59BD0 /* LaunchScreen.xib in Resources */,
+				659F2D425EE3A999417DEE3A /* LICENSE.txt in Resources */,
+				659F290CE28F6798C04ADB99 /* OpenSans-Bold.ttf in Resources */,
+				659F233CF0001A73CCE0DC63 /* OpenSans-Light.ttf in Resources */,
+				659F21FB9E9C45F91BC72B90 /* OpenSans-Italic.ttf in Resources */,
+				659F26CA9705B6F64DD294DE /* OpenSans-Regular.ttf in Resources */,
+				659F2E67169A6D73BA426F9F /* OpenSans-Semibold.ttf in Resources */,
+				659F20C8B7B93441D45E619E /* OpenSans-ExtraBold.ttf in Resources */,
+				659F22FA50AECFDDB98DA67A /* OpenSans-BoldItalic.ttf in Resources */,
+				659F21AAAA3D6B3ECD75D6DF /* OpenSans-LightItalic.ttf in Resources */,
+				659F2AFE046A0BB95B4578F8 /* OpenSans-SemiboldItalic.ttf in Resources */,
+				659F22AD265247C62F288C1A /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				659F2F00067ED5FAD8726D19 /* Raleway-Bold.ttf in Resources */,
+				659F2AF2BFC133F46A6CC403 /* Raleway-Light.ttf in Resources */,
+				659F26229DF0991ACBDAC12B /* Raleway-Medium.ttf in Resources */,
+				659F206B0488D7611DF302E1 /* Raleway-Regular.ttf in Resources */,
+				659F2C9BB7EA3989C1DF49CD /* Raleway-SemiBold.ttf in Resources */,
+				659F277CEFF9C248FBF72477 /* ProximaNova-Reg.otf in Resources */,
+				659F22F05E5179D6C9CE3FBC /* proxima_nova_reg.ttf in Resources */,
+				659F2BEC368075AA2333A11C /* proxima_nova_bold.ttf in Resources */,
+				659F2FA7A7E879FE1F05C1D9 /* ProximaNova-Light.otf in Resources */,
+				659F28E31E1223D6D6BA1418 /* proxima_nova_sbold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		659F2CE066A6F3DA9A34C2AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2393ED3D76644791BA2F32B5 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		93A42269903946C49B9C4A6A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		659F2072E230D6DD94F2812D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				659F29A0A8616275E9A599C4 /* main.m in Sources */,
+				659F2DC8F96134B5A0126770 /* AppDelegate.m in Sources */,
+				659F288ABC553D5713F331F4 /* Playground.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		659F2FE4B7971319029363B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				659F2092A2D2042563E00279 /* SHPCalendarPickerExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		659F28E69A16F9801BC4BEF4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 659F2B4BB7D8CC5A7C1CFB8C /* SHPCalendarPickerExample */;
+			targetProxy = 659F27F4BB4C6D5679DC6F4E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		659F2887B26B9CCF88570485 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				659F26C629BA44B92CC07F37 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		659F2369621D7AEE335AB77D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SHPCalendarPickerExample.app/SHPCalendarPickerExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SHPCalendarPickerExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+		659F255498FA9ADCEE09F321 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		659F27246B6D8D1EF2CAE036 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80C6BACBD63E388C595E25F9 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SHPCalendarPickerExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
+			};
+			name = Release;
+		};
+		659F2B3BE6CDE75B99C0A181 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		659F2E12D65E6FD1BEC1AFA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6094C99F1E5EC49041F81A9E /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = SHPCalendarPickerExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
+			};
+			name = Debug;
+		};
+		659F2F8F8240918E8F8327F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SHPCalendarPickerExample.app/SHPCalendarPickerExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SHPCalendarPickerExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		659F23B1CAA3554BB54692E2 /* Build configuration list for PBXNativeTarget "SHPCalendarPickerExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				659F2F8F8240918E8F8327F7 /* Debug */,
+				659F2369621D7AEE335AB77D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		659F2691E7813700262C31A5 /* Build configuration list for PBXProject "SHPCalendarPickerExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				659F255498FA9ADCEE09F321 /* Debug */,
+				659F2B3BE6CDE75B99C0A181 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		659F2B56DB3202730822C095 /* Build configuration list for PBXNativeTarget "SHPCalendarPickerExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				659F2E12D65E6FD1BEC1AFA5 /* Debug */,
+				659F27246B6D8D1EF2CAE036 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 659F2A3EEB3FFF66A0FC448E /* Project object */;
+}

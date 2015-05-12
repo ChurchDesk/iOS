@@ -1,0 +1,596 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		34658306BE2B4B64A2A9C4EB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CEA7570B8844ECBAB60C5C /* libPods.a */; };
+		6D87463719E6DB4700B96835 /* SHPHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D87463619E6DB4700B96835 /* SHPHTTPResponse.m */; };
+		BD4A61A1E318E9A39C3F6C7A /* SHPAPICachedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4A6382B16D4C3945B287EA /* SHPAPICachedResponse.m */; };
+		BD4A69429A710C7F333456F1 /* FitnessWorldAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4A663DBF73E84C7D91C175 /* FitnessWorldAPI.m */; };
+		BD4A6DB5F5BA791A3BCD9506 /* SHPMultipartElement.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4A6388076C1759004D518C /* SHPMultipartElement.m */; };
+		BD4A6EF3AFFF98AE8E418C37 /* News.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4A63D801BEBD6851889EE3 /* News.m */; };
+		C509A663A3C48FBF29EE3C29 /* SHPNetworkBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = C509A679AB7FF1CDD8953A8B /* SHPNetworkBase64.m */; };
+		CA8ED371C268DD04B86BDF5A /* SHPAPIManager+ReactiveExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8ED3AE7AE4F60B4DBC1A08 /* SHPAPIManager+ReactiveExtension.m */; };
+		EE5199FF16661AB6000FAD2D /* SoundCloudUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5199FE16661AB6000FAD2D /* SoundCloudUser.m */; };
+		EE519A0416661AD0000FAD2D /* SoundCloudAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = EE519A0316661AD0000FAD2D /* SoundCloudAPI.m */; };
+		EE5B39F416A2F7E80003807F /* SHPNetworkIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5B39F316A2F7E80003807F /* SHPNetworkIndicatorManager.m */; };
+		EE72712A1657E17200A790CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7271291657E17200A790CD /* UIKit.framework */; };
+		EE72712C1657E17200A790CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE72712B1657E17200A790CD /* Foundation.framework */; };
+		EE72712E1657E17200A790CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE72712D1657E17200A790CD /* CoreGraphics.framework */; };
+		EE7271341657E17200A790CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE7271321657E17200A790CD /* InfoPlist.strings */; };
+		EE7271361657E17200A790CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7271351657E17200A790CD /* main.m */; };
+		EE72713A1657E17200A790CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7271391657E17200A790CD /* AppDelegate.m */; };
+		EE72713C1657E17200A790CD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = EE72713B1657E17200A790CD /* Default.png */; };
+		EE72713E1657E17200A790CD /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE72713D1657E17200A790CD /* Default@2x.png */; };
+		EE7271401657E17200A790CD /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE72713F1657E17200A790CD /* Default-568h@2x.png */; };
+		EE7271621657E82E00A790CD /* SHPHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7271611657E82E00A790CD /* SHPHTTPClient.m */; };
+		EE72716A1657F98200A790CD /* SHPHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7271691657F98200A790CD /* SHPHTTPRequest.m */; };
+		EE7271A9165993F700A790CD /* SHPAPIResource.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7271A8165993F700A790CD /* SHPAPIResource.m */; };
+		EE7271AD1659940E00A790CD /* SHPAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7271AC1659940E00A790CD /* SHPAPIManager.m */; };
+		EE791265165D3E13003EA15C /* SHPManagedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE791264165D3E13003EA15C /* SHPManagedModel.m */; };
+		EE791269165D4C19003EA15C /* SHPManagedModel+PropertiesDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = EE791268165D4C19003EA15C /* SHPManagedModel+PropertiesDictionary.m */; };
+		EE83E22B165AA08A004093FA /* NSURL+SHPNetworkingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE83E22A165AA08A004093FA /* NSURL+SHPNetworkingAdditions.m */; };
+		EE949C1E165C0FB0000C4FC3 /* SoundCloudTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = EE949C1D165C0FB0000C4FC3 /* SoundCloudTrack.m */; };
+		EE9A0C5F166E804300BDD217 /* SHPAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9A0C5E166E804300BDD217 /* SHPAPI.m */; };
+		EEA883DA1666051900054145 /* NSString+SHPNetworkingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA883D91666051900054145 /* NSString+SHPNetworkingAdditions.m */; };
+		EEC7E593167111410046B071 /* SHPCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC7E592167111410046B071 /* SHPCache.m */; };
+		EEC7E597167111C20046B071 /* SHPCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC7E596167111C20046B071 /* SHPCacheObject.m */; };
+		EED962C3168D0BCD00AA413F /* SHPJSONTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = EED962C0168D0BCD00AA413F /* SHPJSONTransformer.m */; };
+		EEEB319C165E903B00ED16E8 /* NSError+SHPNetworkingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEB319B165E903B00ED16E8 /* NSError+SHPNetworkingAdditions.m */; };
+		EEF5E55D169600430018D0E8 /* SHPBlockValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF5E55C169600430018D0E8 /* SHPBlockValidator.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		212A05422C547AFEEDBA3C7F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		6D87463519E6DB4700B96835 /* SHPHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPHTTPResponse.h; path = Source/HTTP/SHPHTTPResponse.h; sourceTree = "<group>"; };
+		6D87463619E6DB4700B96835 /* SHPHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPHTTPResponse.m; path = Source/HTTP/SHPHTTPResponse.m; sourceTree = "<group>"; };
+		75CEA7570B8844ECBAB60C5C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4488B28BCD0E8E529B45C67 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		BD4A6356DA1A54D460603781 /* SHPMultipartElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPMultipartElement.h; path = Source/HTTP/SHPMultipartElement.h; sourceTree = "<group>"; };
+		BD4A6382B16D4C3945B287EA /* SHPAPICachedResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPAPICachedResponse.m; path = Source/API/SHPAPICachedResponse.m; sourceTree = "<group>"; };
+		BD4A6388076C1759004D518C /* SHPMultipartElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPMultipartElement.m; path = Source/HTTP/SHPMultipartElement.m; sourceTree = "<group>"; };
+		BD4A63D801BEBD6851889EE3 /* News.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = News.m; sourceTree = "<group>"; };
+		BD4A640C747F2C5AD72230B6 /* FitnessWorldAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FitnessWorldAPI.h; sourceTree = "<group>"; };
+		BD4A65BC332B80312569D614 /* News.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = News.h; sourceTree = "<group>"; };
+		BD4A663DBF73E84C7D91C175 /* FitnessWorldAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FitnessWorldAPI.m; sourceTree = "<group>"; };
+		BD4A6BB90AC0FD439EC0BD34 /* SHPAPICachedResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPAPICachedResponse.h; path = Source/API/SHPAPICachedResponse.h; sourceTree = "<group>"; };
+		C509A679AB7FF1CDD8953A8B /* SHPNetworkBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHPNetworkBase64.m; sourceTree = "<group>"; };
+		C509A91415A9F023D811B52B /* SHPNetworkBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHPNetworkBase64.h; sourceTree = "<group>"; };
+		CA8ED3AE7AE4F60B4DBC1A08 /* SHPAPIManager+ReactiveExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SHPAPIManager+ReactiveExtension.m"; path = "Source/ReactiveExtension/SHPAPIManager+ReactiveExtension.m"; sourceTree = "<group>"; };
+		CA8EDD02A1364014FFBC6FE8 /* SHPAPIManager+ReactiveExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SHPAPIManager+ReactiveExtension.h"; path = "Source/ReactiveExtension/SHPAPIManager+ReactiveExtension.h"; sourceTree = "<group>"; };
+		EE5199FD16661AB6000FAD2D /* SoundCloudUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloudUser.h; sourceTree = "<group>"; };
+		EE5199FE16661AB6000FAD2D /* SoundCloudUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloudUser.m; sourceTree = "<group>"; };
+		EE519A0216661AD0000FAD2D /* SoundCloudAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloudAPI.h; sourceTree = "<group>"; };
+		EE519A0316661AD0000FAD2D /* SoundCloudAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloudAPI.m; sourceTree = "<group>"; };
+		EE5B39F216A2F7E80003807F /* SHPNetworkIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPNetworkIndicatorManager.h; path = Source/SHPNetworkIndicatorManager.h; sourceTree = "<group>"; };
+		EE5B39F316A2F7E80003807F /* SHPNetworkIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPNetworkIndicatorManager.m; path = Source/SHPNetworkIndicatorManager.m; sourceTree = "<group>"; };
+		EE7271251657E17200A790CD /* SHPNetworking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SHPNetworking.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE7271291657E17200A790CD /* UIKit.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EE72712B1657E17200A790CD /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EE72712D1657E17200A790CD /* CoreGraphics.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EE7271311657E17200A790CD /* SHPNetworking-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SHPNetworking-Info.plist"; sourceTree = "<group>"; };
+		EE7271331657E17200A790CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EE7271351657E17200A790CD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EE7271371657E17200A790CD /* SHPNetworking-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SHPNetworking-Prefix.pch"; sourceTree = "<group>"; };
+		EE7271381657E17200A790CD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EE7271391657E17200A790CD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EE72713B1657E17200A790CD /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		EE72713D1657E17200A790CD /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		EE72713F1657E17200A790CD /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		EE7271471657E17200A790CD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		EE7271601657E82E00A790CD /* SHPHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPHTTPClient.h; path = Source/HTTP/SHPHTTPClient.h; sourceTree = "<group>"; };
+		EE7271611657E82E00A790CD /* SHPHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPHTTPClient.m; path = Source/HTTP/SHPHTTPClient.m; sourceTree = "<group>"; };
+		EE7271681657F98200A790CD /* SHPHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPHTTPRequest.h; path = Source/HTTP/SHPHTTPRequest.h; sourceTree = "<group>"; };
+		EE7271691657F98200A790CD /* SHPHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPHTTPRequest.m; path = Source/HTTP/SHPHTTPRequest.m; sourceTree = "<group>"; };
+		EE72716C16580FCE00A790CD /* SHPNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SHPNetworking.h; path = Source/SHPNetworking.h; sourceTree = "<group>"; };
+		EE7271A7165993F700A790CD /* SHPAPIResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPAPIResource.h; path = Source/API/SHPAPIResource.h; sourceTree = "<group>"; };
+		EE7271A8165993F700A790CD /* SHPAPIResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPAPIResource.m; path = Source/API/SHPAPIResource.m; sourceTree = "<group>"; };
+		EE7271AB1659940E00A790CD /* SHPAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPAPIManager.h; path = Source/API/SHPAPIManager.h; sourceTree = "<group>"; };
+		EE7271AC1659940E00A790CD /* SHPAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPAPIManager.m; path = Source/API/SHPAPIManager.m; sourceTree = "<group>"; };
+		EE791263165D3E13003EA15C /* SHPManagedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPManagedModel.h; path = Source/Model/SHPManagedModel.h; sourceTree = "<group>"; };
+		EE791264165D3E13003EA15C /* SHPManagedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPManagedModel.m; path = Source/Model/SHPManagedModel.m; sourceTree = "<group>"; };
+		EE791267165D4C19003EA15C /* SHPManagedModel+PropertiesDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SHPManagedModel+PropertiesDictionary.h"; path = "Source/Categories/SHPManagedModel+PropertiesDictionary.h"; sourceTree = "<group>"; };
+		EE791268165D4C19003EA15C /* SHPManagedModel+PropertiesDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SHPManagedModel+PropertiesDictionary.m"; path = "Source/Categories/SHPManagedModel+PropertiesDictionary.m"; sourceTree = "<group>"; };
+		EE83E229165AA08A004093FA /* NSURL+SHPNetworkingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SHPNetworkingAdditions.h"; path = "Source/Categories/NSURL+SHPNetworkingAdditions.h"; sourceTree = "<group>"; };
+		EE83E22A165AA08A004093FA /* NSURL+SHPNetworkingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+SHPNetworkingAdditions.m"; path = "Source/Categories/NSURL+SHPNetworkingAdditions.m"; sourceTree = "<group>"; };
+		EE949C1C165C0FB0000C4FC3 /* SoundCloudTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloudTrack.h; sourceTree = "<group>"; };
+		EE949C1D165C0FB0000C4FC3 /* SoundCloudTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloudTrack.m; sourceTree = "<group>"; };
+		EE9A0C5D166E804300BDD217 /* SHPAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPAPI.h; path = Source/API/SHPAPI.h; sourceTree = "<group>"; };
+		EE9A0C5E166E804300BDD217 /* SHPAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPAPI.m; path = Source/API/SHPAPI.m; sourceTree = "<group>"; };
+		EEA883D81666051900054145 /* NSString+SHPNetworkingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SHPNetworkingAdditions.h"; path = "Source/Categories/NSString+SHPNetworkingAdditions.h"; sourceTree = "<group>"; };
+		EEA883D91666051900054145 /* NSString+SHPNetworkingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SHPNetworkingAdditions.m"; path = "Source/Categories/NSString+SHPNetworkingAdditions.m"; sourceTree = "<group>"; };
+		EEC7E591167111410046B071 /* SHPCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPCache.h; path = Source/Cache/SHPCache.h; sourceTree = "<group>"; };
+		EEC7E592167111410046B071 /* SHPCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPCache.m; path = Source/Cache/SHPCache.m; sourceTree = "<group>"; };
+		EEC7E595167111C20046B071 /* SHPCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPCacheObject.h; path = Source/Cache/SHPCacheObject.h; sourceTree = "<group>"; };
+		EEC7E596167111C20046B071 /* SHPCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPCacheObject.m; path = Source/Cache/SHPCacheObject.m; sourceTree = "<group>"; };
+		EED962BE168D0BCD00AA413F /* SHPDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPDataTransformer.h; path = "Source/Data Transformers/SHPDataTransformer.h"; sourceTree = "<group>"; };
+		EED962BF168D0BCD00AA413F /* SHPJSONTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPJSONTransformer.h; path = "Source/Data Transformers/SHPJSONTransformer.h"; sourceTree = "<group>"; };
+		EED962C0168D0BCD00AA413F /* SHPJSONTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPJSONTransformer.m; path = "Source/Data Transformers/SHPJSONTransformer.m"; sourceTree = "<group>"; };
+		EEEB319A165E903B00ED16E8 /* NSError+SHPNetworkingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+SHPNetworkingAdditions.h"; path = "Source/Categories/NSError+SHPNetworkingAdditions.h"; sourceTree = "<group>"; };
+		EEEB319B165E903B00ED16E8 /* NSError+SHPNetworkingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSError+SHPNetworkingAdditions.m"; path = "Source/Categories/NSError+SHPNetworkingAdditions.m"; sourceTree = "<group>"; };
+		EEEB319F165E933000ED16E8 /* SHPNetworkingErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SHPNetworkingErrors.h; path = Source/SHPNetworkingErrors.h; sourceTree = "<group>"; };
+		EEF5E5591695F45A0018D0E8 /* SHPValidator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SHPValidator.h; path = Source/Validators/SHPValidator.h; sourceTree = "<group>"; };
+		EEF5E55B169600430018D0E8 /* SHPBlockValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHPBlockValidator.h; path = Source/Validators/SHPBlockValidator.h; sourceTree = "<group>"; };
+		EEF5E55C169600430018D0E8 /* SHPBlockValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHPBlockValidator.m; path = Source/Validators/SHPBlockValidator.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EE7271221657E17200A790CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE72712A1657E17200A790CD /* UIKit.framework in Frameworks */,
+				EE72712C1657E17200A790CD /* Foundation.framework in Frameworks */,
+				EE72712E1657E17200A790CD /* CoreGraphics.framework in Frameworks */,
+				34658306BE2B4B64A2A9C4EB /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BD4A650C243874BF73C876EE /* FitnessWorldAPI */ = {
+			isa = PBXGroup;
+			children = (
+				BD4A663DBF73E84C7D91C175 /* FitnessWorldAPI.m */,
+				BD4A640C747F2C5AD72230B6 /* FitnessWorldAPI.h */,
+				BD4A6DA78B67EE45789A1EF5 /* Models */,
+			);
+			name = FitnessWorldAPI;
+			sourceTree = "<group>";
+		};
+		BD4A6DA78B67EE45789A1EF5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BD4A63D801BEBD6851889EE3 /* News.m */,
+				BD4A65BC332B80312569D614 /* News.h */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		C509A33A8BBC1F66E1E41A52 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C509A91415A9F023D811B52B /* SHPNetworkBase64.h */,
+				C509A679AB7FF1CDD8953A8B /* SHPNetworkBase64.m */,
+			);
+			name = Utilities;
+			path = Source/Utilities;
+			sourceTree = "<group>";
+		};
+		CA8ED23B7FDA0EDB6B2DE1BD /* ReactiveExtension */ = {
+			isa = PBXGroup;
+			children = (
+				CA8EDD02A1364014FFBC6FE8 /* SHPAPIManager+ReactiveExtension.h */,
+				CA8ED3AE7AE4F60B4DBC1A08 /* SHPAPIManager+ReactiveExtension.m */,
+			);
+			name = ReactiveExtension;
+			sourceTree = "<group>";
+		};
+		CD3CE07C4ECAACBB691382EF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				212A05422C547AFEEDBA3C7F /* Pods.debug.xcconfig */,
+				A4488B28BCD0E8E529B45C67 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		EE72711A1657E17200A790CD = {
+			isa = PBXGroup;
+			children = (
+				EE72715E1657E46800A790CD /* Source */,
+				EE72712F1657E17200A790CD /* SHPNetworking */,
+				EE7271281657E17200A790CD /* Frameworks */,
+				EE7271261657E17200A790CD /* Products */,
+				CD3CE07C4ECAACBB691382EF /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		EE7271261657E17200A790CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE7271251657E17200A790CD /* SHPNetworking.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE7271281657E17200A790CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EE7271291657E17200A790CD /* UIKit.framework */,
+				EE72712B1657E17200A790CD /* Foundation.framework */,
+				EE72712D1657E17200A790CD /* CoreGraphics.framework */,
+				EE7271471657E17200A790CD /* SenTestingKit.framework */,
+				75CEA7570B8844ECBAB60C5C /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EE72712F1657E17200A790CD /* SHPNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				EE949C1A165C0F6B000C4FC3 /* API */,
+				EE7271381657E17200A790CD /* AppDelegate.h */,
+				EE7271391657E17200A790CD /* AppDelegate.m */,
+				EE7271301657E17200A790CD /* Supporting Files */,
+				BD4A650C243874BF73C876EE /* FitnessWorldAPI */,
+			);
+			path = SHPNetworking;
+			sourceTree = "<group>";
+		};
+		EE7271301657E17200A790CD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EE7271311657E17200A790CD /* SHPNetworking-Info.plist */,
+				EE7271321657E17200A790CD /* InfoPlist.strings */,
+				EE7271351657E17200A790CD /* main.m */,
+				EE7271371657E17200A790CD /* SHPNetworking-Prefix.pch */,
+				EE72713B1657E17200A790CD /* Default.png */,
+				EE72713D1657E17200A790CD /* Default@2x.png */,
+				EE72713F1657E17200A790CD /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EE72715E1657E46800A790CD /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				EE83E227165AA01F004093FA /* Categories */,
+				EE7271A6165993DE00A790CD /* API */,
+				EE949C21165C11EB000C4FC3 /* Data Transformers */,
+				EED962CB168D146B00AA413F /* Validators */,
+				EEC7E58F167111280046B071 /* Cache */,
+				EE72715F1657E81400A790CD /* HTTP */,
+				EE791261165D3DDE003EA15C /* Model */,
+				EEEB319F165E933000ED16E8 /* SHPNetworkingErrors.h */,
+				EE72716C16580FCE00A790CD /* SHPNetworking.h */,
+				EE5B39F216A2F7E80003807F /* SHPNetworkIndicatorManager.h */,
+				EE5B39F316A2F7E80003807F /* SHPNetworkIndicatorManager.m */,
+				CA8ED23B7FDA0EDB6B2DE1BD /* ReactiveExtension */,
+				C509A33A8BBC1F66E1E41A52 /* Utilities */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		EE72715F1657E81400A790CD /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				6D87463519E6DB4700B96835 /* SHPHTTPResponse.h */,
+				6D87463619E6DB4700B96835 /* SHPHTTPResponse.m */,
+				EE7271601657E82E00A790CD /* SHPHTTPClient.h */,
+				EE7271611657E82E00A790CD /* SHPHTTPClient.m */,
+				EE7271681657F98200A790CD /* SHPHTTPRequest.h */,
+				EE7271691657F98200A790CD /* SHPHTTPRequest.m */,
+				BD4A6356DA1A54D460603781 /* SHPMultipartElement.h */,
+				BD4A6388076C1759004D518C /* SHPMultipartElement.m */,
+			);
+			name = HTTP;
+			sourceTree = "<group>";
+		};
+		EE7271A6165993DE00A790CD /* API */ = {
+			isa = PBXGroup;
+			children = (
+				EE9A0C5D166E804300BDD217 /* SHPAPI.h */,
+				EE9A0C5E166E804300BDD217 /* SHPAPI.m */,
+				EE7271AB1659940E00A790CD /* SHPAPIManager.h */,
+				EE7271AC1659940E00A790CD /* SHPAPIManager.m */,
+				EE7271A7165993F700A790CD /* SHPAPIResource.h */,
+				EE7271A8165993F700A790CD /* SHPAPIResource.m */,
+				BD4A6382B16D4C3945B287EA /* SHPAPICachedResponse.m */,
+				BD4A6BB90AC0FD439EC0BD34 /* SHPAPICachedResponse.h */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		EE791261165D3DDE003EA15C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EE791263165D3E13003EA15C /* SHPManagedModel.h */,
+				EE791264165D3E13003EA15C /* SHPManagedModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		EE83E227165AA01F004093FA /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				EE83E229165AA08A004093FA /* NSURL+SHPNetworkingAdditions.h */,
+				EE83E22A165AA08A004093FA /* NSURL+SHPNetworkingAdditions.m */,
+				EE791267165D4C19003EA15C /* SHPManagedModel+PropertiesDictionary.h */,
+				EE791268165D4C19003EA15C /* SHPManagedModel+PropertiesDictionary.m */,
+				EEEB319A165E903B00ED16E8 /* NSError+SHPNetworkingAdditions.h */,
+				EEEB319B165E903B00ED16E8 /* NSError+SHPNetworkingAdditions.m */,
+				EEA883D81666051900054145 /* NSString+SHPNetworkingAdditions.h */,
+				EEA883D91666051900054145 /* NSString+SHPNetworkingAdditions.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		EE949C1A165C0F6B000C4FC3 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				EE949C20165C0FD7000C4FC3 /* Models */,
+				EE519A0216661AD0000FAD2D /* SoundCloudAPI.h */,
+				EE519A0316661AD0000FAD2D /* SoundCloudAPI.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		EE949C20165C0FD7000C4FC3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EE949C1C165C0FB0000C4FC3 /* SoundCloudTrack.h */,
+				EE949C1D165C0FB0000C4FC3 /* SoundCloudTrack.m */,
+				EE5199FD16661AB6000FAD2D /* SoundCloudUser.h */,
+				EE5199FE16661AB6000FAD2D /* SoundCloudUser.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		EE949C21165C11EB000C4FC3 /* Data Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				EED962BE168D0BCD00AA413F /* SHPDataTransformer.h */,
+				EED962BF168D0BCD00AA413F /* SHPJSONTransformer.h */,
+				EED962C0168D0BCD00AA413F /* SHPJSONTransformer.m */,
+			);
+			name = "Data Transformers";
+			sourceTree = "<group>";
+		};
+		EEC7E58F167111280046B071 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				EEC7E591167111410046B071 /* SHPCache.h */,
+				EEC7E592167111410046B071 /* SHPCache.m */,
+				EEC7E595167111C20046B071 /* SHPCacheObject.h */,
+				EEC7E596167111C20046B071 /* SHPCacheObject.m */,
+			);
+			name = Cache;
+			sourceTree = "<group>";
+		};
+		EED962CB168D146B00AA413F /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+				EEF5E5591695F45A0018D0E8 /* SHPValidator.h */,
+				EEF5E55B169600430018D0E8 /* SHPBlockValidator.h */,
+				EEF5E55C169600430018D0E8 /* SHPBlockValidator.m */,
+			);
+			name = Validators;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE7271241657E17200A790CD /* SHPNetworking */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE7271581657E17200A790CD /* Build configuration list for PBXNativeTarget "SHPNetworking" */;
+			buildPhases = (
+				EE7271211657E17200A790CD /* Sources */,
+				EE7271221657E17200A790CD /* Frameworks */,
+				EE7271231657E17200A790CD /* Resources */,
+				52D066EB99BD47549A1D2548 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SHPNetworking;
+			productName = SHPNetworking;
+			productReference = EE7271251657E17200A790CD /* SHPNetworking.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EE72711C1657E17200A790CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastTestingUpgradeCheck = 0600;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "SHAPE A/S";
+			};
+			buildConfigurationList = EE72711F1657E17200A790CD /* Build configuration list for PBXProject "SHPNetworking" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EE72711A1657E17200A790CD;
+			productRefGroup = EE7271261657E17200A790CD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE7271241657E17200A790CD /* SHPNetworking */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EE7271231657E17200A790CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE7271341657E17200A790CD /* InfoPlist.strings in Resources */,
+				EE72713C1657E17200A790CD /* Default.png in Resources */,
+				EE72713E1657E17200A790CD /* Default@2x.png in Resources */,
+				EE7271401657E17200A790CD /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		52D066EB99BD47549A1D2548 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EE7271211657E17200A790CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE7271361657E17200A790CD /* main.m in Sources */,
+				EE72713A1657E17200A790CD /* AppDelegate.m in Sources */,
+				EE7271621657E82E00A790CD /* SHPHTTPClient.m in Sources */,
+				EE72716A1657F98200A790CD /* SHPHTTPRequest.m in Sources */,
+				EE7271A9165993F700A790CD /* SHPAPIResource.m in Sources */,
+				EE7271AD1659940E00A790CD /* SHPAPIManager.m in Sources */,
+				EE83E22B165AA08A004093FA /* NSURL+SHPNetworkingAdditions.m in Sources */,
+				EE949C1E165C0FB0000C4FC3 /* SoundCloudTrack.m in Sources */,
+				EE791265165D3E13003EA15C /* SHPManagedModel.m in Sources */,
+				EE791269165D4C19003EA15C /* SHPManagedModel+PropertiesDictionary.m in Sources */,
+				EEEB319C165E903B00ED16E8 /* NSError+SHPNetworkingAdditions.m in Sources */,
+				EEA883DA1666051900054145 /* NSString+SHPNetworkingAdditions.m in Sources */,
+				EE5199FF16661AB6000FAD2D /* SoundCloudUser.m in Sources */,
+				EE519A0416661AD0000FAD2D /* SoundCloudAPI.m in Sources */,
+				EE9A0C5F166E804300BDD217 /* SHPAPI.m in Sources */,
+				EEC7E593167111410046B071 /* SHPCache.m in Sources */,
+				EEC7E597167111C20046B071 /* SHPCacheObject.m in Sources */,
+				6D87463719E6DB4700B96835 /* SHPHTTPResponse.m in Sources */,
+				EED962C3168D0BCD00AA413F /* SHPJSONTransformer.m in Sources */,
+				EEF5E55D169600430018D0E8 /* SHPBlockValidator.m in Sources */,
+				BD4A69429A710C7F333456F1 /* FitnessWorldAPI.m in Sources */,
+				BD4A6EF3AFFF98AE8E418C37 /* News.m in Sources */,
+				EE5B39F416A2F7E80003807F /* SHPNetworkIndicatorManager.m in Sources */,
+				BD4A6DB5F5BA791A3BCD9506 /* SHPMultipartElement.m in Sources */,
+				BD4A61A1E318E9A39C3F6C7A /* SHPAPICachedResponse.m in Sources */,
+				CA8ED371C268DD04B86BDF5A /* SHPAPIManager+ReactiveExtension.m in Sources */,
+				C509A663A3C48FBF29EE3C29 /* SHPNetworkBase64.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EE7271321657E17200A790CD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE7271331657E17200A790CD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EE7271561657E17200A790CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EE7271571657E17200A790CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EE7271591657E17200A790CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 212A05422C547AFEEDBA3C7F /* Pods.debug.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 14;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SHPNetworking/SHPNetworking-Prefix.pch";
+				INFOPLIST_FILE = "SHPNetworking/SHPNetworking-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		EE72715A1657E17200A790CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4488B28BCD0E8E529B45C67 /* Pods.release.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 14;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SHPNetworking/SHPNetworking-Prefix.pch";
+				INFOPLIST_FILE = "SHPNetworking/SHPNetworking-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EE72711F1657E17200A790CD /* Build configuration list for PBXProject "SHPNetworking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE7271561657E17200A790CD /* Debug */,
+				EE7271571657E17200A790CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE7271581657E17200A790CD /* Build configuration list for PBXNativeTarget "SHPNetworking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE7271591657E17200A790CD /* Debug */,
+				EE72715A1657E17200A790CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EE72711C1657E17200A790CD /* Project object */;
+}

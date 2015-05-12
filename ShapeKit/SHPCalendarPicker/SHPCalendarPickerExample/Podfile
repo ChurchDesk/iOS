@@ -1,0 +1,7 @@
+source 'https://github.com/CocoaPods/Specs.git'
+source 'git@github.com:shapehq/ShapePodSpecs.git'
+
+pod 'SHPUIKit', '~> 1.2.0'
+pod 'SHPCalendarPicker', :path => '../'
+pod 'KZPlayground', '~> 0.3.2'
+pod 'Masonry', '~> 0.5.3'
