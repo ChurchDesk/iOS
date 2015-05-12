@@ -37,7 +37,7 @@ PODS:
   - ReactiveCocoa/no-arc (2.4.7)
   - ReactiveCocoa/UI (2.4.7):
     - ReactiveCocoa/Core
-  - SHPCalendarPicker (0.4.3)
+  - SHPCalendarPicker (0.5.0)
   - SHPFoundation (2.4.0)
   - SHPKeyboardAwareness (2.0.0):
     - ReactiveCocoa (~> 2.4.7)
@@ -46,13 +46,13 @@ PODS:
     - ReactiveCocoa (~> 2.4.4)
   - SHPSideMenu (1.1.0):
     - pop (~> 1.0.7)
-  - SHPUIInjection (HEAD based on 0.0.3):
+  - SHPUIInjection (0.0.3):
     - dyci
   - SHPUIKit (2.1.0)
   - SSKeychain (1.2.2)
 
 DEPENDENCIES:
-  - Autocoding (~> 2.2.1)
+  - AutoCoding (~> 2.2.1)
   - DCIntrospect-ARC (HEAD)
   - FormatterKit (~> 1.8.0)
   - GoogleAnalytics-iOS-SDK (~> 3.10)
@@ -60,24 +60,31 @@ DEPENDENCIES:
   - Masonry (~> 0.6.1)
   - MBProgressHUD (~> 0.9.1)
   - ReactiveCocoa (~> 2.4.7)
-  - SHPCalendarPicker (from `git@github.com:miklselsoe/SHPCalendarPicker.git`)
-  - SHPFoundation (~> 2.4.0)
+  - SHPCalendarPicker (from `../ShapeKit/SHPCalendarPicker/`)
+  - SHPFoundation (from `../ShapeKit/SHPFoundation/`)
   - SHPKeyboardAwareness (~> 2.0.0)
-  - SHPNetworking (~> 7.6.3)
-  - SHPRACAdditions (~> 0.1.2)
-  - SHPSideMenu (~> 1.1.0)
-  - SHPUIInjection (HEAD)
-  - SHPUIKit (~> 2.1.0)
+  - SHPNetworking (from `../ShapeKit/SHPNetworking/`)
+  - SHPRACAdditions (from `../ShapeKit/SHPRACAdditions/`)
+  - SHPSideMenu (from `../ShapeKit/SHPSideMenu/`)
+  - SHPUIInjection (from `../ShapeKit/SHPUIInjection/`)
+  - SHPUIKit (from `../ShapeKit/SHPUIKit/`)
   - SSKeychain (~> 1.2.2)
 
 EXTERNAL SOURCES:
   SHPCalendarPicker:
-    :git: git@github.com:miklselsoe/SHPCalendarPicker.git
-
-CHECKOUT OPTIONS:
-  SHPCalendarPicker:
-    :commit: 5b37ac3c771f836c3c76b26ca03d1f296966eb6a
-    :git: git@github.com:miklselsoe/SHPCalendarPicker.git
+    :path: ../ShapeKit/SHPCalendarPicker/
+  SHPFoundation:
+    :path: ../ShapeKit/SHPFoundation/
+  SHPNetworking:
+    :path: ../ShapeKit/SHPNetworking/
+  SHPRACAdditions:
+    :path: ../ShapeKit/SHPRACAdditions/
+  SHPSideMenu:
+    :path: ../ShapeKit/SHPSideMenu/
+  SHPUIInjection:
+    :path: ../ShapeKit/SHPUIInjection/
+  SHPUIKit:
+    :path: ../ShapeKit/SHPUIKit/
 
 SPEC CHECKSUMS:
   AutoCoding: b47e528426c84346371dd532b8e6458929e4da34
@@ -90,14 +97,14 @@ SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   ReactiveCocoa: eb38dee0a0e698f73a9b25e5c1faea2bb4c79240
-  SHPCalendarPicker: 117f315701328336ebcf8bec07d4e7e8a28d895b
-  SHPFoundation: 2d7363df3f66cf7b350c34abad7b81c5b5f83f9a
+  SHPCalendarPicker: be51ea3c861408f599ac602fc5832046c57ff91d
+  SHPFoundation: c03c04695d3aa69184b1d6b139e61937061c8919
   SHPKeyboardAwareness: b62fdf2fea15b5623717c8ce6e9b8d05bf2a0d41
-  SHPNetworking: 27d01b5ba8c480c358c23e98e8aa76daebaf7f00
-  SHPRACAdditions: 3cd192f802347bb940b6b734d3eed64ca2523581
-  SHPSideMenu: 885b7c5125c03e64189df794e07e7a9685cce954
-  SHPUIInjection: 57540250f83fb81a1438d5478c5f8d129e794ef1
-  SHPUIKit: ba38ba4315b8fc931311cd91711139a2fb03fda5
+  SHPNetworking: cc72945f99e23e4c2dbda4d1f2363a1cbbb1c17c
+  SHPRACAdditions: 865b17048f7bf5932ca0d6d73539e6a9f7abe1c5
+  SHPSideMenu: dbc7af1661a6e14f65c7971c2339ec406f0e02f9
+  SHPUIInjection: 593fe19985c20011bb40c937c7f791301233e24b
+  SHPUIKit: 0453455110ab78f1e2cfd236601eb2ab9bb41ba7
   SSKeychain: 88767e903ee8d274ed380e364d96b7a101235286
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.1
