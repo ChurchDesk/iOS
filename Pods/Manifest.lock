@@ -1,0 +1,110 @@
+PODS:
+  - AutoCoding (2.2.1)
+  - DCIntrospect-ARC (HEAD based on 0.0.8)
+  - dyci (0.1.5.6):
+    - dyci/Injections (= 0.1.5.6)
+  - dyci/Injections (0.1.5.6)
+  - FormatterKit (1.8.0):
+    - FormatterKit/AddressFormatter (= 1.8.0)
+    - FormatterKit/ArrayFormatter (= 1.8.0)
+    - FormatterKit/ColorFormatter (= 1.8.0)
+    - FormatterKit/LocationFormatter (= 1.8.0)
+    - FormatterKit/NameFormatter (= 1.8.0)
+    - FormatterKit/OrdinalNumberFormatter (= 1.8.0)
+    - FormatterKit/TimeIntervalFormatter (= 1.8.0)
+    - FormatterKit/UnitOfInformationFormatter (= 1.8.0)
+    - FormatterKit/URLRequestFormatter (= 1.8.0)
+  - FormatterKit/AddressFormatter (1.8.0)
+  - FormatterKit/ArrayFormatter (1.8.0)
+  - FormatterKit/ColorFormatter (1.8.0)
+  - FormatterKit/LocationFormatter (1.8.0)
+  - FormatterKit/NameFormatter (1.8.0)
+  - FormatterKit/OrdinalNumberFormatter (1.8.0)
+  - FormatterKit/TimeIntervalFormatter (1.8.0)
+  - FormatterKit/UnitOfInformationFormatter (1.8.0)
+  - FormatterKit/URLRequestFormatter (1.8.0)
+  - GoogleAnalytics-iOS-SDK (3.10):
+    - GoogleAnalytics-iOS-SDK/Core (= 3.10)
+  - GoogleAnalytics-iOS-SDK/Core (3.10)
+  - Haneke (1.0.1)
+  - Masonry (0.6.1)
+  - MBProgressHUD (0.9.1)
+  - pop (1.0.7)
+  - ReactiveCocoa (2.4.7):
+    - ReactiveCocoa/UI (= 2.4.7)
+  - ReactiveCocoa/Core (2.4.7):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.4.7)
+  - ReactiveCocoa/UI (2.4.7):
+    - ReactiveCocoa/Core
+  - SHPCalendarPicker (0.5.0)
+  - SHPFoundation (2.4.0)
+  - SHPKeyboardAwareness (2.0.0):
+    - ReactiveCocoa (~> 2.4.7)
+  - SHPNetworking (7.6.3)
+  - SHPRACAdditions (0.1.2):
+    - ReactiveCocoa (~> 2.4.4)
+  - SHPSideMenu (1.1.0):
+    - pop (~> 1.0.7)
+  - SHPUIInjection (0.0.3):
+    - dyci
+  - SHPUIKit (2.1.0)
+  - SSKeychain (1.2.2)
+
+DEPENDENCIES:
+  - AutoCoding (~> 2.2.1)
+  - DCIntrospect-ARC (HEAD)
+  - FormatterKit (~> 1.8.0)
+  - GoogleAnalytics-iOS-SDK (~> 3.10)
+  - Haneke (~> 1.0.1)
+  - Masonry (~> 0.6.1)
+  - MBProgressHUD (~> 0.9.1)
+  - ReactiveCocoa (~> 2.4.7)
+  - SHPCalendarPicker (from `../ShapeKit/SHPCalendarPicker/`)
+  - SHPFoundation (from `../ShapeKit/SHPFoundation/`)
+  - SHPKeyboardAwareness (~> 2.0.0)
+  - SHPNetworking (from `../ShapeKit/SHPNetworking/`)
+  - SHPRACAdditions (from `../ShapeKit/SHPRACAdditions/`)
+  - SHPSideMenu (from `../ShapeKit/SHPSideMenu/`)
+  - SHPUIInjection (from `../ShapeKit/SHPUIInjection/`)
+  - SHPUIKit (from `../ShapeKit/SHPUIKit/`)
+  - SSKeychain (~> 1.2.2)
+
+EXTERNAL SOURCES:
+  SHPCalendarPicker:
+    :path: ../ShapeKit/SHPCalendarPicker/
+  SHPFoundation:
+    :path: ../ShapeKit/SHPFoundation/
+  SHPNetworking:
+    :path: ../ShapeKit/SHPNetworking/
+  SHPRACAdditions:
+    :path: ../ShapeKit/SHPRACAdditions/
+  SHPSideMenu:
+    :path: ../ShapeKit/SHPSideMenu/
+  SHPUIInjection:
+    :path: ../ShapeKit/SHPUIInjection/
+  SHPUIKit:
+    :path: ../ShapeKit/SHPUIKit/
+
+SPEC CHECKSUMS:
+  AutoCoding: b47e528426c84346371dd532b8e6458929e4da34
+  DCIntrospect-ARC: 68a97cc2e99420b21bfcd66865b5376701f8e7f5
+  dyci: 099c2e6dc98abb8f21b370cabbf1443ff700608a
+  FormatterKit: bddde83e054edf9d9ee14f9de3b3a5103db256f4
+  GoogleAnalytics-iOS-SDK: 4f98a376c1d61e6ac4ca47951655820314856eef
+  Haneke: d60be8b96b228633b24708dd153169d6849d6f78
+  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  ReactiveCocoa: eb38dee0a0e698f73a9b25e5c1faea2bb4c79240
+  SHPCalendarPicker: be51ea3c861408f599ac602fc5832046c57ff91d
+  SHPFoundation: c03c04695d3aa69184b1d6b139e61937061c8919
+  SHPKeyboardAwareness: b62fdf2fea15b5623717c8ce6e9b8d05bf2a0d41
+  SHPNetworking: cc72945f99e23e4c2dbda4d1f2363a1cbbb1c17c
+  SHPRACAdditions: 865b17048f7bf5932ca0d6d73539e6a9f7abe1c5
+  SHPSideMenu: dbc7af1661a6e14f65c7971c2339ec406f0e02f9
+  SHPUIInjection: 593fe19985c20011bb40c937c7f791301233e24b
+  SHPUIKit: 0453455110ab78f1e2cfd236601eb2ab9bb41ba7
+  SSKeychain: 88767e903ee8d274ed380e364d96b7a101235286
+
+COCOAPODS: 0.37.1

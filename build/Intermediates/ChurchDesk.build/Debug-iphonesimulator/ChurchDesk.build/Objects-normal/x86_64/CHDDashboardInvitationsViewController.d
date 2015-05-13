@@ -1,0 +1,23 @@
+dependencies: \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDashboardInvitationsViewController.m \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDashboardInvitationsViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAbstractViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDInvitationsTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAccessoryTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCellBackgroundView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDashboardInvitationsViewModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDInvitation.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDManagedModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEnvironment.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventCategory.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDResource.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDGroup.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPeerUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDSite.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDashboardTabBarViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/UIViewController+UIViewController_ChurchDesk.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAnalyticsManager.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventInfoViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEvent.h

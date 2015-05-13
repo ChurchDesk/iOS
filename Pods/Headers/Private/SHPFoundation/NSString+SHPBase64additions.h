@@ -1,0 +1,1 @@
+../../../../../ShapeKit/SHPFoundation/Source/Categories/NSString+SHPBase64additions.h

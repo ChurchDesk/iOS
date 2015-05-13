@@ -1,0 +1,1 @@
+../../../../../ShapeKit/SHPNetworking/Source/SHPNetworkIndicatorManager.h

@@ -1,0 +1,23 @@
+dependencies: \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDNewMessageViewController.m \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDNewMessageViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAbstractViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDListSelectorDelegate.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDListSelectorConfigModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDividerTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDNewMessageSelectorCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCommonTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDNewMessageTextViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDNewMessageTextFieldCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDListSelectorViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDNewMessageViewModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEnvironment.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDManagedModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventCategory.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDResource.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDGroup.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPeerUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMessage.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDSite.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDStatusView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAnalyticsManager.h

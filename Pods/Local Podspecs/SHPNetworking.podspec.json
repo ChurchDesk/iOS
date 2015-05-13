@@ -1,0 +1,17 @@
+{
+  "name": "SHPNetworking",
+  "version": "7.6.3",
+  "summary": "SHPNetworking provides easy API communication.",
+  "authors": {
+    "Ole Gammelgaard Poulsen": "ole@shape.dk"
+  },
+  "source": {
+    "git": "git@github.com:shapehq/SHPNetworking.git",
+    "tag": "7.6.3"
+  },
+  "source_files": "Source/**/*.{h,m}",
+  "requires_arc": true,
+  "platforms": {
+    "ios": "5.0"
+  }
+}

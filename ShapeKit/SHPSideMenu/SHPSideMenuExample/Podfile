@@ -1,4 +1,0 @@
-pod 'SHPSideMenu', :path => '../'
-pod 'Masonry', '~>0.4.0'
-pod 'Reveal-iOS-SDK'
-

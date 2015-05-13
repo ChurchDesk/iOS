@@ -1,0 +1,1 @@
+../../../../../ShapeKit/SHPRACAdditions/Classes/NSObject+SHPRACNotificationSignal.h

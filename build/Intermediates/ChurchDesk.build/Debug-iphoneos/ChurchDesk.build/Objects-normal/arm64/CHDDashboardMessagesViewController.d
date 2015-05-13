@@ -1,0 +1,28 @@
+dependencies: \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDashboardMessagesViewController.m \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDashboardMessagesViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAbstractViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDashboardTabBarViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMessagesTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDotView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAccessoryTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCellBackgroundView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMessagesViewModelProtocol.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMessage.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDManagedModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDashboardMessagesViewModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMessageViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEnvironment.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventCategory.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDResource.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDGroup.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPeerUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDSite.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/UIViewController+UIViewController_ChurchDesk.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMagicNavigationBarView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDFilterView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPassthroughTouchView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAnalyticsManager.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDActiveFilterView.h

@@ -1,0 +1,34 @@
+dependencies: \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventInfoViewController.m \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventInfoViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAbstractViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventInfoViewModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEvent.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDManagedModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventInfoTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCommonTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventGroupTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventLocationTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDividerTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventAttendanceTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventTitleImageTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventCategoriesTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMultiViewTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventUsersTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventInternalNoteTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventTextValueTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventDescriptionTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEnvironment.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventCategory.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDResource.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDGroup.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPeerUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEditEventViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDescriptionViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventUserDetailsViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDSite.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDListViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDListConfigModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAnalyticsManager.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventTitleTableViewCell.h

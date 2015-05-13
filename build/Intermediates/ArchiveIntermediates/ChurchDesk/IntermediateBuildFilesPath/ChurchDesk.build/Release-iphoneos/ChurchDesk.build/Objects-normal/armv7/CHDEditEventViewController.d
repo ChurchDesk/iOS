@@ -1,0 +1,29 @@
+dependencies: \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEditEventViewController.m \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEditEventViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAbstractViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEditEventViewModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDividerTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventTextFieldCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventInfoTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCommonTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventValueTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEvent.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDManagedModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDSite.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEnvironment.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventCategory.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDResource.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDGroup.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPeerUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventTextViewTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDListSelectorViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDListSelectorDelegate.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDListSelectorConfigModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventSwitchTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDatePickerViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventAlertView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAnalyticsManager.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDStatusView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDSitePermission.h

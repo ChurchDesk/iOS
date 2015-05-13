@@ -1,0 +1,35 @@
+dependencies: \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCalendarViewController.m \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCalendarViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAbstractViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/SHPCalendarPickerView+ChurchDesk.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDTableViewCell.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCellBackgroundView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCalendarHeaderView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCalendarTitleView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/UIButton+CHDCalendarTitleButton.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMagicNavigationBarView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDayPickerViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventInfoViewController.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDCalendarViewModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDayPickerDataDelegateProtocol.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEvent.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDManagedModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDHoliday.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/UITableView+ChurchDesk.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDSite.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/UIViewController+UIViewController_ChurchDesk.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDExpandableButtonView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDFilterView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPassthroughTouchView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEnvironment.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventCategory.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDResource.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDGroup.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPeerUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAnalyticsManager.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDOverlayView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDActiveFilterView.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDDayPickerDelegateProtocol.h

@@ -1,0 +1,22 @@
+{
+  "name": "SHPUIInjection",
+  "version": "0.0.3",
+  "summary": "",
+  "authors": {
+    "Peter Gammelgaard": "peter@shape.dk"
+  },
+  "source": {
+    "git": "git@github.com:shapehq/SHPUIInjection.git",
+    "tag": "0.0.3"
+  },
+  "source_files": "Source/**/*.{h,m}",
+  "platforms": {
+    "ios": "7.0"
+  },
+  "requires_arc": true,
+  "dependencies": {
+    "dyci": [
+
+    ]
+  }
+}

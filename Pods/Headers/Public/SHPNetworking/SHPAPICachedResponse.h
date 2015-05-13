@@ -1,0 +1,1 @@
+../../../../../ShapeKit/SHPNetworking/Source/API/SHPAPICachedResponse.h

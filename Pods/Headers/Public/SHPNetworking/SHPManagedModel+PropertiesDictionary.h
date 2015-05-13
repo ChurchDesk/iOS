@@ -1,0 +1,1 @@
+../../../../../ShapeKit/SHPNetworking/Source/Categories/SHPManagedModel+PropertiesDictionary.h

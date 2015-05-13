@@ -1,0 +1,22 @@
+dependencies: \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAPIClient.m \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAPIClient.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/Crashlytics.framework/Headers/Crashlytics.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/Crashlytics.framework/Modules/module.modulemap \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDInvitation.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDManagedModel.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDMessage.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEnvironment.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEventCategory.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDResource.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDGroup.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDPeerUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDEvent.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAccessToken.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAuthenticationManager.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/NSDateFormatter+ChurchDesk.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDUser.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDSite.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDHoliday.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDAPICreate.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/ChurchDesk/CHDNotificationSettings.h

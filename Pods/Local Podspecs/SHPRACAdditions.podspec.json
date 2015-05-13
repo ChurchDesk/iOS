@@ -1,0 +1,28 @@
+{
+  "name": "SHPRACAdditions",
+  "version": "0.1.2",
+  "summary": "Handy additions to the Reactive Cocoa framework",
+  "homepage": "https://github.com/shapehq/SHPRACAdditions",
+  "license": "MIT",
+  "authors": {
+    "Mikkel Selsøe Sørensen": "mikkel@shape.dk"
+  },
+  "platforms": {
+    "ios": "7.0"
+  },
+  "source": {
+    "git": "git@github.com:shapehq/SHPRACAdditions.git",
+    "tag": "0.1.2"
+  },
+  "source_files": [
+    "Classes",
+    "Classes/**/*.{h,m}"
+  ],
+  "requires_arc": true,
+  "dependencies": {
+    "ReactiveCocoa": [
+      "~> 2.4.4"
+    ]
+  },
+  "prefix_header_contents": "#import \"ReactiveCocoa.h\""
+}

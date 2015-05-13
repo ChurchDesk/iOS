@@ -1,0 +1,1 @@
+../../../../../ShapeKit/SHPFoundation/Source/Collections/NSSet+SHPSetFunctional.h

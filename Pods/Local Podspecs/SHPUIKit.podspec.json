@@ -1,0 +1,19 @@
+{
+  "name": "SHPUIKit",
+  "version": "2.1.0",
+  "summary": "SHPUIKit contains the most simple and most used UI elements for Shape projects.",
+  "homepage": "https://github.com/shapehq/SHPUIKit",
+  "authors": {
+    "Kasper Kronborg": "kasper@shape.dk",
+    "Philip Bruce": "philip@shape.dk"
+  },
+  "source": {
+    "git": "git@github.com:shapehq/SHPUIKit.git",
+    "tag": "2.1.0"
+  },
+  "requires_arc": true,
+  "platforms": {
+    "ios": "5.0"
+  },
+  "source_files": "Source/**/*.{h,m}"
+}

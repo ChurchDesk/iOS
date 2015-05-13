@@ -1,0 +1,1 @@
+../../../../../ShapeKit/SHPRACAdditions/Classes/RACChannelTerminal+SHPRAC.h

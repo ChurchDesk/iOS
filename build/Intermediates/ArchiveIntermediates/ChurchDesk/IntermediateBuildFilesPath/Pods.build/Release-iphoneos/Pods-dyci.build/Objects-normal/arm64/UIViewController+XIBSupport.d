@@ -1,0 +1,7 @@
+dependencies: \
+  /Users/jakob/Development/shape/ChurchDesk/ios/Pods/dyci/Dynamic\ Code\ Injection/dyci/Classes/Injections/UIViewController+XIBSupport.m \
+  /Users/jakob/Development/shape/ChurchDesk/ios/Pods/Target\ Support\ Files/Pods-dyci/Pods-dyci-prefix.pch \
+  /Users/jakob/Development/shape/ChurchDesk/ios/Pods/Target\ Support\ Files/Pods/Pods-environment.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/Pods/dyci/Dynamic\ Code\ Injection/dyci/Classes/Injections/UIViewController+XIBSupport.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/Pods/dyci/Dynamic\ Code\ Injection/dyci/Classes/SFDynamicCodeInjection.h \
+  /Users/jakob/Development/shape/ChurchDesk/ios/Pods/dyci/Dynamic\ Code\ Injection/dyci/Classes/Injections/UINib+StoryBoardSupport.h

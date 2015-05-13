@@ -1,0 +1,1 @@
+../../../../../ShapeKit/SHPFoundation/Source/Categories/NSError+SHPConvenienceCreatorAdditions.h

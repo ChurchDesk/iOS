@@ -1,0 +1,19 @@
+{
+  "name": "SHPFoundation",
+  "version": "2.4.0",
+  "summary": "The SHPFoundation provides basic support for all SHAPE projects",
+  "authors": {
+    "Ole Gammelgaard Poulsen": "ole@shape.dk",
+    "Philip Bruce": "philip@shape.dk"
+  },
+  "source": {
+    "git": "git@github.com:shapehq/SHPFoundation.git",
+    "tag": "2.4.0"
+  },
+  "source_files": "Source/**/*.{h,m}",
+  "requires_arc": true,
+  "platforms": {
+    "ios": "6.0",
+    "osx": "10.9"
+  }
+}

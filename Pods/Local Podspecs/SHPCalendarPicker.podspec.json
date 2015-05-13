@@ -1,0 +1,19 @@
+{
+  "name": "SHPCalendarPicker",
+  "version": "0.5.0",
+  "summary": "",
+  "authors": {
+    "Peter Gammelgaard": "peter@shape.dk"
+  },
+  "source": {
+    "git": "git@github.com:shapehq/SHPCalendarPicker.git",
+    "tag": "0.5.0"
+  },
+  "source_files": "Source",
+  "platforms": {
+    "ios": "7.0"
+  },
+  "resources": "SHPCalendarPickerResources.bundle",
+  "requires_arc": true,
+  "prefix_header_contents": "#ifdef __OBJC__\n#import \"SHPCalendarPicker.h\"\n#endif\n"
+}
