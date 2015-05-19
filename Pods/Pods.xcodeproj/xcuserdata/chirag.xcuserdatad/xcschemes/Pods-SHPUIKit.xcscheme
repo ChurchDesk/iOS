@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0EEE7266C4F1488FFD8D0AE5"
+               BlueprintIdentifier = "7E00FE234691F3D44A2E51CF"
                BuildableName = "libPods-SHPUIKit.a"
                BlueprintName = "Pods-SHPUIKit"
                ReferencedContainer = "container:Pods.xcodeproj">

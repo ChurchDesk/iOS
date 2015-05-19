@@ -13,6 +13,7 @@
 #import "CHDLeftMenuViewModel.h"
 #import "CHDUser.h"
 #import "UIImageView+Haneke.h"
+#import "intercom.h"
 
 @interface CHDLeftViewController ()
 @property (nonatomic, strong) UITableView* menuTable;
@@ -202,8 +203,14 @@
     CHDMenuItem* item = self.menuItems[indexPath.row];
 
     //Set the selected viewController
+    if ([item.title isEqualToString:NSLocalizedString(@"Help and Support", @"")]) {
+        [Intercom presentConversationList];
+    }
+    else{
     [self.shp_sideMenuController setSelectedViewController:item.viewController];
+    }
     [self.shp_sideMenuController close];
+        
 }
 
 @end

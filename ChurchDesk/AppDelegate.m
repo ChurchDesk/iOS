@@ -25,6 +25,7 @@
 #import "NSUserDefaults+CHDDefaults.h"
 #import "SSKeychainQuery.h"
 #import "CHDAnalyticsManager.h"
+#import "intercom.h"
 
 @interface AppDelegate ()
 
@@ -45,7 +46,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = [[CHDRootViewController alloc] initWithPrimaryViewController:[self viewControllerHierarchy] secondaryViewControllerClass:[CHDLoginViewController class]];
     [self.window makeKeyAndVisible];
-
+    // Initialize Intercom
+    [Intercom setApiKey:@"ios_sdk-a429632ee85f7de1db11af6debdefc4e4d7dbcad" forAppId:@"ybr6de25"];
 #if TARGET_IPHONE_SIMULATOR && DEBUG
     [[DCIntrospect sharedIntrospector] start];
     //[SHPUIInjection enable];
@@ -103,13 +105,24 @@
     menuItemCalendar.viewController = calendarNavigationController;
     menuItemCalendar.image = kImgMenuEvent;
     
+    //Time Management
+    CHDMenuItem *menuItemTimeManagement = [CHDMenuItem new];
+    menuItemTimeManagement.title = NSLocalizedString(@"Time Management", @"");
+    menuItemTimeManagement.viewController = calendarNavigationController;
+    menuItemTimeManagement.image = kImgMenuEvent;
+    
+    //Help and Support
+    CHDMenuItem *menuItemHelp = [CHDMenuItem new];
+    menuItemHelp.title = NSLocalizedString(@"Help and Support", @"");
+    menuItemHelp.image = kImgMenuEvent;
+    
     //Settings
     CHDMenuItem *menuItemSettings = [CHDMenuItem new];
     menuItemSettings.title = NSLocalizedString(@"Settings", @"");
     menuItemSettings.image = kImgMenuSettings;
     menuItemSettings.viewController = settingsNavigationController;
     
-    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar, menuItemSettings];
+    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar,menuItemTimeManagement, menuItemHelp, menuItemSettings];
     
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
     
@@ -139,7 +152,7 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18], NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18], NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateNormal];
-
+    
     [[UITabBar appearance] setBarTintColor:[UIColor shpui_colorWithHexValue:0x008db6]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor shpui_colorWithHexValue:0x434343]} forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateSelected];
@@ -166,6 +179,7 @@
     }], [RACSignal return:^(BOOL finished) {
         if (animated) {
             NSLog(@"Replacing view controller hierarchy");
+            [Intercom registerUserWithUserId:authenticationManager.userID];
             rootVC.primaryViewController = [self viewControllerHierarchy];
         }
         animated = YES;

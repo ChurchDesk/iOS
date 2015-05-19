@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ACC5907AAAB4E8220817307C"
+               BlueprintIdentifier = "D85B8C984CD22B747490FC68"
                BuildableName = "libPods-SHPSideMenu.a"
                BlueprintName = "Pods-SHPSideMenu"
                ReferencedContainer = "container:Pods.xcodeproj">

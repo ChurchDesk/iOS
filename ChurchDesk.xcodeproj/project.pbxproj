@@ -454,11 +454,11 @@
 			isa = PBXGroup;
 			children = (
 				360B4DFC1A9785AB001CC8B0 /* CHDSettingsViewController.h */,
+				360B4DFD1A9785AB001CC8B0 /* CHDSettingsViewController.m */,
 				364C24191A9B2640004E6FA1 /* CHDDescriptionTableViewCell.h */,
 				364C241A1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m */,
 				364C24161A9B1E54004E6FA1 /* CHDSettingsTableViewCell.h */,
 				364C24171A9B1E54004E6FA1 /* CHDSettingsTableViewCell.m */,
-				360B4DFD1A9785AB001CC8B0 /* CHDSettingsViewController.m */,
 				603726D3D5191AFA92B54B21 /* CHDSettingsViewModel.m */,
 				60372C445CCDFCC5F6E3106E /* CHDSettingsViewModel.h */,
 			);

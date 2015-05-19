@@ -83,6 +83,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "FormatterKit/Localizations/vi.lproj"
   install_resource "FormatterKit/Localizations/zh-Hans.lproj"
   install_resource "FormatterKit/Localizations/zh-Hant.lproj"
+  install_resource "Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
   install_resource "../../ShapeKit/SHPCalendarPicker/SHPCalendarPickerResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -111,6 +112,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "FormatterKit/Localizations/vi.lproj"
   install_resource "FormatterKit/Localizations/zh-Hans.lproj"
   install_resource "FormatterKit/Localizations/zh-Hant.lproj"
+  install_resource "Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
   install_resource "../../ShapeKit/SHPCalendarPicker/SHPCalendarPickerResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Inhouse" ]]; then
@@ -139,6 +141,7 @@ if [[ "$CONFIGURATION" == "Inhouse" ]]; then
   install_resource "FormatterKit/Localizations/vi.lproj"
   install_resource "FormatterKit/Localizations/zh-Hans.lproj"
   install_resource "FormatterKit/Localizations/zh-Hant.lproj"
+  install_resource "Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
   install_resource "../../ShapeKit/SHPCalendarPicker/SHPCalendarPickerResources.bundle"
 fi
 

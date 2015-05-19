@@ -10,6 +10,7 @@
 #import "SSKeyChain.h"
 #import "CHDAccessToken.h"
 #import "CHDAPIClient.h"
+#import "intercom.h"
 
 static NSString * const KeychainService = @"dk.churchdesk";
 static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
@@ -92,6 +93,8 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
     else {
         self.userID = userID;
         self.authenticationToken = token;
+        [Intercom registerUserWithUserId:userID];
+        [Intercom updateUserWithAttributes:@{ @"email" : userID}];
         [self registerRemoteNotificationTypes];
     }
 }
@@ -112,9 +115,10 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
     if (![query deleteItem:&error]) {
         NSLog(@"Error removing credentials from Keychain: %@", error);
     }
-    
+    [Intercom reset];
     self.userID = nil;
     self.authenticationToken = nil;
+    
 }
 
 - (void)registerRemoteNotificationTypes {

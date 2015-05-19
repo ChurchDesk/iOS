@@ -13,6 +13,7 @@ pod 'FormatterKit', '~> 1.8.0'
 pod 'AutoCoding', '~> 2.2.1'
 pod 'MBProgressHUD', '~> 0.9.1'
 pod 'GoogleAnalytics-iOS-SDK', '~> 3.10'
+pod 'Intercom'
 
 #ShapeKit
 pod 'SHPUIKit', :path => '../ShapeKit/SHPUIKit/'
