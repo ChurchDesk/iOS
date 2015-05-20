@@ -111,9 +111,12 @@
     RACSignal *userSignal = RACObserve(self.viewModel, user);
 
     RAC(self.userNameLabel, text) = [userSignal map:^id(CHDUser *user) {
-        return user.name;
+            if (user.name) {
+                [Intercom updateUserWithAttributes:@{ @"name" : user.name}];
+            }
+            return user.name;
     }];
-
+    
     [self rac_liftSelector:@selector(userImageWithUrl:) withSignals:[userSignal map:^id(CHDUser *user) {
         return user.pictureURL;
     }], nil];

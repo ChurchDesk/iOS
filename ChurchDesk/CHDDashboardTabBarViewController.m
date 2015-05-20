@@ -178,6 +178,7 @@
 }
 
 - (BOOL) handleNotificationEventWithUserInfo: (NSDictionary*) userInfo {
+    
     for (CHDTabItem *item in self.items) {
         UIViewController<CHDNotificationEventResponder> *viewController = (UIViewController<CHDNotificationEventResponder> *)item.viewController;
         if ([viewController respondsToSelector:@selector(canHandleEventWithUserInfo:)] && [viewController canHandleEventWithUserInfo:userInfo]) {

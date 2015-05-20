@@ -73,7 +73,6 @@
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
         return @NO;
     }]];
-
 }
 
 #pragma mark - CHDNotificationEventResponder
@@ -97,9 +96,6 @@
     [super viewDidLoad];
 
     self.viewModel = [CHDDashboardEventViewModel new];
-    
-    
-
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
@@ -115,6 +111,7 @@
     }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
 }
 -(void)viewDidAppear:(BOOL)animated {
+    
     [super viewDidAppear:animated];
 }
 

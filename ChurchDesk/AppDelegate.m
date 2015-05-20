@@ -105,16 +105,16 @@
     menuItemCalendar.viewController = calendarNavigationController;
     menuItemCalendar.image = kImgMenuEvent;
     
-    //Time Management
+    //Time Recording
     CHDMenuItem *menuItemTimeManagement = [CHDMenuItem new];
-    menuItemTimeManagement.title = NSLocalizedString(@"Time Management", @"");
+    menuItemTimeManagement.title = NSLocalizedString(@"Time Recording", @"");
     menuItemTimeManagement.viewController = calendarNavigationController;
-    menuItemTimeManagement.image = kImgMenuEvent;
+    menuItemTimeManagement.image = kImgMenuTimeRecording;
     
     //Help and Support
     CHDMenuItem *menuItemHelp = [CHDMenuItem new];
     menuItemHelp.title = NSLocalizedString(@"Help and Support", @"");
-    menuItemHelp.image = kImgMenuEvent;
+    menuItemHelp.image = kImgMenuHelp;
     
     //Settings
     CHDMenuItem *menuItemSettings = [CHDMenuItem new];
