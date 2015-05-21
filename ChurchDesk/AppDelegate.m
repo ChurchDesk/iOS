@@ -15,6 +15,7 @@
 #import "CHDDashboardMessagesViewController.h"
 #import <Crashlytics/Crashlytics.h>
 #import "CHDCalendarViewController.h"
+#import "CHDTImeRecordingViewController.h"
 #import "CHDSettingsViewController.h"
 #import "SHPSideMenu.h"
 #import "UINavigationController+ChurchDesk.h"
@@ -79,12 +80,14 @@
     CHDDashboardMessagesViewController *messagesViewController = [[CHDDashboardMessagesViewController new] initWithStyle:CHDMessagesStyleAllMessages];
     messagesViewController.title = NSLocalizedString(@"Messages", @"");
     CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
+    CHDTImeRecordingViewController  *timeRecordingViewController = [CHDTImeRecordingViewController new];
     CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
     
     UINavigationController *dashboardNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:dashboardTabBar];
     UINavigationController *messagesNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:messagesViewController];
     UINavigationController *settingsNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:settingsViewController];
     UINavigationController *calendarNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:calendarViewController];
+    UINavigationController *timeRecordingNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:timeRecordingViewController];
     
     //Setup the Left Menu
     //Dashboard
@@ -108,7 +111,7 @@
     //Time Recording
     CHDMenuItem *menuItemTimeManagement = [CHDMenuItem new];
     menuItemTimeManagement.title = NSLocalizedString(@"Time Recording", @"");
-    menuItemTimeManagement.viewController = calendarNavigationController;
+    menuItemTimeManagement.viewController = timeRecordingNavigationController;
     menuItemTimeManagement.image = kImgMenuTimeRecording;
     
     //Help and Support
@@ -128,7 +131,6 @@
     
     sideMenuController.leftViewController = leftViewController;
     [sideMenuController setSelectedViewController:dashboardNavigationController];
-    
     [sideMenuController rac_liftSelector:@selector(setSelectedViewController:closeMenu:) withSignals:[[[RACObserve([CHDAuthenticationManager sharedInstance], userID) skip:1] filter:^BOOL(id value) {
         return value == nil;
     }] mapReplace:dashboardNavigationController], [RACSignal return:@YES], nil];
@@ -179,7 +181,7 @@
     }], [RACSignal return:^(BOOL finished) {
         if (animated) {
             NSLog(@"Replacing view controller hierarchy");
-            [Intercom registerUserWithUserId:authenticationManager.userID];
+            [Intercom registerUserWithEmail:authenticationManager.userID];
             rootVC.primaryViewController = [self viewControllerHierarchy];
         }
         animated = YES;

@@ -41,6 +41,7 @@
 		36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */; };
 		36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */; };
 		36E869E61AD651AB003743D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 36E869E81AD651AB003743D2 /* InfoPlist.strings */; };
+		46C4684E1B0CD955002C6A2B /* CHDTImeRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */; };
 		60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */; };
 		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
 		603721498133590553B49781 /* NSDate+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372F542CA3A1835F4A2584 /* NSDate+ChurchDesk.m */; };
@@ -217,6 +218,8 @@
 		36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
 		36E869E31AD651AA003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		36E869E71AD651AB003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		46C4684C1B0CD955002C6A2B /* CHDTImeRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTImeRecordingViewController.h; sourceTree = "<group>"; };
+		46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDTImeRecordingViewController.m; sourceTree = "<group>"; };
 		6037208164EB947D72C14C08 /* CHDSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSite.h; sourceTree = "<group>"; };
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		60372089EA49349970627A31 /* CHDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUser.h; sourceTree = "<group>"; };
@@ -651,6 +654,15 @@
 			name = General;
 			sourceTree = "<group>";
 		};
+		46C4684F1B0CD964002C6A2B /* TIme Recording */ = {
+			isa = PBXGroup;
+			children = (
+				46C4684C1B0CD955002C6A2B /* CHDTImeRecordingViewController.h */,
+				46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */,
+			);
+			name = "TIme Recording";
+			sourceTree = "<group>";
+		};
 		523BB34733495BF6470B3A10 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -677,6 +689,7 @@
 				365A77421AA0A5FF006CA0B1 /* NewMessage */,
 				36C462281A9DBCDB00775FBE /* Message details */,
 				36E159321A94EE520046F6EA /* Messages */,
+				46C4684F1B0CD964002C6A2B /* TIme Recording */,
 				360B4DFB1A978512001CC8B0 /* Settings */,
 				76143F141A9633F400651CEA /* Custom Views */,
 				360B4DF11A9739ED001CC8B0 /* MainNavigation */,
@@ -1214,6 +1227,7 @@
 				365DD9031A9CCDFA00CC6009 /* CHDMessage.m in Sources */,
 				761247351AA4688D004E7D05 /* CHDEventUsersTableViewCell.m in Sources */,
 				7612475D1AA5F58E004E7D05 /* CHDHoliday.m in Sources */,
+				46C4684E1B0CD955002C6A2B /* CHDTImeRecordingViewController.m in Sources */,
 				76B212951AA9B7CA00E4104C /* CHDEditEventViewModel.m in Sources */,
 				762D16DA1A9B4E1A00588730 /* UILabel+ChurchDesk.m in Sources */,
 				76A541BA1A9F25B500176D6D /* CHDEventInfoViewModel.m in Sources */,

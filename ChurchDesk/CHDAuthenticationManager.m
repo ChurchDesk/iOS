@@ -93,8 +93,7 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
     else {
         self.userID = userID;
         self.authenticationToken = token;
-        [Intercom registerUserWithUserId:userID];
-        [Intercom updateUserWithAttributes:@{ @"email" : userID}];
+        [Intercom registerUserWithEmail:userID];
         [self registerRemoteNotificationTypes];
     }
 }

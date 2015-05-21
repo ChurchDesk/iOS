@@ -11,17 +11,17 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>A7DC41A0EDFAF619681385ABDCDE9483B6E0AD74</key>
-		<string>bitbucket.org:shapedk/churchdesk.git</string>
+		<string>https://bitbucket.org/kirkeweb/ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ios/ChurchDesk.xcodeproj</string>
+	<string>ChurchDesk.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>A7DC41A0EDFAF619681385ABDCDE9483B6E0AD74</key>
-		<string>../../..</string>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>bitbucket.org:shapedk/churchdesk.git</string>
+	<string>https://bitbucket.org/kirkeweb/ios.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>A7DC41A0EDFAF619681385ABDCDE9483B6E0AD74</string>
 			<key>IDESourceControlWCCName</key>
-			<string>ChurchDesk</string>
+			<string>ios</string>
 		</dict>
 	</array>
 </dict>

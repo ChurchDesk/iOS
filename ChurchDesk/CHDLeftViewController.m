@@ -111,12 +111,8 @@
     RACSignal *userSignal = RACObserve(self.viewModel, user);
 
     RAC(self.userNameLabel, text) = [userSignal map:^id(CHDUser *user) {
-            if (user.name) {
-                [Intercom updateUserWithAttributes:@{ @"name" : user.name}];
-            }
             return user.name;
     }];
-    
     [self rac_liftSelector:@selector(userImageWithUrl:) withSignals:[userSignal map:^id(CHDUser *user) {
         return user.pictureURL;
     }], nil];
@@ -138,7 +134,7 @@
         _menuTable.backgroundColor = [UIColor chd_menuLightBlue];
 
         _menuTable.rowHeight = 48;
-
+        
         [_menuTable registerClass:[CHDLeftMenuTableViewCell class] forCellReuseIdentifier:@"menuCell"];
 
         _menuTable.dataSource = self;
@@ -210,9 +206,9 @@
         [Intercom presentConversationList];
     }
     else{
-    [self.shp_sideMenuController setSelectedViewController:item.viewController];
+        [self.shp_sideMenuController setSelectedViewController:item.viewController];
+        [self.shp_sideMenuController close];
     }
-    [self.shp_sideMenuController close];
         
 }
 
