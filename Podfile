@@ -36,3 +36,8 @@ post_install do | installer |
     end
 end
 
+#remove unwanted language files
+prepare_command = <<-CMD
+SUPPORTED_LOCALES="['base', 'da', 'en', 'de', 'nb']"
+find . -type d ! -name "*$SUPPORTED_LOCALES.lproj" | grep .lproj | xargs rm -rf
+CMD

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A925B54B4816ADD477032E55"
+               BlueprintIdentifier = "E099B4EC6BE7AF3FDE95EC37"
                BuildableName = "libPods-DCIntrospect-ARC.a"
                BlueprintName = "Pods-DCIntrospect-ARC"
                ReferencedContainer = "container:Pods.xcodeproj">

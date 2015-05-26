@@ -157,7 +157,7 @@
             [alertView show];
         }
         else if (response.statusCode == 402){
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Payment required", @"") message:NSLocalizedString(@"Please contact our sales time for more details", @"Message shown when payment is required") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Payment required", @"") message:NSLocalizedString(@"Please contact our sales team for more details", @"Message shown when payment is required") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
             [alertView show];
         }
     }];

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E1C6E6288648751D8E5859ED"
+               BlueprintIdentifier = "F459CF2CFB2D43CE9369563B"
                BuildableName = "libPods-SHPKeyboardAwareness.a"
                BlueprintName = "Pods-SHPKeyboardAwareness"
                ReferencedContainer = "container:Pods.xcodeproj">
