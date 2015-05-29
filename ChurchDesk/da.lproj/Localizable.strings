@@ -14,12 +14,6 @@
 "An error occured while sending your response to the server. Please try again." = "Der skete en fejl i kommunikationen med serveren. Prøv venligst igen.";
 
 /* No comment provided by engineer. */
-"An invitation is cancelled" = "En invitation bliver annulleret";
-
-/* No comment provided by engineer. */
-"An invitation is received" = "Du modtager en ny invitation";
-
-/* No comment provided by engineer. */
 "An invitation is updated" = "En invitation er opdateret";
 
 /* No comment provided by engineer. */
@@ -191,9 +185,6 @@
 "New message" = "Ny besked";
 
 /* No comment provided by engineer. */
-"New messages and comments" = "Nye meddelelser og kommentarer";
-
-/* No comment provided by engineer. */
 "No events today" = "Ingen begivenheder i dag";
 
 /* No comment provided by engineer. */
@@ -269,9 +260,6 @@
 "Select Users" = "Vælg brugere";
 
 /* No comment provided by engineer. */
-"Select Visibility" = "Vælg synlighed";
-
-/* No comment provided by engineer. */
 "Send" = "Send";
 
 /* No comment provided by engineer. */
@@ -306,9 +294,6 @@
 
 /* No comment provided by engineer. */
 "Title" = "Titel";
-
-/* No comment provided by engineer. */
-"Today" = "I dag";
 
 /* No comment provided by engineer. */
 "Too many requests, try again later" = "Der er for mange forespørgsler, prøv igen senere.";
@@ -356,18 +341,58 @@
 "ok" = "ok";
 
 /* No comment provided by engineer. */
-"Now" = "Nu";
-
-/* No comment provided by engineer. */
 "title_before_filter" = "Viser";
 
 /* No comment provided by engineer. */
-"Unread" = "Ulæste";
+"An invitation is cancelled" = "En invitation bliver annulleret";
+
+/* No comment provided by engineer. */
+"An invitation is received" = "Du modtager en invitation";
+
+/* No comment provided by engineer. */
+"An invitation is updated" = "En invitation er opdateret";
+
+/* No comment provided by engineer. */
+"And unknown error occured, please try again" = "Der er sket en ukendt fejl, prøv venligst igen";
+
+/* No comment provided by engineer. */
+"Do you want to open Maps to get directions to '%@'?" = "Vil du åbne Kort og få kørevejledning til '%@'?";
+
+/* No comment provided by engineer. */
+"Doublebooking not allowed" = "Dobbeltreservation er ikke tilladt";
+
+/* No comment provided by engineer. */
+"Help and Support" = "Support";
+
+/* No comment provided by engineer. */
+"Here you can choose when to receive notifications on your phone." = "Her kan du vælge hvornår du vil modtage notifikationer på din telefon.";
+
+/* No comment provided by engineer. */
+"New messages and comments" = "Nye beskeder og kommentarer";
+
+/* No comment provided by engineer. */
+"No messages found" = "Ingen beskeder er fundet";
+
+/* No comment provided by engineer. */
+"Now" = "Nu";
+
+/* No comment provided by engineer. */
+"Payment required" = "ChurchDesk app er et tilkøb";
+
+/* Message shown when payment is required */
+"Please contact our sales team for more details" = "Kontakt venligst ChurchDesk for at få aktiveret app'en";
 
 /* No comment provided by engineer. */
 "Search" = "Søg";
 
 /* No comment provided by engineer. */
-"No messages found" = "Fandt ingen beskeder";
+"Select Visibility" = "Vælg synlighed";
 
-"Doublebooking not allowed" = "Dobbelt booking ikke tilladt";
+/* No comment provided by engineer. */
+"Time Recording" = "Tidsregistrering";
+
+/* No comment provided by engineer. */
+"Today" = "I dag";
+
+/* No comment provided by engineer. */
+"Unread" = "Ulæst";

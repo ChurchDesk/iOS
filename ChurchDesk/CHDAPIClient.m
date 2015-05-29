@@ -88,10 +88,11 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 
 - (RACSignal *)resourcesForPath:(NSString *)path resultClass:(Class)resultClass withResource:(void(^)(SHPAPIResource *))resourceBlock request: (void(^)(SHPHTTPRequest *))requestBlock {
     [Crashlytics setObjectValue:path ?: @"" forKey:@"LastRequestPath"];
-    
+
     SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:path];
     resource.resultObjectClass = resultClass;
     resource.cacheInterval = kDefaultCacheIntervalInSeconds;
+    
     if (resourceBlock) resourceBlock(resource);
     
 #if INHOUSE
@@ -111,7 +112,6 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         }
         
     } withBodyContent:nil toResource:resource onlyResult:onlyResult];
-    
 #if INHOUSE
     requestSignal = [requestSignal flattenMap:^RACStream *(SHPHTTPResponse *response) {
         [Crashlytics setObjectValue:response.body ?: @"" forKey:@"LastResponseBody"];
@@ -314,7 +314,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit query: (NSString*) query {
     return [self resourcesForPath:@"messages" resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:[self.dateFormatter stringFromDate:date] forQueryParameterKey:@"start_date"];
-        [request setValue:[NSString stringWithFormat:@"%lu", limit] forQueryParameterKey:@"limit"];
+        [request setValue:[NSString stringWithFormat:@"%lu", (long)limit] forQueryParameterKey:@"limit"];
         if (query) {
             [request setValue:query forQueryParameterKey:@"query"];
         }
@@ -509,7 +509,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
             [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
         } withBodyContent:nil toResource:resource] doError:^(NSError *error) {
             SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-            NSLog(@"Error during token refresh. Signing out.\nHTTP Status: %lu\nResponse: %@", response.statusCode, response.body);
+            NSLog(@"Error during token refresh. Signing out.\nHTTP Status: %lu\nResponse: %@", (long)response.statusCode, response.body);
             [authManager signOut];
         }] finally:^{
             @strongify(self)

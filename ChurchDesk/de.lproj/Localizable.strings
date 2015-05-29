@@ -14,18 +14,6 @@
 "An error occured while sending your response to the server. Please try again." = "Während des Verbindungsaufbaus zum Server ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.";
 
 /* No comment provided by engineer. */
-"An invitation is cancelled" = "Eine Einladung wurde abgebrochen";
-
-/* No comment provided by engineer. */
-"An invitation is received" = "Sie haben eine Einladung erhalten";
-
-/* No comment provided by engineer. */
-"An invitation is updated" = "Eine Einladung wurde aktualisiert";
-
-/* No comment provided by engineer. */
-"And unknown error occured, please try again" = "Es ist ein Fehler aufgetreten. Bitte probieren Sie es noch einmal.";
-
-/* No comment provided by engineer. */
 "Are you going to the event '%@'?" = "Nehmen Sie am Ereignis '%@'? teil?";
 
 /* No comment provided by engineer. */
@@ -66,10 +54,6 @@
 
 /* No comment provided by engineer. */
 "Dashboard" = "Dashboard";
-
-/* No comment provided by engineer. */
-"Time Recording" = "Zeitwirtschaft";
-"Help and Support" = "Hilfe und Unterstützung";
 
 /* No comment provided by engineer. */
 "Date" = "Datum";
@@ -124,9 +108,6 @@
 
 /* No comment provided by engineer. */
 "Group" = "Gruppe";
-
-/* No comment provided by engineer. */
-"Here you can choose when to receive notifications on your phone." = "Hier können Sie festlegen, in welchen Fällen Sie Benachrichtigungen auf Ihrem Handy erhalten möchten.";
 
 /* No comment provided by engineer. */
 "I am going" = "Ich nehme teil";
@@ -190,9 +171,6 @@
 
 /* No comment provided by engineer. */
 "New message" = "Neue Nachricht";
-
-/* No comment provided by engineer. */
-"New messages and comments" = "Neue Nachrichten und Kommentare";
 
 /* No comment provided by engineer. */
 "No events today" = "Heute stehen keine Ereignisse an";
@@ -270,9 +248,6 @@
 "Select Users" = "Benutzer auswählen";
 
 /* No comment provided by engineer. */
-"Select Visibility" = "Sichtbarkeit auswählen";
-
-/* No comment provided by engineer. */
 "Send" = "Senden";
 
 /* No comment provided by engineer. */
@@ -307,9 +282,6 @@
 
 /* No comment provided by engineer. */
 "Title" = "Titel";
-
-/* No comment provided by engineer. */
-"Today" = "Heute";
 
 /* No comment provided by engineer. */
 "Too many requests, try again later" = "Es sind zu viele Anfragen vorhanden, bitte versuchen Sie es später noch einmal.";
@@ -357,18 +329,58 @@
 "ok" = "ok";
 
 /* No comment provided by engineer. */
-"Now" = "Jetzt";
-
-/* No comment provided by engineer. */
 "title_before_filter" = "Zeigt";
 
 /* No comment provided by engineer. */
-"Unread" = "Ungelesene";
+"An invitation is cancelled" = "Eine Einladung wurde aufgehoben.";
 
 /* No comment provided by engineer. */
-"Search" = "Suche";
+"An invitation is received" = "Sie erhalten eine Einladung.";
 
 /* No comment provided by engineer. */
-"No messages found" = "keine Nachrichten gefunden";
+"An invitation is updated" = "Eine Einladung wurde aktualisiert.";
 
-"Doublebooking not allowed" = "Doppel Buchung nicht erlaubt";
+/* No comment provided by engineer. */
+"And unknown error occured, please try again" = "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es noch einmal.";
+
+/* No comment provided by engineer. */
+"Do you want to open Maps to get directions to '%@'?" = "Möchten Sie die Karte öffnen und eine Wegbeschreibung zu '%@' erhalten?";
+
+/* No comment provided by engineer. */
+"Doublebooking not allowed" = "Doppelbuchungen sind nicht zugelassen.";
+
+/* No comment provided by engineer. */
+"Help and Support" = "Support";
+
+/* No comment provided by engineer. */
+"Here you can choose when to receive notifications on your phone." = "Hier können Sie festlegen, wann Sie Benachrichtigungen auf Ihr Handy erhalten möchten.";
+
+/* No comment provided by engineer. */
+"New messages and comments" = "Neue Nachrichten und Kommentare";
+
+/* No comment provided by engineer. */
+"No messages found" = "Es wurden keine Nachrichten gefunden.";
+
+/* No comment provided by engineer. */
+"Now" = "Jetzt";
+
+/* No comment provided by engineer. */
+"Payment required" = "Die ChurchDesk-App muss extra erworben werden.";
+
+/* Message shown when payment is required */
+"Please contact our sales team for more details" = "Bitte kontaktieren Sie ChurchDesk, um die App aktivieren zu lassen.";
+
+/* No comment provided by engineer. */
+"Search" = "Suchen";
+
+/* No comment provided by engineer. */
+"Select Visibility" = "Sichtbarkeit festlegen";
+
+/* No comment provided by engineer. */
+"Time Recording" = "Zeitregistrierung";
+
+/* No comment provided by engineer. */
+"Today" = "Heute";
+
+/* No comment provided by engineer. */
+"Unread" = "Ungelesen";

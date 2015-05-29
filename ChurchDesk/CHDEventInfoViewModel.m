@@ -59,6 +59,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 }
 
 - (instancetype)initWithEventId: (NSNumber*) eventId siteId: (NSString*) siteId {
+    NSLog(@"section rows %@", self.sectionRows);
     self = [super init];
     if (self) {
         
@@ -234,9 +235,29 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     CHDEvent *event = self.event;
     CHDEventResponse oldResponse = event.eventResponse;
     self.event.eventResponse = response;
-
+    for (NSMutableDictionary *dict in self.event.attendenceStatus) {
+        if ([dict[@"user"] isEqualToNumber:[self.user userIdForSiteId:self.event.siteId]]) {
+            NSMutableDictionary *dictCopy = [dict mutableCopy];
+            [dictCopy setValue:[NSNumber numberWithInt:(int)response] forKey:@"status"];
+    
+            NSMutableArray *attendanceStatusCopy = [self.event.attendenceStatus mutableCopy];
+            [attendanceStatusCopy replaceObjectAtIndex:[self.event.attendenceStatus indexOfObject:dict] withObject:dictCopy];
+            self.event.attendenceStatus = attendanceStatusCopy;
+        }
+    }
+    NSLog(@"site id %@", self.event.siteId);
     RACSignal *eventSignal = [[[CHDAPIClient sharedInstance] setResponseForEventWithId:self.event.eventId siteId:self.event.siteId response:response] doError:^(NSError *error) {
         event.eventResponse = oldResponse;
+        for (NSMutableDictionary *dict in self.event.attendenceStatus) {
+            if ([dict[@"user"] isEqualToNumber:[self.user userIdForSiteId:self.event.siteId]]) {
+                NSMutableDictionary *dictCopy = [dict mutableCopy];
+                [dictCopy setValue:[NSNumber numberWithInt:(int)response] forKey:@"status"];
+                
+                NSMutableArray *attendanceStatusCopy = [self.event.attendenceStatus mutableCopy];
+                [attendanceStatusCopy replaceObjectAtIndex:[self.event.attendenceStatus indexOfObject:dict] withObject:dictCopy];
+                self.event.attendenceStatus = attendanceStatusCopy;
+            }
+        }
     }];
 
     [eventSignal subscribeNext:^(id x) {
@@ -284,7 +305,10 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     if (event.eventCategoryIds.count > 0) {
         [baseRows addObject:CHDEventInfoRowCategories];
     }
-    [baseRows addObject:CHDEventInfoRowAttendance];
+    if ([event.userIds containsObject: [self.user userIdForSiteId:event.siteId]] ) {
+        event.eventResponse = [event attendanceStatusForUserWithId:[self.user userIdForSiteId:event.siteId]];
+        [baseRows addObject:CHDEventInfoRowAttendance];
+    }
     mSectionRows[CHDEventInfoSectionBase] = [baseRows copy];
     
     // Resources section

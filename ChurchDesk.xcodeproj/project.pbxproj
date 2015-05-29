@@ -1060,6 +1060,11 @@
 			attributes = {
 				CLASSPREFIX = CHD;
 				ORGANIZATIONNAME = "Shape A/S";
+				TargetAttributes = {
+					6037291B5F81D8B947908396 = {
+						DevelopmentTeam = 7JBXDUB8Y6;
+					};
+				};
 			};
 			buildConfigurationList = 60372857C75B2F7A9AF84333 /* Build configuration list for PBXProject "ChurchDesk" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1348,7 +1353,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.inhouse;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shape Aps (L4J43EQ3L9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = inhouse;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1362,7 +1367,7 @@
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c0f8abd4-f13a-4259-8ceb-13a798c2db4c";
+				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Inhouse;
@@ -1454,7 +1459,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = com.churchdesk.ChurchDeskApp;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KIRKEWEB ApS (7JBXDUB8Y6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = prod;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1464,7 +1470,7 @@
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "525e089e-651f-409a-8b9f-f5398e89aa7a";
+				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1477,6 +1483,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.dev;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = dev;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1486,7 +1493,7 @@
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c9ff408d-057f-4132-9bf4-ae3b49380cf3";
+				PROVISIONING_PROFILE = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;

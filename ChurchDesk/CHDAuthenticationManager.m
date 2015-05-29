@@ -93,6 +93,7 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
     else {
         self.userID = userID;
         self.authenticationToken = token;
+        //Intercom session registration
         [Intercom registerUserWithEmail:userID];
         [self registerRemoteNotificationTypes];
     }
@@ -114,6 +115,7 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
     if (![query deleteItem:&error]) {
         NSLog(@"Error removing credentials from Keychain: %@", error);
     }
+    //reset Intercom
     [Intercom reset];
     self.userID = nil;
     self.authenticationToken = nil;

@@ -203,7 +203,6 @@
     UITableViewCell *returnCell = nil;
     CHDEvent *event = self.viewModel.event;
     CHDEnvironment *environment = self.viewModel.environment;
-    
     NSArray *sections = self.viewModel.sections;
     NSString *section = sections[indexPath.section];
     NSArray *rows = [self.viewModel rowsForSection:section];
@@ -346,6 +345,7 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowUsers]) {
         CHDEventUserDetailsViewController *vc = [[CHDEventUserDetailsViewController alloc] initWithEvent:event];
+        
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([row isEqualToString:CHDEventInfoRowCategories]){

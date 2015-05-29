@@ -100,7 +100,6 @@
     [self makeConstraints];
     [self makeBindings];
 }
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_events"];
@@ -119,7 +118,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDEvent* event = self.viewModel.events[indexPath.row];
-    
     CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
     [self.navigationController pushViewController:vc animated:YES];
 }

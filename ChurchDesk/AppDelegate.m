@@ -125,7 +125,7 @@
     menuItemSettings.image = kImgMenuSettings;
     menuItemSettings.viewController = settingsNavigationController;
     
-    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar,menuItemTimeManagement, menuItemHelp, menuItemSettings];
+    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar, menuItemHelp, menuItemSettings];
     
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
     
