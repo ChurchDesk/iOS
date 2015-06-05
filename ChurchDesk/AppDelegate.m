@@ -181,7 +181,9 @@
     }], [RACSignal return:^(BOOL finished) {
         if (animated) {
             NSLog(@"Replacing view controller hierarchy");
-            [Intercom registerUserWithEmail:authenticationManager.userID];
+            if (authenticationManager.userID) {
+                [Intercom registerUserWithEmail:authenticationManager.userID];
+            }
             rootVC.primaryViewController = [self viewControllerHierarchy];
         }
         animated = YES;
@@ -194,7 +196,6 @@
     [rootVC rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;
     }] mapReplace:@NO], [RACSignal return:nil], nil];
-
 
     [[NSUserDefaults standardUserDefaults] shprac_liftSelector:@selector(chdClearDefaults) withSignal:[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;

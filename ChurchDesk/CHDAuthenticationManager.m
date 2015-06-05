@@ -100,6 +100,9 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
 }
 
 - (void) signOut {
+    //reset Intercom
+    [Intercom reset];
+    
     [[[CHDAPIClient sharedInstance] deleteDeviceToken:_deviceToken accessToken:self.authenticationToken.accessToken] subscribeNext:^(id x) {
         NSLog(@"Device token deleted from server");
     }];
@@ -115,8 +118,6 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
     if (![query deleteItem:&error]) {
         NSLog(@"Error removing credentials from Keychain: %@", error);
     }
-    //reset Intercom
-    [Intercom reset];
     self.userID = nil;
     self.authenticationToken = nil;
     

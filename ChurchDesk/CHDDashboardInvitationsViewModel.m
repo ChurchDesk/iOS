@@ -54,7 +54,6 @@
             RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
                 return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
             }];
-
             //newest on top
             return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDInvitation *invitation1, CHDInvitation *invitation2) {
                 return [invitation2.changeDate compare:invitation1.changeDate];

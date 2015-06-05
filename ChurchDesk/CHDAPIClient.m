@@ -100,11 +100,12 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 #else
     BOOL onlyResult = YES;
 #endif
+    NSString *auth = [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken;
     RACSignal *requestSignal = [self.manager dispatchRequest:^(SHPHTTPRequest *request) {
-        NSString *auth = [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken;
         if (auth) {
             [request setValue:auth forQueryParameterKey:@"access_token"];
         }
+       
         [request addValue:@"application/json" forHeaderField:@"Accept"];
         [request addValue:@"application/json" forHeaderField:@"Content-Type"];
         if (requestBlock) {
@@ -112,6 +113,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         }
         
     } withBodyContent:nil toResource:resource onlyResult:onlyResult];
+    if (auth) {
 #if INHOUSE
     requestSignal = [requestSignal flattenMap:^RACStream *(SHPHTTPResponse *response) {
         [Crashlytics setObjectValue:response.body ?: @"" forKey:@"LastResponseBody"];
@@ -131,6 +133,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
             [[CHDAuthenticationManager sharedInstance] signOut];
         }
     }];
+    }
+    else{
+        return [RACSignal return:Nil];
+    }
 }
 
 - (RACSignal*)postBodyDictionary:(NSDictionary*)dictionary resultClass: (Class) resultClass toPath:(NSString*)path {

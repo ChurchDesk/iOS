@@ -100,6 +100,7 @@
     [self makeConstraints];
     [self makeBindings];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_events"];
@@ -108,6 +109,7 @@
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, events) map:^id(id value) {
         return @(value == nil);
     }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
+    
 }
 -(void)viewDidAppear:(BOOL)animated {
     

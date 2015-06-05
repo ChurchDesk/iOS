@@ -90,9 +90,11 @@ static CGFloat kImageSize = 28.0f;
             case CHDEventResponseNotGoing:
                 return kImgEventAttendanceDeclined;
             case CHDEventResponseMaybe:
-            case CHDEventResponseNone:
-            default:
                 return kImgEventAttendanceMaybe;
+            case CHDEventResponseNone:
+                return kImgEventAttendanceNoreply;
+            default:
+                return kImgEventAttendanceNoreply;
         }
     }];
     

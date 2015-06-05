@@ -104,7 +104,12 @@
     
     [self.forgotPasswordButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
+        if (self.view.frame.size.height == 480) {
+            make.bottom.equalTo(self.view).offset(-20);
+        }
+        else{
         make.bottom.equalTo(self.view).offset(-45);
+        }
     }];
 }
 

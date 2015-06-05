@@ -251,7 +251,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
         for (NSMutableDictionary *dict in self.event.attendenceStatus) {
             if ([dict[@"user"] isEqualToNumber:[self.user userIdForSiteId:self.event.siteId]]) {
                 NSMutableDictionary *dictCopy = [dict mutableCopy];
-                [dictCopy setValue:[NSNumber numberWithInt:(int)response] forKey:@"status"];
+                [dictCopy setValue:[NSNumber numberWithInt:(int)oldResponse] forKey:@"status"];
                 
                 NSMutableArray *attendanceStatusCopy = [self.event.attendenceStatus mutableCopy];
                 [attendanceStatusCopy replaceObjectAtIndex:[self.event.attendenceStatus indexOfObject:dict] withObject:dictCopy];
