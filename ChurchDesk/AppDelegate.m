@@ -207,9 +207,9 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     NSLog(@"We successfully registered for remote notifications.");
-    
+    //sending device token to intercom.
+    [Intercom setDeviceToken:deviceToken];
     NSString *deviceTokenString = [deviceToken shp_hexStringRepresentation];
-    
     [CHDAuthenticationManager sharedInstance].deviceToken = deviceTokenString;
 }
 
