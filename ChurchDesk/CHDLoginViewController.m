@@ -157,6 +157,8 @@
     [self.view endEditing:YES];
     [[self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text] subscribeError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSLog(@"code %ld", (long)response.statusCode);
+        
         if (response.statusCode == 400) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Wrong username or password", @"Message shown on wrong username password") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
             [alertView show];
@@ -232,7 +234,6 @@
 }
 
 #pragma mark - Lazy Initialization
-
 - (UIView *)scrollView {
     if (!_scrollView) {
         _scrollView = [UIScrollView new];

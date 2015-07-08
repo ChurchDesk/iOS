@@ -99,7 +99,6 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     }
 }
 
-
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

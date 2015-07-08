@@ -61,6 +61,16 @@
     return YES;
 }
 
+-(void)applicationDidBecomeActive:(UIApplication *)application{
+    //first check if a version update is available
+    if ([self needsUpdate]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"New Version!", @"") message:NSLocalizedString(@"A new version of app is available to download", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Download", @"") otherButtonTitles:nil];
+        [alertView show];
+        CHDAuthenticationManager *authenticationManager = [CHDAuthenticationManager sharedInstance];
+        [authenticationManager signOut];
+    }
+}
+
 - (UIViewController*) viewControllerHierarchy {
     
 #if SCREEN_SHOT_MODE
@@ -161,23 +171,22 @@
 
     [UINavigationBar appearance].backIndicatorImage = kImgBackArrow;
     [UINavigationBar appearance].backIndicatorTransitionMaskImage = kImgBackArrow;
-
+    
     [[UIButton appearance] setTintColor:[UIColor shpui_colorWithHexValue:0x0c485a]];
-
     [[UISwitch appearance] setOnTintColor:[UIColor chd_blueColor]];
     [[UISwitch appearance] setTintColor:[UIColor shpui_colorWithHexValue:0xc8c7cc]];
 }
 
 - (void) presentLoginViewControllerWhenNeeded {
+    
     CHDRootViewController *rootVC = (CHDRootViewController*)self.window.rootViewController;
     CHDAuthenticationManager *authenticationManager = [CHDAuthenticationManager sharedInstance];
     
     __block BOOL animated = authenticationManager.userID != nil; // user is logged in initially. Next presentation is animated
-    
     [rootVC rac_liftSelector:@selector(presentSecondaryViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;
     }] flattenMap:^RACStream *(id value) {
-        return [RACSignal return:@(animated)];
+        return [RACSignal return:@(animated)]; //
     }], [RACSignal return:^(BOOL finished) {
         if (animated) {
             NSLog(@"Replacing view controller hierarchy");
@@ -202,6 +211,24 @@
     }]];
 }
 
+//check for update
+-(BOOL) needsUpdate{
+    NSDictionary* infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=994071625"]];
+    NSData* data = [NSData dataWithContentsOfURL:url];
+    NSDictionary* lookup = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    
+    if ([lookup[@"resultCount"] integerValue] == 1){
+        NSString* appStoreVersion = lookup[@"results"][0][@"version"];
+        NSString* currentVersion = infoDictionary[@"CFBundleShortVersionString"];
+        if (![appStoreVersion isEqualToString:currentVersion]){
+            NSLog(@"Need to update [%@ != %@]", appStoreVersion, currentVersion);
+            return YES;
+        }
+    }
+    return NO;
+}
+
 #pragma mark - Push messages
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -223,4 +250,9 @@
     // For signaling
 }
 
+// alert view delegate
+- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+        NSString *iTunesLink = @"https://itunes.apple.com/us/app/churchdesk/id994071625?ls=1&mt=8";
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+}
 @end

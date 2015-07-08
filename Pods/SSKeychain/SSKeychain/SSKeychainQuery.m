@@ -91,7 +91,8 @@
 - (NSArray *)fetchAll:(NSError *__autoreleasing *)error {
 	OSStatus status = SSKeychainErrorBadArguments;
 	NSMutableDictionary *query = [self query];
-	[query setObject:@YES forKey:(__bridge id)kSecReturnAttributes];
+    NSLog(@"query %@", query);
+	[query setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnAttributes];
 	[query setObject:(__bridge id)kSecMatchLimitAll forKey:(__bridge id)kSecMatchLimit];
 
 	CFTypeRef result = NULL;
