@@ -100,10 +100,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 #else
     BOOL onlyResult = YES;
 #endif
-    NSString *auth = auth = [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken;
+    NSString *auth = [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken;
     RACSignal *requestSignal = [self.manager dispatchRequest:^(SHPHTTPRequest *request) {
         if (auth) {
-            [request setValue:auth forQueryParameterKey:@"access_token"];
+            [request setValue:[CHDAuthenticationManager sharedInstance].authenticationToken.accessToken forQueryParameterKey:@"access_token"];
         }
        
         [request addValue:@"application/json" forHeaderField:@"Accept"];
@@ -111,7 +111,6 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         if (requestBlock) {
             requestBlock(request);
         }
-        
     } withBodyContent:nil toResource:resource onlyResult:onlyResult];
     if (auth) {
 #if INHOUSE
@@ -125,8 +124,8 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     
     requestSignal.name = path;
     return [[self tokenValidationWrapper:requestSignal] doError:^(NSError *error) {
-//        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-//        NSLog(@"Error on %@: %@\nResponse: %@ tokenused %@", path, error, response.body, auth);
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
         
     }];
     }
@@ -466,7 +465,6 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     
     if ([CHDAuthenticationManager sharedInstance].authenticationToken.expired) {
         NSLog(@"Authentication token expired");
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"authorized"];
         return refreshBlock();
     }
     
@@ -511,13 +509,11 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
             [request setValue:kClientID forQueryParameterKey:@"client_id"];
             [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
             
-            NSLog(@"refresh token used %@", authManager.authenticationToken.refreshToken);
-            
         } withBodyContent:nil toResource:resource] doError:^(NSError *error) {
             SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
             NSLog(@"Error during token refresh. Signing out.\nHTTP Status: %lu\nResponse: %@", (long)response.statusCode, response.body);
-            
             [authManager signOut];
+            
         }] finally:^{
             @strongify(self)
             NSLog(@"Refresh token completed");

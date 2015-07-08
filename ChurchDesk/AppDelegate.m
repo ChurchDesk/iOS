@@ -186,7 +186,7 @@
     [rootVC rac_liftSelector:@selector(presentSecondaryViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;
     }] flattenMap:^RACStream *(id value) {
-        return [RACSignal return:@(animated)]; //
+        return [RACSignal return:@(animated)];
     }], [RACSignal return:^(BOOL finished) {
         if (animated) {
             NSLog(@"Replacing view controller hierarchy");
