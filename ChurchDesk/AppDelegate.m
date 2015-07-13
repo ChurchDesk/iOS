@@ -216,15 +216,17 @@
     NSDictionary* infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=994071625"]];
     NSData* data = [NSData dataWithContentsOfURL:url];
+    if (data) {
     NSDictionary* lookup = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     
     if ([lookup[@"resultCount"] integerValue] == 1){
         NSString* appStoreVersion = lookup[@"results"][0][@"version"];
         NSString* currentVersion = infoDictionary[@"CFBundleShortVersionString"];
-        if (![appStoreVersion isEqualToString:currentVersion]){
+        if ([appStoreVersion floatValue] > [currentVersion floatValue]){
             NSLog(@"Need to update [%@ != %@]", appStoreVersion, currentVersion);
             return YES;
         }
+    }
     }
     return NO;
 }
