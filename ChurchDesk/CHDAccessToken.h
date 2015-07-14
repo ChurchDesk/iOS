@@ -11,10 +11,6 @@
 @interface CHDAccessToken : CHDManagedModel <NSCoding>
 
 @property (nonatomic, strong) NSString *accessToken;
-@property (nonatomic, strong) NSDate *expiryDate;
-@property (nonatomic, strong) NSString *scope;
-@property (nonatomic, strong) NSString *tokenType;
-@property (nonatomic, strong) NSString *refreshToken;
-@property (nonatomic, readonly) BOOL expired;
+@property (nonatomic, strong) NSArray *organizations;
 
 @end

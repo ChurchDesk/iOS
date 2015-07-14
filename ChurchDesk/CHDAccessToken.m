@@ -13,20 +13,13 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super init])) {
         _accessToken = [aDecoder decodeObjectForKey:@"accessToken"];
-        _refreshToken = [aDecoder decodeObjectForKey:@"refreshToken"];
-        _expiryDate = [aDecoder decodeObjectForKey:@"expiryDate"];
-        _scope = [aDecoder decodeObjectForKey:@"scope"];
-        _tokenType = [aDecoder decodeObjectForKey:@"tokenType"];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_accessToken forKey:@"accessToken"];
-    [aCoder encodeObject:_refreshToken forKey:@"refreshToken"];
-    [aCoder encodeObject:_expiryDate forKey:@"expiryDate"];
-    [aCoder encodeObject:_scope forKey:@"scope"];
-    [aCoder encodeObject:_tokenType forKey:@"tokenType"];
+    
 }
 
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
@@ -34,14 +27,8 @@
     if ([propName isEqualToString:@"accessToken"]) {
         return @"access_token";
     }
-    if ([propName isEqualToString:@"refreshToken"]) {
-        return @"refresh_token";
-    }
-    if ([propName isEqualToString:@"expiryDate"]) {
-        return @"expires_in";
-    }
-    if ([propName isEqualToString:@"tokenType"]) {
-        return @"token_type";
+    if ([propName isEqualToString:@"organizations"]) {
+        return @"organizations";
     }
     
     return [super mapPropertyForPropertyWithName:propName];
@@ -55,8 +42,6 @@
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 
-- (BOOL)expired {
-    return [self.expiryDate timeIntervalSinceNow] < 0;
-}
+
 
 @end

@@ -71,7 +71,6 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
           dateFormatter.timeStyle = NSDateFormatterShortStyle;
           dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"da_DK"];
           NSLog(@"Authentication Token: %@", token.accessToken);
-          NSLog(@"Expires on: %@", [dateFormatter stringFromDate:token.expiryDate]);
       }];
 #endif
         

@@ -36,12 +36,12 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
-static NSString *const kBaseUrl = @"http://api.churchdesk.com";
+static NSString *const kBaseUrl = @"http://192.168.1.91:3000/";
 #else
 static NSString *const kBaseUrl = @"http://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
 #endif
-static NSString *const kURLAPIPart = @"api/v1/";
-static NSString *const kURLAPIOauthPart = @"oauth/v2/";
+static NSString *const kURLAPIPart = @"";
+static NSString *const kURLAPIOauthPart = @"";
 
 @interface CHDNopDataTransformer : NSObject <SHPDataTransformer>
 @end
@@ -94,7 +94,6 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     resource.cacheInterval = kDefaultCacheIntervalInSeconds;
     
     if (resourceBlock) resourceBlock(resource);
-    
 #if INHOUSE
     BOOL onlyResult = NO;
 #else
@@ -121,12 +120,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         return [RACSignal return:response.result];
     }];
 #endif
-    
     requestSignal.name = path;
     return [[self tokenValidationWrapper:requestSignal] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
-        
     }];
     }
     else{
@@ -149,6 +146,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         NSError *error = nil;
         NSData *data = dictionary ? [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error] : nil;
         request.body = data;
+        NSLog(@"data %@", data);
         if (!data && dictionary) {
             NSLog(@"Error encoding JSON: %@", error);
         }
@@ -187,26 +185,32 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
 #pragma mark - User
 
 - (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password {
-    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
-    resource.resultObjectClass = [CHDAccessToken class];
+//    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
+//    resource.resultObjectClass = [CHDAccessToken class];
+//    SHPAPIManager *manager = self.manager;
+//
+//    RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
+//    
+//        [request setValue:kClientID forQueryParameterKey:@"client_id"];
+//        [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
+//        [request setValue:@"password" forQueryParameterKey:@"grant_type"];
+//        [request setValue:username ?: @"" forQueryParameterKey:@"username"];
+//        [request setValue:password ?: @"" forQueryParameterKey:@"password"];
+//        
+//        [request addValue:@"application/json" forHeaderField:@"Accept"];
+//        [request addValue:@"application/json" forHeaderField:@"Content-Type"];
+//    } withBodyContent:nil toResource:resource];
+//    
+//    return [[[requestSignal replayLazily] doError:^(NSError *error) {
+//        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+//        NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
+//    }] doNext:^(id x) {
+//        [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
+//    }];
+    
     SHPAPIManager *manager = self.manager;
-
-    RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
-    
-        [request setValue:kClientID forQueryParameterKey:@"client_id"];
-        [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
-        [request setValue:@"password" forQueryParameterKey:@"grant_type"];
-        [request setValue:username ?: @"" forQueryParameterKey:@"username"];
-        [request setValue:password ?: @"" forQueryParameterKey:@"password"];
-        
-        [request addValue:@"application/json" forHeaderField:@"Accept"];
-        [request addValue:@"application/json" forHeaderField:@"Content-Type"];
-    } withBodyContent:nil toResource:resource];
-    
-    return [[[requestSignal replayLazily] doError:^(NSError *error) {
-        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-        NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
-    }] doNext:^(id x) {
+    NSDictionary *body = @{@"username": username, @"password": password};
+    return [[self postBodyDictionary:body resultClass:[CHDAccessToken class] toPath:@"login"] doNext:^(id x) {
         [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
     }];
 }
@@ -240,10 +244,9 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     NSString *eventsResourcePath = [self resourcePathForGetEventsFromYear:startDate.year month:startDate.month];
     SHPAPIManager *manager = self.manager;
     NSDictionary *eventDictionary = [event dictionaryRepresentation];
-
+    
     return [[self resourcesForPath:@"events" resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
-
         NSError *error = nil;
         NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
         request.body = data;
@@ -254,11 +257,12 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         [manager.cache invalidateObjectsMatchingRegex:eventsResourcePath];
     }];
 }
+
 - (RACSignal*) updateEventWithEvent: (CHDEvent*) event {
     NSDateComponents *startDate = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:event.startDate];
     NSString *eventsResourcePath = [self resourcePathForGetEventsFromYear:startDate.year month:startDate.month];
     SHPAPIManager *manager = self.manager;
-
+    
     NSString *siteId = event.siteId;
     NSNumber *eventId = event.eventId;
     NSDictionary *eventDictionary = [event dictionaryRepresentation];
@@ -463,11 +467,6 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         }];
     };
     
-    if ([CHDAuthenticationManager sharedInstance].authenticationToken.expired) {
-        NSLog(@"Authentication token expired");
-        return refreshBlock();
-    }
-    
     RACSignal *deferedRequestSignal = [RACSignal defer:^RACSignal *{
         return requestSignal;
     }];
@@ -482,7 +481,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     }];
 }
 
-- (RACSignal *)refreshSignal {
+/*- (RACSignal *)refreshSignal {
     if (!_refreshSignal) {
         CHDAuthenticationManager *authManager = [CHDAuthenticationManager sharedInstance];
         NSString *userId = authManager.userID;
@@ -547,7 +546,7 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
         _refreshSignal = dispatchSignal;
     }
     return _refreshSignal;
-}
+}*/
 
 
 #pragma mark Token error handling
