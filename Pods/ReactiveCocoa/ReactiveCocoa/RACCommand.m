@@ -147,7 +147,7 @@ const NSInteger RACCommandErrorNotEnabled = 1;
 		concat]
 		publish]
 		autoconnect];
-
+    
 	_executionSignals = [[[newActiveExecutionSignals
 		map:^(RACSignal *signal) {
 			return [signal catchTo:[RACSignal empty]];
@@ -217,7 +217,7 @@ const NSInteger RACCommandErrorNotEnabled = 1;
 #pragma mark Execution
 
 - (RACSignal *)execute:(id)input {
-	// `immediateEnabled` is guaranteed to send a value upon subscription, so
+	// immediateEnabled is guaranteed to send a value upon subscription, so
 	// -first is acceptable here.
 	BOOL enabled = [[self.immediateEnabled first] boolValue];
 	if (!enabled) {

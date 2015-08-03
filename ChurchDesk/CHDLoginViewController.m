@@ -211,7 +211,7 @@
         UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", @"") message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [successAlert show];
     } error:^(NSError *error) {
-        NSLog(@"Error resetting password %@", error);
+        NSLog(@"churchd %@", error);
         UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password reset failed", @"") message:NSLocalizedString(@"Something when wrong while resetting your password. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [errorAlert show];
     }];
