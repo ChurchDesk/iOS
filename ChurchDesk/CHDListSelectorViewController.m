@@ -131,32 +131,44 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 
     CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
 
-    if(element.imageURL){
-        CHDSelectorImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorImageCellIdentifyer forIndexPath:indexPath];
-        [cell layoutIfNeeded];
-        [cell.thumbnailImageView hnk_setImageFromURL:element.imageURL];
-        cell.nameLabel.text = element.title;
-        cell.selected = element.selected;
-        if(element.selected){
-            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    BOOL imageExists;
+    @try {
+        if (element.imageURL) {
+            imageExists = YES;
         }
-        cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
-        [cell layoutIfNeeded];
-        return cell;
-    }else{
-        CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorCellIdentifyer forIndexPath:indexPath];
-
-        cell.titleLabel.text = element.title;
-        if(element.selected){
-            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-        }
-        //cell.selected = element.selected;
-        cell.dotColor = element.dotColor;
-
-        cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
-
-        return cell;
+       
     }
-}
+    @catch (NSException *exception) {
+        imageExists = NO;
+    }
+    @finally {
+        if(imageExists){
+            CHDSelectorImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorImageCellIdentifyer forIndexPath:indexPath];
+            [cell layoutIfNeeded];
+            [cell.thumbnailImageView hnk_setImageFromURL:element.imageURL];
+            cell.nameLabel.text = element.title;
+            cell.selected = element.selected;
+            if(element.selected){
+                [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            }
+            cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
+            [cell layoutIfNeeded];
+            return cell;
+        }else{
+            CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorCellIdentifyer forIndexPath:indexPath];
+            
+            cell.titleLabel.text = element.title;
+            if(element.selected){
+                [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            }
+            //cell.selected = element.selected;
+            cell.dotColor = element.dotColor;
+            
+            cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
+            
+            return cell;
+        }
+    }
+    }
 
 @end

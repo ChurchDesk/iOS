@@ -76,7 +76,7 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
 #endif
         
     }
-    return self;
+    return self; 
 }
 
 - (void) authenticateWithToken: (CHDAccessToken*) token userID:(NSString *)userID {

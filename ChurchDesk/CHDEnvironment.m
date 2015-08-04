@@ -82,15 +82,15 @@
     RACSequence *results = [self.groups.rac_sequence filter:^BOOL(CHDGroup * group) {
         return [group.siteId isEqualToString:siteId];
     }];
-
     return results.array;
 }
 
 - (NSArray*) groupsWithSiteId: (NSString*) siteId groupIds: (NSArray*) groupIds {
+    NSLog(@"site id %@ group ids %@", siteId, groupIds);
     RACSequence *results = [self.groups.rac_sequence filter:^BOOL(CHDGroup * group) {
         return [group.siteId isEqualToString:siteId] && [groupIds containsObject:group.groupId];
     }];
-
+    
     return results.array;
 }
 

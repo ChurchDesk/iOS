@@ -1354,8 +1354,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.inhouse;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = inhouse;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1465,8 +1465,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = com.churchdesk.ChurchDeskApp;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = prod;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1488,8 +1488,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.dev;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = dev;
 				FRAMEWORK_SEARCH_PATHS = (

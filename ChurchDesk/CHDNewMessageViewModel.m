@@ -37,18 +37,18 @@
     if (self) {
         self.groupIdLastUsed = [[NSUserDefaults standardUserDefaults] chdDefaultGroupId];
         self.siteIdLastUsed = [[NSUserDefaults standardUserDefaults] chdDefaultSiteId];
-
+        
         RACSignal *getEnvironmentSignal = [[[CHDAPIClient sharedInstance] getEnvironment] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }];
-
+        
         //Filter sites so only sites with can create message is shown
         RACSignal *userSignal = [[[[CHDAPIClient sharedInstance] getCurrentUser] catch:^RACSignal *(NSError *error) {
             return [RACSignal empty];
         }] map:^id(CHDUser *user) {
             NSArray *noFilteredSites = [user.sites copy];
             NSMutableArray *filteredSites = [[NSMutableArray alloc] init];
-
+            
             for(CHDSite *site in noFilteredSites){
                 if(site.permissions.canCreateMessage){
                     [filteredSites addObject:site];
@@ -57,14 +57,14 @@
             user.sites = filteredSites;
             return user;
         }];
-
+        
         RAC(self, user) = userSignal;
-
+        
         RAC(self, environment) = [RACSignal zip:@[getEnvironmentSignal, userSignal] reduce:^id(CHDEnvironment *environment, CHDUser *user) {
             NSArray *sites = user.sites;
             NSArray *nonFilteredGroups = [environment.groups copy];
             NSMutableArray *filteredGroups = [[NSMutableArray alloc] init];
-
+            
             for(CHDGroup *group in nonFilteredGroups){
                 for(CHDSite* site in sites){
                     if([group.siteId isEqualToString:site.siteId]){
@@ -76,7 +76,7 @@
             environment.groups = [filteredGroups copy];
             return environment;
         }];
-
+        
         RAC(self, canSendMessage) = [RACSignal combineLatest:@[RACObserve(self, selectedGroup), RACObserve(self, selectedSite), RACObserve(self, message), RACObserve(self, title)]
                                                       reduce:^(CHDGroup *group, CHDSite *site, NSString *message, NSString *title){
                                                           BOOL validTitle = !([title isEqualToString:@""]);
@@ -84,39 +84,40 @@
                                                           BOOL validGroup = group != nil;
                                                           BOOL validSite = site != nil;
                                                           return @(validTitle && validMessage && validGroup && validSite);
-
+                                                          
                                                       }];
-
+        
         [self shprac_liftSelector:@selector(selectableGroupsMake) withSignal:[RACSignal merge:@[[RACSignal zip:@[ [RACObserve(self, environment) ignore:nil], [RACObserve(self, user) ignore:nil] ]], RACObserve(self, selectedSite)]]];
-
+        
         [self shprac_liftSelector:@selector(selectableSitesMake) withSignal:RACObserve(self, user)];
-
+        
         RAC(self, selectedParishName) = [RACObserve(self, selectedSite) map:^id(CHDSite * site) {
             if(site){
                 return site.name;
             }
             return @"";
         }];
-
+        
         RAC(self, selectedGroupName) = [RACObserve(self, selectedGroup) map:^id(CHDGroup * group) {
             if(group){
                 return group.name;
             }
             return @"";
         }];
-
+        
         RAC(self, canSelectGroup) = [RACObserve(self, selectableGroups) map:^id(NSArray *groups) {
             return @(groups.count > 1);
         }];
-
+        
         RAC(self, canSelectParish) = [RACObserve(self, selectableSites) map:^id(NSArray *users) {
             return @(users.count > 1);
         }];
-
+        
         [self shprac_liftSelector:@selector(checkSiteForSelectedGroup) withSignal:RACObserve(self, selectedGroup)];
     }
     return self;
 }
+
 
 //Fired when a group is selected
 //Checks whether there's already a site selected, if not, a site representing the group is set
@@ -131,15 +132,16 @@
 #pragma mark - Setup selectable groups/sites
 
 -(void) selectableGroupsMake {
+    
     if(self.environment != nil) {
         NSMutableArray *groups = [[NSMutableArray alloc] init];
-
+        
         //If only a single group is available, skip the selectability
         if(groups.count == 1){
             self.selectedGroup = groups[0];
             return;
         }
-
+        
         CHDGroup *selectedGroup = self.selectedGroup;
         __block CHDGroup *newSelectedGroup = nil;
 
@@ -152,12 +154,14 @@
         NSArray *filteredGroups = nil;
 
         if(self.selectedSite) {
+            NSLog(@"site id %@ group ids %@", self.selectedSite.siteId, self.selectedSite.groupIds);
             filteredGroups = [self.environment groupsWithSiteId:self.selectedSite.siteId groupIds:self.selectedSite.groupIds];
         }else{
             filteredGroups = self.environment.groups;
         }
 
         [filteredGroups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
+            
             BOOL groupIsSelected = group.groupId == selectedGroup.groupId || group.groupId == lastUsedId;
             CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:groupIsSelected refObject:group];
             [groups addObject:selectable];
@@ -166,10 +170,9 @@
                 newSelectedGroup = group;
             }
         }];
-
         self.selectedGroup = newSelectedGroup;
-
         self.selectableGroups = [groups copy];
+       
     }
 }
 
