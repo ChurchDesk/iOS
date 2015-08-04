@@ -31,11 +31,11 @@
     if ([propName isEqualToString:@"resources"]) {
         return [CHDResource class];
     }
-
+    
     if ([propName isEqualToString:@"groups"]) {
         return [CHDGroup class];
     }
-
+    
     if ([propName isEqualToString:@"users"]) {
         return [CHDPeerUser class];
     }
@@ -86,7 +86,6 @@
 }
 
 - (NSArray*) groupsWithSiteId: (NSString*) siteId groupIds: (NSArray*) groupIds {
-    NSLog(@"site id %@ group ids %@", siteId, groupIds);
     RACSequence *results = [self.groups.rac_sequence filter:^BOOL(CHDGroup * group) {
         return [group.siteId isEqualToString:siteId] && [groupIds containsObject:group.groupId];
     }];

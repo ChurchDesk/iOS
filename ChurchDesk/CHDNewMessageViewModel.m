@@ -12,7 +12,7 @@
 #import "NSUserDefaults+CHDDefaults.h"
 
 @interface CHDNewMessageViewModel()
-@property (nonatomic, assign) CHDEnvironment *environment;
+@property (nonatomic, strong) CHDEnvironment *environment;
 
 @property (nonatomic) BOOL canSendMessage;
 
@@ -118,13 +118,12 @@
     return self;
 }
 
-
 //Fired when a group is selected
 //Checks whether there's already a site selected, if not, a site representing the group is set
 //This will allow the user to "just" select the desired group
 -(void) checkSiteForSelectedGroup {
     if( !!self.selectedSite || !self.selectedGroup || !self.user || !self.user.sites ){return;}
-
+    
     NSString *siteId = self.selectedGroup.siteId;
     self.selectedSite = [self.user siteWithId:siteId];
 }
@@ -132,10 +131,8 @@
 #pragma mark - Setup selectable groups/sites
 
 -(void) selectableGroupsMake {
-    
     if(self.environment != nil) {
         NSMutableArray *groups = [[NSMutableArray alloc] init];
-        
         //If only a single group is available, skip the selectability
         if(groups.count == 1){
             self.selectedGroup = groups[0];
@@ -144,35 +141,34 @@
         
         CHDGroup *selectedGroup = self.selectedGroup;
         __block CHDGroup *newSelectedGroup = nil;
-
+        
         NSNumber *lastUsedId = nil;
-
+        
         if(selectedGroup == nil){
             lastUsedId = self.groupIdLastUsed;
         }
-
+        
         NSArray *filteredGroups = nil;
-
+        
         if(self.selectedSite) {
-            NSLog(@"site id %@ group ids %@", self.selectedSite.siteId, self.selectedSite.groupIds);
             filteredGroups = [self.environment groupsWithSiteId:self.selectedSite.siteId groupIds:self.selectedSite.groupIds];
         }else{
             filteredGroups = self.environment.groups;
         }
-
+        
         [filteredGroups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
-            
             BOOL groupIsSelected = group.groupId == selectedGroup.groupId || group.groupId == lastUsedId;
             CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:groupIsSelected refObject:group];
             [groups addObject:selectable];
-
+            
             if(groupIsSelected){
                 newSelectedGroup = group;
             }
         }];
+        
         self.selectedGroup = newSelectedGroup;
+        
         self.selectableGroups = [groups copy];
-       
     }
 }
 
@@ -183,12 +179,12 @@
             self.selectedSite = self.user.sites.firstObject;
             return;
         }
-
+        
         //set selected site
         if(!self.selectedSite){
             NSString* lastUsedId = self.siteIdLastUsed;
             CHDSite *lastUsed = [self.user siteWithId:lastUsedId];
-
+            
             if(lastUsed.permissions.canCreateMessage){
                 self.selectedSite = lastUsed;
             }else{
@@ -200,14 +196,14 @@
                 }
             }
         }
-
+        
         CHDSite *selectedSite = self.selectedSite;
-
+        
         NSMutableArray *sites = [[NSMutableArray alloc] init];
         [self.user.sites enumerateObjectsUsingBlock:^(CHDSite * site, NSUInteger idx, BOOL *stop) {
             if(site.permissions.canCreateMessage) {
                 BOOL siteIsSelected = [selectedSite.siteId isEqualToString:site.siteId];
-
+                
                 CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:site.name color:nil selected:siteIsSelected refObject:site];
                 RAC(selectable, selected) = [RACObserve(self, selectedSite) map:^id(CHDSite *observedSite) {
                     return @([observedSite.siteId isEqualToString:site.siteId]);
@@ -225,7 +221,7 @@
     if(self.selectedSite){
         [[NSUserDefaults standardUserDefaults] chdSetDefaultSiteId:self.selectedSite.siteId];
     }
-
+    
     if(self.selectedGroup){
         [[NSUserDefaults standardUserDefaults] chdSetDefaultGroupId:self.selectedGroup.groupId];
     }
@@ -240,7 +236,7 @@
     message.title = self.title;
     message.siteId = self.selectedSite.siteId;
     message.groupId = self.selectedGroup.groupId;
-
+    
     RACSignal *saveSignal = [self.saveCommand execute:RACTuplePack(message)];
     return saveSignal;
 }
@@ -249,7 +245,7 @@
     if(!_saveCommand){
         _saveCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
             CHDMessage *message = tuple.first;
-
+            
             return [[CHDAPIClient sharedInstance] createMessageWithTitle:message.title message:message.body siteId:message.siteId groupId:message.groupId];
         }];
     }

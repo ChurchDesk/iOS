@@ -83,9 +83,9 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 #pragma mark - Bar button handlers
 -(void) leftBarButtonTouch{
     [self.view endEditing:YES];
-
+    
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_NEW_MESSAGE action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CANCEL];
-
+    
     //Cancel the creation of new message
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -109,7 +109,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
             case 403:
                 self.statusView.errorText = NSLocalizedString(@"Access denied", @"");
                 break;
-
+                
             case 429:
                 self.statusView.errorText = NSLocalizedString(@"Too many requests, try again later", @"");
                 break;
@@ -132,11 +132,11 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
             selectorViewController.title = NSLocalizedString(@"Parish", @"");
             selectorViewController.selectMultiple = NO;
             selectorViewController.selectorDelegate = self;
-
+            
             [self.navigationController pushViewController:selectorViewController animated:YES];
         }
     }
-
+    
     if((newMessagesSections)indexPath.section == selectGroupSection  && indexPath.row == 0){
         if(self.messageViewModel.selectableGroups.count > 0) {
             CHDListSelectorViewController *selectorViewController = [[CHDListSelectorViewController new] initWithSelectableItems:self.messageViewModel.selectableGroups];
@@ -172,7 +172,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     if((newMessagesSections)indexPath.section == divider1Section || (newMessagesSections)indexPath.section == devider2Section){
         CHDDividerTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageDividerCell forIndexPath:indexPath];
         return cell;
@@ -181,7 +181,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kNewMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Parish", @"");
         RAC(cell.selectedLabel, text) = [RACObserve(self.messageViewModel, selectedParishName) takeUntil: cell.rac_prepareForReuseSignal];
-
+        
         //Only show the dividing line if groups can be selected
         cell.dividerLineHidden = !self.messageViewModel.canSelectGroup;
         return cell;
@@ -216,7 +216,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     if([selection.refObject isKindOfClass:[CHDGroup class] ]){
         self.messageViewModel.selectedGroup = (CHDGroup *)selection.refObject;
     }
-
+    
     if([selection.refObject isKindOfClass:[CHDSite class] ]){
         self.messageViewModel.selectedSite = (CHDSite *)selection.refObject;
     }
@@ -250,18 +250,18 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 
 -(void) makeBindings {
     [self rac_liftSelector:@selector(chd_willToggleKeyboard:) withSignals:[self shp_keyboardAwarenessSignal], nil];
-
+    
     //Change the state of the send button
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
-
+    
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.messageViewModel, canSelectGroup), RACObserve(self.messageViewModel, canSelectParish)]]];
-
+    
     [self shprac_liftSelector:@selector(titleAsFirstResponder) withSignal:[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1]];
 }
 
 -(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
     self.statusView.currentStatus = status;
-
+    
     if(status == CHDStatusViewProcessing){
         self.statusView.show = YES;
         return;
@@ -304,7 +304,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         [_tableView registerClass:[CHDNewMessageSelectorCell class] forCellReuseIdentifier:kNewMessageSelectorCell];
         [_tableView registerClass:[CHDNewMessageTextViewCell class] forCellReuseIdentifier:kNewMessageTextViewCell];
         [_tableView registerClass:[CHDNewMessageTextFieldCell class] forCellReuseIdentifier:kNewMessageTextFieldCell];
-
+        
         _tableView.dataSource = self;
         _tableView.delegate = self;
     }
@@ -317,27 +317,27 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     CGFloat offset = 0;
     switch (keyboardEvent.keyboardEventType) {
         case SHPKeyboardEventTypeShow:
-
+            
             //Set content inset
             self.tableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardEvent.keyboardFrame.size.height, 0);
-
+            
             // Keyboard will appear. Calculate the new offset from the provided offset
             offset = self.tableView.contentOffset.y - keyboardEvent.requiredViewOffset;
-
+            
             // Save the current view offset into the event to retrieve it later
             keyboardEvent.originalOffset = self.tableView.contentOffset.y;
-
+            
             break;
         case SHPKeyboardEventTypeHide:
             self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
             // Keyboard will hide. Reset view offset to its state before keyboard appeared
             offset = keyboardEvent.originalOffset;
-
+            
             break;
         default:
             break;
     }
-
+    
     [UIView animateWithDuration:keyboardEvent.keyboardAnimationDuration
                           delay:0
                         options:keyboardEvent.keyboardAnimationOptionCurve
