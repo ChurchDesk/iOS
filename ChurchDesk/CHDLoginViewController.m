@@ -13,6 +13,7 @@
 #import "SHPKeyboardAwareness.h"
 #import "CHDLoginViewModel.h"
 #import "CHDAnalyticsManager.h"
+#import "CHDAuthenticationManager.h"
 
 @interface CHDLoginViewController () <UITextFieldDelegate>
 
@@ -155,6 +156,7 @@
 - (void) loginAction: (id) sender {
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SIGNIN action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_LOGIN];
     [self.view endEditing:YES];
+    
     [[self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text] subscribeError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"code %ld", (long)response.statusCode);

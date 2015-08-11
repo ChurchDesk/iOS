@@ -129,6 +129,7 @@ static NSString *const kURLAPIOauthPart = @"";
     else{
         return [RACSignal return:Nil];
     }
+    
 }
 
 - (RACSignal*)postBodyDictionary:(NSDictionary*)dictionary resultClass: (Class) resultClass toPath:(NSString*)path {
@@ -185,32 +186,23 @@ static NSString *const kURLAPIOauthPart = @"";
 #pragma mark - User
 
 - (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password {
-//    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
-//    resource.resultObjectClass = [CHDAccessToken class];
-//    SHPAPIManager *manager = self.manager;
-//
-//    RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
-//    
-//        [request setValue:kClientID forQueryParameterKey:@"client_id"];
-//        [request setValue:kClientSecret forQueryParameterKey:@"client_secret"];
-//        [request setValue:@"password" forQueryParameterKey:@"grant_type"];
-//        [request setValue:username ?: @"" forQueryParameterKey:@"username"];
-//        [request setValue:password ?: @"" forQueryParameterKey:@"password"];
-//        
-//        [request addValue:@"application/json" forHeaderField:@"Accept"];
-//        [request addValue:@"application/json" forHeaderField:@"Content-Type"];
-//    } withBodyContent:nil toResource:resource];
-//    
-//    return [[[requestSignal replayLazily] doError:^(NSError *error) {
-//        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-//        NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
-//    }] doNext:^(id x) {
-//        [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
-//    }];
-    
+    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"login"];
+    resource.resultObjectClass = [CHDAccessToken class];
     SHPAPIManager *manager = self.manager;
-    NSDictionary *body = @{@"username": username, @"password": password};
-    return [[self postBodyDictionary:body resultClass:[CHDAccessToken class] toPath:@"login"] doNext:^(id x) {
+
+    RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        [request setValue:username ?: @"" forQueryParameterKey:@"username"];
+        [request setValue:password ?: @"" forQueryParameterKey:@"password"];
+        
+        [request addValue:@"application/json" forHeaderField:@"Accept"];
+        [request addValue:@"application/json" forHeaderField:@"Content-Type"];
+    } withBodyContent:nil toResource:resource];
+    
+    return [[[requestSignal replayLazily] doError:^(NSError *error) {
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
+    }] doNext:^(id x) {
         [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
     }];
 }
@@ -232,7 +224,9 @@ static NSString *const kURLAPIOauthPart = @"";
 #pragma mark - Calendar
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month {
-    return [self resourcesForPath:[self resourcePathForGetEventsFromYear:year month:month] resultClass:[CHDEvent class] withResource:nil];
+    //return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil];
+
+    return [self sendBodyDictionary:@{@"start" : @"2015-03-01",@"end" : @"2015-06-01"} method:SHPHTTPRequestMethodGET resultClass:[CHDEvent class] toPath:[self resourcePathForGetEvents]];
 }
 
 - (RACSignal*) getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId {
@@ -240,8 +234,8 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 - (RACSignal*) createEventWithEvent: (CHDEvent*) event {
-    NSDateComponents *startDate = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:event.startDate];
-    NSString *eventsResourcePath = [self resourcePathForGetEventsFromYear:startDate.year month:startDate.month];
+   // NSDateComponents *startDate = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:event.startDate];
+    NSString *eventsResourcePath = [self resourcePathForGetEvents];
     SHPAPIManager *manager = self.manager;
     NSDictionary *eventDictionary = [event dictionaryRepresentation];
     
@@ -259,8 +253,8 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 - (RACSignal*) updateEventWithEvent: (CHDEvent*) event {
-    NSDateComponents *startDate = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:event.startDate];
-    NSString *eventsResourcePath = [self resourcePathForGetEventsFromYear:startDate.year month:startDate.month];
+  //  NSDateComponents *startDate = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:event.startDate];
+    NSString *eventsResourcePath = [self resourcePathForGetEvents];
     SHPAPIManager *manager = self.manager;
     
     NSString *siteId = event.siteId;
@@ -444,6 +438,8 @@ static NSString *const kURLAPIOauthPart = @"";
 - (NSString*)resourcePathForGetCurrentUser{return @"users";}
 - (NSString*)resourcePathForGetEnvironment{return @"dictionaries";}
 - (NSString*)resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month{return [NSString stringWithFormat:@"events/%@/%@", @(year), @(month)];}
+
+- (NSString*)resourcePathForGetEvents{return @"calendar";}
 - (NSString*)resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId{return [NSString stringWithFormat:@"events/%@?site=%@", eventId, siteId];}
 
 - (NSString*)resourcePathForGetInvitations{return @"my-invites";}

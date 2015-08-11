@@ -50,6 +50,7 @@
 - (NSString*) resourcePathForGetCurrentUser;
 - (NSString*) resourcePathForGetEnvironment;
 - (NSString*) resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month;
+- (NSString*) resourcePathForGetEvents;
 - (NSString*) resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
 
 - (NSString*) resourcePathForGetInvitations;

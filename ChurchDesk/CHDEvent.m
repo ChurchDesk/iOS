@@ -20,7 +20,7 @@
 
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
     if ([propName isEqualToString:@"eventId"]) {
-        return @"id";
+        return @"eid";
     }
     if ([propName isEqualToString:@"creationDate"]) {
         return @"created";
