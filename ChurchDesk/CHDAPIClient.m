@@ -225,8 +225,36 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month {
     //return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil];
+    NSString *endDate = [self getEndDateOfMonth:year month:month];
+    NSString *startDate = [NSString stringWithFormat:@"%d-%d-01", year, month];
+    NSLog(@"month %d, year %d, start date %@, end date %@", month, year, startDate, endDate);
+    
+    return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:startDate forQueryParameterKey:@"start"];
+        [request setValue:endDate forQueryParameterKey:@"end"];
+    }];
+}
 
-    return [self sendBodyDictionary:@{@"start" : @"2015-03-01",@"end" : @"2015-06-01"} method:SHPHTTPRequestMethodGET resultClass:[CHDEvent class] toPath:[self resourcePathForGetEvents]];
+-(NSString *) getEndDateOfMonth: (NSInteger) year month: (NSInteger) month {
+    NSString *dateString = [NSString stringWithFormat:@"%d-%d-15", year, month];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *dateFromString = [[NSDate alloc] init];
+    dateFromString = [dateFormatter dateFromString:dateString];
+    
+    //calculating last day of month
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    NSRange daysRange =
+    [currentCalendar
+     rangeOfUnit:NSCalendarUnitDay
+     inUnit:NSCalendarUnitMonth
+     forDate:dateFromString];
+    
+    // daysRange.length will contain the number of the last day
+    // of the month containing dateofstring
+    NSLog(@"%i", daysRange.length);
+    return [NSString stringWithFormat:@"%d-%d-%d", year, month, daysRange.length];
+    
 }
 
 - (RACSignal*) getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId {
