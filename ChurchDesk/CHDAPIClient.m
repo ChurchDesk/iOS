@@ -463,7 +463,7 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 #pragma mark - Resources paths
-- (NSString*)resourcePathForGetCurrentUser{return @"users/me";}
+- (NSString*)resourcePathForGetCurrentUser{return @"users";}
 - (NSString*)resourcePathForGetEnvironment{return @"dictionaries";}
 - (NSString*)resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month{return [NSString stringWithFormat:@"events/%@/%@", @(year), @(month)];}
 
