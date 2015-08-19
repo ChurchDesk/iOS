@@ -161,7 +161,7 @@
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"code %ld", (long)response.statusCode);
         
-        if (response.statusCode == 400) {
+        if (response.statusCode == 401) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Wrong username or password", @"Message shown on wrong username password") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
             [alertView show];
         }

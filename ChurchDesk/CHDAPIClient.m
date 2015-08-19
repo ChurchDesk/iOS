@@ -226,8 +226,8 @@ static NSString *const kURLAPIOauthPart = @"";
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month {
     //return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil];
     NSString *endDate = [self getEndDateOfMonth:year month:month];
-    NSString *startDate = [NSString stringWithFormat:@"%d-%d-01", year, month];
-    NSLog(@"month %d, year %d, start date %@, end date %@", month, year, startDate, endDate);
+    NSString *startDate = [NSString stringWithFormat:@"%ld-%ld-01", (long)year, (long)month];
+    NSLog(@"month %ld, year %ld, start date %@, end date %@", (long)month, (long)year, startDate, endDate);
     
     return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:startDate forQueryParameterKey:@"start"];
@@ -236,7 +236,7 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 -(NSString *) getEndDateOfMonth: (NSInteger) year month: (NSInteger) month {
-    NSString *dateString = [NSString stringWithFormat:@"%d-%d-15", year, month];
+    NSString *dateString = [NSString stringWithFormat:@"%ld-%ld-15", (long)year, (long)month];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *dateFromString = [[NSDate alloc] init];
@@ -252,8 +252,8 @@ static NSString *const kURLAPIOauthPart = @"";
     
     // daysRange.length will contain the number of the last day
     // of the month containing dateofstring
-    NSLog(@"%i", daysRange.length);
-    return [NSString stringWithFormat:@"%d-%d-%d", year, month, daysRange.length];
+    NSLog(@"%lu", (unsigned long)daysRange.length);
+    return [NSString stringWithFormat:@"%ld-%ld-%lu", (long)year, (long)month, (unsigned long)daysRange.length];
     
 }
 
@@ -463,7 +463,7 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 #pragma mark - Resources paths
-- (NSString*)resourcePathForGetCurrentUser{return @"users";}
+- (NSString*)resourcePathForGetCurrentUser{return @"users/me";}
 - (NSString*)resourcePathForGetEnvironment{return @"dictionaries";}
 - (NSString*)resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month{return [NSString stringWithFormat:@"events/%@/%@", @(year), @(month)];}
 
@@ -471,7 +471,7 @@ static NSString *const kURLAPIOauthPart = @"";
 - (NSString*)resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId{return [NSString stringWithFormat:@"events/%@?site=%@", eventId, siteId];}
 
 - (NSString*)resourcePathForGetInvitations{return @"my-invites";}
-- (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year{return [NSString stringWithFormat:@"holydays/%@", @(year)];}
+- (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year{return [NSString stringWithFormat:@"calendar/holydays/%@", @(year)];}
 
 - (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}
 - (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}
