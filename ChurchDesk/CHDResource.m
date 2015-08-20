@@ -15,7 +15,7 @@
         return @"id";
     }
     if([propName isEqualToString:@"siteId"]) {
-        return @"site";
+        return @"organizationId";
     }
     return [super mapPropertyForPropertyWithName:propName];
 }

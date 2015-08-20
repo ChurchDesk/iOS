@@ -378,17 +378,17 @@ static CGFloat kReplyViewHeight = 50.f;
 
         CHDMessage *message = self.viewModel.message;
         CHDEnvironment *environment = self.viewModel.environment;
-        CHDUser *user = self.viewModel.user;
+        //CHDUser *user = self.viewModel.user;
         CHDGroup *group = [environment groupWithId:message.groupId siteId:message.siteId];
         CHDPeerUser *authorUser = [environment userWithId: message.authorId siteId:message.siteId];
-        CHDSite *authorSite = [user siteWithId:authorUser.siteId];
+        //CHDSite *authorSite = [user siteWithId:authorUser.siteId];
 
         CHDMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMessageCellIdentifier forIndexPath:indexPath];
         cell.titleLabel.text = message.title;
         cell.groupLabel.text = group? group.name : @"";
         cell.createdDateLabel.text = message.changeDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.changeDate] : @"";
         cell.messageLabel.text = message.body;
-        cell.parishLabel.text = (user.sites.count > 1)? authorSite ? authorSite.name : @"" : @"";
+        //cell.parishLabel.text = (user.sites.count > 1)? authorSite ? authorSite.name : @"" : @"";
         cell.userNameLabel.text = authorUser? authorUser.name : @"";
         cell.profileImageView.image = nil;
         [cell.profileImageView setHnk_cacheFormat:self.hnk_cacheFormat];

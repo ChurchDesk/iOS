@@ -11,8 +11,8 @@
 @implementation CHDHoliday
 
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
-    if ([propName isEqualToString:@"date"]) {
-        return @"startDate";
+    if ([propName isEqualToString:@"name"]) {
+        return @"title";
     }
     return [super mapPropertyForPropertyWithName:propName];
 }

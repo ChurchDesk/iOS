@@ -153,7 +153,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) userNames {
     NSArray *resources = [self.environment.users shp_filter:^BOOL(CHDPeerUser *user) {
-        return [self.event.userIds containsObject:user.userId] && [self.event.siteId isEqualToString:user.siteId];
+        return [self.event.userIds containsObject:user.userId];
     }];
     
     return [resources shp_map:^id(CHDPeerUser *user) {

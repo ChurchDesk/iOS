@@ -232,6 +232,7 @@ static NSString *const kURLAPIOauthPart = @"";
     return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:startDate forQueryParameterKey:@"start"];
         [request setValue:endDate forQueryParameterKey:@"end"];
+        [request setValue:@"event" forQueryParameterKey:@"type"];
     }];
 }
 
@@ -468,10 +469,10 @@ static NSString *const kURLAPIOauthPart = @"";
 - (NSString*)resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month{return [NSString stringWithFormat:@"events/%@/%@", @(year), @(month)];}
 
 - (NSString*)resourcePathForGetEvents{return @"calendar";}
-- (NSString*)resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId{return [NSString stringWithFormat:@"events/%@?site=%@", eventId, siteId];}
+- (NSString*)resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId{return [NSString stringWithFormat:@"calendar/%@?organizationId=%@", eventId, siteId];}
 
 - (NSString*)resourcePathForGetInvitations{return @"my-invites";}
-- (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year{return [NSString stringWithFormat:@"calendar/holydays/%@", @(year)];}
+- (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year{return [NSString stringWithFormat:@"calendar/holydays/dk/%@", @(year)];}
 
 - (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}
 - (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}

@@ -99,7 +99,7 @@
 
 - (CHDPeerUser*) userWithId: (NSNumber*) userId siteId: (NSString*) siteId {
     return userId ? [self.users shp_detect:^BOOL(CHDPeerUser *user) {
-        return [user.userId isEqualToNumber:userId] && [user.siteId isEqualToString:siteId];
+        return [user.userId isEqualToNumber:userId];
     }] : nil;
 }
 
@@ -113,7 +113,8 @@
                 break;
             }
         }
-        return [user.siteId isEqualToString:siteId] && validGroups;
+        //return [user.siteId isEqualToString:siteId] && validGroups;
+        return validGroups;
     }] : nil;
 }
 

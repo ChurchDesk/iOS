@@ -23,7 +23,7 @@
         return @"eid";
     }
     if ([propName isEqualToString:@"creationDate"]) {
-        return @"created";
+        return @"createdAt";
     }
     if ([propName isEqualToString:@"allDayEvent"]) {
         return @"allDay";
@@ -40,14 +40,14 @@
     if ([propName isEqualToString:@"userIds"]) {
         return @"users";
     }
-    if ([propName isEqualToString:@"eventCategoryIds"]) {
-        return @"eventCategories";
+    if ([propName isEqualToString:@"eventCategories"]) {
+        return @"taxonomies";
     }
     if ([propName isEqualToString:@"pictureURL"]) {
         return @"picture";
     }
     if([propName isEqualToString:@"siteId"]) {
-        return @"site";
+        return @"organizationId";
     }
     return [super mapPropertyForPropertyWithName:propName];
 }
