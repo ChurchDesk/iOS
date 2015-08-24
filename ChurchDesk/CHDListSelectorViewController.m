@@ -129,20 +129,8 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
         return cell;
     }
 
-    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
-
-    BOOL imageExists;
-    @try {
+        CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
         if (element.imageURL) {
-            imageExists = YES;
-        }
-       
-    }
-    @catch (NSException *exception) {
-        imageExists = NO;
-    }
-    @finally {
-        if(imageExists){
             CHDSelectorImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorImageCellIdentifyer forIndexPath:indexPath];
             [cell layoutIfNeeded];
             [cell.thumbnailImageView hnk_setImageFromURL:element.imageURL];
@@ -168,7 +156,6 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
             
             return cell;
         }
-    }
     }
 
 @end
