@@ -82,19 +82,19 @@ static CGFloat kImageSize = 28.0f;
 }
 
 - (void) setupBindings {
-    RAC(self.statusImageView, image) = [RACObserve(self, status) map:^id(NSNumber *nStatus) {
-        CHDEventResponse response = nStatus.unsignedIntegerValue;
-        switch (response) {
-            case CHDEventResponseGoing:
-                return kImgEventAttendanceGoing;
-            case CHDEventResponseNotGoing:
-                return kImgEventAttendanceDeclined;
-            case CHDEventResponseMaybe:
-                return kImgEventAttendanceMaybe;
-            case CHDEventResponseNone:
-                return kImgEventAttendanceNoreply;
-            default:
-                return kImgEventAttendanceNoreply;
+    RAC(self.statusImageView, image) = [RACObserve(self, status) map:^id(NSString *nStatus) {
+        NSString *response = nStatus;
+        if ([response isEqualToString:CHDInvitationAccept]) {
+            return kImgEventAttendanceGoing;
+        }
+        else if ([response isEqualToString:CHDInvitationDecline]){
+            return kImgEventAttendanceDeclined;
+        }
+        else if ([response isEqualToString:CHDInvitationMaybe]){
+            return kImgEventAttendanceMaybe;
+        }
+        else{
+            return kImgEventAttendanceNoreply;
         }
     }];
     

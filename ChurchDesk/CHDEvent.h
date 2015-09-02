@@ -13,12 +13,6 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
     CHDEventVisibilityOnlyInGroup,
 };
 
-typedef NS_ENUM(NSUInteger, CHDEventResponse) {
-    CHDEventResponseNone,
-    CHDEventResponseGoing,
-    CHDEventResponseNotGoing,
-    CHDEventResponseMaybe,
-};
 
 @interface CHDEvent : CHDManagedModel
 
@@ -41,7 +35,7 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 @property (nonatomic, strong) NSString *contributor;
 @property (nonatomic, strong) NSURL *pictureURL;
 
-@property (nonatomic, assign) CHDEventResponse eventResponse;
+@property (nonatomic, assign) NSString *eventResponse;
 @property (nonatomic, assign) BOOL canEdit;
 @property (nonatomic, assign) BOOL canDelete;
 
@@ -50,7 +44,7 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 @property (nonatomic, strong) NSDate *endDate;
 
 @property (nonatomic, strong) NSArray *resourceIds;
-@property (nonatomic, strong) NSArray *userIds;
+@property (nonatomic, strong) NSDictionary *userIds;
 @property (nonatomic, strong) NSArray *attendenceStatus;
 
 - (NSString*)localizedVisibilityString;
@@ -59,6 +53,6 @@ typedef NS_ENUM(NSUInteger, CHDEventResponse) {
 - (NSDictionary*) dictionaryRepresentation;
 
 - (BOOL) eventForUserWithId: (NSNumber*) userId;
-- (CHDEventResponse) attendanceStatusForUserWithId: (NSNumber*) userId;
+- (NSString *) attendanceStatusForUserWithId: (NSNumber*) userId;
 
 @end

@@ -36,7 +36,7 @@
         }] flattenMap:^RACStream *(id value) {
             return [[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
                 RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
-                    return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
+                    return [invitation.attending isEqualToString:CHDInvitationNoAnswer] ;
                 }];
 
                 //newest on top
@@ -52,7 +52,7 @@
 
         RAC(self, invitations) = [RACSignal merge:@[[[[[CHDAPIClient sharedInstance] getInvitations] map:^id(NSArray* invitations) {
             RACSequence *results = [invitations.rac_sequence filter:^BOOL(CHDInvitation * invitation) {
-                return (CHDInvitationResponse)invitation.response == CHDInvitationNoAnswer;
+                return [invitation.attending isEqualToString:CHDInvitationNoAnswer];
             }];
             //newest on top
             return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDInvitation *invitation1, CHDInvitation *invitation2) {

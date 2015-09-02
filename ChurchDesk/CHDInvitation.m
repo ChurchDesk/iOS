@@ -15,13 +15,16 @@
         return @"id";
     }
     if ([propName isEqualToString:@"changeDate"]) {
-        return @"changed";
+        return @"updatedAt";
     }
     if([propName isEqualToString:@"siteId"]) {
-        return @"site";
+        return @"organizationId";
     }
-    if([propName isEqualToString:@"invitedByUserId"]) {
-        return @"invitedBy";
+    if([propName isEqualToString:@"invitedByUser"]) {
+        return @"fullName";
+    }
+    if([propName isEqualToString:@"eventCategories"]) {
+        return @"taxonomy";
     }
     return [super mapPropertyForPropertyWithName: propName];
 }

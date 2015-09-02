@@ -124,6 +124,10 @@ static NSString *const kURLAPIOauthPart = @"";
     return [[self tokenValidationWrapper:requestSignal] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
+//        if (response.statusCode == 401) {
+//            NSLog(@"signing out");
+//            [[CHDAuthenticationManager sharedInstance] signOut];
+//        }
     }];
     }
     else{
@@ -318,7 +322,7 @@ static NSString *const kURLAPIOauthPart = @"";
     return [self resourcesForPath:[self resourcePathForGetHolidaysFromYear:year] resultClass:[CHDHoliday class] withResource:nil];
 }
 
-- (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSInteger) response {
+- (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSString *) response {
     SHPAPIManager *manager = self.manager;
 
     return [[[self postHeaderDictionary:@{@"site" : siteId} resultClass:[NSArray class] toPath:[NSString stringWithFormat:@"events/respond/%@/%li", eventId, (long) response]] map:^id(id value) {
@@ -464,14 +468,14 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 #pragma mark - Resources paths
-- (NSString*)resourcePathForGetCurrentUser{return @"users";}
+- (NSString*)resourcePathForGetCurrentUser{return @"users/me";}
 - (NSString*)resourcePathForGetEnvironment{return @"dictionaries";}
 - (NSString*)resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month{return [NSString stringWithFormat:@"events/%@/%@", @(year), @(month)];}
 
 - (NSString*)resourcePathForGetEvents{return @"calendar";}
 - (NSString*)resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId{return [NSString stringWithFormat:@"calendar/%@?organizationId=%@", eventId, siteId];}
 
-- (NSString*)resourcePathForGetInvitations{return @"my-invites";}
+- (NSString*)resourcePathForGetInvitations{return @"calendar/invitations";}
 - (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year{return [NSString stringWithFormat:@"calendar/holydays/dk/%@", @(year)];}
 
 - (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}

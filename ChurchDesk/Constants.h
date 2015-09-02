@@ -1,0 +1,5 @@
+#define kserverURL @"http://sumapi.elasticbeanstalk.com/"
+#define CHDInvitationNoAnswer @"no-answer"
+#define CHDInvitationAccept @"yes"
+#define CHDInvitationMaybe @"no"
+#define CHDInvitationDecline @"maybe"

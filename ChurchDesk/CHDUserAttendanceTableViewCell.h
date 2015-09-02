@@ -13,7 +13,7 @@
 
 @property (nonatomic, readonly) UIImageView *userImageView;
 @property (nonatomic, readonly) UILabel *nameLabel;
-@property (nonatomic, assign) CHDEventResponse status;
+@property (nonatomic, assign) NSString *status;
 @property (nonatomic, assign) BOOL topLineHidden;
 @property (nonatomic, assign) BOOL bottomLineFull;
 

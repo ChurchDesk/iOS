@@ -5,9 +5,11 @@
 
 #import "CHDSitePermission.h"
 
-
 @implementation CHDSitePermission
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
+    if([propName isEqualToString:@"canDoubleBook"]) {
+        return @"canAllowDoubleBooking";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 @end

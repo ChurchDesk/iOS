@@ -83,31 +83,34 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     return self.sectionRows[section];
 }
 
-- (NSString*) textForEventResponse: (CHDEventResponse) response {
-    switch (response) {
-        case CHDEventResponseGoing:
-            return NSLocalizedString(@"Going", @"");
-        case CHDEventResponseNotGoing:
-            return NSLocalizedString(@"Not going", @"");
-        case CHDEventResponseMaybe:
-            return NSLocalizedString(@"Maybe", @"");
-        case CHDEventResponseNone:
-        default:
-            return NSLocalizedString(@"No reply", @"");
+- (NSString*) textForEventResponse: (NSString *) response {
+    if ([response isEqualToString:CHDInvitationAccept]) {
+        return NSLocalizedString(@"Going", @"");
     }
+    else if ([response isEqualToString:CHDInvitationDecline]){
+        return NSLocalizedString(@"Not going", @"");
+    }
+    else if ([response isEqualToString:CHDInvitationMaybe]){
+        return NSLocalizedString(@"Maybe", @"");
+    }
+    else{
+        return NSLocalizedString(@"No reply", @"");
+    }
+    
 }
 
-- (UIColor*) textColorForEventResponse: (CHDEventResponse) response {
-    switch (response) {
-        case CHDEventResponseGoing:
-            return [UIColor chd_eventAcceptColor];
-        case CHDEventResponseNotGoing:
-            return [UIColor chd_eventDeclineColor];
-        case CHDEventResponseMaybe:
-            return [UIColor chd_eventMaybeColor];
-        case CHDEventResponseNone:
-        default:
-            return [UIColor chd_textDarkColor];
+- (UIColor*) textColorForEventResponse: (NSString *) response {
+    if ([response isEqualToString:CHDInvitationAccept]) {
+        return [UIColor chd_eventAcceptColor];
+    }
+    else if ([response isEqualToString:CHDInvitationDecline]){
+        return [UIColor chd_eventDeclineColor];
+    }
+    else if ([response isEqualToString:CHDInvitationMaybe]){
+        return [UIColor chd_eventMaybeColor];
+    }
+    else{
+        return [UIColor chd_textDarkColor];
     }
 }
 
@@ -153,7 +156,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) userNames {
     NSArray *resources = [self.environment.users shp_filter:^BOOL(CHDPeerUser *user) {
-        return [self.event.userIds containsObject:user.userId];
+        return [self.event.userIds.allKeys containsObject:user.userId];
     }];
     
     return [resources shp_map:^id(CHDPeerUser *user) {
@@ -231,12 +234,12 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
         }];
 }
 
-- (RACSignal*) respondToEventWithResponse: (CHDEventResponse) response {
+- (RACSignal*) respondToEventWithResponse: (NSString*) response {
     CHDEvent *event = self.event;
-    CHDEventResponse oldResponse = event.eventResponse;
+    NSString *oldResponse = event.eventResponse;
     self.event.eventResponse = response;
     for (NSMutableDictionary *dict in self.event.attendenceStatus) {
-        if ([dict[@"user"] isEqualToNumber:[self.user userIdForSiteId:self.event.siteId]]) {
+        if ([dict[@"user"] isEqualToNumber:self.user.userId]) {
             NSMutableDictionary *dictCopy = [dict mutableCopy];
             [dictCopy setValue:[NSNumber numberWithInt:(int)response] forKey:@"status"];
     
@@ -249,7 +252,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     RACSignal *eventSignal = [[[CHDAPIClient sharedInstance] setResponseForEventWithId:self.event.eventId siteId:self.event.siteId response:response] doError:^(NSError *error) {
         event.eventResponse = oldResponse;
         for (NSMutableDictionary *dict in self.event.attendenceStatus) {
-            if ([dict[@"user"] isEqualToNumber:[self.user userIdForSiteId:self.event.siteId]]) {
+            if ([dict[@"user"] isEqualToNumber:self.user.userId]) {
                 NSMutableDictionary *dictCopy = [dict mutableCopy];
                 [dictCopy setValue:[NSNumber numberWithInt:(int)oldResponse] forKey:@"status"];
                 
@@ -305,8 +308,8 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     if (event.eventCategoryIds.count > 0) {
         [baseRows addObject:CHDEventInfoRowCategories];
     }
-    if ([event.userIds containsObject: [self.user userIdForSiteId:event.siteId]] ) {
-        event.eventResponse = [event attendanceStatusForUserWithId:[self.user userIdForSiteId:event.siteId]];
+    if ([event.userIds.allKeys containsObject: self.user.userId] ) {
+        event.eventResponse = [event attendanceStatusForUserWithId:self.user.userId];
         [baseRows addObject:CHDEventInfoRowAttendance];
     }
     mSectionRows[CHDEventInfoSectionBase] = [baseRows copy];

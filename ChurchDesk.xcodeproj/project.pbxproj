@@ -220,6 +220,7 @@
 		36E869E71AD651AB003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46C4684C1B0CD955002C6A2B /* CHDTImeRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTImeRecordingViewController.h; sourceTree = "<group>"; };
 		46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDTImeRecordingViewController.m; sourceTree = "<group>"; };
+		46D641D81B972ACB00E66910 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6037208164EB947D72C14C08 /* CHDSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSite.h; sourceTree = "<group>"; };
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		60372089EA49349970627A31 /* CHDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUser.h; sourceTree = "<group>"; };
@@ -740,6 +741,7 @@
 		603726AC62FEF768227A022C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				46D641D81B972ACB00E66910 /* Constants.h */,
 				36E869E81AD651AB003743D2 /* InfoPlist.strings */,
 				76143F081A96036100651CEA /* Fonts */,
 				60372631488DA2406B7F0AB9 /* Info.plist */,

@@ -116,7 +116,7 @@
         NSMutableDictionary *mSectionRows = [NSMutableDictionary new];
 
         [events enumerateObjectsUsingBlock:^(CHDEvent *event, NSUInteger idx, BOOL *stop) {
-            BOOL usersEventsOnly = (self.myEventsOnly ? [event eventForUserWithId:[self.user userIdForSiteId:event.siteId]] : YES);
+            BOOL usersEventsOnly = (self.myEventsOnly ? [event eventForUserWithId:self.user.userId] : YES);
             if (![mEvents containsObject:event] && usersEventsOnly) {
                 [mEvents addObject:event];
             }

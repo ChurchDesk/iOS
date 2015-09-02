@@ -303,7 +303,7 @@
         selectMultiple = YES;
         NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
         for (CHDPeerUser *user in users) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds containsObject:user.userId] refObject:user.userId]];
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds.allKeys containsObject:user.userId] refObject:user.userId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowResources]) {
@@ -549,7 +549,7 @@
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
-        cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
+        cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.allKeys.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
 
         returnCell = cell;
     }

@@ -12,8 +12,8 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSURL *pictureURL;
 @property (nonatomic, strong) NSArray *sites;
+@property (nonatomic, strong) NSNumber *userId;
 
 - (CHDSite*) siteWithId: (NSString*) siteId;
 
-- (NSNumber*) userIdForSiteId: (NSString*) siteId;
 @end

@@ -49,8 +49,8 @@ extern NSString *const CHDEventInfoRowDivider;
 
 - (NSArray*) rowsForSection: (NSString*) section;
 
-- (NSString*) textForEventResponse: (CHDEventResponse) response;
-- (UIColor*) textColorForEventResponse: (CHDEventResponse) response;
+- (NSString*) textForEventResponse: (NSString *) response;
+- (UIColor*) textColorForEventResponse: (NSString *) response;
 
 - (NSString*) eventDateString;
 - (NSString*) parishName;
@@ -62,6 +62,6 @@ extern NSString *const CHDEventInfoRowDivider;
 
 - (void) openMapsWithLocationString: (NSString*) location;
 
-- (RACSignal*) respondToEventWithResponse: (CHDEventResponse) response;
+- (RACSignal*) respondToEventWithResponse: (NSString *) response;
 
 @end

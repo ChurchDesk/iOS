@@ -22,12 +22,7 @@
  "response": 0
  }
  */
-typedef NS_ENUM(NSUInteger, CHDInvitationResponse) {
-    CHDInvitationNoAnswer,
-    CHDInvitationAccept,
-    CHDInvitationMaybe,
-    CHDInvitationDecline,
-};
+
 
 @interface CHDInvitation : CHDManagedModel
 
@@ -40,7 +35,7 @@ typedef NS_ENUM(NSUInteger, CHDInvitationResponse) {
 @property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic, strong) NSDate *changeDate;
 @property (nonatomic, strong) NSString *location;
-@property (nonatomic, assign) NSNumber *invitedByUserId;
-@property (nonatomic, assign) NSInteger response;
+@property (nonatomic, assign) NSString *invitedByUser;
+@property (nonatomic, assign) NSString *attending;
 
 @end

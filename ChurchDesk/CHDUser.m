@@ -24,6 +24,15 @@
     if([propName isEqualToString:@"groupIds"]){
         return @"groups";
     }
+    if([propName isEqualToString:@"name"]){
+        return @"fullName";
+    }
+    if([propName isEqualToString:@"sites"]){
+        return @"organizations";
+    }
+    if([propName isEqualToString:@"userId"]){
+        return @"id";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 
@@ -33,14 +42,14 @@
     }] : nil;
 }
 
-- (NSNumber *)userIdForSiteId:(NSString *)siteId {
-    CHDSite *site = [self siteWithId:siteId];
-    return site.userId;
-}
 
 - (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
     if ([propName isEqualToString:@"pictureURL"]) {
-        return [NSURL URLWithString:value];
+        if (value != [NSNull null]) {
+            return [NSURL URLWithString:value];
+        }
+        else
+        return [NSURL URLWithString:@""];
     }
     return [super transformedValueForPropertyWithName:propName value:value];
 }

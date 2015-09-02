@@ -128,21 +128,21 @@
     return [mDict copy];
 }
 
-- (CHDEventResponse) attendanceStatusForUserWithId: (NSNumber*) userId {
+- (NSString *) attendanceStatusForUserWithId: (NSNumber*) userId {
     if (!userId) {
-        return CHDEventResponseNone;
+        return CHDInvitationNoAnswer;
     }
     for (NSDictionary *dict in self.attendenceStatus) {
         if ([dict[@"user"] isEqualToNumber:userId]) {
-            return [dict[@"status"] unsignedIntegerValue];
+            return dict[@"status"];
         }
     }
-    return CHDEventResponseNone;
+    return CHDInvitationNoAnswer;
 }
 
 - (BOOL)eventForUserWithId:(NSNumber *)userId {
     __block BOOL foundUser = NO;
-    [self.userIds enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
+    [self.userIds.allKeys enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
         if([eventUserId isEqualToNumber:userId]){
             foundUser = YES;
         }

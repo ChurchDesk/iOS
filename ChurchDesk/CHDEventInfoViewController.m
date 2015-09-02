@@ -135,13 +135,13 @@
     @weakify(self)
     [[self.viewModel rac_liftSelector:@selector(respondToEventWithResponse:) withSignals:[[sheet.rac_buttonClickedSignal ignore:@(sheet.cancelButtonIndex)] map:^id(NSNumber *nButtonIndex) {
         if (nButtonIndex.integerValue == firstOtherButtonIndex) {
-            return @(CHDEventResponseGoing);
+            return CHDInvitationAccept;
         }
         else if (nButtonIndex.integerValue == firstOtherButtonIndex+1) {
-            return @(CHDEventResponseMaybe);
+            return CHDInvitationMaybe;
         }
         else if (nButtonIndex.integerValue == firstOtherButtonIndex+2) {
-            return @(CHDEventResponseNotGoing);
+            return CHDInvitationDecline;
         }
         else {
             NSAssert(NO, @"Unknown button index");

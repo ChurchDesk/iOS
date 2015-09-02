@@ -20,10 +20,10 @@
         return @"name";
     }
     if([propName isEqualToString:@"siteId"]) {
-        return @"organizationId";
+        return @"id";
     }
     if([propName isEqualToString:@"groupIds"]){
-        return @"groups";
+        return @"myGroups";
     }
     return [super mapPropertyForPropertyWithName:propName];
 }
