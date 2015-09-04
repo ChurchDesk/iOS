@@ -363,7 +363,7 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowResources]){
         NSMutableArray *items = [[NSMutableArray alloc] init];
-        for(NSNumber *resourceId in event.resourceIds){
+        for(NSNumber *resourceId in event.resourceIds.allKeys){
             CHDResource *resource = [self.viewModel.environment resourceWithId:resourceId siteId:event.siteId];
             CHDListConfigModel *configItem = [[CHDListConfigModel alloc] initWithTitle:resource.name color:resource.color];
             [items addObject:configItem];

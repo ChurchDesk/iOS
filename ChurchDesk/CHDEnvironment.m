@@ -59,8 +59,9 @@
 #pragma mark - Resources
 
 - (CHDResource*) resourceWithId: (NSNumber*) resourceId siteId: (NSString*) siteId{
+    
     return resourceId ? [self.resources shp_detect:^BOOL(CHDResource *resource) {
-        return [resource.resourceId isEqualToNumber:resourceId] && [resource.siteId isEqualToString:siteId];
+        return (resource.resourceId.integerValue == resourceId.integerValue) && [resource.siteId isEqualToString:siteId];
     }] : nil;
 }
 
