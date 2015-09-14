@@ -100,7 +100,7 @@
 
 - (CHDPeerUser*) userWithId: (NSNumber*) userId siteId: (NSString*) siteId {
     return userId ? [self.users shp_detect:^BOOL(CHDPeerUser *user) {
-        return [user.userId isEqualToNumber:userId];
+        return (user.userId.integerValue == userId.integerValue);
     }] : nil;
 }
 

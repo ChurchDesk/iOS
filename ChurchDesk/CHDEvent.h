@@ -43,8 +43,8 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;
 
-@property (nonatomic, strong) NSDictionary *resourceIds;
-@property (nonatomic, strong) NSDictionary *userIds;
+@property (nonatomic, strong) NSArray *resourceIds;
+@property (nonatomic, strong) NSArray *userIds;
 @property (nonatomic, strong) NSArray *attendenceStatus;
 
 - (NSString*)localizedVisibilityString;

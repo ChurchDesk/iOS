@@ -39,7 +39,7 @@
 }
 
 - (void)colorDot: (UIColor*) color bounds: (CGRect) bounds {
-    UIColor *dotColor = color ?: [UIColor clearColor];
+        UIColor *dotColor = color ?: [UIColor clearColor];
     
     // Drawing code
     UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:bounds];

@@ -59,6 +59,12 @@
     if ([propName isEqualToString:@"visibility"]) {
         return [value integerValue] == 2 ? @(CHDEventVisibilityOnlyInGroup) : @(CHDEventVisibilityPublicOnWebsite);
     }
+    if ([propName isEqualToString:@"resourceIds"]) {
+        return [value dictionaryRepresentation].allKeys;
+    }
+    if ([propName isEqualToString:@"userIds"]) {
+        return [value dictionaryRepresentation].allKeys;
+    }
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 
@@ -79,7 +85,7 @@
 - (NSDictionary*) dictionaryRepresentation {
     NSMutableDictionary *mDict = [NSMutableDictionary new];
     if (self.siteId) {
-        mDict[@"site"] = self.siteId;
+        mDict[@"organizationId"] = self.siteId;
     }
     if (self.groupId) {
         mDict[@"groupId"] = self.groupId;
@@ -105,11 +111,11 @@
     if (self.price) {
         mDict[@"price"] = self.price;
     }
-    if (self.contributor) {
-        mDict[@"person"] = self.contributor;
-    }
+//    if (self.contributor) {
+//        mDict[@"person"] = self.contributor;
+//    }
     if (self.eventCategoryIds) {
-        mDict[@"eventCategories"] = self.eventCategoryIds;
+        mDict[@"taxonomies"] = self.eventCategoryIds;
     }
     if (self.internalNote) {
         mDict[@"internalNote"] = self.internalNote;
@@ -124,7 +130,7 @@
     mDict[@"allowDoubleBooking"] = @(self.allowDoubleBooking);
     mDict[@"publish"] = @(YES);
     mDict[@"allDay"] = @(self.allDayEvent);
-    
+    mDict[@"type"] = @"event";
     return [mDict copy];
 }
 
@@ -142,7 +148,7 @@
 
 - (BOOL)eventForUserWithId:(NSNumber *)userId {
     __block BOOL foundUser = NO;
-    [self.userIds.allKeys enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
+    [self.userIds enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
         if([eventUserId isEqualToNumber:userId]){
             foundUser = YES;
         }

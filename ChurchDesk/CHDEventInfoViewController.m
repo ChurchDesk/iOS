@@ -292,7 +292,8 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowDescription]) {
         CHDEventDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"description" forIndexPath:indexPath];
-        cell.descriptionLabel.text = event.eventDescription;
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[event.eventDescription dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+        cell.descriptionLabel.text = attributedString.string;
         returnCell = cell;
     }
     
@@ -345,25 +346,22 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowUsers]) {
         CHDEventUserDetailsViewController *vc = [[CHDEventUserDetailsViewController alloc] initWithEvent:event];
-        
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([row isEqualToString:CHDEventInfoRowCategories]){
-
         NSMutableArray *items = [[NSMutableArray alloc] init];
         for(NSNumber *categoryId in event.eventCategoryIds){
             CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:categoryId siteId:event.siteId];
             CHDListConfigModel *configItem = [[CHDListConfigModel alloc] initWithTitle:category.name color:category.color];
             [items addObject:configItem];
         }
-
         CHDListViewController *vc = [[CHDListViewController alloc] initWithItems:items];
         vc.title = NSLocalizedString(@"Categories", @"");
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([row isEqualToString:CHDEventInfoRowResources]){
         NSMutableArray *items = [[NSMutableArray alloc] init];
-        for(NSNumber *resourceId in event.resourceIds.allKeys){
+        for(NSNumber *resourceId in event.resourceIds){
             CHDResource *resource = [self.viewModel.environment resourceWithId:resourceId siteId:event.siteId];
             CHDListConfigModel *configItem = [[CHDListConfigModel alloc] initWithTitle:resource.name color:resource.color];
             [items addObject:configItem];

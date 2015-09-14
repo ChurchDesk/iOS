@@ -294,7 +294,7 @@ static NSString *const kURLAPIOauthPart = @"";
     NSNumber *eventId = event.eventId;
     NSDictionary *eventDictionary = [event dictionaryRepresentation];
 
-    return [[self resourcesForPath:[NSString stringWithFormat:@"events/%@", eventId] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+    return [[self resourcesForPath:[NSString stringWithFormat:@"calendar/%@", eventId] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPUT;
         [request setValue:siteId ?: @"" forQueryParameterKey:@"site"];
 

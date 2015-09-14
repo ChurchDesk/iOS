@@ -66,17 +66,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDUserAttendanceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    NSNumber *userId = [[self.event.userIds allKeys] objectAtIndex:indexPath.row];
+    NSNumber *userId = [self.event.userIds objectAtIndex:indexPath.row];
+    CHDPeerUser *user = [self.viewModel.environment userWithId:userId siteId:self.event.siteId];
     [cell layoutIfNeeded];
-    NSURL *userImageUrl;
-    if ([[self.event.userIds objectForKey:userId] objectForKey:@"image"] == [NSNull null]) {
-        userImageUrl = [NSURL URLWithString:@""];
-    }
-    else{
-        userImageUrl = [NSURL URLWithString:[[self.event.userIds objectForKey:userId] objectForKey:@"image"]];
-    }
-    [cell.userImageView hnk_setImageFromURL:userImageUrl placeholder:nil];
-    cell.nameLabel.text = [[self.event.userIds objectForKey:userId] objectForKey:@"name"];
+    [cell.userImageView hnk_setImageFromURL:user.pictureURL placeholder:nil];
+    cell.nameLabel.text = user.name;
     cell.status = [self.event attendanceStatusForUserWithId:userId];
     cell.topLineHidden = indexPath.row > 0;
     cell.bottomLineFull = [tableView numberOfRowsInSection:indexPath.section]-1 == indexPath.row;

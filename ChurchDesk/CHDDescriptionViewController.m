@@ -21,8 +21,8 @@
             make.left.equalTo(self.view).offset(15);
             make.right.equalTo(self.view).offset(-15);
         }];
-
-        [self.descriptionView setText:description];
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+        [self.descriptionView setText:attributedString.string];
     }
     return self;
 }

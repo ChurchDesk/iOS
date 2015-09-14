@@ -12,10 +12,45 @@
 @implementation CHDManagedModel
 
 - (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
-    if ([propName isEqualToString:@"color"] && [value isKindOfClass:[NSString class]] && [value length] == 7 && [value hasPrefix:@"#"]) {
-        NSString *colorString = [value stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    NSString *colorString;
+    if ([propName isEqualToString:@"color"] && value != [NSNull null]) {
+        switch ([value integerValue]) {
+            case 0:
+                colorString = @"22A7F0";
+                break;
+            case 1:
+                colorString = @"1F3A93";
+                break;
+            case 2:
+                colorString = @"2ECC71";
+                break;
+            case 3:
+                colorString = @"1E824C";
+                break;
+            case 4:
+                colorString = @"F22613";
+                break;
+            case 5:
+                colorString = @"FFB61E";
+                break;
+            case 6:
+                colorString = @"F9690E";
+                break;
+            case 7:
+                colorString = @"9B59B6";
+                break;
+            case 8:
+                colorString = @"BDC3C7";
+                break;
+            case 9:
+                colorString = @"22313F";
+                break;
+            default:
+                break;
+        }
         return [UIColor shpui_colorFromStringWithHexValue:colorString];
     }
+    
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 

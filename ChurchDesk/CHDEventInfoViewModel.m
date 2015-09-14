@@ -136,7 +136,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) resourceTitles {
     NSArray *resources = [self.environment.resources shp_filter:^BOOL(CHDResource *resource) {
-        return [self.event.resourceIds.allKeys containsObject:resource.resourceId] && [self.event.siteId isEqualToString:resource.siteId];
+        return [self.event.resourceIds containsObject:resource.resourceId] && [self.event.siteId isEqualToString:resource.siteId];
     }];
     
     return [resources shp_map:^id(CHDResource *resource) {
@@ -146,7 +146,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) resourceColors {
     NSArray *resources = [self.environment.resources shp_filter:^BOOL(CHDResource *resource) {
-        return [self.event.resourceIds.allKeys containsObject:resource.resourceId] && [resource.siteId isEqualToString:self.event.siteId];
+        return [self.event.resourceIds containsObject:resource.resourceId] && [resource.siteId isEqualToString:self.event.siteId];
     }];
     
     return [resources shp_map:^id(CHDResource *resource) {
@@ -156,7 +156,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) userNames {
     NSArray *resources = [self.environment.users shp_filter:^BOOL(CHDPeerUser *user) {
-        return [self.event.userIds.allKeys containsObject:user.userId];
+        return [self.event.userIds containsObject:user.userId];
     }];
     
     return [resources shp_map:^id(CHDPeerUser *user) {
@@ -308,7 +308,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     if (event.eventCategoryIds.count > 0) {
         [baseRows addObject:CHDEventInfoRowCategories];
     }
-    if ([event.userIds.allKeys containsObject: self.user.userId] ) {
+    if ([event.userIds containsObject: self.user.userId] ) {
         event.eventResponse = [event attendanceStatusForUserWithId:self.user.userId];
         [baseRows addObject:CHDEventInfoRowAttendance];
     }
