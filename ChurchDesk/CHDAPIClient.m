@@ -272,7 +272,7 @@ static NSString *const kURLAPIOauthPart = @"";
     SHPAPIManager *manager = self.manager;
     NSDictionary *eventDictionary = [event dictionaryRepresentation];
     
-    return [[self resourcesForPath:@"events" resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+    return [[self resourcesForPath:@"calendar" resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
         NSError *error = nil;
         NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
@@ -296,10 +296,11 @@ static NSString *const kURLAPIOauthPart = @"";
 
     return [[self resourcesForPath:[NSString stringWithFormat:@"calendar/%@", eventId] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPUT;
-        [request setValue:siteId ?: @"" forQueryParameterKey:@"site"];
+        [request setValue:siteId ?: @"" forQueryParameterKey:@"organizationId"];
 
         NSError *error = nil;
         NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
+        NSLog(@"event Dictionary %@", eventDictionary);
         request.body = data;
         if (!data && eventDictionary) {
             NSLog(@"Error encoding JSON: %@", error);

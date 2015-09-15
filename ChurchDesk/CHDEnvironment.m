@@ -46,7 +46,7 @@
 
 - (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId siteId: (NSString*) siteId{
     return eventCategoryId ? [self.eventCategories shp_detect:^BOOL(CHDEventCategory *eventCategory) {
-        return [eventCategory.categoryId isEqualToNumber:eventCategoryId] && [eventCategory.siteId isEqualToString:siteId];
+        return eventCategory.categoryId.integerValue == eventCategoryId.integerValue;
     }] : nil;
 }
 

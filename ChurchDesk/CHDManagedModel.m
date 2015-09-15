@@ -13,7 +13,8 @@
 
 - (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
     NSString *colorString;
-    if ([propName isEqualToString:@"color"] && value != [NSNull null]) {
+    if ([propName isEqualToString:@"color"]) {
+        if (value != [NSNull null]) {
         switch ([value integerValue]) {
             case 0:
                 colorString = @"22A7F0";
@@ -47,6 +48,11 @@
                 break;
             default:
                 break;
+        }
+            
+        }
+        else{
+            colorString = @"22A7F0";
         }
         return [UIColor shpui_colorFromStringWithHexValue:colorString];
     }

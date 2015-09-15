@@ -40,7 +40,7 @@
     if ([propName isEqualToString:@"userIds"]) {
         return @"users";
     }
-    if ([propName isEqualToString:@"eventCategories"]) {
+    if ([propName isEqualToString:@"eventCategoryIds"]) {
         return @"taxonomies";
     }
     if ([propName isEqualToString:@"pictureURL"]) {
@@ -59,11 +59,9 @@
     if ([propName isEqualToString:@"visibility"]) {
         return [value integerValue] == 2 ? @(CHDEventVisibilityOnlyInGroup) : @(CHDEventVisibilityPublicOnWebsite);
     }
-    if ([propName isEqualToString:@"resourceIds"]) {
-        return [value dictionaryRepresentation].allKeys;
-    }
-    if ([propName isEqualToString:@"userIds"]) {
-        return [value dictionaryRepresentation].allKeys;
+    if ([propName isEqualToString:@"eventCategoryIds"] || [propName isEqualToString:@"userIds"] || [propName isEqualToString:@"resourceIds"]) {
+        NSDictionary *tempDict = value;
+        return tempDict.allKeys;
     }
     return [super transformedValueForPropertyWithName:propName value:value];
 }
@@ -127,6 +125,7 @@
         mDict[@"visibility"] = @(self.visibility);
     }
 
+    mDict[@"mainCategory"] = self.eventCategoryIds[0];
     mDict[@"allowDoubleBooking"] = @(self.allowDoubleBooking);
     mDict[@"publish"] = @(YES);
     mDict[@"allDay"] = @(self.allDayEvent);

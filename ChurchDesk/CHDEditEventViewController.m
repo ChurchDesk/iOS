@@ -280,7 +280,7 @@
     if ([row isEqualToString:CHDEventEditRowParish]) {
         title = NSLocalizedString(@"Select Parish", @"");
         for (CHDSite *site in user.sites) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:site.name color:nil selected:[event.siteId isEqualToString:site.siteId] refObject:site.siteId]];
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:site.name color:nil selected:(event.siteId.integerValue == site.siteId.integerValue) refObject:site.siteId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
@@ -295,7 +295,7 @@
         selectMultiple = YES;
         NSArray *categories = [environment eventCategoriesWithSiteId:event.siteId];
         for (CHDEventCategory *category in categories) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:category.name color:category.color selected:[event.eventCategoryIds containsObject:category.categoryId] refObject:category.categoryId]];
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:category.name color:category.color selected:[event.eventCategoryIds containsObject:category.categoryId.stringValue] refObject:category.categoryId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
@@ -303,7 +303,7 @@
         selectMultiple = YES;
         NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
         for (CHDPeerUser *user in users) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds containsObject:user.userId] refObject:user.userId]];
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds containsObject:user.userId.stringValue] refObject:user.userId]];
         }
         
     }
@@ -312,7 +312,7 @@
         selectMultiple = YES;
         NSArray *resources = [environment resourcesWithSiteId:event.siteId];
         for (CHDResource *resource in resources) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:resource.name color:resource.color selected:[event.resourceIds containsObject:resource.resourceId] refObject:resource.resourceId]];
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:resource.name color:resource.color selected:[event.resourceIds containsObject:resource.resourceId.stringValue] refObject:resource.resourceId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {

@@ -116,7 +116,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) categoryTitles {
     NSArray *categories = [self.environment.eventCategories shp_filter:^BOOL(CHDEventCategory *category) {
-        return [self.event.eventCategoryIds containsObject:category.categoryId] && [self.event.siteId isEqualToString:category.siteId];
+        return [self.event.eventCategoryIds containsObject:category.categoryId.stringValue] && [self.event.siteId isEqualToString:category.siteId];
     }];
     
     return [categories shp_map:^id(CHDEventCategory *category) {
@@ -126,7 +126,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) categoryColors {
     NSArray *categories = [self.environment.eventCategories shp_filter:^BOOL(CHDEventCategory *category) {
-        return [self.event.eventCategoryIds containsObject:category.categoryId] && [self.event.siteId isEqualToString:category.siteId];
+        return [self.event.eventCategoryIds containsObject:category.categoryId.stringValue] && [self.event.siteId isEqualToString:category.siteId];
     }];
     
     return [categories shp_map:^id(CHDEventCategory *category) {
@@ -136,7 +136,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) resourceTitles {
     NSArray *resources = [self.environment.resources shp_filter:^BOOL(CHDResource *resource) {
-        return [self.event.resourceIds containsObject:resource.resourceId] && [self.event.siteId isEqualToString:resource.siteId];
+        return [self.event.resourceIds containsObject:resource.resourceId.stringValue] && [self.event.siteId isEqualToString:resource.siteId];
     }];
     
     return [resources shp_map:^id(CHDResource *resource) {
@@ -146,7 +146,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) resourceColors {
     NSArray *resources = [self.environment.resources shp_filter:^BOOL(CHDResource *resource) {
-        return [self.event.resourceIds containsObject:resource.resourceId] && [resource.siteId isEqualToString:self.event.siteId];
+        return [self.event.resourceIds containsObject:resource.resourceId.stringValue] && [resource.siteId isEqualToString:self.event.siteId];
     }];
     
     return [resources shp_map:^id(CHDResource *resource) {
@@ -156,7 +156,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
 
 - (NSArray*) userNames {
     NSArray *resources = [self.environment.users shp_filter:^BOOL(CHDPeerUser *user) {
-        return [self.event.userIds containsObject:user.userId];
+        return [self.event.userIds containsObject:user.userId.stringValue];
     }];
     
     return [resources shp_map:^id(CHDPeerUser *user) {

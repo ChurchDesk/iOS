@@ -21,7 +21,6 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, strong) NSNumber *authorId;
 @property (nonatomic, strong) NSNumber *groupId;
 @property (nonatomic, strong) NSArray *eventCategoryIds;
-@property (nonatomic, strong) NSArray *eventCategories;
 
 @property (nonatomic, assign) CHDEventVisibility visibility;
 @property (nonatomic, assign) BOOL allDayEvent;
