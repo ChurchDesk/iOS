@@ -357,7 +357,7 @@ static NSString *const kURLAPIOauthPart = @"";
 - (RACSignal*)getMessageWithId:(NSNumber *)messageId siteId:(NSString*)siteId {
     SHPAPIManager *manager = self.manager;
     return [[self resourcesForPath:[self resourcePathForGetMessageWithId:messageId] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
-        [request setValue:siteId forQueryParameterKey:@"site"];
+        //[request setValue:siteId forQueryParameterKey:@"site"];
     }] doNext:^(CHDMessage *message) {
         //Invalidate unread - only if message is unread
         if(!message.read){
@@ -481,7 +481,7 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}
 - (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}
-- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%@", messageId];}
+- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%d", messageId.integerValue];}
 - (NSString*)resourcePathForGetNotificationSettings{return @"push-notifications/settings";}
 
 #pragma mark - Refresh token

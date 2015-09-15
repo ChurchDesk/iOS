@@ -486,13 +486,13 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     CHDUser* user = self.viewModel.user;
     CHDEnvironment *environment = self.viewModel.environment;
     
-    BOOL hasComment = [message.lastCommentAuthorId shp_isNonEmpty];
+    BOOL hasComment = [message.lastReplyName shp_isNonEmpty];
 
     CHDMessagesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.parishLabel.text = (user.sites.count > 1)? [user siteWithId:message.siteId].name : @"";
-    cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.lastActivityDate];
+    cell.receivedTimeLabel.text = [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:message.lastCommentDate];
     cell.groupLabel.text = [environment groupWithId:message.groupId siteId:message.siteId].name;
-    cell.authorLabel.text = [self.viewModel authorNameWithId:(hasComment ? message.lastCommentAuthorId : message.authorId) authorSiteId:message.siteId];
+    cell.authorLabel.text = (hasComment ? message.lastReplyName : message.authorName);
     cell.contentLabel.text = hasComment ? [NSString stringWithFormat:@"Re: %@", message.messageLine] : message.messageLine;
     cell.receivedDot.dotColor = message.read? [UIColor clearColor] : [UIColor chd_blueColor];
     cell.accessoryEnabled = !message.read;

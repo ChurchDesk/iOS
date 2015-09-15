@@ -15,18 +15,26 @@
         return @"id";
     }
     if ([propName isEqualToString:@"messageLine"]) {
-        return @"messageLine";
+        return @"lastMessageLine";
     }
     if ([propName isEqualToString:@"changeDate"]) {
-        return @"changed";
+        return @"updatedAt";
     }
     if ([propName isEqualToString:@"lastActivityDate"]) {
         return @"lastActivity";
     }
     if([propName isEqualToString:@"siteId"]) {
-        return @"site";
+        return @"organizationId";
     }
-
+    if([propName isEqualToString:@"lastCommentDate"]) {
+        return @"lastReplyTime";
+    }
+    if([propName isEqualToString:@"lastActivityDate"]) {
+        return @"lastReplyTime";
+    }
+    if([propName isEqualToString:@"read"]) {
+        return @"hasRead";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 - (Class)nestedClassForArrayPropertyWithName:(NSString *)propName {

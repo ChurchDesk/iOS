@@ -62,6 +62,7 @@
     if ([propName isEqualToString:@"eventCategoryIds"] || [propName isEqualToString:@"userIds"] || [propName isEqualToString:@"resourceIds"]) {
         NSDictionary *tempDict = value;
         return tempDict.allKeys;
+        tempDict = nil;
     }
     return [super transformedValueForPropertyWithName:propName value:value];
 }

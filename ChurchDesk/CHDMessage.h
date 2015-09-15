@@ -15,9 +15,10 @@
 //Site Id is only populated when more than one site is retrieved from the server
 @property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSNumber *authorId;
+@property (nonatomic, strong) NSString *authorName;
 @property (nonatomic, strong) NSNumber *groupId;
 @property (nonatomic, strong) NSDate *changeDate;
-@property (nonatomic, strong) NSNumber *lastCommentAuthorId;
+@property (nonatomic, strong) NSString *lastReplyName;
 @property (nonatomic, strong) NSDate *lastCommentDate;
 @property (nonatomic, strong) NSString *title;
 
