@@ -10,6 +10,7 @@
 #define ChurchDesk_ChurchDesk_pch
 
 #define SCREEN_SHOT_MODE 0
+#define NSLog(s,...)
 
 #import "generated_resource_images.h"
 #import "SHPFoundation.h"

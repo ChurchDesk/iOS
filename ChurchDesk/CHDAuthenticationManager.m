@@ -102,7 +102,7 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
 - (void) signOut {
     //reset Intercom
     [Intercom reset];
-    
+    NSLog(@"signing out");
     [[[CHDAPIClient sharedInstance] deleteDeviceToken:_deviceToken accessToken:self.authenticationToken.accessToken] subscribeNext:^(id x) {
         NSLog(@"Device token deleted from server");
     }];

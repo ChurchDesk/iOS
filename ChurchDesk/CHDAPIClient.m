@@ -36,9 +36,9 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
-static NSString *const kBaseUrl = @"http://api.churchdesk.com";
+static NSString *const kBaseUrl = @"https://api.churchdesk.com";
 #else
-static NSString *const kBaseUrl = @"http://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
+static NSString *const kBaseUrl = @"https://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
 #endif
 static NSString *const kURLAPIPart = @"api/v1/";
 static NSString *const kURLAPIOauthPart = @"oauth/v2/";
@@ -101,6 +101,10 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     BOOL onlyResult = YES;
 #endif
     NSString *auth = [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken;
+    if (!auth) {
+        [[CHDAuthenticationManager sharedInstance] signOut]; //if there is no token, redirect user to login screen
+        return [RACSignal return:Nil];
+    }
     RACSignal *requestSignal = [self.manager dispatchRequest:^(SHPHTTPRequest *request) {
         if (auth) {
             [request setValue:[CHDAuthenticationManager sharedInstance].authenticationToken.accessToken forQueryParameterKey:@"access_token"];
@@ -125,13 +129,14 @@ static NSString *const kURLAPIOauthPart = @"oauth/v2/";
     requestSignal.name = path;
     return [[self tokenValidationWrapper:requestSignal] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-        NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
+        NSLog(@"Error on %@: %@\nResponse: %@ code %ld", path, error, response.body, (long)response.statusCode);
         
     }];
     }
     else{
         return [RACSignal return:Nil];
     }
+    
 }
 
 - (RACSignal*)postBodyDictionary:(NSDictionary*)dictionary resultClass: (Class) resultClass toPath:(NSString*)path {

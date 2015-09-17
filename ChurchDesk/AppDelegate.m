@@ -181,8 +181,14 @@
     
     CHDRootViewController *rootVC = (CHDRootViewController*)self.window.rootViewController;
     CHDAuthenticationManager *authenticationManager = [CHDAuthenticationManager sharedInstance];
-    
-    __block BOOL animated = authenticationManager.userID != nil; // user is logged in initially. Next presentation is animated
+    __block BOOL animated;
+    if (authenticationManager.userID == nil || [authenticationManager.userID isEqualToString:@"CHDDeviceToken"]){
+        animated = NO;
+    }
+    else{
+        animated = YES;
+    }
+    // user is logged in initially. Next presentation is animated
     [rootVC rac_liftSelector:@selector(presentSecondaryViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;
     }] flattenMap:^RACStream *(id value) {
@@ -214,7 +220,7 @@
 //check for update
 -(BOOL) needsUpdate{
     NSDictionary* infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=994071625"]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/lookup?id=994071625"]];
     NSData* data = [NSData dataWithContentsOfURL:url];
     if (data) {
     NSDictionary* lookup = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];

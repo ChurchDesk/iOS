@@ -178,7 +178,12 @@
 
     static NSString* cellIdentifier = @"menuCell";
 
-    CHDLeftMenuTableViewCell *cell = (CHDLeftMenuTableViewCell*)[tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+   // CHDLeftMenuTableViewCell *cell = (CHDLeftMenuTableViewCell*)[tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    CHDLeftMenuTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) {
+        cell=[[CHDLeftMenuTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
     cell.titleLabel.text = item.title;
     cell.thumbnailLeft.image = [item.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 
@@ -192,15 +197,13 @@
 #pragma mark - UITableViewDelegate
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if([self.menuTable indexPathForSelectedRow] != nil) {
-        [self tableView:self.menuTable cellForRowAtIndexPath:[self.menuTable indexPathForSelectedRow]].selected = NO;
+        [tableView cellForRowAtIndexPath:[self.menuTable indexPathForSelectedRow]].selected = NO;
     }
     return indexPath;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self tableView:self.menuTable cellForRowAtIndexPath:indexPath].selected = YES;
     //Get the menu item
     CHDMenuItem* item = self.menuItems[indexPath.row];
-
     //Set the selected viewController
     if ([item.title isEqualToString:NSLocalizedString(@"Help and Support", @"")]) {
         [Intercom presentConversationList];
@@ -209,7 +212,7 @@
         [self.shp_sideMenuController setSelectedViewController:item.viewController];
         [self.shp_sideMenuController close];
     }
-        
+    [tableView cellForRowAtIndexPath:indexPath].selected = YES;
 }
 
 @end

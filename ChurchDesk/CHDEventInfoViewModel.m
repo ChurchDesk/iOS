@@ -227,6 +227,8 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
             if (response) {
                 MKMapItem *mapItem = response.mapItems.firstObject;
                 [mapItem openInMapsWithLaunchOptions:nil];
+            }else{
+            NSLog(@"error %@", error);
             }
         }];
 }
