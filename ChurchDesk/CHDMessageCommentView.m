@@ -48,6 +48,7 @@ NSInteger const kTextViewVerticalMargin = 16;
         make.bottom.equalTo(self).offset(-10);
         make.right.equalTo(self).offset(-15);
         make.top.greaterThanOrEqualTo(self).offset(10);
+        make.left.equalTo(self.replyButton.mas_right).offset(-50);
     }];
 
     CGFloat lineHeight = self.replyTextView.font.lineHeight;
