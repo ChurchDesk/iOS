@@ -36,9 +36,9 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
-static NSString *const kBaseUrl = @"http://192.168.1.91:3000/";
+static NSString *const kBaseUrl = @"https://192.168.1.91:3000/";
 #else
-static NSString *const kBaseUrl = @"http://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
+static NSString *const kBaseUrl = @"https://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
 #endif
 static NSString *const kURLAPIPart = @"";
 static NSString *const kURLAPIOauthPart = @"";

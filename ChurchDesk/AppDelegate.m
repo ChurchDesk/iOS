@@ -214,7 +214,7 @@
 //check for update
 -(BOOL) needsUpdate{
     NSDictionary* infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=994071625"]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/lookup?id=994071625"]];
     NSData* data = [NSData dataWithContentsOfURL:url];
     if (data) {
     NSDictionary* lookup = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
