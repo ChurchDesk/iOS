@@ -280,6 +280,7 @@
         _emailView.textField.delegate = self;
         _emailView.iconImageView.image = kImgLoginMail;
         _emailView.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _emailView.textField.text = @"developers@kirkeweb.dk"; //for testing
     }
     return _emailView;
 }
@@ -292,6 +293,7 @@
         _passwordView.textField.returnKeyType = UIReturnKeyGo;
         _passwordView.textField.delegate = self;
         _passwordView.iconImageView.image = kImgLoginPassword;
+        _passwordView.textField.text = @"Node4life";//for testing
     }
     return _passwordView;
 }
