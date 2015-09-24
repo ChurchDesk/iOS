@@ -26,8 +26,8 @@
 
 
 - (RACSignal*) getInvitations;
-- (RACSignal*) getHolidaysFromYear: (NSInteger) year;
-- (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSString *) response;
+- (RACSignal*) getHolidaysFromYear: (NSInteger) year country:(NSString *)country;
+- (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString *)siteId response: (NSString *) response;
 - (RACSignal*) createMessageWithTitle:(NSString*) title message:(NSString*) message siteId: (NSString*) siteId groupId:(NSNumber*) groupId;
 - (RACSignal*) createCommentForMessageId:(NSNumber*) targetId siteId: (NSString*) siteId body:(NSString*) message;
 - (RACSignal*) deleteCommentWithId: (NSNumber*) commentId siteId: (NSString*) siteId messageId: (NSNumber*) messageId;
@@ -51,10 +51,9 @@
 - (NSString*) resourcePathForGetEnvironment;
 - (NSString*) resourcePathForGetEventsFromYear: (NSInteger) year month: (NSInteger) month;
 - (NSString*) resourcePathForGetEvents;
-- (NSString*) resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
-
+- (NSString*) resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString *)siteId;
+- (NSString*) resourcePathForGetHolidaysFromYear: (NSInteger)year country: (NSString *)country;
 - (NSString*) resourcePathForGetInvitations;
-- (NSString*) resourcePathForGetHolidaysFromYear: (NSInteger) year;
 
 - (NSString*) resourcePathForGetUnreadMessages;
 - (NSString*) resourcePathForGetMessagesFromDate;

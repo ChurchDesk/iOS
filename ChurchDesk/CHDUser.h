@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSURL *pictureURL;
 @property (nonatomic, strong) NSArray *sites;
 @property (nonatomic, strong) NSNumber *userId;
+@property (nonatomic, strong) NSString *country;
 
 - (CHDSite*) siteWithId: (NSString*) siteId;
 

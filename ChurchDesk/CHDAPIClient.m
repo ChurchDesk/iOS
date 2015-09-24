@@ -297,7 +297,6 @@ static NSString *const kURLAPIOauthPart = @"";
     return [[self resourcesForPath:[NSString stringWithFormat:@"calendar/%@", eventId] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPUT;
         [request setValue:siteId ?: @"" forQueryParameterKey:@"organizationId"];
-
         NSError *error = nil;
         NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
         NSLog(@"event Dictionary %@", eventDictionary);
@@ -319,8 +318,8 @@ static NSString *const kURLAPIOauthPart = @"";
     return [self resourcesForPath:[self resourcePathForGetInvitations] resultClass:[CHDInvitation class] withResource:nil];
 }
 
-- (RACSignal*) getHolidaysFromYear: (NSInteger) year {
-    return [self resourcesForPath:[self resourcePathForGetHolidaysFromYear:year] resultClass:[CHDHoliday class] withResource:nil];
+- (RACSignal*) getHolidaysFromYear: (NSInteger) year country:(NSString*)country{
+    return [self resourcesForPath:[self resourcePathForGetHolidaysFromYear:year country:country] resultClass:[CHDHoliday class] withResource:nil];
 }
 
 - (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSString *) response {
@@ -477,7 +476,7 @@ static NSString *const kURLAPIOauthPart = @"";
 - (NSString*)resourcePathForGetEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId{return [NSString stringWithFormat:@"calendar/%@?organizationId=%@", eventId, siteId];}
 
 - (NSString*)resourcePathForGetInvitations{return @"calendar/invitations";}
-- (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year{return [NSString stringWithFormat:@"calendar/holydays/dk/%@", @(year)];}
+- (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year country: (NSString*)country{return [NSString stringWithFormat:@"calendar/holydays/%@/%@", country, @(year)];}
 
 - (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}
 - (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}

@@ -70,12 +70,13 @@
     }];
     
     NSMutableArray *holidaySignals = [NSMutableArray arrayWithCapacity:2];
+    NSString *country = [[NSUserDefaults standardUserDefaults] objectForKey:@"country"];
     if (year != prevMonthYear) {
-        [holidaySignals addObject:[[CHDAPIClient sharedInstance] getHolidaysFromYear:prevMonthYear]];
+        [holidaySignals addObject:[[CHDAPIClient sharedInstance] getHolidaysFromYear:prevMonthYear country:country]];
     }
-    [holidaySignals addObject:[[CHDAPIClient sharedInstance] getHolidaysFromYear:prevMonthYear]];
+    [holidaySignals addObject:[[CHDAPIClient sharedInstance] getHolidaysFromYear:prevMonthYear country:country]];
     if (year != nextMonthYear) {
-        [holidaySignals addObject:[[CHDAPIClient sharedInstance] getHolidaysFromYear:nextMonthYear]];
+        [holidaySignals addObject:[[CHDAPIClient sharedInstance] getHolidaysFromYear:nextMonthYear country:country]];
     }
     RACSignal *holidaysSignal = [[RACSignal combineLatest:holidaySignals] map:^id(RACTuple *tuple) {
         NSArray *holidays = @[];

@@ -33,6 +33,9 @@
     if([propName isEqualToString:@"userId"]){
         return @"id";
     }
+    if([propName isEqualToString:@"country"]) {
+        return @"locale";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 
@@ -51,6 +54,14 @@
         else
         return [NSURL URLWithString:@""];
     }
+    if ([propName isEqualToString:@"country"]) {
+        NSDictionary *tempDict = value;
+        //NSLog(@"value returned %@", [tempDict objectForKey:@"country"]);
+        [[NSUserDefaults standardUserDefaults] setObject:[tempDict objectForKey:@"country"] forKey:@"country"];
+        return [tempDict objectForKey:@"country"];
+        tempDict = nil;
+    }
+
     return [super transformedValueForPropertyWithName:propName value:value];
 }
 
