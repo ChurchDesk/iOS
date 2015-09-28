@@ -36,7 +36,7 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
-static NSString *const kBaseUrl = @"http://192.168.1.91:3000/";
+static NSString *const kBaseUrl = @"http://localhost:3000/";
 #else
 static NSString *const kBaseUrl = @"https://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
 #endif
@@ -274,6 +274,7 @@ static NSString *const kURLAPIOauthPart = @"";
     
     return [[self resourcesForPath:@"calendar" resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
+        [request setValue:event.siteId ?: @"" forQueryParameterKey:@"organizationId"];
         NSError *error = nil;
         NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
         request.body = data;
@@ -299,7 +300,6 @@ static NSString *const kURLAPIOauthPart = @"";
         [request setValue:siteId ?: @"" forQueryParameterKey:@"organizationId"];
         NSError *error = nil;
         NSData *data = eventDictionary ? [NSJSONSerialization dataWithJSONObject:eventDictionary options:0 error:&error] : nil;
-        NSLog(@"event Dictionary %@", eventDictionary);
         request.body = data;
         if (!data && eventDictionary) {
             NSLog(@"Error encoding JSON: %@", error);

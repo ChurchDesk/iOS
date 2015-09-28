@@ -123,7 +123,7 @@
         mDict[@"description"] = self.eventDescription;
     }
     if(self.visibility){
-        mDict[@"visibility"] = @(self.visibility);
+        mDict[@"visibility"] = @"web";//@(self.visibility);
     }
 
     mDict[@"mainCategory"] = self.eventCategoryIds[0];

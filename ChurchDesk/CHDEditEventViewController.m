@@ -550,7 +550,6 @@
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
-        NSLog(@"event user ids %@", event.userIds);
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
 
         returnCell = cell;
