@@ -104,7 +104,6 @@ static NSString *const kURLAPIOauthPart = @"";
         if (auth) {
             [request setValue:[CHDAuthenticationManager sharedInstance].authenticationToken.accessToken forQueryParameterKey:@"access_token"];
         }
-       
         [request addValue:@"application/json" forHeaderField:@"Accept"];
         [request addValue:@"application/json" forHeaderField:@"Content-Type"];
         if (requestBlock) {
@@ -336,7 +335,9 @@ static NSString *const kURLAPIOauthPart = @"";
 #pragma mark - Messages
 
 - (RACSignal*) getUnreadMessages{
-  return [self resourcesForPath: [self resourcePathForGetUnreadMessages] resultClass:[CHDMessage class] withResource:nil];
+    return [self resourcesForPath: [self resourcePathForGetUnreadMessages] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:@"1" forQueryParameterKey:@"onlyUnread"];
+        }];
 }
 
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit {
@@ -345,7 +346,7 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit query: (NSString*) query {
     return [self resourcesForPath:@"messages" resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
-        [request setValue:[self.dateFormatter stringFromDate:date] forQueryParameterKey:@"start_date"];
+        [request setValue:[self.dateFormatter stringFromDate:date] forQueryParameterKey:@"limitDate"];
         [request setValue:[NSString stringWithFormat:@"%lu", (long)limit] forQueryParameterKey:@"limit"];
         if (query) {
             [request setValue:query forQueryParameterKey:@"query"];
@@ -421,7 +422,7 @@ static NSString *const kURLAPIOauthPart = @"";
         @"bookingCreated" : [NSNumber numberWithBool:settings.bookingCreated],
         @"message" : [NSNumber numberWithBool:settings.message],
     };
-    return [self postBodyDictionary:settingsDict resultClass:[NSDictionary class] toPath:@"push-notifications/settings"];
+    return [self putBodyDictionary:settingsDict resultClass:[NSDictionary class] toPath:[NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]]];
 }
 
 - (RACSignal*)postDeviceToken: (NSString*) deviceToken {
@@ -429,7 +430,7 @@ static NSString *const kURLAPIOauthPart = @"";
         return [RACSignal empty];
     }
     NSString *environment = [NSBundle mainBundle].infoDictionary[@"PUSH_ENVIRONMENT"];
-    NSString *path = [NSString stringWithFormat:@"push-notifications/register-token/%@/ios/%@", deviceToken, environment];
+    NSString *path = [NSString stringWithFormat:@"push-notification/register-token/%@/ios/%@", deviceToken, environment];
     
     return [self resourcesForPath:path resultClass:[NSDictionary class] withResource:^(SHPAPIResource *resource) {
         NSValue *extraRangeValue = [NSValue valueWithRange:NSMakeRange(409, 1)]; // allow status code 409 (meaning device is already registered)
@@ -443,7 +444,7 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal*) deleteDeviceToken: (NSString*) deviceToken accessToken: (NSString*)accessToken {
     if (deviceToken.length > 0 && accessToken.length > 0) {
-        NSString *path = [NSString stringWithFormat:@"push-notifications/delete-token/%@", deviceToken];
+        NSString *path = [NSString stringWithFormat:@"push-notification/delete-token/%@", deviceToken];
         return [[self deleteHeaderDictionary:@{@"access_token" : accessToken} resultClass:nil toPath:path] doNext:^(id x) {
         }];
     } else{
@@ -478,10 +479,10 @@ static NSString *const kURLAPIOauthPart = @"";
 - (NSString*)resourcePathForGetInvitations{return @"calendar/invitations";}
 - (NSString*)resourcePathForGetHolidaysFromYear: (NSInteger) year country: (NSString*)country{return [NSString stringWithFormat:@"calendar/holydays/%@/%@", country, @(year)];}
 
-- (NSString*)resourcePathForGetUnreadMessages {return @"messages/unread";}
+- (NSString*)resourcePathForGetUnreadMessages {return @"messages";}
 - (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%d", messageId.integerValue];}
-- (NSString*)resourcePathForGetNotificationSettings{return @"push-notifications/settings";}
+- (NSString*)resourcePathForGetNotificationSettings{return [NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]];}
 
 #pragma mark - Refresh token
 

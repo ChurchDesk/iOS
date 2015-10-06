@@ -9,6 +9,18 @@
 @implementation CHDNotificationSettings
 
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
+    if([propName isEqualToString:@"bookingUpdated"]){
+        return @"bookingUpdatedNotifcation";
+    }
+    if([propName isEqualToString:@"bookingCanceled"]){
+        return @"bookingCanceledNotifcation";
+    }
+    if([propName isEqualToString:@"bookingCreated"]){
+        return @"bookingCreatedNotifcation";
+    }
+    if([propName isEqualToString:@"message"]){
+        return @"groupMessageNotifcation";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 

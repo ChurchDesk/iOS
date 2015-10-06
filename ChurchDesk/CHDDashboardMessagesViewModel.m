@@ -156,7 +156,7 @@
             NSDate *date = tuple.first;
             NSString *query = tuple.second;
 
-            return [[[CHDAPIClient sharedInstance] getMessagesFromDate:date limit:8 query:query] catch:^RACSignal *(NSError *error) {
+            return [[[CHDAPIClient sharedInstance] getMessagesFromDate:date limit:50 query:query] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
         }];

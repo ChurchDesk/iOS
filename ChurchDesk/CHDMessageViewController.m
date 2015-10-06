@@ -370,7 +370,7 @@ static CGFloat kReplyViewHeight = 50.f;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return messageSectionsCount;
 }
-
+ 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TTTTimeIntervalFormatter *timeInterValFormatter = [[TTTTimeIntervalFormatter alloc] init];
 

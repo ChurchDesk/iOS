@@ -111,6 +111,7 @@
     RACSignal *userSignal = RACObserve(self.viewModel, user);
 
     RAC(self.userNameLabel, text) = [userSignal map:^id(CHDUser *user) {
+        [[NSUserDefaults standardUserDefaults] setValue:user.userId forKey:@"userId"];
             return user.name;
     }];
     [self rac_liftSelector:@selector(userImageWithUrl:) withSignals:[userSignal map:^id(CHDUser *user) {
