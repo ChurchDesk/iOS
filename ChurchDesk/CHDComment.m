@@ -8,14 +8,14 @@
 
 @implementation CHDComment
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
-    if([propName isEqualToString:@"body"]){
-        return @"Body";
-    }
     if([propName isEqualToString:@"commentId"]){
         return @"id";
     }
     if([propName isEqualToString:@"createdDate"]){
-        return @"created";
+        return @"createdAt";
+    }
+    if([propName isEqualToString:@"authorName"]){
+        return @"name";
     }
     return [super mapPropertyForPropertyWithName:propName];
 }

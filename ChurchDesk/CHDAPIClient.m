@@ -373,31 +373,42 @@ static NSString *const kURLAPIOauthPart = @"";
     return [[[self postHeaderDictionary:@{@"site" : siteId} resultClass:[NSArray class] toPath:[NSString stringWithFormat:@"messages/%@/mark-as-read", messageId]] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
     }] catch:^RACSignal *(NSError *error) {
+        [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
         return [RACSignal empty];
     }];
 }
 
 - (RACSignal*) createMessageWithTitle:(NSString*) title message:(NSString*) message siteId: (NSString*) siteId groupId:(NSNumber*) groupId{
     SHPAPIManager *manager = self.manager;
-
-    NSDictionary *body = @{@"site": siteId, @"groupId": groupId, @"title": title, @"body": message};
-    return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"messages"] doNext:^(id x) {
+    NSDictionary *body = @{@"title": title, @"message": message};
+    return [[self resourcesForPath:@"messages" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        [request setValue:[groupId stringValue] ?: @"" forQueryParameterKey:@"groupId"];
+        NSError *error = nil;
+        NSData *data = body ? [NSJSONSerialization dataWithJSONObject:body options:0 error:&error] : nil;
+        request.body = data;
+        if (!data && body) {
+            NSLog(@"Error encoding JSON: %@", error);
+        }
+    }] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
     }];
+    
 }
 
 - (RACSignal*) createCommentForMessageId:(NSNumber*) targetId siteId: (NSString*) siteId body:(NSString*) message {
     SHPAPIManager *manager = self.manager;
-    NSDictionary *body = @{@"site": siteId, @"targetId": targetId, @"body": message};
-    return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"comments"] doNext:^(id x) {
+    NSDictionary *body = @{@"body": message};
+    NSString *commentPath = [NSString stringWithFormat:@"messages/%@/comments", targetId];
+    return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:commentPath] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", targetId]];
     }];
 }
 
 - (RACSignal*) deleteCommentWithId: (NSNumber*) commentId siteId: (NSString*) siteId messageId: (NSNumber*) messageId {
     SHPAPIManager *manager = self.manager;
-    NSDictionary *header = @{@"site": siteId};
-    return [[self deleteHeaderDictionary:header resultClass:nil toPath:[NSString stringWithFormat:@"comments/%@", commentId]] doNext:^(id x) {
+    NSDictionary *header = @{};
+    return [[self deleteHeaderDictionary:header resultClass:nil toPath:[NSString stringWithFormat:@"messages/comments/%@", commentId]] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", messageId]];
     }];
 }
@@ -405,7 +416,7 @@ static NSString *const kURLAPIOauthPart = @"";
 - (RACSignal*) updateCommentWithId: (NSNumber*) commentId body:(NSString*) message siteId: (NSString*) siteId messageId: (NSNumber*) messageId {
     SHPAPIManager *manager = self.manager;
     NSDictionary *body = @{@"body": message};
-    return [[self putBodyDictionary:body resultClass:nil toPath:[NSString stringWithFormat:@"comments/%@?site=%@", commentId, siteId]] doNext:^(id x) {
+    return [[self putBodyDictionary:body resultClass:nil toPath:[NSString stringWithFormat:@"messages/comments/%@", commentId]] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", messageId]];
     }];
 }
