@@ -380,7 +380,7 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal*) createMessageWithTitle:(NSString*) title message:(NSString*) message siteId: (NSString*) siteId groupId:(NSNumber*) groupId{
     SHPAPIManager *manager = self.manager;
-    NSDictionary *body = @{@"groupId": groupId, @"title": title, @"body": message};
+    NSDictionary *body = @{@"groupId": groupId, @"title": title, @"message": message};
     return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"messages"] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
     }];
