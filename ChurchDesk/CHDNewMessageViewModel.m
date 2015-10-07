@@ -12,7 +12,7 @@
 #import "NSUserDefaults+CHDDefaults.h"
 
 @interface CHDNewMessageViewModel()
-@property (nonatomic, assign) CHDEnvironment *environment;
+@property (nonatomic, strong) CHDEnvironment *environment;
 
 @property (nonatomic) BOOL canSendMessage;
 
@@ -76,7 +76,7 @@
             environment.groups = [filteredGroups copy];
             return environment;
         }];
-
+        
         RAC(self, canSendMessage) = [RACSignal combineLatest:@[RACObserve(self, selectedGroup), RACObserve(self, selectedSite), RACObserve(self, message), RACObserve(self, title)]
                                                       reduce:^(CHDGroup *group, CHDSite *site, NSString *message, NSString *title){
                                                           BOOL validTitle = !([title isEqualToString:@""]);
@@ -134,12 +134,6 @@
     if(self.environment != nil) {
         NSMutableArray *groups = [[NSMutableArray alloc] init];
 
-        //If only a single group is available, skip the selectability
-        if(groups.count == 1){
-            self.selectedGroup = groups[0];
-            return;
-        }
-
         CHDGroup *selectedGroup = self.selectedGroup;
         __block CHDGroup *newSelectedGroup = nil;
 
@@ -156,7 +150,12 @@
         }else{
             filteredGroups = self.environment.groups;
         }
-
+        
+        if(filteredGroups.count == 1){
+            self.selectedGroup = filteredGroups[0];
+            return;
+        }
+        
         [filteredGroups enumerateObjectsUsingBlock:^(CHDGroup *group, NSUInteger idx, BOOL *stop) {
             BOOL groupIsSelected = group.groupId == selectedGroup.groupId || group.groupId == lastUsedId;
             CHDListSelectorConfigModel *selectable = [[CHDListSelectorConfigModel new] initWithTitle:group.name color:nil selected:groupIsSelected refObject:group];

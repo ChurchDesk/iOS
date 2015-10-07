@@ -291,7 +291,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
     }
 }
 
-
 -(UITableView*)tableView {
     if(!_tableView){
         _tableView = [UITableView new];
