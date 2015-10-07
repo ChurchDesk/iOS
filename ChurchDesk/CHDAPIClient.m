@@ -380,20 +380,10 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal*) createMessageWithTitle:(NSString*) title message:(NSString*) message siteId: (NSString*) siteId groupId:(NSNumber*) groupId{
     SHPAPIManager *manager = self.manager;
-    NSDictionary *body = @{@"title": title, @"message": message};
-    return [[self resourcesForPath:@"messages" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
-        request.method = SHPHTTPRequestMethodPOST;
-        [request setValue:[groupId stringValue] ?: @"" forQueryParameterKey:@"groupId"];
-        NSError *error = nil;
-        NSData *data = body ? [NSJSONSerialization dataWithJSONObject:body options:0 error:&error] : nil;
-        request.body = data;
-        if (!data && body) {
-            NSLog(@"Error encoding JSON: %@", error);
-        }
-    }] doNext:^(id x) {
+    NSDictionary *body = @{@"groupId": groupId, @"title": title, @"body": message};
+    return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:@"messages"] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"(messages/unread)"];
     }];
-    
 }
 
 - (RACSignal*) createCommentForMessageId:(NSNumber*) targetId siteId: (NSString*) siteId body:(NSString*) message {
