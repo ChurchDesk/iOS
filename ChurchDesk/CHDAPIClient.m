@@ -36,7 +36,7 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
-static NSString *const kBaseUrl = @"http://localhost:3000/";
+static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
 #else
 static NSString *const kBaseUrl = @"https://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
 #endif
@@ -414,7 +414,7 @@ static NSString *const kURLAPIOauthPart = @"";
 #pragma mark - Notifications
 - (RACSignal*) getNotificationSettings {
     return [self resourcesForPath:[self resourcePathForGetNotificationSettings] resultClass:[CHDNotificationSettings class] withResource:nil request:^(SHPHTTPRequest *request) {
-        [request setValue:@"2" forQueryParameterKey:@"organizationId"];
+        [request setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"organizationId"] forQueryParameterKey:@"organizationId"];
     }];
 }
 
@@ -428,7 +428,7 @@ static NSString *const kURLAPIOauthPart = @"";
     
     return [[self resourcesForPath:[NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPUT;
-        [request setValue:@"2" forQueryParameterKey:@"organizationId"];
+        [request setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"organizationId"] forQueryParameterKey:@"organizationId"];
         NSError *error = nil;
         NSData *data = settingsDict ? [NSJSONSerialization dataWithJSONObject:settingsDict options:0 error:&error] : nil;
         request.body = data;

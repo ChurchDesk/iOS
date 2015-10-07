@@ -24,4 +24,13 @@
     return [super mapPropertyForPropertyWithName:propName];
 }
 
+- (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
+    if ([propName isEqualToString:@"bookingUpdated"] || [propName isEqualToString:@"bookingCanceled"] || [propName isEqualToString:@"bookingCreated"] || [propName isEqualToString:@"message"]) {
+        NSDictionary *tempDict = value;
+        return [tempDict objectForKey:@"push"];
+        tempDict = nil;
+    }
+    return [super transformedValueForPropertyWithName:propName value:value];
+}
+
 @end

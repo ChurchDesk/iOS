@@ -38,6 +38,9 @@
     if([propName isEqualToString:@"comments"]) {
         return @"replies";
     }
+    if([propName isEqualToString:@"body"]) {
+        return @"message";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 - (Class)nestedClassForArrayPropertyWithName:(NSString *)propName {
