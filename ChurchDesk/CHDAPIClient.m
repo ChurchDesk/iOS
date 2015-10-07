@@ -423,17 +423,30 @@ static NSString *const kURLAPIOauthPart = @"";
 
 #pragma mark - Notifications
 - (RACSignal*) getNotificationSettings {
-    return [self resourcesForPath:[self resourcePathForGetNotificationSettings] resultClass:[CHDNotificationSettings class] withResource:nil];
+    return [self resourcesForPath:[self resourcePathForGetNotificationSettings] resultClass:[CHDNotificationSettings class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:@"2" forQueryParameterKey:@"organizationId"];
+    }];
 }
 
 - (RACSignal *)updateNotificationSettingsWithSettings:(CHDNotificationSettings *)settings {
     NSDictionary *settingsDict = @{
-        @"bookingUpdated" : [NSNumber numberWithBool:settings.bookingUpdated],
-        @"bookingCanceled" : [NSNumber numberWithBool:settings.bookingCanceled],
-        @"bookingCreated" : [NSNumber numberWithBool:settings.bookingCreated],
-        @"message" : [NSNumber numberWithBool:settings.message],
+        @"bookingUpdatedNotifcation" : [NSNumber numberWithBool:settings.bookingUpdated],
+        @"bookingCanceledNotifcation" : [NSNumber numberWithBool:settings.bookingCanceled],
+        @"bookingCreatedNotifcation" : [NSNumber numberWithBool:settings.bookingCreated],
+        @"groupMessageNotifcation" : [NSNumber numberWithBool:settings.message],
     };
-    return [self putBodyDictionary:settingsDict resultClass:[NSDictionary class] toPath:[NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]]];
+    
+    return [[self resourcesForPath:[NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPUT;
+        [request setValue:@"2" forQueryParameterKey:@"organizationId"];
+        NSError *error = nil;
+        NSData *data = settingsDict ? [NSJSONSerialization dataWithJSONObject:settingsDict options:0 error:&error] : nil;
+        request.body = data;
+        if (!data && settingsDict) {
+            NSLog(@"Error encoding JSON: %@", error);
+        }
+    }] doNext:^(id x) {
+    }];
 }
 
 - (RACSignal*)postDeviceToken: (NSString*) deviceToken {
