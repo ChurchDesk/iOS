@@ -137,7 +137,7 @@
         //Handle double booking responses from the server
         @strongify(self)
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
-        if (response.statusCode == 406) {
+        if (response.statusCode == 409) {
             if ([response.body isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = response.body;
                 NSString *htmlString = [result valueForKey:@"error"];
@@ -295,7 +295,7 @@
         selectMultiple = YES;
         NSArray *categories = [environment eventCategoriesWithSiteId:event.siteId];
         for (CHDEventCategory *category in categories) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:category.name color:category.color selected:[event.eventCategoryIds containsObject:category.categoryId.stringValue] refObject:category.categoryId]];
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:category.name color:category.color selected:[event.eventCategoryIds containsObject:category.categoryId] refObject:category.categoryId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
@@ -303,7 +303,7 @@
         selectMultiple = YES;
         NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
         for (CHDPeerUser *user in users) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds containsObject:user.userId.stringValue] refObject:user.userId]];
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds containsObject:user.userId] refObject:user.userId]];
         }
         
     }
@@ -312,7 +312,7 @@
         selectMultiple = YES;
         NSArray *resources = [environment resourcesWithSiteId:event.siteId];
         for (CHDResource *resource in resources) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:resource.name color:resource.color selected:[event.resourceIds containsObject:resource.resourceId.stringValue] refObject:resource.resourceId]];
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:resource.name color:resource.color selected:[event.resourceIds containsObject:resource.resourceId] refObject:resource.resourceId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
@@ -333,7 +333,6 @@
         CHDListSelectorViewController *vc = [[CHDListSelectorViewController alloc] initWithSelectableItems:items];
         vc.title = title;
         vc.selectMultiple = selectMultiple;
-
         RACSignal *selectedSignal = [[[RACObserve(vc, selectedItems) map:^id(NSArray *selectedItems) {
             return [selectedItems valueForKey:@"refObject"];
         }] skip:1] takeUntil:vc.rac_willDeallocSignal];

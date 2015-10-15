@@ -49,7 +49,7 @@
 - (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
     if ([propName isEqualToString:@"pictureURL"]) {
         if ([value objectForKey:@"url"] != [NSNull null]) {
-            return [NSURL URLWithString:value];
+            return [NSURL URLWithString:[value objectForKey:@"url"]];
         }
         else
         return [NSURL URLWithString:@""];

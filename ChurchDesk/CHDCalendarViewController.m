@@ -412,7 +412,10 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     if(self.viewModel.sections.count == 0){
         return nil;
     }
-    CHDCalendarHeaderView *header = [tableView headerViewForSection:section]?: [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+    CHDCalendarHeaderView *header=[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+    if (!header) {
+        header=[[CHDCalendarHeaderView alloc] initWithReuseIdentifier:@"header"];
+    }
 
     NSDate *date = self.viewModel.sections[section];
     CHDHoliday *holiday = [self.viewModel holidayForDate:date];
