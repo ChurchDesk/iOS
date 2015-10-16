@@ -18,7 +18,7 @@
         return @"picture";
     }
     if([propName isEqualToString:@"siteId"]) {
-        return @"site";
+        return @"organizationId";
     }
     if([propName isEqualToString:@"groupIds"]){
         return @"groups";
@@ -27,7 +27,7 @@
 }
 
 - (id)transformedValueForPropertyWithName:(NSString *)propName value:(id)value {
-    if ([propName isEqualToString:@"pictureURL"]) {
+    if ([propName isEqualToString:@"pictureURL"] && value != [NSNull null]) {
         return [NSURL URLWithString:value];
     }
     return [super transformedValueForPropertyWithName:propName value:value];

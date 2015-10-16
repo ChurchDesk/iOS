@@ -11,7 +11,7 @@ static CGFloat kNewMessageMinimumHeight = 240;
 @property (nonatomic, strong) UILabel *placeholder;
 @property (nonatomic, strong) MASConstraint *textViewHeight;
 @end
-
+float height = 0;
 @implementation CHDNewMessageTextViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -31,7 +31,7 @@ static CGFloat kNewMessageMinimumHeight = 240;
 
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView);
-        self.textViewHeight = make.height.equalTo(@0).offset(kNewMessageMinimumHeight);
+        self.textViewHeight = make.height.equalTo(@10).offset(kNewMessageMinimumHeight);
     }];
 
     [self.placeholder mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -86,14 +86,16 @@ static CGFloat kNewMessageMinimumHeight = 240;
     }else{
         self.placeholder.hidden = NO;
     }
-
+    
     CGSize contentSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     contentSize.height = MAX(kNewMessageMinimumHeight, contentSize.height);
-
-    [self.textViewHeight setOffset:contentSize.height + (kSideMargin*2)];
-
-    [self.tableView beginUpdates];
-    [self.tableView endUpdates];
+    if (height < contentSize.height) {
+        [self.textViewHeight setOffset:contentSize.height + (kSideMargin*2)];
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+        height = contentSize.height;
+    }
+    
 }
 
 @end

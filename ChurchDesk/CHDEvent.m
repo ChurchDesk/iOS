@@ -149,7 +149,7 @@
 - (BOOL)eventForUserWithId:(NSNumber *)userId {
     __block BOOL foundUser = NO;
     [self.userIds enumerateObjectsUsingBlock:^(NSNumber *eventUserId, NSUInteger idx, BOOL *stop) {
-        if([eventUserId isEqualToNumber:userId]){
+        if(eventUserId.integerValue == userId.integerValue){
             foundUser = YES;
         }
     }];

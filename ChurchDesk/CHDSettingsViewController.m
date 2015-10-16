@@ -65,7 +65,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 #pragma mark - Actions
 
 - (void) signOutAction: (id) sender {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSLocalizedString(@"Log Out", @"") stringByAppendingString:@"?"] message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSLocalizedString(@"Log Out", @"") stringByAppendingString:@"?"] message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:@"Ok", nil];
     [alertView show];
 }
 
