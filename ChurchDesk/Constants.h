@@ -1,4 +1,5 @@
-#define kserverURL @"http://sumapi.elasticbeanstalk.com/"
+#define NSLog(s,...)
+
 #define CHDInvitationNoAnswer @"no-answer"
 #define CHDInvitationAccept @"yes"
 #define CHDInvitationMaybe @"no"
