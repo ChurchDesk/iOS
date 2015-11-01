@@ -30,7 +30,7 @@
         NSInteger year = self.year = [calendar component:NSCalendarUnitYear fromDate:referenceDate];
         NSInteger month = self.month = [calendar component:NSCalendarUnitMonth fromDate:referenceDate];
 //        NSInteger today = [calendar component:NSCalendarUnitDay fromDate:referenceDate];
-
+        [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
         //Initial signal
         RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {

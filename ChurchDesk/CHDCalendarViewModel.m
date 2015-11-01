@@ -31,7 +31,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self rac_liftSelector:@selector(fetchEventsFromReferenceDate:) withSignals:[RACObserve(self, referenceDate) ignore:nil], nil];
+        [self fetchEvents];
         [self rac_liftSelector:@selector(setUser:) withSignals:[[CHDAPIClient sharedInstance] getCurrentUser], nil];
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
 
@@ -41,6 +41,9 @@
     return self;
 }
 
+-(void)fetchEvents{
+    [self rac_liftSelector:@selector(fetchEventsFromReferenceDate:) withSignals:[RACObserve(self, referenceDate) ignore:nil], nil];
+}
 - (void) filterEvents {
     // Don't set events to a value if not already set, to indicate it hasn't yet been loaded.
     self.events = self.events ? @[] : nil;

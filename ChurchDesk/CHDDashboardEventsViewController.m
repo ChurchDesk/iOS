@@ -94,7 +94,6 @@
 #pragma mark - View methods
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     self.viewModel = [CHDDashboardEventViewModel new];
     [self makeViews];
     [self makeConstraints];
@@ -105,7 +104,13 @@
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_events"];
     [self.eventTable deselectRowAtIndexPath:[self.eventTable indexPathForSelectedRow] animated:YES];
-
+    NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:keventsTimestamp];
+    NSDate *currentTime = [NSDate date];
+    NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
+    if (timeDifference/60 > 10) {
+        [self.viewModel reload];
+    }
+    NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, events) map:^id(id value) {
         return @(value == nil);
     }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];

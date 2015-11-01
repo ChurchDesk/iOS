@@ -80,9 +80,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [super viewDidLoad];
 
     self.viewModel = [[CHDCalendarViewModel alloc] init];
-
+    [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:kcalendarTimestamp];
     self.view.backgroundColor = [UIColor whiteColor];
-
     [self setupSubviews];
     [self makeConstraints];
     [self.calendarFilterView setupFiltersWithTitels:@[NSLocalizedString(@"All events", @"Calendar filter"), NSLocalizedString(@"My events", @"Calendar filter")] filters:@[@(CHDCalendarFilterAllEvents),@(CHDCalendarFilterMyEvents)]];
@@ -99,6 +98,12 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:kcalendarTimestamp];
+    NSDate *currentTime = [NSDate date];
+    NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
+    if (timeDifference/60 > 10) {
+        [self.viewModel fetchEvents];
+    }
     [self showCalendar:NO animated:NO];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"calendar"];
