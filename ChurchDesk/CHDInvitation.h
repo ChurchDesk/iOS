@@ -29,7 +29,7 @@
 @property (nonatomic, strong) NSNumber *invitationId;
 @property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSArray *eventCategories;
+@property (nonatomic, strong) NSNumber *eventCategories;
 @property (nonatomic, assign) BOOL allDay;
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;

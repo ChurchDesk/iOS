@@ -69,6 +69,13 @@
     [self.inviteTable reloadData];
     [self setUnread:NO];
 
+    NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:keventsTimestamp];
+    NSDate *currentTime = [NSDate date];
+    NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
+    if (timeDifference/60 > 10) {
+        [self.viewModel reload];
+    }
+    
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, invitations) map:^id(id value) {
         return @(value == nil);
     }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
@@ -210,7 +217,7 @@
     CHDUser *user = self.viewModel.user;
 
     //Get the first eventCategory
-    CHDEventCategory *category = (invitation.eventCategories && invitation.eventCategories.count > 0)?[environment eventCategoryWithId: invitation.eventCategories[0] siteId: invitation.siteId] : nil;
+    CHDEventCategory *category = [environment eventCategoryWithId: invitation.eventCategories siteId: invitation.siteId];
     NSString *invitedByString = NSLocalizedString(@"Invited by ", @"");
 
     invitedByString = invitation.invitedByUser;

@@ -49,6 +49,9 @@
     if([propName isEqualToString:@"siteId"]) {
         return @"organizationId";
     }
+    if ([propName isEqualToString:@"attendenceStatus"]) {
+        return @"users";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 
@@ -63,6 +66,17 @@
         NSDictionary *tempDict = value;
         return tempDict.allKeys;
         tempDict = nil;
+    }
+    if ([propName isEqualToString:@"attendenceStatus"]) {
+        NSDictionary *tempDict = value;
+        NSMutableArray *attendanceArray = [[NSMutableArray alloc] init];
+        for (int i = 0; i < tempDict.allKeys.count; i++) {
+            NSString *userId = [tempDict.allKeys objectAtIndex:i];
+            NSDictionary *attendanceDict = @{@"user" : userId,
+                                             @"status": [[tempDict objectForKey:userId] valueForKey:@"attending"]};
+            [attendanceArray addObject:attendanceDict];
+        }
+        return attendanceArray;
     }
     return [super transformedValueForPropertyWithName:propName value:value];
 }
@@ -139,7 +153,8 @@
         return CHDInvitationNoAnswer;
     }
     for (NSDictionary *dict in self.attendenceStatus) {
-        if ([dict[@"user"] isEqualToNumber:userId]) {
+        NSString *userIdFromDict = dict[@"user"];
+        if (userIdFromDict.intValue == userId.intValue) {
             return dict[@"status"];
         }
     }

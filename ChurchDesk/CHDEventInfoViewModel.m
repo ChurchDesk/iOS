@@ -239,9 +239,10 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     NSString *oldResponse = event.eventResponse;
     self.event.eventResponse = response;
     for (NSMutableDictionary *dict in self.event.attendenceStatus) {
-        if ([dict[@"user"] isEqualToNumber:self.user.userId]) {
+        NSString *userIdFromDict = dict[@"user"];
+        if (userIdFromDict.intValue == self.user.userId.intValue) {
             NSMutableDictionary *dictCopy = [dict mutableCopy];
-            [dictCopy setValue:[NSNumber numberWithInt:(int)response] forKey:@"status"];
+            [dictCopy setValue:response forKey:@"status"];
     
             NSMutableArray *attendanceStatusCopy = [self.event.attendenceStatus mutableCopy];
             [attendanceStatusCopy replaceObjectAtIndex:[self.event.attendenceStatus indexOfObject:dict] withObject:dictCopy];
@@ -252,9 +253,11 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     RACSignal *eventSignal = [[[CHDAPIClient sharedInstance] setResponseForEventWithId:self.event.eventId siteId:self.event.siteId response:response] doError:^(NSError *error) {
         event.eventResponse = oldResponse;
         for (NSMutableDictionary *dict in self.event.attendenceStatus) {
-            if ([dict[@"user"] isEqualToNumber:self.user.userId]) {
+            NSString *userIdFromDict = dict[@"user"];
+            if (userIdFromDict.intValue == self.user.userId.intValue) {
                 NSMutableDictionary *dictCopy = [dict mutableCopy];
-                [dictCopy setValue:[NSNumber numberWithInt:(int)oldResponse] forKey:@"status"];
+                [dictCopy setValue:oldResponse forKey:@"status"];
+                
                 
                 NSMutableArray *attendanceStatusCopy = [self.event.attendenceStatus mutableCopy];
                 [attendanceStatusCopy replaceObjectAtIndex:[self.event.attendenceStatus indexOfObject:dict] withObject:dictCopy];
@@ -308,7 +311,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     if (event.eventCategoryIds.count > 0) {
         [baseRows addObject:CHDEventInfoRowCategories];
     }
-    if ([event.userIds containsObject: self.user.userId] ) {
+    if ([event.userIds containsObject: self.user.userId.stringValue] ) {
         event.eventResponse = [event attendanceStatusForUserWithId:self.user.userId];
         [baseRows addObject:CHDEventInfoRowAttendance];
     }

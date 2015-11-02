@@ -231,7 +231,6 @@ static NSString *const kURLAPIOauthPart = @"";
     NSString *endDate = [self getEndDateOfMonth:year month:month];
     NSString *startDate = [NSString stringWithFormat:@"%ld-%ld-01", (long)year, (long)month];
     NSLog(@"month %ld, year %ld, start date %@, end date %@", (long)month, (long)year, startDate, endDate);
-    
     return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:startDate forQueryParameterKey:@"start"];
         [request setValue:endDate forQueryParameterKey:@"end"];
@@ -314,6 +313,7 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 - (RACSignal*) getInvitations {
+    [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:kinvitationsTimestamp];
     return [self resourcesForPath:[self resourcePathForGetInvitations] resultClass:[CHDInvitation class] withResource:nil];
 }
 
@@ -324,7 +324,7 @@ static NSString *const kURLAPIOauthPart = @"";
 - (RACSignal*) setResponseForEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId response: (NSString *) response {
     SHPAPIManager *manager = self.manager;
 
-    return [[[self postHeaderDictionary:@{@"site" : siteId} resultClass:[NSArray class] toPath:[NSString stringWithFormat:@"events/respond/%@/%li", eventId, (long) response]] map:^id(id value) {
+    return [[[self postHeaderDictionary:@{} resultClass:[NSArray class] toPath:[NSString stringWithFormat:@"calendar/invitations/%@/attending/%@", eventId, response]] map:^id(id value) {
         return eventId;
     }] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:@"(my-invites)"];
@@ -445,7 +445,7 @@ static NSString *const kURLAPIOauthPart = @"";
         return [RACSignal empty];
     }
     NSString *environment = [NSBundle mainBundle].infoDictionary[@"PUSH_ENVIRONMENT"];
-    NSString *path = [NSString stringWithFormat:@"push-notification/register-token/%@/ios/%@", deviceToken, environment];
+    NSString *path = [NSString stringWithFormat:@"devices/%@/ios/%@", deviceToken, environment];
     
     return [self resourcesForPath:path resultClass:[NSDictionary class] withResource:^(SHPAPIResource *resource) {
         NSValue *extraRangeValue = [NSValue valueWithRange:NSMakeRange(409, 1)]; // allow status code 409 (meaning device is already registered)
@@ -459,7 +459,7 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal*) deleteDeviceToken: (NSString*) deviceToken accessToken: (NSString*)accessToken {
     if (deviceToken.length > 0 && accessToken.length > 0) {
-        NSString *path = [NSString stringWithFormat:@"push-notification/delete-token/%@", deviceToken];
+        NSString *path = [NSString stringWithFormat:@"devices/%@", deviceToken];
         return [[self deleteHeaderDictionary:@{@"access_token" : accessToken} resultClass:nil toPath:path] doNext:^(id x) {
         }];
     } else{
