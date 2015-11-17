@@ -140,7 +140,7 @@
         if (response.statusCode == 409) {
             if ([response.body isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = response.body;
-                NSString *htmlString = [result valueForKey:@"error"];
+                NSString *htmlString = [result valueForKey:@"conflictHtml"];
                 NSNumber *isDoubleBooking = [result valueForKey:@"html"];
 
                 BOOL permissionToDoubleBook = [viewModel.user siteWithId:viewModel.event.siteId].permissions.canDoubleBook;
@@ -317,7 +317,7 @@
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
         title = NSLocalizedString(@"Select Visibility", @"");
-        NSArray *visibilityTypes = @[@(CHDEventVisibilityPublicOnWebsite), @(CHDEventVisibilityOnlyInGroup)];
+        NSArray *visibilityTypes = @[@(CHDEventVisibilityPublicOnWebsite), @(CHDEventVisibilityOnlyInGroup), @(CHDEventVisibilityDraft) ];
         for (NSNumber *nVisibility in visibilityTypes) {
             CHDEventVisibility visibility = nVisibility.unsignedIntegerValue;
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:[event localizedVisibilityStringForVisibility:visibility] color:nil selected:event.visibility == visibility refObject:nVisibility]];

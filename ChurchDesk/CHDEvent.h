@@ -11,6 +11,7 @@
 typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
     CHDEventVisibilityPublicOnWebsite = 1,
     CHDEventVisibilityOnlyInGroup,
+    CHDEventVisibilityDraft,
 };
 
 

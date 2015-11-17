@@ -60,7 +60,12 @@
         return [NSURL URLWithString:value];
     }
     if ([propName isEqualToString:@"visibility"]) {
-        return [value integerValue] == 2 ? @(CHDEventVisibilityOnlyInGroup) : @(CHDEventVisibilityPublicOnWebsite);
+        if ([value isEqualToString:@"group"])
+            return @(CHDEventVisibilityOnlyInGroup);
+        else if ([value isEqualToString:@"draft"])
+            return @(CHDEventVisibilityDraft);
+        else
+            return @(CHDEventVisibilityPublicOnWebsite);
     }
     if ([propName isEqualToString:@"eventCategoryIds"] || [propName isEqualToString:@"userIds"] || [propName isEqualToString:@"resourceIds"]) {
         NSDictionary *tempDict = value;
@@ -91,6 +96,8 @@
             return NSLocalizedString(@"Visible on website", @"");
         case CHDEventVisibilityOnlyInGroup:
             return NSLocalizedString(@"Visible only in group", @"");
+        case CHDEventVisibilityDraft:
+            return NSLocalizedString(@"Visible only in draft", @"");
     }
     return @"";
 }
@@ -137,7 +144,18 @@
         mDict[@"description"] = self.eventDescription;
     }
     if(self.visibility){
-        mDict[@"visibility"] = @"web";//@(self.visibility);
+        switch (self.visibility) {
+            case CHDEventVisibilityPublicOnWebsite:
+                mDict[@"visibility"] = @"web";
+                break;
+            case CHDEventVisibilityOnlyInGroup:
+                mDict[@"visibility"] = @"group";
+                break;
+            case CHDEventVisibilityDraft:
+                mDict[@"visibility"] = @"draft";
+                break;
+        }
+        //@(self.visibility);
     }
 
     mDict[@"mainCategory"] = self.eventCategoryIds[0];
