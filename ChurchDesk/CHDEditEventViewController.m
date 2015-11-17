@@ -141,11 +141,9 @@
             if ([response.body isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = response.body;
                 NSString *htmlString = [result valueForKey:@"conflictHtml"];
-                NSNumber *isDoubleBooking = [result valueForKey:@"html"];
-
                 BOOL permissionToDoubleBook = [viewModel.user siteWithId:viewModel.event.siteId].permissions.canDoubleBook;
 
-                if(isDoubleBooking.boolValue && permissionToDoubleBook) {
+                if(htmlString && permissionToDoubleBook) {
                     CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
                     alertView.show = YES;
 
@@ -167,7 +165,7 @@
                         return [viewModel saveEvent];
                     }];
                 }
-                else if(isDoubleBooking.boolValue && !permissionToDoubleBook){
+                else if(htmlString && !permissionToDoubleBook){
                     [self didChangeSendingStatus:CHDStatusViewHidden];
 
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Doublebooking not allowed", @"") delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -177,7 +175,6 @@
                 }
                 else {
                     [self didChangeSendingStatus:CHDStatusViewHidden];
-
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:htmlString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
 
