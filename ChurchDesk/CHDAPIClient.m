@@ -214,8 +214,26 @@ static NSString *const kURLAPIOauthPart = @"";
     return [self resourcesForPath:[self resourcePathForGetCurrentUser] resultClass:[CHDUser class] withResource:nil];
 }
 
-- (RACSignal*) postResetPasswordForEmail: (NSString*) email accessToken:(NSString*) token {
-    return [self postBodyDictionary:@{@"username" : email ?: @""} resultClass:[NSArray class] toPath:[NSString stringWithFormat:@"users/password-reset?access_token=%@", token]];
+- (RACSignal*) postResetPasswordForEmail: (NSString*) email{
+    SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"login/forgot"];
+    resource.resultObjectClass = [NSObject class];
+    SHPAPIManager *manager = self.manager;
+    
+    RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        [request addValue:@"application/json" forHeaderField:@"Accept"];
+        [request addValue:@"application/json" forHeaderField:@"Content-Type"];
+        NSError *error = nil;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:@{@"email": email} options:0 error:&error];
+        request.body = data;
+    } withBodyContent:nil toResource:resource];
+    
+    return [[[requestSignal replayLazily] doError:^(NSError *error) {
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSLog(@"Error on reset: %@\nResponse: %@", error, response.body);
+    }] doNext:^(id x) {
+        [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
+    }];
 }
 
 #pragma mark - Environment
