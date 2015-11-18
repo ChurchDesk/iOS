@@ -307,6 +307,8 @@
 /* No comment provided by engineer. */
 "Visible only in group" = "Nur in der Gruppe sichtbar";
 
+"Visible only in draft" = "Nur im Entwurf sichtbar";
+
 /* No comment provided by engineer. */
 "Week\n%@" = "Woche %@";
 

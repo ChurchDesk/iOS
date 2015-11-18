@@ -107,7 +107,8 @@
     NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:keventsTimestamp];
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
-    if (timeDifference/60 > 10) {
+    if (timeDifference/60 > 10 || [[NSUserDefaults standardUserDefaults] boolForKey:kSavedEventBool]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSavedEventBool];
         [self.viewModel reload];
     }
     NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);

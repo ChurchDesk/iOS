@@ -186,6 +186,7 @@
         [self didChangeSendingStatus:CHDStatusViewHidden];
         return [RACSignal empty];
     }] subscribeNext:^(id x) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSavedEventBool];
         [self didChangeSendingStatus:CHDStatusViewSuccess];
     } error:^(NSError *error) {
         //Handle error after the initial error handling is done (Them it's something we don't know how to handle)

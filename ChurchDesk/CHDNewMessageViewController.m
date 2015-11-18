@@ -267,6 +267,7 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
         return;
     }
     if(status == CHDStatusViewSuccess){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:knewMessageBool];
         self.statusView.show = YES;
         double delayInSeconds = 2.f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));

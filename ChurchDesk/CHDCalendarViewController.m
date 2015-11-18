@@ -80,7 +80,6 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [super viewDidLoad];
 
     self.viewModel = [[CHDCalendarViewModel alloc] init];
-    [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:kcalendarTimestamp];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupSubviews];
     [self makeConstraints];

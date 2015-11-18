@@ -69,7 +69,7 @@
     [self.inviteTable reloadData];
     [self setUnread:NO];
 
-    NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:keventsTimestamp];
+    NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:kinvitationsTimestamp];
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
     if (timeDifference/60 > 10) {

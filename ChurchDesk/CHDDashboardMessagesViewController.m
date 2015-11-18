@@ -371,6 +371,13 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:kmessagesTimestamp];
+    NSDate *currentTime = [NSDate date];
+    NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
+    if (timeDifference/60 > 10 || [[NSUserDefaults standardUserDefaults] boolForKey:knewMessageBool]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:knewMessageBool];
+        [self refresh:nil];
+    }
     [self.messagesTable deselectRowAtIndexPath:[self.messagesTable indexPathForSelectedRow] animated:YES];
     if(self.messageStyle == CHDMessagesStyleUnreadMessages) {
         [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"dashboard_messages"];

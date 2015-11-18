@@ -7,4 +7,7 @@
 
 #define keventsTimestamp @"eventsTimestamp"
 #define kcalendarTimestamp @"calendarTimestamp"
+#define kSavedEventBool @"savedEventBool"
 #define kinvitationsTimestamp @"invitationsTimestamp"
+#define kmessagesTimestamp @"messagesTimestamp"
+#define knewMessageBool @"newMessageBool"

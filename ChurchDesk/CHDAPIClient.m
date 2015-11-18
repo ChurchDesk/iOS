@@ -353,6 +353,7 @@ static NSString *const kURLAPIOauthPart = @"";
 #pragma mark - Messages
 
 - (RACSignal*) getUnreadMessages{
+    [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:kmessagesTimestamp];
     return [self resourcesForPath: [self resourcePathForGetUnreadMessages] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:@"1" forQueryParameterKey:@"onlyUnread"];
         }];
@@ -363,6 +364,7 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 - (RACSignal*) getMessagesFromDate: (NSDate*) date limit: (NSInteger) limit query: (NSString*) query {
+    [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:kmessagesTimestamp];
     return [self resourcesForPath:@"messages" resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:[self.dateFormatter stringFromDate:date] forQueryParameterKey:@"limitDate"];
         [request setValue:[NSString stringWithFormat:@"%lu", (long)limit] forQueryParameterKey:@"limit"];

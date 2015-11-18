@@ -30,9 +30,9 @@
         NSInteger year = self.year = [calendar component:NSCalendarUnitYear fromDate:referenceDate];
         NSInteger month = self.month = [calendar component:NSCalendarUnitMonth fromDate:referenceDate];
 //        NSInteger today = [calendar component:NSCalendarUnitDay fromDate:referenceDate];
-        [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
         //Initial signal
         RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
+                [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
                     return [self isDate:referenceDate inRangeFirstDate:event.startDate lastDate:event.endDate];
                 }];
@@ -51,12 +51,13 @@
 
         RACSignal *updateSignal = [[[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
             NSString *regex = tuple.first;
-            NSString *resourcePath = [apiClient resourcePathForGetEventsFromYear:year month:month];
+            NSString *resourcePath = [apiClient resourcePathForGetEventsFromYear:year month:[calendar component:NSCalendarUnitMonth fromDate:[NSDate date]]];
+            [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
             return [regex rangeOfString:resourcePath].location != NSNotFound;
         }] flattenMap:^RACStream *(id value) {
             return [[[[CHDAPIClient sharedInstance] getEventsFromYear:year month:month] map:^id(NSArray* events) {
                 RACSequence *results = [events.rac_sequence filter:^BOOL(CHDEvent* event) {
-                    return [self isDate:referenceDate inRangeFirstDate:event.startDate lastDate:event.endDate];
+                return [self isDate:[NSDate date] inRangeFirstDate:event.startDate lastDate:event.endDate];
                 }];
                 //Earliest on top
                 return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDEvent *event1, CHDEvent *event2) {

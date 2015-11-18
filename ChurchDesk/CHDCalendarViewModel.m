@@ -55,6 +55,7 @@
 }
 
 - (void) fetchEventsFromReferenceDate: (NSDate*) referenceDate {
+    [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:kcalendarTimestamp];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDate *nextMonthDate = [calendar dateByAddingUnit:NSCalendarUnitMonth value:1 toDate:referenceDate options:0];
     NSDate *prevMonthDate = [calendar dateByAddingUnit:NSCalendarUnitMonth value:-1 toDate:referenceDate options:0];
