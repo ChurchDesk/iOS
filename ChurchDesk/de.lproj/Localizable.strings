@@ -369,6 +369,10 @@
 /* No comment provided by engineer. */
 "Payment required" = "Die ChurchDesk-App muss extra erworben werden.";
 
+"Blocked" = "Ihr Benutzerkonto wurde blockiert";
+
+"Please reset your password" = "Es tut uns Leid. Es wurden mehr als 5 erfolglose Anmeldeversuche für dieses Konto unternommen. Der Zugang wurde vorübergehend blockiert. Bitte versuchen Sie es später noch einmal oder fordern Sie ein neues Passwort an.";
+
 /* Message shown when payment is required */
 "Please contact our sales team for more details" = "Bitte kontaktieren Sie ChurchDesk, um die App aktivieren zu lassen.";
 

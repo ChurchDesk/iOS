@@ -384,6 +384,10 @@
 /* Message shown when payment is required */
 "Please contact our sales team for more details" = "Kontakt venligst ChurchDesk for at få aktiveret app'en";
 
+"Blocked" = "Din bruger er blokeret";
+
+"Please reset your password" = "Beklager, der har været mere end fem login forsøg. Din bruger er midlertidigt blokeret. Bestil en ny adgangskode eller prøv igen senere.";
+
 /* No comment provided by engineer. */
 "Search" = "Søg";
 

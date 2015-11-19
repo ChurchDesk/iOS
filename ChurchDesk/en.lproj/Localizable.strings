@@ -121,6 +121,8 @@
 "Wrong username or password" = "Wrong username or password";
 "Payment required" = "Activation needed";
 "Please contact our sales team for more details" = "Please contact our sales team to get the app activated";
+"Blocked" = "Your user is blocked";
+"Please reset your password" = "Sorry, there has been more than five failed login attempts for this account. It is temporarily blocked. Try again later or request a new password.";
 "All events" = "All events";
 "My events" = "My events";
 "Show all" = "Show all";

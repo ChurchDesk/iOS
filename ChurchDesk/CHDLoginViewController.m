@@ -169,6 +169,10 @@
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Payment required", @"") message:NSLocalizedString(@"Please contact our sales team for more details", @"Message shown when payment is required") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
             [alertView show];
         }
+        else if (response.statusCode == 426){
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Blocked", @"") message:NSLocalizedString(@"Please reset your password", @"Message shown when the user is blocked") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alertView show];
+        }
     }];
 }
 
