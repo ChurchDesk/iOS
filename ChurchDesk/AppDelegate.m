@@ -27,6 +27,8 @@
 #import "SSKeychainQuery.h"
 #import "CHDAnalyticsManager.h"
 #import "intercom.h"
+#import "Heap.h"
+#import "ABNotifier.h"
 
 @interface AppDelegate ()
 
@@ -35,15 +37,19 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-
+    //[Heap setAppId:@"1171448537"]; //prod
+    [Heap setAppId:@"43172103"];    //dev
+    //[Heap enableVisualizer];
+//    [ABNotifier startNotifierWithAPIKey:@"b4c9bc3857f9ef793ce268bde99d9173"
+//                        environmentName:ABNotifierAutomaticEnvironment
+//                                 useSSL:YES
+//                               delegate:self];
 #if !DEBUG
     [Crashlytics startWithAPIKey:@"c7c174cb98f78bf0cd7b43db69eb37d1e2a46d11"];
 #endif
     [[CHDAnalyticsManager sharedInstance] startGoogleAnalytics];
-
     [self setupAppearance];
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = [[CHDRootViewController alloc] initWithPrimaryViewController:[self viewControllerHierarchy] secondaryViewControllerClass:[CHDLoginViewController class]];
     [self.window makeKeyAndVisible];

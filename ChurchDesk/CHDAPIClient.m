@@ -36,7 +36,7 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
-static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
+static NSString *const kBaseUrl = @"http://192.168.1.91:3000/";
 #else
 static NSString *const kBaseUrl = @"https://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
 #endif
@@ -123,10 +123,10 @@ static NSString *const kURLAPIOauthPart = @"";
     return [[self tokenValidationWrapper:requestSignal] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on %@: %@\nResponse: %@", path, error, response.body);
-//        if (response.statusCode == 401) {
-//            NSLog(@"signing out");
-//            [[CHDAuthenticationManager sharedInstance] signOut];
-//        }
+        if (response.statusCode == 401) {
+            NSLog(@"signing out");
+            [[CHDAuthenticationManager sharedInstance] signOut];
+        }
     }];
     }
     else{
@@ -195,11 +195,11 @@ static NSString *const kURLAPIOauthPart = @"";
 
     RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
-        [request setValue:username ?: @"" forQueryParameterKey:@"username"];
-        [request setValue:password ?: @"" forQueryParameterKey:@"password"];
-        
         [request addValue:@"application/json" forHeaderField:@"Accept"];
         [request addValue:@"application/json" forHeaderField:@"Content-Type"];
+        NSError *error = nil;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:@{@"username": username, @"password": password, @"clientId": @"2"} options:0 error:&error];
+        request.body = data;
     } withBodyContent:nil toResource:resource];
     
     return [[[requestSignal replayLazily] doError:^(NSError *error) {
@@ -246,7 +246,7 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month {
     //return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil];
-    NSString *endDate = [self getEndDateOfMonth:year month:month];
+    NSString *endDate = [NSString stringWithFormat:@"%ld-%ld-31", (long)year, (long)month];//[self getEndDateOfMonth:year month:month];
     NSString *startDate = [NSString stringWithFormat:@"%ld-%ld-01", (long)year, (long)month];
     NSLog(@"month %ld, year %ld, start date %@, end date %@", (long)month, (long)year, startDate, endDate);
     return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil request:^(SHPHTTPRequest *request) {
@@ -465,7 +465,7 @@ static NSString *const kURLAPIOauthPart = @"";
         return [RACSignal empty];
     }
     NSString *environment = [NSBundle mainBundle].infoDictionary[@"PUSH_ENVIRONMENT"];
-    NSString *path = [NSString stringWithFormat:@"devices/%@/ios/%@", deviceToken, environment];
+    NSString *path = [NSString stringWithFormat:@"devices/%@/iOS/%@", deviceToken, environment];
     
     return [self resourcesForPath:path resultClass:[NSDictionary class] withResource:^(SHPAPIResource *resource) {
         NSValue *extraRangeValue = [NSValue valueWithRange:NSMakeRange(409, 1)]; // allow status code 409 (meaning device is already registered)
@@ -516,7 +516,7 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (NSString*)resourcePathForGetUnreadMessages {return @"messages";}
 - (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}
-- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%d", messageId.integerValue];}
+- (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%ld", (long)messageId.integerValue];}
 - (NSString*)resourcePathForGetNotificationSettings{return [NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]];}
 
 #pragma mark - Refresh token

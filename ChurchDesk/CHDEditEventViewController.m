@@ -127,11 +127,23 @@
 
 - (void) saveAction: (id) sender {
     [self.view endEditing:YES];
+    
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CREATE];
+    if (self.viewModel.event.userIds.count > 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Send Notifications?", @"") message:NSLocalizedString(@"Would you like to send notifications to the booked users?", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Save", @"") otherButtonTitles:NSLocalizedString(@"Save and send", @""), nil];
+        alertView.tag = 111;
+        alertView.delegate = self;
+        [alertView show];
+    } else{
+        self.viewModel.event.sendNotifications = false;
+        [self saveEvent];
+    }
+}
+
+-(void) saveEvent{
     CHDEditEventViewModel *viewModel = self.viewModel;
     [self didChangeSendingStatus:CHDStatusViewProcessing];
-
-
+    
     @weakify(self)
     [[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
         //Handle double booking responses from the server
@@ -142,42 +154,41 @@
                 NSDictionary *result = response.body;
                 NSString *htmlString = [result valueForKey:@"conflictHtml"];
                 BOOL permissionToDoubleBook = [viewModel.user siteWithId:viewModel.event.siteId].permissions.canDoubleBook;
-
+                
                 if(htmlString && permissionToDoubleBook) {
                     CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
                     alertView.show = YES;
-
+                    
                     RACSignal *statusSignal = [RACObserve(alertView, status) filter:^BOOL(NSNumber *iStatus) {
                         return iStatus.unsignedIntegerValue != CHDEventAlertStatusNone;
                     }];
-
+                    
                     RAC(alertView, show) = [[statusSignal map:^id(id value) {
                         return @(NO);
                     }] takeUntil:alertView.rac_willDeallocSignal];
-
+                    
                     return [statusSignal flattenMap:^RACStream *(NSNumber *iStatus) {
                         if (iStatus.unsignedIntegerValue == CHDEventAlertStatusCancel) {
                             [self didChangeSendingStatus:CHDStatusViewHidden];
                             return [RACSignal empty];
                         }
                         viewModel.event.allowDoubleBooking = YES;
-
                         return [viewModel saveEvent];
                     }];
                 }
                 else if(htmlString && !permissionToDoubleBook){
                     [self didChangeSendingStatus:CHDStatusViewHidden];
-
+                    
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Doublebooking not allowed", @"") delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
-
+                    
                     return [RACSignal empty];
                 }
                 else {
                     [self didChangeSendingStatus:CHDStatusViewHidden];
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:htmlString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
-
+                    
                     return [RACSignal empty];
                 }
             }
@@ -618,6 +629,23 @@
     }
 
     return returnCell;
+}
+
+#pragma mark - AlertView delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 111) {
+        if (buttonIndex == 0)
+        {
+            self.viewModel.event.sendNotifications = false;
+            [self saveEvent];
+        }
+        else
+        {
+            self.viewModel.event.sendNotifications = true;
+            [self saveEvent];
+        }
+    }
 }
 
 #pragma mark - Lazy Initialization

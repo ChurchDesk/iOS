@@ -191,7 +191,6 @@
         NSArray *holidaysToAdd = [holidays shp_filter:^BOOL(CHDHoliday *holiday) {
             return [self.holidays indexOfObject:holiday] == NSNotFound;
         }];
-
         self.holidays = [self.holidays arrayByAddingObjectsFromArray:holidaysToAdd];
     }
 }

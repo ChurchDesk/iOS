@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, assign) CHDEventVisibility visibility;
 @property (nonatomic, assign) BOOL allDayEvent;
 @property (nonatomic, assign) BOOL allowDoubleBooking;
+@property (nonatomic, assign) BOOL sendNotifications;
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *eventDescription;
