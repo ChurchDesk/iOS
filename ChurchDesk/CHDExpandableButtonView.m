@@ -9,17 +9,20 @@
 #import "CHDExpandableButtonView.h"
 
 static const CGFloat k45Degrees = -0.785398163f;
-static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
+//static const CGFloat k45Degrees = 0.0f;
+static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 
 @interface CHDExpandableButtonView () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *buttonContainer;
 @property (nonatomic, strong) UIButton *toggleButton;
 @property (nonatomic, strong) UIButton *addEventButton;
+@property (nonatomic, strong) UIButton *addAbsenceButton;
 @property (nonatomic, strong) UIButton *addMessageButton;
 
 @property (nonatomic, strong) MASConstraint *eventCenterConstraint;
 @property (nonatomic, strong) MASConstraint *messageCenterConstraint;
+@property (nonatomic, strong) MASConstraint *absenceCenterConstraint;
 
 @property (nonatomic, assign) BOOL isExpanded;
 @property (nonatomic, strong) UIGestureRecognizer *gestureRecognizer;
@@ -67,6 +70,7 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
 - (void) setupSubviews {
     [self addSubview:self.buttonContainer];
     [self.buttonContainer addSubview:self.addEventButton];
+    [self.buttonContainer addSubview:self.addAbsenceButton];
     [self.buttonContainer addSubview:self.addMessageButton];
     [self addSubview:self.toggleButton];
 }
@@ -74,8 +78,8 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
 - (void) makeConstraints {
     [self.buttonContainer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
-        make.width.equalTo(@153);
-        make.height.equalTo(@123);
+        make.width.equalTo(@353);
+        make.height.equalTo(@323);
     }];
     
     NSValue *vCenterPoint = [NSValue valueWithCGPoint:kDefaultCenterPoint];
@@ -86,6 +90,10 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
     
     [self.addEventButton mas_makeConstraints:^(MASConstraintMaker *make) {
         self.eventCenterConstraint = make.center.equalTo(vCenterPoint);
+    }];
+    
+    [self.addAbsenceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.absenceCenterConstraint = make.center.equalTo(vCenterPoint);
     }];
     
     [self.addMessageButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,10 +112,13 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
     self.isExpanded = on;
     
     CGAffineTransform transform = on ? CGAffineTransformMakeRotation(-k45Degrees) : CGAffineTransformIdentity;
-    CGPoint eventOffset = on ? CGPointMake(-7, 33) : kDefaultCenterPoint;
-    CGPoint messageOffset = on ? CGPointMake(-7, -41) : kDefaultCenterPoint;
+    CGPoint eventOffset = on ? CGPointMake(125, -53) : kDefaultCenterPoint;
+    CGPoint messageOffset = on ? CGPointMake(80, -98) : kDefaultCenterPoint;
+    CGPoint absenceOffset = on ? CGPointMake(40, -138) : kDefaultCenterPoint;
+    
     [self.eventCenterConstraint setCenterOffset:eventOffset];
     [self.messageCenterConstraint setCenterOffset:messageOffset];
+    [self.absenceCenterConstraint setCenterOffset:absenceOffset];
 
     [UIView animateWithDuration:on ? 0.7 : 0.4 delay:0 usingSpringWithDamping:on ? 0.6 : 0.8 initialSpringVelocity:1.0 options: UIViewAnimationOptionAllowUserInteraction animations:^{
         self.toggleButton.transform = transform;
@@ -146,6 +157,16 @@ static const CGPoint kDefaultCenterPoint = {34.0f, 27.0f};
         [_addEventButton addTarget:self action:@selector(toggleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _addEventButton;
+}
+
+- (UIButton *)addAbsenceButton {
+    if (!_addAbsenceButton) {
+        _addAbsenceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addAbsenceButton setImage:kImgCreateAbsence forState:UIControlStateNormal];
+        _addAbsenceButton.transform = CGAffineTransformRotate(CGAffineTransformIdentity, k45Degrees);
+        [_addAbsenceButton addTarget:self action:@selector(toggleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _addAbsenceButton;
 }
 
 - (UIButton *)addMessageButton {

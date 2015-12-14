@@ -160,7 +160,12 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     }];
     
     return [resources shp_map:^id(CHDPeerUser *user) {
-        return user.name;
+        if (user.name != NULL) {
+            return user.name;
+        }
+        else{
+            return @"";
+        }
     }];
 }
 

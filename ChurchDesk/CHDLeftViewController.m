@@ -135,7 +135,6 @@
         _menuTable.separatorStyle = UITableViewCellSeparatorStyleNone;
         _menuTable.backgroundView.backgroundColor = [UIColor chd_menuLightBlue];
         _menuTable.backgroundColor = [UIColor chd_menuLightBlue];
-
         _menuTable.rowHeight = 48;
         
         [_menuTable registerClass:[CHDLeftMenuTableViewCell class] forCellReuseIdentifier:@"menuCell"];

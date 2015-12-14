@@ -241,6 +241,7 @@
 /* No comment provided by engineer. */
 "Save" = "Gem";
 
+"Save and send" = "Gem og send;
 /* No comment provided by engineer. */
 "Saving event.." = "Gemmer begivenhed...";
 
@@ -402,3 +403,7 @@
 
 /* No comment provided by engineer. */
 "Unread" = "Ulæst";
+
+"Would you like to send notifications to the booked users?" = "Vil du sende notifikationer til de reserverede brugere?";
+
+"Send Notifications?" = "Send notifikationer?";

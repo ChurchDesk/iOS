@@ -26,6 +26,7 @@
 "Invitations" = "Invitations";
 "Cancel" = "Cancel";
 "Save" = "Save";
+"Save and send" = "Save and send"
 "Date" = "Date";
 "Time" = "Time";
 "New Event" = "New Event";
@@ -132,3 +133,5 @@
 "Unread" = "Unread";
 "Search" = "Search";
 "Doublebooking not allowed" = "Doublebooking not allowed";
+"Would you like to send notifications to the booked users?" = "Would you like to send notifications to the booked users?";
+"Send Notifications?" = "Send Notifications?"

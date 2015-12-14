@@ -229,6 +229,7 @@
 /* No comment provided by engineer. */
 "Save" = "Speichern";
 
+"Save and send" = "Speichern und senden";
 /* No comment provided by engineer. */
 "Saving event.." = "Ereignis wird gespeichert...";
 
@@ -390,3 +391,7 @@
 
 /* No comment provided by engineer. */
 "Unread" = "Ungelesen";
+
+"Would you like to send notifications to the booked users?" = "Möchten Sie den gebuchten Nutzern Benachrichtigungen zusenden?";
+
+"Send Notifications?" = "Benachrichtigungen senden?";

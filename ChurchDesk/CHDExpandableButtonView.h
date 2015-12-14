@@ -10,6 +10,7 @@
 
 @interface CHDExpandableButtonView : UIView
 @property (nonatomic, readonly) UIButton *addEventButton;
+@property (nonatomic, readonly) UIButton *addAbsenceButton;
 @property (nonatomic, readonly) UIButton *addMessageButton;
 -(void) buttonOn: (BOOL) on;
 @end

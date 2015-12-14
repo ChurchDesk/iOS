@@ -610,7 +610,6 @@
         [event shprac_liftSelector:@selector(setAllowDoubleBooking:) withSignal:[[[cell.valueSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *valueSwitch) {
             return @(valueSwitch.on);
         }] takeUntil:cell.rac_prepareForReuseSignal]];
-
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
