@@ -304,7 +304,13 @@
         selectMultiple = YES;
         NSArray *categories = [environment eventCategoriesWithSiteId:event.siteId];
         for (CHDEventCategory *category in categories) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:category.name color:category.color selected:[event.eventCategoryIds containsObject:category.categoryId] refObject:category.categoryId]];
+            BOOL selected = false;
+            for (NSNumber *categoryId in event.eventCategoryIds) {
+                if (categoryId.intValue == category.categoryId.intValue) {
+                    selected = true;
+                }
+            }
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:category.name color:category.color selected:selected refObject:category.categoryId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
@@ -312,16 +318,27 @@
         selectMultiple = YES;
         NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
         for (CHDPeerUser *user in users) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:[event.userIds containsObject:user.userId] refObject:user.userId]];
+            BOOL selected = false;
+            for (NSNumber *userId in event.userIds) {
+                if (userId.intValue == user.userId.intValue) {
+                    selected = true;
+                }
+            }
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:selected refObject:user.userId]];
         }
-        
     }
     else if ([row isEqualToString:CHDEventEditRowResources]) {
         title = NSLocalizedString(@"Select Resources", @"");
         selectMultiple = YES;
         NSArray *resources = [environment resourcesWithSiteId:event.siteId];
         for (CHDResource *resource in resources) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:resource.name color:resource.color selected:[event.resourceIds containsObject:resource.resourceId] refObject:resource.resourceId]];
+            BOOL selected = false;
+            for (NSNumber *resourceId in event.resourceIds) {
+                if (resourceId.intValue == resource.resourceId.intValue) {
+                    selected = true;
+                }
+            }
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:resource.name color:resource.color selected:selected refObject:resource.resourceId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
