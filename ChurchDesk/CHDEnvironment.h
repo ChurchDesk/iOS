@@ -8,6 +8,7 @@
 
 #import "CHDManagedModel.h"
 #import "CHDEventCategory.h"
+#import "CHDAbsenceCategory.h"
 #import "CHDResource.h"
 #import "CHDGroup.h"
 #import "CHDPeerUser.h"
@@ -15,12 +16,16 @@
 @interface CHDEnvironment : CHDManagedModel
 
 @property (nonatomic, strong) NSArray *eventCategories;
+@property (nonatomic, strong) NSArray *absenceCategories;
 @property (nonatomic, strong) NSArray *resources;
 @property (nonatomic, strong) NSArray *groups;
 @property (nonatomic, strong) NSArray *users;
 
 - (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId siteId: (NSString*) siteId;
 - (NSArray*) eventCategoriesWithSiteId: (NSString*) siteId;
+
+- (CHDAbsenceCategory*) absenceCategoryWithId: (NSNumber*) absenceCategoryId siteId: (NSString*) siteId;
+- (NSArray*) absenceCategoriesWithSiteId: (NSString*) siteId;
 
 - (CHDResource*) resourceWithId: (NSNumber*) resourceId siteId: (NSString*) siteId;
 - (NSArray*) resourcesWithSiteId: (NSString*) siteId;

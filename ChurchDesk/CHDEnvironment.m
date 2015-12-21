@@ -8,6 +8,7 @@
 
 #import "CHDEnvironment.h"
 #import "CHDEventCategory.h"
+#import "CHDAbsenceCategory.h"
 #import "CHDResource.h"
 #import "CHDGroup.h"
 #import "CHDPeerUser.h"
@@ -21,6 +22,9 @@
 - (Class)nestedClassForArrayPropertyWithName:(NSString *)propName {
     if ([propName isEqualToString:@"eventCategories"]) {
         return [CHDEventCategory class];
+    }
+    if ([propName isEqualToString:@"absenceCategories"]) {
+        return [CHDAbsenceCategory class];
     }
     if ([propName isEqualToString:@"resources"]) {
         return [CHDResource class];
@@ -36,7 +40,7 @@
     return [super nestedClassForArrayPropertyWithName:propName];
 }
 
-#pragma mark - Categories
+#pragma mark - Event Categories
 
 - (CHDEventCategory*) eventCategoryWithId: (NSNumber*) eventCategoryId siteId: (NSString*) siteId{
     return eventCategoryId ? [self.eventCategories shp_detect:^BOOL(CHDEventCategory *eventCategory) {
@@ -47,6 +51,20 @@
 - (NSArray*) eventCategoriesWithSiteId: (NSString*) siteId {
     return siteId ? [self.eventCategories shp_filter:^BOOL(CHDEventCategory *eventCategory) {
         return [eventCategory.siteId isEqualToString:siteId];
+    }] : nil;
+}
+
+#pragma mark - Absence Categories
+
+- (CHDAbsenceCategory*) absenceCategoryWithId: (NSNumber*) absenceCategoryId siteId: (NSString*) siteId{
+    return absenceCategoryId ? [self.absenceCategories shp_detect:^BOOL(CHDAbsenceCategory *absenceCategory) {
+        return absenceCategory.categoryId.integerValue == absenceCategoryId.integerValue;
+    }] : nil;
+}
+
+- (NSArray*) absenceCategoriesWithSiteId: (NSString*) siteId {
+    return siteId ? [self.absenceCategories shp_filter:^BOOL(CHDAbsenceCategory *absenceCategory) {
+        return [absenceCategory.siteId isEqualToString:siteId];
     }] : nil;
 }
 

@@ -113,8 +113,8 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     
     CGAffineTransform transform = on ? CGAffineTransformMakeRotation(-k45Degrees) : CGAffineTransformIdentity;
     CGPoint eventOffset = on ? CGPointMake(125, -53) : kDefaultCenterPoint;
-    CGPoint messageOffset = on ? CGPointMake(80, -98) : kDefaultCenterPoint;
-    CGPoint absenceOffset = on ? CGPointMake(40, -138) : kDefaultCenterPoint;
+    CGPoint messageOffset = on ? CGPointMake(85, -93) : kDefaultCenterPoint;
+    CGPoint absenceOffset = on ? CGPointMake(45, -133) : kDefaultCenterPoint;
     
     [self.eventCenterConstraint setCenterOffset:eventOffset];
     [self.messageCenterConstraint setCenterOffset:messageOffset];

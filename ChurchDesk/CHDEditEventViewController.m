@@ -178,10 +178,8 @@
                 }
                 else if(htmlString && !permissionToDoubleBook){
                     [self didChangeSendingStatus:CHDStatusViewHidden];
-                    
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Doublebooking not allowed", @"") delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
-                    
                     return [RACSignal empty];
                 }
                 else {
