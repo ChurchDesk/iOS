@@ -11,4 +11,5 @@
 @property (nonatomic) BOOL canCreateEvent;
 @property (nonatomic) BOOL canCreateMessage;
 @property (nonatomic) BOOL canDoubleBook;
+@property (nonatomic) BOOL canCreateAbsence;
 @end

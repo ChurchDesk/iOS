@@ -162,7 +162,7 @@
     mDict[@"allowDoubleBooking"] = @(self.allowDoubleBooking);
     mDict[@"sendNotifications"] = @(self.sendNotifications);
     mDict[@"allDay"] = @(self.allDayEvent);
-    mDict[@"type"] = @"event";
+    mDict[@"type"] = @"event"; //self.type;
     return [mDict copy];
 }
 

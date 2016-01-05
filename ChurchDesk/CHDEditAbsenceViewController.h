@@ -7,7 +7,13 @@
 //
 
 #import "CHDAbstractViewController.h"
+@class CHDEvent;
+@class CHDEditAbsenceViewModel;
 
 @interface CHDEditAbsenceViewController : CHDAbstractViewController
+
+@property (nonatomic, readonly) CHDEvent *event;
+@property (nonatomic, readonly) CHDEditAbsenceViewModel *viewModel;
+- (instancetype)initWithEvent: (CHDEvent*) event;
 
 @end

@@ -9,6 +9,7 @@
 #import "UIViewController+UIViewController_ChurchDesk.h"
 #import "CHDNewMessageViewController.h"
 #import "CHDEditEventViewController.h"
+#import "CHDEditAbsenceViewController.h"
 #import "CHDExpandableButtonView.h"
 
 @implementation UIViewController (UIViewController_ChurchDesk)
@@ -32,6 +33,7 @@
 
     [actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow:) forControlEvents:UIControlEventTouchUpInside];
     [actionButtonView.addEventButton addTarget:self action:@selector(newEventAction:) forControlEvents:UIControlEventTouchUpInside];
+    [actionButtonView.addAbsenceButton addTarget:self action:@selector(newAbsenceAction:) forControlEvents:UIControlEventTouchUpInside];
     
     return actionButtonView;
 }
@@ -48,5 +50,12 @@
     RACSignal *saveSignal = [RACObserve(vc, event) skip:1];
     [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
 }
-
+- (void) newAbsenceAction: (id) sender {
+    CHDEditAbsenceViewController *vc = [[CHDEditAbsenceViewController alloc] initWithEvent:nil];
+    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
+    [self presentViewController:navigationVC animated:YES completion:nil];
+    
+    RACSignal *saveSignal = [RACObserve(vc, event) skip:1];
+    [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
+}
 @end

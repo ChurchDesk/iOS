@@ -71,7 +71,6 @@
 #pragma mark - Resources
 
 - (CHDResource*) resourceWithId: (NSNumber*) resourceId siteId: (NSString*) siteId{
-    
     return resourceId ? [self.resources shp_detect:^BOOL(CHDResource *resource) {
         return (resource.resourceId.integerValue == resourceId.integerValue) && [resource.siteId isEqualToString:siteId];
     }] : nil;
@@ -131,4 +130,10 @@
     }] : nil;
 }
 
+- (NSArray *)usersWithSiteId:(NSString *)siteId {
+    return siteId ? [self.users shp_filter:^BOOL(CHDPeerUser *user) {
+        BOOL validGroups = YES;
+        return validGroups;
+    }] : nil;
+}
 @end
