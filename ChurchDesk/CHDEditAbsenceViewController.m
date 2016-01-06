@@ -527,17 +527,25 @@
         
         returnCell = cell;
     }
-    else if ([row isEqualToString:CHDAbsenceEditRowDescription]) {
-        CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
-        cell.placeholder = NSLocalizedString(@"Description", @"");
-        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[event.eventDescription dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-        cell.textView.text = attributedString.string;
-        cell.tableView = tableView;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [event shprac_liftSelector:@selector(setEventDescription:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        
-        returnCell = cell;
-    }
+    else if ([row isEqualToString:CHDAbsenceEditRowSubstitute]) {
+            CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
+            cell.placeholder = NSLocalizedString(@"Substitute", @"");
+            cell.textView.text = event.substitute;
+            cell.tableView = tableView;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [event shprac_liftSelector:@selector(setSubstitute:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+            
+            returnCell = cell;
+        }else if ([row isEqualToString:CHDAbsenceEditRowComments]) {
+            CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
+            cell.placeholder = NSLocalizedString(@"Comments", @"");
+            cell.textView.text = event.comments;
+            cell.tableView = tableView;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [event shprac_liftSelector:@selector(setComments:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+            
+            returnCell = cell;
+        }
     
     if ([returnCell respondsToSelector:@selector(setDividerLineHidden:)]) {
         [(CHDEventInfoTableViewCell*)returnCell setDividerLineHidden: indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1];

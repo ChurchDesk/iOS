@@ -11,7 +11,8 @@
 extern NSString *const CHDAbsenceEditSectionDate;
 extern NSString *const CHDAbsenceEditSectionRecipients;
 extern NSString *const CHDAbsenceEditSectionBooking;
-extern NSString *const CHDAbsenceEditSectionDescription;
+extern NSString *const CHDAbsenceEditSectionSubstitute;
+extern NSString *const CHDAbsenceEditSectionComments;
 extern NSString *const CHDAbsenceEditSectionMisc;
 extern NSString *const CHDAbsenceEditSectionDivider;
 
@@ -25,8 +26,8 @@ extern NSString *const CHDAbsenceEditRowCategories;
 extern NSString *const CHDAbsenceEditRowLocation;
 extern NSString *const CHDAbsenceEditRowResources;
 extern NSString *const CHDAbsenceEditRowUsers;
-extern NSString *const CHDAbsenceEditRowInternalNote;
-extern NSString *const CHDAbsenceEditRowDescription;
+extern NSString *const CHDAbsenceEditRowSubstitute;
+extern NSString *const CHDAbsenceEditRowComments;
 extern NSString *const CHDAbsenceEditRowContributor;
 extern NSString *const CHDAbsenceEditRowPrice;
 extern NSString *const CHDAbsenceEditRowDoubleBooking;

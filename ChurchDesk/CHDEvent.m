@@ -159,7 +159,7 @@
     }
     if ([self.type isEqualToString:@"absence"]) {
         mDict[@"substitute"] = self.substitute;
-        mDict[@"comment"] = self.comment;
+        mDict[@"comment"] = self.comments;
     }
 
     mDict[@"mainCategory"] = self.eventCategoryIds[0];

@@ -17,7 +17,8 @@
 NSString *const CHDAbsenceEditSectionDate = @"CHDAbsenceEditSectionDate";
 NSString *const CHDAbsenceEditSectionRecipients = @"CHDAbsenceEditSectionRecipients";
 NSString *const CHDAbsenceEditSectionBooking = @"CHDAbsenceEditSectionBooking";
-NSString *const CHDAbsenceEditSectionDescription = @"CHDAbsenceEditSectionDescription";
+NSString *const CHDAbsenceEditSectionSubstitute = @"CHDEventEditSectionSubstitute";
+NSString *const CHDAbsenceEditSectionComments = @"CHDAbsenceEditSectionComments";
 NSString *const CHDAbsenceEditSectionMisc = @"CHDAbsenceEditSectionMisc";
 NSString *const CHDAbsenceEditSectionDivider = @"CHDAbsenceEditSectionDivider";
 
@@ -31,8 +32,8 @@ NSString *const CHDAbsenceEditRowCategories = @"CHDAbsenceEditRowCategories";
 NSString *const CHDAbsenceEditRowLocation = @"CHDAbsenceEditRowLocation";
 NSString *const CHDAbsenceEditRowResources = @"CHDAbsenceEditRowResources";
 NSString *const CHDAbsenceEditRowUsers = @"CHDAbsenceEditRowUsers";
-NSString *const CHDAbsenceEditRowInternalNote = @"CHDAbsenceEditRowInternalNote";
-NSString *const CHDAbsenceEditRowDescription = @"CHDAbsenceEditRowDescription";
+NSString *const CHDAbsenceEditRowSubstitute = @"CHDAbsenceEditRowSubstitute";
+NSString *const CHDAbsenceEditRowComments = @"CHDAbsenceEditRowComments";
 NSString *const CHDAbsenceEditRowContributor = @"CHDAbsenceEditRowContributor";
 NSString *const CHDAbsenceEditRowPrice = @"CHDAbsenceEditRowPrice";
 NSString *const CHDAbsenceEditRowDoubleBooking = @"CHDAbsenceEditRowDoubleBooking";
@@ -68,12 +69,13 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
         RACSignal *userSignal = [[CHDAPIClient sharedInstance] getCurrentUser];
         [self rac_liftSelector:@selector(setUser:) withSignals:userSignal, nil];
         
-        self.sections = @[ CHDAbsenceEditSectionDate, CHDAbsenceEditSectionRecipients, CHDAbsenceEditSectionBooking, CHDAbsenceEditSectionDescription, CHDAbsenceEditSectionDivider];
+        self.sections = @[ CHDAbsenceEditSectionDate, CHDAbsenceEditSectionRecipients, CHDAbsenceEditSectionBooking, CHDAbsenceEditSectionSubstitute, CHDAbsenceEditSectionComments, CHDAbsenceEditSectionDivider];
         
         self.sectionRows = @{CHDAbsenceEditSectionDate : @[CHDAbsenceEditRowDivider,                    CHDAbsenceEditRowAllDay, CHDAbsenceEditRowStartDate],
                              CHDAbsenceEditSectionRecipients : @[],
                              CHDAbsenceEditSectionBooking : @[],
-                             CHDAbsenceEditSectionDescription : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowDescription],
+                             CHDAbsenceEditSectionSubstitute : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowSubstitute],
+                             CHDAbsenceEditSectionComments : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowComments],
                              //CHDAbsenceEditSectionMisc : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowContributor, CHDAbsenceEditRowPrice, CHDAbsenceEditRowVisibility],
                              CHDAbsenceEditSectionDivider : @[CHDAbsenceEditRowDivider]};
         
@@ -121,6 +123,8 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
                          CHDAbsenceEditSectionDate : dateRows,
                          CHDAbsenceEditSectionRecipients : recipientsRows,
                          CHDAbsenceEditSectionBooking : bookingRows,
+                         CHDAbsenceEditSectionSubstitute : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowSubstitute],
+                         CHDAbsenceEditSectionComments : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowComments],
                          //CHDAbsenceEditSectionMisc : miscRows,
                          CHDAbsenceEditSectionDivider : @[CHDAbsenceEditRowDivider]};
     

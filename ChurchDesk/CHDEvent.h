@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, strong) NSString *contributor;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *substitute;
-@property (nonatomic, strong) NSString *comment;
+@property (nonatomic, strong) NSString *comments;
 @property (nonatomic, strong) NSURL *pictureURL;
 
 @property (nonatomic, assign) NSString *eventResponse;
