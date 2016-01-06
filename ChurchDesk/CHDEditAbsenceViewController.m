@@ -299,7 +299,7 @@
     }
     else if ([row isEqualToString:CHDAbsenceEditRowCategories]) {
         title = NSLocalizedString(@"Select Categories", @"");
-        selectMultiple = YES;
+        selectMultiple = NO;
         NSArray *categories = [environment absenceCategoriesWithSiteId:event.siteId];
         for (CHDAbsenceCategory *category in categories) {
             BOOL selected = false;

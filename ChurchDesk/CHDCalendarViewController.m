@@ -470,12 +470,21 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
+//    if ([event.type isEqualToString:@"absence"]) {
+//        cell.locationLabel.text = @"ABSENCE";
+//    }
     cell.parishLabel.text = self.viewModel.user.sites.count > 1 ? [self.viewModel.user siteWithId:event.siteId].name : @"";
     cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event referenceDate:sectionDate];
-
-
-    CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
-    [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
+    
+    if ([event.type isEqualToString:@"absence"]) {
+        CHDAbsenceCategory *category = [self.viewModel.environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
+        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
+    }
+    else{
+        CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
+        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
+    }
+    
 
     return cell;
 }
