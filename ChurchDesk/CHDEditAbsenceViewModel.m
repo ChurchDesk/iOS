@@ -83,6 +83,9 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
         }],
                                                                                                 [RACObserve(self.event, startDate) flattenMap:^RACStream *(id value) {
             return [[CHDAPIClient sharedInstance] getCurrentUser];
+        }],
+                                                                                                [RACObserve(self.event, groupId) flattenMap:^RACStream *(id value) {
+            return [[CHDAPIClient sharedInstance] getCurrentUser];
         }]
         ]],nil];
     }
@@ -91,7 +94,7 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
 
 -(void) setupSectionsWithUser: (CHDUser *) user{
     
-    NSArray *recipientsRows = _newEvent && user.sites.count > 1 ? @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowParish, CHDAbsenceEditRowCategories] : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowCategories];
+    NSArray *recipientsRows = _newEvent && user.sites.count > 1 ? @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowParish, CHDAbsenceEditRowGroup, CHDAbsenceEditRowCategories] : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowGroup, CHDAbsenceEditRowCategories];
     NSArray *bookingRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowUsers];
     
     if(self.event.siteId == nil){
@@ -107,9 +110,9 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
         recipientsRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowParish];
         bookingRows = @[];
     }
-//    else if([self.event.groupId isEqualToNumber:@0] || !self.event.groupId){
-//        bookingRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowResources];
-//    }
+    else if([self.event.groupId isEqualToNumber:@0] || !self.event.groupId){
+        bookingRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowResources];
+    }
     
     NSArray *dateRows = self.event.startDate != nil? @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowAllDay, CHDAbsenceEditRowStartDate, CHDAbsenceEditRowEndDate] : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowAllDay, CHDAbsenceEditRowStartDate];
     //NSArray *miscRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowContributor];

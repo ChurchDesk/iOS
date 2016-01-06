@@ -157,12 +157,16 @@
         }
         //@(self.visibility);
     }
+    if ([self.type isEqualToString:@"absence"]) {
+        mDict[@"substitute"] = self.substitute;
+        mDict[@"comment"] = self.comment;
+    }
 
     mDict[@"mainCategory"] = self.eventCategoryIds[0];
     mDict[@"allowDoubleBooking"] = @(self.allowDoubleBooking);
     mDict[@"sendNotifications"] = @(self.sendNotifications);
     mDict[@"allDay"] = @(self.allDayEvent);
-    mDict[@"type"] = @"event"; //self.type;
+    mDict[@"type"] = self.type;
     return [mDict copy];
 }
 

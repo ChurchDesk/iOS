@@ -102,17 +102,17 @@
 - (void) setupBindings {
     //[self shprac_liftSelector:@selector(titleAsFirstResponder) withSignal:[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1]];
     
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), RACObserve(self.viewModel, sectionRows)]] ignore:nil]];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), RACObserve(self.viewModel, sectionRows)]] ignore:nil]];
     
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignal], nil];
     
     [self.navigationItem.leftBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:[self.viewModel.saveCommand.executing not], nil];
     
     //Required -> Site, Group, title, startDate, endDate
-    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
-        RACTupleUnpack(NSString *siteId, NSNumber *groupId, NSArray *categoryIds, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
+    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
+        RACTupleUnpack(NSString *siteId, NSNumber *groupId, NSArray *categoryIds, NSDate *startDate, NSDate *endDate) = tuple;
         
-        return @(![siteId isEqualToString:@""] && groupId != nil && ![groupId isEqualToNumber:@0] && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
+        return @(![siteId isEqualToString:@""] && groupId != nil && ![groupId isEqualToNumber:@0] && categoryIds.count > 0 && startDate != nil && endDate != nil);
     }];
     [self.navigationItem.rightBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:canSendSignal, nil];
 }
@@ -301,7 +301,7 @@
         title = NSLocalizedString(@"Select Categories", @"");
         selectMultiple = YES;
         NSArray *categories = [environment absenceCategoriesWithSiteId:event.siteId];
-        for (CHDEventCategory *category in categories) {
+        for (CHDAbsenceCategory *category in categories) {
             BOOL selected = false;
             for (NSNumber *categoryId in event.eventCategoryIds) {
                 if (categoryId.intValue == category.categoryId.intValue) {
@@ -314,7 +314,7 @@
     else if ([row isEqualToString:CHDAbsenceEditRowUsers]) {
         title = NSLocalizedString(@"Select Users", @"");
         selectMultiple = NO;
-        NSArray *users = event.siteId? [environment usersWithSiteId:event.siteId] : @[];
+        NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
         for (CHDPeerUser *user in users) {
             BOOL selected = false;
             for (NSNumber *userId in event.userIds) {
@@ -507,7 +507,7 @@
     else if ([row isEqualToString:CHDAbsenceEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
-        cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
+        cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
         
         returnCell = cell;
     }

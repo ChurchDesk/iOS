@@ -62,6 +62,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     self = [super init];
     if (self) {
         _event = event ? [event copy] : [CHDEvent new];
+        _event.type = @"event";
         _newEvent = event == nil;
 
         if(_newEvent){

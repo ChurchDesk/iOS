@@ -129,11 +129,4 @@
         return validGroups;
     }] : nil;
 }
-
-- (NSArray *)usersWithSiteId:(NSString *)siteId {
-    return siteId ? [self.users shp_filter:^BOOL(CHDPeerUser *user) {
-        BOOL validGroups = YES;
-        return validGroups;
-    }] : nil;
-}
 @end

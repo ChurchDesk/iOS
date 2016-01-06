@@ -36,6 +36,5 @@
 
 - (CHDPeerUser*) userWithId: (NSNumber*) userId siteId: (NSString*) siteId;
 - (NSArray*) usersWithSiteId: (NSString*) siteId groupIds: (NSArray*) groupIds;
-- (NSArray *)usersWithSiteId:(NSString *)siteId;
 
 @end
