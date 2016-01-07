@@ -140,7 +140,6 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     if (!_buttonContainer) {
         _buttonContainer = [UIView new];
     }
-    _buttonContainer.backgroundColor = [UIColor redColor];
     return _buttonContainer;
 }
 

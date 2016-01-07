@@ -10,6 +10,7 @@
 
 @interface CHDEventTableViewCell : CHDTableViewCell
 @property (nonatomic, readonly) UILabel* titleLabel;
+@property (nonatomic, readonly) UIImageView* absenceIconView;
 @property (nonatomic, readonly) UILabel*locationLabel;
 @property (nonatomic, readonly) UILabel* dateTimeLabel;
 @property (nonatomic, readonly) UILabel*parishLabel;

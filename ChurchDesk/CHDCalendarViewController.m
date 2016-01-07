@@ -468,11 +468,17 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     NSDate *sectionDate = self.viewModel.sections[indexPath.section];
 
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
-//    if ([event.type isEqualToString:@"absence"]) {
-//        cell.locationLabel.text = @"ABSENCE";
-//    }
+    if ([event.type isEqualToString:@"absence"]) {
+        cell.titleLabel.text = [NSString stringWithFormat:@"    %@", event.title];
+        cell.titleLabel.textColor = [UIColor grayColor];
+        cell.absenceIconView.hidden = false;
+    }
+    else{
+        cell.titleLabel.text = event.title;
+        cell.titleLabel.textColor = [UIColor chd_textDarkColor];
+        cell.absenceIconView.hidden = true;
+    }
     cell.parishLabel.text = self.viewModel.user.sites.count > 1 ? [self.viewModel.user siteWithId:event.siteId].name : @"";
     cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event referenceDate:sectionDate];
     

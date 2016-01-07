@@ -229,7 +229,7 @@ static NSString *const kURLAPIOauthPart = @"";
     } withBodyContent:nil toResource:resource];
     
     return [[[requestSignal replayLazily] doError:^(NSError *error) {
-        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        //SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on reset: %@\nResponse: %@", error, response.body);
     }] doNext:^(id x) {
         [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
@@ -252,7 +252,7 @@ static NSString *const kURLAPIOauthPart = @"";
     return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:startDate forQueryParameterKey:@"start"];
         [request setValue:endDate forQueryParameterKey:@"end"];
-        [request setValue:@"event" forQueryParameterKey:@"type"];
+        //[request setValue:@"event" forQueryParameterKey:@"type"];
     }];
 }
 

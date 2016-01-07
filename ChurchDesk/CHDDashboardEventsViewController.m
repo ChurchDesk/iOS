@@ -147,18 +147,30 @@
     CHDEvent* event = self.viewModel.events[indexPath.row];
     CHDUser* user = self.viewModel.user;
     CHDSite* site = [user siteWithId:event.siteId];
-    CHDEnvironment *environment = self.viewModel.environment;
-
-    //Get the first eventCategory
-    CHDEventCategory *category = (event.eventCategoryIds && event.eventCategoryIds.count > 0)?[environment eventCategoryWithId: event.eventCategoryIds[0] siteId:event.siteId] : nil;
-
+    
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.titleLabel.text = event.title;
     cell.locationLabel.text = event.location;
+    if ([event.type isEqualToString:@"absence"]) {
+        cell.titleLabel.text = [NSString stringWithFormat:@"    %@", event.title];
+        cell.titleLabel.textColor = [UIColor grayColor];
+        cell.absenceIconView.hidden = false;
+    }
+    else{
+        cell.titleLabel.text = event.title;
+        cell.titleLabel.textColor = [UIColor chd_textDarkColor];
+        cell.absenceIconView.hidden = true;
+    }
     cell.parishLabel.text = user.sites.count > 1? site.name : @"";
     cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event];
 
-    [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
+    if ([event.type isEqualToString:@"absence"]) {
+        CHDAbsenceCategory *category = [self.viewModel.environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
+        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
+    }
+    else{
+        CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
+        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
+    }
 
     return cell;
 }

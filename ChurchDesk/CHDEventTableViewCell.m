@@ -11,6 +11,7 @@
 @property (nonatomic, strong) UILabel* titleLabel;
 @property (nonatomic, strong) UILabel* locationLabel;
 @property (nonatomic, strong) UIImageView* locationIconView;
+@property (nonatomic, strong) UIImageView* absenceIconView;
 @property (nonatomic, strong) UILabel* dateTimeLabel;
 @property (nonatomic, strong) UILabel* parishLabel;
 @end
@@ -31,6 +32,7 @@
 
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.locationIconView];
+    [self.contentView addSubview:self.absenceIconView];
     [self.contentView addSubview:self.locationLabel];
     [self.contentView addSubview:self.dateTimeLabel];
     [self.contentView addSubview:self.parishLabel];
@@ -52,7 +54,10 @@
         make.centerY.equalTo(self.locationLabel);
         make.left.equalTo(self.titleLabel);
     }];
-    
+    [self.absenceIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(contentView).with.offset(14);
+        make.left.equalTo(contentView).with.offset(13);
+    }];
     [self.locationLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_baseline).offset(8);
@@ -74,7 +79,7 @@
 -(UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [UILabel new];
-        _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:18];
+        _titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:16];
         _titleLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _titleLabel;
@@ -82,7 +87,7 @@
 -(UILabel *)locationLabel {
     if (!_locationLabel) {
         _locationLabel = [UILabel new];
-        _locationLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
+        _locationLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:12];
         _locationLabel.textColor = [UIColor chd_textLightColor];
     }
     return _locationLabel;
@@ -93,10 +98,16 @@
     }
     return _locationIconView;
 }
+-(UIImageView *) absenceIconView{
+    if(!_absenceIconView){
+        _absenceIconView = [[UIImageView new] initWithImage:kImgCalendarAbsence];
+    }
+    return _absenceIconView;
+}
 -(UILabel *)dateTimeLabel {
     if (!_dateTimeLabel) {
         _dateTimeLabel = [UILabel new];
-        _dateTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
+        _dateTimeLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:11];
         _dateTimeLabel.textColor = [UIColor chd_textDarkColor];
     }
     return _dateTimeLabel;
@@ -104,7 +115,7 @@
 -(UILabel *)parishLabel {
     if (!_parishLabel) {
         _parishLabel = [UILabel new];
-        _parishLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:14];
+        _parishLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:12];
         _parishLabel.textColor = [UIColor chd_textExtraLightColor];
     }
     return _parishLabel;

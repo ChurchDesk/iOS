@@ -4,6 +4,7 @@
 #define kImgBurgerMenu [UIImage imageNamed:@"burger_menu"]
 #define kImgCalendarTime [UIImage imageNamed:@"calendar_time"]
 #define kImgCalendarTimeLocation [UIImage imageNamed:@"calendar_time_location"]
+#define kImgCalendarAbsence [UIImage imageNamed:@"absence_icon"]
 #define kImgCalendarTodayIndicator [UIImage imageNamed:@"calendar_today_indicator"]
 #define kImgCalendarTodayIndicatorPressed [UIImage imageNamed:@"calendar_today_indicator_pressed"]
 #define kImgCheckmark [UIImage imageNamed:@"checkmark"]
