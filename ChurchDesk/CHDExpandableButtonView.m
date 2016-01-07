@@ -73,6 +73,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     [self.buttonContainer addSubview:self.addAbsenceButton];
     [self.buttonContainer addSubview:self.addMessageButton];
     [self addSubview:self.toggleButton];
+    self.buttonContainer.hidden = true;
 }
 
 - (void) makeConstraints {
@@ -115,17 +116,21 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     CGPoint eventOffset = on ? CGPointMake(125, -53) : kDefaultCenterPoint;
     CGPoint messageOffset = on ? CGPointMake(85, -93) : kDefaultCenterPoint;
     CGPoint absenceOffset = on ? CGPointMake(45, -133) : kDefaultCenterPoint;
-    
+    if (on) {
+        self.buttonContainer.hidden = false;
+    }
     [self.eventCenterConstraint setCenterOffset:eventOffset];
     [self.messageCenterConstraint setCenterOffset:messageOffset];
     [self.absenceCenterConstraint setCenterOffset:absenceOffset];
-
+    
     [UIView animateWithDuration:on ? 0.7 : 0.4 delay:0 usingSpringWithDamping:on ? 0.6 : 0.8 initialSpringVelocity:1.0 options: UIViewAnimationOptionAllowUserInteraction animations:^{
         self.toggleButton.transform = transform;
         self.buttonContainer.transform = transform;
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {
-        
+        if (!on) {
+            self.buttonContainer.hidden = true;
+        }
     }];
 }
 
@@ -135,6 +140,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     if (!_buttonContainer) {
         _buttonContainer = [UIView new];
     }
+    _buttonContainer.backgroundColor = [UIColor redColor];
     return _buttonContainer;
 }
 
@@ -179,5 +185,8 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     return _addMessageButton;
 }
 
-
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    // UIView will be "transparent" for touch events if we return NO
+    return (!self.buttonContainer.hidden || CGRectContainsPoint(self.toggleButton.frame, point));
+}
 @end
