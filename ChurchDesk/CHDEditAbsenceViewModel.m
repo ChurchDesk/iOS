@@ -112,9 +112,9 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
         recipientsRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowParish];
         bookingRows = @[];
     }
-    else if([self.event.groupId isEqualToNumber:@0] || !self.event.groupId){
-        bookingRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowResources];
-    }
+//    else if([self.event.groupId isEqualToNumber:@0] || !self.event.groupId){
+//        bookingRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowResources];
+//    }
     
     NSArray *dateRows = self.event.startDate != nil? @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowAllDay, CHDAbsenceEditRowStartDate, CHDAbsenceEditRowEndDate] : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowAllDay, CHDAbsenceEditRowStartDate];
     //NSArray *miscRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowContributor];
