@@ -85,7 +85,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self makeConstraints];
     [self.calendarFilterView setupFiltersWithTitels:@[NSLocalizedString(@"All events", @"Calendar filter"), NSLocalizedString(@"My events", @"Calendar filter")] filters:@[@(CHDCalendarFilterAllEvents),@(CHDCalendarFilterMyEvents)]];
     self.calendarFilterView.selectedFilter = CHDCalendarFilterAllEvents;
-
+    
     [self setupBindings];
 
     self.viewModel.referenceDate = [self roundedDate:[NSDate date]];//[NSDate date];
@@ -469,7 +469,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.locationLabel.text = event.location;
-    if ([event.type isEqualToString:@"absence"]) {
+    if ([event.type isEqualToString:kAbsence]) {
         cell.titleLabel.text = [NSString stringWithFormat:@"    %@", event.title];
         cell.titleLabel.textColor = [UIColor grayColor];
         cell.absenceIconView.hidden = false;
@@ -482,7 +482,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     cell.parishLabel.text = self.viewModel.user.sites.count > 1 ? [self.viewModel.user siteWithId:event.siteId].name : @"";
     cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event referenceDate:sectionDate];
     
-    if ([event.type isEqualToString:@"absence"]) {
+    if ([event.type isEqualToString:kAbsence]) {
         CHDAbsenceCategory *category = [self.viewModel.environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
         [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
     }

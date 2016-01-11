@@ -19,8 +19,6 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        self.titleLabel.text = NSLocalizedString(@"Internal Note", @"");
-        
         [self setupSubviews];
         [self makeConstraints];
     }

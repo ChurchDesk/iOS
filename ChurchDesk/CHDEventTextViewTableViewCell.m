@@ -20,12 +20,12 @@ static CGFloat kMinimumHeight = 87;
 @end
 
 @implementation CHDEventTextViewTableViewCell
-
+float height;
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor whiteColor];
-        
+        height = 0.0;
         [self setupSubviews];
         [self makeConstraints];
         [self setupBindings];
@@ -67,11 +67,12 @@ static CGFloat kMinimumHeight = 87;
     
     CGSize contentSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     contentSize.height = MAX(kMinimumHeight, contentSize.height);
-    
     [self.heightConstraint setOffset:contentSize.height + (kSideMargin*2)];
-    
-    [self.tableView beginUpdates];
-    [self.tableView endUpdates];
+    if (contentSize.height > height) {
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+        height = contentSize.height;
+    }
 }
 
 #pragma mark - Lazy Initialization

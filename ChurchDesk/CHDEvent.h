@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, strong) NSString *contributor;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *substitute;
-@property (nonatomic, strong) NSString *comments;
+@property (nonatomic, strong) NSString *absenceComment;
 @property (nonatomic, strong) NSURL *pictureURL;
 
 @property (nonatomic, assign) NSString *eventResponse;
@@ -57,6 +57,7 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 - (NSDictionary*) dictionaryRepresentation;
 
 - (BOOL) eventForUserWithId: (NSNumber*) userId;
+- (BOOL)absence;
 - (NSString *) attendanceStatusForUserWithId: (NSNumber*) userId;
 
 @end

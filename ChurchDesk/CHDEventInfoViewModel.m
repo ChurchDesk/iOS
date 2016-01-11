@@ -35,6 +35,8 @@ NSString *const CHDEventInfoRowInternalNote = @"CHDEventInfoRowInternalNote";
 NSString *const CHDEventInfoRowContributor = @"CHDEventInfoRowContributor";
 NSString *const CHDEventInfoRowPrice = @"CHDEventInfoRowPrice";
 NSString *const CHDEventInfoRowDescription = @"CHDEventInfoRowDescription";
+NSString *const CHDAbsenceInfoRowSubstitute = @"CHDAbsenceInfoRowSubstitute";
+NSString *const CHDAbsenceInfoRowComments = @"CHDAbsenceInfoRowComments";
 NSString *const CHDEventInfoRowVisibility = @"CHDEventInfoRowVisibility";
 NSString *const CHDEventInfoRowCreated = @"CHDEventInfoRowCreated";
 NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
@@ -119,6 +121,16 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
         return [self.event.eventCategoryIds containsObject:category.categoryId.stringValue] && [self.event.siteId isEqualToString:category.siteId];
     }];
     
+    return [categories shp_map:^id(CHDAbsenceCategory *category) {
+        return category.name;
+    }];
+}
+
+- (NSArray*) absenceCategoryTitles {
+    NSArray *categories = [self.environment.absenceCategories shp_filter:^BOOL(CHDAbsenceCategory *category) {
+        return [self.event.eventCategoryIds containsObject:category.categoryId.stringValue] && [self.event.siteId isEqualToString:category.siteId];
+    }];
+    
     return [categories shp_map:^id(CHDEventCategory *category) {
         return category.name;
     }];
@@ -130,6 +142,15 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     }];
     
     return [categories shp_map:^id(CHDEventCategory *category) {
+        return category.color;
+    }];
+}
+
+- (NSArray*) absenceCategoryColors {
+    NSArray *categories = [self.environment.absenceCategories shp_filter:^BOOL(CHDAbsenceCategory *category) {
+        return [self.event.eventCategoryIds containsObject:category.categoryId.stringValue] && [self.event.siteId isEqualToString:category.siteId];
+    }];
+    return [categories shp_map:^id(CHDAbsenceCategory *category) {
         return category.color;
     }];
 }
@@ -316,7 +337,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     if (event.eventCategoryIds.count > 0) {
         [baseRows addObject:CHDEventInfoRowCategories];
     }
-    if ([event.userIds containsObject: self.user.userId.stringValue] ) {
+    if ([event.type isEqualToString:kEvent] && [event.userIds containsObject: self.user.userId.stringValue]) {
         event.eventResponse = [event attendanceStatusForUserWithId:self.user.userId];
         [baseRows addObject:CHDEventInfoRowAttendance];
     }
@@ -332,6 +353,12 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     }
     if (event.internalNote.length > 0) {
         [resourceRows addObject:CHDEventInfoRowInternalNote];
+    }
+    if (event.substitute.length > 0) {
+        [resourceRows addObject:CHDAbsenceInfoRowSubstitute];
+    }
+    if (event.absenceComment.length > 0) {
+        [resourceRows addObject:CHDAbsenceInfoRowComments];
     }
     mSectionRows[CHDEventInfoSectionResources] = [resourceRows copy];
     
@@ -350,7 +377,9 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     
     // Visibility section
     NSMutableArray *visibilityRows = [NSMutableArray array];
-    [visibilityRows addObject:CHDEventInfoRowVisibility];
+    if ([event.type isEqualToString:kEvent]) {
+        [visibilityRows addObject:CHDEventInfoRowVisibility];
+    }
     [visibilityRows addObject:CHDEventInfoRowCreated];
     mSectionRows[CHDEventInfoSectionVisibility] = [visibilityRows copy];
     

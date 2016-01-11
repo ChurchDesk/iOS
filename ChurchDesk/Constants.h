@@ -11,3 +11,6 @@
 #define kinvitationsTimestamp @"invitationsTimestamp"
 #define kmessagesTimestamp @"messagesTimestamp"
 #define knewMessageBool @"newMessageBool"
+
+#define kEvent @"event"
+#define kAbsence @"absence"

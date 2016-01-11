@@ -100,7 +100,7 @@
 }
 
 - (void) setupBindings {
-    //[self shprac_liftSelector:@selector(titleAsFirstResponder) withSignal:[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1]];
+   // [self shprac_liftSelector:@selector(titleAsFirstResponder) withSignal:[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1]];
     
     [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), RACObserve(self.viewModel, sectionRows)]] ignore:nil]];
     
@@ -195,6 +195,7 @@
         [self didChangeSendingStatus:CHDStatusViewHidden];
         return [RACSignal empty];
     }] subscribeNext:^(id x) {
+        [self.view endEditing:YES];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSavedEventBool];
         [self didChangeSendingStatus:CHDStatusViewSuccess];
     } error:^(NSError *error) {
@@ -228,6 +229,7 @@
         return;
     }
     if(status == CHDStatusViewSuccess){
+        [self.view endEditing:YES];
         self.statusView.show = YES;
         double delayInSeconds = 2.f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -539,10 +541,12 @@
         }else if ([row isEqualToString:CHDAbsenceEditRowComments]) {
             CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
             cell.placeholder = NSLocalizedString(@"Comments", @"");
-            cell.textView.text = event.comments;
+            if (event.absenceComment) {
+                cell.textView.text = event.absenceComment;
+            }
             cell.tableView = tableView;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [event shprac_liftSelector:@selector(setComments:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+            [event shprac_liftSelector:@selector(setAbsenceComment:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
             
             returnCell = cell;
         }
@@ -562,11 +566,13 @@
         {
             self.viewModel.event.sendNotifications = false;
             [self saveEvent];
+            [self.view endEditing:YES];
         }
         else
         {
             self.viewModel.event.sendNotifications = true;
             [self saveEvent];
+            [self.view endEditing:YES];
         }
     }
 }

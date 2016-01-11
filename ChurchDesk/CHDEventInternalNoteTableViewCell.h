@@ -11,5 +11,5 @@
 @interface CHDEventInternalNoteTableViewCell : CHDCommonTableViewCell
 
 @property (nonatomic, readonly) UILabel *noteLabel;
-
+@property (nonatomic, readonly) UILabel *titleLabel;
 @end

@@ -150,7 +150,7 @@
     
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.locationLabel.text = event.location;
-    if ([event.type isEqualToString:@"absence"]) {
+    if ([event.type isEqualToString:kAbsence]) {
         cell.titleLabel.text = [NSString stringWithFormat:@"    %@", event.title];
         cell.titleLabel.textColor = [UIColor grayColor];
         cell.absenceIconView.hidden = false;
@@ -163,7 +163,7 @@
     cell.parishLabel.text = user.sites.count > 1? site.name : @"";
     cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event];
 
-    if ([event.type isEqualToString:@"absence"]) {
+    if ([event.type isEqualToString:kAbsence]) {
         CHDAbsenceCategory *category = [self.viewModel.environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
         [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
     }

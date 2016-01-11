@@ -64,6 +64,7 @@
 "You are about to make a double booking of one or more resources/users." = "You are about to make a double booking of one or more resources/users.";
 "Attendance" = "Attendance";
 "Event Information" = "Event Information";
+"Absence Information" = "Absence Information";
 "Edit" = "Edit";
 "Maps" = "Maps";
 "Are you going to the event '%@'?" = "Are you going to the event '%@'?";

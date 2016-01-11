@@ -25,6 +25,7 @@
 #import "CHDEventDescriptionTableViewCell.h"
 #import "CHDEnvironment.h"
 #import "CHDEditEventViewController.h"
+#import "CHDEditAbsenceViewController.h"
 #import "CHDDescriptionViewController.h"
 #import "CHDEventUserDetailsViewController.h"
 #import "CHDUser.h"
@@ -64,8 +65,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if ([self.viewModel.event.type isEqualToString:kAbsence]) {
+        self.title = NSLocalizedString(@"Absence Information", @"");
+    }
+    else{
+        self.title = NSLocalizedString(@"Event Information", @"");
+    }
     
-    self.title = NSLocalizedString(@"Event Information", @"");
     
     [self setupSubviews];
     [self makeConstraints];
@@ -80,6 +86,12 @@
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"event information"];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [self.tableView reloadData];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self.view endEditing:YES];
 }
 
 #pragma mark -setup
@@ -107,6 +119,17 @@
 #pragma mark - Actions
 
 - (void)editEventAction: (id) sender {
+    if ([self.viewModel.event.type isEqualToString:kAbsence]) {
+        CHDEditAbsenceViewController *vc = [[CHDEditAbsenceViewController alloc] initWithEvent:self.viewModel.event];
+        vc.title = NSLocalizedString(@"Edit Absence", @"");
+        
+        RACSignal *saveSignal = [RACObserve(vc, event) skip:1];
+        [self.viewModel rac_liftSelector:@selector(setEvent:) withSignals:saveSignal, nil];
+        [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
+        
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
+    }
+    else {
     CHDEditEventViewController *vc = [[CHDEditEventViewController alloc] initWithEvent:self.viewModel.event];
     vc.title = NSLocalizedString(@"Edit Event", @"");
     
@@ -115,6 +138,7 @@
     [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
     
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
+    }
 }
 
 - (void)directionsAction: (id) sender {
@@ -246,10 +270,15 @@
     else if ([row isEqualToString:CHDEventInfoRowCategories]) {
         CHDEventCategoriesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categories" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Categories", @"");
+        if ([event.type isEqualToString:kAbsence]) {
+            [cell setCategoryTitles:[self.viewModel absenceCategoryTitles] colors:[self.viewModel absenceCategoryColors]];
+        }
+        else {
         [cell setCategoryTitles:[self.viewModel categoryTitles] colors:[self.viewModel categoryColors]];
+        }
         returnCell = cell;
     }
-    else if ([row isEqualToString:CHDEventInfoRowAttendance]) {
+    else if ([row isEqualToString:CHDEventInfoRowAttendance] && [event.type isEqualToString:kEvent]) {
         CHDEventAttendanceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"attendance" forIndexPath:indexPath];
         [cell.attendanceButton setTitle:[self.viewModel textForEventResponse:event.eventResponse] forState:UIControlStateNormal];
         [cell.attendanceButton setTitleColor:[self.viewModel textColorForEventResponse:event.eventResponse] forState:UIControlStateNormal];
@@ -267,12 +296,34 @@
     }
     else if ([row isEqualToString:CHDEventInfoRowUsers]) {
         CHDEventUsersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"users" forIndexPath:indexPath];
+        cell.disclosureArrowHidden = [event.type isEqualToString:kAbsence] ? YES : NO;
+        if ([event.type isEqualToString:kAbsence]) {
+            cell.disclosureArrowHidden = YES;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        else {
+            cell.disclosureArrowHidden = NO;
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        }
         [cell setUserNames:[self.viewModel userNames]];
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowInternalNote]) {
         CHDEventInternalNoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"internalNote" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Internal Note", @"");
         cell.noteLabel.text = event.internalNote;
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDAbsenceInfoRowSubstitute]) {
+        CHDEventInternalNoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"internalNote" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Substitute", @"");
+        cell.noteLabel.text = event.substitute;
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDAbsenceInfoRowComments]) {
+        CHDEventInternalNoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"internalNote" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Comments", @"");
+        cell.noteLabel.text = event.absenceComment;
         returnCell = cell;
     }
     
@@ -339,21 +390,39 @@
         detailedViewController.title = NSLocalizedString(@"Internal Note", @"");
         [self.navigationController pushViewController:detailedViewController animated:YES];
     }
+    else if([row isEqualToString:CHDAbsenceInfoRowSubstitute]){
+        CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.substitute];
+        detailedViewController.title = NSLocalizedString(@"Substitute", @"");
+        [self.navigationController pushViewController:detailedViewController animated:YES];
+    }
+    else if([row isEqualToString:CHDAbsenceInfoRowComments]){
+        CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.absenceComment];
+        detailedViewController.title = NSLocalizedString(@"Comments", @"");
+        [self.navigationController pushViewController:detailedViewController animated:YES];
+    }
     else if ([row isEqualToString:CHDEventInfoRowDescription]) {
         CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.eventDescription];
         detailedViewController.title = NSLocalizedString(@"Description", @"");
         [self.navigationController pushViewController:detailedViewController animated:YES];
     }
-    else if ([row isEqualToString:CHDEventInfoRowUsers]) {
+    else if ([row isEqualToString:CHDEventInfoRowUsers] && [event.type isEqualToString:kEvent]) {
         CHDEventUserDetailsViewController *vc = [[CHDEventUserDetailsViewController alloc] initWithEvent:event];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([row isEqualToString:CHDEventInfoRowCategories]){
         NSMutableArray *items = [[NSMutableArray alloc] init];
         for(NSNumber *categoryId in event.eventCategoryIds){
-            CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:categoryId siteId:event.siteId];
-            CHDListConfigModel *configItem = [[CHDListConfigModel alloc] initWithTitle:category.name color:category.color];
-            [items addObject:configItem];
+            if ([event.type isEqualToString:kAbsence]) {
+                CHDAbsenceCategory *category = [self.viewModel.environment absenceCategoryWithId:categoryId siteId:event.siteId];
+                CHDListConfigModel *configItem = [[CHDListConfigModel alloc] initWithTitle:category.name color:category.color];
+                [items addObject:configItem];
+            }
+            else{
+                CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:categoryId siteId:event.siteId];
+                CHDListConfigModel *configItem = [[CHDListConfigModel alloc] initWithTitle:category.name color:category.color];
+                [items addObject:configItem];
+
+            }
         }
         CHDListViewController *vc = [[CHDListViewController alloc] initWithItems:items];
         vc.title = NSLocalizedString(@"Categories", @"");

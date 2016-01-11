@@ -157,9 +157,9 @@
         }
         //@(self.visibility);
     }
-    if ([self.type isEqualToString:@"absence"]) {
+    if ([self.type isEqualToString:kAbsence]) {
         mDict[@"substitute"] = self.substitute;
-        mDict[@"comment"] = self.comments;
+        mDict[@"absenceComment"] = self.absenceComment;
     }
 
     mDict[@"mainCategory"] = self.eventCategoryIds[0];

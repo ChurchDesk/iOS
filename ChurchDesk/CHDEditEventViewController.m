@@ -62,7 +62,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen: self.viewModel.newEvent? @"new event" :@"edit event"];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }

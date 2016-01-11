@@ -57,7 +57,7 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
     self = [super init];
     if (self) {
         _event = event ? [event copy] : [CHDEvent new];
-        _event.type = @"absence";
+        _event.type = kAbsence;
         _newEvent = event == nil;
         
         if(_newEvent){
