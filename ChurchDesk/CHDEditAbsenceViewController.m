@@ -130,7 +130,7 @@
     
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CREATE];
     if (self.viewModel.event.userIds.count > 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Send Notifications?", @"") message:NSLocalizedString(@"Would you like to send notifications to the booked users?", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Save", @"") otherButtonTitles:NSLocalizedString(@"Save and send", @""), nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Send Notifications?", @"") message:NSLocalizedString(@"Would you like to send notifications to the booked users?", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"No, just save", @"") otherButtonTitles:NSLocalizedString(@"Yes, save and send", @""), nil];
         alertView.tag = 111;
         alertView.delegate = self;
         [alertView show];
@@ -285,7 +285,7 @@
     NSMutableArray *items = [NSMutableArray new];
     NSString *title = nil;
     BOOL selectMultiple = NO;
-    
+    [self.view endEditing:YES];
     if ([row isEqualToString:CHDAbsenceEditRowParish]) {
         title = NSLocalizedString(@"Select Parish", @"");
         for (CHDSite *site in user.sites) {
@@ -316,8 +316,23 @@
     else if ([row isEqualToString:CHDAbsenceEditRowUsers]) {
         title = NSLocalizedString(@"Select Users", @"");
         selectMultiple = NO;
+        if (!event.groupId || event.groupId.intValue == 0) {
+            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Group missing", @"") message:NSLocalizedString(@"Please select a group first.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+            [errorAlert show];
+        }
         NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
-        for (CHDPeerUser *user in users) {
+        if ([user siteWithId:event.siteId].permissions.canCreateAbsenceAndBook) {
+        for (CHDPeerUser *peerUser in users) {
+            BOOL selected = false;
+            for (NSNumber *userId in event.userIds) {
+                if (userId.intValue == peerUser.userId.intValue) {
+                    selected = true;
+                }
+            }
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:peerUser.name imageURL:peerUser.pictureURL color:nil  selected:selected refObject:peerUser.userId]];
+        }
+        }
+        else{
             BOOL selected = false;
             for (NSNumber *userId in event.userIds) {
                 if (userId.intValue == user.userId.intValue) {
@@ -526,7 +541,7 @@
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
-        
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDAbsenceEditRowSubstitute]) {
@@ -586,6 +601,7 @@
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.userInteractionEnabled = YES;
         _tableView.estimatedRowHeight = 49;
         
         [_tableView registerClass:[CHDEventTextFieldCell class] forCellReuseIdentifier:@"textfield"];

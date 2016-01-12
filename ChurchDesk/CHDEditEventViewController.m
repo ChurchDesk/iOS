@@ -129,7 +129,7 @@
     
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CREATE];
     if (self.viewModel.event.userIds.count > 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Send Notifications?", @"") message:NSLocalizedString(@"Would you like to send notifications to the booked users?", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Save", @"") otherButtonTitles:NSLocalizedString(@"Save and send", @""), nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Send Notifications?", @"") message:NSLocalizedString(@"Would you like to send notifications to the booked users?", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"No, just save", @"") otherButtonTitles:NSLocalizedString(@"Yes, save and send", @""), nil];
         alertView.tag = 111;
         alertView.delegate = self;
         [alertView show];
