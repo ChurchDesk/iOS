@@ -152,6 +152,7 @@
             if ([response.body isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = response.body;
                 NSString *htmlString = [result valueForKey:@"conflictHtml"];
+                NSLog(@"html string %@", htmlString);
                 BOOL permissionToDoubleBook = [viewModel.user siteWithId:viewModel.event.siteId].permissions.canDoubleBook;
                 
                 if(htmlString && permissionToDoubleBook) {

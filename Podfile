@@ -15,7 +15,6 @@ pod 'MBProgressHUD', '~> 0.9.1'
 pod 'GoogleAnalytics-iOS-SDK', '~> 3.10'
 pod 'Intercom'
 pod 'Heap'
-pod 'Airbrake-iOS', '~> 4.1.2'
 
 #ShapeKit
 pod 'SHPUIKit', :path => '../ShapeKit/SHPUIKit/'

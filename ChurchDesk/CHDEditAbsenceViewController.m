@@ -153,6 +153,7 @@
             if ([response.body isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = response.body;
                 NSString *htmlString = [result valueForKey:@"conflictHtml"];
+                NSLog(@"html string %@", htmlString);
                 BOOL permissionToDoubleBook = [viewModel.user siteWithId:viewModel.event.siteId].permissions.canDoubleBook;
                 
                 if(htmlString && permissionToDoubleBook) {
@@ -320,6 +321,7 @@
             UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Group missing", @"") message:NSLocalizedString(@"Please select a group first.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
             [errorAlert show];
         }
+        else{
         NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
         if ([user siteWithId:event.siteId].permissions.canCreateAbsenceAndBook) {
         for (CHDPeerUser *peerUser in users) {
@@ -340,6 +342,7 @@
                 }
             }
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:selected refObject:user.userId]];
+            }
         }
     }
     else if ([row isEqualToString:CHDAbsenceEditRowResources]) {

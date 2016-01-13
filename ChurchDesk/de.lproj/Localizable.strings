@@ -395,3 +395,12 @@
 "Would you like to send notifications to the booked users?" = "Möchten Sie den gebuchten Nutzern Benachrichtigungen zusenden?";
 
 "Send Notifications?" = "Benachrichtigungen senden?";
+"Group missing" = "Gruppenzuordnung fehlt";
+"Yes, save and send" = "Ja, sichern und senden";
+"No, just save" = "Nein, nur sichern";
+"Please select a group first." = "Bitte wählen Sie zuerst eine Gruppe aus.";
+"Absence Information" = "Abwesenheitsnotiz";
+"Comments" = "Kommentare";
+"Substitute" = "Vertretung";
+"Edit Absence" = "Abwesenheit bearbeiten";
+"New Absence" = "Neue Abwesenheit";

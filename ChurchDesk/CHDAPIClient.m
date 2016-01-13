@@ -229,7 +229,7 @@ static NSString *const kURLAPIOauthPart = @"";
     } withBodyContent:nil toResource:resource];
     
     return [[[requestSignal replayLazily] doError:^(NSError *error) {
-        //SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on reset: %@\nResponse: %@", error, response.body);
     }] doNext:^(id x) {
         [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];

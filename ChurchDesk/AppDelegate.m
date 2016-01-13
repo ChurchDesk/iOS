@@ -27,7 +27,7 @@
 #import "SSKeychainQuery.h"
 #import "CHDAnalyticsManager.h"
 #import "intercom.h"
-//#import "Heap.h"
+#import "Heap.h"
 //#import "ABNotifier.h"
 
 @interface AppDelegate ()
@@ -37,7 +37,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //[Heap setAppId:@"1171448537"]; //prod
+    [Heap setAppId:@"1171448537"]; //prod
 //    [Heap setAppId:@"43172103"];    //dev
     //[Heap enableVisualizer];
 //    [ABNotifier startNotifierWithAPIKey:@"b4c9bc3857f9ef793ce268bde99d9173"

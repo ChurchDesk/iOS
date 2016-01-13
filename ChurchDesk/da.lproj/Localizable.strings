@@ -407,3 +407,12 @@
 "Would you like to send notifications to the booked users?" = "Vil du sende notifikationer til de reserverede brugere?";
 
 "Send Notifications?" = "Send notifikationer?";
+"Group missing" = "Gruppe mangler";
+"Yes, save and send" = "Ja, gem og send";
+"No, just save" = "Nej, bare gem";
+"Please select a group first." = "Venligst vælg en gruppe først.";
+"Absence Information" = "Fraværsinformation";
+"Comments" = "Kommentarer";
+"Substitute" = "Vikar";
+"Edit Absence" = "Rediger fravær";
+"New Absence" = "Nyt fravær";
