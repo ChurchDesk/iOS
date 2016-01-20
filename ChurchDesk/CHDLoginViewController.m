@@ -297,7 +297,7 @@
         _passwordView.textField.returnKeyType = UIReturnKeyGo;
         _passwordView.textField.delegate = self;
         _passwordView.iconImageView.image = kImgLoginPassword;
-        //_passwordView.textField.text = @"Party4life";//for testing
+        _passwordView.textField.text = @"veiQqyRN2pFkXq+]kq9FugUtZK&YKt";//for testing
     }
     return _passwordView;
 }

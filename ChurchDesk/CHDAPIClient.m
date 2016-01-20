@@ -36,7 +36,7 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
-static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
+static NSString *const kBaseUrl = @"https://319a6273.ngrok.com/";
 #else
 static NSString *const kBaseUrl = @"https://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
 #endif
@@ -441,10 +441,10 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal *)updateNotificationSettingsWithSettings:(CHDNotificationSettings *)settings {
     NSDictionary *settingsDict = @{
-        @"bookingUpdatedNotifcation" : [NSNumber numberWithBool:settings.bookingUpdated],
-        @"bookingCanceledNotifcation" : [NSNumber numberWithBool:settings.bookingCanceled],
-        @"bookingCreatedNotifcation" : [NSNumber numberWithBool:settings.bookingCreated],
-        @"groupMessageNotifcation" : [NSNumber numberWithBool:settings.message],
+                                   @"bookingUpdatedNotifcation" : @{@"push" : [NSNumber numberWithBool:settings.bookingUpdated]},
+        @"bookingCanceledNotifcation" : @{@"push" : [NSNumber numberWithBool:settings.bookingCanceled]},
+        @"bookingCreatedNotifcation" : @{@"push" : [NSNumber numberWithBool:settings.bookingCreated]},
+        @"groupMessageNotifcation" : @{@"push" : [NSNumber numberWithBool:settings.message]},
     };
     
     return [[self resourcesForPath:[NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
