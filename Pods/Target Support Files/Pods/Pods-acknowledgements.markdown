@@ -287,6 +287,10 @@ Apache License
 
 
 
+## Heap
+
+See https://heapanalytics.com/terms
+
 ## Intercom
 
                                  Apache License
