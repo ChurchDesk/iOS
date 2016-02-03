@@ -24,6 +24,7 @@
 #import "MBProgressHUD.h"
 #import "CHDAnalyticsManager.h"
 #import "UIImageView+Haneke.h"
+#import "Heap.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -408,7 +409,6 @@ static CGFloat kReplyViewHeight = 50.f;
         cell.userNameLabel.text = ![comment.authorName isEqualToString:@""]? comment.authorName : author? author.name : @"";
         cell.canEdit = comment.canEdit || comment.canDelete;
 
-
         [cell.profileImageView setHnk_cacheFormat:self.hnk_cacheFormat];
         [cell.profileImageView hnk_setImageFromURL:author.pictureURL];
 
@@ -429,13 +429,15 @@ static CGFloat kReplyViewHeight = 50.f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if((messageSections)indexPath.section == loadCommentsSection){
+        [Heap track:@"Load More Comments"];
         self.viewModel.showAllComments = YES;
     }
 }
+
 #pragma mark - Actions
 -(void) editCommentAction: (RACTuple*) tuple {
     CHDComment *comment = tuple.second;
-
+    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Edit", @""), NSLocalizedString(@"Delete", @""), nil];
     sheet.destructiveButtonIndex = 1;
     [self rac_liftSelector:@selector(editCommentSheetAction:) withSignals:[[sheet.rac_buttonClickedSignal ignore:@(sheet.cancelButtonIndex)] map:^id(NSNumber *buttonIndex) {
@@ -447,7 +449,6 @@ static CGFloat kReplyViewHeight = 50.f;
 -(void) editCommentSheetAction: (RACTuple*) tuple {
     //This is called when an action within the action sheet is chosen
     RACTupleUnpack(NSNumber *buttonIndex, CHDComment *comment) = tuple;
-
     if(buttonIndex.integerValue == 0){
         //edit
         NSLog(@"Edit comment %@", comment.body);

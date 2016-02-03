@@ -107,10 +107,12 @@
 
 #pragma mark -Toggle alert view
 -(void) toggleStatusView {
-    if(self.show){
-        [self showAlertView];
-    }else{
-        [self hideAlertView];
+    if (self.tag == 1020) {
+        if(self.show){
+            [self showAlertView];
+        }else{
+            [self hideAlertView];
+        }
     }
 }
 

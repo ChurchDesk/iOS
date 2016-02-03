@@ -37,9 +37,10 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [Heap setAppId:@"1171448537"]; //prod
+    [Heap setAppId:@"408075929"]; //prod
+    [Heap startDebug];
 //    [Heap setAppId:@"43172103"];    //dev
-    //[Heap enableVisualizer];
+    [Heap enableVisualizer];
 //    [ABNotifier startNotifierWithAPIKey:@"b4c9bc3857f9ef793ce268bde99d9173"
 //                        environmentName:ABNotifierAutomaticEnvironment
 //                                 useSSL:YES

@@ -157,8 +157,8 @@
                 
                 if(htmlString && permissionToDoubleBook) {
                     CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
+                    alertView.tag = 1020;
                     alertView.show = YES;
-                    
                     RACSignal *statusSignal = [RACObserve(alertView, status) filter:^BOOL(NSNumber *iStatus) {
                         return iStatus.unsignedIntegerValue != CHDEventAlertStatusNone;
                     }];
@@ -186,13 +186,12 @@
                     [self didChangeSendingStatus:CHDStatusViewHidden];
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:htmlString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
-                    
                     return [RACSignal empty];
                 }
             }
         }
-        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
-        [self didChangeSendingStatus:CHDStatusViewHidden];
+//        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
+//        [self didChangeSendingStatus:CHDStatusViewHidden];
         return [RACSignal empty];
     }] subscribeNext:^(id x) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSavedEventBool];
