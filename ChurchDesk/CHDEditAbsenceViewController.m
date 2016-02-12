@@ -158,6 +158,7 @@
                 
                 if(htmlString && permissionToDoubleBook) {
                     CHDEventAlertView *alertView = [[CHDEventAlertView alloc] initWithHtml:htmlString];
+                    alertView.tag = 1020;
                     alertView.show = YES;
                     
                     RACSignal *statusSignal = [RACObserve(alertView, status) filter:^BOOL(NSNumber *iStatus) {
@@ -578,19 +579,17 @@
 
 #pragma mark - AlertView delegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 111) {
         if (buttonIndex == 0)
         {
             self.viewModel.event.sendNotifications = false;
             [self saveEvent];
-            [self.view endEditing:YES];
         }
         else
         {
             self.viewModel.event.sendNotifications = true;
             [self saveEvent];
-            [self.view endEditing:YES];
         }
     }
 }
