@@ -27,7 +27,7 @@
 #import "CHDStatusView.h"
 #import "CHDSitePermission.h"
 
-@interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -646,7 +646,7 @@
 
 #pragma mark - AlertView delegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 111) {
         if (buttonIndex == 0)
         {
