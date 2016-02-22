@@ -264,7 +264,7 @@
 "Show unread" = "Ungelesene anzeigen";
 
 /* No comment provided by engineer. */
-"Something when wrong while resetting your password. Please try again." = "Beim zurücksetzen Ihres Passworts ist ein Fehler aufgetreten. Bitte versuchen Sie es noch einmal.";
+"Something went wrong while resetting your password. Please try again." = "Beim zurücksetzen Ihres Passworts ist ein Fehler aufgetreten. Bitte versuchen Sie es noch einmal.";
 
 /* No comment provided by engineer. */
 "Start" = "Start";

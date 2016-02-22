@@ -24,7 +24,6 @@
 #import "MBProgressHUD.h"
 #import "CHDAnalyticsManager.h"
 #import "UIImageView+Haneke.h"
-#import "Heap.h"
 
 typedef NS_ENUM(NSUInteger, messageSections) {
     messageSection,
@@ -188,9 +187,11 @@ static CGFloat kReplyViewHeight = 50.f;
 }
 
 - (void) sendAction: (id) sender {
+    [Heap track:@"Message reply clicked"];
     if(!self.viewModel.commentEdit) {
         NSString *commentText = self.replyView.replyTextView.text;
         RACSignal *commentSentSignal = [[[self.viewModel sendCommentWithText:commentText] catch:^RACSignal *(NSError *error) {
+                [Heap track:@"Error on message comment"];
                 //Error Handling
                 NSString *title = NSLocalizedString(@"Error sending comment", @"");
                 NSString *message = NSLocalizedString(@"Please try again later", @"");
@@ -207,6 +208,7 @@ static CGFloat kReplyViewHeight = 50.f;
         self.viewModel.commentEdit.body = commentText;
         RACSignal *commentEditedSignal = [[[self.viewModel commentUpdateWithComment:self.viewModel.commentEdit] catch:^RACSignal *(NSError *error) {
                 //Error Handling
+                [Heap track:@"Error on edit comment"];
                 NSString *title = NSLocalizedString(@"Error updating comment", @"");
                 NSString *message = NSLocalizedString(@"Please try again later", @"");
                 NSString *cancelBtnTitle = NSLocalizedString(@"ok", @"");

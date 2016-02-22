@@ -156,11 +156,11 @@
 - (void) loginAction: (id) sender {
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SIGNIN action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_LOGIN];
     [self.view endEditing:YES];
-    
+    [Heap track:@"Login button pressed"];
     [[self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text] subscribeError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"code %ld", (long)response.statusCode);
-        
+        [Heap track:@"Error on login button press"];
         if (response.statusCode == 401) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Wrong username or password", @"Message shown on wrong username password") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
             [alertView show];
@@ -204,7 +204,7 @@
     [self shprac_liftSelector:@selector(resetPasswordForMail:) withSignal:emailValidSignal];
 
     [emailInValidSignal subscribeNext:^(id x) {
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password reset failed", @"") message:NSLocalizedString(@"Something when wrong while resetting your password. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password reset failed", @"") message:NSLocalizedString(@"Something went wrong while resetting your password. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [errorAlert show];
     }];
     
@@ -213,12 +213,13 @@
 
 -(void) resetPasswordForMail: (NSString*) email {
     [[self.viewModel resetPasswordForEmail:email] subscribeNext:^(id x) {
+        [Heap track:@"Forgot password email sent"];
         NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Instructions for resetting your password will be sent to '%@'.", @""), email];
         UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", @"") message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [successAlert show];
     } error:^(NSError *error) {
         NSLog(@"churchd %@", error);
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password reset failed", @"") message:NSLocalizedString(@"Something when wrong while resetting your password. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password reset failed", @"") message:NSLocalizedString(@"Something went wrong while resetting your password. Please try again.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [errorAlert show];
     }];
 }
@@ -297,7 +298,7 @@
         _passwordView.textField.returnKeyType = UIReturnKeyGo;
         _passwordView.textField.delegate = self;
         _passwordView.iconImageView.image = kImgLoginPassword;
-        _passwordView.textField.text = @"veiQqyRN2pFkXq+]kq9FugUtZK&YKt";//for testing
+        //_passwordView.textField.text = @"veiQqyRN2pFkXq+]kq9FugUtZK&YKt";//for testing
     }
     return _passwordView;
 }

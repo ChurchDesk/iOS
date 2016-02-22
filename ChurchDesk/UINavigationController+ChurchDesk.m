@@ -19,6 +19,7 @@
 }
 
 - (void)sideMenuAction: (id) sender {
+    [Heap track:@"Side menu button clicked"];
     [[(UIViewController*)self.viewControllers.firstObject shp_sideMenuController] toggleLeft];
 }
 

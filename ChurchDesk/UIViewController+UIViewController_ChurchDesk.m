@@ -34,15 +34,18 @@
     [actionButtonView.addMessageButton addTarget:self action:@selector(newMessageShow:) forControlEvents:UIControlEventTouchUpInside];
     [actionButtonView.addEventButton addTarget:self action:@selector(newEventAction:) forControlEvents:UIControlEventTouchUpInside];
     [actionButtonView.addAbsenceButton addTarget:self action:@selector(newAbsenceAction:) forControlEvents:UIControlEventTouchUpInside];
-    
     return actionButtonView;
 }
+
 - (void) newMessageShow: (id) sender {
     CHDNewMessageViewController* newMessageViewController = [CHDNewMessageViewController new];
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
+    [Heap track:@"Create new message"];
     [self presentViewController:navigationVC animated:YES completion:nil];
 }
+
 - (void) newEventAction: (id) sender {
+    [Heap track:@"Create new event"];
     CHDEditEventViewController *vc = [[CHDEditEventViewController alloc] initWithEvent:nil];
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
     [self presentViewController:navigationVC animated:YES completion:nil];
@@ -50,7 +53,9 @@
     RACSignal *saveSignal = [RACObserve(vc, event) skip:1];
     [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
 }
+
 - (void) newAbsenceAction: (id) sender {
+    [Heap track:@"Create new absence"];
     CHDEditAbsenceViewController *vc = [[CHDEditAbsenceViewController alloc] initWithEvent:nil];
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:vc];
     [self presentViewController:navigationVC animated:YES completion:nil];

@@ -67,12 +67,12 @@
     [super viewDidLoad];
     if ([self.viewModel.event.type isEqualToString:kAbsence]) {
         self.title = NSLocalizedString(@"Absence Information", @"");
+        [Heap track:@"Absence detail view"];
     }
     else{
         self.title = NSLocalizedString(@"Event Information", @"");
+        [Heap track:@"Event detail view"];
     }
-    
-    
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
@@ -120,6 +120,7 @@
 
 - (void)editEventAction: (id) sender {
     if ([self.viewModel.event.type isEqualToString:kAbsence]) {
+        [Heap track:@"Edit absence"];
         CHDEditAbsenceViewController *vc = [[CHDEditAbsenceViewController alloc] initWithEvent:self.viewModel.event];
         vc.title = NSLocalizedString(@"Edit Absence", @"");
         
@@ -132,7 +133,7 @@
     else {
     CHDEditEventViewController *vc = [[CHDEditEventViewController alloc] initWithEvent:self.viewModel.event];
     vc.title = NSLocalizedString(@"Edit Event", @"");
-    
+    [Heap track:@"Edit event"];
     RACSignal *saveSignal = [RACObserve(vc, event) skip:1];
     [self.viewModel rac_liftSelector:@selector(setEvent:) withSignals:saveSignal, nil];
     [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
@@ -158,6 +159,7 @@
     
     @weakify(self)
     [[self.viewModel rac_liftSelector:@selector(respondToEventWithResponse:) withSignals:[[sheet.rac_buttonClickedSignal ignore:@(sheet.cancelButtonIndex)] map:^id(NSNumber *nButtonIndex) {
+        [Heap track:@"Responded to an event invitation"];
         if (nButtonIndex.integerValue == firstOtherButtonIndex) {
             return CHDInvitationAccept;
         }

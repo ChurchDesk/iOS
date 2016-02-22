@@ -183,7 +183,6 @@
     CHDLeftMenuTableViewCell *cell = (CHDLeftMenuTableViewCell*)[tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.titleLabel.text = item.title;
     cell.thumbnailLeft.image = [item.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-
     return cell;
 }
 
@@ -205,9 +204,26 @@
 
     //Set the selected viewController
     if ([item.title isEqualToString:NSLocalizedString(@"Help and Support", @"")]) {
+        [Heap track:@"Help and Support clicked"];
         [Intercom presentConversationList];
     }
     else{
+        switch (indexPath.row) {
+            case 0:
+                [Heap track:@"Dashboard clicked"];
+                break;
+            case 1:
+                [Heap track:@"Messages clicked"];
+                break;
+            case 2:
+                [Heap track:@"Calendar clicked"];
+                break;
+            case 4:
+                [Heap track:@"Settings clicked"];
+                break;
+            default:
+                break;
+        }
         [self.shp_sideMenuController setSelectedViewController:item.viewController];
         [self.shp_sideMenuController close];
     }

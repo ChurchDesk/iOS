@@ -119,6 +119,7 @@
 #pragma mark - Actions
 
 - (void) cancelAction: (id) sender {
+    [Heap track:@"Cancel clicked from edit event view"];
     [self.view endEditing:YES];
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_CANCEL];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
@@ -142,13 +143,14 @@
 -(void) saveEvent{
     CHDEditEventViewModel *viewModel = self.viewModel;
     [self didChangeSendingStatus:CHDStatusViewProcessing];
-    
+    [Heap track:@"Save event submit"];
     @weakify(self)
     [[[self.viewModel saveEvent] catch:^RACSignal *(NSError *error) {
         //Handle double booking responses from the server
         @strongify(self)
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         if (response.statusCode == 409) {
+            [Heap track:@"Double booking conflict"];
             if ([response.body isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = response.body;
                 NSString *htmlString = [result valueForKey:@"conflictHtml"];

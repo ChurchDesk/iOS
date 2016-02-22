@@ -38,6 +38,7 @@
 }
 
 -(RACCommand*) saveCommand {
+    [Heap track:@"Notification settings changed"];
     if(!_saveCommand){
         _saveCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
             CHDNotificationSettings *settings = tuple.first;

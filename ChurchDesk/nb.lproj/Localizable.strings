@@ -284,7 +284,7 @@
 "Show unread" = "Vis uleste";
 
 /* No comment provided by engineer. */
-"Something when wrong while resetting your password. Please try again." = "Noe gikk galt under nullstilling av ditt passord. Vennligst prøv igjen.";
+"Something went wrong while resetting your password. Please try again." = "Noe gikk galt under nullstilling av ditt passord. Vennligst prøv igjen.";
 
 /* No comment provided by engineer. */
 "Start" = "Start";

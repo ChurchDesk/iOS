@@ -132,7 +132,6 @@ static NSString *const kURLAPIOauthPart = @"";
     else{
         return [RACSignal return:Nil];
     }
-    
 }
 
 - (RACSignal*)postBodyDictionary:(NSDictionary*)dictionary resultClass: (Class) resultClass toPath:(NSString*)path {
@@ -167,7 +166,6 @@ static NSString *const kURLAPIOauthPart = @"";
                 [request setValue:value forQueryParameterKey:key];
             }];
         }
-
     }];
 }
 
@@ -181,7 +179,6 @@ static NSString *const kURLAPIOauthPart = @"";
                 [request setValue:value forQueryParameterKey:key];
             }];
         }
-
     }];
 }
 

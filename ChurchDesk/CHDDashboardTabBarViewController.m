@@ -163,6 +163,19 @@
     [self addChildViewController:selectedVC];
     [self.view addSubview:selectedVC.view];
     [selectedVC.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        switch (self.selectedIndex) {
+            case 0:
+                [Heap track:@"Dashboard today events tapped"];
+                break;
+            case 1:
+                [Heap track:@"Dashboard invitations tapped"];
+                break;
+            case 2:
+                [Heap track:@"Dashboard messages tapped"];
+                break;
+            default:
+                break;
+        }
         make.left.top.right.equalTo(self.view);
         make.bottom.equalTo(self.buttonContainer.mas_top);
     }];

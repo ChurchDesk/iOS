@@ -476,6 +476,7 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDMessage* message = self.viewModel.messages[indexPath.row];
     message.read = YES;
+    [Heap track:@"Message detail"];
     CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:message.messageId site:message.siteId];
 
     [self.navigationController pushViewController:messageViewController animated:YES];

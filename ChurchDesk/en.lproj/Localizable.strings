@@ -88,7 +88,7 @@
 "E-mail address" = "E-mail address";
 "Success" = "Success";
 "Password reset failed" = "Password reset failed";
-"Something when wrong while resetting your password. Please try again." = "Something when wrong while resetting your password. Please try again.";
+"Something went wrong while resetting your password. Please try again." = "Something went wrong while resetting your password. Please try again.";
 "Please enter your email to receive instructions on how to reset your password." = "Please enter your email to receive instructions on how to reset your password.";
 "Continue" = "Continue";
 "More church, less administration" = "More church, less administration";

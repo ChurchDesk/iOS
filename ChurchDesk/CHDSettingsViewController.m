@@ -86,7 +86,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [self.viewModel saveSettings];
+    //[self.viewModel saveSettings];
     [super viewWillDisappear:animated];
 }
 
@@ -94,6 +94,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex > 0) {
+        [Heap track:@"Logged out"];
         [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SETTINGS action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_SIGNUOUT];
         [[CHDAuthenticationManager sharedInstance] signOut];
     }

@@ -183,6 +183,7 @@
 #pragma mark -TableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [Heap track:@"Invitation details view"];
     CHDInvitation *invitation = (CHDInvitation *)self.viewModel.invitations[indexPath.row];
 
     CHDEvent *event = [CHDEvent new];
