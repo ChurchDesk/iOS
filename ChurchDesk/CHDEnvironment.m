@@ -106,7 +106,6 @@
     return results.array;
 }
 
-
 #pragma mark - Users
 
 - (CHDPeerUser*) userWithId: (NSNumber*) userId siteId: (NSString*) siteId {
@@ -115,18 +114,10 @@
     }] : nil;
 }
 
-
-- (NSArray *)usersWithSiteId:(NSString *)siteId groupIds:(NSArray *)groupIds {
+- (NSArray *)usersWithSiteId:(NSString *)siteId{
     return siteId ? [self.users shp_filter:^BOOL(CHDPeerUser *user) {
-        BOOL validGroups = NO;
-        for(NSNumber *groupId in groupIds){
-            validGroups = [user.groupIds containsObject:groupId];
-            if(!validGroups){
-                break;
-            }
-        }
         //return [user.siteId isEqualToString:siteId] && validGroups;
-        return validGroups;
+        return YES;
     }] : nil;
 }
 @end

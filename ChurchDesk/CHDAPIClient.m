@@ -203,6 +203,7 @@ static NSString *const kURLAPIOauthPart = @"";
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
     }] doNext:^(id x) {
+        [Heap track:@"Successfu Login"];
         [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
     }];
 }
@@ -488,13 +489,13 @@ static NSString *const kURLAPIOauthPart = @"";
 - (RACSignal *)clientAccessToken {
     SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"token"];
     resource.resultObjectClass = [NSDictionary class];
-
+        
     return [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
-
+        
         [request setValue:kClientCredentialsID forQueryParameterKey:@"client_id"];
         [request setValue:kclientCredentialsSecret forQueryParameterKey:@"client_secret"];
         [request setValue:@"client_credentials" forQueryParameterKey:@"grant_type"];
-
+        
         [request addValue:@"application/json" forHeaderField:@"Accept"];
         [request addValue:@"application/json" forHeaderField:@"Content-Type"];
     } withBodyContent:nil toResource:resource];

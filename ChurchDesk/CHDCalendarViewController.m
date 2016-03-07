@@ -490,7 +490,6 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
         [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
     }
-    
 
     return cell;
 }

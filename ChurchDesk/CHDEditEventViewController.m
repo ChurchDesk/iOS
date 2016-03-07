@@ -315,7 +315,7 @@
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         title = NSLocalizedString(@"Select Users", @"");
         selectMultiple = YES;
-        NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
+        NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId] : @[];
         for (CHDPeerUser *user in users) {
             BOOL selected = false;
             for (NSNumber *userId in event.userIds) {

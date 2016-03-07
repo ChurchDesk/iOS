@@ -57,7 +57,6 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 - (NSDictionary*) dictionaryRepresentation;
 
 - (BOOL) eventForUserWithId: (NSNumber*) userId;
-- (BOOL)absence;
 - (NSString *) attendanceStatusForUserWithId: (NSNumber*) userId;
 
 @end

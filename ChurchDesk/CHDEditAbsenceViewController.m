@@ -320,12 +320,7 @@
     else if ([row isEqualToString:CHDAbsenceEditRowUsers]) {
         title = NSLocalizedString(@"Select Users", @"");
         selectMultiple = NO;
-        if (!event.groupId || event.groupId.intValue == 0) {
-            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Group missing", @"") message:NSLocalizedString(@"Please select a group first.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-            [errorAlert show];
-        }
-        else{
-        NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId groupIds:@[event.groupId]] : @[];
+        NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId] : @[];
         if ([user siteWithId:event.siteId].permissions.canCreateAbsenceAndBook) {
         for (CHDPeerUser *peerUser in users) {
             BOOL selected = false;
@@ -346,7 +341,6 @@
             }
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:selected refObject:user.userId]];
             }
-        }
     }
     else if ([row isEqualToString:CHDAbsenceEditRowResources]) {
         title = NSLocalizedString(@"Select Resources", @"");
