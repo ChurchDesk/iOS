@@ -203,7 +203,7 @@ static NSString *const kURLAPIOauthPart = @"";
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
     }] doNext:^(id x) {
-        [Heap track:@"Successfu Login"];
+        [Heap track:@"Successful Login"];
         [[manager cache] invalidateObjectsMatchingRegex:self.resourcePathForGetCurrentUser];
     }];
 }
