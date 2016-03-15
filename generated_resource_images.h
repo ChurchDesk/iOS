@@ -33,6 +33,7 @@
 #define kImgMenuDashboard [UIImage imageNamed:@"menu_dashboard"]
 #define kImgMenuEvent [UIImage imageNamed:@"menu_event"]
 #define kImgMenuTimeRecording [UIImage imageNamed:@"menu_time_recording"]
+#define kImgMenuPeople [UIImage imageNamed:@"menu_people"]
 #define kImgMenuHelp [UIImage imageNamed:@"menu_help"]
 #define kImgMenuMail [UIImage imageNamed:@"menu_mail"]
 #define kImgMenuSettings [UIImage imageNamed:@"menu_settings"]
