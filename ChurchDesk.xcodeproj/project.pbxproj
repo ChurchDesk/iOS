@@ -45,6 +45,10 @@
 		462D4B5B1C298BA8002974FA /* CHDEditAbsenceViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 462D4B5A1C298BA8002974FA /* CHDEditAbsenceViewModel.m */; };
 		469481021C284DDA0000D9F1 /* CHDAbsenceCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 469481011C284DDA0000D9F1 /* CHDAbsenceCategory.m */; };
 		46C4684E1B0CD955002C6A2B /* CHDTImeRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */; };
+		46E468921C9866CC009FBD16 /* CHDPeopleTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468911C9866CC009FBD16 /* CHDPeopleTabBarController.m */; };
+		46E468961C9AEF90009FBD16 /* CHDPeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468951C9AEF90009FBD16 /* CHDPeopleViewController.m */; };
+		46E4689A1C9AF03E009FBD16 /* CHDSegmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468991C9AF03E009FBD16 /* CHDSegmentsViewController.m */; };
+		46E4689D1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E4689C1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m */; };
 		60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */; };
 		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
 		603721498133590553B49781 /* NSDate+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372F542CA3A1835F4A2584 /* NSDate+ChurchDesk.m */; };
@@ -230,6 +234,14 @@
 		46C4684C1B0CD955002C6A2B /* CHDTImeRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTImeRecordingViewController.h; sourceTree = "<group>"; };
 		46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDTImeRecordingViewController.m; sourceTree = "<group>"; };
 		46D641D81B972ACB00E66910 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		46E468901C9866CC009FBD16 /* CHDPeopleTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeopleTabBarController.h; sourceTree = "<group>"; };
+		46E468911C9866CC009FBD16 /* CHDPeopleTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeopleTabBarController.m; sourceTree = "<group>"; };
+		46E468941C9AEF90009FBD16 /* CHDPeopleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeopleViewController.h; sourceTree = "<group>"; };
+		46E468951C9AEF90009FBD16 /* CHDPeopleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeopleViewController.m; sourceTree = "<group>"; };
+		46E468981C9AF03E009FBD16 /* CHDSegmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSegmentsViewController.h; sourceTree = "<group>"; };
+		46E468991C9AF03E009FBD16 /* CHDSegmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSegmentsViewController.m; sourceTree = "<group>"; };
+		46E4689B1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSelectParishForPeopleViewController.h; sourceTree = "<group>"; };
+		46E4689C1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSelectParishForPeopleViewController.m; sourceTree = "<group>"; };
 		6037208164EB947D72C14C08 /* CHDSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSite.h; sourceTree = "<group>"; };
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		60372089EA49349970627A31 /* CHDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUser.h; sourceTree = "<group>"; };
@@ -684,6 +696,37 @@
 			name = "TIme Recording";
 			sourceTree = "<group>";
 		};
+		46E4688C1C986418009FBD16 /* People */ = {
+			isa = PBXGroup;
+			children = (
+				46E468901C9866CC009FBD16 /* CHDPeopleTabBarController.h */,
+				46E468911C9866CC009FBD16 /* CHDPeopleTabBarController.m */,
+				46E468971C9AF024009FBD16 /* Segments */,
+				46E468931C9AEF78009FBD16 /* People */,
+				46E4689B1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.h */,
+				46E4689C1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m */,
+			);
+			name = People;
+			sourceTree = "<group>";
+		};
+		46E468931C9AEF78009FBD16 /* People */ = {
+			isa = PBXGroup;
+			children = (
+				46E468941C9AEF90009FBD16 /* CHDPeopleViewController.h */,
+				46E468951C9AEF90009FBD16 /* CHDPeopleViewController.m */,
+			);
+			name = People;
+			sourceTree = "<group>";
+		};
+		46E468971C9AF024009FBD16 /* Segments */ = {
+			isa = PBXGroup;
+			children = (
+				46E468981C9AF03E009FBD16 /* CHDSegmentsViewController.h */,
+				46E468991C9AF03E009FBD16 /* CHDSegmentsViewController.m */,
+			);
+			name = Segments;
+			sourceTree = "<group>";
+		};
 		523BB34733495BF6470B3A10 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -706,6 +749,7 @@
 		60372179239F64D321F00AF0 /* ChurchDesk */ = {
 			isa = PBXGroup;
 			children = (
+				46E4688C1C986418009FBD16 /* People */,
 				7612473F1AA483BA004E7D05 /* Login */,
 				365A77421AA0A5FF006CA0B1 /* NewMessage */,
 				36C462281A9DBCDB00775FBE /* Message details */,
@@ -1258,6 +1302,7 @@
 				36C462261A9DAFAB00775FBE /* CHDDashboardMessagesViewModel.m in Sources */,
 				365DD9031A9CCDFA00CC6009 /* CHDMessage.m in Sources */,
 				761247351AA4688D004E7D05 /* CHDEventUsersTableViewCell.m in Sources */,
+				46E4689D1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m in Sources */,
 				7612475D1AA5F58E004E7D05 /* CHDHoliday.m in Sources */,
 				46C4684E1B0CD955002C6A2B /* CHDTImeRecordingViewController.m in Sources */,
 				462D4B5B1C298BA8002974FA /* CHDEditAbsenceViewModel.m in Sources */,
@@ -1268,6 +1313,7 @@
 				7612472F1AA46347004E7D05 /* CHDColorDotLabelView.m in Sources */,
 				360B4DFE1A9785AB001CC8B0 /* CHDSettingsViewController.m in Sources */,
 				76A541B71A9F243500176D6D /* CHDEventInfoViewController.m in Sources */,
+				46E4689A1C9AF03E009FBD16 /* CHDSegmentsViewController.m in Sources */,
 				60372D5D99A503D707A269BC /* CHDDashboardTabBarViewController.m in Sources */,
 				7612475A1AA5BC08004E7D05 /* NSDateFormatter+ChurchDesk.m in Sources */,
 				60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */,
@@ -1303,7 +1349,9 @@
 				603721498133590553B49781 /* NSDate+ChurchDesk.m in Sources */,
 				60372B88E086ED5360F1CB88 /* CHDCellBorderView.m in Sources */,
 				60372C3A1A8652BFBB41B2F8 /* CHDActiveFilterView.m in Sources */,
+				46E468961C9AEF90009FBD16 /* CHDPeopleViewController.m in Sources */,
 				60372227DFC4EE17CC51BEB5 /* CHDOverlayView.m in Sources */,
+				46E468921C9866CC009FBD16 /* CHDPeopleTabBarController.m in Sources */,
 				6037228EF28A5479B3BBDCF3 /* CHDSelectorImageTableViewCell.m in Sources */,
 				462D4B581C297B1B002974FA /* CHDEditAbsenceViewController.m in Sources */,
 				60372CAED5169D6C6CB814EF /* CHDEventTitleTableViewCell.m in Sources */,

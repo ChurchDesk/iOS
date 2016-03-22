@@ -13,6 +13,7 @@
 #import "DCIntrospect.h"
 #import "CHDMenuItem.h"
 #import "CHDDashboardMessagesViewController.h"
+#import "CHDPeopleTabBarController.h"
 #import <Crashlytics/Crashlytics.h>
 #import "CHDCalendarViewController.h"
 #import "CHDTImeRecordingViewController.h"
@@ -93,6 +94,7 @@
     }];
     
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
+    CHDPeopleTabBarController *peopleTabBar = [CHDPeopleTabBarController peopleTabBarViewController];
     CHDDashboardMessagesViewController *messagesViewController = [[CHDDashboardMessagesViewController new] initWithStyle:CHDMessagesStyleAllMessages];
     messagesViewController.title = NSLocalizedString(@"Messages", @"");
     CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
@@ -100,6 +102,7 @@
     CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
     
     UINavigationController *dashboardNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:dashboardTabBar];
+    UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
     UINavigationController *messagesNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:messagesViewController];
     UINavigationController *settingsNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:settingsViewController];
     UINavigationController *calendarNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:calendarViewController];
@@ -124,6 +127,12 @@
     menuItemCalendar.viewController = calendarNavigationController;
     menuItemCalendar.image = kImgMenuEvent;
     
+    //People
+    CHDMenuItem *menuItemPeople = [CHDMenuItem new];
+    menuItemPeople.title = NSLocalizedString(@"People", @"");
+    menuItemPeople.viewController = peopleNavigationController;//dashboardTabBar;
+    menuItemPeople.image = kImgMenuPeople;
+    
     //Time Recording
     CHDMenuItem *menuItemTimeManagement = [CHDMenuItem new];
     menuItemTimeManagement.title = NSLocalizedString(@"Time Recording", @"");
@@ -141,7 +150,7 @@
     menuItemSettings.image = kImgMenuSettings;
     menuItemSettings.viewController = settingsNavigationController;
     
-    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar, menuItemHelp, menuItemSettings];
+    NSArray *menuItems = @[menuItemDashboard, menuItemMessages, menuItemCalendar, menuItemPeople, menuItemHelp, menuItemSettings];
     
     CHDLeftViewController *leftViewController = [[CHDLeftViewController alloc] initWithMenuItems:menuItems];
     

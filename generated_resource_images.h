@@ -31,6 +31,7 @@
 #define kImgLoginscreenLogoIcon [UIImage imageNamed:@"loginscreen_logo_icon"]
 #define kImgMapNavigationArrow [UIImage imageNamed:@"map_navigation_arrow"]
 #define kImgMenuDashboard [UIImage imageNamed:@"menu_dashboard"]
+#define kImgMenuPeople [UIImage imageNamed:@"menu_people"]
 #define kImgMenuEvent [UIImage imageNamed:@"menu_event"]
 #define kImgMenuTimeRecording [UIImage imageNamed:@"menu_time_recording"]
 #define kImgMenuPeople [UIImage imageNamed:@"menu_people"]
@@ -49,4 +50,7 @@
 #define kImgTabInvitationPassive [UIImage imageNamed:@"tab_invitation_passive"]
 #define kImgTabMailActive [UIImage imageNamed:@"tab_mail_active"]
 #define kImgTabMailunread [UIImage imageNamed:@"tab_mailunread"]
-
+#define kImgTabPeopleActive [UIImage imageNamed:@"tab_people_active"]
+#define kImgTabPeoplePassive [UIImage imageNamed:@"tab_people_passive"]
+#define kImgTabSegmentsActive [UIImage imageNamed:@"tab_segments_active"]
+#define kImgTabSegmentsPassive [UIImage imageNamed:@"tab_segments_passive"]

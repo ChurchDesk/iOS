@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class CHDDashboardTabBarViewController;
+@class CHDDashboardTabBarViewController, CHDPeopleTabBarController;
 
 @interface CHDAbstractViewController : UIViewController
 @property (nonatomic, weak) CHDDashboardTabBarViewController *chd_tabbarViewController;
+@property (nonatomic, weak) CHDPeopleTabBarController *chd_people_tabbarViewController;
 @property (nonatomic) NSUInteger chd_tabbarIdx;
 @end

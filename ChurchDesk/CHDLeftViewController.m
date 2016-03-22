@@ -14,6 +14,8 @@
 #import "CHDUser.h"
 #import "UIImageView+Haneke.h"
 #import "intercom.h"
+#import "CHDSelectParishForPeopleViewController.h"
+#import "UINavigationController+ChurchDesk.h"
 
 @interface CHDLeftViewController ()
 @property (nonatomic, strong) UITableView* menuTable;
@@ -218,7 +220,15 @@
             case 2:
                 [Heap track:@"Calendar clicked"];
                 break;
-            case 4:
+            case 3:{
+            CHDSelectParishForPeopleViewController *peopleTabBar = [CHDSelectParishForPeopleViewController new];
+                UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
+                //People
+                item.viewController = peopleNavigationController;
+                [Heap track:@"People clicked"];
+                break;
+            }
+            case 5:
                 [Heap track:@"Settings clicked"];
                 break;
             default:
