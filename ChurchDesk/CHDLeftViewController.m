@@ -116,7 +116,7 @@
         CHDSite *organization = [user.sites objectAtIndex:0];
         [[NSUserDefaults standardUserDefaults] setValue:user.userId forKey:@"userId"];
         [[NSUserDefaults standardUserDefaults] setValue:organization.siteId forKey:@"organizationId"];
-            return user.name;
+        return user.name;
     }];
     [self rac_liftSelector:@selector(userImageWithUrl:) withSignals:[userSignal map:^id(CHDUser *user) {
         return user.pictureURL;
@@ -221,10 +221,10 @@
                 [Heap track:@"Calendar clicked"];
                 break;
             case 3:{
-            CHDSelectParishForPeopleViewController *peopleTabBar = [CHDSelectParishForPeopleViewController new];
-                UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
-                //People
-                item.viewController = peopleNavigationController;
+//                CHDSelectParishForPeopleViewController *peopleTabBar = [CHDSelectParishForPeopleViewController new];
+//                UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
+//                //People
+//                item.viewController = peopleNavigationController;
                 [Heap track:@"People clicked"];
                 break;
             }

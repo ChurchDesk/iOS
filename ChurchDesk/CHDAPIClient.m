@@ -38,7 +38,7 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #if PRODUCTION_ENVIRONMENT
 static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
 #else
-static NSString *const kBaseUrl = @"https://private-anon-83c43a3ef-churchdeskapi.apiary-mock.com/";
+static NSString *const kBaseUrl = @"http://localhost:3000/";
 #endif
 static NSString *const kURLAPIPart = @"";
 static NSString *const kURLAPIOauthPart = @"";
@@ -77,7 +77,7 @@ static NSString *const kURLAPIOauthPart = @"";
         self.oauthManager = [SHPAPIManager new];
         [self.oauthManager setBaseURL:[[NSURL URLWithString:kBaseUrl] URLByAppendingPathComponent:kURLAPIOauthPart]];
         
-//        [self.manager.cache shprac_liftSelector:@selector(invalidateAllObjects) withSignal:[RACObserve([DNGAuthenticationManager sharedInstance], authenticationToken) distinctUntilChanged]];
+//  [self.manager.cache shprac_liftSelector:@selector(invalidateAllObjects) withSignal:[RACObserve([DNGAuthenticationManager sharedInstance], authenticationToken) distinctUntilChanged]];
     }
     return self;
 }
@@ -273,7 +273,6 @@ static NSString *const kURLAPIOauthPart = @"";
     // of the month containing dateofstring
     NSLog(@"%lu", (unsigned long)daysRange.length);
     return [NSString stringWithFormat:@"%ld-%ld-%lu", (long)year, (long)month, (unsigned long)daysRange.length];
-    
 }
 
 - (RACSignal*) getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId {
@@ -348,6 +347,13 @@ static NSString *const kURLAPIOauthPart = @"";
     }];
 }
 
+#pragma mark - People
+- (RACSignal*) getpeopleforOrganization: (NSString *) organizationId  {
+     return [self resourcesForPath:[self resourcePathForGetPeople] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+    }];
+}
+     
 #pragma mark - Messages
 
 - (RACSignal*) getUnreadMessages{
@@ -516,6 +522,7 @@ static NSString *const kURLAPIOauthPart = @"";
 - (NSString*)resourcePathForGetMessagesFromDate{return @"messages";}
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%ld", (long)messageId.integerValue];}
 - (NSString*)resourcePathForGetNotificationSettings{return [NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]];}
+-(NSString*)resourcePathForGetPeople {return @"people/people";}
 
 #pragma mark - Refresh token
 

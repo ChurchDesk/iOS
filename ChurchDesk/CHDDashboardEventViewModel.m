@@ -15,7 +15,6 @@
 @property (nonatomic, strong) CHDUser *user;
 @property (nonatomic, strong) NSArray *events;
 @property (nonatomic, strong) CHDEnvironment *environment;
-
 @property (nonatomic) NSInteger year;
 @property (nonatomic) NSInteger month;
 @end
@@ -81,7 +80,7 @@
                 return [RACSignal empty];
             }];
         }]];
-        
+        [[NSUserDefaults standardUserDefaults] setObject:_user forKey:kcurrentUser];
         [self shprac_liftSelector:@selector(reload) withSignal:authenticationTokenSignal];
     }
     return self;

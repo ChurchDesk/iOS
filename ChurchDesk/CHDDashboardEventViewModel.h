@@ -9,7 +9,6 @@
 @class CHDEvent;
 @class CHDEnvironment;
 
-
 @interface CHDDashboardEventViewModel : NSObject
 @property (nonatomic, readonly) CHDUser *user;
 @property (nonatomic, readonly) CHDEnvironment *environment;

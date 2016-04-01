@@ -145,7 +145,6 @@
             __block NSDate *eventDate = nil;
             __block NSDateComponents *eventComps = nil;
 
-
             do{
                 if(eventDate == nil){
                     eventDate = [event.startDate copy];

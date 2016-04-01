@@ -45,6 +45,7 @@
 - (RACSignal*) deleteDeviceToken: (NSString*) deviceToken accessToken: (NSString*)accessToken;
 
 - (RACSignal*) clientAccessToken;
+- (RACSignal*) getpeopleforOrganization: (NSString *) organizationId;
 
 #pragma mark - ResourcePath for
 - (NSString*) resourcePathForGetCurrentUser;

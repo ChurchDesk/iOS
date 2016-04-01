@@ -117,6 +117,7 @@
     }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
     
 }
+
 -(void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
