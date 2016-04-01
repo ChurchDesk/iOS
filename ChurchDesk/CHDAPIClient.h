@@ -60,4 +60,5 @@
 - (NSString*) resourcePathForGetMessagesFromDate;
 - (NSString*) resourcePathForGetMessageWithId:(NSNumber *)messageId;
 - (NSString*) resourcePathForGetNotificationSettings;
+- (NSString*) resourcePathForGetPeople;
 @end

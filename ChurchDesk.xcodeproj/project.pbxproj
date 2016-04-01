@@ -46,6 +46,7 @@
 		469481021C284DDA0000D9F1 /* CHDAbsenceCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 469481011C284DDA0000D9F1 /* CHDAbsenceCategory.m */; };
 		46C4684E1B0CD955002C6A2B /* CHDTImeRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */; };
 		46E0359C1CAE5B6400341255 /* CHDPeopleViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0359B1CAE5B6400341255 /* CHDPeopleViewModel.m */; };
+		46E0359F1CAE712A00341255 /* CHDPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0359E1CAE712A00341255 /* CHDPeople.m */; };
 		46E468921C9866CC009FBD16 /* CHDPeopleTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468911C9866CC009FBD16 /* CHDPeopleTabBarController.m */; };
 		46E468961C9AEF90009FBD16 /* CHDPeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468951C9AEF90009FBD16 /* CHDPeopleViewController.m */; };
 		46E4689A1C9AF03E009FBD16 /* CHDSegmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468991C9AF03E009FBD16 /* CHDSegmentsViewController.m */; };
@@ -237,6 +238,8 @@
 		46D641D81B972ACB00E66910 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		46E0359A1CAE5B6400341255 /* CHDPeopleViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeopleViewModel.h; sourceTree = "<group>"; };
 		46E0359B1CAE5B6400341255 /* CHDPeopleViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeopleViewModel.m; sourceTree = "<group>"; };
+		46E0359D1CAE712A00341255 /* CHDPeople.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeople.h; sourceTree = "<group>"; };
+		46E0359E1CAE712A00341255 /* CHDPeople.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeople.m; sourceTree = "<group>"; };
 		46E468901C9866CC009FBD16 /* CHDPeopleTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeopleTabBarController.h; sourceTree = "<group>"; };
 		46E468911C9866CC009FBD16 /* CHDPeopleTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeopleTabBarController.m; sourceTree = "<group>"; };
 		46E468941C9AEF90009FBD16 /* CHDPeopleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeopleViewController.h; sourceTree = "<group>"; };
@@ -937,6 +940,8 @@
 				76A541A61A9F153900176D6D /* CHDEnvironment.m */,
 				366899B41AADAA270061769F /* CHDAPICreate.h */,
 				366899B51AADAA270061769F /* CHDAPICreate.m */,
+				46E0359D1CAE712A00341255 /* CHDPeople.h */,
+				46E0359E1CAE712A00341255 /* CHDPeople.m */,
 				76A541A81A9F15B100176D6D /* CHDEventCategory.h */,
 				76A541A91A9F15B100176D6D /* CHDEventCategory.m */,
 				469481001C284DDA0000D9F1 /* CHDAbsenceCategory.h */,
@@ -1287,6 +1292,7 @@
 				760AF8A51AC4300300729427 /* CHDUserAttendanceTableViewCell.m in Sources */,
 				364C241E1A9B3F63004E6FA1 /* CHDAccessoryTableViewCell.m in Sources */,
 				3667E2A41A9616DC00141520 /* CHDTabItem.m in Sources */,
+				46E0359F1CAE712A00341255 /* CHDPeople.m in Sources */,
 				762D16D11A9B1E2E00588730 /* CHDCalendarViewController.m in Sources */,
 				36592B4E1AA49EEE00C1B386 /* CHDSelectorTableViewCell.m in Sources */,
 				76A541C41A9F55FF00176D6D /* CHDCommonTableViewCell.m in Sources */,

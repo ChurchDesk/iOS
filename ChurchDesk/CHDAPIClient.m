@@ -19,6 +19,7 @@
 #import "NSDateFormatter+ChurchDesk.h"
 #import "CHDUser.h"
 #import "CHDHoliday.h"
+#import "CHDPeople.h"
 #import "CHDAPICreate.h"
 #import "CHDNotificationSettings.h"
 
@@ -33,7 +34,7 @@ static NSString *const kClientCredentialsID = @"3_516ahy5oztkwsgg88wwo4wo08wccg0
 static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40oskcw408448gk884w04c4s";
 
 
-#define PRODUCTION_ENVIRONMENT 1
+#define PRODUCTION_ENVIRONMENT 0
 
 #if PRODUCTION_ENVIRONMENT
 static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
@@ -349,8 +350,8 @@ static NSString *const kURLAPIOauthPart = @"";
 
 #pragma mark - People
 - (RACSignal*) getpeopleforOrganization: (NSString *) organizationId  {
-     return [self resourcesForPath:[self resourcePathForGetPeople] resultClass:[CHDMessage class] withResource:nil request:^(SHPHTTPRequest *request) {
-        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+     return [self resourcesForPath:[self resourcePathForGetPeople] resultClass:[CHDPeople class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:@"58" forQueryParameterKey:@"organizationId"];
     }];
 }
      

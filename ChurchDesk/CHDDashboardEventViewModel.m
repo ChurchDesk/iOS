@@ -80,7 +80,6 @@
                 return [RACSignal empty];
             }];
         }]];
-        [[NSUserDefaults standardUserDefaults] setObject:_user forKey:kcurrentUser];
         [self shprac_liftSelector:@selector(reload) withSignal:authenticationTokenSignal];
     }
     return self;

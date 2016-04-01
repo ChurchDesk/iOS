@@ -12,6 +12,7 @@
 #import "CHDAPIClient.h"
 #import "CHDUser.h"
 #import "CHDSite.h"
+#import "CHDPeople.h"
 #import "MBProgressHUD.h"
 
 @interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -41,8 +42,7 @@
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
     
-    //setting organizationId
-    _user = [[NSUserDefaults standardUserDefaults] objectForKey:kcurrentUser];
+    
     if (_user.sites.count > 0) {
         CHDSite *selectedSite = [_user.sites objectAtIndex:0];
         _organizationId = selectedSite.siteId;
@@ -117,22 +117,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString* cellIdentifier = @"dashboardCell";
-//    CHDEvent* event = self.viewModel.events[indexPath.row];
+    static NSString* cellIdentifier = @"peopleCell";
+    CHDPeople* people = self.viewModel.people[indexPath.row];
 //    CHDUser* user = self.viewModel.user;
 //    CHDSite* site = [user siteWithId:event.siteId];
     
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-//    cell.locationLabel.text = event.location;
+    cell.locationLabel.text = people.email;
 //    if ([event.type isEqualToString:kAbsence]) {
-//        cell.titleLabel.text = [NSString stringWithFormat:@"    %@", event.title];
+        cell.titleLabel.text = people.fullName;
 //        cell.titleLabel.textColor = [UIColor grayColor];
 //        cell.absenceIconView.hidden = false;
 //    }
 //    else{
 //        cell.titleLabel.text = event.title;
 //        cell.titleLabel.textColor = [UIColor chd_textDarkColor];
-//        cell.absenceIconView.hidden = true;
+        cell.absenceIconView.hidden = true;
 //    }
 //    cell.parishLabel.text = user.sites.count > 1? site.name : @"";
 //    cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event];
@@ -154,7 +154,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return self.viewModel.people? self.viewModel.people.count: 0;
 }
 
 -(UILabel *) emptyMessageLabel {

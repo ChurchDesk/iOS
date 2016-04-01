@@ -15,4 +15,3 @@
 
 #define kEvent @"event"
 #define kAbsence @"absence"
-#define kcurrentUser @"user"
