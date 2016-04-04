@@ -14,4 +14,5 @@
 @property (nonatomic, strong) NSMutableArray *sectionIndices;
 @property (nonatomic, strong) NSMutableArray *peopleArrangedAccordingToIndex ;
 -(void) reload;
+-(void) refreshData;
 @end

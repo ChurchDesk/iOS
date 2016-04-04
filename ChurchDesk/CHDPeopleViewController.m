@@ -15,7 +15,7 @@
 #import "CHDPeople.h"
 #import "MBProgressHUD.h"
 
-@interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UIScrollViewDelegate>
 @property (nonatomic, retain) UITableView* peopletable;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property (nonatomic, readonly) CHDUser *user;
@@ -41,8 +41,9 @@
     NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:kpeopleTimestamp];
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
-    
-    
+    [self.viewModel refreshData];
+    [self.peopletable reloadData];
+    self.tabBarItem.title = [NSString stringWithFormat:@"%@ (%d)",NSLocalizedString(@"People", @""), self.viewModel.people.count];
     if (_user.sites.count > 0) {
         CHDSite *selectedSite = [_user.sites objectAtIndex:0];
         _organizationId = selectedSite.siteId;
@@ -115,10 +116,16 @@
     [self.refreshControl endRefreshing];
 }
 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return [[NSArray arrayWithObject:UITableViewIndexSearch] arrayByAddingObjectsFromArray:
+            self.viewModel.sectionIndices];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString* cellIdentifier = @"peopleCell";
-    CHDPeople* people = self.viewModel.people[indexPath.row];
+    CHDPeople* people = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 //    CHDUser* user = self.viewModel.user;
 //    CHDSite* site = [user siteWithId:event.siteId];
     
@@ -149,12 +156,22 @@
     return cell;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    if (title == UITableViewIndexSearch) {
+        [tableView scrollRectToVisible:self.searchDisplayController.searchBar.frame animated:NO];
+        return -1;
+    } else {
+        return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index-1];
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return self.viewModel.sectionIndices.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.viewModel.people? self.viewModel.people.count: 0;
+    return [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:section] count];
 }
 
 -(UILabel *) emptyMessageLabel {
