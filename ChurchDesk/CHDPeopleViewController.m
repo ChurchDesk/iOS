@@ -7,6 +7,7 @@
 //
 
 #import "CHDPeopleViewController.h"
+#import "CHDPeopleTabBarController.h"
 #import "CHDPeopleViewModel.h"
 #import "CHDEventTableViewCell.h"
 #import "CHDAPIClient.h"
@@ -21,6 +22,8 @@
 @property (nonatomic, readonly) CHDUser *user;
 @property(nonatomic, strong) CHDPeopleViewModel *viewModel;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
+//@property(nonatomic, strong) UIBarButtonItem *hamburgerMenuButton;
+@property(nonatomic, strong) UIButton *messageButton;
 
 @end
 
@@ -43,7 +46,7 @@
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
     [self.viewModel refreshData];
     [self.peopletable reloadData];
-    self.tabBarItem.title = [NSString stringWithFormat:@"%@ (%d)",NSLocalizedString(@"People", @""), self.viewModel.people.count];
+    //self.chd_people_tabbarViewController.title = [NSString stringWithFormat:@"(%d) %@",NSLocalizedString(@"People", @""), self.viewModel.people.count];
     if (_user.sites.count > 0) {
         CHDSite *selectedSite = [_user.sites objectAtIndex:0];
         _organizationId = selectedSite.siteId;
@@ -56,12 +59,21 @@
 
 -(void) makeViews {
     [self.view addSubview:self.peopletable];
+    [self.view addSubview:self.messageButton];
+    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Select", @"") style:UIBarButtonItemStylePlain target:self action:@selector(selectAction:)];
+    [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+    [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
+    self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem = saveButtonItem;
 }
 
 -(void) makeConstraints {
     UIView* superview = self.view;
     [self.peopletable mas_makeConstraints:^(MASConstraintMaker *make){
         make.edges.equalTo(superview);
+    }];
+    [self.messageButton mas_makeConstraints:^(MASConstraintMaker *make){
+        make.right.equalTo(superview);
+        make.bottom.equalTo(superview).offset(-5);
     }];
 }
 
@@ -82,6 +94,18 @@
     }]];
 }
 
+- (void)selectAction: (id) sender {
+    UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
+    if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
+        clickedButton.title = NSLocalizedString(@"Cancel", @"");
+        self.peopletable.editing = YES;
+    }
+    else{// cancel
+        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
+        self.peopletable.editing = NO;
+    }
+}
+
 -(void) emptyMessageShow: (BOOL) show {
     if(show){
         [self.view addSubview:self.emptyMessageLabel];
@@ -95,6 +119,7 @@
         [self.emptyMessageLabel removeFromSuperview];
     }
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -112,18 +137,17 @@
 - (void)refresh:(UIRefreshControl *)refreshControl {
     [self.viewModel reload];
 }
+
 -(void)endRefresh {
     [self.refreshControl endRefreshing];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    return [[NSArray arrayWithObject:UITableViewIndexSearch] arrayByAddingObjectsFromArray:
-            self.viewModel.sectionIndices];
+    return self.viewModel.sectionIndices;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     static NSString* cellIdentifier = @"peopleCell";
     CHDPeople* people = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 //    CHDUser* user = self.viewModel.user;
@@ -152,18 +176,13 @@
 //        CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
 //        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
 //    }
-    
+    cell.tintColor = [UIColor chd_blueColor];
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
-    if (title == UITableViewIndexSearch) {
-        [tableView scrollRectToVisible:self.searchDisplayController.searchBar.frame animated:NO];
-        return -1;
-    } else {
-        return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index-1];
-    }
+    return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -198,6 +217,7 @@
         [_peopletable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"peopleCell"];
         _peopletable.dataSource = self;
         _peopletable.delegate = self;
+        _peopletable.allowsMultipleSelectionDuringEditing = YES;
     }
     return _peopletable;
 }
@@ -225,6 +245,17 @@
     }else{
         [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     }
+}
+
+-(UIButton*)messageButton {
+    if(!_messageButton){
+        _messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_messageButton addTarget:self
+                   action:@selector(aMethod:)
+         forControlEvents:UIControlEventTouchUpInside];
+        [_messageButton setImage:kImgCreateMessage forState:UIControlStateNormal];
+    }
+    return _messageButton;
 }
 /*
 #pragma mark - Navigation
