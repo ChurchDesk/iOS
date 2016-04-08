@@ -84,7 +84,6 @@
                                                           BOOL validGroup = group != nil;
                                                           BOOL validSite = site != nil;
                                                           return @(validTitle && validMessage && validGroup && validSite);
-
                                                       }];
 
         [self shprac_liftSelector:@selector(selectableGroupsMake) withSignal:[RACSignal merge:@[[RACSignal zip:@[ [RACObserve(self, environment) ignore:nil], [RACObserve(self, user) ignore:nil] ]], RACObserve(self, selectedSite)]]];

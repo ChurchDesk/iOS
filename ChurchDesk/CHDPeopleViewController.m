@@ -15,6 +15,7 @@
 #import "CHDSite.h"
 #import "CHDPeople.h"
 #import "MBProgressHUD.h"
+#import "CHDCreateMessageMailViewController.h"
 
 @interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UIScrollViewDelegate>
 @property (nonatomic, retain) UITableView* peopletable;
@@ -205,6 +206,13 @@
     return _emptyMessageLabel;
 }
 
+- (void) createMessageShow: (id) sender {
+    CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
+    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
+    [Heap track:@"Create new people message"];
+    [self presentViewController:navigationVC animated:YES completion:nil];
+}
+
 #pragma mark - Lazy Initialization
 
 -(UITableView*)peopletable {
@@ -251,7 +259,7 @@
     if(!_messageButton){
         _messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_messageButton addTarget:self
-                   action:@selector(aMethod:)
+                   action:@selector(createMessageShow:)
          forControlEvents:UIControlEventTouchUpInside];
         [_messageButton setImage:kImgCreateMessage forState:UIControlStateNormal];
     }
