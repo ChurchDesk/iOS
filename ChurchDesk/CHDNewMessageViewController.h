@@ -11,4 +11,5 @@
 
 @interface CHDNewMessageViewController : CHDAbstractViewController <UITableViewDataSource, UITableViewDelegate, CHDListSelectorDelegate>
 
+
 @end

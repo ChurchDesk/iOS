@@ -25,6 +25,7 @@
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 //@property(nonatomic, strong) UIBarButtonItem *hamburgerMenuButton;
 @property(nonatomic, strong) UIButton *messageButton;
+@property(nonatomic, strong) NSMutableArray *selectedPeopleArray;
 
 @end
 
@@ -36,6 +37,7 @@
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
+    _selectedPeopleArray = [[NSMutableArray alloc] init];
     // Do any additional setup after loading the view.
 }
 
@@ -129,9 +131,18 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    CHDEvent* event = self.viewModel.events[indexPath.row];
-//    CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
-//    [self.navigationController pushViewController:vc animated:YES];
+    CHDPeople* selectedPeople = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if (self.peopletable.isEditing) {
+        [_selectedPeopleArray addObject:selectedPeople];
+    }
+    else{
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+    CHDPeople* selectedPeople = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [_selectedPeopleArray removeObject:selectedPeople];
 }
 
 #pragma mark - UITableViewDataSource
@@ -208,6 +219,7 @@
 
 - (void) createMessageShow: (id) sender {
     CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
+    newMessageViewController.selectedPeopleArray = _selectedPeopleArray;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
     [Heap track:@"Create new people message"];
     [self presentViewController:navigationVC animated:YES completion:nil];

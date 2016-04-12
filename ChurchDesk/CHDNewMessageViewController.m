@@ -38,10 +38,10 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) CHDNewMessageViewModel *messageViewModel;
 @property (nonatomic, strong) CHDStatusView *statusView;
+
 @end
 
 @implementation CHDNewMessageViewController
-
 - (instancetype)init
 {
     self = [super init];

@@ -9,5 +9,6 @@
 #import "CHDAbstractViewController.h"
 
 @interface CHDCreateMessageMailViewController : CHDAbstractViewController <UITableViewDataSource, UITableViewDelegate>
+@property (nonatomic, strong) NSArray *selectedPeopleArray;
 
 @end

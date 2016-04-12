@@ -121,7 +121,6 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if((newMessagesSections)indexPath.section == selectReceiverSection && indexPath.row == 0){
         
-        
     }
     
     if((newMessagesSections)indexPath.section == selectSenderSection  && indexPath.row == 0){
