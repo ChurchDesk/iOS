@@ -43,7 +43,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.peopletable deselectRowAtIndexPath:[self.peopletable indexPathForSelectedRow] animated:YES];
+    //[self.peopletable deselectRowAtIndexPath:[self.peopletable indexPathForSelectedRow] animated:YES];
     NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:kpeopleTimestamp];
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
@@ -104,6 +104,7 @@
         self.peopletable.editing = YES;
     }
     else{// cancel
+        [_selectedPeopleArray removeAllObjects];
         self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
         self.peopletable.editing = NO;
     }
@@ -133,7 +134,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDPeople* selectedPeople = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (self.peopletable.isEditing) {
-        [_selectedPeopleArray addObject:selectedPeople];
+        if (![_selectedPeopleArray containsObject:selectedPeople]) {
+            [_selectedPeopleArray addObject:selectedPeople];
+        }
     }
     else{
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -142,7 +145,9 @@
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     CHDPeople* selectedPeople = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    [_selectedPeopleArray removeObject:selectedPeople];
+    if ([_selectedPeopleArray containsObject:selectedPeople]) {
+        [_selectedPeopleArray removeObject:selectedPeople];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -157,6 +162,10 @@
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
     return self.viewModel.sectionIndices;
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewCellEditingStyleInsert;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -178,7 +187,7 @@
         cell.absenceIconView.hidden = true;
 //    }
 //    cell.parishLabel.text = user.sites.count > 1? site.name : @"";
-//    cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event];
+//    cell.dateTimeLabel.text = [self.viewModdel formattedTimeForEvent:event];
 //    
 //    if ([event.type isEqualToString:kAbsence]) {
 //        CHDAbsenceCategory *category = [self.viewModel.environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
@@ -189,6 +198,9 @@
 //        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
 //    }
     cell.tintColor = [UIColor chd_blueColor];
+    if ([tableView isEditing] && [_selectedPeopleArray containsObject:people]) {
+        [cell setSelected:YES animated:NO];
+    }
     return cell;
 }
 
@@ -237,6 +249,7 @@
         [_peopletable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"peopleCell"];
         _peopletable.dataSource = self;
         _peopletable.delegate = self;
+        _peopletable.allowsSelectionDuringEditing = YES;
         _peopletable.allowsMultipleSelectionDuringEditing = YES;
     }
     return _peopletable;

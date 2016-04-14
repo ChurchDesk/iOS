@@ -10,4 +10,9 @@
 
 @implementation CHDCreateMessageMailViewModel
 
+- (instancetype)init {
+    
+    return self;
+}
+
 @end

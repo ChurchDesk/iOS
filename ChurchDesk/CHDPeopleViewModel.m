@@ -32,7 +32,7 @@
                 }
             }];
 
-            NSLog(@"people array %@", results.array);
+            //NSLog(@"people array %@", results.array);
             return results.array;
 
         }] catch:^RACSignal *(NSError *error) {

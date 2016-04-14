@@ -135,20 +135,8 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    newMessagesSections sectionType = section;
-    if(sectionType == divider1Section){
-        return (self.messageViewModel.canSelectGroup || self.messageViewModel.canSelectParish);
-    }
-    if(sectionType == selectReceiverSection){
-        return self.messageViewModel.canSelectGroup;
-    }
-    if(sectionType == selectSenderSection){
-        return self.messageViewModel.canSelectParish;
-    }
-    if( (sectionType == divider2Section) || (sectionType == subjectInputSection) || (sectionType == messageInputSection)){
-        return 1;
-    }
-    return 0;
+    
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -159,15 +147,14 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     }
     if((newMessagesSections)indexPath.section == selectReceiverSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageSelectorCell forIndexPath:indexPath];
-        cell.titleLabel.text = NSLocalizedString(@"Receiver", @"");
-        RAC(cell.selectedLabel, text) = [RACObserve(self.messageViewModel, selectedParishName) takeUntil: cell.rac_prepareForReuseSignal];
-        //Only show the dividing line if groups can be selected
-        cell.dividerLineHidden = !self.messageViewModel.canSelectGroup;
+        cell.titleLabel.text = NSLocalizedString(@"To", @"");
+        cell.selectedLabel.text = [NSString stringWithFormat:@"%d %@", [_selectedPeopleArray count],  NSLocalizedString(@"People", @"")];
+        cell.dividerLineHidden = NO;
         return cell;
     }
     if((newMessagesSections)indexPath.section == selectSenderSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageSelectorCell forIndexPath:indexPath];
-        cell.titleLabel.text = NSLocalizedString(@"Group", @"");
+        cell.titleLabel.text = NSLocalizedString(@"From", @"");
         RAC(cell.selectedLabel, text) = [RACObserve(self.messageViewModel, selectedGroupName) takeUntil: cell.rac_prepareForReuseSignal];
         cell.dividerLineHidden = YES;
         return cell;
