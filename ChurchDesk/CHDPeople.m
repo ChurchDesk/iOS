@@ -10,6 +10,9 @@
 
 @implementation CHDPeople
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
+    if ([propName isEqualToString:@"peopleId"]) {
+        return @"id";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 @end

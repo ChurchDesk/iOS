@@ -12,9 +12,10 @@
 @property (nonatomic, assign) NSString *title;
 @property (nonatomic, assign) NSString *message;
 @property (nonatomic, readonly) BOOL canSendMessage;
-@property (nonatomic, readonly) BOOL canSelectParish;
-@property (nonatomic, readonly) BOOL canSelectGroup;
-@property (nonatomic, readonly) NSString *selectedParishName;
-@property (nonatomic, readonly) NSString *selectedGroupName;
+@property (nonatomic, strong) NSArray *selectedPeople;
+@property (nonatomic, strong) NSString *from;
+@property (nonatomic, strong) NSString *organizationId;
+@property (nonatomic, readonly) RACCommand *saveCommand;
+
 - (RACSignal*) sendMessage;
 @end

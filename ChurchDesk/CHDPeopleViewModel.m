@@ -68,7 +68,6 @@
         
         RAC(self, people) = [RACSignal merge:@[initialSignal, updateSignal]];
         [self shprac_liftSelector:@selector(reload) withSignal:authenticationTokenSignal];
-
     }
     return self;
 }

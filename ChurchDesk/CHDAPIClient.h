@@ -46,6 +46,7 @@
 
 - (RACSignal*) clientAccessToken;
 - (RACSignal*) getpeopleforOrganization: (NSString *) organizationId;
+-(RACSignal*)createPeopleMessageWithTitle:(NSString*) title message:(NSString*) message organizationId: (NSString*) organizationId from:(NSString *) from to:(NSArray*)to type:(NSString*) type;
 
 #pragma mark - ResourcePath for
 - (NSString*) resourcePathForGetCurrentUser;

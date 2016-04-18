@@ -25,7 +25,7 @@
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 //@property(nonatomic, strong) UIBarButtonItem *hamburgerMenuButton;
 @property(nonatomic, strong) UIButton *messageButton;
-@property(nonatomic, strong) NSMutableArray *selectedPeopleArray;
+
 
 @end
 
@@ -44,20 +44,30 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //[self.peopletable deselectRowAtIndexPath:[self.peopletable indexPathForSelectedRow] animated:YES];
-    NSDate *timestamp = [[NSUserDefaults standardUserDefaults] valueForKey:kpeopleTimestamp];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:@"currentUser"];
+    _user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    NSDate *timestamp = [defaults valueForKey:kpeopleTimestamp];
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
     [self.viewModel refreshData];
     [self.peopletable reloadData];
     //self.chd_people_tabbarViewController.title = [NSString stringWithFormat:@"(%d) %@",NSLocalizedString(@"People", @""), self.viewModel.people.count];
+    
     if (_user.sites.count > 0) {
         CHDSite *selectedSite = [_user.sites objectAtIndex:0];
         _organizationId = selectedSite.siteId;
+        self.viewModel.organizationId = _organizationId;
     }
     if (timeDifference/60 > 10) {
         
     }
+    if ([defaults boolForKey:@"successfulPeopleMessage"]) {
+        self.peopletable.editing = NO;
+        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
+    }
     NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);
+    NSLog(@"user %@", _user.name);
 }
 
 -(void) makeViews {
@@ -232,6 +242,8 @@
 - (void) createMessageShow: (id) sender {
     CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
     newMessageViewController.selectedPeopleArray = _selectedPeopleArray;
+    newMessageViewController.currentUser = _user;
+    newMessageViewController.organizationId = _organizationId;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
     [Heap track:@"Create new people message"];
     [self presentViewController:navigationVC animated:YES completion:nil];

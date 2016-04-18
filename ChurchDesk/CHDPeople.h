@@ -11,4 +11,5 @@
 @interface CHDPeople : CHDManagedModel
 @property (nonatomic, strong) NSString *fullName;
 @property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *peopleId;
 @end

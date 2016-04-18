@@ -7,8 +7,12 @@
 //
 
 #import "CHDAbstractViewController.h"
+#import "CHDUser.h"
+
 
 @interface CHDCreateMessageMailViewController : CHDAbstractViewController <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSArray *selectedPeopleArray;
-
+@property (nonatomic, strong) NSString *organizationId;
+@property (nonatomic, strong) CHDUser *currentUser;
+@property (nonatomic, strong) NSString *selectedSender;
 @end

@@ -412,6 +412,22 @@ static NSString *const kURLAPIOauthPart = @"";
     }];
 }
 
+-(RACSignal*)createPeopleMessageWithTitle:(NSString*) title message:(NSString*) message organizationId: (NSString*) organizationId from:(NSString *) from to:(NSArray*)to type:(NSString*) type{
+    NSDictionary *body = @{@"title": title, @"content": message, @"organizationId": organizationId, @"from":from, @"to":to, @"type": type};
+    return [[self resourcesForPath:@"people/messages" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+        NSError *error = nil;
+        NSData *data = body ? [NSJSONSerialization dataWithJSONObject:body options:0 error:&error] : nil;
+        request.body = data;
+        if (!data && body) {
+            NSLog(@"Error encoding JSON: %@", error);
+        }
+    }] doNext:^(id x) {
+        
+    }];
+}
+
 - (RACSignal*) createCommentForMessageId:(NSNumber*) targetId siteId: (NSString*) siteId body:(NSString*) message {
     SHPAPIManager *manager = self.manager;
     NSDictionary *body = @{@"body": message};

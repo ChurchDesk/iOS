@@ -14,8 +14,10 @@
 #import "CHDNewMessageTextFieldCell.h"
 #import "CHDCreateMessageMailViewController.h"
 #import "CHDCreateMessageMailViewModel.h"
+#import "CHDPeopleViewController.h"
 #import "SHPKeyboardEvent.h"
 #import "CHDStatusView.h"
+#import "CHDSite.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -32,7 +34,7 @@ static NSString* kCreateMessageSelectorCell = @"createMessageSelectorCell";
 static NSString* kCreateMessageTextFieldCell = @"createMessagTextFieldCell";
 static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 
-@interface CHDCreateMessageMailViewController ()
+@interface CHDCreateMessageMailViewController ()<UIActionSheetDelegate>
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) CHDCreateMessageMailViewModel *messageViewModel;
 @property (nonatomic, strong) CHDStatusView *statusView;
@@ -44,7 +46,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 {
     self = [super init];
     if (self) {
-        self.title = NSLocalizedString(@"Create message", @"");
+        self.title = NSLocalizedString(@"Create email", @"");
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonTouch)];
         UIBarButtonItem *sendButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Send", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
         [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
@@ -60,6 +62,9 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
+    if (_selectedSender == nil) {
+        _selectedSender = _currentUser.name;
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -67,6 +72,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     [super viewWillAppear:animated];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [self.tableView reloadData];
+    self.messageViewModel.selectedPeople = _selectedPeopleArray;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -88,6 +94,14 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 
 -(void) rightBarButtonTouch{
     [self.view endEditing:YES];
+    self.messageViewModel.selectedPeople = _selectedPeopleArray;
+    self.messageViewModel.organizationId = _organizationId;
+    if ([_selectedSender isEqualToString:_currentUser.name]) {
+        self.messageViewModel.from = @"user";
+    }
+    else
+        self.messageViewModel.from = @"church";
+    
     //create a new message
     [self didChangeSendingStatus:CHDStatusViewProcessing];
     [[self.messageViewModel sendMessage] subscribeError:^(NSError *error) {
@@ -113,19 +127,27 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         [self didChangeSendingStatus:CHDStatusViewError];
     } completed:^{
         [self didChangeSendingStatus:CHDStatusViewSuccess];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"successfulPeopleMessage"];
     }];
 }
 
 #pragma mark - TableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.view endEditing:YES];
     if((newMessagesSections)indexPath.section == selectReceiverSection && indexPath.row == 0){
-        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     
     if((newMessagesSections)indexPath.section == selectSenderSection  && indexPath.row == 0){
-        
+        CHDSite *selectedSite = [_currentUser.sites objectAtIndex:0];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Select Sender", @"")                                                                           delegate:self
+                                                        cancelButtonTitle:@"Cancel"
+                                                        destructiveButtonTitle:nil
+                                                        otherButtonTitles:_currentUser.name, selectedSite.name, nil];
+        [actionSheet showInView:self.view];
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 #pragma mark - TableView datasource
@@ -148,14 +170,16 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     if((newMessagesSections)indexPath.section == selectReceiverSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"To", @"");
-        cell.selectedLabel.text = [NSString stringWithFormat:@"%d %@", [_selectedPeopleArray count],  NSLocalizedString(@"People", @"")];
+        if (_selectedPeopleArray.count > 0) {
+            cell.selectedLabel.text = [NSString stringWithFormat:@"%d %@", [_selectedPeopleArray count],  NSLocalizedString(@"People", @"")];
+        }
         cell.dividerLineHidden = NO;
         return cell;
     }
     if((newMessagesSections)indexPath.section == selectSenderSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"From", @"");
-        RAC(cell.selectedLabel, text) = [RACObserve(self.messageViewModel, selectedGroupName) takeUntil: cell.rac_prepareForReuseSignal];
+        cell.selectedLabel.text = _selectedSender;
         cell.dividerLineHidden = YES;
         return cell;
     }
@@ -178,12 +202,21 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     return nil;
 }
 
-#pragma mark - Private actions
--(void) titleAsFirstResponder {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:subjectInputSection];
-    CHDNewMessageTextFieldCell* cell = (CHDNewMessageTextFieldCell*)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-    [cell.textField becomeFirstResponder];
+
+#pragma mark - Action Sheet delgate methods
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != 2) {
+       // CHDNewMessageSelectorCell* cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+        _selectedSender = [actionSheet buttonTitleAtIndex:buttonIndex];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:selectSenderSection];
+        //cell.selectedLabel.text = [actionSheet buttonTitleAtIndex:buttonIndex];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        
+    }
+    
 }
+
 
 #pragma mark - Lazy initialization
 
@@ -208,10 +241,6 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     
     //Change the state of the send button
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
-    
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge:@[RACObserve(self.messageViewModel, canSelectGroup), RACObserve(self.messageViewModel, canSelectParish)]]];
-    
-    [self shprac_liftSelector:@selector(titleAsFirstResponder) withSignal:[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1]];
 }
 
 -(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
