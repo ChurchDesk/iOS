@@ -127,7 +127,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         [self didChangeSendingStatus:CHDStatusViewError];
     } completed:^{
         [self didChangeSendingStatus:CHDStatusViewSuccess];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"successfulPeopleMessage"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ksuccessfulPeopleMessage];
     }];
 }
 

@@ -22,6 +22,7 @@
 #import "CHDPeople.h"
 #import "CHDAPICreate.h"
 #import "CHDNotificationSettings.h"
+#import "CHDSegment.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -351,10 +352,15 @@ static NSString *const kURLAPIOauthPart = @"";
 #pragma mark - People
 - (RACSignal*) getpeopleforOrganization: (NSString *) organizationId  {
      return [self resourcesForPath:[self resourcePathForGetPeople] resultClass:[CHDPeople class] withResource:nil request:^(SHPHTTPRequest *request) {
-        [request setValue:@"58" forQueryParameterKey:@"organizationId"];
+        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
     }];
 }
-     
+
+- (RACSignal*) getSegmentsforOrganization: (NSString *) organizationId  {
+    return [self resourcesForPath:[self resourcePathForGetSegments] resultClass:[CHDSegment class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+    }];
+}
 #pragma mark - Messages
 
 - (RACSignal*) getUnreadMessages{
@@ -540,6 +546,7 @@ static NSString *const kURLAPIOauthPart = @"";
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%ld", (long)messageId.integerValue];}
 - (NSString*)resourcePathForGetNotificationSettings{return [NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]];}
 -(NSString*)resourcePathForGetPeople {return @"people/people";}
+-(NSString*)resourcePathForGetSegments {return @"people/segments";}
 
 #pragma mark - Refresh token
 

@@ -12,6 +12,7 @@
 #define kmessagesTimestamp @"messagesTimestamp"
 #define knewMessageBool @"newMessageBool"
 #define kpeopleTimestamp @"peopleTimestamp"
+#define ksuccessfulPeopleMessage @"successfulPeopleMessage"
 
 #define kEvent @"event"
 #define kAbsence @"absence"

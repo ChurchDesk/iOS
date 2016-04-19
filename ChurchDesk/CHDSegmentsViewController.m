@@ -9,9 +9,10 @@
 #import "CHDSegmentsViewController.h"
 #import "CHDSegmentViewModel.h"
 #import "CHDPeopleTabBarController.h"
-#import "CHDEventTableViewCell.h"
+#import "CHDSelectorTableViewCell.h"
 #import "CHDUser.h"
 #import "CHDSegment.h"
+#import "MBProgressHUD.h"
 
 @interface CHDSegmentsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) UITableView* segmentstable;
@@ -29,9 +30,33 @@
     [super viewDidLoad];
     self.viewModel = [CHDSegmentViewModel new];
     [self makeViews];
+    [self makeConstraints];
+    [self makeBindings];
     // Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.segmentstable deselectRowAtIndexPath:[self.segmentstable indexPathForSelectedRow] animated:YES];
+    //[self.segmentstable reloadData];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:@"currentUser"];
+    _user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    NSDate *timestamp = [defaults valueForKey:kpeopleTimestamp];
+    NSDate *currentTime = [NSDate date];
+    NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
+    //self.chd_people_tabbarViewController.title = [NSString stringWithFormat:@"(%d) %@",NSLocalizedString(@"People", @""), self.viewModel.people.count];
+    
+    if (_user.sites.count > 0) {
+        CHDSite *selectedSite = [_user.sites objectAtIndex:0];
+        _organizationId = selectedSite.siteId;
+        self.viewModel.organizationId = _organizationId;
+    }
+    if (timeDifference/60 > 10) {
+        
+    }
+    self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = @"";
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -39,10 +64,6 @@
 
 -(void) makeViews {
     [self.view addSubview:self.segmentstable];
-    UIBarButtonItem *selectButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Select", @"") style:UIBarButtonItemStylePlain target:self action:@selector(selectAction:)];
-    [selectButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
-    [selectButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
-    self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem = selectButtonItem;
 }
 
 -(void) makeConstraints {
@@ -56,17 +77,23 @@
     }];
 }
 
-- (void)selectAction: (id) sender {
-    UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
-    if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
-        clickedButton.title = NSLocalizedString(@"Cancel", @"");
-        self.segmentstable.editing = YES;
-    }
-    else{// cancel
-        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
-        self.segmentstable.editing = NO;
-    }
+-(void) makeBindings {
+    RACSignal *newSegmentSignal = RACObserve(self.viewModel, segments);
+    [self.segmentstable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[newSegmentSignal]]];
+    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[RACObserve(self.viewModel, segments) map:^id(NSArray *segments) {
+        if(segments == nil){
+            return @NO;
+        }
+        return @(segments.count == 0);
+    }], nil];
+    
+    [self shprac_liftSelector:@selector(endRefresh) withSignal:newSegmentSignal];
+    
+    [self shprac_liftSelector:@selector(showProgress:) withSignal:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
+        return @NO;
+    }]];
 }
+
 
 -(void) emptyMessageShow: (BOOL) show {
     if(show){
@@ -84,16 +111,14 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
-}
 
 #pragma mark - UITableViewDataSource
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    //[self.viewModel reload];
+    [self.viewModel reload];
 }
 
 -(void)endRefresh {
@@ -101,49 +126,21 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString* cellIdentifier = @"peopleCell";
-    //CHDPeople* people = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    //    CHDUser* user = self.viewModel.user;
-    //    CHDSite* site = [user siteWithId:event.siteId];
-    
-    CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    //cell.locationLabel.text = people.email;
-    //    if ([event.type isEqualToString:kAbsence]) {
-    //cell.titleLabel.text = people.fullName;
-    //        cell.titleLabel.textColor = [UIColor grayColor];
-    //        cell.absenceIconView.hidden = false;
-    //    }
-    //    else{
-    //        cell.titleLabel.text = event.title;
-    //        cell.titleLabel.textColor = [UIColor chd_textDarkColor];
-    //cell.absenceIconView.hidden = true;
-    //    }
-    //    cell.parishLabel.text = user.sites.count > 1? site.name : @"";
-    //    cell.dateTimeLabel.text = [self.viewModel formattedTimeForEvent:event];
-    //
-    //    if ([event.type isEqualToString:kAbsence]) {
-    //        CHDAbsenceCategory *category = [self.viewModel.environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
-    //        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
-    //    }
-    //    else{
-    //        CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
-    //        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
-    //    }
-    //cell.tintColor = [UIColor chd_blueColor];
+    static NSString* cellIdentifier = @"segmentCell";
+    CHDSegment* segment = [self.viewModel.segments objectAtIndex:indexPath.row];
+    CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    cell.titleLabel.text = segment.name;
     return cell;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
-    return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
-}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return [self.viewModel.segments count];
 }
 
 -(UILabel *) emptyMessageLabel {
@@ -158,6 +155,46 @@
     return _emptyMessageLabel;
 }
 
+#pragma mark - Lazy Initialization
+
+-(UITableView*)segmentstable {
+    if(!_segmentstable){
+        _segmentstable = [[UITableView alloc] init];
+        _segmentstable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _segmentstable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
+        _segmentstable.backgroundColor = [UIColor chd_lightGreyColor];
+        [_segmentstable registerClass:[CHDSelectorTableViewCell class] forCellReuseIdentifier:@"segmentCell"];
+        _segmentstable.dataSource = self;
+        _segmentstable.delegate = self;
+        _segmentstable.allowsSelection = YES;
+    }
+    return _segmentstable;
+}
+
+-(UIRefreshControl*) refreshControl {
+    if(!_refreshControl){
+        _refreshControl = [[UIRefreshControl alloc] init];
+        [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _refreshControl;
+}
+
+-(void) showProgress: (BOOL) show {
+    if(show && self.navigationController.view) {
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.color = [UIColor colorWithWhite:0.7 alpha:0.7];
+        hud.labelColor = [UIColor chd_textDarkColor];
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+    }else{
+        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    }
+}
 /*
 #pragma mark - Navigation
 

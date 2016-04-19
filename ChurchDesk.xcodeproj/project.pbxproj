@@ -50,11 +50,12 @@
 		46E035A61CB6AB1100341255 /* CHDCreateMessageMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E035A51CB6AB1100341255 /* CHDCreateMessageMailViewController.m */; };
 		46E035A91CB6ABFE00341255 /* CHDCreateMessageMailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E035A81CB6ABFE00341255 /* CHDCreateMessageMailViewModel.m */; };
 		46E035AF1CBD403A00341255 /* CHDSegmentViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E035AE1CBD403A00341255 /* CHDSegmentViewModel.m */; };
-		46E035B21CBD46E300341255 /* CHDSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E035B11CBD46E300341255 /* CHDSegment.m */; };
 		46E468921C9866CC009FBD16 /* CHDPeopleTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468911C9866CC009FBD16 /* CHDPeopleTabBarController.m */; };
 		46E468961C9AEF90009FBD16 /* CHDPeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468951C9AEF90009FBD16 /* CHDPeopleViewController.m */; };
 		46E4689A1C9AF03E009FBD16 /* CHDSegmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E468991C9AF03E009FBD16 /* CHDSegmentsViewController.m */; };
 		46E4689D1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E4689C1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m */; };
+		46F21E8B1CC0EA94006308D1 /* CHDPeopleMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 46F21E8A1CC0EA94006308D1 /* CHDPeopleMessage.m */; };
+		46F21E8E1CC4D93F006308D1 /* CHDSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 46F21E8D1CC4D93F006308D1 /* CHDSegment.m */; };
 		60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372A4D78597E2DF0534955 /* CHDDescriptionViewController.m */; };
 		603721290490A87E0A937A15 /* CHDListSelectorConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 603723B9E6CC829C277B3170 /* CHDListSelectorConfigModel.m */; };
 		603721498133590553B49781 /* NSDate+ChurchDesk.m in Sources */ = {isa = PBXBuildFile; fileRef = 60372F542CA3A1835F4A2584 /* NSDate+ChurchDesk.m */; };
@@ -250,8 +251,6 @@
 		46E035A81CB6ABFE00341255 /* CHDCreateMessageMailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCreateMessageMailViewModel.m; sourceTree = "<group>"; };
 		46E035AD1CBD403A00341255 /* CHDSegmentViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSegmentViewModel.h; sourceTree = "<group>"; };
 		46E035AE1CBD403A00341255 /* CHDSegmentViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSegmentViewModel.m; sourceTree = "<group>"; };
-		46E035B01CBD46E300341255 /* CHDSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSegment.h; sourceTree = "<group>"; };
-		46E035B11CBD46E300341255 /* CHDSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSegment.m; sourceTree = "<group>"; };
 		46E468901C9866CC009FBD16 /* CHDPeopleTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeopleTabBarController.h; sourceTree = "<group>"; };
 		46E468911C9866CC009FBD16 /* CHDPeopleTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeopleTabBarController.m; sourceTree = "<group>"; };
 		46E468941C9AEF90009FBD16 /* CHDPeopleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeopleViewController.h; sourceTree = "<group>"; };
@@ -260,6 +259,10 @@
 		46E468991C9AF03E009FBD16 /* CHDSegmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSegmentsViewController.m; sourceTree = "<group>"; };
 		46E4689B1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSelectParishForPeopleViewController.h; sourceTree = "<group>"; };
 		46E4689C1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSelectParishForPeopleViewController.m; sourceTree = "<group>"; };
+		46F21E891CC0EA94006308D1 /* CHDPeopleMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPeopleMessage.h; sourceTree = "<group>"; };
+		46F21E8A1CC0EA94006308D1 /* CHDPeopleMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPeopleMessage.m; sourceTree = "<group>"; };
+		46F21E8C1CC4D93F006308D1 /* CHDSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSegment.h; sourceTree = "<group>"; };
+		46F21E8D1CC4D93F006308D1 /* CHDSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDSegment.m; sourceTree = "<group>"; };
 		6037208164EB947D72C14C08 /* CHDSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSite.h; sourceTree = "<group>"; };
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		60372089EA49349970627A31 /* CHDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUser.h; sourceTree = "<group>"; };
@@ -962,14 +965,16 @@
 				76A541901A9CBB0D00176D6D /* CHDInvitation.m */,
 				365DD9011A9CCDFA00CC6009 /* CHDMessage.h */,
 				365DD9021A9CCDFA00CC6009 /* CHDMessage.m */,
+				46F21E891CC0EA94006308D1 /* CHDPeopleMessage.h */,
+				46F21E8A1CC0EA94006308D1 /* CHDPeopleMessage.m */,
 				76A541A51A9F153900176D6D /* CHDEnvironment.h */,
 				76A541A61A9F153900176D6D /* CHDEnvironment.m */,
 				366899B41AADAA270061769F /* CHDAPICreate.h */,
 				366899B51AADAA270061769F /* CHDAPICreate.m */,
 				46E0359D1CAE712A00341255 /* CHDPeople.h */,
 				46E0359E1CAE712A00341255 /* CHDPeople.m */,
-				46E035B01CBD46E300341255 /* CHDSegment.h */,
-				46E035B11CBD46E300341255 /* CHDSegment.m */,
+				46F21E8C1CC4D93F006308D1 /* CHDSegment.h */,
+				46F21E8D1CC4D93F006308D1 /* CHDSegment.m */,
 				76A541A81A9F15B100176D6D /* CHDEventCategory.h */,
 				76A541A91A9F15B100176D6D /* CHDEventCategory.m */,
 				469481001C284DDA0000D9F1 /* CHDAbsenceCategory.h */,
@@ -1266,7 +1271,6 @@
 				7612474B1AA4ADE3004E7D05 /* CHDLoginViewModel.m in Sources */,
 				46E035AF1CBD403A00341255 /* CHDSegmentViewModel.m in Sources */,
 				769E7BA61A9480DC00812715 /* CHDDashboardEventsViewController.m in Sources */,
-				46E035B21CBD46E300341255 /* CHDSegment.m in Sources */,
 				76A541CD1A9F625700176D6D /* CHDDividerTableViewCell.m in Sources */,
 				760AF8A81AC4405900729427 /* CHDEventUserDetailsViewModel.m in Sources */,
 				368EA9531AB9BC820035A5F6 /* CHDDatePickerViewController.m in Sources */,
@@ -1362,6 +1366,7 @@
 				60372B2773E03375DB3D7088 /* CHDDashboardMessagesViewController.m in Sources */,
 				761247571AA5BA3C004E7D05 /* CHDCalendarViewModel.m in Sources */,
 				76A541CA1A9F600B00176D6D /* CHDEventLocationTableViewCell.m in Sources */,
+				46F21E8B1CC0EA94006308D1 /* CHDPeopleMessage.m in Sources */,
 				360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */,
 				76A541911A9CBB0D00176D6D /* CHDInvitation.m in Sources */,
 				36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */,
@@ -1393,6 +1398,7 @@
 				60372B88E086ED5360F1CB88 /* CHDCellBorderView.m in Sources */,
 				60372C3A1A8652BFBB41B2F8 /* CHDActiveFilterView.m in Sources */,
 				46E035A91CB6ABFE00341255 /* CHDCreateMessageMailViewModel.m in Sources */,
+				46F21E8E1CC4D93F006308D1 /* CHDSegment.m in Sources */,
 				46E468961C9AEF90009FBD16 /* CHDPeopleViewController.m in Sources */,
 				60372227DFC4EE17CC51BEB5 /* CHDOverlayView.m in Sources */,
 				46E468921C9866CC009FBD16 /* CHDPeopleTabBarController.m in Sources */,

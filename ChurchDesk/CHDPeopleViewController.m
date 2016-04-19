@@ -62,8 +62,13 @@
     if (timeDifference/60 > 10) {
         
     }
-    if ([defaults boolForKey:@"successfulPeopleMessage"]) {
+    if ([defaults boolForKey:ksuccessfulPeopleMessage]) {
         self.peopletable.editing = NO;
+        [defaults setBool:NO forKey:ksuccessfulPeopleMessage];
+    }
+    if (self.peopletable.isEditing) {
+        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Cancel", @"");
+    } else{
         self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
     }
     NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);

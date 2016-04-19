@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface CHDSegmentViewModel : NSObject
-
+@property (nonatomic, readonly) NSArray *segments;
+@property (nonatomic, strong) NSString *organizationId;
+-(void) reload;
 @end
