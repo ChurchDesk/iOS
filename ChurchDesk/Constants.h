@@ -2,8 +2,8 @@
 
 #define CHDInvitationNoAnswer @"no-answer"
 #define CHDInvitationAccept @"yes"
-#define CHDInvitationMaybe @"no"
-#define CHDInvitationDecline @"maybe"
+#define CHDInvitationMaybe @"maybe"
+#define CHDInvitationDecline @"no"
 
 #define keventsTimestamp @"eventsTimestamp"
 #define kcalendarTimestamp @"calendarTimestamp"

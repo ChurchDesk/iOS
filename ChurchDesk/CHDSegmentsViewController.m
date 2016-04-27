@@ -57,6 +57,7 @@
     }
     self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = @"";
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -93,7 +94,6 @@
         return @NO;
     }]];
 }
-
 
 -(void) emptyMessageShow: (BOOL) show {
     if(show){

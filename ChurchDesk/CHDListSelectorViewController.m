@@ -86,7 +86,6 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 #pragma mark - Table Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView cellForRowAtIndexPath:indexPath].selected = YES;
-    
     CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
     BOOL elementSelectedPreStage = element.selected;
     
@@ -111,7 +110,6 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
     
     [tableView cellForRowAtIndexPath:indexPath].selected = NO;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(section == 0 || section == [tableView numberOfSections]-1){

@@ -39,7 +39,6 @@
             return [RACSignal empty];
         }];
         
-        
         //Update signal
         CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
         

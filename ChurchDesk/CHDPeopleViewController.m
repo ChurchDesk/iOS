@@ -16,6 +16,7 @@
 #import "CHDPeople.h"
 #import "MBProgressHUD.h"
 #import "CHDCreateMessageMailViewController.h"
+#import "CHDPeopleProfileViewController.h"
 
 @interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UIScrollViewDelegate>
 @property (nonatomic, retain) UITableView* peopletable;
@@ -154,7 +155,10 @@
         }
     }
     else{
+        NSLog(@"selected id %@", selectedPeople.peopleId);
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        CHDPeopleProfileViewController *ppvc = [[CHDPeopleProfileViewController alloc] init];
+        [self.navigationController pushViewController:ppvc animated:YES];
     }
 }
 

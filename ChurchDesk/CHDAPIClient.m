@@ -35,7 +35,7 @@ static NSString *const kClientCredentialsID = @"3_516ahy5oztkwsgg88wwo4wo08wccg0
 static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40oskcw408448gk884w04c4s";
 
 
-#define PRODUCTION_ENVIRONMENT 0
+#define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
 static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
