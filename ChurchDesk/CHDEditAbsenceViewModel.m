@@ -136,6 +136,14 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
 
 - (RACSignal*) saveEvent {
     [self storeDefaults];
+    if (self.event.allDayEvent) {
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
+        NSDateComponents *components = [gregorian components: NSUIntegerMax fromDate: self.event.endDate];
+        [components setHour: 23];
+        [components setMinute: 59];
+        [components setSecond: 59];
+        self.event.endDate = [gregorian dateFromComponents: components];
+    }
     return [self.saveCommand execute:RACTuplePack(@(self.newEvent), self.event)];
 }
 
