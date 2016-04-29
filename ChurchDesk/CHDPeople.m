@@ -7,8 +7,18 @@
 //
 
 #import "CHDPeople.h"
+#import "CHDSegment.h"
 
 @implementation CHDPeople
+
+- (Class)nestedClassForArrayPropertyWithName:(NSString *)propName {
+    if([propName isEqualToString:@"segment"]){
+        return [CHDSegment class];
+    }
+    
+    return [super nestedClassForArrayPropertyWithName:propName];
+}
+
 - (NSString *)mapPropertyForPropertyWithName:(NSString *)propName {
     if ([propName isEqualToString:@"peopleId"]) {
         return @"id";

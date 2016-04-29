@@ -18,6 +18,7 @@
 #import "SHPKeyboardEvent.h"
 #import "CHDStatusView.h"
 #import "CHDSite.h"
+#import "CHDPeople.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -157,12 +158,10 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if((newMessagesSections)indexPath.section == divider1Section || (newMessagesSections)indexPath.section == divider2Section){
         CHDDividerTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageDividerCell forIndexPath:indexPath];
         return cell;
@@ -171,7 +170,16 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"To", @"");
         if (_selectedPeopleArray.count > 0) {
+            if (_selectedPeopleArray.count == 1) {
+                CHDPeople *selectedPeople = [_selectedPeopleArray firstObject];
+                cell.selectedLabel.text = selectedPeople.fullName;
+            }
+            else{
             cell.selectedLabel.text = [NSString stringWithFormat:@"%d %@", [_selectedPeopleArray count],  NSLocalizedString(@"People", @"")];
+            }
+        }
+        else{
+            cell.selectedLabel.text = @"";
         }
         cell.dividerLineHidden = NO;
         return cell;

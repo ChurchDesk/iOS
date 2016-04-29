@@ -158,6 +158,9 @@
         NSLog(@"selected id %@", selectedPeople.peopleId);
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
         CHDPeopleProfileViewController *ppvc = [[CHDPeopleProfileViewController alloc] init];
+        ppvc.people = selectedPeople;
+        ppvc.currentUser = _user;
+        ppvc.organizationId = _organizationId;
         [self.navigationController pushViewController:ppvc animated:YES];
     }
 }

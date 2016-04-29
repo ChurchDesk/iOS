@@ -7,7 +7,11 @@
 //
 
 #import "CHDAbstractViewController.h"
+#import "CHDPeople.h"
+#import "CHDUser.h"
 
 @interface CHDPeopleProfileViewController : CHDAbstractViewController
-
+@property (nonatomic, strong) CHDPeople *people;
+@property (nonatomic, strong) NSString *organizationId;
+@property (nonatomic, strong) CHDUser *currentUser;
 @end

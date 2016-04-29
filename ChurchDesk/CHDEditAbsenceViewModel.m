@@ -127,7 +127,6 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
                          CHDAbsenceEditSectionComments : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowComments],
                          //CHDAbsenceEditSectionMisc : miscRows,
                          CHDAbsenceEditSectionDivider : @[CHDAbsenceEditRowDivider]};
-    
 }
 
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section {

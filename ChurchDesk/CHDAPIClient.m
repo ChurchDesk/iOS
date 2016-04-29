@@ -35,12 +35,12 @@ static NSString *const kClientCredentialsID = @"3_516ahy5oztkwsgg88wwo4wo08wccg0
 static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40oskcw408448gk884w04c4s";
 
 
-#define PRODUCTION_ENVIRONMENT 1
+#define PRODUCTION_ENVIRONMENT 0
 
 #if PRODUCTION_ENVIRONMENT
 static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
 #else
-static NSString *const kBaseUrl = @"http://localhost:3000/";
+static NSString *const kBaseUrl = @"http://192.168.1.91:3000/";
 #endif
 static NSString *const kURLAPIPart = @"";
 static NSString *const kURLAPIOauthPart = @"";
@@ -200,7 +200,7 @@ static NSString *const kURLAPIOauthPart = @"";
         NSData *data = [NSJSONSerialization dataWithJSONObject:@{@"username": username, @"password": password, @"clientId": @"2"} options:0 error:&error];
         request.body = data;
     } withBodyContent:nil toResource:resource];
-    
+
     return [[[requestSignal replayLazily] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
