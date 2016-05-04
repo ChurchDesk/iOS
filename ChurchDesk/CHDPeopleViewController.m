@@ -27,7 +27,6 @@
 //@property(nonatomic, strong) UIBarButtonItem *hamburgerMenuButton;
 @property(nonatomic, strong) UIButton *messageButton;
 
-
 @end
 
 @implementation CHDPeopleViewController
@@ -35,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.viewModel = [CHDPeopleViewModel new];
+    self.viewModel.segmentIds = _segmentIds;
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
@@ -51,7 +51,7 @@
     NSDate *timestamp = [defaults valueForKey:kpeopleTimestamp];
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
-    [self.viewModel refreshData];
+    [self.viewModel reload];
     [self.peopletable reloadData];
     //self.chd_people_tabbarViewController.title = [NSString stringWithFormat:@"(%d) %@",NSLocalizedString(@"People", @""), self.viewModel.people.count];
     

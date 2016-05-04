@@ -45,7 +45,7 @@
 - (RACSignal*) deleteDeviceToken: (NSString*) deviceToken accessToken: (NSString*)accessToken;
 
 - (RACSignal*) clientAccessToken;
-- (RACSignal*) getpeopleforOrganization: (NSString *) organizationId;
+- (RACSignal*) getpeopleforOrganization: (NSString *) organizationId segmentIds :(NSArray *)segmentIds;
 - (RACSignal*) getSegmentsforOrganization: (NSString *) organizationId;
 -(RACSignal*)createPeopleMessageWithTitle:(NSString*) title message:(NSString*) message organizationId: (NSString*) organizationId from:(NSString *) from to:(NSArray*)to type:(NSString*) type;
 

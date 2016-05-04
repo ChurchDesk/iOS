@@ -11,4 +11,5 @@
 @interface CHDPeopleViewController : CHDAbstractViewController
 @property (nonatomic, strong) NSString *organizationId;
 @property(nonatomic, strong) NSMutableArray *selectedPeopleArray;
+@property(nonatomic, strong) NSArray *segmentIds;
 @end

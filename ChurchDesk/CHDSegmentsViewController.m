@@ -13,6 +13,7 @@
 #import "CHDUser.h"
 #import "CHDSegment.h"
 #import "MBProgressHUD.h"
+#import "CHDPeopleViewController.h"
 
 @interface CHDSegmentsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) UITableView* segmentstable;
@@ -113,6 +114,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    CHDSegment* segment = [self.viewModel.segments objectAtIndex:indexPath.row];
+    CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
+    pvc.organizationId = _organizationId;
+    pvc.segmentIds = [NSArray arrayWithObjects:segment.segmentId, nil];
+    pvc.organizationId = _organizationId;
+    [self.navigationController pushViewController:pvc animated:YES];
 }
 
 

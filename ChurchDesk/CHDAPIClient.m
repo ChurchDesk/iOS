@@ -350,9 +350,12 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 #pragma mark - People
-- (RACSignal*) getpeopleforOrganization: (NSString *) organizationId  {
+- (RACSignal*) getpeopleforOrganization: (NSString *) organizationId segmentIds :(NSArray *)segmentIds {
      return [self resourcesForPath:[self resourcePathForGetPeople] resultClass:[CHDPeople class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+         if (segmentIds.count > 0) {
+             [request setValueArray:segmentIds forQueryParameterKey:@"segmentIds"];
+         }
     }];
 }
 

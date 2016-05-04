@@ -22,7 +22,8 @@
     if (self) {
        
         //Initial signal
-        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58"] map:^id(NSArray* people) {
+        NSLog(@"segment Ids %@", _segmentIds);
+        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58" segmentIds:_segmentIds] map:^id(NSArray* people) {
             RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
                 if (people.fullName.length >1) {
                     return YES;
@@ -50,7 +51,7 @@
             [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
             return [regex rangeOfString:resourcePath].location != NSNotFound;
         }] flattenMap:^RACStream *(id value) {
-            return [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58"] map:^id(NSArray* people) {
+            return [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58" segmentIds:_segmentIds] map:^id(NSArray* people) {
                 RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
                     if (people.fullName.length >1) {
                         return YES;
@@ -104,5 +105,6 @@
     CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
     NSString *resoursePath = [apiClient resourcePathForGetPeople];
     [[[apiClient manager] cache] invalidateObjectsMatchingRegex:resoursePath];
+    [self refreshData];
 }
 @end
