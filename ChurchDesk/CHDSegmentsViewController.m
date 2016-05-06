@@ -119,6 +119,7 @@
     pvc.organizationId = _organizationId;
     pvc.segmentIds = [NSArray arrayWithObjects:segment.segmentId, nil];
     pvc.organizationId = _organizationId;
+    pvc.title = segment.name;
     [self.navigationController pushViewController:pvc animated:YES];
 }
 

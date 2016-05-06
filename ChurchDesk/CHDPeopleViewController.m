@@ -33,8 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewModel = [CHDPeopleViewModel new];
-    self.viewModel.segmentIds = _segmentIds;
+    self.viewModel = [[CHDPeopleViewModel alloc] initWithOrganizationId:_organizationId segmentIds:_segmentIds];
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
@@ -58,7 +57,6 @@
     if (_user.sites.count > 0) {
         CHDSite *selectedSite = [_user.sites objectAtIndex:0];
         _organizationId = selectedSite.siteId;
-        self.viewModel.organizationId = _organizationId;
     }
     if (timeDifference/60 > 10) {
         
@@ -67,10 +65,18 @@
         self.peopletable.editing = NO;
         [defaults setBool:NO forKey:ksuccessfulPeopleMessage];
     }
+    NSString *rightBarButtonTitle;
     if (self.peopletable.isEditing) {
-        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Cancel", @"");
-    } else{
-        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
+        rightBarButtonTitle = NSLocalizedString(@"Cancel", @"");
+    }
+    else {
+        rightBarButtonTitle = NSLocalizedString(@"Select", @"");
+    }
+    if (_segmentIds.count > 0) {
+        self.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
+    }
+    else {
+        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
     }
     NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);
     NSLog(@"user %@", _user.name);
@@ -82,7 +88,13 @@
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Select", @"") style:UIBarButtonItemStylePlain target:self action:@selector(selectAction:)];
     [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
     [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
-    self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem = saveButtonItem;
+    if (_segmentIds.count > 0) {
+        self.navigationItem.rightBarButtonItem = saveButtonItem;
+    }
+    else{
+        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem = saveButtonItem;
+    }
+    
 }
 
 -(void) makeConstraints {
@@ -98,7 +110,7 @@
 
 -(void) makeBindings {
     RACSignal *newPeopleSignal = RACObserve(self.viewModel, people);
-    [self.peopletable shprac_liftSelector:@selector(reloadData) withSignal:[RACSignal merge: @[newPeopleSignal]]];
+    [self shprac_liftSelector:@selector(updatePeople) withSignal:[RACSignal merge:@[newPeopleSignal]]];
     [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[RACObserve(self.viewModel, people) map:^id(NSArray *people) {
         if(people == nil){
             return @NO;
@@ -113,6 +125,11 @@
     }]];
 }
 
+-(void) updatePeople{
+    [self.viewModel refreshData];
+    [self.peopletable reloadData];
+}
+
 - (void)selectAction: (id) sender {
     UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
     if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
@@ -121,7 +138,12 @@
     }
     else{// cancel
         [_selectedPeopleArray removeAllObjects];
-        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
+        if (_segmentIds.count > 0) {
+            self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
+        }
+        else{
+            self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
+        }
         self.peopletable.editing = NO;
     }
 }

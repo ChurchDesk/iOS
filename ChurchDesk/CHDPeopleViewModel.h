@@ -10,10 +10,9 @@
 
 @interface CHDPeopleViewModel : NSObject
 @property (nonatomic, readonly) NSArray *people;
-@property (nonatomic, strong) NSString *organizationId;
 @property (nonatomic, strong) NSMutableArray *sectionIndices;
 @property (nonatomic, strong) NSMutableArray *peopleArrangedAccordingToIndex ;
-@property (nonatomic, strong) NSArray *segmentIds;
+- (instancetype)initWithOrganizationId: (NSString*) organizationId segmentIds :(NSArray *)segmentIds;
 -(void) reload;
 -(void) refreshData;
 @end

@@ -17,13 +17,13 @@
 @property (nonatomic, strong) NSArray *people;
 @end
 @implementation CHDPeopleViewModel
-- (instancetype)init {
+- (instancetype)initWithOrganizationId: (NSString*) organizationId segmentIds :(NSArray *)segmentIds {
     self = [super init];
     if (self) {
        
         //Initial signal
-        NSLog(@"segment Ids %@", _segmentIds);
-        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58" segmentIds:_segmentIds] map:^id(NSArray* people) {
+        NSLog(@"segment Ids %@", segmentIds);
+        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58" segmentIds:segmentIds] map:^id(NSArray* people) {
             RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
                 if (people.fullName.length >1) {
                     return YES;
@@ -51,7 +51,7 @@
             [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
             return [regex rangeOfString:resourcePath].location != NSNotFound;
         }] flattenMap:^RACStream *(id value) {
-            return [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58" segmentIds:_segmentIds] map:^id(NSArray* people) {
+            return [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58" segmentIds:segmentIds] map:^id(NSArray* people) {
                 RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
                     if (people.fullName.length >1) {
                         return YES;
@@ -74,7 +74,6 @@
 
 -(void) refreshData{
     _sectionIndices = [[NSMutableArray alloc] init];
-    
     _peopleArrangedAccordingToIndex = [[NSMutableArray alloc] init];
     NSArray *alphaArray=[[NSArray alloc] initWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
     NSMutableArray *tempArray;
@@ -105,6 +104,5 @@
     CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
     NSString *resoursePath = [apiClient resourcePathForGetPeople];
     [[[apiClient manager] cache] invalidateObjectsMatchingRegex:resoursePath];
-    [self refreshData];
 }
 @end

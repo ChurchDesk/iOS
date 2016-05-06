@@ -354,7 +354,7 @@ static NSString *const kURLAPIOauthPart = @"";
      return [self resourcesForPath:[self resourcePathForGetPeople] resultClass:[CHDPeople class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:organizationId forQueryParameterKey:@"organizationId"];
          if (segmentIds.count > 0) {
-             [request setValueArray:segmentIds forQueryParameterKey:@"segmentIds"];
+             [request setValue:[segmentIds objectAtIndex:0] forQueryParameterKey:@"segmentIds[]"];
          }
     }];
 }
@@ -364,6 +364,7 @@ static NSString *const kURLAPIOauthPart = @"";
         [request setValue:organizationId forQueryParameterKey:@"organizationId"];
     }];
 }
+
 #pragma mark - Messages
 
 - (RACSignal*) getUnreadMessages{
@@ -433,7 +434,6 @@ static NSString *const kURLAPIOauthPart = @"";
             NSLog(@"Error encoding JSON: %@", error);
         }
     }] doNext:^(id x) {
-        
     }];
 }
 
