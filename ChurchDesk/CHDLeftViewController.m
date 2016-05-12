@@ -116,7 +116,7 @@
         CHDSite *organization = [user.sites objectAtIndex:0];
         NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:user];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:encodedUser forKey:@"currentUser"];
+        [defaults setObject:encodedUser forKey:kcurrentuser];
         [defaults setValue:user.userId forKey:@"userId"];
         [defaults setValue:organization.siteId forKey:@"organizationId"];
         return user.name;
@@ -224,10 +224,16 @@
                 [Heap track:@"Calendar clicked"];
                 break;
             case 3:{
-//                CHDSelectParishForPeopleViewController *peopleTabBar = [CHDSelectParishForPeopleViewController new];
-//                UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
-//                //People
-//                item.viewController = peopleNavigationController;
+                //People
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                NSData *encodedObject = [defaults objectForKey:kcurrentuser];
+                CHDUser *user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+                if (user.sites.count > 1) {
+                    CHDSelectParishForPeopleViewController *selectParishViewController = [CHDSelectParishForPeopleViewController new];
+                    selectParishViewController.organizations = user.sites;
+                    UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:selectParishViewController];
+                    item.viewController = peopleNavigationController;
+                }
                 [Heap track:@"People clicked"];
                 break;
             }

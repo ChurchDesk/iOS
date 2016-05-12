@@ -8,8 +8,8 @@
 
 #import "CHDPeopleViewModel.h"
 #import "CHDAPIClient.h"
-#import "CHDUser.h"
 #import "CHDPeople.h"
+#import "CHDSite.h"
 #import "CHDAuthenticationManager.h"
 #import "NSDate+ChurchDesk.h"
 
@@ -17,13 +17,21 @@
 @property (nonatomic, strong) NSArray *people;
 @end
 @implementation CHDPeopleViewModel
-- (instancetype)initWithOrganizationId: (NSString*) organizationId segmentIds :(NSArray *)segmentIds {
+- (instancetype)initWithSegmentIds :(NSArray *)segmentIds {
     self = [super init];
     if (self) {
-       
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedObject = [defaults objectForKey:kcurrentuser];
+        _user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+        if (_user.sites.count > 1) {
+            _organizationId = [defaults valueForKey:kselectedOrganizationIdforPeople];
+        }
+        else{
+            CHDSite *site = [_user.sites objectAtIndex:0];
+            _organizationId = site.siteId;
+        }
         //Initial signal
-        NSLog(@"segment Ids %@", segmentIds);
-        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58" segmentIds:segmentIds] map:^id(NSArray* people) {
+        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:_organizationId segmentIds:segmentIds] map:^id(NSArray* people) {
             RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
                 if (people.fullName.length >1) {
                     return YES;
@@ -51,7 +59,7 @@
             [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
             return [regex rangeOfString:resourcePath].location != NSNotFound;
         }] flattenMap:^RACStream *(id value) {
-            return [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:@"58" segmentIds:segmentIds] map:^id(NSArray* people) {
+            return [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:_organizationId segmentIds:segmentIds] map:^id(NSArray* people) {
                 RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
                     if (people.fullName.length >1) {
                         return YES;

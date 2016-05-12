@@ -9,5 +9,5 @@
 #import "CHDAbstractViewController.h"
 
 @interface CHDSelectParishForPeopleViewController : CHDAbstractViewController
-
+@property (nonatomic, strong) NSArray *organizations;
 @end

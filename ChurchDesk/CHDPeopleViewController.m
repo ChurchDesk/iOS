@@ -21,10 +21,8 @@
 @interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UIScrollViewDelegate>
 @property (nonatomic, retain) UITableView* peopletable;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
-@property (nonatomic, readonly) CHDUser *user;
 @property(nonatomic, strong) CHDPeopleViewModel *viewModel;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
-//@property(nonatomic, strong) UIBarButtonItem *hamburgerMenuButton;
 @property(nonatomic, strong) UIButton *messageButton;
 
 @end
@@ -33,11 +31,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewModel = [[CHDPeopleViewModel alloc] initWithOrganizationId:_organizationId segmentIds:_segmentIds];
+    self.viewModel = [[CHDPeopleViewModel alloc] initWithSegmentIds:_segmentIds];
     [self makeViews];
     [self makeConstraints];
     [self makeBindings];
-    _selectedPeopleArray = [[NSMutableArray alloc] init];
     // Do any additional setup after loading the view.
 }
 
@@ -45,19 +42,19 @@
     [super viewWillAppear:animated];
     //[self.peopletable deselectRowAtIndexPath:[self.peopletable indexPathForSelectedRow] animated:YES];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSData *encodedObject = [defaults objectForKey:@"currentUser"];
-    _user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
     NSDate *timestamp = [defaults valueForKey:kpeopleTimestamp];
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
-    [self.viewModel reload];
+    //[self getSelectedPeopleArray];
+    if (_selectedPeopleArray.count == 0) {
+        _selectedPeopleArray = [[NSMutableArray alloc] init];
+    }
+    else{
+        self.peopletable.editing = YES;
+    }
+//    [self.viewModel reload];
     [self.peopletable reloadData];
     //self.chd_people_tabbarViewController.title = [NSString stringWithFormat:@"(%d) %@",NSLocalizedString(@"People", @""), self.viewModel.people.count];
-    
-    if (_user.sites.count > 0) {
-        CHDSite *selectedSite = [_user.sites objectAtIndex:0];
-        _organizationId = selectedSite.siteId;
-    }
     if (timeDifference/60 > 10) {
         
     }
@@ -79,7 +76,7 @@
         self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
     }
     NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);
-    NSLog(@"user %@", _user.name);
+    NSLog(@"people %d", _selectedPeopleArray.count);
 }
 
 -(void) makeViews {
@@ -130,15 +127,41 @@
     [self.peopletable reloadData];
 }
 
+-(void)saveSelectedPeopleArray{
+    NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:_selectedPeopleArray];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:encodedUser forKey:kselectedPeopleArray];
+}
+
+-(void)getSelectedPeopleArray{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:kselectedPeopleArray];
+    _selectedPeopleArray = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+}
+
+-(BOOL) isPeopleSelected :(CHDPeople *) people{
+    for (CHDPeople *selectedPeople in _selectedPeopleArray) {
+        if ([selectedPeople.peopleId isEqualToString:people.peopleId]) {
+            return YES;
+            break;
+        }
+    }
+    return NO;
+}
 - (void)selectAction: (id) sender {
     UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
     if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
         clickedButton.title = NSLocalizedString(@"Cancel", @"");
         self.peopletable.editing = YES;
+        if (_segmentIds.count > 0) {
+            self.navigationItem.hidesBackButton = YES;
+        }
     }
     else{// cancel
         [_selectedPeopleArray removeAllObjects];
+        //[self saveSelectedPeopleArray];
         if (_segmentIds.count > 0) {
+            self.navigationItem.hidesBackButton = NO;
             self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
         }
         else{
@@ -172,8 +195,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CHDPeople* selectedPeople = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (self.peopletable.isEditing) {
-        if (![_selectedPeopleArray containsObject:selectedPeople]) {
+        if (![self isPeopleSelected:selectedPeople]) {
             [_selectedPeopleArray addObject:selectedPeople];
+            //[self saveSelectedPeopleArray];
         }
     }
     else{
@@ -181,18 +205,23 @@
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
         CHDPeopleProfileViewController *ppvc = [[CHDPeopleProfileViewController alloc] init];
         ppvc.people = selectedPeople;
-        ppvc.currentUser = _user;
-        ppvc.organizationId = _organizationId;
+        ppvc.currentUser = self.viewModel.user;
+        ppvc.organizationId = self.viewModel.organizationId;
         [self.navigationController pushViewController:ppvc animated:YES];
     }
+    
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     CHDPeople* selectedPeople = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    if ([_selectedPeopleArray containsObject:selectedPeople]) {
-        [_selectedPeopleArray removeObject:selectedPeople];
+    for (CHDPeople *selectedPeopleFromArray in _selectedPeopleArray) {
+        if ([selectedPeopleFromArray.peopleId isEqualToString:selectedPeople.peopleId]) {
+            [_selectedPeopleArray removeObject:selectedPeopleFromArray];
+            //[self saveSelectedPeopleArray];
+            break;
+        }
     }
-}
+   }
 
 #pragma mark - UITableViewDataSource
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -242,8 +271,10 @@
 //        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
 //    }
     cell.tintColor = [UIColor chd_blueColor];
-    if ([tableView isEditing] && [_selectedPeopleArray containsObject:people]) {
-        [cell setSelected:YES animated:NO];
+    if (tableView.isEditing) {
+        if ([self isPeopleSelected:people]) {
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
     }
     return cell;
 }
@@ -276,8 +307,8 @@
 - (void) createMessageShow: (id) sender {
     CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
     newMessageViewController.selectedPeopleArray = _selectedPeopleArray;
-    newMessageViewController.currentUser = _user;
-    newMessageViewController.organizationId = _organizationId;
+    newMessageViewController.currentUser = self.viewModel.user;
+    newMessageViewController.organizationId = self.viewModel.organizationId;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
     [Heap track:@"Create new people message"];
     [self presentViewController:navigationVC animated:YES completion:nil];

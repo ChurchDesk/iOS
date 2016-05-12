@@ -7,10 +7,13 @@
 //
 
 #import "CHDSelectParishForPeopleViewController.h"
+#import "UINavigationController+ChurchDesk.h"
 #import "CHDPeopleTabBarController.h"
+#import "CHDSelectorTableViewCell.h"
+#import "CHDSite.h"
 
-@interface CHDSelectParishForPeopleViewController ()
-
+@interface CHDSelectParishForPeopleViewController () <UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, retain) UITableView* parishtable;
 @end
 
 @implementation CHDSelectParishForPeopleViewController
@@ -18,10 +21,77 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self makeViews];
+    [self makeConstraints];
     // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    
+}
+
+-(void) makeViews {
+    [self.view addSubview:self.parishtable];
+}
+
+-(void) makeConstraints {
+    UIView* superview = self.view;
+    [self.parishtable mas_makeConstraints:^(MASConstraintMaker *make){
+        make.edges.equalTo(superview);
+    }];
+    [self.parishtable mas_makeConstraints:^(MASConstraintMaker *make){
+        make.right.equalTo(superview);
+        make.bottom.equalTo(superview);
+    }];
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    CHDSite * site = [_organizations objectAtIndex:indexPath.row];
+    [[NSUserDefaults standardUserDefaults] setValue:site.siteId forKey:kselectedOrganizationIdforPeople];
+    CHDPeopleTabBarController *peopleTabBar = [CHDPeopleTabBarController peopleTabBarViewController];
+    UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
+    [self.navigationController presentViewController:peopleNavigationController animated:YES completion:nil];
+}
+
+
+#pragma mark - UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString* cellIdentifier = @"parishCell";
+    CHDSite * site = [_organizations objectAtIndex:indexPath.row];
+    CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    cell.titleLabel.text = site.name;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    return cell;
+}
+
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [_organizations count];
+}
+
+#pragma mark - Lazy Initialization
+
+-(UITableView*)parishtable {
+    if(!_parishtable){
+        _parishtable = [[UITableView alloc] init];
+        _parishtable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _parishtable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
+        _parishtable.backgroundColor = [UIColor chd_lightGreyColor];
+        [_parishtable registerClass:[CHDSelectorTableViewCell class] forCellReuseIdentifier:@"parishCell"];
+        _parishtable.dataSource = self;
+        _parishtable.delegate = self;
+        _parishtable.allowsSelection = YES;
+    }
+    return _parishtable;
 }
 
 - (void)didReceiveMemoryWarning {

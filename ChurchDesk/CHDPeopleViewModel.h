@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CHDUser.h"
 
 @interface CHDPeopleViewModel : NSObject
 @property (nonatomic, readonly) NSArray *people;
 @property (nonatomic, strong) NSMutableArray *sectionIndices;
 @property (nonatomic, strong) NSMutableArray *peopleArrangedAccordingToIndex ;
-- (instancetype)initWithOrganizationId: (NSString*) organizationId segmentIds :(NSArray *)segmentIds;
+@property (nonatomic, strong) NSString *organizationId;
+@property (nonatomic, strong) CHDUser *user;
+- (instancetype)initWithSegmentIds :(NSArray *)segmentIds;
 -(void) reload;
 -(void) refreshData;
 @end

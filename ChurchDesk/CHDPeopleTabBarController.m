@@ -136,7 +136,6 @@
     [previousVC willMoveToParentViewController:nil];
     [previousVC.view removeFromSuperview];
     [previousVC removeFromParentViewController];
-    
     [self addChildViewController:selectedVC];
     [self.view addSubview:selectedVC.view];
     [selectedVC.view mas_makeConstraints:^(MASConstraintMaker *make) {

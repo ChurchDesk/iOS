@@ -18,7 +18,6 @@
 @interface CHDSegmentsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) UITableView* segmentstable;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
-@property (nonatomic, readonly) CHDUser *user;
 @property(nonatomic, strong) CHDSegmentViewModel *viewModel;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 //@property(nonatomic, strong) UIBarButtonItem *hamburgerMenuButton;
@@ -41,18 +40,9 @@
     [self.segmentstable deselectRowAtIndexPath:[self.segmentstable indexPathForSelectedRow] animated:YES];
     //[self.segmentstable reloadData];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSData *encodedObject = [defaults objectForKey:@"currentUser"];
-    _user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
     NSDate *timestamp = [defaults valueForKey:kpeopleTimestamp];
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
-    //self.chd_people_tabbarViewController.title = [NSString stringWithFormat:@"(%d) %@",NSLocalizedString(@"People", @""), self.viewModel.people.count];
-    
-    if (_user.sites.count > 0) {
-        CHDSite *selectedSite = [_user.sites objectAtIndex:0];
-        _organizationId = selectedSite.siteId;
-        self.viewModel.organizationId = _organizationId;
-    }
     if (timeDifference/60 > 10) {
         
     }
@@ -75,7 +65,7 @@
     }];
     [self.segmentstable mas_makeConstraints:^(MASConstraintMaker *make){
         make.right.equalTo(superview);
-        make.bottom.equalTo(superview).offset(-5);
+        make.bottom.equalTo(superview);
     }];
 }
 
@@ -116,9 +106,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CHDSegment* segment = [self.viewModel.segments objectAtIndex:indexPath.row];
     CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
-    pvc.organizationId = _organizationId;
     pvc.segmentIds = [NSArray arrayWithObjects:segment.segmentId, nil];
-    pvc.organizationId = _organizationId;
     pvc.title = segment.name;
     [self.navigationController pushViewController:pvc animated:YES];
 }
@@ -138,6 +126,7 @@
     CHDSegment* segment = [self.viewModel.segments objectAtIndex:indexPath.row];
     CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.titleLabel.text = segment.name;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 

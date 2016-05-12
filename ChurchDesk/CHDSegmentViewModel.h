@@ -10,6 +10,6 @@
 
 @interface CHDSegmentViewModel : NSObject
 @property (nonatomic, readonly) NSArray *segments;
-@property (nonatomic, strong) NSString *organizationId;
+- (instancetype)initWithOrganizationId :(NSString *)organizationId;
 -(void) reload;
 @end

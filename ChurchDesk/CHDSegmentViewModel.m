@@ -14,12 +14,12 @@
 #import "NSDate+ChurchDesk.h"
 
 @implementation CHDSegmentViewModel
-- (instancetype)init {
+- (instancetype)initWithOrganizationId :(NSString *)organizationId {
     self = [super init];
     if (self) {
         
         //Initial signal
-        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getSegmentsforOrganization:@"58"] map:^id(NSArray* segments) {
+        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getSegmentsforOrganization:organizationId] map:^id(NSArray* segments) {
             RACSequence *results = [segments.rac_sequence filter:^BOOL(CHDSegment* segment) {
                 if (segment.name.length >1) {
                     return YES;
@@ -47,7 +47,7 @@
             [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
             return [regex rangeOfString:resourcePath].location != NSNotFound;
         }] flattenMap:^RACStream *(id value) {
-            return [[[[CHDAPIClient sharedInstance] getSegmentsforOrganization:@"58"] map:^id(NSArray* segments) {
+            return [[[[CHDAPIClient sharedInstance] getSegmentsforOrganization:organizationId] map:^id(NSArray* segments) {
                 RACSequence *results = [segments.rac_sequence filter:^BOOL(CHDSegment* segment) {
                     if (segment.name.length >1) {
                         return YES;

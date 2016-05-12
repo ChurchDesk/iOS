@@ -13,6 +13,9 @@
 #define knewMessageBool @"newMessageBool"
 #define kpeopleTimestamp @"peopleTimestamp"
 #define ksuccessfulPeopleMessage @"successfulPeopleMessage"
+#define kselectedPeopleArray @"selectedPeopleArray"
+#define kcurrentuser @"currentUser"
+#define kselectedOrganizationIdforPeople @"selectedOrganizationIdForPeople"
 
 #define kEvent @"event"
 #define kAbsence @"absence"
