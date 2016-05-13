@@ -35,7 +35,7 @@ static NSString *const kClientCredentialsID = @"3_516ahy5oztkwsgg88wwo4wo08wccg0
 static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40oskcw408448gk884w04c4s";
 
 
-#define PRODUCTION_ENVIRONMENT 0
+#define PRODUCTION_ENVIRONMENT 1
 
 #if PRODUCTION_ENVIRONMENT
 static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
@@ -422,8 +422,8 @@ static NSString *const kURLAPIOauthPart = @"";
     }];
 }
 
--(RACSignal*)createPeopleMessageWithTitle:(NSString*) title message:(NSString*) message organizationId: (NSString*) organizationId from:(NSString *) from to:(NSArray*)to type:(NSString*) type{
-    NSDictionary *body = @{@"title": title, @"content": message, @"organizationId": organizationId, @"from":from, @"to":to, @"type": type};
+-(RACSignal*)createPeopleMessageWithTitle:(NSString*) title message:(NSString*) message organizationId: (NSString*) organizationId from:(NSString *) from to:(NSArray*)to type:(NSString*) type scheduled:(NSString *)scheduled{
+    NSDictionary *body = @{@"title": title, @"content": message, @"organizationId": organizationId, @"from":from, @"to":to, @"type": type, @"scheduled":scheduled};
     return [[self resourcesForPath:@"people/messages" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
         [request setValue:organizationId forQueryParameterKey:@"organizationId"];

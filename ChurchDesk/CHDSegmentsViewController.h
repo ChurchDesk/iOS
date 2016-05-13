@@ -9,5 +9,4 @@
 #import "CHDAbstractViewController.h"
 
 @interface CHDSegmentsViewController : CHDAbstractViewController
-@property (nonatomic, strong) NSString *organizationId;
 @end

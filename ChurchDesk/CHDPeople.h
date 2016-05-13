@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *peopleId;
 @property (nonatomic, strong) NSDictionary *contact;
+@property (nonatomic, strong) NSDictionary *picture;
 @property (nonatomic, strong) NSDate *birthday;
 @property (nonatomic, strong) NSDate *registered;
 @property (nonatomic, strong) NSString *gender;

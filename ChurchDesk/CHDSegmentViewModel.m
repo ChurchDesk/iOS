@@ -14,12 +14,21 @@
 #import "NSDate+ChurchDesk.h"
 
 @implementation CHDSegmentViewModel
-- (instancetype)initWithOrganizationId :(NSString *)organizationId {
+- (instancetype)init{
     self = [super init];
     if (self) {
-        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedObject = [defaults objectForKey:kcurrentuser];
+        CHDUser *user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+        if (user.sites.count > 1) {
+            _organizationId = [defaults valueForKey:kselectedOrganizationIdforPeople];
+        }
+        else{
+            CHDSite *site = [user.sites objectAtIndex:0];
+            _organizationId = site.siteId;
+        }
         //Initial signal
-        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getSegmentsforOrganization:organizationId] map:^id(NSArray* segments) {
+        RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getSegmentsforOrganization:_organizationId] map:^id(NSArray* segments) {
             RACSequence *results = [segments.rac_sequence filter:^BOOL(CHDSegment* segment) {
                 if (segment.name.length >1) {
                     return YES;
@@ -47,7 +56,7 @@
             [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
             return [regex rangeOfString:resourcePath].location != NSNotFound;
         }] flattenMap:^RACStream *(id value) {
-            return [[[[CHDAPIClient sharedInstance] getSegmentsforOrganization:organizationId] map:^id(NSArray* segments) {
+            return [[[[CHDAPIClient sharedInstance] getSegmentsforOrganization:_organizationId] map:^id(NSArray* segments) {
                 RACSequence *results = [segments.rac_sequence filter:^BOOL(CHDSegment* segment) {
                     if (segment.name.length >1) {
                         return YES;

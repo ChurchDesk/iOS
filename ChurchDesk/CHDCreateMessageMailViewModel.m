@@ -7,6 +7,7 @@
 //
 
 #import "CHDCreateMessageMailViewModel.h"
+#import "NSDateFormatter+ChurchDesk.h"
 #import "CHDPeopleMessage.h"
 #import "CHDAPIClient.h"
 
@@ -40,6 +41,8 @@
     message.from = self.from;
     message.type = @"email";
     message.to = [message toArray:self.selectedPeople];
+    NSDateFormatter *dateFormatter = [NSDateFormatter chd_apiDateFormatter];
+    message.scheduled = [dateFormatter stringFromDate:[NSDate date]];
     RACSignal *saveSignal = [self.saveCommand execute:RACTuplePack(message)];
     return saveSignal;
 }
@@ -50,10 +53,11 @@
         _saveCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
             CHDPeopleMessage *message = tuple.first;
             
-            return [[CHDAPIClient sharedInstance] createPeopleMessageWithTitle:message.title message:message.content organizationId:message.organizationId from:message.from to:message.to type:message.type];
+            return [[CHDAPIClient sharedInstance] createPeopleMessageWithTitle:message.title message:message.content organizationId:message.organizationId from:message.from to:message.to type:message.type scheduled:message.scheduled];
         }];
     }
     return _saveCommand;
 }
+
 
 @end

@@ -42,12 +42,12 @@
                   moduleName = "ChurchDesk"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/chirag/Documents/Projects/ChurchDesk_prod/ios/ChurchDesk/CHDEventAlertView.m"
-                  timestampString = "481180366.130973"
+                  timestampString = "484821010.027782"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "137"
                   endingLineNumber = "137"
-                  offsetFromSymbolStart = "60">
+                  offsetFromSymbolStart = "64">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -57,12 +57,12 @@
                   moduleName = "ChurchDesk"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/chirag/Documents/Projects/ChurchDesk_prod/ios/ChurchDesk/CHDEventAlertView.m"
-                  timestampString = "481180366.131203"
+                  timestampString = "484821010.027974"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "137"
                   endingLineNumber = "137"
-                  offsetFromSymbolStart = "21">
+                  offsetFromSymbolStart = "28">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -70,16 +70,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ChurchDesk/CHDSegmentsViewController.m"
-            timestampString = "481179708.385705"
+            filePath = "ChurchDesk/CHDCreateMessageMailViewModel.m"
+            timestampString = "484820692.815899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "-init"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -93,6 +93,10 @@
 //    [self rac_liftSelector:@selector(userImageWithUrl:) withSignals:[userSignal map:^id(CHDUser *user) {
 //        return user.pictureURL;
 //    }], nil];
+    if ([_people.picture valueForKey:@"url"] != (id)[NSNull null]) {
+        [self userImageWithUrl:[NSURL URLWithString:[_people.picture valueForKey:@"url"]]];
+    }
+    
 }
 
 #pragma mark -lazy initialisation

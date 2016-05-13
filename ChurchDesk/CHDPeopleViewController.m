@@ -268,7 +268,7 @@
 //    }
 //    else{
 //        CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
-//        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
+        [cell.cellBackgroundView setBorderColor:[UIColor clearColor]];
 //    }
     cell.tintColor = [UIColor chd_blueColor];
     if (tableView.isEditing) {

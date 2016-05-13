@@ -23,6 +23,7 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self makeViews];
     [self makeConstraints];
+    self.title = NSLocalizedString(@"Select Parish", @"");
     // Do any additional setup after loading the view.
 }
 
@@ -52,8 +53,8 @@
     CHDSite * site = [_organizations objectAtIndex:indexPath.row];
     [[NSUserDefaults standardUserDefaults] setValue:site.siteId forKey:kselectedOrganizationIdforPeople];
     CHDPeopleTabBarController *peopleTabBar = [CHDPeopleTabBarController peopleTabBarViewController];
-    UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
-    [self.navigationController presentViewController:peopleNavigationController animated:YES completion:nil];
+    [self.navigationController pushViewController:peopleTabBar animated:YES];
+    
 }
 
 
