@@ -88,7 +88,10 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 #pragma mark - Bar button handlers
 -(void) leftBarButtonTouch{
     [self.view endEditing:YES];
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:NO forKey:ktoPeopleClicked];
+    [defaults setValue:@"" forKey:kpeopleSubjectText];
+    [defaults setValue:@"" forKey:kPeopleMessageText];
     //Cancel the creation of new message
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -110,7 +113,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         switch(response.statusCode){
             case 406:
             case 400:
-                self.statusView.errorText = NSLocalizedString(@"And unknown error occured, please try again", @"");
+                self.statusView.errorText = NSLocalizedString(@"An unknown error occured, please try again", @"");
                 break;
             case 401:
                 self.statusView.errorText = NSLocalizedString(@"Unauthorized. Please login again", @"");
@@ -128,7 +131,11 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         [self didChangeSendingStatus:CHDStatusViewError];
     } completed:^{
         [self didChangeSendingStatus:CHDStatusViewSuccess];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ksuccessfulPeopleMessage];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setValue:@"" forKey:kpeopleSubjectText];
+        [defaults setValue:@"" forKey:kPeopleMessageText];
+        [defaults setBool:NO forKey:ktoPeopleClicked];
+        [defaults setBool:YES forKey:ksuccessfulPeopleMessage];
     }];
 }
 
@@ -137,11 +144,14 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
     if((newMessagesSections)indexPath.section == selectReceiverSection && indexPath.row == 0){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ktoPeopleClicked];
+        [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.title forKey:kpeopleSubjectText];
+        [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.message forKey:kPeopleMessageText];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     
     if((newMessagesSections)indexPath.section == selectSenderSection  && indexPath.row == 0){
-        CHDSite *selectedSite = [_currentUser.sites objectAtIndex:0];
+        CHDSite *selectedSite = [_currentUser siteWithId:_organizationId];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Select Sender", @"")                                                                           delegate:self
                                                         cancelButtonTitle:@"Cancel"
                                                         destructiveButtonTitle:nil
@@ -195,13 +205,14 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         CHDNewMessageTextFieldCell* cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextFieldCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Subject", @"") attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
-
+        cell.textField.text = self.messageViewModel.title;
         [self.messageViewModel shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         return cell;
     }
     if((newMessagesSections)indexPath.section == messageInputSection){
         CHDNewMessageTextViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextViewCell forIndexPath:indexPath];
         cell.dividerLineHidden = YES;
+        cell.textView.text = self.messageViewModel.message;
         cell.tableView = tableView;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.messageViewModel shprac_liftSelector:@selector(setMessage:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
@@ -247,6 +258,15 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 -(void) makeBindings {
     [self rac_liftSelector:@selector(chd_willToggleKeyboard:) withSignals:[self shp_keyboardAwarenessSignal], nil];
     
+    //put text if exists
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:kpeopleSubjectText]) {
+        self.messageViewModel.title = [defaults objectForKey:kpeopleSubjectText];
+    }
+    if ([defaults objectForKey:kPeopleMessageText]) {
+        self.messageViewModel.message = [defaults objectForKey:kPeopleMessageText];
+    }
+   
     //Change the state of the send button
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
 }

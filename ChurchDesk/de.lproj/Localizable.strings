@@ -344,7 +344,7 @@
 "An invitation is updated" = "Eine Einladung wurde aktualisiert.";
 
 /* No comment provided by engineer. */
-"And unknown error occured, please try again" = "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es noch einmal.";
+"An unknown error occured, please try again" = "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es noch einmal.";
 
 /* No comment provided by engineer. */
 "Do you want to open Maps to get directions to '%@'?" = "Möchten Sie die Karte öffnen und eine Wegbeschreibung zu '%@' erhalten?";

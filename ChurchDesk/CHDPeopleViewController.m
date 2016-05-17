@@ -62,6 +62,10 @@
         self.peopletable.editing = NO;
         [defaults setBool:NO forKey:ksuccessfulPeopleMessage];
     }
+    else if ([defaults boolForKey:ktoPeopleClicked]){
+        self.peopletable.editing = YES;
+        [defaults setBool:NO forKey:ktoPeopleClicked];
+    }
     NSString *rightBarButtonTitle;
     if (self.peopletable.isEditing) {
         rightBarButtonTitle = NSLocalizedString(@"Cancel", @"");
@@ -76,7 +80,6 @@
         self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
     }
     NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);
-    NSLog(@"people %d", _selectedPeopleArray.count);
 }
 
 -(void) makeViews {

@@ -9,8 +9,8 @@
 #import "CHDManagedModel.h"
 
 @interface CHDCreateMessageMailViewModel : CHDManagedModel
-@property (nonatomic, assign) NSString *title;
-@property (nonatomic, assign) NSString *message;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *message;
 @property (nonatomic, readonly) BOOL canSendMessage;
 @property (nonatomic, strong) NSArray *selectedPeople;
 @property (nonatomic, strong) NSString *from;

@@ -245,7 +245,7 @@
         [_peopleAttributeValues addObject:[self.dateFormatter stringFromDate:_people.birthday]];
     }
     if (_people.registered != NULL) {
-        [temporaryArray addObject:NSLocalizedString(@"Registered", @"")];
+        [temporaryArray addObject:NSLocalizedString(@"Registered on", @"")];
         [_peopleAttributeValues addObject:[self.dateFormatter stringFromDate:_people.registered]];
     }
     if (_people.gender != (id)[NSNull null] && _people.gender.length != 0) {

@@ -108,7 +108,7 @@
 "Write your message here..." = "Write your message here...";
 "New message" = "New message";
 "Send" = "Send";
-"And unknown error occured, please try again" = "And unknown error occured, please try again";
+"An unknown error occured, please try again" = "An unknown error occured, please try again";
 "Unauthorized. Please login again" = "Unauthorized. Please login again";
 "Access denied" = "Access denied";
 "Too many requests, try again later" = "Too many requests, try again later";
@@ -144,3 +144,25 @@
 "Please select a group first." = "Please select a group first.";
 "Comments" = "Comments";
 "Substitute" = "Substitute";
+//People
+"People" = "People";
+"Segments" = "Segments";
+"Create email" = "Create email";
+"Select Sender" = "Select Sender";
+"To" = "To";
+"From" = "From";
+"Subject" = "Subject";
+"No people to show" = "No people to show";
+"Select" = "Select";
+"Call" = "Call";
+"Send message" = "Send message";
+"Profile" = "Profile";
+"E-mail" = "E-mail";
+"Phone Number" = "Phone Number";
+"Birthday" = "Birthday";
+"Registered on" = "Registered on";
+"Gender" = "Gender";
+"Address" = "Address";
+"Post code" = "Post code";
+"City" = "City";
+"Select Parish" = "Select Parish";
