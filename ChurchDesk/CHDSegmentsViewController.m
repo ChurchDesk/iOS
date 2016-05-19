@@ -46,7 +46,8 @@
     if (timeDifference/60 > 10) {
         
     }
-    self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = @"";
+    [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setTarget:self];
+    [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setAction:@selector(selectSegmentAction:)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,6 +98,22 @@
         }];
     }else {
         [self.emptyMessageLabel removeFromSuperview];
+    }
+}
+
+- (void)selectSegmentAction: (id) sender {
+    UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
+    if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
+        clickedButton.title = NSLocalizedString(@"Cancel", @"");
+        self.segmentstable.editing = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
+    }
+    else{// cancel
+        [_selectedSegmentsArray removeAllObjects];
+        //[self saveSelectedPeopleArray];
+        clickedButton.title = NSLocalizedString(@"Select", @"");
+        self.segmentstable.editing = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
     }
 }
 
@@ -164,6 +181,7 @@
         _segmentstable.dataSource = self;
         _segmentstable.delegate = self;
         _segmentstable.allowsSelection = YES;
+        _segmentstable.allowsMultipleSelectionDuringEditing = YES;
     }
     return _segmentstable;
 }

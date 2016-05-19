@@ -19,6 +19,7 @@
 #define kselectedPeopleArray @"selectedPeopleArray"
 #define kcurrentuser @"currentUser"
 #define kselectedOrganizationIdforPeople @"selectedOrganizationIdForPeople"
+#define khideTabButtons @"hideTabButtons"
 
 #define kEvent @"event"
 #define kAbsence @"absence"

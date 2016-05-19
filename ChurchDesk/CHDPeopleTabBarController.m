@@ -22,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideTabButtons) name:khideTabButtons object:nil];
     // Do any additional setup after loading the view.
 }
 
@@ -108,6 +109,12 @@
         }];
         
         [self.buttonContainer addSubview:button];
+        if ([button.titleLabel.text isEqualToString:NSLocalizedString(@"People", @"")]) {
+            button.tag = 101;
+        }
+        else{
+            button.tag = 102;
+        }
         
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(!previousButton ? self.buttonContainer : previousButton.mas_right );
@@ -162,6 +169,20 @@
     if(self.buttons.count > idx){
         CHDTabItem* item = self.buttons[idx];
         item.showNotification = show;
+    }
+}
+
+- (void)hideTabButtons{
+    UIButton *segmentButton = (UIButton *)[self.view viewWithTag:102];
+    UIButton *peopleButton = (UIButton *)[self.view viewWithTag:101];
+    if (segmentButton.enabled) {
+        segmentButton.enabled = false;
+        peopleButton.enabled = false;
+    }
+    else
+    {
+        segmentButton.enabled = true;
+        peopleButton.enabled = true;
     }
 }
 

@@ -75,7 +75,6 @@ static NSString *const kURLAPIOauthPart = @"";
     self = [super init];
     if (self) {
         [self setBaseURL:[[NSURL URLWithString:kBaseUrl] URLByAppendingPathComponent:kURLAPIPart]];
-        
         self.oauthManager = [SHPAPIManager new];
         [self.oauthManager setBaseURL:[[NSURL URLWithString:kBaseUrl] URLByAppendingPathComponent:kURLAPIOauthPart]];
         

@@ -79,6 +79,8 @@
     else {
         self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
     }
+    [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setTarget:self];
+    [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setAction:@selector(selectAction:)];
     NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);
 }
 
@@ -159,6 +161,7 @@
         if (_segmentIds.count > 0) {
             self.navigationItem.hidesBackButton = YES;
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
     }
     else{// cancel
         [_selectedPeopleArray removeAllObjects];
@@ -171,6 +174,7 @@
             self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"");
         }
         self.peopletable.editing = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
     }
 }
 
