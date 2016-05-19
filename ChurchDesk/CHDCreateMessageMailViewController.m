@@ -15,10 +15,12 @@
 #import "CHDCreateMessageMailViewController.h"
 #import "CHDCreateMessageMailViewModel.h"
 #import "CHDPeopleViewController.h"
+#import "CHDSegmentsViewController.h"
 #import "SHPKeyboardEvent.h"
 #import "CHDStatusView.h"
 #import "CHDSite.h"
 #import "CHDPeople.h"
+#import "CHDSegment.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -54,6 +56,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
         self.navigationItem.rightBarButtonItem = sendButton;
         self.messageViewModel = [CHDCreateMessageMailViewModel new];
+        
     }
     return self;
 }
@@ -108,7 +111,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     
     //create a new message
     [self didChangeSendingStatus:CHDStatusViewProcessing];
-    [[self.messageViewModel sendMessage] subscribeError:^(NSError *error) {
+    [[self.messageViewModel sendMessage:_isSegment] subscribeError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         switch(response.statusCode){
             case 406:
@@ -139,6 +142,10 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     }];
 }
 
+-(void) sendSelectedPeopleArray: (NSArray *)selectedPeopleArray{
+    _selectedPeopleArray = selectedPeopleArray;
+}
+
 #pragma mark - TableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -147,7 +154,22 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ktoPeopleClicked];
         [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.title forKey:kpeopleSubjectText];
         [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.message forKey:kPeopleMessageText];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        if (_isSegment) {
+            CHDSegmentsViewController *svc = [[CHDSegmentsViewController alloc] init];
+            svc.selectedSegmentsArray = [NSMutableArray arrayWithArray:_selectedPeopleArray] ;
+            svc.title = NSLocalizedString(@"Segments", @"");
+            svc.createMessage = YES;
+            svc.segmentDelegate = self;
+            [self.navigationController pushViewController:svc animated:YES];
+        }
+        else{
+            CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
+            pvc.selectedPeopleArray = [NSMutableArray arrayWithArray:_selectedPeopleArray] ;
+            pvc.createMessage = YES;
+            pvc.delegate = self;
+            pvc.title = NSLocalizedString(@"People", @"");
+            [self.navigationController pushViewController:pvc animated:YES];
+        }
     }
     
     if((newMessagesSections)indexPath.section == selectSenderSection  && indexPath.row == 0){
@@ -181,11 +203,22 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         cell.titleLabel.text = NSLocalizedString(@"To", @"");
         if (_selectedPeopleArray.count > 0) {
             if (_selectedPeopleArray.count == 1) {
-                CHDPeople *selectedPeople = [_selectedPeopleArray firstObject];
-                cell.selectedLabel.text = selectedPeople.fullName;
+                if (_isSegment) {
+                    CHDSegment *selectedSegment = [_selectedPeopleArray firstObject];
+                    cell.selectedLabel.text = selectedSegment.name;
+                }
+                else{
+                    CHDPeople *selectedPeople = [_selectedPeopleArray firstObject];
+                    cell.selectedLabel.text = selectedPeople.fullName;
+                }
             }
             else{
-            cell.selectedLabel.text = [NSString stringWithFormat:@"%d %@", [_selectedPeopleArray count],  NSLocalizedString(@"People", @"")];
+                if (_isSegment) {
+                    cell.selectedLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)[_selectedPeopleArray count],  NSLocalizedString(@"Segments", @"")];
+                }
+                else{
+                    cell.selectedLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)[_selectedPeopleArray count],  NSLocalizedString(@"People", @"")];
+                }
             }
         }
         else{

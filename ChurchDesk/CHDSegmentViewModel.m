@@ -8,7 +8,6 @@
 
 #import "CHDSegmentViewModel.h"
 #import "CHDAPIClient.h"
-#import "CHDUser.h"
 #import "CHDSegment.h"
 #import "CHDAuthenticationManager.h"
 #import "NSDate+ChurchDesk.h"
@@ -19,12 +18,12 @@
     if (self) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSData *encodedObject = [defaults objectForKey:kcurrentuser];
-        CHDUser *user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-        if (user.sites.count > 1) {
+        _user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+        if (_user.sites.count > 1) {
             _organizationId = [defaults valueForKey:kselectedOrganizationIdforPeople];
         }
         else{
-            CHDSite *site = [user.sites objectAtIndex:0];
+            CHDSite *site = [_user.sites objectAtIndex:0];
             _organizationId = site.siteId;
         }
         //Initial signal

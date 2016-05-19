@@ -173,16 +173,12 @@
 }
 
 - (void)hideTabButtons{
-    UIButton *segmentButton = (UIButton *)[self.view viewWithTag:102];
-    UIButton *peopleButton = (UIButton *)[self.view viewWithTag:101];
-    if (segmentButton.enabled) {
-        segmentButton.enabled = false;
-        peopleButton.enabled = false;
+    if (self.buttonContainer.hidden) {
+        [self.buttonContainer setHidden:false];
     }
     else
     {
-        segmentButton.enabled = true;
-        peopleButton.enabled = true;
+        [self.buttonContainer setHidden:true];
     }
 }
 

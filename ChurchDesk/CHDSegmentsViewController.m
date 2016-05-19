@@ -9,11 +9,12 @@
 #import "CHDSegmentsViewController.h"
 #import "CHDSegmentViewModel.h"
 #import "CHDPeopleTabBarController.h"
-#import "CHDSelectorTableViewCell.h"
+#import "CHDEventTableViewCell.h"
 #import "CHDUser.h"
 #import "CHDSegment.h"
 #import "MBProgressHUD.h"
 #import "CHDPeopleViewController.h"
+#import "CHDCreateMessageMailViewController.h"
 
 @interface CHDSegmentsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) UITableView* segmentstable;
@@ -21,7 +22,8 @@
 @property(nonatomic, strong) CHDSegmentViewModel *viewModel;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 //@property(nonatomic, strong) UIBarButtonItem *hamburgerMenuButton;
-@property(nonatomic, strong) NSMutableArray *selectedSegmentsArray;
+@property(nonatomic, strong) UIButton *messageButton;
+
 @end
 
 @implementation CHDSegmentsViewController
@@ -48,6 +50,27 @@
     }
     [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setTarget:self];
     [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setAction:@selector(selectSegmentAction:)];
+    if ([defaults boolForKey:ksuccessfulPeopleMessage]) {
+        self.segmentstable.editing = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
+        [defaults setBool:NO forKey:ksuccessfulPeopleMessage];
+        self.segmentstable.frame = CGRectMake(self.segmentstable.frame.origin.x, self.segmentstable.frame.origin.y, self.segmentstable.frame.size.width, self.segmentstable.frame.size.height - 50);
+    }
+    else if ([defaults boolForKey:ktoPeopleClicked]){
+        self.segmentstable.editing = YES;
+        [defaults setBool:NO forKey:ktoPeopleClicked];
+    }
+    NSString *rightBarButtonTitle;
+    if (self.segmentstable.isEditing) {
+        rightBarButtonTitle = NSLocalizedString(@"Cancel", @"");
+    }
+    else {
+        rightBarButtonTitle = NSLocalizedString(@"Select", @"");
+    }
+    self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
+    if (_selectedSegmentsArray.count == 0) {
+        _selectedSegmentsArray = [[NSMutableArray alloc] init];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,6 +80,14 @@
 
 -(void) makeViews {
     [self.view addSubview:self.segmentstable];
+    [self.view addSubview:self.messageButton];
+    if (_createMessage) {
+        UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStylePlain target:self action:@selector(selectSegmentAction:)];
+        [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+        [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
+        self.navigationItem.rightBarButtonItem = saveButtonItem;
+        [self.messageButton setHidden:YES];
+    }
 }
 
 -(void) makeConstraints {
@@ -64,9 +95,9 @@
     [self.segmentstable mas_makeConstraints:^(MASConstraintMaker *make){
         make.edges.equalTo(superview);
     }];
-    [self.segmentstable mas_makeConstraints:^(MASConstraintMaker *make){
+    [self.messageButton mas_makeConstraints:^(MASConstraintMaker *make){
         make.right.equalTo(superview);
-        make.bottom.equalTo(superview);
+        make.bottom.equalTo(superview).offset(-5);
     }];
 }
 
@@ -107,6 +138,11 @@
         clickedButton.title = NSLocalizedString(@"Cancel", @"");
         self.segmentstable.editing = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
+        self.segmentstable.frame = CGRectMake(self.segmentstable.frame.origin.x, self.segmentstable.frame.origin.y, self.segmentstable.frame.size.width, self.segmentstable.frame.size.height + 50);
+    }
+    else if ([clickedButton.title isEqualToString:NSLocalizedString(@"Done", @"")]){
+        [_segmentDelegate sendSelectedPeopleArray:_selectedSegmentsArray];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else{// cancel
         [_selectedSegmentsArray removeAllObjects];
@@ -114,20 +150,58 @@
         clickedButton.title = NSLocalizedString(@"Select", @"");
         self.segmentstable.editing = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
+        self.segmentstable.frame = CGRectMake(self.segmentstable.frame.origin.x, self.segmentstable.frame.origin.y, self.segmentstable.frame.size.width, self.segmentstable.frame.size.height - 50);
     }
+}
+
+-(BOOL) isSegmentSelected :(CHDSegment *) segment{
+    for (CHDSegment *selectedSegment in _selectedSegmentsArray) {
+        if ([selectedSegment.segmentId isEqualToString:segment.segmentId]) {
+            return YES;
+            break;
+        }
+    }
+    return NO;
+}
+
+- (void) createMessageShow: (id) sender {
+    CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
+    newMessageViewController.selectedPeopleArray = _selectedSegmentsArray;
+    newMessageViewController.currentUser = self.viewModel.user;
+    newMessageViewController.organizationId = self.viewModel.organizationId;
+    newMessageViewController.isSegment = YES;
+    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
+    [Heap track:@"Create new people message"];
+    [self presentViewController:navigationVC animated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CHDSegment* segment = [self.viewModel.segments objectAtIndex:indexPath.row];
-    CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
-    pvc.segmentIds = [NSArray arrayWithObjects:segment.segmentId, nil];
-    pvc.title = segment.name;
-    [self.navigationController pushViewController:pvc animated:YES];
+    if (self.segmentstable.isEditing) {
+        if (![self isSegmentSelected:segment]) {
+            [_selectedSegmentsArray addObject:segment];
+        }
+    }
+    else{
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
+        pvc.segmentIds = [NSArray arrayWithObjects:segment.segmentId, nil];
+        pvc.title = segment.name;
+        [self.navigationController pushViewController:pvc animated:YES];
+    }
 }
 
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+    CHDSegment* selectedSegment = [self.viewModel.segments objectAtIndex:indexPath.row];
+    for (CHDSegment *selectedSegmentFromArray in _selectedSegmentsArray) {
+        if ([selectedSegmentFromArray.segmentId isEqualToString:selectedSegment.segmentId]) {
+            [_selectedSegmentsArray removeObject:selectedSegmentFromArray];
+            break;
+        }
+    }
+}
 
 #pragma mark - UITableViewDataSource
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -141,9 +215,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString* cellIdentifier = @"segmentCell";
     CHDSegment* segment = [self.viewModel.segments objectAtIndex:indexPath.row];
-    CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.titleLabel.text = segment.name;
+    cell.absenceIconView.hidden = true;
+    cell.tintColor = [UIColor chd_blueColor];
+    [cell.cellBackgroundView setBorderColor:[UIColor clearColor]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (tableView.isEditing) {
+        if ([self isSegmentSelected:segment]) {
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
+    }
     return cell;
 }
 
@@ -177,10 +259,11 @@
         _segmentstable.separatorStyle = UITableViewCellSeparatorStyleNone;
         _segmentstable.backgroundView.backgroundColor = [UIColor chd_lightGreyColor];
         _segmentstable.backgroundColor = [UIColor chd_lightGreyColor];
-        [_segmentstable registerClass:[CHDSelectorTableViewCell class] forCellReuseIdentifier:@"segmentCell"];
+        [_segmentstable registerClass:[CHDEventTableViewCell class] forCellReuseIdentifier:@"segmentCell"];
         _segmentstable.dataSource = self;
         _segmentstable.delegate = self;
         _segmentstable.allowsSelection = YES;
+        _segmentstable.allowsSelectionDuringEditing = YES;
         _segmentstable.allowsMultipleSelectionDuringEditing = YES;
     }
     return _segmentstable;
@@ -209,6 +292,17 @@
     }else{
         [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     }
+}
+
+-(UIButton*)messageButton {
+    if(!_messageButton){
+        _messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_messageButton addTarget:self
+                           action:@selector(createMessageShow:)
+                 forControlEvents:UIControlEventTouchUpInside];
+        [_messageButton setImage:kImgCreateMessage forState:UIControlStateNormal];
+    }
+    return _messageButton;
 }
 /*
 #pragma mark - Navigation

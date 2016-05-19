@@ -15,4 +15,5 @@
 @property (nonatomic, strong) NSString *organizationId;
 @property (nonatomic, strong) CHDUser *currentUser;
 @property (nonatomic, strong) NSString *selectedSender;
+@property (nonatomic, assign) BOOL isSegment;
 @end

@@ -228,6 +228,7 @@
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 NSData *encodedObject = [defaults objectForKey:kcurrentuser];
                 CHDUser *user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+                [defaults setBool:NO forKey:ktoPeopleClicked];
                 if (user.sites.count > 1) {
                     CHDSelectParishForPeopleViewController *selectParishViewController = [CHDSelectParishForPeopleViewController new];
                     selectParishViewController.organizations = user.sites;

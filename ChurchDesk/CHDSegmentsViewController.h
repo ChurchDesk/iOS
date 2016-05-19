@@ -7,6 +7,12 @@
 //
 
 #import "CHDAbstractViewController.h"
+@protocol sendSegmentsProtocol <NSObject>
+-(void) sendSelectedPeopleArray: (NSArray *)selectedPeopleArray;
+@end
 
 @interface CHDSegmentsViewController : CHDAbstractViewController
+@property(nonatomic,assign)id segmentDelegate;
+@property(nonatomic, strong) NSMutableArray *selectedSegmentsArray;
+@property (nonatomic, assign) BOOL createMessage;
 @end

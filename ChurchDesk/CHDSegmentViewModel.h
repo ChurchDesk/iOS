@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CHDUser.h"
 
 @interface CHDSegmentViewModel : NSObject
 @property (nonatomic, readonly) NSArray *segments;
 @property (nonatomic, strong) NSString *organizationId;
+@property (nonatomic, strong) CHDUser *user;
 -(void) reload;
 @end

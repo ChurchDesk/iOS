@@ -32,7 +32,7 @@
     return self;
 }
 
-- (RACSignal*)sendMessage {
+- (RACSignal*)sendMessage :(BOOL)isSegment{
     if(!self.canSendMessage){return [RACSignal empty];}
     CHDPeopleMessage *message = [CHDPeopleMessage new];
     message.content = self.message;
@@ -40,7 +40,7 @@
     message.organizationId = self.organizationId;
     message.from = self.from;
     message.type = @"email";
-    message.to = [message toArray:self.selectedPeople];
+    message.to = [message toArray:self.selectedPeople isSegment:isSegment];
     NSDateFormatter *dateFormatter = [NSDateFormatter chd_apiDateFormatter];
     message.scheduled = [dateFormatter stringFromDate:[NSDate date]];
     RACSignal *saveSignal = [self.saveCommand execute:RACTuplePack(message)];

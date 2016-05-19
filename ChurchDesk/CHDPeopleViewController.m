@@ -49,9 +49,6 @@
     if (_selectedPeopleArray.count == 0) {
         _selectedPeopleArray = [[NSMutableArray alloc] init];
     }
-    else{
-        self.peopletable.editing = YES;
-    }
 //    [self.viewModel reload];
     [self.peopletable reloadData];
     //self.chd_people_tabbarViewController.title = [NSString stringWithFormat:@"(%d) %@",NSLocalizedString(@"People", @""), self.viewModel.people.count];
@@ -60,7 +57,9 @@
     }
     if ([defaults boolForKey:ksuccessfulPeopleMessage]) {
         self.peopletable.editing = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
         [defaults setBool:NO forKey:ksuccessfulPeopleMessage];
+        self.peopletable.frame = CGRectMake(self.peopletable.frame.origin.x, self.peopletable.frame.origin.y, self.peopletable.frame.size.width, self.peopletable.frame.size.height - 50);
     }
     else if ([defaults boolForKey:ktoPeopleClicked]){
         self.peopletable.editing = YES;
@@ -74,7 +73,7 @@
         rightBarButtonTitle = NSLocalizedString(@"Select", @"");
     }
     if (_segmentIds.count > 0) {
-        self.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
+        [self.messageButton setHidden:YES];
     }
     else {
         self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
@@ -90,13 +89,13 @@
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Select", @"") style:UIBarButtonItemStylePlain target:self action:@selector(selectAction:)];
     [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
     [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
-    if (_segmentIds.count > 0) {
-        self.navigationItem.rightBarButtonItem = saveButtonItem;
-    }
-    else{
-        self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem = saveButtonItem;
-    }
+    self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem = saveButtonItem;
     
+    if (_createMessage) {
+        self.navigationItem.rightBarButtonItem = saveButtonItem;
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Done", @"");
+        [self.messageButton setHidden:YES];
+    }
 }
 
 -(void) makeConstraints {
@@ -162,6 +161,11 @@
             self.navigationItem.hidesBackButton = YES;
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
+        self.peopletable.frame = CGRectMake(self.peopletable.frame.origin.x, self.peopletable.frame.origin.y, self.peopletable.frame.size.width, self.peopletable.frame.size.height + 50);
+    }
+    else if ([clickedButton.title isEqualToString:NSLocalizedString(@"Done", @"")]){
+        [_delegate sendSelectedPeopleArray:_selectedPeopleArray];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else{// cancel
         [_selectedPeopleArray removeAllObjects];
@@ -175,6 +179,7 @@
         }
         self.peopletable.editing = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
+        self.peopletable.frame = CGRectMake(self.peopletable.frame.origin.x, self.peopletable.frame.origin.y, self.peopletable.frame.size.width, self.peopletable.frame.size.height - 50);
     }
 }
 
@@ -228,7 +233,7 @@
             break;
         }
     }
-   }
+}
 
 #pragma mark - UITableViewDataSource
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -251,33 +256,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString* cellIdentifier = @"peopleCell";
     CHDPeople* people = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//    CHDUser* user = self.viewModel.user;
-//    CHDSite* site = [user siteWithId:event.siteId];
-    
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.locationLabel.text = people.email;
-//    if ([event.type isEqualToString:kAbsence]) {
-        cell.titleLabel.text = people.fullName;
-//        cell.titleLabel.textColor = [UIColor grayColor];
-//        cell.absenceIconView.hidden = false;
-//    }
-//    else{
-//        cell.titleLabel.text = event.title;
-//        cell.titleLabel.textColor = [UIColor chd_textDarkColor];
-        cell.absenceIconView.hidden = true;
-//    }
-//    cell.parishLabel.text = user.sites.count > 1? site.name : @"";
-//    cell.dateTimeLabel.text = [self.viewModdel formattedTimeForEvent:event];
-//    
-//    if ([event.type isEqualToString:kAbsence]) {
-//        CHDAbsenceCategory *category = [self.viewModel.environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
-//        [cell.cellBackgroundView setBorderColor:category.color?: [UIColor clearColor]];
-//    }
-//    else{
-//        CHDEventCategory *category = [self.viewModel.environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId: event.siteId];
-        [cell.cellBackgroundView setBorderColor:[UIColor clearColor]];
-//    }
+    cell.titleLabel.text = people.fullName;
+    cell.absenceIconView.hidden = true;
+    [cell.cellBackgroundView setBorderColor:[UIColor clearColor]];
     cell.tintColor = [UIColor chd_blueColor];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (tableView.isEditing) {
         if ([self isPeopleSelected:people]) {
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];

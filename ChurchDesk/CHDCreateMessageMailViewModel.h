@@ -17,5 +17,5 @@
 @property (nonatomic, strong) NSString *organizationId;
 @property (nonatomic, readonly) RACCommand *saveCommand;
 
-- (RACSignal*) sendMessage;
+- (RACSignal*) sendMessage :(BOOL)isSegment;
 @end

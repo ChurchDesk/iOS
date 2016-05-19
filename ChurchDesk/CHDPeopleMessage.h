@@ -17,5 +17,5 @@
 @property (nonatomic, strong) NSArray *to;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *scheduled;
-- (NSArray*) toArray: (NSArray*) recepientsArray;
+- (NSArray*) toArray: (NSArray*) recepientsArray isSegment: (BOOL)isSegment;
 @end
