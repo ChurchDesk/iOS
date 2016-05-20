@@ -404,3 +404,28 @@
 "Substitute" = "Vertretung";
 "Edit Absence" = "Abwesenheit bearbeiten";
 "New Absence" = "Neue Abwesenheit";
+
+//People
+"People" = "Kontakte";
+"Segments" = "Gruppen";
+"Create email" = "E-Mail einrichten";
+"Select Sender" = "Absender wählen";
+"To" = "An";
+"From" = "Von";
+"Subject" = "Betreff";
+"No people to show" = "Sie haben noch keine Kontakte";
+"Select" = "Auswählen";
+"Call" = "Anrufen";
+"Send message" = "Nachricht senden";
+"Profile" = "Profil";
+"E-mail" = "E-mail";
+"Phone Number" = "Telefonnummer";
+"Birthday" = "Geburtstag";
+"Registered on" = "Angemeldet am";
+"Gender" = "Geschlecht";
+"Address" = "Adresse";
+"Post code" = "Postleitzahl";
+"City" = "Stadt";
+"Select Parish" = "Konto wählen";
+"Delete message" = "Nachricht löschen";
+"Return to message" = "Zurück zur Nachricht";

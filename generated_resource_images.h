@@ -31,6 +31,7 @@
 #define kImgLoginscreenLogoIcon [UIImage imageNamed:@"loginscreen_logo_icon"]
 #define kImgMapNavigationArrow [UIImage imageNamed:@"map_navigation_arrow"]
 #define kImgMenuDashboard [UIImage imageNamed:@"menu_dashboard"]
+#define kImgCallIcon [UIImage imageNamed:@"call_icon"]
 #define kImgMenuPeople [UIImage imageNamed:@"menu_people"]
 #define kImgMenuEvent [UIImage imageNamed:@"menu_event"]
 #define kImgMenuTimeRecording [UIImage imageNamed:@"menu_time_recording"]

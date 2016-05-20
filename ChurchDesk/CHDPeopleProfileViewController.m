@@ -68,12 +68,12 @@
     }];
     
     [self.callButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(containerView).offset(10);
+        make.left.equalTo(containerView).offset(20);
         make.top.equalTo(containerView).with.offset(160);
     }];
     
     [self.sendMessageButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(containerView).offset(-10);
+        make.right.equalTo(containerView).offset(-20);
         make.top.equalTo(containerView).with.offset(160);
     }];
 }
@@ -119,7 +119,7 @@
         
         _profileTable.dataSource = self;
         _profileTable.delegate = self;
-        _profileTable.allowsSelection = NO;
+        _profileTable.allowsSelection = YES;
         _profileTable.allowsMultipleSelection = NO;
     }
     return _profileTable;
@@ -148,15 +148,7 @@
 - (UIButton *)callButton {
     if (!_callButton) {
         _callButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_callButton setImage:kImgSearchPassive forState:UIControlStateNormal];
-//        [_callButton setImage:kImgSearchActive forState:UIControlStateHighlighted];
-//        [_callButton setImage:[kImgSearchPassive imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateHighlighted];
-        //_callButton.titleLabel.text = NSLocalizedString(@"Call", @"");
-        _callButton.titleLabel.textColor = [UIColor whiteColor];
-        [_callButton setTitle:NSLocalizedString(@"Call", @"") forState:UIControlStateNormal];
-        [_callButton setTitle:NSLocalizedString(@"Call", @"") forState:UIControlStateHighlighted];
-        [_callButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
-        [_callButton.titleLabel setFont:[UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15]];
+        [_callButton setImage:kImgCallIcon forState:UIControlStateNormal];
         [_callButton addTarget:self action:@selector(callAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _callButton;
@@ -165,12 +157,7 @@
 - (UIButton *)sendMessageButton {
     if (!_sendMessageButton) {
         _sendMessageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        //        [_callButton setImage:kImgSearchPassive forState:UIControlStateNormal];
-        //        [_callButton setImage:kImgSearchActive forState:UIControlStateHighlighted];
-        //        [_callButton setImage:[kImgSearchPassive imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateHighlighted];
-        [_sendMessageButton setTitle:NSLocalizedString(@"Send message", @"") forState:UIControlStateNormal];
-        [_sendMessageButton setTitle:NSLocalizedString(@"Send message", @"") forState:UIControlStateHighlighted];
-        [_sendMessageButton.titleLabel setFont:[UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15]];
+        [_sendMessageButton setImage:kImgTabMailActive forState:UIControlStateNormal];
         [_sendMessageButton addTarget:self action:@selector(sendMessageAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _sendMessageButton;
@@ -201,6 +188,15 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"E-mail", @"")]) {
+        [self sendMessageAction:nil];
+    }
+    else if ([[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Phone Number", @"")]){
+        [self callAction:nil];
+    }
 }
 
 #pragma - Actions

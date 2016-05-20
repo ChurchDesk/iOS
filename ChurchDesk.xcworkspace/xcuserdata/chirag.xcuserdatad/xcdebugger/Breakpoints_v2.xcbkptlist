@@ -42,7 +42,7 @@
                   moduleName = "ChurchDesk"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/chirag/Documents/Projects/ChurchDesk_prod/ios/ChurchDesk/CHDEventAlertView.m"
-                  timestampString = "484821010.027782"
+                  timestampString = "485440369.918379"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "137"
@@ -57,7 +57,7 @@
                   moduleName = "ChurchDesk"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/chirag/Documents/Projects/ChurchDesk_prod/ios/ChurchDesk/CHDEventAlertView.m"
-                  timestampString = "484821010.027974"
+                  timestampString = "485440369.918601"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "137"
@@ -65,22 +65,6 @@
                   offsetFromSymbolStart = "28">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChurchDesk/CHDCreateMessageMailViewModel.m"
-            timestampString = "484820692.815899"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "-init"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

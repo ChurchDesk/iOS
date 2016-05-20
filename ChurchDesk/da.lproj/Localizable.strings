@@ -418,7 +418,7 @@
 "New Absence" = "Nyt fravær";
 
 //People
-"People" = "People";
+"People" = "Kontakter";
 "Segments" = "Segmenter";
 "Create email" = "Opret e-mail";
 "Select Sender" = "Vælg afsender";
@@ -439,3 +439,5 @@
 "Post code" = "Postnummer";
 "City" = "By";
 "Select Parish" = "Vælg konto";
+"Delete message" = "Delete message";
+"Return to message" = "Return to message";
