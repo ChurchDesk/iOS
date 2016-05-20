@@ -416,3 +416,26 @@
 "Substitute" = "Vikar";
 "Edit Absence" = "Rediger fravær";
 "New Absence" = "Nyt fravær";
+
+//People
+"People" = "People";
+"Segments" = "Segmenter";
+"Create email" = "Opret e-mail";
+"Select Sender" = "Vælg afsender";
+"To" = "Til";
+"From" = "Fra";
+"Subject" = "Emnelinje";
+"No people to show" = "Du har ingen kontakter";
+"Select" = "Vælg";
+"Call" = "Ring til";
+"Send message" = "Send besked";
+"Profile" = "Profil";
+"E-mail" = "E-mail";
+"Phone Number" = "Telefonnummer";
+"Birthday" = "Fødselsdag";
+"Registered on" = "Registreret d.";
+"Gender" = "Køn";
+"Address" = "Adresse";
+"Post code" = "Postnummer";
+"City" = "By";
+"Select Parish" = "Vælg konto";

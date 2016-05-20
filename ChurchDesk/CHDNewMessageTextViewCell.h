@@ -10,4 +10,5 @@
 @interface CHDNewMessageTextViewCell : CHDCommonTableViewCell <UITextViewDelegate>
 @property (nonatomic, weak) UITableView* tableView;
 @property (nonatomic, readonly) UITextView* textView;
+- (void)textDidChange:(NSString *)text;
 @end

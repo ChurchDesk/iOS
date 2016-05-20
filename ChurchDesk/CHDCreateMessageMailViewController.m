@@ -91,12 +91,12 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 #pragma mark - Bar button handlers
 -(void) leftBarButtonTouch{
     [self.view endEditing:YES];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:NO forKey:ktoPeopleClicked];
-    [defaults setValue:@"" forKey:kpeopleSubjectText];
-    [defaults setValue:@"" forKey:kPeopleMessageText];
-    //Cancel the creation of new message
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@""                                                                           delegate:self
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"Delete message", @""), NSLocalizedString(@"Return to message", @""), nil];
+    actionSheet.tag = 101;
+    [actionSheet showInView:self.view];
 }
 
 -(void) rightBarButtonTouch{
@@ -146,14 +146,18 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     _selectedPeopleArray = selectedPeopleArray;
 }
 
+-(void) saveMessageForLater{
+    [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.title forKey:kpeopleSubjectText];
+    [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.message forKey:kPeopleMessageText];
+}
+
 #pragma mark - TableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
     if((newMessagesSections)indexPath.section == selectReceiverSection && indexPath.row == 0){
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ktoPeopleClicked];
-        [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.title forKey:kpeopleSubjectText];
-        [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.message forKey:kPeopleMessageText];
+        [self saveMessageForLater];
         if (_isSegment) {
             CHDSegmentsViewController *svc = [[CHDSegmentsViewController alloc] init];
             svc.selectedSegmentsArray = [NSMutableArray arrayWithArray:_selectedPeopleArray] ;
@@ -246,6 +250,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         CHDNewMessageTextViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextViewCell forIndexPath:indexPath];
         cell.dividerLineHidden = YES;
         cell.textView.text = self.messageViewModel.message;
+        [cell textDidChange:self.messageViewModel.message];
         cell.tableView = tableView;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.messageViewModel shprac_liftSelector:@selector(setMessage:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
@@ -258,15 +263,29 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 #pragma mark - Action Sheet delgate methods
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (actionSheet.tag == 101) {
+        if (buttonIndex != 2) {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setBool:NO forKey:ktoPeopleClicked];
+        if (buttonIndex == 0) {
+            [defaults setValue:@"" forKey:kpeopleSubjectText];
+            [defaults setValue:@"" forKey:kPeopleMessageText];
+            //Cancel the creation of new message
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        else if (buttonIndex == 1){
+            [self saveMessageForLater];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        }
+    }
     if (buttonIndex != 2) {
        // CHDNewMessageSelectorCell* cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
         _selectedSender = [actionSheet buttonTitleAtIndex:buttonIndex];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:selectSenderSection];
         //cell.selectedLabel.text = [actionSheet buttonTitleAtIndex:buttonIndex];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        
     }
-    
 }
 
 

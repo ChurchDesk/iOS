@@ -144,6 +144,7 @@
 "Please select a group first." = "Please select a group first.";
 "Comments" = "Comments";
 "Substitute" = "Substitute";
+
 //People
 "People" = "People";
 "Segments" = "Segments";
@@ -166,3 +167,5 @@
 "Post code" = "Post code";
 "City" = "City";
 "Select Parish" = "Select Parish";
+"Delete message" = "Delete message";
+"Return to message" = "Return to message";
