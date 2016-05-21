@@ -33,38 +33,6 @@
             endingLineNumber = "137"
             landmarkName = "-hideAlertView"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[CHDEventAlertView hideAlertView]"
-                  moduleName = "ChurchDesk"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/chirag/Documents/Projects/ChurchDesk_prod/ios/ChurchDesk/CHDEventAlertView.m"
-                  timestampString = "485440369.918379"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "137"
-                  endingLineNumber = "137"
-                  offsetFromSymbolStart = "64">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__34-[CHDEventAlertView hideAlertView]_block_invoke"
-                  moduleName = "ChurchDesk"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/chirag/Documents/Projects/ChurchDesk_prod/ios/ChurchDesk/CHDEventAlertView.m"
-                  timestampString = "485440369.918601"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "137"
-                  endingLineNumber = "137"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -41,6 +41,8 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) CHDCreateMessageMailViewModel *messageViewModel;
 @property (nonatomic, strong) CHDStatusView *statusView;
+@property (nonatomic, strong) UIView *receiverView;
+@property (nonatomic, strong) UIButton *backgroundButton;
 @end
 
 @implementation CHDCreateMessageMailViewController
@@ -90,13 +92,18 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 
 #pragma mark - Bar button handlers
 -(void) leftBarButtonTouch{
+    if ([self.messageViewModel.title length] > 0 || [self.messageViewModel.message length] > 0) {
     [self.view endEditing:YES];
+    [Heap track:@"People create message: Cancel clicked"];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@""                                                                           delegate:self
                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:NSLocalizedString(@"Delete message", @""), NSLocalizedString(@"Return to message", @""), nil];
+                                                    otherButtonTitles:NSLocalizedString(@"Delete message", @""), NSLocalizedString(@"Finish later", @""), nil];
     actionSheet.tag = 101;
     [actionSheet showInView:self.view];
+    }
+    else
+        [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) rightBarButtonTouch{
@@ -134,6 +141,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         [self didChangeSendingStatus:CHDStatusViewError];
     } completed:^{
         [self didChangeSendingStatus:CHDStatusViewSuccess];
+        [Heap track:@"People message successfully sent"];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setValue:@"" forKey:kpeopleSubjectText];
         [defaults setValue:@"" forKey:kPeopleMessageText];
@@ -151,32 +159,30 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.message forKey:kPeopleMessageText];
 }
 
+
 #pragma mark - TableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
     if((newMessagesSections)indexPath.section == selectReceiverSection && indexPath.row == 0){
+        [Heap track:@"People create message to clicked"];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ktoPeopleClicked];
         [self saveMessageForLater];
+        if (_selectedPeopleArray.count == 0) {
+            [self addReceiverView];
+        }
+        else {
         if (_isSegment) {
-            CHDSegmentsViewController *svc = [[CHDSegmentsViewController alloc] init];
-            svc.selectedSegmentsArray = [NSMutableArray arrayWithArray:_selectedPeopleArray] ;
-            svc.title = NSLocalizedString(@"Segments", @"");
-            svc.createMessage = YES;
-            svc.segmentDelegate = self;
-            [self.navigationController pushViewController:svc animated:YES];
+            [self segmentPressed];
         }
         else{
-            CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
-            pvc.selectedPeopleArray = [NSMutableArray arrayWithArray:_selectedPeopleArray] ;
-            pvc.createMessage = YES;
-            pvc.delegate = self;
-            pvc.title = NSLocalizedString(@"People", @"");
-            [self.navigationController pushViewController:pvc animated:YES];
+            [self peoplePressed];
+        }
         }
     }
     
     if((newMessagesSections)indexPath.section == selectSenderSection  && indexPath.row == 0){
+        [Heap track:@"People create message: from clicked"];
         CHDSite *selectedSite = [_currentUser siteWithId:_organizationId];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Select Sender", @"")                                                                           delegate:self
                                                         cancelButtonTitle:@"Cancel"
@@ -187,6 +193,40 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+-(void)peoplePressed{
+    [Heap track:@"People create message: to people"];
+    _isSegment = NO;
+    CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
+    pvc.selectedPeopleArray = [NSMutableArray arrayWithArray:_selectedPeopleArray] ;
+    pvc.createMessage = YES;
+    pvc.delegate = self;
+    pvc.title = NSLocalizedString(@"People", @"");
+    if (_receiverView) {
+        [self removeSendToView];
+    }
+    [self.navigationController pushViewController:pvc animated:YES];
+}
+
+-(void) segmentPressed{
+    [Heap track:@"People create message: to segments"];
+    _isSegment = YES;
+    CHDSegmentsViewController *svc = [[CHDSegmentsViewController alloc] init];
+    svc.selectedSegmentsArray = [NSMutableArray arrayWithArray:_selectedPeopleArray] ;
+    svc.title = NSLocalizedString(@"Segments", @"");
+    svc.createMessage = YES;
+    svc.segmentDelegate = self;
+    if (_receiverView) {
+        [self removeSendToView];
+    }
+    [self.navigationController pushViewController:svc animated:YES];
+}
+
+-(void) removeSendToView{
+    [_receiverView removeFromSuperview];
+    _receiverView = nil;
+    [_backgroundButton removeFromSuperview];
+    _backgroundButton = nil;
+}
 #pragma mark - TableView datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -265,9 +305,11 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 {
     if (actionSheet.tag == 101) {
         if (buttonIndex != 2) {
+            [Heap track:@"Finish later clicked"];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setBool:NO forKey:ktoPeopleClicked];
         if (buttonIndex == 0) {
+            [Heap track:@"Delete message clicked"];
             [defaults setValue:@"" forKey:kpeopleSubjectText];
             [defaults setValue:@"" forKey:kPeopleMessageText];
             //Cancel the creation of new message
@@ -353,6 +395,71 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     if(status == CHDStatusViewHidden){
         self.statusView.show = NO;
         return;
+    }
+}
+
+-(void)addReceiverView{
+    if(!_receiverView){
+        [Heap track:@"Send to popup shown"];
+    _backgroundButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _backgroundButton.frame = self.view.superview.frame;
+    [_backgroundButton addTarget:self action:@selector(removeSendToView) forControlEvents:UIControlEventTouchUpInside];
+        _backgroundButton.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    [self.view addSubview:_backgroundButton];
+        
+    _receiverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)] ;
+    _receiverView.center = self.view.superview.center;
+    _receiverView.userInteractionEnabled = TRUE;
+    _receiverView.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *sendToLabel = [[UILabel alloc] initWithFrame:CGRectMake ( 0, 50, 300, 50)];
+    sendToLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:30];
+    sendToLabel.text = NSLocalizedString(@"Send to..", @"");
+    sendToLabel.textAlignment = NSTextAlignmentCenter;
+    sendToLabel.textColor = [UIColor chd_textDarkColor];
+    [_receiverView addSubview:sendToLabel];
+    
+    UIButton *peopleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [peopleButton setImage:kImgButtonPeople forState:UIControlStateNormal];
+    [peopleButton addTarget:self action:@selector(peoplePressed) forControlEvents:UIControlEventTouchUpInside];
+    peopleButton.frame = CGRectMake ( 30, 120, 100, 100);
+    [_receiverView addSubview:peopleButton];
+    
+    UILabel *peopleLabel = [[UILabel alloc] initWithFrame:CGRectMake ( 30, 210, 100, 20)];
+    peopleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:16];
+    peopleLabel.text = NSLocalizedString(@"People", @"");
+    peopleLabel.textAlignment = NSTextAlignmentCenter;
+    peopleLabel.textColor = [UIColor chd_textDarkColor];
+    [_receiverView addSubview:peopleLabel];
+    
+    UIButton *segmentsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [segmentsButton setImage:kImgButtonSegments forState:UIControlStateNormal];
+    [segmentsButton addTarget:self action:@selector(segmentPressed) forControlEvents:UIControlEventTouchUpInside];
+    segmentsButton.frame = CGRectMake ( 170, 120, 100, 100);
+    [_receiverView addSubview:segmentsButton];
+    
+    UILabel *segmentsLabel = [[UILabel alloc] initWithFrame:CGRectMake ( 170, 210, 100, 20)];
+    segmentsLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:16];
+    segmentsLabel.text = NSLocalizedString(@"Segments", @"");
+    segmentsLabel.textAlignment = NSTextAlignmentCenter;
+    segmentsLabel.textColor = [UIColor chd_textDarkColor];
+    [_receiverView addSubview:segmentsLabel];
+    
+        _receiverView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.001, 0.001);
+        
+        [self.view addSubview:_receiverView];
+        
+        [UIView animateWithDuration:0.3/1.5 animations:^{
+            _receiverView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.3/2 animations:^{
+                _receiverView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.9, 0.9);
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.3/2 animations:^{
+                    _receiverView.transform = CGAffineTransformIdentity;
+                }];
+            }];
+        }];
     }
 }
 

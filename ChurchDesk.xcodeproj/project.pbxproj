@@ -1488,8 +1488,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.inhouse;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: KIRKEWEB ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KIRKEWEB ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = inhouse;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1504,7 +1504,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "a0318935-a2fb-4854-8d94-c7aa87ee0d9b";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Inhouse;
@@ -1603,8 +1603,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = com.churchdesk.ChurchDeskApp;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: KIRKEWEB ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KIRKEWEB ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = prod;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1615,7 +1615,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "a0318935-a2fb-4854-8d94-c7aa87ee0d9b";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1627,8 +1627,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.dev;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: KIRKEWEB ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KIRKEWEB ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = dev;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1639,7 +1639,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "a0318935-a2fb-4854-8d94-c7aa87ee0d9b";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;

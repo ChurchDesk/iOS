@@ -135,16 +135,19 @@
 - (void)selectSegmentAction: (id) sender {
     UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
     if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
+        [Heap track:@"Segments: Select clicked"];
         clickedButton.title = NSLocalizedString(@"Cancel", @"");
         self.segmentstable.editing = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
         self.segmentstable.frame = CGRectMake(self.segmentstable.frame.origin.x, self.segmentstable.frame.origin.y, self.segmentstable.frame.size.width, self.segmentstable.frame.size.height + 50);
     }
     else if ([clickedButton.title isEqualToString:NSLocalizedString(@"Done", @"")]){
+        [Heap track:@"Segments: Done clicked"];
         [_segmentDelegate sendSelectedPeopleArray:_selectedSegmentsArray];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else{// cancel
+        [Heap track:@"Segments: Cancel clicked"];
         [_selectedSegmentsArray removeAllObjects];
         //[self saveSelectedPeopleArray];
         clickedButton.title = NSLocalizedString(@"Select", @"");
@@ -165,13 +168,13 @@
 }
 
 - (void) createMessageShow: (id) sender {
+    [Heap track:@"Segments: Create message clicked"];
     CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
     newMessageViewController.selectedPeopleArray = _selectedSegmentsArray;
     newMessageViewController.currentUser = self.viewModel.user;
     newMessageViewController.organizationId = self.viewModel.organizationId;
     newMessageViewController.isSegment = YES;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
-    [Heap track:@"Create new people message"];
     [self presentViewController:navigationVC animated:YES completion:nil];
 }
 
@@ -185,6 +188,7 @@
         }
     }
     else{
+        [Heap track:@"Segment detail clicked"];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
         pvc.segmentIds = [NSArray arrayWithObjects:segment.segmentId, nil];

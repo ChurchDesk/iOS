@@ -193,15 +193,18 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"E-mail", @"")]) {
         [self sendMessageAction:nil];
+        [Heap track:@"People profile: Clicked on email"];
     }
     else if ([[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Phone Number", @"")]){
         [self callAction:nil];
+        [Heap track:@"People profile: Clicked on phone"];
     }
 }
 
 #pragma - Actions
 
 - (void)callAction: (id) sender {
+    [Heap track:@"People profile: Call clicked"];
     NSString *phoneNo = [_people.contact objectForKey:@"phone"];
     NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phoneNo]];
     
@@ -214,6 +217,7 @@
     }}
 
 -(void)sendMessageAction: (id) sender {
+    [Heap track:@"People profile: Message clicked"];
     CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
     newMessageViewController.selectedPeopleArray = [[NSArray alloc] initWithObjects:_people, nil];
     newMessageViewController.currentUser = _currentUser;

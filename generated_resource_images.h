@@ -55,3 +55,5 @@
 #define kImgTabPeoplePassive [UIImage imageNamed:@"tab_people_passive"]
 #define kImgTabSegmentsActive [UIImage imageNamed:@"tab_segments_active"]
 #define kImgTabSegmentsPassive [UIImage imageNamed:@"tab_segments_passive"]
+#define kImgButtonPeople [UIImage imageNamed:@"button_people"]
+#define kImgButtonSegments [UIImage imageNamed:@"button_segment"]

@@ -439,5 +439,6 @@
 "Post code" = "Postnummer";
 "City" = "By";
 "Select Parish" = "Vælg konto";
-"Delete message" = "Delete message";
-"Return to message" = "Return to message";
+"Delete message" = "Slet besked";
+"Finish later" = "Færdiggør senere";
+"Send to.." = "Send til..";

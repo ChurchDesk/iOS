@@ -155,6 +155,7 @@
 - (void)selectAction: (id) sender {
     UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
     if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
+        [Heap track:@"People: Select clicked"];
         clickedButton.title = NSLocalizedString(@"Cancel", @"");
         self.peopletable.editing = YES;
         if (_segmentIds.count > 0) {
@@ -164,10 +165,12 @@
         self.peopletable.frame = CGRectMake(self.peopletable.frame.origin.x, self.peopletable.frame.origin.y, self.peopletable.frame.size.width, self.peopletable.frame.size.height + 50);
     }
     else if ([clickedButton.title isEqualToString:NSLocalizedString(@"Done", @"")]){
+        [Heap track:@"People: Done clicked"];
         [_delegate sendSelectedPeopleArray:_selectedPeopleArray];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else{// cancel
+        [Heap track:@"People: Cancel clicked"];
         [_selectedPeopleArray removeAllObjects];
         //[self saveSelectedPeopleArray];
         if (_segmentIds.count > 0) {
@@ -181,6 +184,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
         self.peopletable.frame = CGRectMake(self.peopletable.frame.origin.x, self.peopletable.frame.origin.y, self.peopletable.frame.size.width, self.peopletable.frame.size.height - 50);
     }
+    [self.peopletable reloadData];
 }
 
 -(void) emptyMessageShow: (BOOL) show {
@@ -213,6 +217,7 @@
         }
     }
     else{
+        [Heap track:@"People detail clicked"];
         NSLog(@"selected id %@", selectedPeople.peopleId);
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
         CHDPeopleProfileViewController *ppvc = [[CHDPeopleProfileViewController alloc] init];
@@ -263,7 +268,13 @@
     [cell.cellBackgroundView setBorderColor:[UIColor clearColor]];
     cell.tintColor = [UIColor chd_blueColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.userInteractionEnabled = YES;
+    cell.titleLabel.textColor = [UIColor chd_textDarkColor];
     if (tableView.isEditing) {
+        if (people.email == (id)[NSNull null] || people.email.length == 0 ) {
+            cell.userInteractionEnabled = NO;
+            cell.titleLabel.textColor = [UIColor lightGrayColor];
+        }
         if ([self isPeopleSelected:people]) {
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
         }
@@ -302,7 +313,7 @@
     newMessageViewController.currentUser = self.viewModel.user;
     newMessageViewController.organizationId = self.viewModel.organizationId;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
-    [Heap track:@"Create new people message"];
+    [Heap track:@"People: Create message clicked"];
     [self presentViewController:navigationVC animated:YES completion:nil];
 }
 
