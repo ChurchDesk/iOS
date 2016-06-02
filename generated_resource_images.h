@@ -13,6 +13,7 @@
 #define kImgCreateEvent [UIImage imageNamed:@"create_event"]
 #define kImgCreateAbsence [UIImage imageNamed:@"create_absence"]
 #define kImgCreateMessage [UIImage imageNamed:@"create_message"]
+#define kImgCreatePerson [UIImage imageNamed:@"create_person"]
 #define kImgCreatePassive [UIImage imageNamed:@"create_passive"]
 #define kImgCrossError [UIImage imageNamed:@"cross_error"]
 #define kImgDisclosureArrow [UIImage imageNamed:@"disclosure_arrow"]

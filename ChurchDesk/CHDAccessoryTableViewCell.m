@@ -109,15 +109,13 @@
         button.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
         [button setBackgroundColor:buttonColors[idx]];
         [button setTitle:buttonTitle forState:UIControlStateNormal];
-
+        
         UIView* buttonStretch = [UIView new];
         buttonStretch.backgroundColor = button.backgroundColor;
-
         [self.accessoryButtonView addSubview:buttonStretch];
         [self.accessoryButtonView addSubview:button];
-
         __block MASConstraint* buttonRight;
-
+        
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             buttonRight = make.left.equalTo(self.accessoryButtonView.mas_right);
             make.top.bottom.equalTo(self.accessoryButtonView);

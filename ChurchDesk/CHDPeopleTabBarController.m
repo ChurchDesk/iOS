@@ -90,7 +90,7 @@
         CGSize titleSize = [button.titleLabel.text sizeWithAttributes:@{NSFontAttributeName: button.titleLabel.font}];
         CGSize imageSize = button.imageView.image.size;
         
-        // lower the text and push it left so it appears centered, use the title height to make the titles seem centered
+        // lower the text and push it left so it appe ,ars centered, use the title height to make the titles seem centered
         // to each other
         button.titleEdgeInsets = UIEdgeInsetsMake(0.0, - imageSize.width, - (titleSize.height * 2 + 2), 0.0);
         

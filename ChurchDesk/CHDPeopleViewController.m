@@ -18,12 +18,23 @@
 #import "CHDCreateMessageMailViewController.h"
 #import "CHDPeopleProfileViewController.h"
 
+static const CGFloat k45Degrees = -0.785398163f;
+static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
+
 @interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UIScrollViewDelegate>
+@property (nonatomic, strong) UIView *buttonContainer;
+@property (nonatomic, strong) UIButton *toggleButton;
+@property(nonatomic, strong) UIButton *messageButton;
+@property(nonatomic, strong) UIButton *addPersonButton;
 @property (nonatomic, retain) UITableView* peopletable;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property(nonatomic, strong) CHDPeopleViewModel *viewModel;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
-@property(nonatomic, strong) UIButton *messageButton;
+
+@property (nonatomic, strong) MASConstraint *messageCenterConstraint;
+@property (nonatomic, strong) MASConstraint *addPersonCenterConstraint;
+
+@property (nonatomic, assign) BOOL isExpanded;
 
 @end
 
@@ -85,7 +96,10 @@
 
 -(void) makeViews {
     [self.view addSubview:self.peopletable];
-    [self.view addSubview:self.messageButton];
+    [self.view addSubview:self.buttonContainer];
+    [self.buttonContainer addSubview:self.messageButton];
+    [self.buttonContainer addSubview:self.addPersonButton];
+    [self.view addSubview:self.toggleButton];
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Select", @"") style:UIBarButtonItemStylePlain target:self action:@selector(selectAction:)];
     [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
     [saveButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
@@ -94,19 +108,35 @@
     if (_createMessage) {
         self.navigationItem.rightBarButtonItem = saveButtonItem;
         self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Done", @"");
-        [self.messageButton setHidden:YES];
+        [self.toggleButton setHidden:YES];
     }
+    self.buttonContainer.hidden = true;
 }
 
 -(void) makeConstraints {
     UIView* superview = self.view;
+    [self.buttonContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+        make.width.equalTo(@353);
+        make.height.equalTo(@323);
+    }];
+    NSValue *vCenterPoint = [NSValue valueWithCGPoint:kDefaultCenterPoint];
+    [self.toggleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(vCenterPoint);
+    }];
+    [self.messageButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.messageCenterConstraint = make.center.equalTo(vCenterPoint);
+    }];
+    [self.addPersonButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.addPersonCenterConstraint = make.center.equalTo(vCenterPoint);
+    }];
     [self.peopletable mas_makeConstraints:^(MASConstraintMaker *make){
         make.edges.equalTo(superview);
     }];
-    [self.messageButton mas_makeConstraints:^(MASConstraintMaker *make){
-        make.right.equalTo(superview);
-        make.bottom.equalTo(superview).offset(-5);
-    }];
+//    [self.messageButton mas_makeConstraints:^(MASConstraintMaker *make){
+//        make.right.equalTo(superview);
+//        make.bottom.equalTo(superview).offset(-5);
+//    }];
 }
 
 -(void) makeBindings {
@@ -152,6 +182,37 @@
     }
     return NO;
 }
+
+#pragma mark - Actions
+
+- (void) toggleButtonAction: (id) sender {
+    BOOL toggleOn = CGAffineTransformEqualToTransform(self.buttonContainer.transform, CGAffineTransformIdentity);
+    [self buttonOn:toggleOn];
+}
+
+-(void) buttonOn: (BOOL) on {
+    self.isExpanded = on;
+    
+    CGAffineTransform transform = on ? CGAffineTransformMakeRotation(-k45Degrees) : CGAffineTransformIdentity;
+    CGPoint messageOffset = on ? CGPointMake(175, -3) : kDefaultCenterPoint;
+    CGPoint addPeopleOffset = on ? CGPointMake(135, -43) : kDefaultCenterPoint;
+    if (on) {
+        self.buttonContainer.hidden = false;
+    }
+    [self.messageCenterConstraint setCenterOffset:messageOffset];
+    [self.addPersonCenterConstraint setCenterOffset:addPeopleOffset];
+    
+    [UIView animateWithDuration:on ? 0.7 : 0.4 delay:0 usingSpringWithDamping:on ? 0.6 : 0.8 initialSpringVelocity:1.0 options: UIViewAnimationOptionAllowUserInteraction animations:^{
+        self.toggleButton.transform = transform;
+        self.buttonContainer.transform = transform;
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        if (!on) {
+            self.buttonContainer.hidden = true;
+        }
+    }];
+}
+
 - (void)selectAction: (id) sender {
     UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
     if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
@@ -313,6 +374,7 @@
     newMessageViewController.currentUser = self.viewModel.user;
     newMessageViewController.organizationId = self.viewModel.organizationId;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
+    [self toggleButtonAction:nil];
     [Heap track:@"People: Create message clicked"];
     [self presentViewController:navigationVC animated:YES completion:nil];
 }
@@ -367,8 +429,42 @@
                    action:@selector(createMessageShow:)
          forControlEvents:UIControlEventTouchUpInside];
         [_messageButton setImage:kImgCreateMessage forState:UIControlStateNormal];
+        _messageButton.transform = CGAffineTransformRotate(CGAffineTransformIdentity, k45Degrees);
     }
     return _messageButton;
+}
+
+- (UIView *)buttonContainer {
+    if (!_buttonContainer) {
+        _buttonContainer = [UIView new];
+    }
+    return _buttonContainer;
+}
+
+- (UIButton *)toggleButton {
+    if (!_toggleButton) {
+        _toggleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_toggleButton setImage:kImgCreatePassive forState:UIControlStateNormal];
+        [_toggleButton setImage:kImgCreateActive forState:UIControlStateSelected];
+        [_toggleButton addTarget:self action:@selector(toggleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_toggleButton shprac_liftSelector:@selector(setSelected:) withSignal:RACObserve(self, isExpanded)];
+    }
+    return _toggleButton;
+}
+
+- (UIButton *)addPersonButton {
+    if (!_addPersonButton) {
+        _addPersonButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addPersonButton setImage:kImgCreatePerson forState:UIControlStateNormal];
+        _addPersonButton.transform = CGAffineTransformRotate(CGAffineTransformIdentity, k45Degrees);
+        [_addPersonButton addTarget:self action:@selector(toggleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _addPersonButton;
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    // UIView will be "transparent" for touch events if we return NO
+    return (!self.buttonContainer.hidden || CGRectContainsPoint(self.toggleButton.frame, point));
 }
 /*
 #pragma mark - Navigation

@@ -9,7 +9,6 @@
 #import "CHDExpandableButtonView.h"
 
 static const CGFloat k45Degrees = -0.785398163f;
-//static const CGFloat k45Degrees = 0.0f;
 static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 
 @interface CHDExpandableButtonView () <UIGestureRecognizerDelegate>

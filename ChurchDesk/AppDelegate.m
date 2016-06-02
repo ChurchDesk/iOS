@@ -37,7 +37,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [Heap setAppId:@"408075929"]; //prod
+ //   [Heap setAppId:@"408075929"]; //prod
 //    [Heap startDebug];
 //    [Heap setAppId:@"43172103"];    //dev
 //    [Heap enableVisualizer];

@@ -35,11 +35,7 @@
 - (RACSignal*)sendMessage :(BOOL)isSegment{
     if(!self.canSendMessage){return [RACSignal empty];}
     CHDPeopleMessage *message = [CHDPeopleMessage new];
-    NSLog(@"string prior conversion %@", self.message);
-    NSString *uniText = [NSString stringWithUTF8String:[self.message UTF8String]];
-    NSData *msgData = [uniText dataUsingEncoding:NSNonLossyASCIIStringEncoding];
-    NSString *goodMsg = [[NSString alloc] initWithData:msgData encoding:NSUTF8StringEncoding];
-    message.content = goodMsg;
+    message.content = self.message;
     message.title = self.title;
     message.organizationId = self.organizationId;
     message.from = self.from;
