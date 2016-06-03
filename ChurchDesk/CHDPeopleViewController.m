@@ -116,7 +116,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
 -(void) makeConstraints {
     UIView* superview = self.view;
     [self.buttonContainer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.bottom.equalTo(self.view);
         make.width.equalTo(@353);
         make.height.equalTo(@323);
     }];
@@ -194,8 +194,8 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
     self.isExpanded = on;
     
     CGAffineTransform transform = on ? CGAffineTransformMakeRotation(-k45Degrees) : CGAffineTransformIdentity;
-    CGPoint messageOffset = on ? CGPointMake(175, -3) : kDefaultCenterPoint;
-    CGPoint addPeopleOffset = on ? CGPointMake(135, -43) : kDefaultCenterPoint;
+    CGPoint messageOffset = on ? CGPointMake(125, -33) : kDefaultCenterPoint;
+    CGPoint addPeopleOffset = on ? CGPointMake(85, -73) : kDefaultCenterPoint;
     if (on) {
         self.buttonContainer.hidden = false;
     }
@@ -425,11 +425,11 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
 -(UIButton*)messageButton {
     if(!_messageButton){
         _messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_messageButton addTarget:self
-                   action:@selector(createMessageShow:)
-         forControlEvents:UIControlEventTouchUpInside];
         [_messageButton setImage:kImgCreateMessage forState:UIControlStateNormal];
         _messageButton.transform = CGAffineTransformRotate(CGAffineTransformIdentity, k45Degrees);
+        [_messageButton addTarget:self
+                           action:@selector(createMessageShow:)
+                 forControlEvents:UIControlEventTouchUpInside];
     }
     return _messageButton;
 }
