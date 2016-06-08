@@ -17,9 +17,10 @@
 #import "MBProgressHUD.h"
 #import "CHDCreateMessageMailViewController.h"
 #import "CHDPeopleProfileViewController.h"
+#import "CHDCreatePersonViewController.h"
 
 static const CGFloat k45Degrees = -0.785398163f;
-static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
+static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 
 @interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong) UIView *buttonContainer;
@@ -84,7 +85,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
         rightBarButtonTitle = NSLocalizedString(@"Select", @"");
     }
     if (_segmentIds.count > 0) {
-        [self.messageButton setHidden:YES];
+        [self.buttonContainer setHidden:YES];
     }
     else {
         self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;
@@ -116,13 +117,16 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
 -(void) makeConstraints {
     UIView* superview = self.view;
     [self.buttonContainer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
+        make.bottom.equalTo(superview.mas_bottom).offset(-5);
+        make.right.equalTo(self.view);
         make.width.equalTo(@353);
         make.height.equalTo(@323);
     }];
     NSValue *vCenterPoint = [NSValue valueWithCGPoint:kDefaultCenterPoint];
+    NSLog(@"center point %@", vCenterPoint);
     [self.toggleButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(vCenterPoint);
+        make.bottom.equalTo(superview.mas_bottom).offset(-15);
+        make.right.equalTo(superview.mas_right).offset(-20);
     }];
     [self.messageButton mas_makeConstraints:^(MASConstraintMaker *make) {
         self.messageCenterConstraint = make.center.equalTo(vCenterPoint);
@@ -133,10 +137,6 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
     [self.peopletable mas_makeConstraints:^(MASConstraintMaker *make){
         make.edges.equalTo(superview);
     }];
-//    [self.messageButton mas_makeConstraints:^(MASConstraintMaker *make){
-//        make.right.equalTo(superview);
-//        make.bottom.equalTo(superview).offset(-5);
-//    }];
 }
 
 -(void) makeBindings {
@@ -194,8 +194,8 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
     self.isExpanded = on;
     
     CGAffineTransform transform = on ? CGAffineTransformMakeRotation(-k45Degrees) : CGAffineTransformIdentity;
-    CGPoint messageOffset = on ? CGPointMake(125, -33) : kDefaultCenterPoint;
-    CGPoint addPeopleOffset = on ? CGPointMake(85, -73) : kDefaultCenterPoint;
+    CGPoint messageOffset = on ? CGPointMake(125, -53) : kDefaultCenterPoint;
+    CGPoint addPeopleOffset = on ? CGPointMake(85, -93) : kDefaultCenterPoint;
     if (on) {
         self.buttonContainer.hidden = false;
     }
@@ -379,6 +379,13 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
     [self presentViewController:navigationVC animated:YES completion:nil];
 }
 
+- (void) createPersonShow: (id) sender {
+    [self toggleButtonAction:nil];
+    CHDCreatePersonViewController *newPersonViewController = [CHDCreatePersonViewController new];
+    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newPersonViewController];
+    [self presentViewController:navigationVC animated:YES completion:nil];
+}
+
 #pragma mark - Lazy Initialization
 
 -(UITableView*)peopletable {
@@ -457,7 +464,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 190.0f};
         _addPersonButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_addPersonButton setImage:kImgCreatePerson forState:UIControlStateNormal];
         _addPersonButton.transform = CGAffineTransformRotate(CGAffineTransformIdentity, k45Degrees);
-        [_addPersonButton addTarget:self action:@selector(toggleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_addPersonButton addTarget:self action:@selector(createPersonShow:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _addPersonButton;
 }
