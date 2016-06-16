@@ -16,6 +16,9 @@
 #import "CHDCreatePersonViewModel.h"
 #import "SHPKeyboardEvent.h"
 #import "CHDPeople.h"
+#import "CHDTag.h"
+#import "CHDListSelectorViewController.h"
+#import "CHDListSelectorConfigModel.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -134,7 +137,6 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
     if((newMessagesSections)indexPath.section == selecttagsSection){
         CHDEventCategoriesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCreatePersonSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Tags", @"");
-        
         return cell;
     }
     return nil;
@@ -142,7 +144,27 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if((newMessagesSections)indexPath.section == selecttagsSection){
+        NSMutableArray *items = [NSMutableArray new];
+        for (CHDTag *tag in self.personViewModel.tags) {
+            BOOL selected = false;
+//            for (NSNumber *categoryId in event.eventCategoryIds) {
+//                if (categoryId.intValue == category.categoryId.intValue) {
+//                    selected = true;
+//                }
+//            }
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:tag.name color:nil selected:selected refObject:tag.tagId]];
+        }
+        CHDListSelectorViewController *vc = [[CHDListSelectorViewController alloc] initWithSelectableItems:items];
+        vc.title = NSLocalizedString(@"Select Tags", @"");
+        vc.selectMultiple = YES;
+        RACSignal *selectedSignal = [[[RACObserve(vc, selectedItems) map:^id(NSArray *selectedItems) {
+            return [selectedItems valueForKey:@"refObject"];
+        }] skip:1] takeUntil:vc.rac_willDeallocSignal];
         
+        [self.personViewModel shprac_liftSelector:@selector(setSelectedTags:) withSignal:selectedSignal];
+        CGPoint offset = self.tableView.contentOffset;
+        [self.tableView rac_liftSelector:@selector(setContentOffset:) withSignals:[[[self rac_signalForSelector:@selector(viewDidLayoutSubviews)] takeUntil:vc.rac_willDeallocSignal] mapReplace:[NSValue valueWithCGPoint:offset]], nil];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

@@ -9,5 +9,4 @@
 #import "CHDAbstractViewController.h"
 
 @interface CHDCreatePersonViewController : CHDAbstractViewController
-
 @end

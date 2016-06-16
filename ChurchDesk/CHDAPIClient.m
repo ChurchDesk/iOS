@@ -23,6 +23,7 @@
 #import "CHDAPICreate.h"
 #import "CHDNotificationSettings.h"
 #import "CHDSegment.h"
+#import "CHDTag.h"
 
 static const CGFloat kDefaultCacheIntervalInSeconds = 60.f * 30.f; // 30 minutes
 static NSString *const kAuthorizationHeaderField = @"token";
@@ -364,6 +365,12 @@ static NSString *const kURLAPIOauthPart = @"";
     }];
 }
 
+- (RACSignal*) getTagsforOrganization: (NSString *) organizationId {
+    return [self resourcesForPath:[self resourcePathForGetTags] resultClass:[CHDTag class] withResource:nil request:^(SHPHTTPRequest *request) {
+        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+    }];
+}
+
 #pragma mark - Messages
 
 - (RACSignal*) getUnreadMessages{
@@ -548,6 +555,7 @@ static NSString *const kURLAPIOauthPart = @"";
 - (NSString*)resourcePathForGetMessageWithId:(NSNumber *)messageId { return [NSString stringWithFormat:@"messages/%ld", (long)messageId.integerValue];}
 - (NSString*)resourcePathForGetNotificationSettings{return [NSString stringWithFormat:@"users/%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]];}
 -(NSString*)resourcePathForGetPeople {return @"people/people";}
+-(NSString*)resourcePathForGetTags {return @"people/tags";}
 -(NSString*)resourcePathForGetSegments {return @"people/segments";}
 
 #pragma mark - Refresh token

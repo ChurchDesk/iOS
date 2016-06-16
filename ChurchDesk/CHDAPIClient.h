@@ -47,6 +47,7 @@
 - (RACSignal*) clientAccessToken;
 - (RACSignal*) getpeopleforOrganization: (NSString *) organizationId segmentIds :(NSArray *)segmentIds;
 - (RACSignal*) getSegmentsforOrganization: (NSString *) organizationId;
+- (RACSignal*) getTagsforOrganization: (NSString *) organizationId;
 -(RACSignal*)createPeopleMessageWithTitle:(NSString*) title message:(NSString*) message organizationId: (NSString*) organizationId from:(NSString *) from to:(NSArray*)to type:(NSString*) type scheduled:(NSString*) scheduled;
 
 #pragma mark - ResourcePath for

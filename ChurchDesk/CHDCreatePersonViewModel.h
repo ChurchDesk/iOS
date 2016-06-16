@@ -7,6 +7,7 @@
 //
 
 #import "CHDManagedModel.h"
+#import "CHDPeople.h"
 
 @interface CHDCreatePersonViewModel : CHDManagedModel
 @property (nonatomic, strong) NSString *firstName;
@@ -16,5 +17,6 @@
 @property (nonatomic, readonly) BOOL canCreatePerson;
 @property (nonatomic, strong) NSArray *selectedTags;
 @property (nonatomic, readonly) RACCommand *saveCommand;
-
+@property (nonatomic, readonly) NSArray *tags;
+@property (nonatomic, strong) CHDPeople *people;
 @end
