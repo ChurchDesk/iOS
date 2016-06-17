@@ -11,4 +11,5 @@
 @interface CHDSelectorTableViewCell : CHDCommonTableViewCell
 @property (nonatomic, assign) UIColor* dotColor;
 @property (nonatomic, readonly) UILabel *titleLabel;
+@property (nonatomic, assign) BOOL isTag;
 @end

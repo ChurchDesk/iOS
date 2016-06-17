@@ -38,10 +38,12 @@ static NSString* kCreateMessageTextFieldCell = @"createMessagTextFieldCell";
 static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
 
-@interface CHDCreatePersonViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface CHDCreatePersonViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) CHDStatusView *statusView;
 @property (nonatomic, strong) CHDCreatePersonViewModel *personViewModel;
+@property (nonatomic, strong) UIImageView* userImageView;
+@property (nonatomic, strong) UIButton* editImageButton;
 @end
 
 
@@ -88,6 +90,31 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
 
 -(void)rightBarButtonTouch {
     
+}
+
+- (void)editAction: (id) sender {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] )
+    {
+        
+            UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                          initWithTitle:nil
+                                          delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                          destructiveButtonTitle:nil
+                                          otherButtonTitles:NSLocalizedString(@"Choose Photo", @""), NSLocalizedString(@"Take Photo", @""), nil];
+            actionSheet.tag = 100;
+            [actionSheet showFromToolbar:[[self navigationController] toolbar]];
+    }
+    else{
+            UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                          initWithTitle:nil
+                                          delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                          destructiveButtonTitle:nil
+                                          otherButtonTitles:NSLocalizedString(@"Choose Photo", @""), nil];
+            actionSheet.tag = 102;
+            [actionSheet showFromToolbar:[[self navigationController] toolbar]];
+    }
 }
 
 #pragma mark - TableView datasource
@@ -157,6 +184,7 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
         CHDListSelectorViewController *vc = [[CHDListSelectorViewController alloc] initWithSelectableItems:items];
         vc.title = NSLocalizedString(@"Select Tags", @"");
         vc.selectMultiple = YES;
+        vc.isTag = YES;
         RACSignal *selectedSignal = [[[RACObserve(vc, selectedItems) map:^id(NSArray *selectedItems) {
             return [selectedItems valueForKey:@"refObject"];
         }] skip:1] takeUntil:vc.rac_willDeallocSignal];
@@ -168,11 +196,49 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
     }
 }
 
+#pragma mark - Actionsheet delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (actionSheet.tag == 100)
+    {
+        if (buttonIndex == 0)
+        {//Choose Photo
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:nil];
+            picker = nil;
+        }
+        else if (buttonIndex == 1)
+        {//Take Photo
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+            //    [self presentModalViewController: picker animated:YES];
+            [self presentViewController:picker animated:YES completion:nil];
+            picker = nil;
+        }
+    }
+    else if(actionSheet.tag == 102){
+        if (buttonIndex == 0)
+        {//Choose Photo
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:nil];
+            picker = nil;
+        }
+    }
+}
+
 #pragma mark - Lazy initialization
 
 -(void) makeViews {
     [self.view addSubview:self.tableView];
-    
+    [self.view addSubview:self.userImageView];
+    [self.view addSubview:self.editImageButton];
     self.statusView = [[CHDStatusView alloc] init];
     self.statusView.successText = NSLocalizedString(@"Person created successfully", @"");
     self.statusView.processingText = NSLocalizedString(@"Creating person..", @"");
@@ -181,8 +247,21 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
 }
 
 -(void) makeConstraints {
+    UIView *containerView = self.view;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.left.right.bottom.equalTo(containerView);
+        make.top.equalTo(containerView).with.offset(150);
+    }];
+    
+    [self.userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(containerView).with.offset(10);
+        make.centerX.equalTo(containerView);
+        make.width.height.equalTo(@104);
+    }];
+    
+    [self.editImageButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(containerView);
+        make.top.equalTo(containerView).with.offset(115);
     }];
 }
 
@@ -248,6 +327,27 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
         _tableView.delegate = self;
     }
     return _tableView;
+}
+
+-(UIImageView*)userImageView{
+    if(!_userImageView){
+        _userImageView = [UIImageView new];
+        _userImageView.layer.cornerRadius = 52;
+        _userImageView.layer.backgroundColor = [UIColor chd_lightGreyColor].CGColor;
+        _userImageView.layer.masksToBounds = YES;
+        _userImageView.contentMode = UIViewContentModeScaleAspectFill;
+    }
+    return _userImageView;
+}
+
+- (UIButton *)editImageButton {
+    if (!_editImageButton) {
+        _editImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_editImageButton setTitle:NSLocalizedString(@"Edit", @"") forState:UIControlStateNormal];
+        [_editImageButton setTitleColor:[UIColor chd_textDarkColor] forState:UIControlStateNormal];
+        [_editImageButton addTarget:self action:@selector(editAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _editImageButton;
 }
 
 #pragma mark - Keyboard

@@ -214,7 +214,8 @@
     {
         UIAlertView *calert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Your device doesn't support voice calls." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [calert show];
-    }}
+    }
+}
 
 -(void)sendMessageAction: (id) sender {
     [Heap track:@"People profile: Message clicked"];

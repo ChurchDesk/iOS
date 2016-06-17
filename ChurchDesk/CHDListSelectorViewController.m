@@ -14,9 +14,10 @@
 
 
 @interface CHDListSelectorViewController ()
-@property (nonatomic, strong) NSArray *selectableElements;
-
+@property (nonatomic, strong) NSMutableArray *selectableElements;
+@property (nonatomic, strong) NSMutableArray *sectionIndices;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *items;
 @end
 
 NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
@@ -27,7 +28,8 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 
 - (instancetype)initWithSelectableItems:(NSArray *)items {
     if((self = [super init])){
-        self.selectableElements = items;
+        self.items = items;
+        [self setupData:items];
     }
     return self;
 }
@@ -72,7 +74,7 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 }
 
 - (NSArray *)selectedItems {
-    return [self.selectableElements shp_filter:^BOOL(CHDListSelectorConfigModel *element) {
+    return [self.items shp_filter:^BOOL(CHDListSelectorConfigModel *element) {
         return element.selected;
     }];
 }
@@ -80,13 +82,13 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 #pragma mark -TableData source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return self.sectionIndices.count;
 }
 
 #pragma mark - Table Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView cellForRowAtIndexPath:indexPath].selected = YES;
-    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
+    CHDListSelectorConfigModel* element = [[self.selectableElements objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     BOOL elementSelectedPreStage = element.selected;
     
     [self willChangeValueForKey:@"selectedItems"];
@@ -102,31 +104,37 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
-
+    CHDListSelectorConfigModel* element = [[self.selectableElements objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [self willChangeValueForKey:@"selectedItems"];
     element.selected = NO;
     [self didChangeValueForKey:@"selectedItems"];
-    
     [tableView cellForRowAtIndexPath:indexPath].selected = NO;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 0 || section == [tableView numberOfSections]-1){
-        return 1;
+    return [[self.selectableElements objectAtIndex:section] count];
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    if (_isTag) {
+        return self.sectionIndices;
     }
-    return self.selectableElements.count;
+    else{
+        return nil;
+    }
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section == 0 || indexPath.section == [self numberOfSectionsInTableView:tableView] - 1){
-        CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorDeviderCellIdentifyer forIndexPath:indexPath];
-        cell.hideTopLine = indexPath.section == 0 && indexPath.row == 0;
-        cell.hideBottomLine = indexPath.section == [tableView numberOfSections]-1 && indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1;
-        return cell;
-    }
+//    if(indexPath.section == 0 || indexPath.section == [self numberOfSectionsInTableView:tableView] - 1){
+//        CHDDividerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorDeviderCellIdentifyer forIndexPath:indexPath];
+//        cell.hideTopLine = indexPath.section == 0 && indexPath.row == 0;
+//        cell.hideBottomLine = indexPath.section == [tableView numberOfSections]-1 && indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1;
+//        return cell;
+//    }
 
-    CHDListSelectorConfigModel* element = self.selectableElements[indexPath.row];
+    CHDListSelectorConfigModel* element = [[self.selectableElements objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 
     if(element.imageURL){
         CHDSelectorImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorImageCellIdentifyer forIndexPath:indexPath];
@@ -142,7 +150,7 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
         return cell;
     }else{
         CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorCellIdentifyer forIndexPath:indexPath];
-
+        cell.isTag = _isTag;
         cell.titleLabel.text = element.title;
         if(element.selected){
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -150,9 +158,35 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
         //cell.selected = element.selected;
         cell.dotColor = element.dotColor;
 
-        cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
+        cell.dividerLineHidden = NO;
         return cell;
     }
 }
 
+-(void) setupData :(NSArray *)items{
+    _sectionIndices = [[NSMutableArray alloc] init];
+    _selectableElements = [[NSMutableArray alloc] init];
+    NSArray *alphaArray=[[NSArray alloc] initWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
+    NSMutableArray *tempArray;
+    NSString *prefix;
+    for (int i=0; i<alphaArray.count; i++)
+    {
+        tempArray=[[NSMutableArray alloc] init];
+        for(int j=0;j<items.count;j++)
+        {
+            NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+            CHDListSelectorConfigModel* element = [items objectAtIndex:j];
+            prefix = [[element.title stringByTrimmingCharactersInSet:whitespace] substringToIndex:1];
+            if ([prefix caseInsensitiveCompare:[alphaArray objectAtIndex:i]] == NSOrderedSame )
+            {
+                [tempArray addObject:element];
+            }
+        }
+        if (tempArray.count>0)
+        {
+            [_sectionIndices addObject:[alphaArray objectAtIndex:i]];
+            [_selectableElements addObject:tempArray];
+        }
+    }
+}
 @end

@@ -77,7 +77,12 @@ CGFloat const kTitleLabelOffsetWithColor = 31.0f;
     }];
 
     RAC(self.titleLabel, textColor) = [RACObserve(self, selected) map: ^id(NSNumber * value) {
+        if (_isTag) {
+            return [UIColor chd_textDarkColor];
+        }
+        else{
         return value.boolValue? [UIColor chd_textDarkColor] : [UIColor chd_textLightColor];
+        }
     }];
 }
 

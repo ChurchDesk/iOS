@@ -14,6 +14,7 @@
 @property (nonatomic, assign) BOOL selectMultiple;
 @property (weak) id<CHDListSelectorDelegate> selectorDelegate;
 @property (nonatomic, readonly) NSArray *selectedItems;
+@property (nonatomic, assign) BOOL isTag;
 
 -(instancetype)initWithSelectableItems: (NSArray*) items;
 @end

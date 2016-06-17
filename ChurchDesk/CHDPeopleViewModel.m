@@ -104,9 +104,7 @@
             [_sectionIndices addObject:[alphaArray objectAtIndex:i]];
             [_peopleArrangedAccordingToIndex addObject:tempArray];
         }
-        
     }
-
 }
 - (void)reload {
     CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
