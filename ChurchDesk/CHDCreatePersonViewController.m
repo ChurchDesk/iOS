@@ -233,6 +233,56 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
     }
 }
 
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if ([navigationController.viewControllers count] == 3)
+    {
+        CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
+        
+        UIView *plCropOverlay = [[[viewController.view.subviews objectAtIndex:1]subviews] objectAtIndex:0];
+        
+        plCropOverlay.hidden = YES;
+        
+        int position = 0;
+        
+        if (screenHeight == 568)
+        {
+            position = 124;
+        }
+        else
+        {
+            position = 80;
+        }
+        
+        CAShapeLayer *circleLayer = [CAShapeLayer layer];
+        
+        UIBezierPath *path2 = [UIBezierPath bezierPathWithOvalInRect:
+                               CGRectMake(0.0f, position, 320.0f, 320.0f)];
+        [path2 setUsesEvenOddFillRule:YES];
+        
+        [circleLayer setPath:[path2 CGPath]];
+        
+        [circleLayer setFillColor:[[UIColor clearColor] CGColor]];
+        UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, 320, screenHeight-72) cornerRadius:0];
+        
+        [path appendPath:path2];
+        [path setUsesEvenOddFillRule:YES];
+        
+        CAShapeLayer *fillLayer = [CAShapeLayer layer];
+        fillLayer.path = path.CGPath;
+        fillLayer.fillRule = kCAFillRuleEvenOdd;
+        fillLayer.fillColor = [UIColor blackColor].CGColor;
+        fillLayer.opacity = 0.8;
+        [viewController.view.layer addSublayer:fillLayer];
+        
+        UILabel *moveLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 320, 50)];
+        [moveLabel setText:@"Move and Scale"];
+        [moveLabel setTextAlignment:NSTextAlignmentCenter];
+        [moveLabel setTextColor:[UIColor whiteColor]];
+        
+        [viewController.view addSubview:moveLabel];
+    }
+}
 #pragma mark - Lazy initialization
 
 -(void) makeViews {
