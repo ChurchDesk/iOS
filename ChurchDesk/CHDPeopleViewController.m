@@ -22,7 +22,7 @@
 static const CGFloat k45Degrees = -0.785398163f;
 static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 
-@interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UIScrollViewDelegate>
+@interface CHDPeopleViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UIScrollViewDelegate, UIActionSheetDelegate>
 @property (nonatomic, strong) UIView *buttonContainer;
 @property (nonatomic, strong) UIButton *toggleButton;
 @property(nonatomic, strong) UIButton *messageButton;
@@ -343,8 +343,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     return cell;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index{
     return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
 }
 
@@ -369,14 +368,13 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 }
 
 - (void) createMessageShow: (id) sender {
-    CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
-    newMessageViewController.selectedPeopleArray = _selectedPeopleArray;
-    newMessageViewController.currentUser = self.viewModel.user;
-    newMessageViewController.organizationId = self.viewModel.organizationId;
-    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
-    [self toggleButtonAction:nil];
-    [Heap track:@"People: Create message clicked"];
-    [self presentViewController:navigationVC animated:YES completion:nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Choose message type..", @"")                                                                           delegate:self
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"Send an email", @""), NSLocalizedString(@"Send an SMS", @""), nil];
+    actionSheet.tag = 101;
+    [actionSheet showInView:self.view];
+    
 }
 
 - (void) createPersonShow: (id) sender {
@@ -384,6 +382,34 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     CHDCreatePersonViewController *newPersonViewController = [CHDCreatePersonViewController new];
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newPersonViewController];
     [self presentViewController:navigationVC animated:YES completion:nil];
+}
+
+#pragma mark - Action Sheet delgate methods
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet.tag == 101) {
+        if (buttonIndex != 2) {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setBool:NO forKey:ktoPeopleClicked];
+            if (buttonIndex == 0 || buttonIndex == 1) {
+                CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
+                newMessageViewController.selectedPeopleArray = _selectedPeopleArray;
+                newMessageViewController.currentUser = self.viewModel.user;
+                newMessageViewController.organizationId = self.viewModel.organizationId;
+                if (buttonIndex == 0) {
+                    newMessageViewController.isSMS = NO;
+                    [Heap track:@"People: Create email clicked"];
+                }
+                else{
+                    newMessageViewController.isSMS = YES;
+                    [Heap track:@"People: Create SMS clicked"];
+                }
+                UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
+                [self toggleButtonAction:nil];
+                [self presentViewController:navigationVC animated:YES completion:nil];
+            }
+        }
+    }
 }
 
 #pragma mark - Lazy Initialization

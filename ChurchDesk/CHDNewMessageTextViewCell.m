@@ -80,13 +80,11 @@ float height = 0;
 }
 
 - (void)textDidChange:(NSString *)text {
-
     if(![self.textView.text isEqual:@""]){
         self.placeholder.hidden = YES;
     }else{
         self.placeholder.hidden = NO;
     }
-    
     CGSize contentSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     contentSize.height = MAX(kNewMessageMinimumHeight, contentSize.height);
     if (height < contentSize.height) {
@@ -95,7 +93,6 @@ float height = 0;
         [self.tableView endUpdates];
         height = contentSize.height;
     }
-    
 }
 
 @end

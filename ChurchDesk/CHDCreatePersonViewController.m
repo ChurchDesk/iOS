@@ -276,13 +276,32 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
         [viewController.view.layer addSublayer:fillLayer];
         
         UILabel *moveLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 320, 50)];
-        [moveLabel setText:@"Move and Scale"];
+        [moveLabel setText:NSLocalizedString(@"Move and Scale", @"") ];
         [moveLabel setTextAlignment:NSTextAlignmentCenter];
         [moveLabel setTextColor:[UIColor whiteColor]];
         
         [viewController.view addSubview:moveLabel];
     }
 }
+
+- (void) imagePickerController:(UIImagePickerController *)picker
+ didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    //obtaining saving path
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:@"people_photo.png"];
+    
+    //extracting image from the picker and saving it
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:@"public.image"]){
+        UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+        NSData *webData = UIImagePNGRepresentation(editedImage);
+        [webData writeToFile:imagePath atomically:YES];
+    }
+    [self.userImageView setImage:[UIImage imageWithContentsOfFile:imagePath]];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Lazy initialization
 
 -(void) makeViews {

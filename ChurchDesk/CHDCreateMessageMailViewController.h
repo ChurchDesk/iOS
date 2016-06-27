@@ -16,4 +16,5 @@
 @property (nonatomic, strong) CHDUser *currentUser;
 @property (nonatomic, strong) NSString *selectedSender;
 @property (nonatomic, assign) BOOL isSegment;
+@property (nonatomic, assign) BOOL isSMS;
 @end

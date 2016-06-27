@@ -32,6 +32,14 @@ typedef NS_ENUM(NSUInteger, newMessagesSections) {
     newMessagesCountSections,
 };
 
+typedef NS_ENUM(NSUInteger, newSMSSections) {
+    divider3Section,
+    selectSMSReceiverSection,
+    divider4Section,
+    messageSMSInputSection,
+    newSMSCountSections,
+};
+
 static NSString* kCreateMessageDividerCell = @"createMessageDividerCell";
 static NSString* kCreateMessageSelectorCell = @"createMessageSelectorCell";
 static NSString* kCreateMessageTextFieldCell = @"createMessagTextFieldCell";
@@ -43,6 +51,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 @property (nonatomic, strong) CHDStatusView *statusView;
 @property (nonatomic, strong) UIView *receiverView;
 @property (nonatomic, strong) UIButton *backgroundButton;
+@property (nonatomic, strong) UILabel *textLimitLabel;
 @end
 
 @implementation CHDCreateMessageMailViewController
@@ -51,19 +60,18 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 {
     self = [super init];
     if (self) {
-        self.title = NSLocalizedString(@"Create email", @"");
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonTouch)];
         UIBarButtonItem *sendButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Send", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
         [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
         [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
         self.navigationItem.rightBarButtonItem = sendButton;
-        self.messageViewModel = [CHDCreateMessageMailViewModel new];
         
     }
     return self;
 }
 
 - (void)viewDidLoad {
+    self.messageViewModel = [[CHDCreateMessageMailViewModel alloc] initAsSMSorEmail:_isSMS];
     [super viewDidLoad];
     [self makeViews];
     [self makeConstraints];
@@ -131,7 +139,6 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
             case 403:
                 self.statusView.errorText = NSLocalizedString(@"Access denied", @"");
                 break;
-                
             case 429:
                 self.statusView.errorText = NSLocalizedString(@"Too many requests, try again later", @"");
                 break;
@@ -180,14 +187,14 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         }
         }
     }
-    
-    if((newMessagesSections)indexPath.section == selectSenderSection  && indexPath.row == 0){
+    if(!_isSMS && (newMessagesSections)indexPath.section == selectSenderSection  && indexPath.row == 0){
         [Heap track:@"People create message: from clicked"];
         CHDSite *selectedSite = [_currentUser siteWithId:_organizationId];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Select Sender", @"")                                                                           delegate:self
                                                         cancelButtonTitle:@"Cancel"
                                                         destructiveButtonTitle:nil
                                                         otherButtonTitles:_currentUser.name, selectedSite.name, nil];
+        actionSheet.tag = 102;
         [actionSheet showInView:self.view];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -230,6 +237,10 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 #pragma mark - TableView datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (_isSMS) {
+        return newSMSCountSections;
+    }
+    else
     return newMessagesCountSections;
 }
 
@@ -238,11 +249,12 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if((newMessagesSections)indexPath.section == divider1Section || (newMessagesSections)indexPath.section == divider2Section){
+    //checking if SMS or email was chosen and showing the view appropriately
+    if((!_isSMS && ((newMessagesSections)indexPath.section == divider1Section || (newMessagesSections)indexPath.section == divider2Section)) || (_isSMS && ((newSMSSections)indexPath.section == divider3Section || (newSMSSections)indexPath.section == divider4Section)) ){
         CHDDividerTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageDividerCell forIndexPath:indexPath];
         return cell;
     }
-    if((newMessagesSections)indexPath.section == selectReceiverSection){
+    if( (!_isSMS && (newMessagesSections)indexPath.section == selectReceiverSection) || (_isSMS && (newSMSSections)indexPath.section == selectSMSReceiverSection)){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"To", @"");
         if (_selectedPeopleArray.count > 0) {
@@ -271,14 +283,14 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         cell.dividerLineHidden = NO;
         return cell;
     }
-    if((newMessagesSections)indexPath.section == selectSenderSection){
+    if( !_isSMS && (newMessagesSections)indexPath.section == selectSenderSection){
         CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageSelectorCell forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"From", @"");
         cell.selectedLabel.text = _selectedSender;
         cell.dividerLineHidden = YES;
         return cell;
     }
-    if((newMessagesSections)indexPath.section == subjectInputSection){
+    if(!_isSMS && (newMessagesSections)indexPath.section == subjectInputSection){
         CHDNewMessageTextFieldCell* cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextFieldCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Subject", @"") attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
@@ -286,7 +298,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         [self.messageViewModel shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         return cell;
     }
-    if((newMessagesSections)indexPath.section == messageInputSection){
+    if((!_isSMS && (newMessagesSections)indexPath.section == messageInputSection) || (_isSMS && (newSMSSections)indexPath.section == messageSMSInputSection)){
         CHDNewMessageTextViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextViewCell forIndexPath:indexPath];
         cell.dividerLineHidden = YES;
         cell.textView.text = self.messageViewModel.message;
@@ -305,7 +317,6 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 {
     if (actionSheet.tag == 101) {
         if (buttonIndex != 2) {
-            [Heap track:@"Finish later clicked"];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setBool:NO forKey:ktoPeopleClicked];
         if (buttonIndex == 0) {
@@ -317,25 +328,26 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         }
         else if (buttonIndex == 1){
             [self saveMessageForLater];
+            [Heap track:@"Finish later clicked"];
             [self dismissViewControllerAnimated:YES completion:nil];
         }
         }
     }
+    else if (actionSheet.tag == 102){
     if (buttonIndex != 2) {
-       // CHDNewMessageSelectorCell* cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
         _selectedSender = [actionSheet buttonTitleAtIndex:buttonIndex];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:selectSenderSection];
         //cell.selectedLabel.text = [actionSheet buttonTitleAtIndex:buttonIndex];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }
     }
 }
-
 
 #pragma mark - Lazy initialization
 
 -(void) makeViews {
     [self.view addSubview:self.tableView];
-    
+    [self.view addSubview:self.textLimitLabel];
     self.statusView = [[CHDStatusView alloc] init];
     self.statusView.successText = NSLocalizedString(@"Your message was sent", @"");
     self.statusView.processingText = NSLocalizedString(@"Sending message..", @"");
@@ -347,9 +359,21 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    
+    [self.textLimitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).with.offset(10);
+        make.centerX.equalTo(self.view);
+    }];
 }
 
 -(void) makeBindings {
+    if (self.isSMS) {
+        self.title = NSLocalizedString(@"Create SMS", @"");
+    }
+    else{
+        self.title = NSLocalizedString(@"Create email", @"");
+    }
+    self.messageViewModel.isSMS = _isSMS;
     [self rac_liftSelector:@selector(chd_willToggleKeyboard:) withSignals:[self shp_keyboardAwarenessSignal], nil];
     
     //put text if exists
@@ -363,6 +387,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
    
     //Change the state of the send button
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.messageViewModel, canSendMessage);
+    RAC(self.textLimitLabel, text) = RACObserve(self.messageViewModel, textLimit);
 }
 
 -(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
@@ -482,6 +507,15 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     return _tableView;
 }
 
+-(UILabel *)textLimitLabel{
+    if(!_textLimitLabel){
+        _textLimitLabel = [UILabel new];
+        _textLimitLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
+        _textLimitLabel.textColor = [UIColor blackColor];
+        _textLimitLabel.text = @"160";
+    }
+    return _textLimitLabel;
+}
 #pragma mark - Keyboard
 
 -(void) chd_willToggleKeyboard: (SHPKeyboardEvent*) keyboardEvent{

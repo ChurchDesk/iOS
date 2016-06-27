@@ -17,7 +17,24 @@
 @end
 @implementation CHDCreateMessageMailViewModel
 
-- (instancetype)init {
+- (instancetype)initAsSMSorEmail :(BOOL)isSMS{
+    if (isSMS) {
+        RAC(self, canSendMessage) = [RACSignal combineLatest:@[RACObserve(self, selectedPeople), RACObserve(self, message)]
+                                                      reduce:^(NSArray *selectedPeople, NSString *message){
+                                                          BOOL validMessage = !([message isEqualToString:@""]);
+                                                          
+                                                          BOOL validPeople = NO;
+                                                          if (selectedPeople.count > 0) {
+                                                              validPeople = YES;
+                                                          }
+                                                          return @(validMessage && validPeople);
+                                                      }];
+        RAC(self, textLimit) = [RACSignal combineLatest:@[RACObserve(self, message)]
+                                                 reduce:^(NSString *message){
+                                                     return [NSString stringWithFormat:@"%d", (160 - message.length)];
+                                                 }];
+    }
+    else{
     RAC(self, canSendMessage) = [RACSignal combineLatest:@[RACObserve(self, selectedPeople), RACObserve(self, message), RACObserve(self, title)]
                                                   reduce:^(NSArray *selectedPeople, NSString *message, NSString *title){
                                                       BOOL validTitle = !([title isEqualToString:@""]);
@@ -29,6 +46,7 @@
                                                       }
                                                       return @(validTitle && validMessage && validPeople);
                                                   }];
+    }
     return self;
 }
 
