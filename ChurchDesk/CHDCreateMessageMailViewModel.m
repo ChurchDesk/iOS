@@ -57,6 +57,9 @@
     message.title = self.title;
     message.organizationId = self.organizationId;
     message.from = self.from;
+    if (_isSMS) {
+        message.type = @"sms";
+    } else
     message.type = @"email";
     message.to = [message toArray:self.selectedPeople isSegment:isSegment];
     NSDateFormatter *dateFormatter = [NSDateFormatter chd_apiDateFormatter];
