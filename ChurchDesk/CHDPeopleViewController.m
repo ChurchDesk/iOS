@@ -380,6 +380,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 - (void) createPersonShow: (id) sender {
     [self toggleButtonAction:nil];
     CHDCreatePersonViewController *newPersonViewController = [CHDCreatePersonViewController new];
+    newPersonViewController.organizationId = self.viewModel.organizationId;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newPersonViewController];
     [self presentViewController:navigationVC animated:YES completion:nil];
 }

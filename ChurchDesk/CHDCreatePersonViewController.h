@@ -9,4 +9,5 @@
 #import "CHDAbstractViewController.h"
 
 @interface CHDCreatePersonViewController : CHDAbstractViewController
+@property (nonatomic, strong) NSString *organizationId;
 @end

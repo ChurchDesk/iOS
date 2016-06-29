@@ -49,6 +49,7 @@
 - (RACSignal*) getSegmentsforOrganization: (NSString *) organizationId;
 - (RACSignal*) getTagsforOrganization: (NSString *) organizationId;
 -(RACSignal*)createPeopleMessageWithTitle:(NSString*) title message:(NSString*) message organizationId: (NSString*) organizationId from:(NSString *) from to:(NSArray*)to type:(NSString*) type scheduled:(NSString*) scheduled;
+-(void)uploadPicture :(NSData*) picture organizationId: (NSString *)organizationId;
 
 #pragma mark - ResourcePath for
 - (NSString*) resourcePathForGetCurrentUser;

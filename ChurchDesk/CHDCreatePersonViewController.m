@@ -6,6 +6,7 @@
 //  Copyright © 2016 ChurchDesk ApS. All rights reserved.
 //
 
+#import <SHPNetworking/SHPAPIManager+ReactiveExtension.h>
 #import "CHDCreatePersonViewController.h"
 #import "CHDStatusView.h"
 #import "NSObject+SHPKeyboardAwareness.h"
@@ -19,6 +20,7 @@
 #import "CHDTag.h"
 #import "CHDListSelectorViewController.h"
 #import "CHDListSelectorConfigModel.h"
+#import "CHDAPIClient.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -296,6 +298,7 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
     if ([mediaType isEqualToString:@"public.image"]){
         UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
         NSData *webData = UIImagePNGRepresentation(editedImage);
+        [[CHDAPIClient sharedInstance] uploadPicture:webData organizationId:self.organizationId];
         [webData writeToFile:imagePath atomically:YES];
     }
     [self.userImageView setImage:[UIImage imageWithContentsOfFile:imagePath]];

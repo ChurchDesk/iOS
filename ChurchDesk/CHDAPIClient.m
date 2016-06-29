@@ -351,12 +351,17 @@ static NSString *const kURLAPIOauthPart = @"";
 
 #pragma mark - People
 - (RACSignal*) getpeopleforOrganization: (NSString *) organizationId segmentIds :(NSArray *)segmentIds {
-     return [self resourcesForPath:[self resourcePathForGetPeople] resultClass:[CHDPeople class] withResource:nil request:^(SHPHTTPRequest *request) {
-        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
-         if (segmentIds.count > 0) {
-             [request setValue:[segmentIds objectAtIndex:0] forQueryParameterKey:@"segmentIds[]"];
-         }
-    }];
+    if (organizationId) {
+        return [self resourcesForPath:[self resourcePathForGetPeople] resultClass:[CHDPeople class] withResource:nil request:^(SHPHTTPRequest *request) {
+            [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+            if (segmentIds.count > 0) {
+                [request setValue:[segmentIds objectAtIndex:0] forQueryParameterKey:@"segmentIds[]"];
+            }
+        }];
+    }
+    else
+        return [RACSignal empty];
+    
 }
 
 - (RACSignal*) getSegmentsforOrganization: (NSString *) organizationId  {
@@ -443,11 +448,82 @@ static NSString *const kURLAPIOauthPart = @"";
     }];
 }
 
+-(RACSignal*)uploadPicture:(NSData*) picture organizationId: (NSString *)organizationId isPeople:(BOOL)isPeople{
+    return [[self resourcesForPath:@"people/people/upload" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+        NSError *error = nil;
+        request.body = picture;
+        if (!picture) {
+            NSLog(@"Error encoding JSON: %@", error);
+        }
+    }] doNext:^(id x) {
+    }];
+}
+
+-(void)uploadPicture :(NSData*) picture organizationId: (NSString *)organizationId{
+    NSString *urlString = [NSString stringWithFormat:@"%@people/people/upload?access_token=%@&organizationId=%@", kBaseUrl, [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken, organizationId];
+    
+    // allocate and initialize the mutable URLRequest, set URL and method.
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
+    // define the boundary and newline values
+    NSString *boundary = @"uwhQ9Ho7y873Ha";
+    NSString *kNewLine = @"\r\n";
+    
+    // Set the URLRequest value property for the HTTP Header
+    // Set Content-Type as a multi-part form with boundary identifier
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    // prepare a mutable data object used to build message body
+    NSMutableData *body = [NSMutableData data];
+    
+    // set the first boundary
+    [body appendData:[[NSString stringWithFormat:@"--%@%@", boundary, kNewLine] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // Set the form type and format
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"%@", @"file", @"image.png", kNewLine] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Type: image/png"] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // Now append the image itself.  For some servers, two carriage-return line-feeds are necessary before the image
+    [body appendData:[[NSString stringWithFormat:@"%@%@", kNewLine, kNewLine] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:picture];
+    [body appendData:[kNewLine dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // Add the terminating boundary marker & append a newline
+    [body appendData:[[NSString stringWithFormat:@"--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[kNewLine dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // Setting the body of the post to the request.
+    [request setHTTPBody:body];
+    
+    // TODO: Next three lines are only used for testing using synchronous conn.
+//    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+//    NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+//    NSLog(@"==> sendSyncReq returnString: %@", returnString);
+    
+    // You will probably want to replace above 3 lines with asynchronous connection
+    //    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (error) {
+            NSLog(@"error = %@", error);
+            return;
+        }
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"result = %@", result);
+        
+    }];
+}
+
 - (RACSignal*) createCommentForMessageId:(NSNumber*) targetId siteId: (NSString*) siteId body:(NSString*) message {
     SHPAPIManager *manager = self.manager;
     NSDictionary *body = @{@"body": message};
     NSString *commentPath = [NSString stringWithFormat:@"messages/%@/comments", targetId];
-    return [[self postBodyDictionary:body resultClass:[CHDAPICreate class] toPath:commentPath] doNext:^(id x) {
+    return [[self postBodyDictionary:body resultClass:[NSDictionary class] toPath:commentPath] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@"(messages/%@)", targetId]];
     }];
 }

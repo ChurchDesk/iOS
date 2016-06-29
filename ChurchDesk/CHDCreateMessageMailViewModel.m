@@ -22,7 +22,6 @@
         RAC(self, canSendMessage) = [RACSignal combineLatest:@[RACObserve(self, selectedPeople), RACObserve(self, message)]
                                                       reduce:^(NSArray *selectedPeople, NSString *message){
                                                           BOOL validMessage = !([message isEqualToString:@""]);
-                                                          
                                                           BOOL validPeople = NO;
                                                           if (selectedPeople.count > 0) {
                                                               validPeople = YES;
@@ -39,7 +38,6 @@
                                                   reduce:^(NSArray *selectedPeople, NSString *message, NSString *title){
                                                       BOOL validTitle = !([title isEqualToString:@""]);
                                                       BOOL validMessage = !([message isEqualToString:@""]);
-                                                      
                                                       BOOL validPeople = NO;
                                                       if (selectedPeople.count > 0) {
                                                           validPeople = YES;

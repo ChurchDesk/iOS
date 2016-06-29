@@ -19,4 +19,5 @@
 @property (nonatomic, readonly) RACCommand *saveCommand;
 @property (nonatomic, readonly) NSArray *tags;
 @property (nonatomic, strong) CHDPeople *people;
+
 @end
