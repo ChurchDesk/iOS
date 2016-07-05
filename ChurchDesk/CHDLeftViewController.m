@@ -16,8 +16,9 @@
 #import "intercom.h"
 #import "CHDSelectParishForPeopleViewController.h"
 #import "UINavigationController+ChurchDesk.h"
+#import "CHDAPIClient.h"
 
-@interface CHDLeftViewController ()
+@interface CHDLeftViewController () <UIGestureRecognizerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) UITableView* menuTable;
 @property (nonatomic, strong) UILabel* userNameLabel;
 @property (nonatomic, strong) UIImageView* userImageView;
@@ -82,6 +83,30 @@
     }
 }
 
+- (void)editAction: (id) sender {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] )
+    {
+        
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:nil
+                                      delegate:self
+                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                      destructiveButtonTitle:nil
+                                      otherButtonTitles:NSLocalizedString(@"Choose Photo", @""), NSLocalizedString(@"Take Photo", @""), nil];
+        actionSheet.tag = 100;
+        [actionSheet showFromToolbar:[[self navigationController] toolbar]];
+    }
+    else{
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:nil
+                                      delegate:self
+                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                      destructiveButtonTitle:nil
+                                      otherButtonTitles:NSLocalizedString(@"Choose Photo", @""), nil];
+        actionSheet.tag = 102;
+        [actionSheet showFromToolbar:[[self navigationController] toolbar]];
+    }
+}
 
 #pragma mark -setup
 -(void) makeViews{
@@ -168,6 +193,11 @@
         _userImageView.layer.backgroundColor = [UIColor chd_lightGreyColor].CGColor;
         _userImageView.layer.masksToBounds = YES;
         _userImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _userImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *pgr = [[UITapGestureRecognizer alloc]
+                                       initWithTarget:self action:@selector(editAction:)];
+        pgr.delegate = self;
+        [_userImageView addGestureRecognizer:pgr];
     }
     return _userImageView;
 }
@@ -248,6 +278,113 @@
         [self.shp_sideMenuController close];
     }
         
+}
+
+#pragma mark - Actionsheet delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (actionSheet.tag == 100)
+    {
+        if (buttonIndex == 0)
+        {//Choose Photo
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:nil];
+            picker = nil;
+        }
+        else if (buttonIndex == 1)
+        {//Take Photo
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+            //    [self presentModalViewController: picker animated:YES];
+            [self presentViewController:picker animated:YES completion:nil];
+            picker = nil;
+        }
+    }
+    else if(actionSheet.tag == 102){
+        if (buttonIndex == 0)
+        {//Choose Photo
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:nil];
+            picker = nil;
+        }
+    }
+}
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if ([navigationController.viewControllers count] == 3)
+    {
+        CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
+        
+        UIView *plCropOverlay = [[[viewController.view.subviews objectAtIndex:1]subviews] objectAtIndex:0];
+        
+        plCropOverlay.hidden = YES;
+        
+        int position = 0;
+        
+        if (screenHeight == 568)
+        {
+            position = 124;
+        }
+        else
+        {
+            position = 80;
+        }
+        
+        CAShapeLayer *circleLayer = [CAShapeLayer layer];
+        
+        UIBezierPath *path2 = [UIBezierPath bezierPathWithOvalInRect:
+                               CGRectMake(0.0f, position, 320.0f, 320.0f)];
+        [path2 setUsesEvenOddFillRule:YES];
+        
+        [circleLayer setPath:[path2 CGPath]];
+        
+        [circleLayer setFillColor:[[UIColor clearColor] CGColor]];
+        UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, 320, screenHeight-72) cornerRadius:0];
+        
+        [path appendPath:path2];
+        [path setUsesEvenOddFillRule:YES];
+        
+        CAShapeLayer *fillLayer = [CAShapeLayer layer];
+        fillLayer.path = path.CGPath;
+        fillLayer.fillRule = kCAFillRuleEvenOdd;
+        fillLayer.fillColor = [UIColor blackColor].CGColor;
+        fillLayer.opacity = 0.8;
+        [viewController.view.layer addSublayer:fillLayer];
+        
+        UILabel *moveLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 320, 50)];
+        [moveLabel setText:NSLocalizedString(@"Move and Scale", @"") ];
+        [moveLabel setTextAlignment:NSTextAlignmentCenter];
+        [moveLabel setTextColor:[UIColor whiteColor]];
+        
+        [viewController.view addSubview:moveLabel];
+    }
+}
+
+- (void) imagePickerController:(UIImagePickerController *)picker
+ didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    //obtaining saving path
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:@"people_photo.png"];
+    
+    //extracting image from the picker and saving it
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:@"public.image"]){
+        UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+        NSData *webData = UIImagePNGRepresentation(editedImage);
+        [[CHDAPIClient sharedInstance] uploadPicture:webData organizationId:[[NSUserDefaults standardUserDefaults] valueForKey:@"organizationId"] userId:[[NSUserDefaults standardUserDefaults] valueForKey:@"userId"]];
+        [webData writeToFile:imagePath atomically:YES];
+    }
+    [self.userImageView setImage:[UIImage imageWithContentsOfFile:imagePath]];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

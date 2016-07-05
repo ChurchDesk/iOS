@@ -461,8 +461,14 @@ static NSString *const kURLAPIOauthPart = @"";
     }];
 }
 
--(void)uploadPicture :(NSData*) picture organizationId: (NSString *)organizationId{
-    NSString *urlString = [NSString stringWithFormat:@"%@people/people/upload?access_token=%@&organizationId=%@", kBaseUrl, [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken, organizationId];
+-(void)uploadPicture :(NSData*) picture organizationId: (NSString *)organizationId userId:(NSString *) userId{
+    NSString *urlString;
+    if (userId) {
+        urlString = [NSString stringWithFormat:@"%@users/%@/upload/picture?access_token=%@&organizationId=%@", kBaseUrl, userId, [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken, organizationId];
+    }
+    else{
+        urlString = [NSString stringWithFormat:@"%@people/people/upload?access_token=%@&organizationId=%@", kBaseUrl, [CHDAuthenticationManager sharedInstance].authenticationToken.accessToken, organizationId];
+    }
     
     // allocate and initialize the mutable URLRequest, set URL and method.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];

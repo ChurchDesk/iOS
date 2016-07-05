@@ -296,7 +296,7 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
     if ([mediaType isEqualToString:@"public.image"]){
         UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
         NSData *webData = UIImagePNGRepresentation(editedImage);
-        [[CHDAPIClient sharedInstance] uploadPicture:webData organizationId:self.organizationId];
+        [[CHDAPIClient sharedInstance] uploadPicture:webData organizationId:self.organizationId userId:nil];
         [webData writeToFile:imagePath atomically:YES];
     }
     [self.userImageView setImage:[UIImage imageWithContentsOfFile:imagePath]];
