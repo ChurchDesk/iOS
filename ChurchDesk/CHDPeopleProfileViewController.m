@@ -11,7 +11,7 @@
 #import "CHDEventTextValueTableViewCell.h"
 #import "CHDCreateMessageMailViewController.h"
 
-@interface CHDPeopleProfileViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface CHDPeopleProfileViewController () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 @property (nonatomic, strong) UITableView* profileTable;
 @property (nonatomic, strong) UILabel* userNameLabel;
 @property (nonatomic, strong) UIImageView* userImageView;
@@ -219,15 +219,56 @@
 
 -(void)sendMessageAction: (id) sender {
     [Heap track:@"People profile: Message clicked"];
-    CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
-    newMessageViewController.selectedPeopleArray = [[NSArray alloc] initWithObjects:_people, nil];
-    newMessageViewController.currentUser = _currentUser;
-    newMessageViewController.organizationId = _organizationId;
-    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
-    [Heap track:@"Create new people message"];
-    [self presentViewController:navigationVC animated:YES completion:nil];
+    BOOL emailExists = NO;
+    BOOL phoneExists = NO;
+    if ((_people.email != (id)[NSNull null] && _people.email.length != 0)) {
+        emailExists = YES;
+    }
+    if ([_people.contact objectForKey:@"phone"] != (id)[NSNull null] && [[_people.contact objectForKey:@"phone"] length] != 0 ) {
+        phoneExists = YES;
+    }
+    if (emailExists && !phoneExists) {
+        [self createMessageShow:NO];
+    }
+    else if (phoneExists && !emailExists){
+        [self createMessageShow:YES];
+    }
+    else{
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Choose message type..", @"")                                                                           delegate:self
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"Send an email", @""), NSLocalizedString(@"Send an SMS", @""), nil];
+        actionSheet.tag = 101;
+        [actionSheet showInView:self.view];
+    }
 }
 
+#pragma mark - Action Sheet delgate methods
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet.tag == 101) {
+        if (buttonIndex != 2) {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setBool:NO forKey:ktoPeopleClicked];
+            if (buttonIndex == 0) {
+                [self createMessageShow:NO];
+            }
+            else{
+                [self createMessageShow:YES];
+            }
+        }
+    }
+}
+
+-(void)createMessageShow :(BOOL)isSMS{
+    CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
+    newMessageViewController.selectedPeopleArray = [[NSArray alloc] initWithObjects:_people, nil];;
+    newMessageViewController.currentUser = _currentUser;
+    newMessageViewController.organizationId = _organizationId;
+        newMessageViewController.isSMS = isSMS;
+    UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
+    [self presentViewController:navigationVC animated:YES completion:nil];
+}
 #pragma - Data to display
 
 -(NSArray *)peopleAttributes {
