@@ -40,7 +40,7 @@ static NSString* kCreateMessageTextFieldCell = @"createMessagTextFieldCell";
 static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
 
-@interface CHDCreatePersonViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface CHDCreatePersonViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) CHDStatusView *statusView;
 @property (nonatomic, strong) CHDCreatePersonViewModel *personViewModel;
@@ -63,7 +63,6 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
         [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
         self.navigationItem.rightBarButtonItem = sendButton;
         self.personViewModel = [CHDCreatePersonViewModel new];
-        
     }
     return self;
 }
@@ -88,7 +87,6 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
     //Cancel the creation of new message
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 -(void)rightBarButtonTouch {
     
@@ -408,6 +406,11 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
         _userImageView.layer.backgroundColor = [UIColor chd_lightGreyColor].CGColor;
         _userImageView.layer.masksToBounds = YES;
         _userImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _userImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *pgr = [[UITapGestureRecognizer alloc]
+                                         initWithTarget:self action:@selector(editAction:)];
+        pgr.delegate = self;
+        [_userImageView addGestureRecognizer:pgr];
     }
     return _userImageView;
 }

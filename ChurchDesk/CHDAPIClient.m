@@ -499,15 +499,6 @@ static NSString *const kURLAPIOauthPart = @"";
     // Setting the body of the post to the request.
     [request setHTTPBody:body];
     
-    // TODO: Next three lines are only used for testing using synchronous conn.
-//    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-//    NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-//    NSLog(@"==> sendSyncReq returnString: %@", returnString);
-    
-    // You will probably want to replace above 3 lines with asynchronous connection
-    //    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
-    
-    
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (error) {
             NSLog(@"error = %@", error);
@@ -515,7 +506,6 @@ static NSString *const kURLAPIOauthPart = @"";
         }
         NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"result = %@", result);
-        
     }];
 }
 

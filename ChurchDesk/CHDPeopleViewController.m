@@ -331,15 +331,15 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.userInteractionEnabled = YES;
     cell.titleLabel.textColor = [UIColor chd_textDarkColor];
-    if (tableView.isEditing) {
-        if (people.email == (id)[NSNull null] || people.email.length == 0 ) {
-            cell.userInteractionEnabled = NO;
-            cell.titleLabel.textColor = [UIColor lightGrayColor];
-        }
-        if ([self isPeopleSelected:people]) {
-            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-        }
-    }
+//    if (tableView.isEditing) {
+//        if (people.email == (id)[NSNull null] || people.email.length == 0 ) {
+//            cell.userInteractionEnabled = NO;
+//            cell.titleLabel.textColor = [UIColor lightGrayColor];
+//        }
+//        if ([self isPeopleSelected:people]) {
+//            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+//        }
+//    }
     return cell;
 }
 
@@ -368,10 +368,45 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 }
 
 - (void) createMessageShow: (id) sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Choose message type..", @"")                                                                           delegate:self
+    int emailCount = 0;
+    int phoneCount = 0;
+    //counting number of people with email and phone number
+    for (int numberOfPeople = 0; numberOfPeople < _selectedPeopleArray.count ; numberOfPeople ++) {
+        CHDPeople* people = [_selectedPeopleArray objectAtIndex:numberOfPeople];
+        if (people.email != (id)[NSNull null] && people.email.length != 0 ) {
+            emailCount ++;
+        }
+        if ([people.contact objectForKey:@"phone"] != (id)[NSNull null] && [[people.contact objectForKey:@"phone"] length] != 0) {
+            phoneCount ++;
+        }
+    }
+    // Customising string according to the number of people having an email
+    NSString *emailString;
+    if (emailCount > 0) {
+        emailString = [NSString stringWithFormat:@"%@ (%d)", NSLocalizedString(@"Send an email", @""), emailCount];
+    }
+    else{
+        emailString = NSLocalizedString(@"Send an email", @"");
+    }
+    // Customising strin according to the number of people have a phone number
+    NSString *phoneString;
+    if (phoneCount > 0) {
+        phoneString = [NSString stringWithFormat:@"%@ (%d)", NSLocalizedString(@"Send an SMS", @""), phoneCount];
+    }
+    else{
+        phoneString = NSLocalizedString(@"Send an SMS", @"");
+    }
+    NSString *messageTypeString;
+    if (_selectedPeopleArray.count > 0) {
+        messageTypeString = [NSString stringWithFormat:@"%@\n(%d people selected)", NSLocalizedString(@"Choose message type..", @""), _selectedPeopleArray.count];
+    }
+    else{
+        messageTypeString = NSLocalizedString(@"Choose message type..", @"");
+    }
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:messageTypeString                                                                           delegate:self
                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:NSLocalizedString(@"Send an email", @""), NSLocalizedString(@"Send an SMS", @""), nil];
+                                                    otherButtonTitles:emailString, phoneString, nil];
     actionSheet.tag = 101;
     [actionSheet showInView:self.view];
     
