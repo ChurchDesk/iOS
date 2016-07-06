@@ -22,9 +22,9 @@
 @property (nonatomic, strong) UITableView* menuTable;
 @property (nonatomic, strong) UILabel* userNameLabel;
 @property (nonatomic, strong) UIImageView* userImageView;
-@property (nonatomic, strong) UIImageView* editImageView;
 
 @property (nonatomic, strong) CHDLeftMenuViewModel *viewModel;
+@property (nonatomic, strong) UIButton* editImageButton;
 @end
 
 @implementation CHDLeftViewController
@@ -114,7 +114,7 @@
     [self.view addSubview:self.menuTable];
     [self.view addSubview:self.userNameLabel];
     [self.view addSubview:self.userImageView];
-    [self.view addSubview:self.editImageView];
+    [self.view addSubview:self.editImageButton];
 }
 
 -(void) makeConstraints {
@@ -125,7 +125,7 @@
     }];
 
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(containerView).with.offset(160);
+        make.top.equalTo(containerView).with.offset(174);
         make.centerX.equalTo(containerView);
     }];
 
@@ -134,10 +134,10 @@
         make.centerX.equalTo(containerView);
         make.width.height.equalTo(@104);
     }];
-    [self.editImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.userImageView).with.offset(5);
-        make.left.equalTo(self.userImageView.mas_right).with.offset(-5);
-        make.width.height.equalTo(@15);
+    
+    [self.editImageButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(containerView);
+        make.top.equalTo(self.userImageView.mas_bottom).with.offset(-3);
     }];
 }
 
@@ -209,12 +209,15 @@
     return _userImageView;
 }
 
--(UIImageView*)editImageView{
-    if(!_editImageView){
-        _editImageView = [UIImageView new];
-        _editImageView.image = kImgEdit;
+- (UIButton *)editImageButton {
+    if (!_editImageButton) {
+        _editImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_editImageButton setTitle:NSLocalizedString(@"Edit", @"") forState:UIControlStateNormal];
+        _editImageButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:12];
+        [_editImageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_editImageButton addTarget:self action:@selector(editAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _editImageView;
+    return _editImageButton;
 }
 
 #pragma mark - UITableViewDataSource
