@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UITableView* menuTable;
 @property (nonatomic, strong) UILabel* userNameLabel;
 @property (nonatomic, strong) UIImageView* userImageView;
+@property (nonatomic, strong) UIImageView* editImageView;
 
 @property (nonatomic, strong) CHDLeftMenuViewModel *viewModel;
 @end
@@ -113,6 +114,7 @@
     [self.view addSubview:self.menuTable];
     [self.view addSubview:self.userNameLabel];
     [self.view addSubview:self.userImageView];
+    [self.view addSubview:self.editImageView];
 }
 
 -(void) makeConstraints {
@@ -131,6 +133,11 @@
         make.top.equalTo(containerView).with.offset(40);
         make.centerX.equalTo(containerView);
         make.width.height.equalTo(@104);
+    }];
+    [self.editImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.userImageView).with.offset(5);
+        make.left.equalTo(self.userImageView.mas_right).with.offset(-5);
+        make.width.height.equalTo(@15);
     }];
 }
 
@@ -200,6 +207,14 @@
         [_userImageView addGestureRecognizer:pgr];
     }
     return _userImageView;
+}
+
+-(UIImageView*)editImageView{
+    if(!_editImageView){
+        _editImageView = [UIImageView new];
+        _editImageView.image = kImgEdit;
+    }
+    return _editImageView;
 }
 
 #pragma mark - UITableViewDataSource
@@ -277,7 +292,6 @@
         [self.shp_sideMenuController setSelectedViewController:item.viewController];
         [self.shp_sideMenuController close];
     }
-        
 }
 
 #pragma mark - Actionsheet delegate

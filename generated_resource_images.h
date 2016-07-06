@@ -17,6 +17,7 @@
 #define kImgCreatePassive [UIImage imageNamed:@"create_passive"]
 #define kImgCrossError [UIImage imageNamed:@"cross_error"]
 #define kImgDisclosureArrow [UIImage imageNamed:@"disclosure_arrow"]
+#define kImgEdit [UIImage imageNamed:@"edit_image"]
 #define kImgDisclosureArrowDown [UIImage imageNamed:@"disclosure_arrow_down"]
 #define kImgEventAttendanceDeclined [UIImage imageNamed:@"event_attendance_declined"]
 #define kImgEventAttendanceGoing [UIImage imageNamed:@"event_attendance_going"]
