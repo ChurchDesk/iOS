@@ -16,7 +16,7 @@
 #import "CHDPeopleViewController.h"
 #import "CHDCreateMessageMailViewController.h"
 
-@interface CHDSegmentsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface CHDSegmentsViewController () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 @property (nonatomic, retain) UITableView* segmentstable;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property(nonatomic, strong) CHDSegmentViewModel *viewModel;
@@ -167,15 +167,43 @@
     return NO;
 }
 
-- (void) createMessageShow: (id) sender {
+- (void) createMessageClicked: (id) sender {
     [Heap track:@"Segments: Create message clicked"];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Choose message type..", @"")                                                                           delegate:self
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"Send an email", @""), NSLocalizedString(@"Send an SMS", @""), nil];
+    actionSheet.tag = 101;
+    [actionSheet showInView:self.view];
+    
+}
+
+-(void)createMessageShow :(BOOL)isSMS{
     CHDCreateMessageMailViewController* newMessageViewController = [CHDCreateMessageMailViewController new];
     newMessageViewController.selectedPeopleArray = _selectedSegmentsArray;
     newMessageViewController.currentUser = self.viewModel.user;
     newMessageViewController.organizationId = self.viewModel.organizationId;
     newMessageViewController.isSegment = YES;
+    newMessageViewController.isSMS = isSMS;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
     [self presentViewController:navigationVC animated:YES completion:nil];
+}
+
+#pragma mark - Action Sheet delgate methods
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet.tag == 101) {
+        if (buttonIndex != 2) {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setBool:NO forKey:ktoPeopleClicked];
+            if (buttonIndex == 0) {
+                [self createMessageShow:NO];
+            }
+            else{
+                [self createMessageShow:YES];
+            }
+        }
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -302,7 +330,7 @@
     if(!_messageButton){
         _messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_messageButton addTarget:self
-                           action:@selector(createMessageShow:)
+                           action:@selector(createMessageClicked:)
                  forControlEvents:UIControlEventTouchUpInside];
         [_messageButton setImage:kImgCreateMessage forState:UIControlStateNormal];
     }
