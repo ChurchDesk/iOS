@@ -14,6 +14,7 @@
 #import "CHDEventCategoriesTableViewCell.h"
 #import "CHDNewMessageTextViewCell.h"
 #import "CHDNewMessageTextFieldCell.h"
+#import "CHDNewMessageSelectorCell.h"
 #import "CHDCreatePersonViewModel.h"
 #import "SHPKeyboardEvent.h"
 #import "CHDPeople.h"
@@ -26,9 +27,17 @@ typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
     selectReceiverSection,
     selectSenderSection,
-    divider2Section,
     subjectInputSection,
     messageInputSection,
+    divider2Section,
+    homePhoneSection,
+    workPhoneSection,
+    jobTitleSection,
+    birthdaySection,
+    genderSection,
+    streetAddressSection,
+    citySection,
+    postCodeSection,
     divider3Section,
     selecttagsSection,
     newMessagesCountSections
@@ -95,15 +104,14 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
 - (void)editAction: (id) sender {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] )
     {
-        
-            UIActionSheet *actionSheet = [[UIActionSheet alloc]
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                           initWithTitle:nil
                                           delegate:self
                                           cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                           destructiveButtonTitle:nil
                                           otherButtonTitles:NSLocalizedString(@"Choose Photo", @""), NSLocalizedString(@"Take Photo", @""), nil];
-            actionSheet.tag = 100;
-            [actionSheet showFromToolbar:[[self navigationController] toolbar]];
+        actionSheet.tag = 100;
+        [actionSheet showFromToolbar:[[self navigationController] toolbar]];
     }
     else{
             UIActionSheet *actionSheet = [[UIActionSheet alloc]
@@ -132,33 +140,81 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
         CHDDividerTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageDividerCell forIndexPath:indexPath];
         return cell;
     }
-    if((newMessagesSections)indexPath.section == selectReceiverSection){
+    if((newMessagesSections)indexPath.section == selectReceiverSection || (newMessagesSections)indexPath.section == selectSenderSection || (newMessagesSections)indexPath.section == subjectInputSection ||(newMessagesSections)indexPath.section == jobTitleSection || (newMessagesSections)indexPath.section == streetAddressSection || (newMessagesSections)indexPath.section == citySection || (newMessagesSections)indexPath.section == postCodeSection){
         CHDNewMessageTextFieldCell* cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextFieldCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"First Name", @"") attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
-        [self.personViewModel shprac_liftSelector:@selector(setFirstName:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        NSString *textString;
+        if ((newMessagesSections)indexPath.section == selectReceiverSection) {
+            textString = NSLocalizedString(@"First Name", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setFirstName:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        else if ((newMessagesSections)indexPath.section == selectSenderSection){
+            textString = NSLocalizedString(@"Last Name", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setLastName:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        else if ((newMessagesSections)indexPath.section == subjectInputSection)
+        {
+            textString = NSLocalizedString(@"Email", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setEmail:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+            cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
+        }
+        else if ((newMessagesSections)indexPath.section == jobTitleSection){
+            textString = NSLocalizedString(@"Job Title", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setJobTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        else if ((newMessagesSections)indexPath.section == streetAddressSection){
+            textString = NSLocalizedString(@"Address", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setAddress:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        else if ((newMessagesSections)indexPath.section == citySection){
+            textString = NSLocalizedString(@"City", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setCity:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        else if ((newMessagesSections)indexPath.section == postCodeSection){
+            textString = NSLocalizedString(@"Postal Code", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setPostCode:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+            cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+        }
+        cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textString attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
+        
         return cell;
     }
-    if((newMessagesSections)indexPath.section == selectSenderSection){
+    if((newMessagesSections)indexPath.section == messageInputSection || (newMessagesSections)indexPath.section == homePhoneSection || (newMessagesSections)indexPath.section == workPhoneSection || (newMessagesSections)indexPath.section == streetAddressSection){
         CHDNewMessageTextFieldCell* cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextFieldCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Last Name", @"") attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
-        [self.personViewModel shprac_liftSelector:@selector(setLastName:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        return cell;
-    }
-    if((newMessagesSections)indexPath.section == subjectInputSection){
-        CHDNewMessageTextFieldCell* cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextFieldCell forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Email", @"") attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
-        [self.personViewModel shprac_liftSelector:@selector(setEmail:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        return cell;
-    }
-    if((newMessagesSections)indexPath.section == messageInputSection){
-        CHDNewMessageTextFieldCell* cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextFieldCell forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Phone", @"") attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
+        NSString *textString;
+        if ((newMessagesSections)indexPath.section == messageInputSection) {
+            textString = NSLocalizedString(@"Phone", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setMobilePhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        else if ((newMessagesSections)indexPath.section == homePhoneSection){
+            textString = NSLocalizedString(@"Home Phone", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setHomePhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        else if ((newMessagesSections)indexPath.section == workPhoneSection){
+            textString = NSLocalizedString(@"Work Phone", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setWorkPhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        else if ((newMessagesSections)indexPath.section == streetAddressSection){
+            textString = NSLocalizedString(@"Work Phone", @"");
+            [self.personViewModel shprac_liftSelector:@selector(setWorkPhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        }
+        cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textString attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
         cell.textField.keyboardType = UIKeyboardTypePhonePad;
-        [self.personViewModel shprac_liftSelector:@selector(setPhoneNumber:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        
+        return cell;
+    }
+    if ((newMessagesSections)indexPath.section == birthdaySection || (newMessagesSections)indexPath.section == genderSection) {
+        CHDNewMessageSelectorCell* cell = [tableView dequeueReusableCellWithIdentifier:kCreateMessageSelectorCell forIndexPath:indexPath];
+        if ((newMessagesSections)indexPath.section == birthdaySection) {
+            cell.titleLabel.text = NSLocalizedString(@"Birthday", @"");
+            cell.selectedLabel.text = self.personViewModel.birthday;
+        }
+        else if ((newMessagesSections)indexPath.section == genderSection){
+            cell.titleLabel.text = NSLocalizedString(@"Gender", @"");
+            cell.selectedLabel.text = self.personViewModel.gender;
+        }
+        cell.dividerLineHidden = NO;
         return cell;
     }
     if((newMessagesSections)indexPath.section == selecttagsSection){
@@ -392,6 +448,7 @@ static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
         [_tableView registerClass:[CHDEventCategoriesTableViewCell class] forCellReuseIdentifier:kCreatePersonSelectorCell];
         [_tableView registerClass:[CHDNewMessageTextViewCell class] forCellReuseIdentifier:kCreateMessageTextViewCell];
         [_tableView registerClass:[CHDNewMessageTextFieldCell class] forCellReuseIdentifier:kCreateMessageTextFieldCell];
+        [_tableView registerClass:[CHDNewMessageSelectorCell class] forCellReuseIdentifier:kCreateMessageSelectorCell];
         
         _tableView.dataSource = self;
         _tableView.delegate = self;

@@ -70,7 +70,7 @@
     }];
     RAC(self, tags) = [RACSignal merge:@[initialSignal, updateSignal]];
     
-    RAC(self, canCreatePerson) = [RACSignal combineLatest:@[RACObserve(self, firstName), RACObserve(self, lastName), RACObserve(self, phoneNumber), RACObserve(self, email)]
+    RAC(self, canCreatePerson) = [RACSignal combineLatest:@[RACObserve(self, firstName), RACObserve(self, lastName), RACObserve(self, mobilePhone), RACObserve(self, email)]
                                                   reduce:^(NSString *firstName, NSString *lastName, NSString *phoneNumber, NSString *email){
                                                       BOOL validFirstName = !([firstName isEqualToString:@""]);
                                                       BOOL validLastName = !([lastName isEqualToString:@""]);

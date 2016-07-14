@@ -269,6 +269,7 @@
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
     [self presentViewController:navigationVC animated:YES completion:nil];
 }
+
 #pragma - Data to display
 
 -(NSArray *)peopleAttributes {

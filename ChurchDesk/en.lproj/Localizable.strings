@@ -170,3 +170,27 @@
 "Delete message" = "Delete message";
 "Finish later" = "Finish later";
 "Send to.." = "Send to..";
+
+"Send an email" = "Send an email";
+"Send an SMS" = "Send an SMS";
+"Choose message type.." = "Choose message type..";
+"people selected" = "people selected";
+"Done" = "Done";
+"Person created successfully" = "Person created successfully";
+"Person edited successfully" = "Person edited successfully";
+"Creating person.." = "Creating person..";
+"Edit" = "Edit";
+"Create Person" = "Create Person";
+"Edit Person" = "Edit Person";
+"Create" = "Create";
+"Move and Scale" = "Move and Scale";
+"Choose Photo" = "Choose Photo";
+"Take Photo" = "Take Photo";
+"First Name" = "First Name";
+"Last Name" = "Last Name";
+"Email" = "Email";
+"Phone" = "Phone";
+"Tags" = "Tags";
+"Select Tags" = "Select Tags";
+"Male" = "Male";
+"Female" = "Female";

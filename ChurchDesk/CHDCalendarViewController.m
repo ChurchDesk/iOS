@@ -125,7 +125,6 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self.contentView addSubview:self.drawerBlockOutView];
     [self.contentView addSubview:self.todayButton];
 
-
     [self.view addSubview:self.weekOverlay];
 }
 

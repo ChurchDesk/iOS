@@ -13,7 +13,15 @@
 @property (nonatomic, strong) NSString *firstName;
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, strong) NSString *email;
-@property (nonatomic, strong) NSString *phoneNumber;
+@property (nonatomic, strong) NSString *mobilePhone;
+@property (nonatomic, strong) NSString *homePhone;
+@property (nonatomic, strong) NSString *workPhone;
+@property (nonatomic, strong) NSString *jobTitle;
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) NSString *city;
+@property (nonatomic, strong) NSString *postCode;
+@property (nonatomic, strong) NSString *birthday;
+@property (nonatomic, strong) NSString *gender;
 @property (nonatomic, readonly) BOOL canCreatePerson;
 @property (nonatomic, strong) NSArray *selectedTags;
 @property (nonatomic, readonly) RACCommand *saveCommand;

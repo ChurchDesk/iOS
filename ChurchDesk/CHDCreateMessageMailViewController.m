@@ -65,7 +65,6 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
         [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
         self.navigationItem.rightBarButtonItem = sendButton;
-        
     }
     return self;
 }

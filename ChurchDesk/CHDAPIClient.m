@@ -200,7 +200,6 @@ static NSString *const kURLAPIOauthPart = @"";
         NSData *data = [NSJSONSerialization dataWithJSONObject:@{@"username": username, @"password": password, @"clientId": @"2"} options:0 error:&error];
         request.body = data;
     } withBodyContent:nil toResource:resource];
-
     return [[[requestSignal replayLazily] doError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"Error on token: %@\nResponse: %@", error, response.body);
