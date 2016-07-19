@@ -8,6 +8,7 @@
 
 #import "CHDManagedModel.h"
 #import "CHDPeople.h"
+#import "CHDTag.h"
 
 @interface CHDCreatePersonViewModel : CHDManagedModel
 @property (nonatomic, strong) NSString *firstName;
@@ -20,12 +21,16 @@
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *postCode;
-@property (nonatomic, strong) NSString *birthday;
+@property (nonatomic, strong) NSDate *birthday;
 @property (nonatomic, strong) NSString *gender;
 @property (nonatomic, readonly) BOOL canCreatePerson;
 @property (nonatomic, strong) NSArray *selectedTags;
 @property (nonatomic, readonly) RACCommand *saveCommand;
 @property (nonatomic, readonly) NSArray *tags;
 @property (nonatomic, strong) CHDPeople *people;
+@property (nonatomic, strong) NSDictionary *personPicture;
 
+- (NSString*) formatDate: (NSDate*) date;
+- (CHDTag *) tagWithId: (NSNumber*) tagId;
+- (RACSignal*)createPerson;
 @end

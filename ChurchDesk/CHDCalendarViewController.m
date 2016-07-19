@@ -710,4 +710,8 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     return _activeFilterWarningView;
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+}
+
 @end

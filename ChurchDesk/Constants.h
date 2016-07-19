@@ -23,3 +23,4 @@
 
 #define kEvent @"event"
 #define kAbsence @"absence"
+#define kpeopleImage @"peopleImage"

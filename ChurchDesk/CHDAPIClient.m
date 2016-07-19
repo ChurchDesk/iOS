@@ -447,6 +447,22 @@ static NSString *const kURLAPIOauthPart = @"";
     }];
 }
 
+-(RACSignal*)createPersonwithPersonDictionary:(NSDictionary*) personDict organizationId:(NSString*) organizationId{
+    NSDictionary *body = personDict;
+    NSLog(@"person dict %@", personDict);
+    return [[self resourcesForPath:@"people/people" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPOST;
+        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+        NSError *error = nil;
+        NSData *data = body ? [NSJSONSerialization dataWithJSONObject:body options:0 error:&error] : nil;
+        request.body = data;
+        if (!data && body) {
+            NSLog(@"Error encoding JSON: %@", error);
+        }
+    }] doNext:^(id x) {
+    }];
+}
+
 -(RACSignal*)uploadPicture:(NSData*) picture organizationId: (NSString *)organizationId isPeople:(BOOL)isPeople{
     return [[self resourcesForPath:@"people/people/upload" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
@@ -509,8 +525,16 @@ static NSString *const kURLAPIOauthPart = @"";
             NSLog(@"error = %@", error);
             return;
         }
-        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"result = %@", result);
+        if (!userId) {
+        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data
+                                                             options:kNilOptions
+                                                               error:&error];
+        [[NSUserDefaults standardUserDefaults] setObject:json forKey:kpeopleImage];
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:kpeopleImage
+         object:nil];
+        NSLog(@"result = %@", json);
+        }
     }];
 }
 
