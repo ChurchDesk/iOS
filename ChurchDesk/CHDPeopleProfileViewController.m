@@ -10,6 +10,7 @@
 #import "UIImageView+Haneke.h"
 #import "CHDEventTextValueTableViewCell.h"
 #import "CHDCreateMessageMailViewController.h"
+#import "CHDCreatePersonViewController.h"
 
 @interface CHDPeopleProfileViewController () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 @property (nonatomic, strong) UITableView* profileTable;
@@ -27,8 +28,13 @@
     [super viewDidLoad];
     [self makeViews];
     [self makeConstraints];
-    [self makeBindings];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.profileTable reloadData];
+    [self makeBindings];
 }
 
 #pragma mark -setup
@@ -47,6 +53,10 @@
         self.callButton.enabled = false;
     }
     [self.view addSubview:self.sendMessageButton];
+    UIBarButtonItem *editButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editPersonAction:)];
+    [editButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = editButton;
+    
 }
 
 -(void) makeConstraints {
@@ -81,18 +91,6 @@
 -(void) makeBindings {
     self.userNameLabel.text = _people.fullName;
     self.title = NSLocalizedString(@"Profile", @"");
-//    RAC(self.userNameLabel, text) = [userSignal map:^id(CHDUser *user) {
-//        CHDSite *organization = [user.sites objectAtIndex:0];
-//        NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:user];
-//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//        [defaults setObject:encodedUser forKey:@"currentUser"];
-//        [defaults setValue:user.userId forKey:@"userId"];
-//        [defaults setValue:organization.siteId forKey:@"organizationId"];
-//        return user.name;
-//    }];
-//    [self rac_liftSelector:@selector(userImageWithUrl:) withSignals:[userSignal map:^id(CHDUser *user) {
-//        return user.pictureURL;
-//    }], nil];
     if ([_people.picture valueForKey:@"url"] != (id)[NSNull null]) {
         [self userImageWithUrl:[NSURL URLWithString:[_people.picture valueForKey:@"url"]]];
     }
@@ -201,7 +199,7 @@
     }
 }
 
-#pragma - Actions
+#pragma mark - Actions
 
 - (void)callAction: (id) sender {
     [Heap track:@"People profile: Call clicked"];
@@ -241,6 +239,18 @@
         actionSheet.tag = 101;
         [actionSheet showInView:self.view];
     }
+}
+
+- (void)editPersonAction: (id) sender {
+    
+        CHDCreatePersonViewController *vc = [CHDCreatePersonViewController new];
+        vc.title = NSLocalizedString(@"Edit Person", @"");
+        [Heap track:@"Edit Person"];
+        vc.personToEdit = self.people;
+        vc.organizationId = self.organizationId;
+        RACSignal *saveSignal = [RACObserve(vc, personToEdit) skip:1];
+        [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
 }
 
 #pragma mark - Action Sheet delgate methods

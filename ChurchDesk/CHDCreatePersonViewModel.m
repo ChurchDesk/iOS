@@ -14,6 +14,7 @@
 
 @interface CHDCreatePersonViewModel()
 @property (nonatomic, strong) RACCommand *saveCommand;
+@property (nonatomic, strong) RACCommand *editCommand;
 @property (nonatomic, strong) NSString *organizationId;
 @end
 
@@ -150,4 +151,45 @@
     return _saveCommand;
 }
 
+- (RACSignal*)editPerson :(NSDictionary *)personDict personId:(NSString *)personId{
+    RACSignal *saveSignal = [self.editCommand execute:RACTuplePack(personDict, personId)];
+    return saveSignal;
+}
+
+-(RACCommand*)editCommand {
+    if(!_editCommand){
+        _editCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            NSDictionary *personDict = tuple.first;
+            NSString *personID = tuple.second;
+            return [[CHDAPIClient sharedInstance] editPersonwithPersonDictionary:personDict organizationId:_organizationId personId:personID];
+        }];
+    }
+    return _editCommand;
+}
+
+-(void)personInfoDistribution :(CHDPeople *)person{
+    self.firstName = person.firstName;
+    self.lastName = person.lastName;
+    self.email = person.email;
+    self.jobTitle = person.occupation;
+    self.birthday = person.birthday;
+    self.gender = person.gender;
+    self.personPicture = person.picture;
+    self.mobilePhone = [person.contact valueForKey:@"phone"];
+    self.workPhone = [person.contact valueForKey:@"workPhone"];
+    self.homePhone = [person.contact valueForKey:@"homePhone"];
+    self.address = [person.contact valueForKey:@"street"];
+    self.city = [person.contact valueForKey:@"city"];
+    self.postCode = [person.contact valueForKey:@"zipcode"];
+    if (person.tags.count > 0) {
+        NSMutableArray *personTags = [[NSMutableArray alloc] init];
+        for (int i=0; i < person.tags.count; i++) {
+            NSDictionary *singleTag = [person.tags objectAtIndex:i];
+            NSLog(@"name %@", [singleTag valueForKey:@"name"]);
+            NSLog(@"tag id %@", [singleTag valueForKey:@"id"]);
+            [personTags addObject:[singleTag valueForKey:@"id"]];
+        }
+        self.selectedTags = personTags;
+    }
+}
 @end

@@ -7,7 +7,9 @@
 //
 
 #import "CHDAbstractViewController.h"
+#import "CHDPeople.h"
 
 @interface CHDCreatePersonViewController : CHDAbstractViewController
 @property (nonatomic, strong) NSString *organizationId;
+@property (nonatomic, strong) CHDPeople *personToEdit;
 @end

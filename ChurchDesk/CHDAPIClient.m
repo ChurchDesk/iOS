@@ -449,9 +449,24 @@ static NSString *const kURLAPIOauthPart = @"";
 
 -(RACSignal*)createPersonwithPersonDictionary:(NSDictionary*) personDict organizationId:(NSString*) organizationId{
     NSDictionary *body = personDict;
-    NSLog(@"person dict %@", personDict);
     return [[self resourcesForPath:@"people/people" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
+        [request setValue:organizationId forQueryParameterKey:@"organizationId"];
+        NSError *error = nil;
+        NSData *data = body ? [NSJSONSerialization dataWithJSONObject:body options:0 error:&error] : nil;
+        request.body = data;
+        if (!data && body) {
+            NSLog(@"Error encoding JSON: %@", error);
+        }
+    }] doNext:^(id x) {
+    }];
+}
+
+-(RACSignal*)editPersonwithPersonDictionary:(NSDictionary*) personDict organizationId:(NSString*) organizationId personId:(NSString *)personId{
+    NSDictionary *body = personDict;
+    NSString *path = [NSString stringWithFormat:@"people/people/%@", personId];
+    return [[self resourcesForPath:path resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodPUT;
         [request setValue:organizationId forQueryParameterKey:@"organizationId"];
         NSError *error = nil;
         NSData *data = body ? [NSJSONSerialization dataWithJSONObject:body options:0 error:&error] : nil;

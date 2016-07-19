@@ -22,6 +22,7 @@
 #import "CHDListSelectorViewController.h"
 #import "CHDListSelectorConfigModel.h"
 #import "CHDAPIClient.h"
+#import "UIImageView+Haneke.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -69,13 +70,8 @@ int selectedIndex = 0;
 {
     self = [super init];
     if (self) {
-        self.title = NSLocalizedString(@"Create Person", @"");
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonTouch)];
-        UIBarButtonItem *sendButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Create", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
-        [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
-        [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
-        self.navigationItem.rightBarButtonItem = sendButton;
-        self.personViewModel = [CHDCreatePersonViewModel new];
+        
+        
     }
     return self;
 }
@@ -101,10 +97,74 @@ int selectedIndex = 0;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)rightBarButtonTouch {
-    //create a new message
+-(void)rightBarButtonTouch :(id) sender {
     [self.view endEditing:YES];
     [self didChangeSendingStatus:CHDStatusViewProcessing];
+    if (self.personToEdit) {
+        //edit a person
+        NSMutableDictionary *personDictionary = [[NSMutableDictionary alloc] init];
+        [personDictionary setValue:self.personViewModel.firstName forKey:@"firstName"];
+        self.personToEdit.firstName = self.personViewModel.firstName;
+        [personDictionary setValue:self.personViewModel.lastName forKey:@"lastName"];
+        self.personToEdit.lastName = self.personViewModel.lastName;
+        self.personToEdit.fullName = [NSString stringWithFormat:@"%@ %@", self.personViewModel.firstName, self.personViewModel.lastName];
+        [personDictionary setValue:self.personViewModel.email forKey:@"email"];
+        self.personToEdit.email = self.personViewModel.email;
+        [personDictionary setValue:self.personViewModel.jobTitle forKey:@"occupation"];
+        self.personToEdit.occupation = self.personViewModel.jobTitle;
+        NSDictionary *contactDictionay = [[NSDictionary alloc] initWithObjectsAndKeys:self.personViewModel.mobilePhone, @"phone", self.personViewModel.homePhone, @"homePhone", self.personViewModel.workPhone, @"workPhone", self.personViewModel.postCode, @"zipcode", self.personViewModel.address, @"street", self.personViewModel.city, @"city", nil];
+        [personDictionary setObject:contactDictionay forKey:@"contact"];
+        self.personToEdit.contact = contactDictionay;
+        [personDictionary setObject:self.personViewModel.gender forKey:@"gender"];
+        self.personToEdit.gender = self.personViewModel.gender;
+        //changing date to string
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+        NSString *stringFromDate = [formatter stringFromDate:self.personViewModel.birthday];
+        self.personToEdit.birthday = self.personViewModel.birthday;
+        [personDictionary setValue:stringFromDate forKey:@"birthday"];
+        [personDictionary setObject:self.personViewModel.personPicture forKey:@"picture"];
+        self.personToEdit.picture = self.personViewModel.personPicture;
+        if (self.personViewModel.selectedTags.count >0) {
+            NSMutableArray *tagsArray = [[NSMutableArray alloc] init];
+            for (int i=0; i < self.personViewModel.selectedTags.count; i++) {
+                CHDTag *singleTag = [self.personViewModel tagWithId:[self.personViewModel.selectedTags objectAtIndex:i]];
+                NSDictionary *singlTagDictionary = [NSDictionary dictionaryWithObjectsAndKeys:singleTag.tagId, @"id", singleTag.name, @"name", nil];
+                [tagsArray addObject:singlTagDictionary];
+            }
+            self.personToEdit.tags = tagsArray;
+            [personDictionary setObject:tagsArray forKey:@"tags"];
+        }
+
+        
+        [[self.personViewModel editPerson:personDictionary personId:self.personToEdit.peopleId] subscribeError:^(NSError *error) {
+            SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+            switch(response.statusCode){
+                case 406:
+                case 400:
+                    self.statusView.errorText = NSLocalizedString(@"An unknown error occured, please try again", @"");
+                    break;
+                case 401:
+                    self.statusView.errorText = NSLocalizedString(@"Unauthorized. Please login again", @"");
+                    break;
+                case 403:
+                    self.statusView.errorText = NSLocalizedString(@"Access denied", @"");
+                    break;
+                case 429:
+                    self.statusView.errorText = NSLocalizedString(@"Too many requests, try again later", @"");
+                    break;
+                default:
+                    self.statusView.errorText = NSLocalizedString(@"There was a problem, please try again", @"");
+            }
+            [self didChangeSendingStatus:CHDStatusViewError];
+        } completed:^{
+            [self didChangeSendingStatus:CHDStatusViewSuccess];
+            [Heap track:@"Person edited successfully"];
+        }];
+
+    }
+    else{
+    //create a new person
     [[self.personViewModel createPerson] subscribeError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         switch(response.statusCode){
@@ -129,7 +189,7 @@ int selectedIndex = 0;
         [self didChangeSendingStatus:CHDStatusViewSuccess];
         [Heap track:@"Person created successfully"];
     }];
-
+    }
 }
 
 - (void)editAction: (id) sender {
@@ -412,14 +472,38 @@ int selectedIndex = 0;
 #pragma mark - Lazy initialization
 
 -(void) makeViews {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonTouch)];
+    self.personViewModel = [CHDCreatePersonViewModel new];
+    NSString *rightButtonTitle;
+    if (self.personToEdit) {
+        self.title = NSLocalizedString(@"Edit Person", @"");
+        rightButtonTitle = NSLocalizedString(@"Save", @"");
+        [self.personViewModel personInfoDistribution:self.personToEdit];
+    }
+    else{
+        self.title = NSLocalizedString(@"Create Person", @"");
+        rightButtonTitle = NSLocalizedString(@"Create", @"");
+    }
+    UIBarButtonItem *sendButton = [[UIBarButtonItem new] initWithTitle:rightButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch:)];
+    [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+    [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
+    self.navigationItem.rightBarButtonItem = sendButton;
+    
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.userImageView];
     [self.view addSubview:self.editImageButton];
     self.statusView = [[CHDStatusView alloc] init];
-    self.statusView.successText = NSLocalizedString(@"Person created successfully", @"");
-    self.statusView.processingText = NSLocalizedString(@"Creating person..", @"");
+    if (self.personToEdit) {
+        self.statusView.successText = NSLocalizedString(@"Person edited successfully", @"");
+        self.statusView.processingText = NSLocalizedString(@"Editing person..", @"");
+    }
+    else{
+        self.statusView.successText = NSLocalizedString(@"Person created successfully", @"");
+        self.statusView.processingText = NSLocalizedString(@"Creating person..", @"");
+    }
     self.statusView.autoHideOnSuccessAfterTime = 0;
     self.statusView.autoHideOnErrorAfterTime = 0;
+    
 }
 
 -(void) makeConstraints {
@@ -452,6 +536,9 @@ int selectedIndex = 0;
     // Add some data for demo purposes.
     [_pickerDataArray addObject:NSLocalizedString(@"Male", @"")];
     [_pickerDataArray addObject:NSLocalizedString(@"Female", @"")];
+    if ([self.personViewModel.personPicture valueForKey:@"url"] != (id)[NSNull null]) {
+        [self userImageWithUrl:[NSURL URLWithString:[self.personViewModel.personPicture valueForKey:@"url"]]];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -614,6 +701,13 @@ int selectedIndex = 0;
     _receiverView = nil;
     [_backgroundButton removeFromSuperview];
     _backgroundButton = nil;
+}
+
+-(void) userImageWithUrl: (NSURL*) URL{
+    if(URL) {
+        [self.userImageView layoutIfNeeded];
+        [self.userImageView hnk_setImageFromURL:URL placeholder:nil];
+    }
 }
 
 -(void) doneDatePressed{

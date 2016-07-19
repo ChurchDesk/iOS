@@ -27,10 +27,11 @@
 @property (nonatomic, strong) NSArray *selectedTags;
 @property (nonatomic, readonly) RACCommand *saveCommand;
 @property (nonatomic, readonly) NSArray *tags;
-@property (nonatomic, strong) CHDPeople *people;
 @property (nonatomic, strong) NSDictionary *personPicture;
 
+-(void)personInfoDistribution :(CHDPeople *)person;
 - (NSString*) formatDate: (NSDate*) date;
 - (CHDTag *) tagWithId: (NSNumber*) tagId;
 - (RACSignal*)createPerson;
+- (RACSignal*)editPerson :(NSDictionary *)personDict personId:(NSString *)personId;
 @end
