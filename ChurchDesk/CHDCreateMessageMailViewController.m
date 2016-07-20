@@ -161,8 +161,13 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 }
 
 -(void) saveMessageForLater{
-    [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.title forKey:kpeopleSubjectText];
-    [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.message forKey:kPeopleMessageText];
+    if (_isSMS) {
+        [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.message forKey:kPeopleSMSText];
+    }
+    else{
+        [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.title forKey:kpeopleSubjectText];
+        [[NSUserDefaults standardUserDefaults] setValue:self.messageViewModel.message forKey:kPeopleMessageText];
+    }
 }
 
 
@@ -322,6 +327,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
             [Heap track:@"Delete message clicked"];
             [defaults setValue:@"" forKey:kpeopleSubjectText];
             [defaults setValue:@"" forKey:kPeopleMessageText];
+            [defaults setValue:@"" forKey:kPeopleSMSText];
             //Cancel the creation of new message
             [self dismissViewControllerAnimated:YES completion:nil];
         }
@@ -377,10 +383,13 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     
     //put text if exists
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:kpeopleSubjectText]) {
+    if (!_isSMS && [defaults objectForKey:kpeopleSubjectText]) {
         self.messageViewModel.title = [defaults objectForKey:kpeopleSubjectText];
     }
-    if ([defaults objectForKey:kPeopleMessageText]) {
+    if (_isSMS && [defaults objectForKey:kPeopleSMSText]) {
+        self.messageViewModel.message = [defaults objectForKey:kPeopleSMSText];
+    }
+    else if ([defaults objectForKey:kPeopleMessageText]) {
         self.messageViewModel.message = [defaults objectForKey:kPeopleMessageText];
     }
    

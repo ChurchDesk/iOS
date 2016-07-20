@@ -15,6 +15,7 @@
 #define ksuccessfulPeopleMessage @"successfulPeopleMessage"
 #define ktoPeopleClicked @"toPeopleClicked"
 #define kPeopleMessageText @"peopleMessageText"
+#define kPeopleSMSText @"peopleSMSText"
 #define kpeopleSubjectText @"peopleSubjectText"
 #define kselectedPeopleArray @"selectedPeopleArray"
 #define kcurrentuser @"currentUser"
