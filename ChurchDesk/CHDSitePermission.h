@@ -13,4 +13,5 @@
 @property (nonatomic) BOOL canDoubleBook;
 @property (nonatomic) BOOL canCreateAbsence;
 @property (nonatomic) BOOL canCreateAbsenceAndBook;
+@property (nonatomic) BOOL canCreateEventAndBook;
 @end

@@ -75,8 +75,9 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         RACSignal *userSignal = [[CHDAPIClient sharedInstance] getCurrentUser];
         [self rac_liftSelector:@selector(setUser:) withSignals:userSignal, nil];
 
-        self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
-
+        
+            self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
+        
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate],
                              CHDEventEditSectionRecipients : @[],
@@ -127,15 +128,28 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate];
     NSArray *miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility];
 
-    self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
-        CHDEventEditSectionDate : dateRows,
-        CHDEventEditSectionRecipients : recipientsRows,
-        CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
-        CHDEventEditSectionBooking : bookingRows,
-        CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
-        CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-        CHDEventEditSectionMisc : miscRows,
-        CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
+    if ([[user siteWithId:self.event.siteId].permissions canCreateEventAndBook]) {
+        self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
+                             CHDEventEditSectionDate : dateRows,
+                             CHDEventEditSectionRecipients : recipientsRows,
+                             CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
+                             CHDEventEditSectionBooking : bookingRows,
+                             CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
+                             CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
+                             CHDEventEditSectionMisc : miscRows,
+                             CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
+    }
+    else {
+        self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
+                             CHDEventEditSectionDate : dateRows,
+                             CHDEventEditSectionRecipients : recipientsRows,
+                             CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
+                             CHDEventEditSectionBooking : @[],
+                             CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
+                             CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
+                             CHDEventEditSectionMisc : miscRows,
+                             CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
+    }
 
 }
 
