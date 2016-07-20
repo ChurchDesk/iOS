@@ -176,6 +176,14 @@
     cell.backgroundColor = [UIColor whiteColor];
     cell.titleLabel.text = [[self peopleAttributes] objectAtIndex:indexPath.row];
     cell.valueLabel.text = [_peopleAttributeValues objectAtIndex:indexPath.row];
+    if ([cell.titleLabel.text isEqualToString:NSLocalizedString(@"Gender", @"")]) {
+        if ([cell.valueLabel.text caseInsensitiveCompare:@"male"] == NSOrderedSame) {
+            cell.valueLabel.text = NSLocalizedString(@"Male", @"");
+        }
+        else{
+            cell.valueLabel.text = NSLocalizedString(@"Female", @"");
+        }
+    }
     return cell;
 }
 

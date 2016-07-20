@@ -56,7 +56,7 @@ float height = 0;
         _textView = [UITextView new];
         _textView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         _textView.textColor = [UIColor chd_textDarkColor];
-        _textView.scrollEnabled = NO;
+        _textView.scrollEnabled = YES;
         _textView.textContainerInset = UIEdgeInsetsMake(kSideMargin, kSideMargin-2, 0, kSideMargin);
         _textView.delegate = self;
         _textView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
@@ -85,14 +85,16 @@ float height = 0;
     }else{
         self.placeholder.hidden = NO;
     }
-    CGSize contentSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
-    contentSize.height = MAX(kNewMessageMinimumHeight, contentSize.height);
-    if (height < contentSize.height) {
-        [self.textViewHeight setOffset:contentSize.height + (kSideMargin*2)];
-        [self.tableView beginUpdates];
-        [self.tableView endUpdates];
-        height = contentSize.height;
-    }
 }
 
+-(void)textViewDidEndEditing:(UITextView *)textView{
+        CGSize contentSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
+        contentSize.height = MAX(kNewMessageMinimumHeight, contentSize.height);
+        if (height < contentSize.height) {
+            [self.textViewHeight setOffset:contentSize.height + (kSideMargin*2)];
+            [self.tableView beginUpdates];
+            height = contentSize.height;
+            [self.tableView endUpdates];
+        }
+}
 @end
