@@ -50,7 +50,7 @@ static NSString* kCreateMessageTextFieldCell = @"createMessagTextFieldCell";
 static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
 int selectedIndex = 0;
-@interface CHDCreatePersonViewController () <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate >
+@interface CHDCreatePersonViewController () <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, UITextFieldDelegate >
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) CHDStatusView *statusView;
 @property (nonatomic, strong) CHDCreatePersonViewModel *personViewModel;
@@ -238,33 +238,39 @@ int selectedIndex = 0;
         if ((newMessagesSections)indexPath.section == selectReceiverSection) {
             textString = NSLocalizedString(@"First Name", @"");
             cell.textField.text = self.personViewModel.firstName;
+            cell.textField.tag = 200;
             [self.personViewModel shprac_liftSelector:@selector(setFirstName:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         }
         else if ((newMessagesSections)indexPath.section == selectSenderSection){
             textString = NSLocalizedString(@"Last Name", @"");
             cell.textField.text = self.personViewModel.lastName;
+            cell.textField.tag = 201;
             [self.personViewModel shprac_liftSelector:@selector(setLastName:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         }
         else if ((newMessagesSections)indexPath.section == subjectInputSection)
         {
             textString = NSLocalizedString(@"Email", @"");
             cell.textField.text = self.personViewModel.email;
+            cell.textField.tag = 202;
             [self.personViewModel shprac_liftSelector:@selector(setEmail:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
             cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
         }
         else if ((newMessagesSections)indexPath.section == jobTitleSection){
             textString = NSLocalizedString(@"Job Title", @"");
             cell.textField.text = self.personViewModel.jobTitle;
+            cell.textField.tag = 206;
             [self.personViewModel shprac_liftSelector:@selector(setJobTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         }
         else if ((newMessagesSections)indexPath.section == streetAddressSection){
             textString = NSLocalizedString(@"Address", @"");
             cell.textField.text = self.personViewModel.address;
+            cell.textField.tag = 207;
             [self.personViewModel shprac_liftSelector:@selector(setAddress:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         }
         else if ((newMessagesSections)indexPath.section == citySection){
             textString = NSLocalizedString(@"City", @"");
             cell.textField.text = self.personViewModel.city;
+            cell.textField.tag = 208;
             [self.personViewModel shprac_liftSelector:@selector(setCity:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         }
         else if ((newMessagesSections)indexPath.section == postCodeSection){
@@ -272,9 +278,11 @@ int selectedIndex = 0;
             cell.textField.text = self.personViewModel.postCode;
             [self.personViewModel shprac_liftSelector:@selector(setPostCode:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+            cell.textField.tag = 209;
         }
         cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textString attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
-        
+        cell.textField.returnKeyType = UIReturnKeyNext;
+        cell.textField.delegate = self;
         return cell;
     }
     if((newMessagesSections)indexPath.section == messageInputSection || (newMessagesSections)indexPath.section == homePhoneSection || (newMessagesSections)indexPath.section == workPhoneSection ){
@@ -284,21 +292,23 @@ int selectedIndex = 0;
         if ((newMessagesSections)indexPath.section == messageInputSection) {
             textString = NSLocalizedString(@"Phone", @"");
             cell.textField.text = self.personViewModel.mobilePhone;
+            cell.textField.tag = 203;
             [self.personViewModel shprac_liftSelector:@selector(setMobilePhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         }
         else if ((newMessagesSections)indexPath.section == homePhoneSection){
             textString = NSLocalizedString(@"Home Phone", @"");
             cell.textField.text = self.personViewModel.homePhone;
+            cell.textField.tag = 204;
             [self.personViewModel shprac_liftSelector:@selector(setHomePhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         }
         else if ((newMessagesSections)indexPath.section == workPhoneSection){
             textString = NSLocalizedString(@"Work Phone", @"");
             cell.textField.text = self.personViewModel.workPhone;
+            cell.textField.tag = 205;
             [self.personViewModel shprac_liftSelector:@selector(setWorkPhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         }
         cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textString attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
         cell.textField.keyboardType = UIKeyboardTypePhonePad;
-        
         return cell;
     }
     if ((newMessagesSections)indexPath.section == birthdaySection || (newMessagesSections)indexPath.section == genderSection) {
@@ -326,7 +336,7 @@ int selectedIndex = 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [self.view endEditing:YES];
     if((newMessagesSections)indexPath.section == selecttagsSection){
         NSMutableArray *items = [NSMutableArray new];
         for (CHDTag *tag in self.personViewModel.tags) {
@@ -747,6 +757,15 @@ int selectedIndex = 0;
     selectedIndex = row;
 }
 
+#pragma mark - TextField Delegate
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    if (textField.returnKeyType == UIReturnKeyNext) {
+        UITextField *nextTextField = (UITextField *)[self.view viewWithTag:textField.tag+1];
+        [nextTextField becomeFirstResponder];
+    }
+    return YES;
+}
 #pragma mark - Keyboard
 
 -(void) chd_willToggleKeyboard: (SHPKeyboardEvent*) keyboardEvent{
