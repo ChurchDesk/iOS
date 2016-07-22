@@ -45,7 +45,7 @@ static NSString* kCreateMessageSelectorCell = @"createMessageSelectorCell";
 static NSString* kCreateMessageTextFieldCell = @"createMessagTextFieldCell";
 static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 
-@interface CHDCreateMessageMailViewController ()<UIActionSheetDelegate>
+@interface CHDCreateMessageMailViewController ()<UIActionSheetDelegate, UITextViewDelegate>
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) CHDCreateMessageMailViewModel *messageViewModel;
 @property (nonatomic, strong) CHDStatusView *statusView;
@@ -308,6 +308,9 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
         cell.textView.text = self.messageViewModel.message;
         [cell textDidChange:self.messageViewModel.message];
         cell.tableView = tableView;
+        if (_isSMS) {
+            cell.textView.delegate = self;
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.messageViewModel shprac_liftSelector:@selector(setMessage:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         return cell;
@@ -524,6 +527,13 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     }
     return _textLimitLabel;
 }
+#pragma mark - Textview Delegate
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    return textView.text.length + (text.length - range.length) <= 160;
+}
+
 #pragma mark - Keyboard
 
 -(void) chd_willToggleKeyboard: (SHPKeyboardEvent*) keyboardEvent{
