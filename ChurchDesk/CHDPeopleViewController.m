@@ -398,7 +398,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     }
     NSString *messageTypeString;
     if (_selectedPeopleArray.count > 0) {
-        messageTypeString = [NSString stringWithFormat:@"%@\n(%d %@)", NSLocalizedString(@"Choose message type..", @""), _selectedPeopleArray.count, NSLocalizedString(@"people selected", @"")];
+        messageTypeString = [NSString stringWithFormat:@"%@\n(%lu %@)", NSLocalizedString(@"Choose message type..", @""), (unsigned long)_selectedPeopleArray.count, NSLocalizedString(@"people selected", @"")];
     }
     else{
         messageTypeString = NSLocalizedString(@"Choose message type..", @"");

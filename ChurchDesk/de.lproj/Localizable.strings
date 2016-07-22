@@ -116,10 +116,10 @@
 "I am not going" = "Ich nehme nicht teil";
 
 /* No comment provided by engineer. */
-"Instructions for resetting you password will be sent to your email." = "Ihnen wurde eine Anleitung für das Zurücksetzen Ihres Passworts an Ihre E-Mail-Adresse geschickt.";
+"Instructions for resetting you password will be sent to your email." = "Ihnen wird eine Anleitung für das Zurücksetzen des Passworts an Ihre E-Mail-Adresse geschickt.";
 
 /* No comment provided by engineer. */
-"Instructions for resetting your password will be sent to '%@'." = "Eine Anleitung für das Zurücksetzen Ihres Passworts wurde an '%@' geschickt.";
+"Instructions for resetting your password will be sent to '%@'." = "Eine Anleitung für das Zurücksetzen Ihres Passworts wird an '%@' geschickt.";
 
 /* No comment provided by engineer. */
 "Internal Note" = "Interner Vermerk";
@@ -431,3 +431,32 @@
 "Return to message" = "Zurück zur Nachricht";
 "Send to.." = "Senden an..";
 "Finish later" = "Später fertigstellen";
+
+"Send an email" = "Email versenden";
+"Send an SMS" = "SMS versenden";
+"Choose message type.." = "Versandart aussuchen";
+"people selected" = "kontakte ausgewählt";
+"Done" = "Geschafft";
+"Person created successfully" = "Kontakt erfolgreich erstellt";
+"Person edited successfully" = "Kontakt erfolgreich bearbeitet";
+"Creating person.." = "Kontakt wird erstellt";
+"Edit" = "Bearbeiten";
+"Create Person" = "Kontakt erstellen";
+"Edit Person" = "Kontakt bearbeiten";
+"Create" = "Erstellen";
+"Move and Scale" = "Verschieben und skalieren";
+"Choose Photo" = "Foto auswählen";
+"Take Photo" = "Foto machen";
+"First Name" = "Vorname";
+"Last Name" = "Nachname";
+"Email" = "Email";
+"Phone" = "Phone";
+"Tags" = "Tags";
+"Select Tags" = "Tags auswählen";
+"Male" = "Männlich";
+"Female" = "Weiblich";
+"Postal Code" = "Postleitzahl";
+"Home Phone" = "Home Phone";
+"Work Phone" = "Work Phone";
+"Select Birthday" = "Geburtstag auswählen";
+"Select Gender" = "Geschlecht auswählen";
