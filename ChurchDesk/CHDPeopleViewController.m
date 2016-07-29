@@ -287,7 +287,6 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         ppvc.organizationId = self.viewModel.organizationId;
         [self.navigationController pushViewController:ppvc animated:YES];
     }
-    
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -368,6 +367,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 }
 
 - (void) createMessageShow: (id) sender {
+    [self toggleButtonAction:nil];
     int emailCount = 0;
     int phoneCount = 0;
     //counting number of people with email and phone number

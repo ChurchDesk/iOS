@@ -49,6 +49,7 @@ static NSString* kCreateMessageSelectorCell = @"createMessageSelectorCell";
 static NSString* kCreateMessageTextFieldCell = @"createMessagTextFieldCell";
 static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
+static const int kGenderPickerTag = 301;
 NSInteger selectedIndex = 0;
 @interface CHDCreatePersonViewController () <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, UITextFieldDelegate >
 @property (nonatomic, strong) UITableView* tableView;
@@ -61,6 +62,7 @@ NSInteger selectedIndex = 0;
 @property (nonatomic, strong) UIDatePicker *datePicker;
 @property (nonatomic, strong) UIPickerView *pickerView;
 @property (nonatomic, retain) NSMutableArray *pickerDataArray;
+@property (nonatomic, retain) NSString *selectedCountryCode;
 @end
 
 
@@ -676,6 +678,7 @@ NSInteger selectedIndex = 0;
             [_pickerView setDataSource: self];
             [_pickerView setDelegate: self];
             [_pickerView setFrame:CGRectMake(25, 100, 250, 100)];
+            _pickerView.tag = kGenderPickerTag;
             _pickerView.showsSelectionIndicator = YES;
             [_receiverView addSubview: _pickerView];
             [doneButton addTarget:self action:@selector(donePickerPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -732,26 +735,50 @@ NSInteger selectedIndex = 0;
 
 #pragma mark - Picker delegates
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 1;
+    if (pickerView.tag == kGenderPickerTag) {
+        return 1;
+    }
+    else{
+        return 2;
+    }
 }
 
 // Total rows in our component.
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return [_pickerDataArray count];
+    if (pickerView.tag == kGenderPickerTag) {
+        return [_pickerDataArray count];
+    }
+    else{
+        return [self.personViewModel getCountryCodes].allKeys.count;
+    }
 }
 
 // Display each row's data.
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return [_pickerDataArray objectAtIndex: row];
+    if (pickerView.tag == kGenderPickerTag) {
+        return [_pickerDataArray objectAtIndex: row];
+    }
+    else{
+        if (component == 0) {
+          return [[self.personViewModel getCountryCodes].allKeys objectAtIndex:row];
+        }
+        else{
+            return [[self.personViewModel getCountryCodes].allValues objectAtIndex:row];
+        }
+    }
 }
 
 // Do something with the selected row.
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    selectedIndex = row;
+    if (pickerView.tag == kGenderPickerTag) {
+        selectedIndex = row;
+    }
+    else{
+        _selectedCountryCode = [[self.personViewModel getCountryCodes].allValues objectAtIndex:row];
+    }
 }
 
 #pragma mark - TextField Delegate
-
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     if (textField.returnKeyType == UIReturnKeyNext) {
         UITextField *nextTextField = (UITextField *)[self.view viewWithTag:textField.tag+1];
@@ -759,8 +786,12 @@ NSInteger selectedIndex = 0;
     }
     return YES;
 }
-#pragma mark - Keyboard
 
+-(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    return YES;
+}
+
+#pragma mark - Keyboard
 -(void) chd_willToggleKeyboard: (SHPKeyboardEvent*) keyboardEvent{
     CGFloat offset = 0;
     switch (keyboardEvent.keyboardEventType) {
@@ -774,13 +805,11 @@ NSInteger selectedIndex = 0;
             
             // Save the current view offset into the event to retrieve it later
             keyboardEvent.originalOffset = self.tableView.contentOffset.y;
-            
             break;
         case SHPKeyboardEventTypeHide:
             self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
             // Keyboard will hide. Reset view offset to its state before keyboard appeared
             offset = keyboardEvent.originalOffset;
-            
             break;
         default:
             break;
