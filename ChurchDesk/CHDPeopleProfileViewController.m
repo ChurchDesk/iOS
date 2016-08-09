@@ -11,6 +11,8 @@
 #import "CHDEventTextValueTableViewCell.h"
 #import "CHDCreateMessageMailViewController.h"
 #import "CHDCreatePersonViewController.h"
+#import "CHDListConfigModel.h"
+#import "CHDListViewController.h"
 
 @interface CHDPeopleProfileViewController () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 @property (nonatomic, strong) UITableView* profileTable;
@@ -49,6 +51,7 @@
     [self.view addSubview:self.userNameLabel];
     [self.view addSubview:self.userImageView];
     [self.view addSubview:self.callButton];
+    self.callButton.enabled = true;
     if (([_people.contact objectForKey:@"phone"] == (id)[NSNull null]) || [[_people.contact objectForKey:@"phone"] length] == 0 ) {
         self.callButton.enabled = false;
     }
@@ -114,7 +117,6 @@
         _profileTable.rowHeight = 48;
         
         [_profileTable registerClass:[CHDEventTextValueTableViewCell class] forCellReuseIdentifier:@"profileCell"];
-        
         _profileTable.dataSource = self;
         _profileTable.delegate = self;
         _profileTable.allowsSelection = YES;
@@ -169,12 +171,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //Get the item
-    
     static NSString* cellIdentifier = @"profileCell";
     CHDEventTextValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     cell.titleLabel.text = [[self peopleAttributes] objectAtIndex:indexPath.row];
+    if ([cell.titleLabel.text isEqualToString:NSLocalizedString(@"Tags", @"")]) {
+        NSArray *tagsArray = [_peopleAttributeValues objectAtIndex:indexPath.row];
+        cell.valueLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)tagsArray.count];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else{
     cell.valueLabel.text = [_peopleAttributeValues objectAtIndex:indexPath.row];
     if ([cell.titleLabel.text isEqualToString:NSLocalizedString(@"Gender", @"")]) {
         if ([cell.valueLabel.text caseInsensitiveCompare:@"male"] == NSOrderedSame) {
@@ -183,6 +189,8 @@
         else{
             cell.valueLabel.text = NSLocalizedString(@"Female", @"");
         }
+    }
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     return cell;
 }
@@ -201,17 +209,33 @@
         [self sendMessageAction:nil];
         [Heap track:@"People profile: Clicked on email"];
     }
-    else if ([[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Phone Number", @"")]){
-        [self callAction:nil];
+    else if ([[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Mobile phone", @"")] || [[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Work phone", @"")] || [[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Home phone", @"")]){
+        [self callAction:[[self peopleAttributeValues] objectAtIndex:indexPath.row]];
         [Heap track:@"People profile: Clicked on phone"];
+    }
+    else if ([[[self peopleAttributes] objectAtIndex:indexPath.row] isEqualToString:NSLocalizedString(@"Tags", @"")]){
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    for(NSString *tag in [_peopleAttributeValues objectAtIndex:indexPath.row]){
+            CHDListConfigModel *configItem = [[CHDListConfigModel alloc] initWithTitle:tag color:nil];
+            [items addObject:configItem];
+    }
+    CHDListViewController *vc = [[CHDListViewController alloc] initWithItems:items];
+    vc.title = NSLocalizedString(@"Tags", @"");
+    [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 #pragma mark - Actions
 
-- (void)callAction: (id) sender {
+- (void)callAction: (NSString *) phoneNumber {
     [Heap track:@"People profile: Call clicked"];
-    NSString *phoneNo = [_people.contact objectForKey:@"phone"];
+    NSString *phoneNo;
+    if ([phoneNumber isKindOfClass:[NSString class]]) {
+        phoneNo = phoneNumber;
+    }
+    else{
+        phoneNo = [_people.contact objectForKey:@"phone"];
+    }
     NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phoneNo]];
     
     if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
@@ -298,8 +322,16 @@
         [_peopleAttributeValues addObject:_people.email];
     }
     if ([_people.contact objectForKey:@"phone"] != (id)[NSNull null] && [[_people.contact objectForKey:@"phone"] length] != 0 ) {
-        [temporaryArray addObject:NSLocalizedString(@"Phone Number", @"")];
+        [temporaryArray addObject:NSLocalizedString(@"Mobile phone", @"")];
         [_peopleAttributeValues addObject:[_people.contact objectForKey:@"phone"]];
+    }
+    if ([_people.contact objectForKey:@"homePhone"] != (id)[NSNull null] && [[_people.contact objectForKey:@"homePhone"] length] != 0 ) {
+        [temporaryArray addObject:NSLocalizedString(@"Home Phone", @"")];
+        [_peopleAttributeValues addObject:[_people.contact objectForKey:@"homePhone"]];
+    }
+    if ([_people.contact objectForKey:@"workPhone"] != (id)[NSNull null] && [[_people.contact objectForKey:@"workPhone"] length] != 0 ) {
+        [temporaryArray addObject:NSLocalizedString(@"Work Phone", @"")];
+        [_peopleAttributeValues addObject:[_people.contact objectForKey:@"workPhone"]];
     }
     if (_people.birthday != NULL) {
         [temporaryArray addObject:NSLocalizedString(@"Birthday", @"")];
@@ -324,6 +356,15 @@
     if ([_people.contact objectForKey:@"city"] != (id)[NSNull null] && [[_people.contact objectForKey:@"city"] length] != 0 ) {
         [temporaryArray addObject:NSLocalizedString(@"City", @"")];
         [_peopleAttributeValues addObject:[_people.contact objectForKey:@"city"]];
+    }
+    if (_people.tags.count > 0) {
+        [temporaryArray addObject:NSLocalizedString(@"Tags", @"")];
+        NSMutableArray *personTags = [[NSMutableArray alloc] init];
+        for (int i=0; i < _people.tags.count; i++) {
+            NSDictionary *singleTag = [_people.tags objectAtIndex:i];
+            [personTags addObject:[singleTag valueForKey:@"name"]];
+        }
+        [_peopleAttributeValues addObject:personTags];
     }
     return temporaryArray;
 }

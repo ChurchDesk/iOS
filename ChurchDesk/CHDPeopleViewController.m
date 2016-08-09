@@ -67,6 +67,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     if (timeDifference/60 > 10) {
         
     }
+    
     if ([defaults boolForKey:ksuccessfulPeopleMessage]) {
         self.peopletable.editing = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
@@ -85,7 +86,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         rightBarButtonTitle = NSLocalizedString(@"Select", @"");
     }
     if (_segmentIds.count > 0) {
-        [self.buttonContainer setHidden:YES];
+        [_toggleButton setHidden:YES];
     }
     else {
         self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = rightBarButtonTitle;

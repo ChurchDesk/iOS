@@ -23,6 +23,7 @@
 #import "CHDListSelectorConfigModel.h"
 #import "CHDAPIClient.h"
 #import "UIImageView+Haneke.h"
+#import "CHDPhoneNumberViewController.h"
 
 typedef NS_ENUM(NSUInteger, newMessagesSections) {
     divider1Section,
@@ -49,7 +50,6 @@ static NSString* kCreateMessageSelectorCell = @"createMessageSelectorCell";
 static NSString* kCreateMessageTextFieldCell = @"createMessagTextFieldCell";
 static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
 static NSString* kCreatePersonSelectorCell = @"createPersonSelectorCell";
-static const int kGenderPickerTag = 301;
 NSInteger selectedIndex = 0;
 @interface CHDCreatePersonViewController () <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, UITextFieldDelegate >
 @property (nonatomic, strong) UITableView* tableView;
@@ -156,7 +156,7 @@ NSInteger selectedIndex = 0;
                     self.statusView.errorText = NSLocalizedString(@"Too many requests, try again later", @"");
                     break;
                 default:
-                    self.statusView.errorText = NSLocalizedString(@"There was a problem, please try again", @"");
+                    self.statusView.errorText = [response.body valueForKey:@"message"];
             }
             [self didChangeSendingStatus:CHDStatusViewError];
         } completed:^{
@@ -184,7 +184,7 @@ NSInteger selectedIndex = 0;
                 self.statusView.errorText = NSLocalizedString(@"Too many requests, try again later", @"");
                 break;
             default:
-                self.statusView.errorText = NSLocalizedString(@"There was a problem, please try again", @"");
+                self.statusView.errorText = [response.body valueForKey:@"message"];
         }
         [self didChangeSendingStatus:CHDStatusViewError];
     } completed:^{
@@ -279,38 +279,12 @@ NSInteger selectedIndex = 0;
             textString = NSLocalizedString(@"Postal Code", @"");
             cell.textField.text = self.personViewModel.postCode;
             [self.personViewModel shprac_liftSelector:@selector(setPostCode:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-            cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+            cell.textField.keyboardType = UIKeyboardTypeDefault;
             cell.textField.tag = 209;
         }
         cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textString attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
         cell.textField.returnKeyType = UIReturnKeyNext;
         cell.textField.delegate = self;
-        return cell;
-    }
-    if((newMessagesSections)indexPath.section == messageInputSection || (newMessagesSections)indexPath.section == homePhoneSection || (newMessagesSections)indexPath.section == workPhoneSection ){
-        CHDNewMessageTextFieldCell* cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:kCreateMessageTextFieldCell forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        NSString *textString;
-        if ((newMessagesSections)indexPath.section == messageInputSection) {
-            textString = NSLocalizedString(@"Phone", @"");
-            cell.textField.text = self.personViewModel.mobilePhone;
-            cell.textField.tag = 203;
-            [self.personViewModel shprac_liftSelector:@selector(setMobilePhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        }
-        else if ((newMessagesSections)indexPath.section == homePhoneSection){
-            textString = NSLocalizedString(@"Home Phone", @"");
-            cell.textField.text = self.personViewModel.homePhone;
-            cell.textField.tag = 204;
-            [self.personViewModel shprac_liftSelector:@selector(setHomePhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        }
-        else if ((newMessagesSections)indexPath.section == workPhoneSection){
-            textString = NSLocalizedString(@"Work Phone", @"");
-            cell.textField.text = self.personViewModel.workPhone;
-            cell.textField.tag = 205;
-            [self.personViewModel shprac_liftSelector:@selector(setWorkPhone:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-        }
-        cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textString attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
-        cell.textField.keyboardType = UIKeyboardTypePhonePad;
         return cell;
     }
     if ((newMessagesSections)indexPath.section == birthdaySection || (newMessagesSections)indexPath.section == genderSection) {
@@ -328,10 +302,24 @@ NSInteger selectedIndex = 0;
         cell.dividerLineHidden = NO;
         return cell;
     }
-    if((newMessagesSections)indexPath.section == selecttagsSection){
+    if((newMessagesSections)indexPath.section == selecttagsSection || (newMessagesSections)indexPath.section == messageInputSection || (newMessagesSections)indexPath.section == homePhoneSection || (newMessagesSections)indexPath.section == workPhoneSection){
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCreatePersonSelectorCell forIndexPath:indexPath];
-        cell.titleLabel.text = NSLocalizedString(@"Tags", @"");
-        cell.valueLabel.text = self.personViewModel.selectedTags.count <= 1 ? [self.personViewModel tagWithId:self.personViewModel.selectedTags.firstObject].name : [@(self.personViewModel.selectedTags.count) stringValue];
+        if ((newMessagesSections)indexPath.section == selecttagsSection) {
+            cell.titleLabel.text = NSLocalizedString(@"Tags", @"");
+            cell.valueLabel.text = self.personViewModel.selectedTags.count <= 1 ? [self.personViewModel tagWithId:self.personViewModel.selectedTags.firstObject].name : [@(self.personViewModel.selectedTags.count) stringValue];
+        }
+        else if ((newMessagesSections)indexPath.section == messageInputSection){
+            cell.titleLabel.text = NSLocalizedString(@"Phone", @"");
+            cell.valueLabel.text = self.personViewModel.mobilePhone;
+        }
+        else if ((newMessagesSections)indexPath.section == homePhoneSection){
+            cell.titleLabel.text = NSLocalizedString(@"Home Phone", @"");
+            cell.valueLabel.text = self.personViewModel.homePhone;
+        }
+        else if ((newMessagesSections)indexPath.section == workPhoneSection){
+            cell.titleLabel.text = NSLocalizedString(@"Work Phone", @"");
+            cell.valueLabel.text = self.personViewModel.workPhone;
+        }
         return cell;
     }
     return nil;
@@ -357,7 +345,6 @@ NSInteger selectedIndex = 0;
         RACSignal *selectedSignal = [[[RACObserve(vc, selectedItems) map:^id(NSArray *selectedItems) {
             return [selectedItems valueForKey:@"refObject"];
         }] skip:1] takeUntil:vc.rac_willDeallocSignal];
-        
         [self.personViewModel shprac_liftSelector:@selector(setSelectedTags:) withSignal:selectedSignal];
         CGPoint offset = self.tableView.contentOffset;
         [self.tableView rac_liftSelector:@selector(setContentOffset:) withSignals:[[[self rac_signalForSelector:@selector(viewDidLayoutSubviews)] takeUntil:vc.rac_willDeallocSignal] mapReplace:[NSValue valueWithCGPoint:offset]], nil];
@@ -369,6 +356,36 @@ NSInteger selectedIndex = 0;
     else if ((newMessagesSections)indexPath.section == genderSection)
     {
         [self showAction:NO];
+    }
+    else if ((newMessagesSections)indexPath.section == messageInputSection){
+        CHDPhoneNumberViewController *pvc = [[CHDPhoneNumberViewController alloc] init];
+        pvc.phoneNumber = self.personViewModel.mobilePhone;
+        [pvc setTitle:NSLocalizedString(@"Phone", @"")];
+        RACSignal *selectedSignal = [[[RACObserve(pvc, phoneNumber) map:^id(NSString *phoneNumber) {
+            return phoneNumber;
+        }] skip:1] takeUntil:pvc.rac_willDeallocSignal];
+        [self.personViewModel shprac_liftSelector:@selector(setMobilePhone:) withSignal:selectedSignal];
+        [self.navigationController pushViewController:pvc animated:YES];
+    }
+    else if ((newMessagesSections)indexPath.section == homePhoneSection){
+        CHDPhoneNumberViewController *pvc = [[CHDPhoneNumberViewController alloc] init];
+        pvc.phoneNumber = self.personViewModel.homePhone;
+        [pvc setTitle:NSLocalizedString(@"Home Phone", @"")];
+        RACSignal *selectedSignal = [[[RACObserve(pvc, phoneNumber) map:^id(NSString *phoneNumber) {
+            return phoneNumber;
+        }] skip:1] takeUntil:pvc.rac_willDeallocSignal];
+        [self.personViewModel shprac_liftSelector:@selector(setHomePhone:) withSignal:selectedSignal];
+        [self.navigationController pushViewController:pvc animated:YES];
+    }
+    else if ((newMessagesSections)indexPath.section == workPhoneSection){
+        CHDPhoneNumberViewController *pvc = [[CHDPhoneNumberViewController alloc] init];
+        pvc.phoneNumber = self.personViewModel.workPhone;
+        [pvc setTitle:NSLocalizedString(@"Work Phone", @"")];
+        RACSignal *selectedSignal = [[[RACObserve(pvc, phoneNumber) map:^id(NSString *phoneNumber) {
+            return phoneNumber;
+        }] skip:1] takeUntil:pvc.rac_willDeallocSignal];
+        [self.personViewModel shprac_liftSelector:@selector(setWorkPhone:) withSignal:selectedSignal];
+        [self.navigationController pushViewController:pvc animated:YES];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
@@ -533,7 +550,7 @@ NSInteger selectedIndex = 0;
 -(void) makeBindings {
     [self rac_liftSelector:@selector(chd_willToggleKeyboard:) withSignals:[self shp_keyboardAwarenessSignal], nil];
     
-    //Change the state of the send button
+    //Change the state of the create button
     RAC(self.navigationItem.rightBarButtonItem, enabled) = RACObserve(self.personViewModel, canCreatePerson);
     // Init the picker data array.
     _pickerDataArray = [[NSMutableArray alloc] init];
@@ -651,7 +668,6 @@ NSInteger selectedIndex = 0;
         selectLabel.textAlignment = NSTextAlignmentCenter;
         selectLabel.textColor = [UIColor chd_textDarkColor];
         [_receiverView addSubview:selectLabel];
-        
         UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [doneButton setTitle:NSLocalizedString(@"Done", @"") forState:UIControlStateNormal];
         [doneButton setTitleColor:[UIColor chd_textDarkColor] forState:UIControlStateNormal];
@@ -678,7 +694,6 @@ NSInteger selectedIndex = 0;
             [_pickerView setDataSource: self];
             [_pickerView setDelegate: self];
             [_pickerView setFrame:CGRectMake(25, 100, 250, 100)];
-            _pickerView.tag = kGenderPickerTag;
             _pickerView.showsSelectionIndicator = YES;
             [_receiverView addSubview: _pickerView];
             [doneButton addTarget:self action:@selector(donePickerPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -735,47 +750,22 @@ NSInteger selectedIndex = 0;
 
 #pragma mark - Picker delegates
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    if (pickerView.tag == kGenderPickerTag) {
-        return 1;
-    }
-    else{
-        return 2;
-    }
+    return 1;
 }
 
 // Total rows in our component.
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    if (pickerView.tag == kGenderPickerTag) {
         return [_pickerDataArray count];
-    }
-    else{
-        return [self.personViewModel getCountryCodes].allKeys.count;
-    }
 }
 
 // Display each row's data.
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    if (pickerView.tag == kGenderPickerTag) {
         return [_pickerDataArray objectAtIndex: row];
-    }
-    else{
-        if (component == 0) {
-          return [[self.personViewModel getCountryCodes].allKeys objectAtIndex:row];
-        }
-        else{
-            return [[self.personViewModel getCountryCodes].allValues objectAtIndex:row];
-        }
-    }
 }
 
 // Do something with the selected row.
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    if (pickerView.tag == kGenderPickerTag) {
         selectedIndex = row;
-    }
-    else{
-        _selectedCountryCode = [[self.personViewModel getCountryCodes].allValues objectAtIndex:row];
-    }
 }
 
 #pragma mark - TextField Delegate
@@ -783,11 +773,15 @@ NSInteger selectedIndex = 0;
     if (textField.returnKeyType == UIReturnKeyNext) {
         UITextField *nextTextField = (UITextField *)[self.view viewWithTag:textField.tag+1];
         [nextTextField becomeFirstResponder];
+        
     }
     return YES;
 }
 
 -(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if (textField.keyboardType == UIKeyboardTypePhonePad) {
+        
+    }
     return YES;
 }
 
@@ -796,7 +790,6 @@ NSInteger selectedIndex = 0;
     CGFloat offset = 0;
     switch (keyboardEvent.keyboardEventType) {
         case SHPKeyboardEventTypeShow:
-            
             //Set content inset
             self.tableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardEvent.keyboardFrame.size.height, 0);
             

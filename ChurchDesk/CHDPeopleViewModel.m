@@ -33,12 +33,7 @@
         //Initial signal
         RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:_organizationId segmentIds:segmentIds] map:^id(NSArray* people) {
             RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
-                if (people.fullName.length >1) {
                     return YES;
-                }
-                else{
-                    return NO;
-                }
             }];
 
             //NSLog(@"people array %@", results.array);
@@ -61,13 +56,8 @@
         }] flattenMap:^RACStream *(id value) {
             return [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:_organizationId segmentIds:segmentIds] map:^id(NSArray* people) {
                 RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
-                    if (people.fullName.length >1) {
                         return YES;
-                    }
-                    else{
-                        return NO;
-                    }
-                }];
+            }];
                 return results.array;
             }] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
@@ -93,6 +83,9 @@
         {
             NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
             CHDPeople *individualContact = [_people objectAtIndex:j];
+            if (!individualContact.fullName) {
+                individualContact.fullName = NSLocalizedString(@"Unknown", @"");
+            }
             prefix = [[individualContact.fullName stringByTrimmingCharactersInSet:whitespace] substringToIndex:1];
             if ([prefix caseInsensitiveCompare:[alphaArray objectAtIndex:i]] == NSOrderedSame )
             {

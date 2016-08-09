@@ -34,5 +34,4 @@
 - (CHDTag *) tagWithId: (NSNumber*) tagId;
 - (RACSignal*)createPerson;
 - (RACSignal*)editPerson :(NSDictionary *)personDict personId:(NSString *)personId;
-- (NSDictionary *)getCountryCodes;
 @end

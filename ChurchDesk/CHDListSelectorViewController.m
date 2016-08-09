@@ -45,6 +45,12 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 #pragma mark - lazy initialization
 - (void) makeViews {
     [self.view addSubview:self.tableView];
+    
+    UIBarButtonItem *sendButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
+    [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+    [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
+    self.navigationItem.rightBarButtonItem = sendButton;
+
 }
 
 -(void) makeConstraints {
@@ -160,6 +166,10 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
         cell.dividerLineHidden = NO;
         return cell;
     }
+}
+
+-(void) rightBarButtonTouch{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void) setupData :(NSArray *)items{

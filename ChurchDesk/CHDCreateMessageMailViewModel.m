@@ -52,7 +52,7 @@
     if(!self.canSendMessage){return [RACSignal empty];}
     CHDPeopleMessage *message = [CHDPeopleMessage new];
     message.content = self.message;
-    message.title = self.title;
+    message.title = self.title ? self.title : @"";
     message.organizationId = self.organizationId;
     message.from = self.from;
     if (_isSMS) {

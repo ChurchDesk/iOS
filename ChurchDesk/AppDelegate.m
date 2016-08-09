@@ -37,7 +37,6 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
- //   [Heap setAppId:@"408075929"]; //prod
 //    [Heap startDebug];
 //    [Heap setAppId:@"43172103"];    //dev
 //    [Heap enableVisualizer];
@@ -46,6 +45,7 @@
 //                                 useSSL:YES
 //                               delegate:self];
 #if !DEBUG
+    [Heap setAppId:@"408075929"]; //prod
     [Crashlytics startWithAPIKey:@"c7c174cb98f78bf0cd7b43db69eb37d1e2a46d11"];
 #endif
     [[CHDAnalyticsManager sharedInstance] startGoogleAnalytics];
@@ -96,7 +96,7 @@
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
     CHDPeopleTabBarController *peopleTabBar = [CHDPeopleTabBarController peopleTabBarViewController];
     CHDDashboardMessagesViewController *messagesViewController = [[CHDDashboardMessagesViewController new] initWithStyle:CHDMessagesStyleAllMessages];
-    messagesViewController.title = NSLocalizedString(@"Messages", @"");
+    messagesViewController.title = NSLocalizedString(@"My messages", @"");
     CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
     CHDTImeRecordingViewController  *timeRecordingViewController = [CHDTImeRecordingViewController new];
     CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
@@ -117,7 +117,7 @@
     
     //Messages
     CHDMenuItem *menuItemMessages = [CHDMenuItem new];
-    menuItemMessages.title = NSLocalizedString(@"Messages", @"");
+    menuItemMessages.title = NSLocalizedString(@"My messages", @"");
     menuItemMessages.viewController = messagesNavigationController;
     menuItemMessages.image = kImgMenuMail;
     

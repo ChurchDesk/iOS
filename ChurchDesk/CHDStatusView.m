@@ -201,6 +201,7 @@
         _statusLabel = [UILabel new];
         _statusLabel.text = @"";
         _statusLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:20];
+        _statusLabel.numberOfLines = 4;
         _statusLabel.textColor = [UIColor whiteColor];
         _statusLabel.adjustsFontSizeToFitWidth = YES;
         _statusLabel.textAlignment = NSTextAlignmentCenter;

@@ -41,6 +41,20 @@
 		36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */; };
 		36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */; };
 		36E869E61AD651AB003743D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 36E869E81AD651AB003743D2 /* InfoPlist.strings */; };
+		4615245D1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4615243B1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.m */; };
+		4615245E1D4B54AF00E5A3B2 /* NBMetadataCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4615243D1D4B54AF00E5A3B2 /* NBMetadataCore.m */; };
+		4615245F1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4615243F1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.m */; };
+		461524601D4B54AF00E5A3B2 /* NBMetadataCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 461524411D4B54AF00E5A3B2 /* NBMetadataCoreTest.m */; };
+		461524611D4B54AF00E5A3B2 /* NBMetadataCoreTestMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 461524431D4B54AF00E5A3B2 /* NBMetadataCoreTestMapper.m */; };
+		461524621D4B54AF00E5A3B2 /* NBMetadataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 461524451D4B54AF00E5A3B2 /* NBMetadataHelper.m */; };
+		461524631D4B54AF00E5A3B2 /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 461524471D4B54AF00E5A3B2 /* NBNumberFormat.m */; };
+		461524641D4B54AF00E5A3B2 /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 461524491D4B54AF00E5A3B2 /* NBPhoneMetaData.m */; };
+		461524661D4B54AF00E5A3B2 /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4615244D1D4B54AF00E5A3B2 /* NBPhoneNumber.m */; };
+		461524671D4B54AF00E5A3B2 /* NBPhoneNumberDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 4615244F1D4B54AF00E5A3B2 /* NBPhoneNumberDefines.m */; };
+		461524681D4B54AF00E5A3B2 /* NBPhoneNumberDesc.m in Sources */ = {isa = PBXBuildFile; fileRef = 461524511D4B54AF00E5A3B2 /* NBPhoneNumberDesc.m */; };
+		461524691D4B54AF00E5A3B2 /* NBPhoneNumberMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 461524521D4B54AF00E5A3B2 /* NBPhoneNumberMetadata.plist */; };
+		4615246A1D4B54AF00E5A3B2 /* NBPhoneNumberUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 461524541D4B54AF00E5A3B2 /* NBPhoneNumberUtil.m */; };
+		461524721D50989A00E5A3B2 /* CHDPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 461524711D50989A00E5A3B2 /* CHDPhoneNumberViewController.m */; };
 		462D4B581C297B1B002974FA /* CHDEditAbsenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 462D4B571C297B1B002974FA /* CHDEditAbsenceViewController.m */; };
 		462D4B5B1C298BA8002974FA /* CHDEditAbsenceViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 462D4B5A1C298BA8002974FA /* CHDEditAbsenceViewModel.m */; };
 		469481021C284DDA0000D9F1 /* CHDAbsenceCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 469481011C284DDA0000D9F1 /* CHDAbsenceCategory.m */; };
@@ -236,6 +250,33 @@
 		36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
 		36E869E31AD651AA003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		36E869E71AD651AB003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4615243A1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBAsYouTypeFormatter.h; sourceTree = "<group>"; };
+		4615243B1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBAsYouTypeFormatter.m; sourceTree = "<group>"; };
+		4615243C1D4B54AF00E5A3B2 /* NBMetadataCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBMetadataCore.h; sourceTree = "<group>"; };
+		4615243D1D4B54AF00E5A3B2 /* NBMetadataCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBMetadataCore.m; sourceTree = "<group>"; };
+		4615243E1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBMetadataCoreMapper.h; sourceTree = "<group>"; };
+		4615243F1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBMetadataCoreMapper.m; sourceTree = "<group>"; };
+		461524401D4B54AF00E5A3B2 /* NBMetadataCoreTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBMetadataCoreTest.h; sourceTree = "<group>"; };
+		461524411D4B54AF00E5A3B2 /* NBMetadataCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBMetadataCoreTest.m; sourceTree = "<group>"; };
+		461524421D4B54AF00E5A3B2 /* NBMetadataCoreTestMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBMetadataCoreTestMapper.h; sourceTree = "<group>"; };
+		461524431D4B54AF00E5A3B2 /* NBMetadataCoreTestMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBMetadataCoreTestMapper.m; sourceTree = "<group>"; };
+		461524441D4B54AF00E5A3B2 /* NBMetadataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBMetadataHelper.h; sourceTree = "<group>"; };
+		461524451D4B54AF00E5A3B2 /* NBMetadataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBMetadataHelper.m; sourceTree = "<group>"; };
+		461524461D4B54AF00E5A3B2 /* NBNumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBNumberFormat.h; sourceTree = "<group>"; };
+		461524471D4B54AF00E5A3B2 /* NBNumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBNumberFormat.m; sourceTree = "<group>"; };
+		461524481D4B54AF00E5A3B2 /* NBPhoneMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneMetaData.h; sourceTree = "<group>"; };
+		461524491D4B54AF00E5A3B2 /* NBPhoneMetaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneMetaData.m; sourceTree = "<group>"; };
+		4615244C1D4B54AF00E5A3B2 /* NBPhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumber.h; sourceTree = "<group>"; };
+		4615244D1D4B54AF00E5A3B2 /* NBPhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumber.m; sourceTree = "<group>"; };
+		4615244E1D4B54AF00E5A3B2 /* NBPhoneNumberDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberDefines.h; sourceTree = "<group>"; };
+		4615244F1D4B54AF00E5A3B2 /* NBPhoneNumberDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberDefines.m; sourceTree = "<group>"; };
+		461524501D4B54AF00E5A3B2 /* NBPhoneNumberDesc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberDesc.h; sourceTree = "<group>"; };
+		461524511D4B54AF00E5A3B2 /* NBPhoneNumberDesc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberDesc.m; sourceTree = "<group>"; };
+		461524521D4B54AF00E5A3B2 /* NBPhoneNumberMetadata.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = NBPhoneNumberMetadata.plist; sourceTree = "<group>"; };
+		461524531D4B54AF00E5A3B2 /* NBPhoneNumberUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberUtil.h; sourceTree = "<group>"; };
+		461524541D4B54AF00E5A3B2 /* NBPhoneNumberUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberUtil.m; sourceTree = "<group>"; };
+		461524701D50989A00E5A3B2 /* CHDPhoneNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDPhoneNumberViewController.h; sourceTree = "<group>"; };
+		461524711D50989A00E5A3B2 /* CHDPhoneNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDPhoneNumberViewController.m; sourceTree = "<group>"; };
 		462D4B561C297B1B002974FA /* CHDEditAbsenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEditAbsenceViewController.h; sourceTree = "<group>"; };
 		462D4B571C297B1B002974FA /* CHDEditAbsenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEditAbsenceViewController.m; sourceTree = "<group>"; };
 		462D4B591C298BA8002974FA /* CHDEditAbsenceViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEditAbsenceViewModel.h; sourceTree = "<group>"; };
@@ -709,6 +750,59 @@
 			name = General;
 			sourceTree = "<group>";
 		};
+		461524301D4B548700E5A3B2 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				461524311D4B54AF00E5A3B2 /* libPhoneNumber */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		461524311D4B54AF00E5A3B2 /* libPhoneNumber */ = {
+			isa = PBXGroup;
+			children = (
+				4615243A1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.h */,
+				4615243B1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.m */,
+				4615243C1D4B54AF00E5A3B2 /* NBMetadataCore.h */,
+				4615243D1D4B54AF00E5A3B2 /* NBMetadataCore.m */,
+				4615243E1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.h */,
+				4615243F1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.m */,
+				461524401D4B54AF00E5A3B2 /* NBMetadataCoreTest.h */,
+				461524411D4B54AF00E5A3B2 /* NBMetadataCoreTest.m */,
+				461524421D4B54AF00E5A3B2 /* NBMetadataCoreTestMapper.h */,
+				461524431D4B54AF00E5A3B2 /* NBMetadataCoreTestMapper.m */,
+				461524441D4B54AF00E5A3B2 /* NBMetadataHelper.h */,
+				461524451D4B54AF00E5A3B2 /* NBMetadataHelper.m */,
+				461524461D4B54AF00E5A3B2 /* NBNumberFormat.h */,
+				461524471D4B54AF00E5A3B2 /* NBNumberFormat.m */,
+				461524481D4B54AF00E5A3B2 /* NBPhoneMetaData.h */,
+				461524491D4B54AF00E5A3B2 /* NBPhoneMetaData.m */,
+				4615244C1D4B54AF00E5A3B2 /* NBPhoneNumber.h */,
+				4615244D1D4B54AF00E5A3B2 /* NBPhoneNumber.m */,
+				4615244E1D4B54AF00E5A3B2 /* NBPhoneNumberDefines.h */,
+				4615244F1D4B54AF00E5A3B2 /* NBPhoneNumberDefines.m */,
+				461524501D4B54AF00E5A3B2 /* NBPhoneNumberDesc.h */,
+				461524511D4B54AF00E5A3B2 /* NBPhoneNumberDesc.m */,
+				461524521D4B54AF00E5A3B2 /* NBPhoneNumberMetadata.plist */,
+				461524531D4B54AF00E5A3B2 /* NBPhoneNumberUtil.h */,
+				461524541D4B54AF00E5A3B2 /* NBPhoneNumberUtil.m */,
+			);
+			path = libPhoneNumber;
+			sourceTree = "<group>";
+		};
+		4615246C1D4B787D00E5A3B2 /* Create Person */ = {
+			isa = PBXGroup;
+			children = (
+				46F734191D01AA9300D05DD3 /* CHDCreatePersonViewController.h */,
+				46F7341A1D01AA9300D05DD3 /* CHDCreatePersonViewController.m */,
+				46FFA3F31D0AB0A300D194C9 /* CHDCreatePersonViewModel.h */,
+				46FFA3F41D0AB0A300D194C9 /* CHDCreatePersonViewModel.m */,
+				461524701D50989A00E5A3B2 /* CHDPhoneNumberViewController.h */,
+				461524711D50989A00E5A3B2 /* CHDPhoneNumberViewController.m */,
+			);
+			name = "Create Person";
+			sourceTree = "<group>";
+		};
 		469480FF1C2445EF0000D9F1 /* Edit Absence */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,6 +842,7 @@
 				46E4689B1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.h */,
 				46E4689C1C9C4D34009FBD16 /* CHDSelectParishForPeopleViewController.m */,
 				46E468931C9AEF78009FBD16 /* People */,
+				4615246C1D4B787D00E5A3B2 /* Create Person */,
 				46E468971C9AF024009FBD16 /* Segments */,
 				46E035A01CB6701100341255 /* Create Message */,
 			);
@@ -763,10 +858,6 @@
 				46E0359B1CAE5B6400341255 /* CHDPeopleViewModel.m */,
 				46F21E8F1CCE2FE4006308D1 /* CHDPeopleProfileViewController.h */,
 				46F21E901CCE2FE4006308D1 /* CHDPeopleProfileViewController.m */,
-				46F734191D01AA9300D05DD3 /* CHDCreatePersonViewController.h */,
-				46F7341A1D01AA9300D05DD3 /* CHDCreatePersonViewController.m */,
-				46FFA3F31D0AB0A300D194C9 /* CHDCreatePersonViewModel.h */,
-				46FFA3F41D0AB0A300D194C9 /* CHDCreatePersonViewModel.m */,
 			);
 			name = People;
 			sourceTree = "<group>";
@@ -854,6 +945,7 @@
 				6037204AF9E70FCD06A4D84E /* ChurchDeskTests */,
 				523BB34733495BF6470B3A10 /* Pods */,
 				8C7033242449DD2B32139BB0 /* Frameworks */,
+				461524301D4B548700E5A3B2 /* Libraries */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1222,6 +1314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */,
+				461524691D4B54AF00E5A3B2 /* NBPhoneNumberMetadata.plist in Resources */,
 				36E869E61AD651AB003743D2 /* InfoPlist.strings in Resources */,
 				76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */,
 				76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */,
@@ -1299,17 +1392,20 @@
 				76143F1B1A9779ED00651CEA /* CHDAPIClient.m in Sources */,
 				761247511AA59D01004E7D05 /* CHDAccessToken.m in Sources */,
 				76B2129D1AA9D9C900E4104C /* CHDEventValueTableViewCell.m in Sources */,
+				461524621D4B54AF00E5A3B2 /* NBMetadataHelper.m in Sources */,
 				360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */,
 				761247381AA46CFD004E7D05 /* CHDEventInternalNoteTableViewCell.m in Sources */,
 				469481021C284DDA0000D9F1 /* CHDAbsenceCategory.m in Sources */,
 				0A0E77D51AD7D4E50022EE71 /* CHDCellBackgroundView.m in Sources */,
 				7612473B1AA47317004E7D05 /* CHDEventTextValueTableViewCell.m in Sources */,
+				4615245D1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.m in Sources */,
 				761247451AA48444004E7D05 /* CHDIconTextFieldView.m in Sources */,
 				7612473E1AA4765B004E7D05 /* CHDEventDescriptionTableViewCell.m in Sources */,
 				3668F9801AB9AF7100FEB047 /* UIViewController+UIViewController_ChurchDesk.m in Sources */,
 				76A5419B1A9DC26200176D6D /* CHDDayCollectionViewCell.m in Sources */,
 				365A773E1AA0A582006CA0B1 /* CHDNewMessageSelectorCell.m in Sources */,
 				762D16D71A9B4B9000588730 /* CHDCalendarHeaderView.m in Sources */,
+				4615245E1D4B54AF00E5A3B2 /* NBMetadataCore.m in Sources */,
 				364C24181A9B1E54004E6FA1 /* CHDSettingsTableViewCell.m in Sources */,
 				76143F131A9606AB00651CEA /* UIFont+ChurchDesk.m in Sources */,
 				46F21E911CCE2FE4006308D1 /* CHDPeopleProfileViewController.m in Sources */,
@@ -1322,7 +1418,9 @@
 				60372A8BAE0AEB13FE7BA529 /* AppDelegate.m in Sources */,
 				76A541A11A9E1C8F00176D6D /* CHDAbstractViewController.m in Sources */,
 				76A541AA1A9F15B100176D6D /* CHDEventCategory.m in Sources */,
+				4615246A1D4B54AF00E5A3B2 /* NBPhoneNumberUtil.m in Sources */,
 				769E7BAF1A94813A00812715 /* CHDExpandableButtonView.m in Sources */,
+				461524601D4B54AF00E5A3B2 /* NBMetadataCoreTest.m in Sources */,
 				76A541C71A9F5E5F00176D6D /* CHDEventGroupTableViewCell.m in Sources */,
 				3653518A1A94E00E00932D90 /* CHDInvitationsTableViewCell.m in Sources */,
 				3667E2A11A95ECE900141520 /* CHDDotView.m in Sources */,
@@ -1331,6 +1429,7 @@
 				36C4622B1A9DBD2100775FBE /* CHDMessageViewController.m in Sources */,
 				3625A6271A93869700BF430B /* CHDTableViewCell.m in Sources */,
 				365351871A94DC5500932D90 /* CHDEventTableViewCell.m in Sources */,
+				461524721D50989A00E5A3B2 /* CHDPhoneNumberViewController.m in Sources */,
 				76B212921AA9B1D300E4104C /* CHDEditEventViewController.m in Sources */,
 				76A541941A9CBE1500176D6D /* CHDDashboardInvitationsViewModel.m in Sources */,
 				761247261AA0B39A004E7D05 /* CHDEventTitleImageTableViewCell.m in Sources */,
@@ -1341,6 +1440,7 @@
 				360B4DFA1A977417001CC8B0 /* UIBarButtonItem+UIBarButtonItem_ChurchDesk.m in Sources */,
 				76A5419E1A9DC9F500176D6D /* CHDDayPickerViewModel.m in Sources */,
 				761247421AA483D9004E7D05 /* CHDLoginViewController.m in Sources */,
+				461524611D4B54AF00E5A3B2 /* NBMetadataCoreTestMapper.m in Sources */,
 				36C462311A9DBDC600775FBE /* CHDMessageCommentsTableViewCell.m in Sources */,
 				364C241B1A9B2640004E6FA1 /* CHDDescriptionTableViewCell.m in Sources */,
 				76A541C11A9F51D600176D6D /* CHDEventInfoTableViewCell.m in Sources */,
@@ -1389,10 +1489,12 @@
 				761247571AA5BA3C004E7D05 /* CHDCalendarViewModel.m in Sources */,
 				76A541CA1A9F600B00176D6D /* CHDEventLocationTableViewCell.m in Sources */,
 				46F21E8B1CC0EA94006308D1 /* CHDPeopleMessage.m in Sources */,
+				461524671D4B54AF00E5A3B2 /* NBPhoneNumberDefines.m in Sources */,
 				360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */,
 				76A541911A9CBB0D00176D6D /* CHDInvitation.m in Sources */,
 				36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */,
 				60372416A6237CB86FDF0514 /* CHDNewMessageTextFieldCell.m in Sources */,
+				461524661D4B54AF00E5A3B2 /* NBPhoneNumber.m in Sources */,
 				761247481AA49E55004E7D05 /* UIButton+ChurchDesk.m in Sources */,
 				603722D913EF8418DAD54244 /* CHDNewMessageTextViewCell.m in Sources */,
 				46FFA3F81D0EF33A00D194C9 /* CHDTag.m in Sources */,
@@ -1402,6 +1504,7 @@
 				6037287C919D4E250ACD51E9 /* CHDSite.m in Sources */,
 				60372F2D900CB28905D9D508 /* CHDSitePermission.m in Sources */,
 				60372537A920B1F6B9D84F96 /* CHDMessageViewModel.m in Sources */,
+				4615245F1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.m in Sources */,
 				60372D7B54E198FD42FF0260 /* CHDComment.m in Sources */,
 				603728972A785A759863CD81 /* CHDDashboardEventViewModel.m in Sources */,
 				60372E47AEA97053556F78E2 /* CHDStatusView.m in Sources */,
@@ -1410,6 +1513,7 @@
 				60372C2D98EA54DBC6205A5C /* CHDSettingsViewModel.m in Sources */,
 				603724D71837B20CF488F1FF /* CHDFilterView.m in Sources */,
 				603722C77C12AD49581479D2 /* CHDPassthroughTouchView.m in Sources */,
+				461524681D4B54AF00E5A3B2 /* NBPhoneNumberDesc.m in Sources */,
 				46F7341B1D01AA9300D05DD3 /* CHDCreatePersonViewController.m in Sources */,
 				60372041F5835B16C20C2366 /* CHDDescriptionViewController.m in Sources */,
 				60372465C00230C152BCF998 /* CHDEventAlertView.m in Sources */,
@@ -1419,6 +1523,7 @@
 				60372EBB494E1186B6373AB0 /* CHDAnalyticsManager.m in Sources */,
 				603729DC2E02539143536775 /* UIButton+CHDCalendarTitleButton.m in Sources */,
 				603721498133590553B49781 /* NSDate+ChurchDesk.m in Sources */,
+				461524641D4B54AF00E5A3B2 /* NBPhoneMetaData.m in Sources */,
 				60372B88E086ED5360F1CB88 /* CHDCellBorderView.m in Sources */,
 				60372C3A1A8652BFBB41B2F8 /* CHDActiveFilterView.m in Sources */,
 				46E035A91CB6ABFE00341255 /* CHDCreateMessageMailViewModel.m in Sources */,
@@ -1427,6 +1532,7 @@
 				60372227DFC4EE17CC51BEB5 /* CHDOverlayView.m in Sources */,
 				46E468921C9866CC009FBD16 /* CHDPeopleTabBarController.m in Sources */,
 				6037228EF28A5479B3BBDCF3 /* CHDSelectorImageTableViewCell.m in Sources */,
+				461524631D4B54AF00E5A3B2 /* NBNumberFormat.m in Sources */,
 				462D4B581C297B1B002974FA /* CHDEditAbsenceViewController.m in Sources */,
 				60372CAED5169D6C6CB814EF /* CHDEventTitleTableViewCell.m in Sources */,
 			);
@@ -1476,8 +1582,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1493,7 +1599,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1506,8 +1612,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.inhouse;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = inhouse;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1522,7 +1628,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Inhouse;
@@ -1544,8 +1650,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1569,7 +1675,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1591,8 +1697,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1608,7 +1714,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1621,8 +1727,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = com.churchdesk.ChurchDeskApp;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = prod;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1633,7 +1739,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1645,8 +1751,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.dev;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
 				ENVIRONMENT = dev;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1657,7 +1763,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "13d7d7aa-22a5-4a61-a3e4-ac9d17343b06";
+				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
