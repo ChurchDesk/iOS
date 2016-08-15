@@ -39,6 +39,10 @@
     [self makeBindings];
 }
 
+-(void) viewWillDisappear:(BOOL)animated{
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:ksuccessfulPeopleMessage];
+}
+
 #pragma mark -setup
 -(void) makeViews{
     [self.view setBackgroundColor:[UIColor chd_blueColor]];
@@ -51,10 +55,6 @@
     [self.view addSubview:self.userNameLabel];
     [self.view addSubview:self.userImageView];
     [self.view addSubview:self.callButton];
-    self.callButton.enabled = true;
-    if (([_people.contact objectForKey:@"phone"] == (id)[NSNull null]) || [[_people.contact objectForKey:@"phone"] length] == 0 ) {
-        self.callButton.enabled = false;
-    }
     [self.view addSubview:self.sendMessageButton];
     UIBarButtonItem *editButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Edit", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editPersonAction:)];
     [editButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
@@ -97,7 +97,13 @@
     if ([_people.picture valueForKey:@"url"] != (id)[NSNull null]) {
         [self userImageWithUrl:[NSURL URLWithString:[_people.picture valueForKey:@"url"]]];
     }
-    
+    self.callButton.enabled = true;
+    if ((([_people.contact objectForKey:@"phone"] == (id)[NSNull null]) || [[_people.contact objectForKey:@"phone"] length] == 0) ) {
+        self.callButton.enabled = false;
+    }
+    if ((([_people.contact objectForKey:@"phone"] == (id)[NSNull null]) || [[_people.contact objectForKey:@"phone"] length] == 0) && (_people.email == (id)[NSNull null] || _people.email.length == 0 )){
+        self.sendMessageButton.enabled = false;
+    }
 }
 
 #pragma mark -lazy initialisation
@@ -332,6 +338,10 @@
     if ([_people.contact objectForKey:@"workPhone"] != (id)[NSNull null] && [[_people.contact objectForKey:@"workPhone"] length] != 0 ) {
         [temporaryArray addObject:NSLocalizedString(@"Work Phone", @"")];
         [_peopleAttributeValues addObject:[_people.contact objectForKey:@"workPhone"]];
+    }
+    if (_people.occupation != (id)[NSNull null] && _people.occupation.length != 0 ) {
+        [temporaryArray addObject:NSLocalizedString(@"Job Title", @"")];
+        [_peopleAttributeValues addObject:_people.occupation];
     }
     if (_people.birthday != NULL) {
         [temporaryArray addObject:NSLocalizedString(@"Birthday", @"")];

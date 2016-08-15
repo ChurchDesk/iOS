@@ -142,7 +142,6 @@ NSInteger selectedIndex = 0;
         [[self.personViewModel editPerson:personDictionary personId:self.personToEdit.peopleId] subscribeError:^(NSError *error) {
             SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
             switch(response.statusCode){
-                case 406:
                 case 400:
                     self.statusView.errorText = NSLocalizedString(@"An unknown error occured, please try again", @"");
                     break;
@@ -163,14 +162,12 @@ NSInteger selectedIndex = 0;
             [self didChangeSendingStatus:CHDStatusViewSuccess];
             [Heap track:@"Person edited successfully"];
         }];
-
     }
     else{
     //create a new person
     [[self.personViewModel createPerson] subscribeError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         switch(response.statusCode){
-            case 406:
             case 400:
                 self.statusView.errorText = NSLocalizedString(@"An unknown error occured, please try again", @"");
                 break;
@@ -576,7 +573,7 @@ NSInteger selectedIndex = 0;
         return;
     }
     if(status == CHDStatusViewSuccess){
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:knewMessageBool];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kpersonSuccessfullyAdded];
         self.statusView.show = YES;
         double delayInSeconds = 2.f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));

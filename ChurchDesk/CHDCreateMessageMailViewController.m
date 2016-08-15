@@ -210,6 +210,7 @@ static NSString* kCreateMessageTextViewCell = @"createMessageTextViewCell";
     CHDPeopleViewController *pvc = [[CHDPeopleViewController alloc] init];
     pvc.selectedPeopleArray = [NSMutableArray arrayWithArray:_selectedPeopleArray] ;
     pvc.createMessage = YES;
+    pvc.sendSMS = _isSMS;
     pvc.delegate = self;
     pvc.title = NSLocalizedString(@"People", @"");
     if (_receiverView) {

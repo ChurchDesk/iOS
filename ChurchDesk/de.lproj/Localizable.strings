@@ -463,3 +463,9 @@
 "My messages" = "Meine Nachrichten";
 "Job Title" = "Arbeitstitel";
 "Unknown" = "Nicht bekannt";
+"You don't have the necessary role.." = "Sie haben die erforderliche Rolle nicht";
+"You haven't added any people yet.." = "Sie haben noch keine Kontakte hinzugefügt..";
+"You haven't created any segments yet.." = "Sie haben noch keine Gruppen erstellt";
+"These can currently only be added via the web application" = "Diese können ausschließlich durch die Web-Applikation hinzugefügt werden";
+"Please ask your administrator to provide you with \"Newsletter\" role." = "Bitten Sie Ihren Administrator darum, Ihnen die Rolle \"Newsletter\" zuzuteilen";
+"Create a person" = "Kontakt hinzufügen";

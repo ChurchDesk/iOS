@@ -1,4 +1,4 @@
-//#define NSLog(s,...)
+#define NSLog(s,...)
 
 #define CHDInvitationNoAnswer @"no-answer"
 #define CHDInvitationAccept @"yes"
@@ -14,6 +14,7 @@
 #define kpeopleTimestamp @"peopleTimestamp"
 #define ksuccessfulPeopleMessage @"successfulPeopleMessage"
 #define ktoPeopleClicked @"toPeopleClicked"
+#define kpersonSuccessfullyAdded @"personSuccessfullyAdded"
 #define kPeopleMessageText @"peopleMessageText"
 #define kPeopleSMSText @"peopleSMSText"
 #define kpeopleSubjectText @"peopleSubjectText"

@@ -202,3 +202,9 @@
 "My messages" = "My messages";
 "Job Title" = "Job";
 "Unknown" = "Unknown";
+"You don't have the necessary role.." = "You don't have the necessary role..";
+"You haven't added any people yet.." = "You haven't added any people yet..";
+"You haven't created any segments yet.." = "You haven't created any segments yet..";
+"These can currently only be added via the web application" = "These can currently only be added via the web application";
+"Please ask your administrator to provide you with \"Newsletter\" role." = "Please ask your administrator to provide you with the \"Newsletter\" role.";
+"Create a person" = "Create a person";

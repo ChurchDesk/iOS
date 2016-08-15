@@ -28,13 +28,12 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 @property(nonatomic, strong) UIButton *messageButton;
 @property(nonatomic, strong) UIButton *addPersonButton;
 @property (nonatomic, retain) UITableView* peopletable;
-@property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property(nonatomic, strong) CHDPeopleViewModel *viewModel;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (nonatomic, strong) MASConstraint *messageCenterConstraint;
 @property (nonatomic, strong) MASConstraint *addPersonCenterConstraint;
-
+@property (nonatomic, retain) UIView* noAccessView;
 @property (nonatomic, assign) BOOL isExpanded;
 
 @end
@@ -44,14 +43,22 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.viewModel = [[CHDPeopleViewModel alloc] initWithSegmentIds:_segmentIds];
-    [self makeViews];
-    [self makeConstraints];
-    [self makeBindings];
+    if (self.viewModel.peopleAccess) {
+        [self makeViews];
+        [self makeConstraints];
+        [self makeBindings];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
+        [self createNoAccessView];
+    }
+    
     // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if (self.viewModel.peopleAccess) {
     //[self.peopletable deselectRowAtIndexPath:[self.peopletable indexPathForSelectedRow] animated:YES];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *timestamp = [defaults valueForKey:kpeopleTimestamp];
@@ -78,6 +85,10 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         self.peopletable.editing = YES;
         [defaults setBool:NO forKey:ktoPeopleClicked];
     }
+    else if ([defaults boolForKey:kpersonSuccessfullyAdded]){
+        [self.viewModel reload];
+        [defaults setBool:NO forKey:kpersonSuccessfullyAdded];
+    }
     NSString *rightBarButtonTitle;
     if (self.peopletable.isEditing) {
         rightBarButtonTitle = NSLocalizedString(@"Cancel", @"");
@@ -94,6 +105,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setTarget:self];
     [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setAction:@selector(selectAction:)];
     NSLog(@"timestamp %@ currentTime %@ time difference %f", timestamp, currentTime, timeDifference);
+    }
 }
 
 -(void) makeViews {
@@ -143,12 +155,6 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 -(void) makeBindings {
     RACSignal *newPeopleSignal = RACObserve(self.viewModel, people);
     [self shprac_liftSelector:@selector(updatePeople) withSignal:[RACSignal merge:@[newPeopleSignal]]];
-    [self rac_liftSelector:@selector(emptyMessageShow:) withSignals:[RACObserve(self.viewModel, people) map:^id(NSArray *people) {
-        if(people == nil){
-            return @NO;
-        }
-        return @(people.count == 0);
-    }], nil];
     
     [self shprac_liftSelector:@selector(endRefresh) withSignal:newPeopleSignal];
     
@@ -158,8 +164,8 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 }
 
 -(void) updatePeople{
-    [self.viewModel refreshData];
-    [self.peopletable reloadData];
+        [self.viewModel refreshData];
+        [self.peopletable reloadData];
 }
 
 -(void)saveSelectedPeopleArray{
@@ -216,7 +222,10 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 
 - (void)selectAction: (id) sender {
     UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
-    if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
+    if ([clickedButton.title isEqualToString:@""]) {
+        
+    }
+    else if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
         [Heap track:@"People: Select clicked"];
         clickedButton.title = NSLocalizedString(@"Cancel", @"");
         self.peopletable.editing = YES;
@@ -247,20 +256,6 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         self.peopletable.frame = CGRectMake(self.peopletable.frame.origin.x, self.peopletable.frame.origin.y, self.peopletable.frame.size.width, self.peopletable.frame.size.height - 50);
     }
     [self.peopletable reloadData];
-}
-
--(void) emptyMessageShow: (BOOL) show {
-    if(show){
-        [self.view addSubview:self.emptyMessageLabel];
-        [self.emptyMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.view).offset(-30);
-            make.centerX.equalTo(self.view);
-            make.left.greaterThanOrEqualTo(self.view).offset(15);
-            make.right.lessThanOrEqualTo(self.view).offset(-15);
-        }];
-    }else {
-        [self.emptyMessageLabel removeFromSuperview];
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -308,6 +303,17 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 
 -(void)endRefresh {
     [self.refreshControl endRefreshing];
+    if (self.isViewLoaded && self.view.window) {
+        if (self.viewModel.people.count == 0) {
+            self.toggleButton.hidden = TRUE;
+            self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem.title = @"";
+            [self noPeopleView];
+        }
+        else{
+            [_noAccessView removeFromSuperview];
+            _noAccessView = nil;
+        }
+    }
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
@@ -323,7 +329,13 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     static NSString* cellIdentifier = @"peopleCell";
     CHDPeople* people = [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     CHDEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.locationLabel.text = people.email;
+    
+    if (_sendSMS) {
+        cell.locationLabel.text = ([people.contact objectForKey:@"phone"] != (id)[NSNull null]) ?[people.contact objectForKey:@"phone"]:@"";
+    }
+    else{
+        cell.locationLabel.text = people.email;
+    }
     cell.titleLabel.text = people.fullName;
     cell.absenceIconView.hidden = true;
     [cell.cellBackgroundView setBorderColor:[UIColor clearColor]];
@@ -331,15 +343,26 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.userInteractionEnabled = YES;
     cell.titleLabel.textColor = [UIColor chd_textDarkColor];
-//    if (tableView.isEditing) {
-//        if (people.email == (id)[NSNull null] || people.email.length == 0 ) {
-//            cell.userInteractionEnabled = NO;
-//            cell.titleLabel.textColor = [UIColor lightGrayColor];
-//        }
-//        if ([self isPeopleSelected:people]) {
-//            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-//        }
-//    }
+    if (tableView.isEditing) {
+        if ([self isPeopleSelected:people]) {
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
+        if (_createMessage) {
+            if (_sendSMS) {
+                if ([people.contact objectForKey:@"phone"] == (id)[NSNull null] || [[people.contact objectForKey:@"phone"] length] == 0 ) {
+                    cell.userInteractionEnabled = NO;
+                    cell.titleLabel.textColor = [UIColor lightGrayColor];
+                }
+            }
+            else{
+                if (people.email == (id)[NSNull null] || people.email.length == 0 ) {
+                    cell.userInteractionEnabled = NO;
+                    cell.titleLabel.textColor = [UIColor lightGrayColor];
+                }
+            }
+        }
+        
+    }
     return cell;
 }
 
@@ -355,20 +378,8 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
     return [[self.viewModel.peopleArrangedAccordingToIndex objectAtIndex:section] count];
 }
 
--(UILabel *) emptyMessageLabel {
-    if(!_emptyMessageLabel){
-        _emptyMessageLabel = [UILabel new];
-        _emptyMessageLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
-        _emptyMessageLabel.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
-        _emptyMessageLabel.text = NSLocalizedString(@"No people to show", @"");
-        _emptyMessageLabel.textAlignment = NSTextAlignmentCenter;
-        _emptyMessageLabel.numberOfLines = 0;
-    }
-    return _emptyMessageLabel;
-}
-
 - (void) createMessageShow: (id) sender {
-    [self toggleButtonAction:nil];
+    [self buttonOn:NO];
     int emailCount = 0;
     int phoneCount = 0;
     //counting number of people with email and phone number
@@ -414,7 +425,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 }
 
 - (void) createPersonShow: (id) sender {
-    [self toggleButtonAction:nil];
+    [self buttonOn:NO];
     CHDCreatePersonViewController *newPersonViewController = [CHDCreatePersonViewController new];
     newPersonViewController.organizationId = self.viewModel.organizationId;
     UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newPersonViewController];
@@ -442,10 +453,96 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
                     [Heap track:@"People: Create SMS clicked"];
                 }
                 UINavigationController *navigationVC = [[UINavigationController new] initWithRootViewController:newMessageViewController];
-                [self toggleButtonAction:nil];
                 [self presentViewController:navigationVC animated:YES completion:nil];
             }
         }
+    }
+}
+
+#pragma mark - Empty States
+
+-(void)noPeopleView{
+    if(!_noAccessView){
+        _noAccessView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 380)] ;
+        _noAccessView.center = self.view.center;
+        _noAccessView.userInteractionEnabled = TRUE;
+        [self.view addSubview:_noAccessView];
+        
+        UIImageView *lockImageView = [[UIImageView alloc] initWithImage:kImgNoPeoplIcon];
+        [_noAccessView addSubview:lockImageView];
+        [lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_noAccessView).with.offset(0);
+            make.centerX.equalTo(_noAccessView);
+        }];
+        
+        UILabel *noRoleLabel = [[UILabel alloc] init];
+        noRoleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:25];
+        noRoleLabel.text = NSLocalizedString(@"You haven't added any people yet..", @"");
+        noRoleLabel.textAlignment = NSTextAlignmentCenter;
+        noRoleLabel.textColor = [UIColor chd_textDarkColor];
+        noRoleLabel.numberOfLines = 2;
+        [_noAccessView addSubview:noRoleLabel];
+        [noRoleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lockImageView.mas_bottom).with.offset(30);
+            make.width.equalTo(_noAccessView);
+            make.centerX.equalTo(_noAccessView);
+        }];
+        
+        UIButton *addPersonButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [addPersonButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [addPersonButton setBackgroundColor:[UIColor chd_greenColor]];
+        addPersonButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        [addPersonButton addTarget:self action:@selector(createPersonShow:) forControlEvents:UIControlEventTouchUpInside];
+        [addPersonButton setTitle:NSLocalizedString(@"Create a person", @"") forState:UIControlStateNormal];
+        [[addPersonButton layer] setCornerRadius:10.0f];
+        [_noAccessView addSubview:addPersonButton];
+        [addPersonButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_noAccessView.mas_centerX);
+            make.top.equalTo(noRoleLabel.mas_bottom).with.offset(50);
+            make.width.equalTo(@150);
+            make.height.equalTo(@40);
+        }];
+    }
+}
+-(void) createNoAccessView{
+    if(!_noAccessView){
+        _noAccessView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 380)] ;
+        _noAccessView.center = self.view.center;
+        _noAccessView.userInteractionEnabled = TRUE;
+        [self.view addSubview:_noAccessView];
+        
+        UIImageView *lockImageView = [[UIImageView alloc] initWithImage:kImgLockIcon];
+        [_noAccessView addSubview:lockImageView];
+        [lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_noAccessView).with.offset(0);
+            make.centerX.equalTo(_noAccessView);
+        }];
+        
+        UILabel *noRoleLabel = [[UILabel alloc] init];
+        noRoleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:25];
+        noRoleLabel.text = NSLocalizedString(@"You don't have the necessary role..", @"");
+        noRoleLabel.textAlignment = NSTextAlignmentCenter;
+        noRoleLabel.textColor = [UIColor chd_textDarkColor];
+        noRoleLabel.numberOfLines = 2;
+        [_noAccessView addSubview:noRoleLabel];
+        [noRoleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lockImageView.mas_bottom).with.offset(30);
+            make.width.equalTo(_noAccessView);
+            make.centerX.equalTo(_noAccessView);
+        }];
+        
+        UILabel *askAdminLabel = [[UILabel alloc] init];
+        askAdminLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:15];
+        askAdminLabel.text = NSLocalizedString(@"Please ask your administrator to provide you with \"Newsletter\" role.", @"");
+        askAdminLabel.textAlignment = NSTextAlignmentCenter;
+        askAdminLabel.textColor = [UIColor chd_textLightColor];
+        askAdminLabel.numberOfLines = 2;
+        [_noAccessView addSubview:askAdminLabel];
+        [askAdminLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(noRoleLabel.mas_bottom).with.offset(50);
+            make.width.equalTo(_noAccessView);
+            make.centerX.equalTo(_noAccessView);
+        }];
     }
 }
 

@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSMutableArray *peopleArrangedAccordingToIndex ;
 @property (nonatomic, strong) NSString *organizationId;
 @property (nonatomic, strong) CHDUser *user;
+@property (nonatomic, assign) BOOL peopleAccess;
+
 - (instancetype)initWithSegmentIds :(NSArray *)segmentIds;
 -(void) reload;
 -(void) refreshData;

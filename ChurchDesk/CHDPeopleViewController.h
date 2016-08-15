@@ -17,4 +17,6 @@
 @property (nonatomic, strong) NSMutableArray *selectedPeopleArray;
 @property (nonatomic, strong) NSArray *segmentIds;
 @property (nonatomic, assign) BOOL createMessage;
+@property (nonatomic, assign) BOOL sendSMS;
+
 @end

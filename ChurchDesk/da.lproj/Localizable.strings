@@ -471,6 +471,12 @@
 "Work Phone" = "Arbejdstelefon";
 "Select Birthday" = "Vælg fødselsdag";
 "Select Gender" = "Vælg køn";
-"My messages" = "My messages";
+"My messages" = "Mine beskeder";
 "Job Title" = "Jobtitel";
 "Unknown" = "Ukendt";
+"You don't have the necessary role.." = "Du har ikke den påkrævede rolle..";
+"You haven't added any people yet.." = "Du har ikke tilføjet nogen kontakter endnu..";
+"You haven't created any segments yet.." = "Du har ikke oprettet nogen segmenter endnu..";
+"These can currently only be added via the web application" = "Disse kan i øjeblikket kun tilføjes gennem webapplikationen";
+"Please ask your administrator to provide you with \"Newsletter\" role." = "Bed venligst din administrator om at tildele dig rollen \"nyhedsbrev\".";
+"Create a person" = "Tilføj kontakt";

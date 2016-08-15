@@ -13,6 +13,6 @@
 @property (nonatomic, strong) NSNumber *userId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) BOOL attendenceEnabled;
-@property (nonatomic, strong) CHDSitePermission*permissions;
+@property (nonatomic, strong) CHDSitePermission *permissions;
 @property (nonatomic, strong) NSArray *groupIds;
 @end

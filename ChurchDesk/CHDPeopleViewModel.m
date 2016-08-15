@@ -10,6 +10,7 @@
 #import "CHDAPIClient.h"
 #import "CHDPeople.h"
 #import "CHDSite.h"
+#import "CHDSitePermission.h"
 #import "CHDAuthenticationManager.h"
 #import "NSDate+ChurchDesk.h"
 
@@ -30,6 +31,7 @@
             CHDSite *site = [_user.sites objectAtIndex:0];
             _organizationId = site.siteId;
         }
+        _peopleAccess = [_user siteWithId:_organizationId].permissions.canAccessPeople;
         //Initial signal
         RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:_organizationId segmentIds:segmentIds] map:^id(NSArray* people) {
             RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
@@ -43,29 +45,7 @@
             return [RACSignal empty];
         }];
         
-        //Update signal
-        CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
-        
-        RACSignal *authenticationTokenSignal = [RACObserve([CHDAuthenticationManager sharedInstance], authenticationToken) ignore:nil];
-        
-        RACSignal *updateSignal = [[[apiClient.manager.cache rac_signalForSelector:@selector(invalidateObjectsMatchingRegex:)] filter:^BOOL(RACTuple *tuple) {
-            NSString *regex = tuple.first;
-            NSString *resourcePath = [apiClient resourcePathForGetPeople];
-            [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:keventsTimestamp];
-            return [regex rangeOfString:resourcePath].location != NSNotFound;
-        }] flattenMap:^RACStream *(id value) {
-            return [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:_organizationId segmentIds:segmentIds] map:^id(NSArray* people) {
-                RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
-                        return YES;
-            }];
-                return results.array;
-            }] catch:^RACSignal *(NSError *error) {
-                return [RACSignal empty];
-            }];
-        }];
-        
-        RAC(self, people) = [RACSignal merge:@[initialSignal, updateSignal]];
-        [self shprac_liftSelector:@selector(reload) withSignal:authenticationTokenSignal];
+        RAC(self, people) = initialSignal;
     }
     return self;
 }
@@ -100,8 +80,18 @@
     }
 }
 - (void)reload {
-    CHDAPIClient *apiClient = [CHDAPIClient sharedInstance];
-    NSString *resoursePath = [apiClient resourcePathForGetPeople];
-    [[[apiClient manager] cache] invalidateObjectsMatchingRegex:resoursePath];
+    RACSignal *updateSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:_organizationId segmentIds:[NSArray new]] map:^id(NSArray* people) {
+        RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {
+            return YES;
+        }];
+        
+        //NSLog(@"people array %@", results.array);
+        return results.array;
+        
+    }] catch:^RACSignal *(NSError *error) {
+        return [RACSignal empty];
+    }];
+    
+    RAC(self, people) = updateSignal;
 }
 @end

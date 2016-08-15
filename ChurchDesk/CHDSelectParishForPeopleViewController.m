@@ -14,6 +14,7 @@
 
 @interface CHDSelectParishForPeopleViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) UITableView* parishtable;
+@property (nonatomic, retain) UIView* noAccessView;
 @end
 
 @implementation CHDSelectParishForPeopleViewController
@@ -37,13 +38,13 @@
 
 -(void) makeConstraints {
     UIView* superview = self.view;
-    [self.parishtable mas_makeConstraints:^(MASConstraintMaker *make){
-        make.edges.equalTo(superview);
-    }];
-    [self.parishtable mas_makeConstraints:^(MASConstraintMaker *make){
-        make.right.equalTo(superview);
-        make.bottom.equalTo(superview);
-    }];
+    if (!_noAccessView) {
+        [self.parishtable mas_makeConstraints:^(MASConstraintMaker *make){
+            make.edges.equalTo(superview);
+            make.right.equalTo(superview);
+            make.bottom.equalTo(superview);
+        }];
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -54,7 +55,6 @@
     [[NSUserDefaults standardUserDefaults] setValue:site.siteId forKey:kselectedOrganizationIdforPeople];
     CHDPeopleTabBarController *peopleTabBar = [CHDPeopleTabBarController peopleTabBarViewController];
     [self.navigationController pushViewController:peopleTabBar animated:YES];
-    
 }
 
 

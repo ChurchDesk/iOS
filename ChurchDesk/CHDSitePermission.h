@@ -14,4 +14,5 @@
 @property (nonatomic) BOOL canCreateAbsence;
 @property (nonatomic) BOOL canCreateAbsenceAndBook;
 @property (nonatomic) BOOL canCreateEventAndBook;
+@property (nonatomic) BOOL canAccessPeople;
 @end

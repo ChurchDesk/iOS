@@ -18,7 +18,7 @@
 
 @interface CHDSegmentsViewController () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 @property (nonatomic, retain) UITableView* segmentstable;
-@property(nonatomic, strong) UILabel *emptyMessageLabel;
+@property(nonatomic, strong) UIView *noAccessView;
 @property(nonatomic, strong) CHDSegmentViewModel *viewModel;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 //@property(nonatomic, strong) UIBarButtonItem *hamburgerMenuButton;
@@ -120,21 +120,59 @@
 
 -(void) emptyMessageShow: (BOOL) show {
     if(show){
-        [self.view addSubview:self.emptyMessageLabel];
-        [self.emptyMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.view).offset(-30);
-            make.centerX.equalTo(self.view);
-            make.left.greaterThanOrEqualTo(self.view).offset(15);
-            make.right.lessThanOrEqualTo(self.view).offset(-15);
-        }];
+        self.messageButton.hidden = YES;
+        [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setTitle:@""];
+        if(!_noAccessView){
+            [self.segmentstable removeFromSuperview];
+            _noAccessView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 380)] ;
+            _noAccessView.center = self.view.center;
+            _noAccessView.userInteractionEnabled = TRUE;
+            [self.view addSubview:_noAccessView];
+            
+            UIImageView *lockImageView = [[UIImageView alloc] initWithImage:kImgNoSegmentsIcon];
+            [_noAccessView addSubview:lockImageView];
+            [lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(_noAccessView).with.offset(0);
+                make.centerX.equalTo(_noAccessView);
+            }];
+            
+            UILabel *noRoleLabel = [[UILabel alloc] init];
+            noRoleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:25];
+            noRoleLabel.text = NSLocalizedString(@"You haven't created any segments yet..", @"");
+            noRoleLabel.textAlignment = NSTextAlignmentCenter;
+            noRoleLabel.textColor = [UIColor chd_textDarkColor];
+            noRoleLabel.numberOfLines = 2;
+            [_noAccessView addSubview:noRoleLabel];
+            [noRoleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(lockImageView.mas_bottom).with.offset(30);
+                make.width.equalTo(_noAccessView);
+                make.centerX.equalTo(_noAccessView);
+            }];
+            
+            UILabel *askAdminLabel = [[UILabel alloc] init];
+            askAdminLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:15];
+            askAdminLabel.text = NSLocalizedString(@"These can currently only be added via the web application", @"");
+            askAdminLabel.textAlignment = NSTextAlignmentCenter;
+            askAdminLabel.textColor = [UIColor chd_textLightColor];
+            askAdminLabel.numberOfLines = 2;
+            [_noAccessView addSubview:askAdminLabel];
+            [askAdminLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(noRoleLabel.mas_bottom).with.offset(50);
+                make.width.equalTo(_noAccessView);
+                make.centerX.equalTo(_noAccessView);
+            }];
+        }
     }else {
-        [self.emptyMessageLabel removeFromSuperview];
+        [_noAccessView removeFromSuperview];
     }
 }
 
+
 - (void)selectSegmentAction: (id) sender {
     UIBarButtonItem *clickedButton = (UIBarButtonItem *)sender;
-    if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
+    if ([clickedButton.title isEqualToString:@""]) {
+    }
+    else if ([clickedButton.title isEqualToString:NSLocalizedString(@"Select", @"")]) {
         [Heap track:@"Segments: Select clicked"];
         clickedButton.title = NSLocalizedString(@"Cancel", @"");
         self.segmentstable.editing = YES;
@@ -269,18 +307,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.viewModel.segments count];
-}
-
--(UILabel *) emptyMessageLabel {
-    if(!_emptyMessageLabel){
-        _emptyMessageLabel = [UILabel new];
-        _emptyMessageLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
-        _emptyMessageLabel.textColor = [UIColor shpui_colorWithHexValue:0xa8a8a8];
-        _emptyMessageLabel.text = NSLocalizedString(@"No people to show", @"");
-        _emptyMessageLabel.textAlignment = NSTextAlignmentCenter;
-        _emptyMessageLabel.numberOfLines = 0;
-    }
-    return _emptyMessageLabel;
 }
 
 #pragma mark - Lazy Initialization

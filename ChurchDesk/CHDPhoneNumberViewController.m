@@ -169,7 +169,7 @@
             _pickerView = [[UIPickerView alloc] init];
             [_pickerView setDataSource: self];
             [_pickerView setDelegate: self];
-            [_pickerView setFrame:CGRectMake(10, 60, 280, 300)];
+            [_pickerView setFrame:CGRectMake(10, 50, 280, 290)];
             _pickerView.showsSelectionIndicator = YES;
             [_receiverView addSubview: _pickerView];
             [doneButton addTarget:self action:@selector(donePickerPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -194,7 +194,10 @@
 }
 
 -(void) donePickerPressed{
-    [_countryCodeButton setTitle:_selectedCountryCode forState:UIControlStateNormal];
+    if (_selectedCountryCode.length > 0) {
+        [_countryCodeButton setTitle:_selectedCountryCode forState:UIControlStateNormal];
+    }
+    
     [self removeCountryView];
 }
 
