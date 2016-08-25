@@ -323,7 +323,11 @@
                     selected = true;
                 }
             }
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:user.name imageURL:user.pictureURL color:nil  selected:selected refObject:user.userId]];
+            NSString *title = user.name;
+            if ([title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
+                title = user.email;
+            }
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:title imageURL:user.pictureURL color:nil  selected:selected refObject:user.userId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowResources]) {

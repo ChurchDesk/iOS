@@ -152,6 +152,7 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
         }
         cell.dividerLineHidden = (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section] -1);
         [cell layoutIfNeeded];
+        cell.dividerLineHidden = NO;
         return cell;
     }else{
         CHDSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSelectorCellIdentifyer forIndexPath:indexPath];
@@ -185,6 +186,9 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
         {
             NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
             CHDListSelectorConfigModel* element = [items objectAtIndex:j];
+            if ([element.title stringByTrimmingCharactersInSet:whitespace].length == 0) {
+                element.title = NSLocalizedString(@"Unknown", @"");
+            }
             prefix = [[element.title stringByTrimmingCharactersInSet:whitespace] substringToIndex:1];
             if ([prefix caseInsensitiveCompare:[alphaArray objectAtIndex:i]] == NSOrderedSame )
             {

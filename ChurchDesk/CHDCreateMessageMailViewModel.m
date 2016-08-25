@@ -30,7 +30,7 @@
                                                       }];
         RAC(self, textLimit) = [RACSignal combineLatest:@[RACObserve(self, message)]
                                                  reduce:^(NSString *message){
-                                                     return [NSString stringWithFormat:@"%lu", (160 - message.length)];
+                                                     return [NSString stringWithFormat:@"%u", (160 - message.length)];
                                                  }];
     }
     else{
