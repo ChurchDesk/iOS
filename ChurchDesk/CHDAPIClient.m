@@ -245,7 +245,7 @@ static NSString *const kURLAPIOauthPart = @"";
 
 - (RACSignal*) getEventsFromYear: (NSInteger) year month: (NSInteger) month {
     //return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil];
-    NSString *endDate = [NSString stringWithFormat:@"%ld-%ld-31", (long)year, (long)month];//[self getEndDateOfMonth:year month:month];
+    NSString *endDate = [self getEndDateOfMonth:year month:month];
     NSString *startDate = [NSString stringWithFormat:@"%ld-%ld-01", (long)year, (long)month];
     NSLog(@"month %ld, year %ld, start date %@, end date %@", (long)month, (long)year, startDate, endDate);
     return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil request:^(SHPHTTPRequest *request) {
