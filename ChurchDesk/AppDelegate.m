@@ -13,7 +13,6 @@
 #import "DCIntrospect.h"
 #import "CHDMenuItem.h"
 #import "CHDDashboardMessagesViewController.h"
-#import "CHDPeopleTabBarController.h"
 #import <Crashlytics/Crashlytics.h>
 #import "CHDCalendarViewController.h"
 #import "CHDTImeRecordingViewController.h"
@@ -94,7 +93,6 @@
     }];
     
     CHDDashboardTabBarViewController *dashboardTabBar = [CHDDashboardTabBarViewController dashboardTabBarViewController];
-    CHDPeopleTabBarController *peopleTabBar = [CHDPeopleTabBarController peopleTabBarViewController];
     CHDDashboardMessagesViewController *messagesViewController = [[CHDDashboardMessagesViewController new] initWithStyle:CHDMessagesStyleAllMessages];
     messagesViewController.title = NSLocalizedString(@"My messages", @"");
     CHDCalendarViewController *calendarViewController = [CHDCalendarViewController new];
@@ -102,7 +100,6 @@
     CHDSettingsViewController *settingsViewController = [CHDSettingsViewController new];
     
     UINavigationController *dashboardNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:dashboardTabBar];
-    UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
     UINavigationController *messagesNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:messagesViewController];
     UINavigationController *settingsNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:settingsViewController];
     UINavigationController *calendarNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:calendarViewController];
@@ -130,7 +127,6 @@
     //People
     CHDMenuItem *menuItemPeople = [CHDMenuItem new];
     menuItemPeople.title = NSLocalizedString(@"People", @"");
-    menuItemPeople.viewController = peopleNavigationController;//dashboardTabBar;
     menuItemPeople.image = kImgMenuPeople;
     
     //Time Recording

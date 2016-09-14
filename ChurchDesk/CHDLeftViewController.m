@@ -16,6 +16,7 @@
 #import "intercom.h"
 #import "CHDSelectParishForPeopleViewController.h"
 #import "UINavigationController+ChurchDesk.h"
+#import "CHDPeopleTabBarController.h"
 #import "CHDAPIClient.h"
 
 @interface CHDLeftViewController () <UIGestureRecognizerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -282,6 +283,13 @@
                     UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:selectParishViewController];
                     item.viewController = peopleNavigationController;
                 }
+                else if (user.sites.count == 1){
+                    CHDSite * site = [user.sites objectAtIndex:0];
+                    [defaults setValue:site.siteId forKey:kselectedOrganizationIdforPeople];
+                    CHDPeopleTabBarController *peopleTabBar = [CHDPeopleTabBarController peopleTabBarViewController];
+                    UINavigationController *peopleNavigationController = [UINavigationController chd_sideMenuNavigationControllerWithRootViewController:peopleTabBar];
+                    item.viewController = peopleNavigationController;
+                }
                 [Heap track:@"People clicked"];
                 break;
             }
@@ -291,8 +299,10 @@
             default:
                 break;
         }
-        [self.shp_sideMenuController setSelectedViewController:item.viewController];
-        [self.shp_sideMenuController close];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:kcurrentuser]) {
+            [self.shp_sideMenuController setSelectedViewController:item.viewController];
+            [self.shp_sideMenuController close];
+        }
     }
 }
 

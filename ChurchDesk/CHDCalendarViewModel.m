@@ -36,7 +36,6 @@
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
 
         [[self shprac_liftSelector:@selector(filterEvents) withSignal:RACObserve(self, myEventsOnly)] skip:1];
-        
     }
     return self;
 }
@@ -44,6 +43,7 @@
 -(void)fetchEvents{
     [self rac_liftSelector:@selector(fetchEventsFromReferenceDate:) withSignals:[RACObserve(self, referenceDate) ignore:nil], nil];
 }
+
 - (void) filterEvents {
     // Don't set events to a value if not already set, to indicate it hasn't yet been loaded.
     self.events = self.events ? @[] : nil;

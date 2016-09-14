@@ -119,6 +119,7 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
     }
     self.userID = nil;
     self.authenticationToken = nil;
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kcurrentuser];
     
 }
 

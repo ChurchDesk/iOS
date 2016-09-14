@@ -52,7 +52,6 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
         [self createNoAccessView];
     }
-    
     // Do any additional setup after loading the view.
 }
 
@@ -153,19 +152,18 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 }
 
 -(void) makeBindings {
+    [self showProgress:YES];
     RACSignal *newPeopleSignal = RACObserve(self.viewModel, people);
     [self shprac_liftSelector:@selector(updatePeople) withSignal:[RACSignal merge:@[newPeopleSignal]]];
-    
-    [self shprac_liftSelector:@selector(endRefresh) withSignal:newPeopleSignal];
-    
-    [self shprac_liftSelector:@selector(showProgress:) withSignal:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
-        return @NO;
-    }]];
 }
 
 -(void) updatePeople{
-        [self.viewModel refreshData];
-        [self.peopletable reloadData];
+    [self.viewModel refreshData];
+    [self.peopletable reloadData];
+    if (self.viewModel.people != nil) {
+        [self showProgress:NO];
+    }
+    
 }
 
 -(void)saveSelectedPeopleArray{
@@ -573,9 +571,9 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 }
 
 -(void) showProgress: (BOOL) show {
-    if(show && self.navigationController.view) {
-        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    if(show && self.view) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
         // Configure for text only and offset down
         hud.mode = MBProgressHUDModeIndeterminate;
@@ -585,7 +583,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         hud.removeFromSuperViewOnHide = YES;
         hud.userInteractionEnabled = NO;
     }else{
-        [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }
 }
 
