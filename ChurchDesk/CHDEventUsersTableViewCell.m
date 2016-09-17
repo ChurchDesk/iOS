@@ -23,7 +23,7 @@
     [userNames enumerateObjectsUsingBlock:^(NSString *name, NSUInteger idx, BOOL *stop) {
         UILabel *label = [UILabel chd_regularLabelWithSize:13];
         label.textColor = [UIColor chd_textLightColor];
-        label.numberOfLines = 0;
+        label.numberOfLines = 1;
         label.text = name;
         [mViews addObject:label];
     }];

@@ -70,7 +70,9 @@
     CHDPeerUser *user = [self.viewModel.environment userWithId:userId siteId:self.event.siteId];
     [cell layoutIfNeeded];
     [cell.userImageView hnk_setImageFromURL:user.pictureURL placeholder:nil];
-    cell.nameLabel.text = user.name;
+    if (user.name!= nil && user.name.length > 0)
+        cell.nameLabel.text = user.name;
+    else cell.nameLabel.text = user.email;
     cell.status = [self.event attendanceStatusForUserWithId:userId];
     cell.topLineHidden = indexPath.row > 0;
     cell.bottomLineFull = [tableView numberOfRowsInSection:indexPath.section]-1 == indexPath.row;

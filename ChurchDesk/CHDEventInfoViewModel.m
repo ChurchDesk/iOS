@@ -185,7 +185,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
             return user.name;
         }
         else{
-            return @"";
+            return user.email;
         }
     }];
 }
