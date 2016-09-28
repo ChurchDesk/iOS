@@ -1,36 +1,47 @@
 PODS:
-  - AutoCoding (2.2.1)
-  - DCIntrospect-ARC (HEAD based on 0.0.8)
+  - AutoCoding (2.2.2)
   - dyci (0.1.5.6):
     - dyci/Injections (= 0.1.5.6)
   - dyci/Injections (0.1.5.6)
-  - FormatterKit (1.8.0):
-    - FormatterKit/AddressFormatter (= 1.8.0)
-    - FormatterKit/ArrayFormatter (= 1.8.0)
-    - FormatterKit/ColorFormatter (= 1.8.0)
-    - FormatterKit/LocationFormatter (= 1.8.0)
-    - FormatterKit/NameFormatter (= 1.8.0)
-    - FormatterKit/OrdinalNumberFormatter (= 1.8.0)
-    - FormatterKit/TimeIntervalFormatter (= 1.8.0)
-    - FormatterKit/UnitOfInformationFormatter (= 1.8.0)
-    - FormatterKit/URLRequestFormatter (= 1.8.0)
-  - FormatterKit/AddressFormatter (1.8.0)
-  - FormatterKit/ArrayFormatter (1.8.0)
-  - FormatterKit/ColorFormatter (1.8.0)
-  - FormatterKit/LocationFormatter (1.8.0)
-  - FormatterKit/NameFormatter (1.8.0)
-  - FormatterKit/OrdinalNumberFormatter (1.8.0)
-  - FormatterKit/TimeIntervalFormatter (1.8.0)
-  - FormatterKit/UnitOfInformationFormatter (1.8.0)
-  - FormatterKit/URLRequestFormatter (1.8.0)
-  - GoogleAnalytics-iOS-SDK (3.10):
-    - GoogleAnalytics-iOS-SDK/Core (= 3.10)
-  - GoogleAnalytics-iOS-SDK/Core (3.10)
-  - Haneke (1.0.1)
-  - Intercom (2.2.3)
-  - Masonry (0.6.1)
-  - MBProgressHUD (0.9.1)
-  - pop (1.0.7)
+  - FormatterKit (1.8.1):
+    - FormatterKit/AddressFormatter (= 1.8.1)
+    - FormatterKit/ArrayFormatter (= 1.8.1)
+    - FormatterKit/ColorFormatter (= 1.8.1)
+    - FormatterKit/LocationFormatter (= 1.8.1)
+    - FormatterKit/NameFormatter (= 1.8.1)
+    - FormatterKit/OrdinalNumberFormatter (= 1.8.1)
+    - FormatterKit/Resources (= 1.8.1)
+    - FormatterKit/TimeIntervalFormatter (= 1.8.1)
+    - FormatterKit/UnitOfInformationFormatter (= 1.8.1)
+    - FormatterKit/URLRequestFormatter (= 1.8.1)
+  - FormatterKit/AddressFormatter (1.8.1):
+    - FormatterKit/Resources
+  - FormatterKit/ArrayFormatter (1.8.1):
+    - FormatterKit/Resources
+  - FormatterKit/ColorFormatter (1.8.1):
+    - FormatterKit/Resources
+  - FormatterKit/LocationFormatter (1.8.1):
+    - FormatterKit/Resources
+  - FormatterKit/NameFormatter (1.8.1):
+    - FormatterKit/Resources
+  - FormatterKit/OrdinalNumberFormatter (1.8.1):
+    - FormatterKit/Resources
+  - FormatterKit/Resources (1.8.1)
+  - FormatterKit/TimeIntervalFormatter (1.8.1):
+    - FormatterKit/Resources
+  - FormatterKit/UnitOfInformationFormatter (1.8.1):
+    - FormatterKit/Resources
+  - FormatterKit/URLRequestFormatter (1.8.1):
+    - FormatterKit/Resources
+  - GoogleAnalytics-iOS-SDK (3.12):
+    - GoogleAnalytics-iOS-SDK/Core (= 3.12)
+  - GoogleAnalytics-iOS-SDK/Core (3.12)
+  - Haneke (1.0.2)
+  - Heap (3.0.0)
+  - Intercom (3.0.12)
+  - Masonry (0.6.4)
+  - MBProgressHUD (0.9.2)
+  - pop (1.0.9)
   - ReactiveCocoa (2.4.7):
     - ReactiveCocoa/UI (= 2.4.7)
   - ReactiveCocoa/Core (2.4.7):
@@ -40,7 +51,7 @@ PODS:
     - ReactiveCocoa/Core
   - SHPCalendarPicker (0.5.0)
   - SHPFoundation (2.4.0)
-  - SHPKeyboardAwareness (2.0.0):
+  - SHPKeyboardAwareness (2.0.1):
     - ReactiveCocoa (~> 2.4.7)
   - SHPNetworking (7.6.3)
   - SHPRACAdditions (0.1.2):
@@ -50,14 +61,14 @@ PODS:
   - SHPUIInjection (0.0.3):
     - dyci
   - SHPUIKit (2.1.0)
-  - SSKeychain (1.2.2)
+  - SSKeychain (1.2.3)
 
 DEPENDENCIES:
   - AutoCoding (~> 2.2.1)
-  - DCIntrospect-ARC (HEAD)
   - FormatterKit (~> 1.8.0)
   - GoogleAnalytics-iOS-SDK (~> 3.10)
   - Haneke (~> 1.0.1)
+  - Heap
   - Intercom
   - Masonry (~> 0.6.1)
   - MBProgressHUD (~> 0.9.1)
@@ -89,25 +100,27 @@ EXTERNAL SOURCES:
     :path: ../ShapeKit/SHPUIKit/
 
 SPEC CHECKSUMS:
-  AutoCoding: b47e528426c84346371dd532b8e6458929e4da34
-  DCIntrospect-ARC: 68a97cc2e99420b21bfcd66865b5376701f8e7f5
+  AutoCoding: 56fa46dbfa89d44189a26ce64e6a470ed8ff4661
   dyci: 099c2e6dc98abb8f21b370cabbf1443ff700608a
-  FormatterKit: bddde83e054edf9d9ee14f9de3b3a5103db256f4
-  GoogleAnalytics-iOS-SDK: 4f98a376c1d61e6ac4ca47951655820314856eef
-  Haneke: d60be8b96b228633b24708dd153169d6849d6f78
-  Intercom: a9349693dca9940f8ce4b6a7414bfc0b4dfb7156
-  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
-  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  FormatterKit: 11ad17b983200629246a5a466f6f1bfa2df823cb
+  GoogleAnalytics-iOS-SDK: 13241762fa4aea845eb75bef6c0da3427a26e7b3
+  Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
+  Heap: b95bc7a21f47ddd470e8ebccefa59c91f4fe1d68
+  Intercom: b709f2055c8ab0333c255d0ad49886598d14705f
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   ReactiveCocoa: eb38dee0a0e698f73a9b25e5c1faea2bb4c79240
-  SHPCalendarPicker: be51ea3c861408f599ac602fc5832046c57ff91d
-  SHPFoundation: c03c04695d3aa69184b1d6b139e61937061c8919
-  SHPKeyboardAwareness: b62fdf2fea15b5623717c8ce6e9b8d05bf2a0d41
-  SHPNetworking: cc72945f99e23e4c2dbda4d1f2363a1cbbb1c17c
+  SHPCalendarPicker: 3cd3d4c87a3bef1a93dc5c6241295207b0d65dd3
+  SHPFoundation: 9806af26c5cabb0b42e6dc34e18264dd08e769fa
+  SHPKeyboardAwareness: 00b14ccbb263f9ee69da17f9a2c6b17e84b830de
+  SHPNetworking: 8eecf327924b2555a2d4959407ec91ebf738127f
   SHPRACAdditions: 865b17048f7bf5932ca0d6d73539e6a9f7abe1c5
-  SHPSideMenu: dbc7af1661a6e14f65c7971c2339ec406f0e02f9
-  SHPUIInjection: 593fe19985c20011bb40c937c7f791301233e24b
+  SHPSideMenu: 5c81982d0d7bc1a549403cab716a962b774f2ccf
+  SHPUIInjection: 859e028454660a4dd3c1dbdbd89b24339aa6080e
   SHPUIKit: 0453455110ab78f1e2cfd236601eb2ab9bb41ba7
-  SSKeychain: 88767e903ee8d274ed380e364d96b7a101235286
+  SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
 
-COCOAPODS: 0.37.1
+PODFILE CHECKSUM: 5cddc51c391b3a3ba392004d8dc28a3e0d281fc8
+
+COCOAPODS: 1.0.1

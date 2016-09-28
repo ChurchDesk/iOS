@@ -1,7 +1,8 @@
 {
   "name": "SHPUIInjection",
   "version": "0.0.3",
-  "summary": "",
+  "summary": "For injection",
+  "homepage": "www.churchdesk.com",
   "authors": {
     "Peter Gammelgaard": "peter@shape.dk"
   },

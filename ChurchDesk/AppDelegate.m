@@ -10,7 +10,7 @@
 #import "AppDelegate.h"
 #import "CHDLeftViewController.h"
 #import "CHDDashboardTabBarViewController.h"
-#import "DCIntrospect.h"
+//#import "DCIntrospect.h"
 #import "CHDMenuItem.h"
 #import "CHDDashboardMessagesViewController.h"
 #import <Crashlytics/Crashlytics.h>
@@ -26,7 +26,7 @@
 #import "NSUserDefaults+CHDDefaults.h"
 #import "SSKeychainQuery.h"
 #import "CHDAnalyticsManager.h"
-#import "intercom.h"
+@import Intercom;
 //#import "ABNotifier.h"
 
 @interface AppDelegate ()
@@ -55,10 +55,6 @@
     [self.window makeKeyAndVisible];
     // Initialize Intercom
     [Intercom setApiKey:@"ios_sdk-a429632ee85f7de1db11af6debdefc4e4d7dbcad" forAppId:@"ybr6de25"];
-#if TARGET_IPHONE_SIMULATOR && DEBUG
-    [[DCIntrospect sharedIntrospector] start];
-    //[SHPUIInjection enable];
-#endif
 
 #if !SCREEN_SHOT_MODE
     [self presentLoginViewControllerWhenNeeded];

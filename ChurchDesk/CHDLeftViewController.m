@@ -13,11 +13,11 @@
 #import "CHDLeftMenuViewModel.h"
 #import "CHDUser.h"
 #import "UIImageView+Haneke.h"
-#import "intercom.h"
 #import "CHDSelectParishForPeopleViewController.h"
 #import "UINavigationController+ChurchDesk.h"
 #import "CHDPeopleTabBarController.h"
 #import "CHDAPIClient.h"
+@import Intercom;
 
 @interface CHDLeftViewController () <UIGestureRecognizerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) UITableView* menuTable;
@@ -250,6 +250,7 @@
     }
     return indexPath;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self tableView:self.menuTable cellForRowAtIndexPath:indexPath].selected = YES;
     //Get the menu item

@@ -10,7 +10,7 @@
 #import "SSKeyChain.h"
 #import "CHDAccessToken.h"
 #import "CHDAPIClient.h"
-#import "intercom.h"
+@import Intercom;
 
 static NSString * const KeychainService = @"dk.churchdesk";
 static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";

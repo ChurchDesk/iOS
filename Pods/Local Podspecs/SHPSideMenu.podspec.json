@@ -1,7 +1,8 @@
 {
   "name": "SHPSideMenu",
   "version": "1.1.0",
-  "summary": "",
+  "summary": "For the side menu",
+  "homepage": "www.churchdesk.com",
   "authors": {
     "Peter Gammelgaard": "peter@shape.dk"
   },
@@ -19,5 +20,5 @@
       "~> 1.0.7"
     ]
   },
-  "prefix_header_contents": "#ifdef __OBJC__\n#import \"SHPSideMenu.h\"\n#endif\n"
+  "prefix_header_contents": "#ifdef __OBJC__\n#import \"SHPSideMenu.h\"\n#endif"
 }

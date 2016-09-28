@@ -91,8 +91,7 @@
 - (NSArray *)fetchAll:(NSError *__autoreleasing *)error {
 	OSStatus status = SSKeychainErrorBadArguments;
 	NSMutableDictionary *query = [self query];
-    NSLog(@"query %@", query);
-	[query setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnAttributes];
+	[query setObject:@YES forKey:(__bridge id)kSecReturnAttributes];
 	[query setObject:(__bridge id)kSecMatchLimitAll forKey:(__bridge id)kSecMatchLimit];
 
 	CFTypeRef result = NULL;
@@ -121,8 +120,10 @@
 	[query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
 	status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
 
-	if (status != errSecSuccess && error != NULL) {
-		*error = [[self class] errorWithCode:status];
+	if (status != errSecSuccess) {
+		if (error) {
+			*error = [[self class] errorWithCode:status];
+		}
 		return NO;
 	}
 

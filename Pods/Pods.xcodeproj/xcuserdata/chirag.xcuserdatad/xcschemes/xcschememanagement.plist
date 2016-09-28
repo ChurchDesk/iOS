@@ -4,97 +4,92 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-AutoCoding.xcscheme</key>
+		<key>AutoCoding.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-DCIntrospect-ARC.xcscheme</key>
+		<key>FormatterKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-FormatterKit.xcscheme</key>
+		<key>Haneke.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Haneke.xcscheme</key>
+		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-MBProgressHUD.xcscheme</key>
+		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Masonry.xcscheme</key>
+		<key>Pods-ChurchDesk.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ReactiveCocoa.xcscheme</key>
+		<key>ReactiveCocoa.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SHPCalendarPicker.xcscheme</key>
+		<key>SHPCalendarPicker.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SHPFoundation.xcscheme</key>
+		<key>SHPFoundation.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SHPKeyboardAwareness.xcscheme</key>
+		<key>SHPKeyboardAwareness.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SHPNetworking.xcscheme</key>
+		<key>SHPNetworking.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SHPRACAdditions.xcscheme</key>
+		<key>SHPRACAdditions.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SHPSideMenu.xcscheme</key>
+		<key>SHPSideMenu.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SHPUIInjection.xcscheme</key>
+		<key>SHPUIInjection.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SHPUIKit.xcscheme</key>
+		<key>SHPUIKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SSKeychain.xcscheme</key>
+		<key>SSKeychain.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-dyci.xcscheme</key>
+		<key>dyci.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-pop.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods.xcscheme</key>
+		<key>pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -102,97 +97,92 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0236CD1C5BE073240E4D2893</key>
+		<key>31639FA06543DEC1736BE7A19D07EBE6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>02A8198308F4AF45B3F34EC6</key>
+		<key>391FA039EE82FCF31E89B0C6BD7D8EA9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>0B26AFAEBE7B3DB882964CF1</key>
+		<key>3DC8A380EFD1B565F0E60C267C534FE1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>11E0E756A4E3350EEE26D01F</key>
+		<key>3E3B324C8EB1CE293E588FC50C0039E8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>141F22F66067D773530FFBF7</key>
+		<key>51271C2078453C49AE0BE8E6A8F26422</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>209DDA87893C80E1B43F2F61</key>
+		<key>51E1778707AB1F07CE8DC291F16BBB2A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>24743F6B5C1A3C8FDBA942F2</key>
+		<key>5F9E0394BBEA97CAE73D7AB693741CBB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2AB7071BE6C0EAFEB1B39464</key>
+		<key>64560B72866417D4D116FAC7ECAD8EC3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5051438A00FB7DE5C39110C3</key>
+		<key>7CFA310030E64694C8DAA4CAE2FBC8E8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6A73BC982AE86C156F934F0D</key>
+		<key>92EE36699E6E79D79CE51EC73A8BB9E8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>758F9BC2DFBD133B2A874174</key>
+		<key>9F8B01221D568EFC224A92FE94583024</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7B6798B25D759450D454630F</key>
+		<key>A0AD396DBA5DAF1763EFB91570DA70AB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8A92800E2DDA7B096FEC9D49</key>
+		<key>A2CED601921E00748C1BC7053C3556EC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>985CB951D9573611E77F24B9</key>
+		<key>A51136D3FA8FAFC25D12DF87FCE89DDB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B0522B7170ED036E0FE9971E</key>
+		<key>C54E82B50792B409F5893B9C4347D18F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D89CCFC7D046090EC56DD430</key>
+		<key>D9130DAEB86E93B1360B278A3CD5302E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E070280C4A8011DE98CF8A8C</key>
+		<key>E57DEEB7B3C0CAE32B8103EF6E4225B9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EFE124A6BE4125AFEF1F6F6E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F3DFD6631DFF4C02E3FE59A5</key>
+		<key>F38F6BFDECFF13D52901AEA2A9ED2815</key>
 		<dict>
 			<key>primary</key>
 			<true/>

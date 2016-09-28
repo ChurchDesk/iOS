@@ -1,6 +1,6 @@
 //
 //  Heap.h
-//  Version 2.2.2
+//  Version 3.0.0
 //  Copyright (c) 2014 Heap Inc. All rights reserved.
 //
 
@@ -25,21 +25,31 @@
 + (void)startDebug;
 + (void)stopDebug;
 
-// Attach meta-level properties to the user (e.g. email, handle).
-+ (void)identify:(NSDictionary *)properties;
+// Attach an identity to the user.
++ (void)identify:(NSString *)identity;
+
+// Attach meta-level properties to the user (e.g. name, joindate).
++ (void)addUserProperties:(NSDictionary *)properties;
 
 // Track a custom event with optional key-value properties.
 + (void)track:(NSString *)event;
 + (void)track:(NSString *)event withProperties:(NSDictionary *)properties;
 
 // Attach custom key-value properties to all subsequent events.
-+ (void)setEventProperties:(NSDictionary *)properties;
++ (void)addEventProperties:(NSDictionary *)properties;
 // Unset an event property to stop attaching it to events.
-+ (void)unsetEventProperty:(NSString *)property;
++ (void)removeEventProperty:(NSString *)property;
 // Unset all event properties.
 + (void)clearEventProperties;
 
 // Change the frequency at which data is sent to Heap. Default is 15 seconds.
 + (void)changeInterval:(double)interval;
+
+// DEPRECATED Attach meta-level properties to the user (e.g. email, handle).
++ (void)identifyDeprecated:(NSDictionary *)properties __deprecated;
+// DEPRECATED Alias for addEventProperties.
++ (void)setEventProperties:(NSDictionary *)properties __deprecated;
+// DEPRECATED Alias for removeEventProperty.
++ (void)unsetEventProperty:(NSString *)property __deprecated;
 
 @end

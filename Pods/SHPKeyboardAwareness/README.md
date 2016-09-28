@@ -1,5 +1,7 @@
 # SHPKeyboardAwareness
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 SHPKeyboardAwareness lets you know when the keyboard appears and tells you exactly what you need to know about how much the first responder will be overlapped, which view is first responder, keyboard animation curves, duration and much more. 
 
 SHPKeyboardAwareness will not hijack delegate methods of any of your views, it doesn’t subclass or require you to subclass anything. SHPKeyboardAwareness does not require any compromises in your code.
@@ -111,7 +113,7 @@ In this example we subscribe a view controller to notifications for any first re
                      animations:^{
         self.collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, offset);
 
-				self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, event.keyboardFrame.size.height, 0);
+				self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, keyboardEvent.keyboardFrame.size.height, 0);
         self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset;
     } completion:nil];
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A0E77D51AD7D4E50022EE71 /* CHDCellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0E77D41AD7D4E50022EE71 /* CHDCellBackgroundView.m */; };
+		19F02BCF332A05E64B2C40B9 /* libPods-ChurchDesk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F962AD7D4FB4A25EADAF1C67 /* libPods-ChurchDesk.a */; };
 		360846001AD57346009CC31B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 360846021AD57346009CC31B /* Localizable.strings */; };
 		360B4DF41A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */; };
 		360B4DF71A973C86001CC8B0 /* CHDMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 360B4DF61A973C86001CC8B0 /* CHDMenuItem.m */; };
@@ -173,13 +174,11 @@
 		76B212951AA9B7CA00E4104C /* CHDEditEventViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B212941AA9B7CA00E4104C /* CHDEditEventViewModel.m */; };
 		76B2129A1AA9D61A00E4104C /* CHDEventTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B212991AA9D61A00E4104C /* CHDEventTextFieldCell.m */; };
 		76B2129D1AA9D9C900E4104C /* CHDEventValueTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B2129C1AA9D9C900E4104C /* CHDEventValueTableViewCell.m */; };
-		FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2489C4B953B854686341449 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0A0E77D31AD7D4E50022EE71 /* CHDCellBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDCellBackgroundView.h; sourceTree = "<group>"; };
 		0A0E77D41AD7D4E50022EE71 /* CHDCellBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCellBackgroundView.m; sourceTree = "<group>"; };
-		2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		360846011AD57346009CC31B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		360B4DF21A973A46001CC8B0 /* CHDLeftMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDLeftMenuTableViewCell.h; sourceTree = "<group>"; };
 		360B4DF31A973A46001CC8B0 /* CHDLeftMenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftMenuTableViewCell.m; sourceTree = "<group>"; };
@@ -316,6 +315,8 @@
 		46FFA3F41D0AB0A300D194C9 /* CHDCreatePersonViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDCreatePersonViewModel.m; sourceTree = "<group>"; };
 		46FFA3F61D0EF33A00D194C9 /* CHDTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTag.h; sourceTree = "<group>"; };
 		46FFA3F71D0EF33A00D194C9 /* CHDTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDTag.m; sourceTree = "<group>"; };
+		57A4F2CAD0C14C9F01F0492B /* Pods-ChurchDesk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchDesk.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChurchDesk/Pods-ChurchDesk.release.xcconfig"; sourceTree = "<group>"; };
+		5E9B6E46BA903D1F1AE76C6F /* Pods-ChurchDesk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchDesk.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChurchDesk/Pods-ChurchDesk.debug.xcconfig"; sourceTree = "<group>"; };
 		6037208164EB947D72C14C08 /* CHDSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDSite.h; sourceTree = "<group>"; };
 		60372088642D19CD2C434A9F /* CHDDashboardMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDDashboardMessagesViewController.m; sourceTree = "<group>"; };
 		60372089EA49349970627A31 /* CHDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDUser.h; sourceTree = "<group>"; };
@@ -516,9 +517,8 @@
 		76B212991AA9D61A00E4104C /* CHDEventTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventTextFieldCell.m; sourceTree = "<group>"; };
 		76B2129B1AA9D9C900E4104C /* CHDEventValueTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEventValueTableViewCell.h; sourceTree = "<group>"; };
 		76B2129C1AA9D9C900E4104C /* CHDEventValueTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEventValueTableViewCell.m; sourceTree = "<group>"; };
-		9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.inhouse.xcconfig; path = "Pods/Target Support Files/Pods/Pods.inhouse.xcconfig"; sourceTree = "<group>"; };
-		A2489C4B953B854686341449 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D7479E92B6129595D8D01126 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		92F91F3EAD992713AB04E8EB /* Pods-ChurchDesk.inhouse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchDesk.inhouse.xcconfig"; path = "Pods/Target Support Files/Pods-ChurchDesk/Pods-ChurchDesk.inhouse.xcconfig"; sourceTree = "<group>"; };
+		F962AD7D4FB4A25EADAF1C67 /* libPods-ChurchDesk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChurchDesk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -527,13 +527,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				76143F1E1A977CA400651CEA /* Crashlytics.framework in Frameworks */,
-				FB006EF93027D731BFDF0AA0 /* libPods.a in Frameworks */,
+				19F02BCF332A05E64B2C40B9 /* libPods-ChurchDesk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2FFED488190A6271AE33C1BD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5E9B6E46BA903D1F1AE76C6F /* Pods-ChurchDesk.debug.xcconfig */,
+				57A4F2CAD0C14C9F01F0492B /* Pods-ChurchDesk.release.xcconfig */,
+				92F91F3EAD992713AB04E8EB /* Pods-ChurchDesk.inhouse.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		360B4DF11A9739ED001CC8B0 /* MainNavigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -873,16 +883,6 @@
 			name = Segments;
 			sourceTree = "<group>";
 		};
-		523BB34733495BF6470B3A10 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */,
-				D7479E92B6129595D8D01126 /* Pods.release.xcconfig */,
-				9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		6037204AF9E70FCD06A4D84E /* ChurchDeskTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -943,9 +943,9 @@
 				60372EADD372446171E81756 /* Products */,
 				60372179239F64D321F00AF0 /* ChurchDesk */,
 				6037204AF9E70FCD06A4D84E /* ChurchDeskTests */,
-				523BB34733495BF6470B3A10 /* Pods */,
 				8C7033242449DD2B32139BB0 /* Frameworks */,
 				461524301D4B548700E5A3B2 /* Libraries */,
+				2FFED488190A6271AE33C1BD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1247,8 +1247,8 @@
 		8C7033242449DD2B32139BB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A2489C4B953B854686341449 /* libPods.a */,
 				76143F1D1A977CA400651CEA /* Crashlytics.framework */,
+				F962AD7D4FB4A25EADAF1C67 /* libPods-ChurchDesk.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1260,12 +1260,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60372EB349819DA654C3DACD /* Build configuration list for PBXNativeTarget "ChurchDesk" */;
 			buildPhases = (
-				F2ABAB7C8920877B11CD1AA0 /* Check Pods Manifest.lock */,
+				D738C87297F26CFC6A9FECA7 /* [CP] Check Pods Manifest.lock */,
 				60372C39F67630D1AD929D4C /* Sources */,
 				603727F7B8C8BB3A43116C4A /* Frameworks */,
 				60372BB20A00144B35FD8DAC /* Resources */,
-				2894B46DC938F73013C1F8B2 /* Copy Pods Resources */,
 				76143F1C1A977C4200651CEA /* Crashlytics */,
+				610F0215696F70ED3C34C956 /* [CP] Embed Pods Frameworks */,
+				562B0CDCBEEBD8E29F52F8DB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1283,7 +1284,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = CHD;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "ChurchDesk ApS";
 				TargetAttributes = {
 					6037291B5F81D8B947908396 = {
@@ -1327,19 +1328,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2894B46DC938F73013C1F8B2 /* Copy Pods Resources */ = {
+		562B0CDCBEEBD8E29F52F8DB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChurchDesk/Pods-ChurchDesk-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		610F0215696F70ED3C34C956 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChurchDesk/Pods-ChurchDesk-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		76143F1C1A977C4200651CEA /* Crashlytics */ = {
@@ -1356,14 +1372,14 @@
 			shellPath = /bin/sh;
 			shellScript = "./Crashlytics.framework/run c7c174cb98f78bf0cd7b43db69eb37d1e2a46d11 abb56bfde5c6607d448d74cc38f9eb03e793871ffc94cf99e816864d4c244d28";
 		};
-		F2ABAB7C8920877B11CD1AA0 /* Check Pods Manifest.lock */ = {
+		D738C87297F26CFC6A9FECA7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1569,6 +1585,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1578,8 +1595,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
@@ -1589,6 +1608,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ChurchDesk.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1607,7 +1627,7 @@
 		};
 		3667D9D31A9236A1003716A2 /* Inhouse */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9FDECCAC8BF3238E8B37BEB4 /* Pods.inhouse.xcconfig */;
+			baseConfigurationReference = 92F91F3EAD992713AB04E8EB /* Pods-ChurchDesk.inhouse.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
@@ -1637,6 +1657,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1646,8 +1667,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
@@ -1658,6 +1681,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ChurchDesk.pch;
@@ -1684,6 +1708,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1693,8 +1718,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
@@ -1704,6 +1731,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ChurchDesk.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1722,7 +1750,7 @@
 		};
 		60372B96E468CBAEFAD92F1D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7479E92B6129595D8D01126 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 57A4F2CAD0C14C9F01F0492B /* Pods-ChurchDesk.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
@@ -1746,7 +1774,7 @@
 		};
 		60372BE9263D3E11239D825C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2AC28EE7D0449F9019B40E80 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 5E9B6E46BA903D1F1AE76C6F /* Pods-ChurchDesk.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
@@ -1761,6 +1789,67 @@
 				);
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"AutoCoding\"",
+					"-l\"FormatterKit\"",
+					"-l\"GoogleAnalyticsServices\"",
+					"-l\"Haneke\"",
+					"-l\"Heap\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"Masonry\"",
+					"-l\"ReactiveCocoa\"",
+					"-l\"SHPCalendarPicker\"",
+					"-l\"SHPFoundation\"",
+					"-l\"SHPKeyboardAwareness\"",
+					"-l\"SHPNetworking\"",
+					"-l\"SHPRACAdditions\"",
+					"-l\"SHPSideMenu\"",
+					"-l\"SHPUIInjection\"",
+					"-l\"SHPUIKit\"",
+					"-l\"SSKeychain\"",
+					"-l\"c++\"",
+					"-l\"dyci\"",
+					"-l\"icucore\"",
+					"-l\"pop\"",
+					"-l\"sqlite3\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"AddressBookUI\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"Intercom\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Photos\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
