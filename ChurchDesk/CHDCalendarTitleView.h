@@ -13,5 +13,5 @@
 
 @property (nonatomic, readonly) UIButton *titleButton;
 @property (nonatomic, assign) BOOL pointArrowDown;
-
+- (void)setFrame:(CGRect)frame;
 @end

@@ -259,7 +259,7 @@
     //Set the selected viewController
     if ([item.title isEqualToString:NSLocalizedString(@"Help and Support", @"")]) {
         [Heap track:@"Help and Support clicked"];
-        [Intercom presentConversationList];
+        [Intercom presentMessenger];
     }
     else{
         switch (indexPath.row) {

@@ -109,6 +109,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 }
 
 - (void)setupSubviews {
+    self.navigationItem.titleView = self.titleView;
     [self.view addSubview:self.contentView];
     [self.view addSubview:self.magicNavigationBar];
     [self.magicNavigationBar.drawerView addSubview:self.calendarFilterView];
@@ -120,7 +121,6 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
     [self.view addSubview:self.dayPickerViewController.view];
     [self.dayPickerViewController didMoveToParentViewController:self];
 
-    self.navigationItem.titleView = self.titleView;
     self.addButton = [self setupAddButtonWithView:self.view withConstraints:NO];
     [self.contentView addSubview:self.drawerBlockOutView];
     [self.contentView addSubview:self.todayButton];
@@ -176,7 +176,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
         self.dayPickerBottomConstraint = make.bottom.equalTo(self.view);
         make.height.equalTo(@(kDayPickerHeight));
     }];
-
+    
     [self.todayButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.dayPickerViewController.view.mas_top).offset(-4);
         make.left.equalTo(self.contentView).offset(15);
@@ -629,6 +629,7 @@ typedef NS_ENUM(NSUInteger, CHDCalendarFilters) {
 - (CHDCalendarTitleView *)titleView {
     if (!_titleView) {
         _titleView = [CHDCalendarTitleView new];
+        [_titleView setFrame:CGRectMake(0, -100, 110, 30)];
         [_titleView.titleButton addTarget:self action:@selector(titleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         _titleView.pointArrowDown = YES;
     }
