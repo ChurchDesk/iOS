@@ -280,6 +280,7 @@
 		462D4B571C297B1B002974FA /* CHDEditAbsenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEditAbsenceViewController.m; sourceTree = "<group>"; };
 		462D4B591C298BA8002974FA /* CHDEditAbsenceViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEditAbsenceViewModel.h; sourceTree = "<group>"; };
 		462D4B5A1C298BA8002974FA /* CHDEditAbsenceViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEditAbsenceViewModel.m; sourceTree = "<group>"; };
+		46641B751D9EA4E700E196E9 /* ChurchDesk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChurchDesk.entitlements; sourceTree = "<group>"; };
 		469481001C284DDA0000D9F1 /* CHDAbsenceCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAbsenceCategory.h; sourceTree = "<group>"; };
 		469481011C284DDA0000D9F1 /* CHDAbsenceCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAbsenceCategory.m; sourceTree = "<group>"; };
 		46C4684C1B0CD955002C6A2B /* CHDTImeRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTImeRecordingViewController.h; sourceTree = "<group>"; };
@@ -895,6 +896,7 @@
 		60372179239F64D321F00AF0 /* ChurchDesk */ = {
 			isa = PBXGroup;
 			children = (
+				46641B751D9EA4E700E196E9 /* ChurchDesk.entitlements */,
 				46E4688C1C986418009FBD16 /* People */,
 				7612473F1AA483BA004E7D05 /* Login */,
 				365A77421AA0A5FF006CA0B1 /* NewMessage */,
@@ -1289,6 +1291,11 @@
 				TargetAttributes = {
 					6037291B5F81D8B947908396 = {
 						DevelopmentTeam = 7JBXDUB8Y6;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1632,6 +1639,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.inhouse;
+				CODE_SIGN_ENTITLEMENTS = ChurchDesk/ChurchDesk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
@@ -1640,12 +1648,16 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"INHOUSE=1",
 				);
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
+				LD_QUOTE_LINKER_ARGUMENTS_FOR_COMPILER_DRIVER = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
@@ -1755,6 +1767,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = com.churchdesk.ChurchDeskApp;
+				CODE_SIGN_ENTITLEMENTS = ChurchDesk/ChurchDesk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
@@ -1763,8 +1776,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
+				LD_QUOTE_LINKER_ARGUMENTS_FOR_COMPILER_DRIVER = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d2b50345-9df0-48cb-8adc-364abb7a8f16";
@@ -1779,6 +1796,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = dk.shape.churchdesk.dev;
+				CODE_SIGN_ENTITLEMENTS = ChurchDesk/ChurchDesk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
@@ -1787,8 +1805,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				INFOPLIST_FILE = ChurchDesk/Info.plist;
+				LD_QUOTE_LINKER_ARGUMENTS_FOR_COMPILER_DRIVER = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				NEW_SETTING = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"AutoCoding\"",

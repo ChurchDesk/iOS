@@ -22,7 +22,7 @@
     for (int numberOfRecepients = 0; numberOfRecepients < recepientsArray.count ; numberOfRecepients ++) {
         NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc] init];
         if (isSegment) {
-            [tempDictionary setObject:@"segment" forKey:@"group"];
+            [tempDictionary setObject:@"segments" forKey:@"group"];
             CHDSegment* segment = [recepientsArray objectAtIndex:numberOfRecepients];
             [tempDictionary setObject:segment.segmentId forKey:@"id"];
         }

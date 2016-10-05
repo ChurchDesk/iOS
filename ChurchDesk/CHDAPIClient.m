@@ -41,7 +41,8 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #if PRODUCTION_ENVIRONMENT
 static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
 #else
-static NSString *const kBaseUrl = @"http://localhost:3000/";
+//static NSString *const kBaseUrl = @"http://localhost:3000/";
+static NSString *const kBaseUrl = @"http://2781d296.ngrok.io/";
 #endif
 static NSString *const kURLAPIPart = @"";
 static NSString *const kURLAPIOauthPart = @"";
@@ -433,6 +434,7 @@ static NSString *const kURLAPIOauthPart = @"";
 }
 
 -(RACSignal*)createPeopleMessageWithTitle:(NSString*) title message:(NSString*) message organizationId: (NSString*) organizationId from:(NSString *) from to:(NSArray*)to type:(NSString*) type scheduled:(NSString *)scheduled{
+    if(organizationId){
     NSDictionary *body = @{@"title": title, @"content": message, @"organizationId": organizationId, @"from":from, @"to":to, @"type": type, @"scheduled":scheduled};
     return [[self resourcesForPath:@"people/messages" resultClass:[CHDAPICreate class] withResource:nil request:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
@@ -445,6 +447,8 @@ static NSString *const kURLAPIOauthPart = @"";
         }
     }] doNext:^(id x) {
     }];
+    }
+    else return [RACSignal empty];
 }
 
 -(RACSignal*)createPersonwithPersonDictionary:(NSDictionary*) personDict organizationId:(NSString*) organizationId{
