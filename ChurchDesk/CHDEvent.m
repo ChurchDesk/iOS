@@ -52,6 +52,9 @@
     if ([propName isEqualToString:@"attendenceStatus"]) {
         return @"users";
     }
+    if ([propName isEqualToString:@"groupIds"]) {
+        return @"groups";
+    }
     return [super mapPropertyForPropertyWithName:propName];
 }
 
@@ -60,16 +63,26 @@
         return [NSURL URLWithString:value];
     }
     if ([propName isEqualToString:@"visibility"]) {
-        if ([value isEqualToString:@"group"])
-            return @(CHDEventVisibilityOnlyInGroup);
-        else if ([value isEqualToString:@"draft"])
+        if ([value isEqualToString:@"group"]||[value isEqualToString:@"internal"])
+        {
+            if (self.groupIds.count > 0) {
+                return @(CHDEventVisibilityOnlyInGroup);
+            }
+            else return @(CHDEventVisibilityAllUsers);
+        }
+        else if ([value isEqualToString:@"draft"]||[value isEqualToString:@"private"])
             return @(CHDEventVisibilityDraft);
-        else
+        else if([value isEqualToString:@"web"]||[value isEqualToString:@"public"])
             return @(CHDEventVisibilityPublicOnWebsite);
     }
     if ([propName isEqualToString:@"eventCategoryIds"] || [propName isEqualToString:@"userIds"] || [propName isEqualToString:@"resourceIds"]) {
         NSDictionary *tempDict = value;
         return tempDict.allKeys;
+        tempDict = nil;
+    }
+    if ([propName isEqualToString:@"groupIds"]) {
+        NSDictionary *tempDict = value;
+        return [tempDict valueForKey:@"id"];
         tempDict = nil;
     }
     if ([propName isEqualToString:@"attendenceStatus"]) {
@@ -93,11 +106,13 @@
 - (NSString *)localizedVisibilityStringForVisibility:(CHDEventVisibility) visibility {
     switch (visibility) {
         case CHDEventVisibilityPublicOnWebsite:
-            return NSLocalizedString(@"Visible on website", @"");
+            return NSLocalizedString(@"Public", @"");
         case CHDEventVisibilityOnlyInGroup:
-            return NSLocalizedString(@"Visible only in group", @"");
+            return NSLocalizedString(@"Specific Groups", @"");
         case CHDEventVisibilityDraft:
-            return NSLocalizedString(@"Visible only in draft", @"");
+            return NSLocalizedString(@"Private", @"");
+        case CHDEventVisibilityAllUsers:
+            return NSLocalizedString(@"All Users", @"");
     }
     return @"";
 }
@@ -107,8 +122,8 @@
     if (self.siteId) {
         mDict[@"organizationId"] = self.siteId;
     }
-    if (self.groupId) {
-        mDict[@"groupId"] = self.groupId;
+    if (self.groupIds) {
+        mDict[@"groupIds"] = self.groupIds;
     }
     if (self.title) {
         mDict[@"title"] = self.title;
@@ -146,13 +161,16 @@
     if(self.visibility){
         switch (self.visibility) {
             case CHDEventVisibilityPublicOnWebsite:
-                mDict[@"visibility"] = @"web";
+                mDict[@"visibility"] = @"public";
                 break;
             case CHDEventVisibilityOnlyInGroup:
-                mDict[@"visibility"] = @"group";
+                mDict[@"visibility"] = @"internal";
                 break;
             case CHDEventVisibilityDraft:
-                mDict[@"visibility"] = @"draft";
+                mDict[@"visibility"] = @"private";
+                break;
+            case CHDEventVisibilityAllUsers:
+                mDict[@"visibility"] = @"internal";
                 break;
         }
         //@(self.visibility);

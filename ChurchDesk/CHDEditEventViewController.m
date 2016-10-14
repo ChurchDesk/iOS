@@ -101,17 +101,17 @@
 - (void) setupBindings {
     [self shprac_liftSelector:@selector(titleAsFirstResponder) withSignal:[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1]];
 
-    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), RACObserve(self.viewModel, sectionRows)]] ignore:nil]];
+    [self.tableView shprac_liftSelector:@selector(reloadData) withSignal:[[RACSignal merge:@[RACObserve(self.viewModel, environment), RACObserve(self.viewModel, user), RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupIds), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, userIds), RACObserve(self.viewModel.event, resourceIds), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), RACObserve(self.viewModel, sectionRows)]] ignore:nil]];
 
     [self rac_liftSelector:@selector(handleKeyboardEvent:) withSignals:[self shp_keyboardAwarenessSignal], nil];
 
     [self.navigationItem.leftBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:[self.viewModel.saveCommand.executing not], nil];
 
     //Required -> Site, Group, title, startDate, endDate
-    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, groupId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
-        RACTupleUnpack(NSString *siteId, NSNumber *groupId, NSArray *categoryIds, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
+    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
+        RACTupleUnpack(NSString *siteId, NSArray *categoryIds, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
         
-        return @(![siteId isEqualToString:@""] && groupId != nil && ![groupId isEqualToNumber:@0] && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
+        return @(![siteId isEqualToString:@""] && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
     }];
     [self.navigationItem.rightBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:canSendSignal, nil];
 }
@@ -293,9 +293,16 @@
     }
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
         title = NSLocalizedString(@"Select Group", @"");
+        selectMultiple = YES;
         NSArray *groups = [environment groupsWithSiteId:event.siteId groupIds:[user siteWithId:event.siteId].groupIds];
         for (CHDGroup *group in groups) {
-            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:group.name color:nil selected:[event.groupId isEqualToNumber:group.groupId] refObject:group.groupId]];
+            BOOL selected = false;
+            for (NSNumber *groupId in event.groupIds) {
+                if (groupId.intValue == group.groupId.intValue) {
+                    selected = true;
+                }
+            }
+            [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:group.name color:nil selected:selected refObject:group.groupId]];
         }
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
@@ -315,7 +322,7 @@
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         title = NSLocalizedString(@"Select Users", @"");
         selectMultiple = YES;
-        NSArray *users = event.groupId? [environment usersWithSiteId:event.siteId] : @[];
+        NSArray *users = [environment usersWithSiteId:event.siteId];
         for (CHDPeerUser *user in users) {
             BOOL selected = false;
             for (NSNumber *userId in event.userIds) {
@@ -346,7 +353,7 @@
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
         title = NSLocalizedString(@"Select Visibility", @"");
-        NSArray *visibilityTypes = @[@(CHDEventVisibilityPublicOnWebsite), @(CHDEventVisibilityOnlyInGroup), @(CHDEventVisibilityDraft) ];
+        NSArray *visibilityTypes = @[@(CHDEventVisibilityAllUsers), @(CHDEventVisibilityOnlyInGroup), @(CHDEventVisibilityPublicOnWebsite), @(CHDEventVisibilityDraft) ];
         for (NSNumber *nVisibility in visibilityTypes) {
             CHDEventVisibility visibility = nVisibility.unsignedIntegerValue;
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:[event localizedVisibilityStringForVisibility:visibility] color:nil selected:event.visibility == visibility refObject:nVisibility]];
@@ -375,12 +382,12 @@
 
             RACSignal *nilWhenSelectedSignal = [[selectedSingleSignal distinctUntilChanged] mapReplace:nil];
             [self.viewModel.event shprac_liftSelector:@selector(setEventCategoryIds:) withSignal:nilWhenSelectedSignal];
-            [self.viewModel.event shprac_liftSelector:@selector(setGroupId:) withSignal:nilWhenSelectedSignal];
+            [self.viewModel.event shprac_liftSelector:@selector(setGroupIds:) withSignal:nilWhenSelectedSignal];
             [self.viewModel.event shprac_liftSelector:@selector(setResourceIds:) withSignal:nilWhenSelectedSignal];
             [self.viewModel.event shprac_liftSelector:@selector(setUserIds:) withSignal:nilWhenSelectedSignal];
         }
         else if ([row isEqualToString:CHDEventEditRowGroup]) {
-            [self.viewModel.event shprac_liftSelector:@selector(setGroupId:) withSignal:selectedSingleSignal];
+            [self.viewModel.event shprac_liftSelector:@selector(setGroupIds:) withSignal:selectedSignal];
         }
         else if ([row isEqualToString:CHDEventEditRowCategories]) {
             [self.viewModel.event shprac_liftSelector:@selector(setEventCategoryIds:) withSignal:selectedSignal];
@@ -480,7 +487,6 @@
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
-
     }
     else if ([row isEqualToString:CHDEventEditRowStartDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
@@ -512,10 +518,12 @@
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Group", @"");
-        [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, groupId) map:^id(NSNumber *groupId) {
-            return [environment groupWithId:groupId siteId:event.siteId].name;
-        }] takeUntil:cell.rac_prepareForReuseSignal]];
-
+        if (event.groupIds.count == 0) {
+            cell.valueLabel.text = @"";
+        }
+        else{
+            cell.valueLabel.text = event.groupIds.count <= 1 ? [environment groupWithId:event.groupIds.firstObject siteId:event.siteId].name : [@(event.groupIds.count) stringValue];
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {

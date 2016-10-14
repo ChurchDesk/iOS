@@ -9,7 +9,8 @@
 #import "CHDManagedModel.h"
 
 typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
-    CHDEventVisibilityPublicOnWebsite = 1,
+    CHDEventVisibilityAllUsers = 1,
+    CHDEventVisibilityPublicOnWebsite,
     CHDEventVisibilityOnlyInGroup,
     CHDEventVisibilityDraft,
 };
@@ -20,7 +21,7 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, strong) NSNumber *eventId;
 @property (nonatomic, strong) NSString *siteId;
 @property (nonatomic, strong) NSNumber *authorId;
-@property (nonatomic, strong) NSNumber *groupId;
+@property (nonatomic, strong) NSArray *groupIds;
 @property (nonatomic, strong) NSArray *eventCategoryIds;
 
 @property (nonatomic, assign) CHDEventVisibility visibility;

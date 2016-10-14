@@ -250,7 +250,12 @@
     else if ([row isEqualToString:CHDEventInfoRowGroup]) {
         CHDEventGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"group" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.titleLabel.text = [environment groupWithId:event.groupId siteId:event.siteId].name;
+        if (event.groupIds.count == 0) {
+            cell.titleLabel.text = @"";
+        } else if (event.groupIds.count == 1)
+            cell.titleLabel.text = [environment groupWithId:event.groupIds.firstObject  siteId:event.siteId].name;
+        else
+            cell.titleLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)event.groupIds.count, NSLocalizedString(@"groups", @"")];
         cell.groupLabel.text = [self.viewModel parishName];
         returnCell = cell;
     }

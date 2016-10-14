@@ -61,7 +61,6 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
         _newEvent = event == nil;
         
         if(_newEvent){
-            self.event.groupId = [[NSUserDefaults standardUserDefaults] chdDefaultGroupId];
             self.event.siteId = [[NSUserDefaults standardUserDefaults] chdDefaultSiteId];
         }
         
@@ -86,7 +85,7 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
                                                                                                 [RACObserve(self.event, startDate) flattenMap:^RACStream *(id value) {
             return [[CHDAPIClient sharedInstance] getCurrentUser];
         }],
-                                                                                                [RACObserve(self.event, groupId) flattenMap:^RACStream *(id value) {
+                                                                                                [RACObserve(self.event, groupIds) flattenMap:^RACStream *(id value) {
             return [[CHDAPIClient sharedInstance] getCurrentUser];
         }]
         ]],nil];
@@ -157,10 +156,6 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
 -(void) storeDefaults {
     if(self.event.siteId){
         [[NSUserDefaults standardUserDefaults] chdSetDefaultSiteId:self.event.siteId];
-    }
-    
-    if(self.event.groupId){
-        [[NSUserDefaults standardUserDefaults] chdSetDefaultGroupId:self.event.groupId];
     }
 }
 

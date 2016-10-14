@@ -327,7 +327,7 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     if(!event.pictureURL){
         [baseRows addObject:CHDEventInfoRowTitle];
     }
-    if (event.groupId) {
+    if (event.groupIds) {
         [baseRows addObject:CHDEventInfoRowGroup];
     }
     [baseRows addObject:CHDEventInfoRowDate];

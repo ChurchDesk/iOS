@@ -66,7 +66,6 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         _newEvent = event == nil;
 
         if(_newEvent){
-            self.event.groupId = [[NSUserDefaults standardUserDefaults] chdDefaultGroupId];
             self.event.siteId = [[NSUserDefaults standardUserDefaults] chdDefaultSiteId];
             self.event.visibility = CHDEventVisibilityOnlyInGroup;
         }
@@ -87,15 +86,18 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
                              CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility],
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
-
+        
         [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[userSignal,
             [RACObserve(self.event, siteId) flattenMap:^RACStream *(id value) {
+                return [[CHDAPIClient sharedInstance] getCurrentUser];
+            }],
+            [RACObserve(self.event, visibility) flattenMap:^RACStream *(id value) {
                 return [[CHDAPIClient sharedInstance] getCurrentUser];
             }],
             [RACObserve(self.event, startDate) flattenMap:^RACStream *(id value) {
                 return [[CHDAPIClient sharedInstance] getCurrentUser];
             }],
-            [RACObserve(self.event, groupId) flattenMap:^RACStream *(id value) {
+            [RACObserve(self.event, groupIds) flattenMap:^RACStream *(id value) {
                 return [[CHDAPIClient sharedInstance] getCurrentUser];
             }]
         ]],nil];
@@ -105,7 +107,8 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 
 -(void) setupSectionsWithUser: (CHDUser *) user{
 
-    NSArray *recipientsRows = _newEvent && user.sites.count > 1 ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowGroup, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowGroup, CHDEventEditRowCategories];
+    
+    NSArray *recipientsRows = _newEvent && user.sites.count > 1 ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowCategories];
     NSArray *bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];
 
     if(self.event.siteId == nil){
@@ -121,13 +124,16 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         recipientsRows = @[CHDEventEditRowDivider, CHDEventEditRowParish];
         bookingRows = @[];
     }
-    else if([self.event.groupId isEqualToNumber:@0] || !self.event.groupId){
-        bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources];
-    }
 
     NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate];
-    NSArray *miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility];
+    NSArray *miscRows;
 
+    if (self.event.visibility == CHDEventVisibilityPublicOnWebsite || self.event.visibility == CHDEventVisibilityOnlyInGroup) {
+        miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility, CHDEventEditRowGroup] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility, CHDEventEditRowGroup];
+    }
+    else{
+        miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility];
+    }
     if ([[user siteWithId:self.event.siteId].permissions canCreateEventAndBook]) {
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : dateRows,
@@ -181,10 +187,6 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 -(void) storeDefaults {
     if(self.event.siteId){
         [[NSUserDefaults standardUserDefaults] chdSetDefaultSiteId:self.event.siteId];
-    }
-
-    if(self.event.groupId){
-        [[NSUserDefaults standardUserDefaults] chdSetDefaultGroupId:self.event.groupId];
     }
 }
 

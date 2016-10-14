@@ -36,13 +36,13 @@ static NSString *const kClientCredentialsID = @"3_516ahy5oztkwsgg88wwo4wo08wccg0
 static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40oskcw408448gk884w04c4s";
 
 
-#define PRODUCTION_ENVIRONMENT 1
+#define PRODUCTION_ENVIRONMENT 0
 
 #if PRODUCTION_ENVIRONMENT
 static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
 #else
 //static NSString *const kBaseUrl = @"http://localhost:3000/";
-static NSString *const kBaseUrl = @"http://2781d296.ngrok.io/";
+static NSString *const kBaseUrl = @"https://backend-staging.churchdesk.com";
 #endif
 static NSString *const kURLAPIPart = @"";
 static NSString *const kURLAPIOauthPart = @"";
@@ -185,14 +185,12 @@ static NSString *const kURLAPIOauthPart = @"";
     }];
 }
 
-
 #pragma mark - User
-
 - (RACSignal*)loginWithUserName: (NSString*) username password: (NSString*) password {
     SHPAPIResource *resource = [[SHPAPIResource alloc] initWithPath:@"login"];
     resource.resultObjectClass = [CHDAccessToken class];
     SHPAPIManager *manager = self.manager;
-
+    
     RACSignal *requestSignal = [self.oauthManager dispatchRequest:^(SHPHTTPRequest *request) {
         request.method = SHPHTTPRequestMethodPOST;
         [request addValue:@"application/json" forHeaderField:@"Accept"];
@@ -252,6 +250,7 @@ static NSString *const kURLAPIOauthPart = @"";
     return [self resourcesForPath:[self resourcePathForGetEvents] resultClass:[CHDEvent class] withResource:nil request:^(SHPHTTPRequest *request) {
         [request setValue:startDate forQueryParameterKey:@"start"];
         [request setValue:endDate forQueryParameterKey:@"end"];
+        [request setValue:@"false" forQueryParameterKey:@"showBusyEvents"];
         //[request setValue:@"event" forQueryParameterKey:@"type"];
     }];
 }
