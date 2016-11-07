@@ -132,6 +132,9 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility, CHDEventEditRowGroup] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility, CHDEventEditRowGroup];
     }
     else{
+        if (self.event.groupIds.count > 0) {
+            self.event.groupIds = [[NSArray alloc] init];
+        }
         miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility];
     }
     if ([[user siteWithId:self.event.siteId].permissions canCreateEventAndBook]) {
