@@ -107,11 +107,15 @@
 
     [self.navigationItem.leftBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:[self.viewModel.saveCommand.executing not], nil];
 
-    //Required -> Site, Group, title, startDate, endDate
-    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
-        RACTupleUnpack(NSString *siteId, NSArray *categoryIds, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
+    //Required -> Site, title, startDate, endDate
+    RACSignal *canSendSignal = [[RACSignal combineLatest:@[RACObserve(self.viewModel.event, siteId), RACObserve(self.viewModel.event, eventCategoryIds), RACObserve(self.viewModel.event, groupIds), RACObserve(self.viewModel.event, visibility) , RACObserve(self.viewModel.event, title), RACObserve(self.viewModel.event, startDate), RACObserve(self.viewModel.event, endDate), self.viewModel.saveCommand.executing]] map:^id(RACTuple *tuple) {
+        RACTupleUnpack(NSString *siteId, NSArray *categoryIds, NSArray *groupIds, NSNumber *visibility, NSString *title, NSDate *startDate, NSDate *endDate, NSNumber *iIsExecuting) = tuple;
         
-        return @(![siteId isEqualToString:@""] && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue);
+        BOOL checkforGroups = YES;
+        if (visibility.integerValue == 3 && groupIds.count == 0)
+            checkforGroups = NO;
+        
+            return @(![siteId isEqualToString:@""] && categoryIds.count > 0 && ![title isEqualToString:@""] && startDate != nil && endDate != nil && !iIsExecuting.boolValue && checkforGroups);
     }];
     [self.navigationItem.rightBarButtonItem rac_liftSelector:@selector(setEnabled:) withSignals:canSendSignal, nil];
 }
