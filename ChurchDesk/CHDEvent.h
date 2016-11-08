@@ -51,6 +51,7 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, strong) NSArray *resourceIds;
 @property (nonatomic, strong) NSArray *userIds;
 @property (nonatomic, strong) NSArray *attendenceStatus;
+@property (nonatomic, strong) NSDictionary *fields;
 
 - (NSString*)localizedVisibilityString;
 - (NSString*)localizedVisibilityStringForVisibility:(CHDEventVisibility) visibility;

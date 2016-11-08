@@ -15,4 +15,9 @@
 @property (nonatomic) BOOL canCreateAbsenceAndBook;
 @property (nonatomic) BOOL canCreateEventAndBook;
 @property (nonatomic) BOOL canAccessPeople;
+@property (nonatomic) BOOL canEditEntityVisibility;
+@property (nonatomic) BOOL canSetVisibilityToPublic;
+@property (nonatomic) BOOL canSetVisibilityToInternalAll;
+@property (nonatomic) BOOL canSetVisibilityToInternalGroup;
+
 @end

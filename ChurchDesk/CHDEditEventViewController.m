@@ -196,6 +196,10 @@
                 }
             }
         }
+        else{
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:response.body delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        }
 //        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
 //        [self didChangeSendingStatus:CHDStatusViewHidden];
         return [RACSignal empty];
@@ -284,7 +288,7 @@
     CHDEvent *event = self.viewModel.event;
     CHDEnvironment *environment = self.viewModel.environment;
     CHDUser *user = self.viewModel.user;
-
+    CHDSite *site = [user siteWithId:self.viewModel.event.siteId];
     NSMutableArray *items = [NSMutableArray new];
     NSString *title = nil;
     BOOL selectMultiple = NO;
@@ -298,7 +302,13 @@
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
         title = NSLocalizedString(@"Select Group", @"");
         selectMultiple = YES;
-        NSArray *groups = [environment groupsWithSiteId:event.siteId groupIds:[user siteWithId:event.siteId].groupIds];
+        NSArray *groups;
+        if (site.permissions.canSetVisibilityToInternalGroup && !site.permissions.canSetVisibilityToInternalAll) {
+           groups = [environment groupsWithSiteId:event.siteId groupIds:[user siteWithId:event.siteId].groupIds];
+        }
+        else{
+            groups = [environment groupsWithSiteId:event.siteId];
+        }
         for (CHDGroup *group in groups) {
             BOOL selected = false;
             for (NSNumber *groupId in event.groupIds) {
@@ -357,7 +367,17 @@
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
         title = NSLocalizedString(@"Select Visibility", @"");
-        NSArray *visibilityTypes = @[@(CHDEventVisibilityAllUsers), @(CHDEventVisibilityOnlyInGroup), @(CHDEventVisibilityPublicOnWebsite), @(CHDEventVisibilityDraft) ];
+        NSMutableArray *visibilityTypes = [[NSMutableArray alloc] init];
+        if (site.permissions.canSetVisibilityToInternalAll) {
+            [visibilityTypes addObject:@(CHDEventVisibilityAllUsers)];
+        }
+        if (site.permissions.canSetVisibilityToInternalGroup) {
+            [visibilityTypes addObject:@(CHDEventVisibilityOnlyInGroup)];
+        }
+        if (site.permissions.canSetVisibilityToPublic) {
+            [visibilityTypes addObject:@(CHDEventVisibilityPublicOnWebsite)];
+        }
+        [visibilityTypes addObject:@(CHDEventVisibilityDraft)];
         for (NSNumber *nVisibility in visibilityTypes) {
             CHDEventVisibility visibility = nVisibility.unsignedIntegerValue;
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:[event localizedVisibilityStringForVisibility:visibility] color:nil selected:event.visibility == visibility refObject:nVisibility]];
@@ -389,6 +409,7 @@
             [self.viewModel.event shprac_liftSelector:@selector(setGroupIds:) withSignal:nilWhenSelectedSignal];
             [self.viewModel.event shprac_liftSelector:@selector(setResourceIds:) withSignal:nilWhenSelectedSignal];
             [self.viewModel.event shprac_liftSelector:@selector(setUserIds:) withSignal:nilWhenSelectedSignal];
+            [self.viewModel.event shprac_liftSelector:@selector(setVisibility:) withSignal:nilWhenSelectedSignal];
         }
         else if ([row isEqualToString:CHDEventEditRowGroup]) {
             [self.viewModel.event shprac_liftSelector:@selector(setGroupIds:) withSignal:selectedSignal];
@@ -464,6 +485,7 @@
     CHDEvent *event = self.viewModel.event;
     CHDEnvironment *environment = self.viewModel.environment;
     CHDUser *user = self.viewModel.user;
+    BOOL newEvent = self.viewModel.newEvent;
 
     CHDEditEventViewModel *viewModel = self.viewModel;
 
@@ -474,12 +496,22 @@
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowTitle]) {
+        
         CHDEventTextFieldCell *cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Title", @"");
         cell.textField.text = event.title;
         cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *titlePermissions = [event.fields objectForKey:@"title"];
+            BOOL canEditTitle = [[titlePermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditTitle) {
+                cell.userInteractionEnabled = NO;
+                cell.contentView.alpha=0.2;
+            }
+        }
         returnCell = cell;
     }
     else if([row isEqualToString:CHDEventEditRowAllDay]){
@@ -490,6 +522,15 @@
             return @(valueSwitch.on);
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *allDayPermissions = [event.fields objectForKey:@"allDay"];
+            BOOL canEditAllday = [[allDayPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditAllday) {
+                cell.userInteractionEnabled = NO;
+                cell.contentView.alpha=0.2;
+            }
+        }
         return cell;
     }
     else if ([row isEqualToString:CHDEventEditRowStartDate]) {
@@ -498,7 +539,15 @@
         [cell.valueLabel rac_liftSelector:@selector(setText:) withSignals:[[RACObserve(event, allDayEvent) map:^id(NSNumber *allDay) {
             return [viewModel formatDate:event.startDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *startDatePermissions = [event.fields objectForKey:@"startDate"];
+            BOOL canEditstartDate = [[startDatePermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditstartDate) {
+                cell.userInteractionEnabled = NO;
+                cell.contentView.alpha=0.2;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowEndDate]) {
@@ -507,7 +556,15 @@
         [cell.valueLabel rac_liftSelector:@selector(setText:) withSignals:[[RACObserve(event, allDayEvent) map:^id(NSNumber *allDay) {
             return [viewModel formatDate:event.endDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *endDatePermissions = [event.fields objectForKey:@"endDate"];
+            BOOL canEditEndDate = [[endDatePermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditEndDate) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowParish]) {
@@ -516,7 +573,6 @@
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, siteId) map:^id(NSString *siteId) {
             return [user siteWithId:siteId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
-
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
@@ -528,13 +584,30 @@
         else{
             cell.valueLabel.text = event.groupIds.count <= 1 ? [environment groupWithId:event.groupIds.firstObject siteId:event.siteId].name : [@(event.groupIds.count) stringValue];
         }
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *groupPermissions = [event.fields objectForKey:@"groupIds"];
+            BOOL canEditGroups = [[groupPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditGroups) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
         cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
-
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *categoriesPermissions = [event.fields objectForKey:@"taxonomies"];
+            BOOL canEditCategories = [[categoriesPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditCategories) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowLocation]) {
@@ -544,6 +617,15 @@
         cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setLocation:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *locationPermissions = [event.fields objectForKey:@"location"];
+            BOOL canEditLocation = [[locationPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditLocation) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowResources]) {
@@ -584,14 +666,30 @@
             }
             return @(YES);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
-
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *resourcesPermissions = [event.fields objectForKey:@"resources"];
+            BOOL canEditResources = [[resourcesPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditResources) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
-
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *usersPermissions = [event.fields objectForKey:@"users"];
+            BOOL canEditUsers = [[usersPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditUsers) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowInternalNote]) {
@@ -601,7 +699,15 @@
         cell.tableView = tableView;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setInternalNote:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *internalNotePermissions = [event.fields objectForKey:@"internalNote"];
+            BOOL canEditInternalNote = [[internalNotePermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditInternalNote) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowDescription]) {
@@ -612,7 +718,15 @@
         cell.tableView = tableView;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setEventDescription:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *descriptionPermissions = [event.fields objectForKey:@"description"];
+            BOOL canEditDescription = [[descriptionPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditDescription) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowContributor]) {
@@ -622,6 +736,15 @@
         cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setContributor:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *contributorPermissions = [event.fields objectForKey:@"contributor"];
+            BOOL canEditContributor = [[contributorPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditContributor) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowPrice]) {
@@ -632,6 +755,15 @@
         [cell.textField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
         [event shprac_liftSelector:@selector(setPrice:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *pricePermissions = [event.fields objectForKey:@"price"];
+            BOOL canEditPrice = [[pricePermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditPrice) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowDoubleBooking]) {
@@ -642,6 +774,15 @@
         [event shprac_liftSelector:@selector(setAllowDoubleBooking:) withSignal:[[[cell.valueSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *valueSwitch) {
             return @(valueSwitch.on);
         }] takeUntil:cell.rac_prepareForReuseSignal]];
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *doubleBookingPermissions = [event.fields objectForKey:@"allowDoubleBooking"];
+            BOOL canEditDoubleBooking = [[doubleBookingPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditDoubleBooking) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
@@ -651,7 +792,15 @@
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal:[[RACObserve(event, visibility) map:^id(id value) {
             return [event localizedVisibilityString];
         }] takeUntil:cell.rac_prepareForReuseSignal]];
-
+        cell.userInteractionEnabled = YES;
+        if (newEvent) {
+            NSDictionary *visibilityPermissions = [event.fields objectForKey:@"visibility"];
+            BOOL canEditVisibility = [[visibilityPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditVisibility) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
         returnCell = cell;
     }
 
