@@ -197,7 +197,9 @@
             }
         }
         else{
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:response.body delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self didChangeSendingStatus:CHDStatusViewHidden];
+            NSDictionary *result = response.body;
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:[result objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
         }
 //        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
@@ -368,16 +370,35 @@
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
         title = NSLocalizedString(@"Select Visibility", @"");
         NSMutableArray *visibilityTypes = [[NSMutableArray alloc] init];
-        if (site.permissions.canSetVisibilityToInternalAll) {
-            [visibilityTypes addObject:@(CHDEventVisibilityAllUsers)];
+        if (self.viewModel.newEvent) {
+            if (site.permissions.canSetVisibilityToInternalAll) {
+                [visibilityTypes addObject:@(CHDEventVisibilityAllUsers)];
+            }
+            if (site.permissions.canSetVisibilityToInternalGroup) {
+                [visibilityTypes addObject:@(CHDEventVisibilityOnlyInGroup)];
+            }
+            if (site.permissions.canSetVisibilityToPublic) {
+                [visibilityTypes addObject:@(CHDEventVisibilityPublicOnWebsite)];
+            }
+            [visibilityTypes addObject:@(CHDEventVisibilityDraft)];
         }
-        if (site.permissions.canSetVisibilityToInternalGroup) {
-            [visibilityTypes addObject:@(CHDEventVisibilityOnlyInGroup)];
+        else{
+            NSDictionary *visibilityPermissions = [event.fields objectForKey:@"visibility"];
+            NSArray *allowedValues = [visibilityPermissions objectForKey:@"allowedValues"] ;
+            if ([allowedValues containsObject:@"internal-all"]) {
+                [visibilityTypes addObject:@(CHDEventVisibilityAllUsers)];
+            }
+            if ([allowedValues containsObject:@"internal-group"]) {
+                [visibilityTypes addObject:@(CHDEventVisibilityOnlyInGroup)];
+            }
+            if ([allowedValues containsObject:@"public"]) {
+                [visibilityTypes addObject:@(CHDEventVisibilityPublicOnWebsite)];
+            }
+            if ([allowedValues containsObject:@"private"]) {
+                [visibilityTypes addObject:@(CHDEventVisibilityDraft)];
+            }
         }
-        if (site.permissions.canSetVisibilityToPublic) {
-            [visibilityTypes addObject:@(CHDEventVisibilityPublicOnWebsite)];
-        }
-        [visibilityTypes addObject:@(CHDEventVisibilityDraft)];
+        
         for (NSNumber *nVisibility in visibilityTypes) {
             CHDEventVisibility visibility = nVisibility.unsignedIntegerValue;
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:[event localizedVisibilityStringForVisibility:visibility] color:nil selected:event.visibility == visibility refObject:nVisibility]];
@@ -485,6 +506,7 @@
     CHDEvent *event = self.viewModel.event;
     CHDEnvironment *environment = self.viewModel.environment;
     CHDUser *user = self.viewModel.user;
+    CHDSite *site = [user siteWithId:self.viewModel.event.siteId];
     BOOL newEvent = self.viewModel.newEvent;
 
     CHDEditEventViewModel *viewModel = self.viewModel;
@@ -504,7 +526,8 @@
         [event shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *titlePermissions = [event.fields objectForKey:@"title"];
             BOOL canEditTitle = [[titlePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditTitle) {
@@ -523,7 +546,8 @@
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *allDayPermissions = [event.fields objectForKey:@"allDay"];
             BOOL canEditAllday = [[allDayPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditAllday) {
@@ -540,7 +564,8 @@
             return [viewModel formatDate:event.startDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *startDatePermissions = [event.fields objectForKey:@"startDate"];
             BOOL canEditstartDate = [[startDatePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditstartDate) {
@@ -557,7 +582,8 @@
             return [viewModel formatDate:event.endDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *endDatePermissions = [event.fields objectForKey:@"endDate"];
             BOOL canEditEndDate = [[endDatePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditEndDate) {
@@ -585,7 +611,8 @@
             cell.valueLabel.text = event.groupIds.count <= 1 ? [environment groupWithId:event.groupIds.firstObject siteId:event.siteId].name : [@(event.groupIds.count) stringValue];
         }
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *groupPermissions = [event.fields objectForKey:@"groupIds"];
             BOOL canEditGroups = [[groupPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditGroups) {
@@ -600,7 +627,8 @@
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
         cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *categoriesPermissions = [event.fields objectForKey:@"taxonomies"];
             BOOL canEditCategories = [[categoriesPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditCategories) {
@@ -618,7 +646,8 @@
         [event shprac_liftSelector:@selector(setLocation:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *locationPermissions = [event.fields objectForKey:@"location"];
             BOOL canEditLocation = [[locationPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditLocation) {
@@ -667,7 +696,8 @@
             return @(YES);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *resourcesPermissions = [event.fields objectForKey:@"resources"];
             BOOL canEditResources = [[resourcesPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditResources) {
@@ -682,7 +712,8 @@
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *usersPermissions = [event.fields objectForKey:@"users"];
             BOOL canEditUsers = [[usersPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditUsers) {
@@ -700,7 +731,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setInternalNote:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *internalNotePermissions = [event.fields objectForKey:@"internalNote"];
             BOOL canEditInternalNote = [[internalNotePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditInternalNote) {
@@ -719,7 +751,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setEventDescription:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *descriptionPermissions = [event.fields objectForKey:@"description"];
             BOOL canEditDescription = [[descriptionPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditDescription) {
@@ -737,7 +770,8 @@
         [event shprac_liftSelector:@selector(setContributor:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *contributorPermissions = [event.fields objectForKey:@"contributor"];
             BOOL canEditContributor = [[contributorPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditContributor) {
@@ -756,7 +790,8 @@
         [event shprac_liftSelector:@selector(setPrice:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *pricePermissions = [event.fields objectForKey:@"price"];
             BOOL canEditPrice = [[pricePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditPrice) {
@@ -775,7 +810,8 @@
             return @(valueSwitch.on);
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *doubleBookingPermissions = [event.fields objectForKey:@"allowDoubleBooking"];
             BOOL canEditDoubleBooking = [[doubleBookingPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditDoubleBooking) {
@@ -789,11 +825,16 @@
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
         cell.valueLabel.text = [event localizedVisibilityString];
+        if (newEvent && (event.visibility == CHDEventVisibilityOnlyInGroup) && !site.permissions.canSetVisibilityToInternalGroup) {
+            event.visibility = CHDEventVisibilityOnlyInGroup;
+            self.viewModel.event.visibility = CHDEventVisibilityOnlyInGroup;
+        }
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal:[[RACObserve(event, visibility) map:^id(id value) {
             return [event localizedVisibilityString];
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        if (newEvent) {
+        cell.contentView.alpha=1;
+        if (!newEvent) {
             NSDictionary *visibilityPermissions = [event.fields objectForKey:@"visibility"];
             BOOL canEditVisibility = [[visibilityPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditVisibility) {

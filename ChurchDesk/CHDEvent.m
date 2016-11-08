@@ -123,7 +123,7 @@
         mDict[@"organizationId"] = self.siteId;
     }
     if (self.groupIds) {
-        mDict[@"groupIds"] = self.groupIds;
+        mDict[@"groupIds"] = [self.groupIds valueForKey:@"intValue"];
     }
     if (self.title) {
         mDict[@"title"] = self.title;
@@ -135,10 +135,10 @@
         mDict[@"endDate"] = [self.dateFormatter stringFromDate:self.endDate];
     }
     if (self.resourceIds) {
-        mDict[@"resources"] = self.resourceIds;
+        mDict[@"resources"] = [self.resourceIds valueForKey:@"intValue"];
     }
     if (self.userIds) {
-        mDict[@"users"] = self.userIds;
+        mDict[@"users"] = [self.userIds valueForKey:@"intValue"];
     }
     if (self.location) {
         mDict[@"location"] = self.location;
@@ -150,7 +150,7 @@
 //        mDict[@"person"] = self.contributor;
 //    }
     if (self.eventCategoryIds) {
-        mDict[@"taxonomies"] = self.eventCategoryIds;
+        mDict[@"taxonomies"] = [self.eventCategoryIds valueForKey:@"intValue"];
     }
     if (self.internalNote) {
         mDict[@"internalNote"] = self.internalNote;
@@ -185,6 +185,7 @@
     mDict[@"sendNotifications"] = @(self.sendNotifications);
     mDict[@"allDay"] = @(self.allDayEvent);
     mDict[@"type"] = self.type;
+    NSLog(@"body %@", mDict);
     return [mDict copy];
 }
 
