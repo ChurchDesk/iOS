@@ -85,7 +85,9 @@
     RACSignal *holidaysSignal = [[RACSignal combineLatest:holidaySignals] map:^id(RACTuple *tuple) {
         NSArray *holidays = @[];
         for (NSArray *holidaysArray in tuple) {
-            holidays = [holidays arrayByAddingObjectsFromArray:holidaysArray];
+            if ([holidaysArray isKindOfClass:[NSArray class]]) {
+                holidays = [holidays arrayByAddingObjectsFromArray:holidaysArray];
+            }
         }
         return holidays;
     }];

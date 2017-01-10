@@ -313,15 +313,10 @@
 
 /* No comment provided by engineer. */
 "Visibility" = "Synlighed";
-
-/* No comment provided by engineer. */
-"Visible on website" = "Synlig på hjemmeside";
-
-/* No comment provided by engineer. */
-"Visible only in group" = "Synlig kun i gruppe";
-
-"Visible only in draft" = "Kun synlig i kladde";
-
+"All Users" = "Alle brugere";
+"Specific Groups" = "Grupper";
+"Private" = "Privat";
+"Public" = "Offentlig";
 /* No comment provided by engineer. */
 "Week\n%@" = "Uge\n%@";
 

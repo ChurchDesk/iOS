@@ -57,9 +57,10 @@
 "Price" = "Price";
 "Allow Double Booking" = "Allow Double Booking";
 "Visibility" = "Visibility";
-"Visible on website" = "Visible on website";
-"Visible only in group" = "Visible only in group";
-"Visible only in draft" = "Visible only in draft";
+"All Users" = "All Users";
+"Specific Groups" = "Groups";
+"Private" = "Private";
+"Public" = "Public";
 "Double booking" = "Double booking";
 "You are about to make a double booking of one or more resources/users." = "You are about to make a double booking of one or more resources/users.";
 "Attendance" = "Attendance";

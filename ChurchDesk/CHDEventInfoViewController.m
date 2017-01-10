@@ -82,6 +82,7 @@
     [super viewWillDisappear:animated];
     [self showProgress:NO];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"event information"];
@@ -178,7 +179,6 @@
         @strongify(self)
         [self reportAttendanceAction:nil];
     }];
-    
     [sheet showInView:self.view];
 }
 
@@ -281,7 +281,7 @@
             [cell setCategoryTitles:[self.viewModel absenceCategoryTitles] colors:[self.viewModel absenceCategoryColors]];
         }
         else {
-        [cell setCategoryTitles:[self.viewModel categoryTitles] colors:[self.viewModel categoryColors]];
+            [cell setCategoryTitles:[self.viewModel categoryTitles] colors:[self.viewModel categoryColors]];
         }
         returnCell = cell;
     }

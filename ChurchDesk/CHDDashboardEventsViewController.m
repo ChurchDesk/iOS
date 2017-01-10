@@ -85,7 +85,6 @@
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
     NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
     if ([content[@"type"] isEqualToString:@"bookingUpdate"] || [content[@"type"] isEqualToString:@"bookingCanceled"]) {
-        
         CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEventId:content[@"id"] siteId:content[@"site"]];
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -135,9 +134,11 @@
 - (void)refresh:(UIRefreshControl *)refreshControl {
     [self.viewModel reload];
 }
+
 -(void)endRefresh {
     [self.refreshControl endRefreshing];
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.viewModel.events? self.viewModel.events.count: 0;
 }
