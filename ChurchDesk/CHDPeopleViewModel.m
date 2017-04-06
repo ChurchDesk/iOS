@@ -53,7 +53,7 @@
 -(void) refreshData{
     _sectionIndices = [[NSMutableArray alloc] init];
     _peopleArrangedAccordingToIndex = [[NSMutableArray alloc] init];
-    NSArray *alphaArray=[[NSArray alloc] initWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
+    NSArray *alphaArray=[[NSArray alloc] initWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z",@"Æ", @"Ø", @"Å", nil];
     NSMutableArray *tempArray;
     NSString *prefix;
     for (int i=0; i<alphaArray.count; i++)
