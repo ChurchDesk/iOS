@@ -46,7 +46,6 @@
     NSDate *currentTime = [NSDate date];
     NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:timestamp];
     if (timeDifference/60 > 10) {
-        
     }
     [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setTarget:self];
     [self.chd_people_tabbarViewController.navigationItem.rightBarButtonItem setAction:@selector(selectSegmentAction:)];

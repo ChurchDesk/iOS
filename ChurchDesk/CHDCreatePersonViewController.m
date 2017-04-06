@@ -110,11 +110,16 @@ NSInteger selectedIndex = 0;
         [personDictionary setValue:self.personViewModel.lastName forKey:@"lastName"];
         self.personToEdit.lastName = self.personViewModel.lastName;
         self.personToEdit.fullName = [NSString stringWithFormat:@"%@ %@", self.personViewModel.firstName, self.personViewModel.lastName];
-        [personDictionary setValue:self.personViewModel.email forKey:@"email"];
-        self.personToEdit.email = self.personViewModel.email;
+        if (!(self.personViewModel.email == NULL || self.personViewModel.email.length  == 0)) {
+            self.personToEdit.email = self.personViewModel.email;
+            [personDictionary setValue:self.personViewModel.email forKey:@"email"];
+        }
         [personDictionary setValue:self.personViewModel.jobTitle forKey:@"occupation"];
         self.personToEdit.occupation = self.personViewModel.jobTitle;
-        NSDictionary *contactDictionay = [[NSDictionary alloc] initWithObjectsAndKeys:self.personViewModel.mobilePhone, @"phone", self.personViewModel.homePhone, @"homePhone", self.personViewModel.workPhone, @"workPhone", self.personViewModel.postCode, @"zipcode", self.personViewModel.address, @"street", self.personViewModel.city, @"city", nil];
+        NSDictionary *contactDictionay = [[NSDictionary alloc] initWithObjectsAndKeys:self.personViewModel.homePhone ? self.personViewModel.homePhone: @"", @"homePhone", self.personViewModel.workPhone ? self.personViewModel.workPhone: @"", @"workPhone", self.personViewModel.postCode ? self.personViewModel.postCode: @"", @"zipcode", self.personViewModel.address ? self.personViewModel.address: @"", @"street", self.personViewModel.city ? self.personViewModel.city: @"", @"city", nil];
+        if (!(self.personViewModel.mobilePhone == NULL || self.personViewModel.mobilePhone.length  == 0)) {
+            [contactDictionay setValue:self.personViewModel.mobilePhone forKey:@"phone"];
+        }
         [personDictionary setObject:contactDictionay forKey:@"contact"];
         self.personToEdit.contact = contactDictionay;
         [personDictionary setObject:self.personViewModel.gender forKey:@"gender"];

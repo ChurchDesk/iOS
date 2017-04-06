@@ -115,9 +115,14 @@
     
     [personDictionary setValue:self.firstName ? self.firstName: @"" forKey:@"firstName"];
     [personDictionary setValue:self.lastName ? self.lastName: @"" forKey:@"lastName"];
-    [personDictionary setValue:self.email ? self.email: @"" forKey:@"email"];
+    if (!(self.email == NULL || self.email.length  == 0)) {
+        [personDictionary setValue:self.email forKey:@"email"];
+    }
     [personDictionary setValue:self.jobTitle ? self.jobTitle: @"" forKey:@"occupation"];
-    NSDictionary *contactDictionay = [[NSDictionary alloc] initWithObjectsAndKeys:self.mobilePhone ? self.mobilePhone: @"", @"phone", self.homePhone ? self.homePhone: @"", @"homePhone", self.workPhone ? self.workPhone: @"", @"workPhone", self.postCode ? self.postCode: @"", @"zipcode", self.address ? self.address: @"", @"street", self.city ? self.city: @"", @"city", nil];
+    NSDictionary *contactDictionay = [[NSDictionary alloc] initWithObjectsAndKeys: self.homePhone ? self.homePhone: @"", @"homePhone", self.workPhone ? self.workPhone: @"", @"workPhone", self.postCode ? self.postCode: @"", @"zipcode", self.address ? self.address: @"", @"street", self.city ? self.city: @"", @"city", nil];
+    if (self.mobilePhone) {
+        [contactDictionay setValue:self.mobilePhone forKey:@"phone"];
+    }
     [personDictionary setObject:contactDictionay forKey:@"contact"];
     [personDictionary setObject:self.gender ? self.gender: @"" forKey:@"gender"];
     //changing date to string

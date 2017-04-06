@@ -133,7 +133,6 @@
         UIViewController *currentVC = currentIdx == NSNotFound ? nil : [(CHDTabItem*)items[currentIdx] viewController];
         return RACTuplePack(previousVC, currentVC);
     }], nil];
-    
     self.items = items;
 }
 
