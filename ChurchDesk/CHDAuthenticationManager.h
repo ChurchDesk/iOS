@@ -18,7 +18,7 @@
 
 + (instancetype) sharedInstance;
 
-- (void) authenticateWithToken: (CHDAccessToken*) token userID:(NSString *)userID;
+- (void) authenticateWithToken: (CHDAccessToken*) token userID:(NSString *)userID password:(NSString *)password;
 - (void) signOut;
 
 @end

@@ -26,3 +26,6 @@
 #define kEvent @"event"
 #define kAbsence @"absence"
 #define kpeopleImage @"peopleImage"
+#define kloginwithTouchIdDisabled @"loginWithTouchIdDisabled"
+#define kuserEmail @"userEmail"
+#define kuserPassword @"userPassword"

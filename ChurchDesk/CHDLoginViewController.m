@@ -29,7 +29,7 @@
 @property (nonatomic, strong) CHDLoginViewModel *viewModel;
 
 @end
-
+@import LocalAuthentication;
 @implementation CHDLoginViewController
 
 - (void)viewDidLoad {
@@ -42,6 +42,7 @@
     [self setupSubviews];
     [self makeConstraints];
     [self setupBindings];
+    [self useTouchIdForLogin];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -130,6 +131,28 @@
     [self rac_liftSelector:@selector(showProgress:) withSignals:[RACSignal merge:@[self.viewModel.loginCommand.executing, self.viewModel.resetPasswordCommand.executing]], nil];
 }
 
+-(void) useTouchIdForLogin{
+    BOOL loginWithTouchIdDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdDisabled];
+    if (!loginWithTouchIdDisabled) {
+    NSString *userEmail = [[NSUserDefaults standardUserDefaults] valueForKey:kuserEmail];
+    NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:kuserPassword];
+    if ( userEmail != NULL && userEmail.length > 0 && password != NULL && password.length >0) {
+        LAContext *context = [[LAContext alloc] init];
+        NSError *error;
+        BOOL success;
+        
+        // test if we can evaluate the policy, this test will tell us if Touch ID is available and enrolled
+        success = [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+        if (success) {
+            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:NSLocalizedString(@"Log in to ChurchDesk", @"") reply:^(BOOL successfulLogin, NSError *authenticationError) {
+                if (successfulLogin) {
+                    [self loginWithEmail:userEmail password:password];
+                }
+            }];
+            }
+        }
+    }
+}
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -157,7 +180,11 @@
     [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:ANALYTICS_CATEGORY_SIGNIN action:ANALYTICS_ACTION_BUTTON label:ANALYTICS_LABEL_LOGIN];
     [self.view endEditing:YES];
     [Heap track:@"Login button pressed"];
-    [[self.viewModel loginWithUserName:self.emailView.textField.text password:self.passwordView.textField.text] subscribeError:^(NSError *error) {
+    [self loginWithEmail:self.emailView.textField.text password:self.passwordView.textField.text];
+    }
+
+-(void)loginWithEmail: (NSString *)email password:(NSString *)password{
+    [[self.viewModel loginWithUserName:email password:password] subscribeError:^(NSError *error) {
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"code %ld", (long)response.statusCode);
         [Heap track:@"Error on login button press"];
@@ -174,6 +201,7 @@
             [alertView show];
         }
     }];
+
 }
 
 - (void) forgotPasswordAction: (id) sender {

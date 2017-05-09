@@ -78,13 +78,15 @@ static NSString * const kDeviceTokenAccountName = @"CHDDeviceToken";
     return self;
 }
 
-- (void) authenticateWithToken: (CHDAccessToken*) token userID:(NSString *)userID {
+- (void) authenticateWithToken: (CHDAccessToken*) token userID:(NSString *)userID password:(NSString *)password{
     
     SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
     query.service = KeychainService;
     query.account = userID;
     query.synchronizationMode = SSKeychainQuerySynchronizationModeNo;
     query.passwordData = [NSKeyedArchiver archivedDataWithRootObject:token];
+    [[NSUserDefaults standardUserDefaults] setValue:userID forKey:kuserEmail];
+    [[NSUserDefaults standardUserDefaults] setValue:password forKey:kuserPassword];
     NSError *error = nil;
     if (![query save:&error]) {
         NSLog(@"Error saving to Keychain: %@", error);

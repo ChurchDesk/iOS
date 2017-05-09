@@ -32,6 +32,10 @@
     }
 }
 
+-(void)setTouchIdDisabled :(BOOL)disabled{
+    [[NSUserDefaults standardUserDefaults] setBool:!disabled forKey:kloginwithTouchIdDisabled];
+}
+
 -(RACSignal*) saveSettings {
     CHDNotificationSettings *settings = self.notificationSettings;
     return [self.saveCommand execute:RACTuplePack(settings)];

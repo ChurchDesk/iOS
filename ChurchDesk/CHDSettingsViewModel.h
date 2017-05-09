@@ -10,4 +10,5 @@
 @interface CHDSettingsViewModel : NSObject
 @property (nonatomic, readonly) CHDNotificationSettings *notificationSettings;
 -(RACSignal*) saveSettings;
+-(void)setTouchIdDisabled :(BOOL)disabled;
 @end

@@ -15,6 +15,7 @@
 #import "CHDAnalyticsManager.h"
 
 typedef NS_ENUM(NSUInteger, notificationSettings) {
+    description,
     eventsChanged,
     eventsUpdated,
     eventsCancels,
@@ -25,14 +26,24 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 @interface CHDSettingsViewController () <UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView* settingsTable;
 @property (nonatomic, strong) CHDSettingsViewModel *viewModel;
+@property (nonatomic) int numberOfSections;
 @end
-
+@import LocalAuthentication;
 @implementation CHDSettingsViewController
 
 #pragma mark - lazy initializations
 - (void) makeViews {
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error;
+    BOOL success;
+    success = [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+    if (success) {
+        _numberOfSections = 2;
+    }
+    else {
+        _numberOfSections = 1;
+    }
     [self.view addSubview:self.settingsTable];
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Log Out", @"") style:UIBarButtonItemStylePlain target:self action:@selector(signOutAction:)];
 }
 
@@ -48,7 +59,7 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
 - (UITableView*) settingsTable {
     if(!_settingsTable){
-        _settingsTable = [UITableView new];
+        _settingsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStyleGrouped];
         _settingsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
         _settingsTable.rowHeight = UITableViewAutomaticDimension;
         _settingsTable.estimatedRowHeight = 44;
@@ -103,18 +114,24 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 0){
-        return 1;
+    if(section == (_numberOfSections - 1)){
+        return notificationSettingsCount;
     }
-    return notificationSettingsCount;
+    else return 1;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString* cellIdentifier = @"settingCell";
     CHDNotificationSettings *settings = self.viewModel.notificationSettings;
-    if( indexPath.section == 1) {
+    if( indexPath.section == (_numberOfSections - 1)) {
+        if (indexPath.row == 0) {
+            CHDDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"descriptionCell" forIndexPath:indexPath];
+            cell.titleLabel.text = NSLocalizedString(@"Notifications", @"");
+            cell.descriptionLabel.text = NSLocalizedString(@"Here you can choose when to receive notifications on your phone.", @"");
+            return cell;
+        } else{
         CHDSettingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-
         switch ((notificationSettings) indexPath.row) {
             case eventsChanged:
                 cell.titleLabel.text = NSLocalizedString(@"An invitation is received", @"");
@@ -149,17 +166,23 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
                 break;
         }
         return cell;
-    }else{
-        CHDDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"descriptionCell" forIndexPath:indexPath];
-
-        cell.titleLabel.text = NSLocalizedString(@"Notifications", @"");
-        cell.descriptionLabel.text = NSLocalizedString(@"Here you can choose when to receive notifications on your phone.", @"");
+        }
+    }
+    else{
+        CHDSettingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Log in with fingerprint", @"");
+        BOOL loginWithTouchIdDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdDisabled];
+        cell.aSwitch.on = (loginWithTouchIdDisabled)? !loginWithTouchIdDisabled : YES;
+        [self.viewModel rac_liftSelector:@selector(setTouchIdDisabled:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
+            return @(aSwitch.isOn);
+        }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         return cell;
     }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return _numberOfSections;
 }
+
 
 @end

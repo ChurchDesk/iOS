@@ -46,7 +46,7 @@
     messagesItem.viewController = dashboardMessagesViewController;
     messagesItem.imageNormal = kImgTabMailunread;
     messagesItem.imageSelected = kImgTabMailActive;
-    messagesItem.title = NSLocalizedString(@"My messages", @"");
+    messagesItem.title = NSLocalizedString(@"Unread", @"");
     messagesItem.showNotification = NO;
 
     NSArray *viewControllersArray = @[eventsItem, invitationsItem, messagesItem];
