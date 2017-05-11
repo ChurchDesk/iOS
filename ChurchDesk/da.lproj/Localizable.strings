@@ -476,3 +476,7 @@
 "These can currently only be added via the web application" = "Disse kan i øjeblikket kun tilføjes gennem webapplikationen";
 "Please ask your administrator to provide you with \"Newsletter\" role." = "Bed venligst din administrator om at tildele dig rollen \"nyhedsbrev\".";
 "Create a person" = "Tilføj kontakt";
+"Log in to ChurchDesk" = "Log ind på ChurchDesk";
+"Log in with fingerprint" = "Log på med fingeraftryk";
+"Please enter your password to activate login with the fingerprint." = "Indtast din kode for fremover at logge på med fingeraftryk.";
+"Wrong password" = "Forkert kodeord";

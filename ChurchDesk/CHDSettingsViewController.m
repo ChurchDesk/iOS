@@ -13,6 +13,7 @@
 #import "CHDSettingsViewModel.h"
 #import "CHDNotificationSettings.h"
 #import "CHDAnalyticsManager.h"
+#import <SHPNetworking/SHPAPIManager+ReactiveExtension.h>
 
 typedef NS_ENUM(NSUInteger, notificationSettings) {
     description,
@@ -171,9 +172,9 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     else{
         CHDSettingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Log in with fingerprint", @"");
-        BOOL loginWithTouchIdDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdDisabled];
-        cell.aSwitch.on = (loginWithTouchIdDisabled)? !loginWithTouchIdDisabled : YES;
-        [self.viewModel rac_liftSelector:@selector(setTouchIdDisabled:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
+        BOOL loginWithTouchIdEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdEnabled];
+        cell.aSwitch.on = (loginWithTouchIdEnabled)? loginWithTouchIdEnabled : NO;
+        [self rac_liftSelector:@selector(setTouchIdEnabled:) withSignals:[[[cell.aSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *aSwitch) {
             return @(aSwitch.isOn);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         return cell;
@@ -184,5 +185,57 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
     return _numberOfSections;
 }
 
+-(void)setTouchIdEnabled :(BOOL)enabled{
+    if (enabled) {
+        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:kuserPassword];
+        if (password != NULL && password.length > 0) {
+            [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:kloginwithTouchIdEnabled];
+        } else{
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:NSLocalizedString(@"Please enter your password to activate login with the fingerprint.", @"")preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ok = [UIAlertAction actionWithTitle: NSLocalizedString(@"OK", @"") style: UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction *action){
+                                                           UITextField *alertTextField = alert.textFields.firstObject;
+                                                           NSString *email = [CHDAuthenticationManager sharedInstance].userID;
+                                                           NSString *userPassword = alertTextField.text;
+                                                           [self loginWithEmail:email password:userPassword];
+                                                       }];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
+                                                           handler: ^(UIAlertAction *action){
+                                                               [self.settingsTable reloadData];
+                                                           }];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"Password";
+                textField.secureTextEntry = YES;
+            }];
+            [alert addAction:ok];
+            [alert addAction:cancel];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }
+    else {
+            [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:kloginwithTouchIdEnabled];
+        }
+    }
 
+-(void)loginWithEmail: (NSString *)email password:(NSString *)password{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kloginwithTouchIdEnabled];
+    [[self.viewModel loginWithUserName:email password:password] subscribeError:^(NSError *error) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kloginwithTouchIdEnabled];
+        [self.settingsTable reloadData];
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSLog(@"code %ld", (long)response.statusCode);
+        if (response.statusCode == 401) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Wrong password", @"Message shown on wrong username password") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alertView show];
+        }
+        else if (response.statusCode == 402){
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Payment required", @"") message:NSLocalizedString(@"Please contact our sales team for more details", @"Message shown when payment is required") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alertView show];
+        }
+        else if (response.statusCode == 426){
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Blocked", @"") message:NSLocalizedString(@"Please reset your password", @"Message shown when the user is blocked") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alertView show];
+        }
+    }];
+}
 @end

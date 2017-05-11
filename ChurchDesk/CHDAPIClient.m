@@ -634,7 +634,6 @@ static NSString *const kURLAPIOauthPart = @"";
     } else{
         return [RACSignal empty];
     }
-
 }
 
 - (RACSignal *)clientAccessToken {
@@ -672,7 +671,6 @@ static NSString *const kURLAPIOauthPart = @"";
 -(NSString*)resourcePathForGetSegments {return @"people/segments";}
 
 #pragma mark - Refresh token
-
 - (RACSignal *)tokenValidationWrapper:(RACSignal *)requestSignal {
     @weakify(self)
     RACSignal* (^refreshBlock)(void) = ^RACSignal*(void) {

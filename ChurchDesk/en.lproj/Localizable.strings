@@ -212,3 +212,5 @@
 "Create a person" = "Create a person";
 "Log in to ChurchDesk" = "Log in to ChurchDesk";
 "Log in with fingerprint" = "Log in with fingerprint";
+"Please enter your password to activate login with the fingerprint." = "Please enter your password to activate login with the fingerprint.";
+"Wrong password" = "Wrong password";

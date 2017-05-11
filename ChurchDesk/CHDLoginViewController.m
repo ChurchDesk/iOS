@@ -132,8 +132,8 @@
 }
 
 -(void) useTouchIdForLogin{
-    BOOL loginWithTouchIdDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdDisabled];
-    if (!loginWithTouchIdDisabled) {
+    BOOL loginWithTouchIdEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdEnabled];
+    if (loginWithTouchIdEnabled) {
     NSString *userEmail = [[NSUserDefaults standardUserDefaults] valueForKey:kuserEmail];
     NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:kuserPassword];
     if ( userEmail != NULL && userEmail.length > 0 && password != NULL && password.length >0) {
@@ -201,7 +201,6 @@
             [alertView show];
         }
     }];
-
 }
 
 - (void) forgotPasswordAction: (id) sender {

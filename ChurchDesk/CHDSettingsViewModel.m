@@ -6,10 +6,12 @@
 #import "CHDSettingsViewModel.h"
 #import "CHDNotificationSettings.h"
 #import "CHDAPIClient.h"
+#import "CHDAuthenticationManager.h"
 
 @interface CHDSettingsViewModel()
 @property (nonatomic, strong) CHDNotificationSettings *notificationSettings;
 @property (nonatomic, strong) RACCommand *saveCommand;
+@property (nonatomic, strong) RACCommand *loginCommand;
 @end
 
 @implementation CHDSettingsViewModel
@@ -32,13 +34,13 @@
     }
 }
 
--(void)setTouchIdDisabled :(BOOL)disabled{
-    [[NSUserDefaults standardUserDefaults] setBool:!disabled forKey:kloginwithTouchIdDisabled];
-}
-
 -(RACSignal*) saveSettings {
     CHDNotificationSettings *settings = self.notificationSettings;
     return [self.saveCommand execute:RACTuplePack(settings)];
+}
+
+- (RACSignal*) loginWithUserName: (NSString*) username password: (NSString*) password {
+    return [self.loginCommand execute:RACTuplePack(username, password)];
 }
 
 -(RACCommand*) saveCommand {
@@ -53,4 +55,14 @@
     return _saveCommand;
 }
 
+- (RACCommand *)loginCommand {
+    if (!_loginCommand) {
+        _loginCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            NSString *username = tuple.first;
+            NSString *password = tuple.second;
+            return [[CHDAuthenticationManager sharedInstance] rac_liftSelector:@selector(authenticateWithToken:userID:password:) withSignals:[[CHDAPIClient sharedInstance] loginWithUserName:username password:password], [RACSignal return:username], [RACSignal return:password], nil];
+        }];
+    }
+    return _loginCommand;
+}
 @end

@@ -9,6 +9,7 @@
 
 @interface CHDSettingsViewModel : NSObject
 @property (nonatomic, readonly) CHDNotificationSettings *notificationSettings;
+@property (nonatomic, readonly) RACCommand *loginCommand;
+- (RACSignal*) loginWithUserName: (NSString*) username password: (NSString*) password;
 -(RACSignal*) saveSettings;
--(void)setTouchIdDisabled :(BOOL)disabled;
 @end
