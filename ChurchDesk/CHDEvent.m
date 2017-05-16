@@ -155,6 +155,9 @@
     if (self.internalNote) {
         mDict[@"internalNote"] = self.internalNote;
     }
+    if (self.secureInformation) {
+        mDict[@"secureInformation"] = self.secureInformation;
+    }
     if (self.eventDescription) {
         mDict[@"description"] = self.eventDescription;
     }

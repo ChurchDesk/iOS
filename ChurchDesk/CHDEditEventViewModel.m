@@ -20,6 +20,7 @@ NSString *const CHDEventEditSectionRecipients = @"CHDEventEditSectionRecipients"
 NSString *const CHDEventEditSectionLocation = @"CHDEventEditSectionLocation";
 NSString *const CHDEventEditSectionBooking = @"CHDEventEditSectionBooking";
 NSString *const CHDEventEditSectionInternalNote = @"CHDEventEditSectionInternalNote";
+NSString *const CHDEventEditSectionSecureInformation = @"CHDEventEditSectionSecureInformation";
 NSString *const CHDEventEditSectionDescription = @"CHDEventEditSectionDescription";
 NSString *const CHDEventEditSectionMisc = @"CHDEventEditSectionMisc";
 NSString *const CHDEventEditSectionDivider = @"CHDEventEditSectionDivider";
@@ -35,6 +36,7 @@ NSString *const CHDEventEditRowLocation = @"CHDEventEditRowLocation";
 NSString *const CHDEventEditRowResources = @"CHDEventEditRowResources";
 NSString *const CHDEventEditRowUsers = @"CHDEventEditRowUsers";
 NSString *const CHDEventEditRowInternalNote = @"CHDEventEditRowInternalNote";
+NSString *const CHDEventEditRowSecureInformation = @"CHDEventEditRowSecureInformation";
 NSString *const CHDEventEditRowDescription = @"CHDEventEditRowDescription";
 NSString *const CHDEventEditRowContributor = @"CHDEventEditRowContributor";
 NSString *const CHDEventEditRowPrice = @"CHDEventEditRowPrice";
@@ -75,7 +77,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         [self rac_liftSelector:@selector(setUser:) withSignals:userSignal, nil];
 
         
-            self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
+            self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionSecureInformation,CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
         
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate],
@@ -83,6 +85,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                              CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
                              CHDEventEditSectionBooking : @[],
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
+                             CHDEventEditSectionSecureInformation : @[],
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
                              CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility],
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
@@ -110,7 +113,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
     
     NSArray *recipientsRows = _newEvent && user.sites.count > 1 ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowCategories];
     NSArray *bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];
-
+    NSArray *secureRows = @[CHDEventEditRowDivider, CHDEventEditRowSecureInformation];
     if(self.event.siteId == nil){
         for(CHDSite *site in user.sites){
             if(site.permissions.canCreateEvent){
@@ -124,7 +127,13 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         recipientsRows = @[CHDEventEditRowDivider, CHDEventEditRowParish];
         bookingRows = @[];
     }
-
+    CHDSite *selectedSite = [user siteWithId:self.event.siteId];
+    if (!selectedSite.permissions.canEditSensitiveInfo) {
+        secureRows = @[];
+    }
+    if (!selectedSite.permissions.canCreateEventAndBook) {
+        bookingRows = @[];
+    }
     NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate];
     NSArray *miscRows;
 
@@ -137,29 +146,16 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         }
         miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility];
     }
-    if ([[user siteWithId:self.event.siteId].permissions canCreateEventAndBook]) {
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : dateRows,
                              CHDEventEditSectionRecipients : recipientsRows,
                              CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
                              CHDEventEditSectionBooking : bookingRows,
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
+                             CHDEventEditSectionSecureInformation :secureRows,
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
                              CHDEventEditSectionMisc : miscRows,
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
-    }
-    else {
-        self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
-                             CHDEventEditSectionDate : dateRows,
-                             CHDEventEditSectionRecipients : recipientsRows,
-                             CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
-                             CHDEventEditSectionBooking : @[],
-                             CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
-                             CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-                             CHDEventEditSectionMisc : miscRows,
-                             CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
-    }
-
 }
 
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section {

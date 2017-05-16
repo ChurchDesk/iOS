@@ -27,6 +27,7 @@ extern NSString *const CHDEventInfoRowAttendance;
 extern NSString *const CHDEventInfoRowResources;
 extern NSString *const CHDEventInfoRowUsers;
 extern NSString *const CHDEventInfoRowInternalNote;
+extern NSString *const CHDEventInfoRowSecureInformation;
 extern NSString *const CHDAbsenceInfoRowSubstitute;
 extern NSString *const CHDAbsenceInfoRowComments;
 extern NSString *const CHDEventInfoRowContributor;

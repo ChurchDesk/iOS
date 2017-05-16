@@ -19,5 +19,6 @@
 @property (nonatomic) BOOL canSetVisibilityToPublic;
 @property (nonatomic) BOOL canSetVisibilityToInternalAll;
 @property (nonatomic) BOOL canSetVisibilityToInternalGroup;
+@property (nonatomic) BOOL canEditSensitiveInfo;
 
 @end

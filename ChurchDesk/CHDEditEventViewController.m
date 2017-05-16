@@ -742,6 +742,25 @@
         }
         returnCell = cell;
     }
+    else if ([row isEqualToString:CHDEventEditRowSecureInformation]) {
+        CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
+        cell.placeholder = NSLocalizedString(@"Secure Information", @"");
+        cell.textView.text = event.secureInformation;
+        cell.tableView = tableView;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [event shprac_liftSelector:@selector(setSecureInformation:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
+        cell.userInteractionEnabled = YES;
+        cell.contentView.alpha=1;
+        if (!newEvent) {
+            NSDictionary *SecureInformationPermissions = [event.fields objectForKey:@"secureInformation"];
+            BOOL canEditSecureInformation = [[SecureInformationPermissions objectForKey:@"canEdit"] boolValue];
+            if (!canEditSecureInformation) {
+                cell.contentView.alpha=0.2;
+                cell.userInteractionEnabled = NO;
+            }
+        }
+        returnCell = cell;
+    }
     else if ([row isEqualToString:CHDEventEditRowDescription]) {
         CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
         cell.placeholder = NSLocalizedString(@"Description", @"");

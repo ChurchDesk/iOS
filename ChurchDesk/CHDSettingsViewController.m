@@ -119,7 +119,6 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
         return notificationSettingsCount;
     }
     else return 1;
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -384,11 +384,12 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     }
     else if(self.messageStyle == CHDMessagesStyleAllMessages) {
         [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"messages"];
+        [self.messagesTable reloadData];
     }
     else if(self.messageStyle == CHDMessagesStyleSearch) {
         [[CHDAnalyticsManager sharedInstance] trackVisitToScreen:@"messages_search"];
+        [self.messagesTable reloadData];
     }
-    [self.messagesTable reloadData];
     [self setUnread:NO];
 
     if(self.messageStyle != CHDMessagesStyleSearch){
@@ -450,12 +451,9 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
 
         //Remove index from table
         [self.messagesTable beginUpdates];
-
         //Remove index from model
         if ([self.viewModel removeMessageWithIndex:indexPath.row]) {
-
             [self.messagesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-
         }
         [self.messagesTable endUpdates];
 
@@ -478,7 +476,6 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     message.read = YES;
     [Heap track:@"Message detail"];
     CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:message.messageId site:message.siteId];
-
     [self.navigationController pushViewController:messageViewController animated:YES];
 }
 

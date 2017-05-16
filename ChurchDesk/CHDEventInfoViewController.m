@@ -321,6 +321,12 @@
         cell.noteLabel.text = event.internalNote;
         returnCell = cell;
     }
+    else if ([row isEqualToString:CHDEventInfoRowSecureInformation]){
+        CHDEventInternalNoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"internalNote" forIndexPath:indexPath];
+        cell.titleLabel.text = NSLocalizedString(@"Secure Information", @"");
+        cell.noteLabel.text = event.secureInformation;
+        returnCell = cell;
+    }
     else if ([row isEqualToString:CHDAbsenceInfoRowSubstitute]) {
         CHDEventInternalNoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"internalNote" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Substitute", @"");
@@ -395,6 +401,11 @@
     if([row isEqualToString:CHDEventInfoRowInternalNote]){
         CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.internalNote];
         detailedViewController.title = NSLocalizedString(@"Internal Note", @"");
+        [self.navigationController pushViewController:detailedViewController animated:YES];
+    }
+    if([row isEqualToString:CHDEventInfoRowSecureInformation]){
+        CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.secureInformation];
+        detailedViewController.title = NSLocalizedString(@"Secure Information", @"");
         [self.navigationController pushViewController:detailedViewController animated:YES];
     }
     else if([row isEqualToString:CHDAbsenceInfoRowSubstitute]){

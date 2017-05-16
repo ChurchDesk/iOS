@@ -32,6 +32,7 @@ NSString *const CHDEventInfoRowAttendance = @"CHDEventInfoRowAttendance";
 NSString *const CHDEventInfoRowResources = @"CHDEventInfoRowResources";
 NSString *const CHDEventInfoRowUsers = @"CHDEventInfoRowUsers";
 NSString *const CHDEventInfoRowInternalNote = @"CHDEventInfoRowInternalNote";
+NSString *const CHDEventInfoRowSecureInformation = @"CHDEventInfoRowSecuredInformation";
 NSString *const CHDEventInfoRowContributor = @"CHDEventInfoRowContributor";
 NSString *const CHDEventInfoRowPrice = @"CHDEventInfoRowPrice";
 NSString *const CHDEventInfoRowDescription = @"CHDEventInfoRowDescription";
@@ -353,6 +354,9 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     }
     if (event.internalNote.length > 0) {
         [resourceRows addObject:CHDEventInfoRowInternalNote];
+    }
+    if (event.secureInformation != NULL && event.secureInformation.length > 0) {
+        [resourceRows addObject:CHDEventInfoRowSecureInformation];
     }
     if (event.substitute.length > 0) {
         [resourceRows addObject:CHDAbsenceInfoRowSubstitute];

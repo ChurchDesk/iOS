@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *eventDescription;
 @property (nonatomic, strong) NSString *internalNote;
+@property (nonatomic, strong) NSString *secureInformation;
 @property (nonatomic, strong) NSString *location;
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic, strong) NSString *contributor;
