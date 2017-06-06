@@ -3,42 +3,42 @@ PODS:
   - dyci (0.1.5.6):
     - dyci/Injections (= 0.1.5.6)
   - dyci/Injections (0.1.5.6)
-  - FormatterKit (1.8.1):
-    - FormatterKit/AddressFormatter (= 1.8.1)
-    - FormatterKit/ArrayFormatter (= 1.8.1)
-    - FormatterKit/ColorFormatter (= 1.8.1)
-    - FormatterKit/LocationFormatter (= 1.8.1)
-    - FormatterKit/NameFormatter (= 1.8.1)
-    - FormatterKit/OrdinalNumberFormatter (= 1.8.1)
-    - FormatterKit/Resources (= 1.8.1)
-    - FormatterKit/TimeIntervalFormatter (= 1.8.1)
-    - FormatterKit/UnitOfInformationFormatter (= 1.8.1)
-    - FormatterKit/URLRequestFormatter (= 1.8.1)
-  - FormatterKit/AddressFormatter (1.8.1):
+  - FormatterKit (1.8.2):
+    - FormatterKit/AddressFormatter (= 1.8.2)
+    - FormatterKit/ArrayFormatter (= 1.8.2)
+    - FormatterKit/ColorFormatter (= 1.8.2)
+    - FormatterKit/LocationFormatter (= 1.8.2)
+    - FormatterKit/NameFormatter (= 1.8.2)
+    - FormatterKit/OrdinalNumberFormatter (= 1.8.2)
+    - FormatterKit/Resources (= 1.8.2)
+    - FormatterKit/TimeIntervalFormatter (= 1.8.2)
+    - FormatterKit/UnitOfInformationFormatter (= 1.8.2)
+    - FormatterKit/URLRequestFormatter (= 1.8.2)
+  - FormatterKit/AddressFormatter (1.8.2):
     - FormatterKit/Resources
-  - FormatterKit/ArrayFormatter (1.8.1):
+  - FormatterKit/ArrayFormatter (1.8.2):
     - FormatterKit/Resources
-  - FormatterKit/ColorFormatter (1.8.1):
+  - FormatterKit/ColorFormatter (1.8.2):
     - FormatterKit/Resources
-  - FormatterKit/LocationFormatter (1.8.1):
+  - FormatterKit/LocationFormatter (1.8.2):
     - FormatterKit/Resources
-  - FormatterKit/NameFormatter (1.8.1):
+  - FormatterKit/NameFormatter (1.8.2):
     - FormatterKit/Resources
-  - FormatterKit/OrdinalNumberFormatter (1.8.1):
+  - FormatterKit/OrdinalNumberFormatter (1.8.2):
     - FormatterKit/Resources
-  - FormatterKit/Resources (1.8.1)
-  - FormatterKit/TimeIntervalFormatter (1.8.1):
+  - FormatterKit/Resources (1.8.2)
+  - FormatterKit/TimeIntervalFormatter (1.8.2):
     - FormatterKit/Resources
-  - FormatterKit/UnitOfInformationFormatter (1.8.1):
+  - FormatterKit/UnitOfInformationFormatter (1.8.2):
     - FormatterKit/Resources
-  - FormatterKit/URLRequestFormatter (1.8.1):
+  - FormatterKit/URLRequestFormatter (1.8.2):
     - FormatterKit/Resources
   - GoogleAnalytics-iOS-SDK (3.12):
     - GoogleAnalytics-iOS-SDK/Core (= 3.12)
   - GoogleAnalytics-iOS-SDK/Core (3.12)
   - Haneke (1.0.2)
-  - Heap (3.0.0)
-  - Intercom (3.0.12)
+  - Heap (4.0.0)
+  - Intercom (3.2.5)
   - Masonry (0.6.4)
   - MBProgressHUD (0.9.2)
   - pop (1.0.9)
@@ -102,11 +102,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AutoCoding: 56fa46dbfa89d44189a26ce64e6a470ed8ff4661
   dyci: 099c2e6dc98abb8f21b370cabbf1443ff700608a
-  FormatterKit: 11ad17b983200629246a5a466f6f1bfa2df823cb
+  FormatterKit: 4b8f29acc9b872d5d12a63efb560661e8f2e1b98
   GoogleAnalytics-iOS-SDK: 13241762fa4aea845eb75bef6c0da3427a26e7b3
   Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
-  Heap: b95bc7a21f47ddd470e8ebccefa59c91f4fe1d68
-  Intercom: b709f2055c8ab0333c255d0ad49886598d14705f
+  Heap: 9ef15407ea1893c3af40a13bb4f4a450ec8af142
+  Intercom: 09f72b37baccfc71733a63b896c9438d5ac0ec3d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -123,4 +123,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5cddc51c391b3a3ba392004d8dc28a3e0d281fc8
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.1

@@ -79,9 +79,6 @@
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, invitations) map:^id(id value) {
         return @(value == nil);
     }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kisNotification]) {
-        [self redirectToDetailViewOnReceivingNotification];
-    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -174,12 +171,17 @@
 
 - (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
     NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    return [content[@"type"] isEqualToString:@"bookingCreated"] || [content[@"type"] isEqualToString:@"getBookingCreated"];
+    return [content[@"type"] isEqualToString:@"invitation-new"] || [content[@"type"] isEqualToString:@"invitation-updated"];
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
-    if ([userInfo[@"aps"][@"alert"][@"identifier"][@"type"] isEqualToString:@"bookingCreated"] || [userInfo[@"aps"][@"alert"][@"identifier"][@"type"] isEqualToString:@"getBookingCreated"]) {
-        [self.viewModel reload];
+    NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
+    if ([content[@"type"] isEqualToString:@"invitation-new"] || [content[@"type"] isEqualToString:@"invitation-updated"]) {
+        CHDEvent *event = [CHDEvent new];
+        event.eventId = content[@"id"];
+        event.siteId = content[@"site"];
+        CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -323,15 +325,4 @@
     }
 }
 
-#pragma mark notification handler
--(void) redirectToDetailViewOnReceivingNotification{
-    NSDictionary *identifier = [[NSUserDefaults standardUserDefaults] objectForKey:kredirectOnReceivingNotification];
-    CHDEvent *event = [CHDEvent new];
-    event.eventId = [identifier valueForKey:@"id"];
-    event.siteId = [identifier valueForKey:@"site"];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kisNotification];
-    CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEvent:event];
-    [self.navigationController pushViewController:vc animated:YES];
-
-}
 @end

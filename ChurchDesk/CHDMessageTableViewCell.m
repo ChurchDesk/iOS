@@ -131,7 +131,7 @@
         _messageTextView.layer.borderColor = [UIColor shpui_colorWithHexValue:0xc8c7cc].CGColor;
         _messageTextView.delegate = self;
         _messageTextView.scrollEnabled = NO;
-        _messageTextView.allowsEditingTextAttributes = NO;
+        _messageTextView.editable = NO;
         _messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
         _messageTextView.selectable = YES;
     }

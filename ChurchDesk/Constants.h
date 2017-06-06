@@ -1,4 +1,4 @@
-//#define NSLog(s,...)
+#define NSLog(s,...)
 
 #define CHDInvitationNoAnswer @"no-answer"
 #define CHDInvitationAccept @"yes"
@@ -30,5 +30,3 @@
 #define kuserEmail @"userEmail"
 #define kuserPassword @"userPassword"
 #define kneverShowTouchIdPopUp @"neverShowTouchIdPopUp"
-#define kredirectOnReceivingNotification @"redirectOnReceivingNotification"
-#define kisNotification @"isNotification"

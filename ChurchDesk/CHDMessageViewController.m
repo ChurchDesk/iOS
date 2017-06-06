@@ -405,12 +405,12 @@ static CGFloat kReplyViewHeight = 50.f;
         CHDComment* comment = (self.viewModel.showAllComments)? self.viewModel.allComments[indexPath.row] : self.viewModel.latestComments[indexPath.row];
         CHDPeerUser *author = [self.viewModel.environment userWithId:comment.authorId siteId:self.viewModel.message.siteId];
 
-        cell.messageLabel.text = comment.body;
+        cell.messageTextView.text = comment.body;
         cell.createdDateLabel.text = comment.createdDate? [timeInterValFormatter stringForTimeIntervalFromDate:[NSDate new] toDate:comment.createdDate] : @"";
         cell.profileImageView.image = nil;
         cell.userNameLabel.text = ![comment.authorName isEqualToString:@""]? comment.authorName : author? author.name : @"";
         cell.canEdit = comment.canEdit || comment.canDelete;
-
+        cell.userInteractionEnabled = YES;
         [cell.profileImageView setHnk_cacheFormat:self.hnk_cacheFormat];
         [cell.profileImageView hnk_setImageFromURL:author.pictureURL];
 

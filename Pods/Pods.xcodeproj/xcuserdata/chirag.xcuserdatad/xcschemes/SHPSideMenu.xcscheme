@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'A2CED601921E00748C1BC7053C3556EC'
+               BlueprintIdentifier = '590390BC0BEE579B78AAE51CB37A6DB2'
                BlueprintName = 'SHPSideMenu'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSHPSideMenu.a'>

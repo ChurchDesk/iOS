@@ -254,12 +254,12 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
 
 - (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
     NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    return [content[@"type"] isEqualToString:@"message"];
+    return ([content[@"type"] isEqualToString:@"new-message"] || [content[@"type"] isEqualToString:@"new-message-comment"]);
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
     NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    if ([content[@"type"] isEqualToString:@"message"]) {
+    if ([content[@"type"] isEqualToString:@"new-message"] || [content[@"type"] isEqualToString:@"new-message-comment"]) {
         CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:content[@"id"] site:content[@"site"]];
         [self.navigationController pushViewController:messageViewController animated:NO];
     }
@@ -400,9 +400,6 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
         [self shprac_liftSelector:@selector(showProgress:) withSignal:[[self rac_signalForSelector:@selector(viewWillDisappear:)] map:^id(id value) {
             return @NO;
         }]];
-    }
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kisNotification]) {
-        [self redirectToDetailViewOnReceivingNotification];
     }
 }
 
@@ -593,14 +590,5 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     }else{
         [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     }
-}
-
-#pragma mark notification handler
--(void) redirectToDetailViewOnReceivingNotification{
-    NSDictionary *identifier = [[NSUserDefaults standardUserDefaults] objectForKey:kredirectOnReceivingNotification];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kisNotification];
-    CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:[identifier valueForKey:@"id"] site:[identifier valueForKey:@"site"]];
-    [self.navigationController pushViewController:messageViewController animated:YES];
-    
 }
 @end

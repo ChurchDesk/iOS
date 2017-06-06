@@ -63,7 +63,6 @@
     if(self.menuItems.count > 0) {
         [self.menuTable selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(redirectOnReceivingNotification:) name:kredirectOnReceivingNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

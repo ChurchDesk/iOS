@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'A51136D3FA8FAFC25D12DF87FCE89DDB'
+               BlueprintIdentifier = 'C1A7EA6A6D5D95F8D824B0B777A8FD07'
                BlueprintName = 'AutoCoding'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libAutoCoding.a'>

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'C54E82B50792B409F5893B9C4347D18F'
+               BlueprintIdentifier = '6D1C6568C70C591AC03C3B0FF2CBAB3F'
                BlueprintName = 'SHPRACAdditions'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSHPRACAdditions.a'>

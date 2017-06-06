@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7CFA310030E64694C8DAA4CAE2FBC8E8'
+               BlueprintIdentifier = '2D6E202F3554A91C015C2C5F6289EEFC'
                BlueprintName = 'SHPCalendarPicker'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSHPCalendarPicker.a'>

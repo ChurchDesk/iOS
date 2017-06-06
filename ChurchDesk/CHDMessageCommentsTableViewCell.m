@@ -13,7 +13,7 @@
 @property (nonatomic, strong) UIImageView *profileImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property (nonatomic, strong) UILabel *createdDateLabel;
-@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UITextView *messageTextView;
 @end
 
 @implementation CHDMessageCommentsTableViewCell
@@ -41,7 +41,7 @@
     [contentView addSubview:self.profileImageView];
     [contentView addSubview:self.userNameLabel];
     [contentView addSubview:self.createdDateLabel];
-    [contentView addSubview:self.messageLabel];
+    [contentView addSubview:self.messageTextView];
     [contentView addSubview:self.editButton];
 }
 
@@ -55,7 +55,7 @@
         make.left.equalTo(contentView).offset(8);
     }];
 
-    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.messageTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(contentView).offset(45);
         make.bottom.equalTo(contentView).offset(-40);
         make.right.equalTo(contentView).offset(-15);
@@ -69,7 +69,7 @@
 
     [self.createdDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(contentView).offset(-20);
-        make.left.equalTo(self.messageLabel);
+        make.left.equalTo(self.messageTextView);
     }];
 
     [self.editButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -113,14 +113,18 @@
     }
     return _createdDateLabel;
 }
--(UILabel*) messageLabel{
-    if(!_messageLabel){
-        _messageLabel = [UILabel new];
-        _messageLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
-        _messageLabel.textColor = [UIColor blackColor];
-        _messageLabel.numberOfLines = 0;
-        _messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
+
+-(UITextView*) messageTextView{
+    if(!_messageTextView){
+        _messageTextView = [UITextView new];
+        _messageTextView.delegate = self;
+        _messageTextView.scrollEnabled = NO;
+        _messageTextView.textColor = [UIColor blackColor];
+        _messageTextView.editable = NO;
+        _messageTextView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
+        _messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
+        _messageTextView.selectable = YES;
     }
-    return _messageLabel;
+    return _messageTextView;
 }
 @end

@@ -102,9 +102,11 @@ NSInteger const kTextViewVerticalMargin = 16;
         _replyTextView.layer.borderWidth = 1.0;
         _replyTextView.layer.cornerRadius = 3.0;
         _replyTextView.delegate = self;
-        _replyTextView.scrollEnabled = NO;
+        _replyTextView.scrollEnabled = YES;
+        _replyTextView.showsHorizontalScrollIndicator = NO;
         _replyTextView.inputAccessoryView = [CHDInputAccessoryObserveView new];
-        _replyTextView.allowsEditingTextAttributes = NO;
+        _replyTextView.editable = NO;
+        _replyTextView.textContainer.maximumNumberOfLines = 150;
         _replyTextView.dataDetectorTypes = UIDataDetectorTypeLink;
         _replyTextView.selectable = YES;
     }

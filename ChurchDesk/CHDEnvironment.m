@@ -12,6 +12,7 @@
 #import "CHDResource.h"
 #import "CHDGroup.h"
 #import "CHDPeerUser.h"
+#import "CHDSite.h"
 
 @implementation CHDEnvironment
 
@@ -116,8 +117,7 @@
 
 - (NSArray *)usersWithSiteId:(NSString *)siteId{
     return siteId ? [self.users shp_filter:^BOOL(CHDPeerUser *user) {
-        //return [user.siteId isEqualToString:siteId] && validGroups;
-        return YES;
+        return (user.siteId.integerValue == siteId.integerValue);
     }] : nil;
 }
 @end

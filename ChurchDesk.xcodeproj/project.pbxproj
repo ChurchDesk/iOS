@@ -42,6 +42,7 @@
 		36C462661A9E0EFE00775FBE /* CHDMessageCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C462651A9E0EFE00775FBE /* CHDMessageCommentView.m */; };
 		36DEC3271A9B128800FDBB70 /* CHDLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */; };
 		36E869E61AD651AB003743D2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 36E869E81AD651AB003743D2 /* InfoPlist.strings */; };
+		460746BD1EC105C800155167 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 460746BB1EC1054E00155167 /* Security.framework */; };
 		4615245D1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4615243B1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.m */; };
 		4615245E1D4B54AF00E5A3B2 /* NBMetadataCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4615243D1D4B54AF00E5A3B2 /* NBMetadataCore.m */; };
 		4615245F1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4615243F1D4B54AF00E5A3B2 /* NBMetadataCoreMapper.m */; };
@@ -249,6 +250,7 @@
 		36DEC3261A9B128800FDBB70 /* CHDLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDLeftViewController.m; sourceTree = "<group>"; };
 		36E869E31AD651AA003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		36E869E71AD651AB003743D2 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		460746BB1EC1054E00155167 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4615243A1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBAsYouTypeFormatter.h; sourceTree = "<group>"; };
 		4615243B1D4B54AF00E5A3B2 /* NBAsYouTypeFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBAsYouTypeFormatter.m; sourceTree = "<group>"; };
 		4615243C1D4B54AF00E5A3B2 /* NBMetadataCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBMetadataCore.h; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 		462D4B571C297B1B002974FA /* CHDEditAbsenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEditAbsenceViewController.m; sourceTree = "<group>"; };
 		462D4B591C298BA8002974FA /* CHDEditAbsenceViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDEditAbsenceViewModel.h; sourceTree = "<group>"; };
 		462D4B5A1C298BA8002974FA /* CHDEditAbsenceViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDEditAbsenceViewModel.m; sourceTree = "<group>"; };
+		4633DEF01ECDD52300F51549 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		46641B751D9EA4E700E196E9 /* ChurchDesk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChurchDesk.entitlements; sourceTree = "<group>"; };
 		469481001C284DDA0000D9F1 /* CHDAbsenceCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAbsenceCategory.h; sourceTree = "<group>"; };
 		469481011C284DDA0000D9F1 /* CHDAbsenceCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAbsenceCategory.m; sourceTree = "<group>"; };
@@ -527,6 +530,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				460746BD1EC105C800155167 /* Security.framework in Frameworks */,
 				76143F1E1A977CA400651CEA /* Crashlytics.framework in Frameworks */,
 				19F02BCF332A05E64B2C40B9 /* libPods-ChurchDesk.a in Frameworks */,
 			);
@@ -1249,6 +1253,7 @@
 		8C7033242449DD2B32139BB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				460746BB1EC1054E00155167 /* Security.framework */,
 				76143F1D1A977CA400651CEA /* Crashlytics.framework */,
 				F962AD7D4FB4A25EADAF1C67 /* libPods-ChurchDesk.a */,
 			);
@@ -1305,6 +1310,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				sv,
 			);
 			mainGroup = 6037263F4DA5FAE1A54AEBD0;
 			productRefGroup = 60372EADD372446171E81756 /* Products */;
@@ -1391,7 +1397,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1571,6 +1577,7 @@
 				36E869E31AD651AA003743D2 /* da */,
 				366FCFEC1ADCF50300131AAB /* de */,
 				366FCFEE1ADCF51500131AAB /* nb */,
+				4633DEF01ECDD52300F51549 /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1611,7 +1618,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = 9U9EGQD3R6;
+				DEVELOPMENT_TEAM = 7JBXDUB8Y6;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1627,7 +1634,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "ea7a21c8-5f70-4ef4-966b-9497677e0b82";
+				PROVISIONING_PROFILE = "31aaff83-ca8c-44d8-8344-17e2c19b1cf4";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1662,8 +1669,8 @@
 				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ea7a21c8-5f70-4ef4-966b-9497677e0b82";
-				PROVISIONING_PROFILE_SPECIFIER = "ChurchDesk Dev";
+				PROVISIONING_PROFILE = "31aaff83-ca8c-44d8-8344-17e2c19b1cf4";
+				PROVISIONING_PROFILE_SPECIFIER = "ChurchDesk Dev 2017";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Inhouse;
@@ -1691,7 +1698,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 9U9EGQD3R6;
+				DEVELOPMENT_TEAM = 7JBXDUB8Y6;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1715,7 +1722,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "ea7a21c8-5f70-4ef4-966b-9497677e0b82";
+				PROVISIONING_PROFILE = "31aaff83-ca8c-44d8-8344-17e2c19b1cf4";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1740,10 +1747,10 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = 9U9EGQD3R6;
+				DEVELOPMENT_TEAM = 7JBXDUB8Y6;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1759,7 +1766,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "ea7a21c8-5f70-4ef4-966b-9497677e0b82";
+				PROVISIONING_PROFILE = "9161e1f9-3e57-4a82-b8f2-a931a6a860a5";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1773,8 +1780,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = Launch;
 				BUNDLE_ID = com.churchdesk.ChurchDeskApp;
 				CODE_SIGN_ENTITLEMENTS = ChurchDesk/ChurchDesk.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chirag Sharma (XQ7HP29MDZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChurchDesk ApS (7JBXDUB8Y6)";
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 7JBXDUB8Y6;
 				ENVIRONMENT = prod;
@@ -1790,8 +1797,8 @@
 				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ea7a21c8-5f70-4ef4-966b-9497677e0b82";
-				PROVISIONING_PROFILE_SPECIFIER = "ChurchDesk Dev";
+				PROVISIONING_PROFILE = "9161e1f9-3e57-4a82-b8f2-a931a6a860a5";
+				PROVISIONING_PROFILE_SPECIFIER = "churchdesk appStore 2017";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1882,8 +1889,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.churchdesk.ChurchDeskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ea7a21c8-5f70-4ef4-966b-9497677e0b82";
-				PROVISIONING_PROFILE_SPECIFIER = "ChurchDesk Dev";
+				PROVISIONING_PROFILE = "31aaff83-ca8c-44d8-8344-17e2c19b1cf4";
+				PROVISIONING_PROFILE_SPECIFIER = "ChurchDesk Dev 2017";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;

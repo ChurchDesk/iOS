@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '391FA039EE82FCF31E89B0C6BD7D8EA9'
+               BlueprintIdentifier = '953B182AE4231A9572985734E116D3CF'
                BlueprintName = 'SHPFoundation'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSHPFoundation.a'>

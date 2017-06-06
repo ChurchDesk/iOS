@@ -26,7 +26,6 @@
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UIButton *forgotPasswordButton;
 @property (nonatomic, strong) UIButton *touchIdButton;
-@property (nonatomic) BOOL isTouchIdNotAvailable;
 
 @property (nonatomic, strong) CHDLoginViewModel *viewModel;
 
@@ -36,7 +35,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _isTouchIdNotAvailable = YES;
     self.viewModel = [CHDLoginViewModel new];
     
     self.view.backgroundColor = [UIColor chd_darkBlueColor];
@@ -129,7 +127,7 @@
     }];
     
     RAC(self.forgotPasswordButton, enabled) = [self.viewModel.resetPasswordCommand.executing not];
-    RAC(self.touchIdButton, hidden) = RACObserve(self, isTouchIdNotAvailable);
+    self.touchIdButton.hidden = YES;
     UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer new];
     [self.view addGestureRecognizer:tapRecognizer];
     [self.view shprac_liftSelector:@selector(endEditing:) withSignal:[[tapRecognizer rac_gestureSignal] mapReplace:@YES]];
@@ -149,7 +147,7 @@
         // test if we can evaluate the policy, this test will tell us if Touch ID is available and enrolled
         success = [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
         if (success) {
-            _isTouchIdNotAvailable = NO;
+            self.touchIdButton.hidden = NO;
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:NSLocalizedString(@"Log in to ChurchDesk", @"") reply:^(BOOL successfulLogin, NSError *authenticationError) {
                 if (successfulLogin) {
                     [self loginWithEmail:userEmail password:password];
@@ -331,7 +329,7 @@
         _passwordView.textField.returnKeyType = UIReturnKeyGo;
         _passwordView.textField.delegate = self;
         _passwordView.iconImageView.image = kImgLoginPassword;
-        _passwordView.textField.text = @"b3jL9MPc4H8VignhTN7yPh8Cig4Uht";//for testing
+        //_passwordView.textField.text = @"b3jL9MPc4H8VignhTN7yPh8Cig4Uht";//for testing
     }
     return _passwordView;
 }

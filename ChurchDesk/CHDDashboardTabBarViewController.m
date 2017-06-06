@@ -61,9 +61,6 @@
         self.view.backgroundColor = [UIColor whiteColor];
         [self makeSubViews];
         [self setTabsWithItems:items];
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:kisNotification] ) {
-            self.selectedIndex = 1;
-        }
     }
     return self;
 }
@@ -188,18 +185,17 @@
 }
 
 - (BOOL) handleNotificationEventWithUserInfo: (NSDictionary*) userInfo {
-    
-    for (CHDTabItem *item in self.items) {
-        UIViewController<CHDNotificationEventResponder> *viewController = (UIViewController<CHDNotificationEventResponder> *)item.viewController;
-        if ([viewController respondsToSelector:@selector(canHandleEventWithUserInfo:)] && [viewController canHandleEventWithUserInfo:userInfo]) {
-            NSUInteger index = [self.items indexOfObject:item];
-            if (self.selectedIndex != index) {
-                self.selectedIndex = index;
+        for (CHDTabItem *item in self.items) {
+            UIViewController<CHDNotificationEventResponder> *viewController = (UIViewController<CHDNotificationEventResponder> *)item.viewController;
+            if ([viewController respondsToSelector:@selector(canHandleEventWithUserInfo:)] && [viewController canHandleEventWithUserInfo:userInfo]) {
+                NSUInteger index = [self.items indexOfObject:item];
+                if (self.selectedIndex != index) {
+                    self.selectedIndex = index;
+                }
+                [viewController handleEventWithUserInfo:userInfo];
+                return YES;
             }
-            [viewController handleEventWithUserInfo:userInfo];
-            return YES;
         }
-    }
     return NO;
 }
 

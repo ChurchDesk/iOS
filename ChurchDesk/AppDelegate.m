@@ -251,11 +251,6 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // For signaling
-    //Check which type of notification was sent in order to redirect it to appropriate screen
-    NSDictionary *identifier = [[[userInfo valueForKey:@"aps"] valueForKey:@"alert"] valueForKey:@"identifier"];
-    [[NSUserDefaults standardUserDefaults] setObject:identifier forKey:kredirectOnReceivingNotification];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kisNotification];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kredirectOnReceivingNotification object:nil userInfo:identifier];
 }
 
 // alert view delegate

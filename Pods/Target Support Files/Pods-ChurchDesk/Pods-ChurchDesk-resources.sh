@@ -18,16 +18,16 @@ case "${TARGETED_DEVICE_FAMILY}" in
   2)
     TARGET_DEVICE_ARGS="--target-device ipad"
     ;;
+  3)
+    TARGET_DEVICE_ARGS="--target-device tv"
+    ;;
+  4)
+    TARGET_DEVICE_ARGS="--target-device watch"
+    ;;
   *)
     TARGET_DEVICE_ARGS="--target-device mac"
     ;;
 esac
-
-realpath() {
-  DIRECTORY="$(cd "${1%/*}" && pwd)"
-  FILENAME="${1##*/}"
-  echo "$DIRECTORY/$FILENAME"
-}
 
 install_resource()
 {
@@ -70,7 +70,7 @@ EOM
       xcrun mapc "$RESOURCE_PATH" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$RESOURCE_PATH" .xcmappingmodel`.cdm"
       ;;
     *.xcassets)
-      ABSOLUTE_XCASSET_FILE=$(realpath "$RESOURCE_PATH")
+      ABSOLUTE_XCASSET_FILE="$RESOURCE_PATH"
       XCASSET_FILES+=("$ABSOLUTE_XCASSET_FILE")
       ;;
     *)
@@ -80,108 +80,21 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "FormatterKit/Localizations/ar.lproj"
-  install_resource "FormatterKit/Localizations/ca.lproj"
-  install_resource "FormatterKit/Localizations/cs.lproj"
-  install_resource "FormatterKit/Localizations/da.lproj"
-  install_resource "FormatterKit/Localizations/de.lproj"
-  install_resource "FormatterKit/Localizations/el.lproj"
-  install_resource "FormatterKit/Localizations/en.lproj"
-  install_resource "FormatterKit/Localizations/es.lproj"
-  install_resource "FormatterKit/Localizations/fr.lproj"
-  install_resource "FormatterKit/Localizations/he.lproj"
-  install_resource "FormatterKit/Localizations/hu.lproj"
-  install_resource "FormatterKit/Localizations/id.lproj"
-  install_resource "FormatterKit/Localizations/it.lproj"
-  install_resource "FormatterKit/Localizations/ja.lproj"
-  install_resource "FormatterKit/Localizations/ko.lproj"
-  install_resource "FormatterKit/Localizations/ms.lproj"
-  install_resource "FormatterKit/Localizations/nb.lproj"
-  install_resource "FormatterKit/Localizations/nl.lproj"
-  install_resource "FormatterKit/Localizations/nn.lproj"
-  install_resource "FormatterKit/Localizations/pl.lproj"
-  install_resource "FormatterKit/Localizations/pt.lproj"
-  install_resource "FormatterKit/Localizations/pt_BR.lproj"
-  install_resource "FormatterKit/Localizations/ro.lproj"
-  install_resource "FormatterKit/Localizations/ru.lproj"
-  install_resource "FormatterKit/Localizations/sv.lproj"
-  install_resource "FormatterKit/Localizations/th.lproj"
-  install_resource "FormatterKit/Localizations/tr.lproj"
-  install_resource "FormatterKit/Localizations/uk.lproj"
-  install_resource "FormatterKit/Localizations/vi.lproj"
-  install_resource "FormatterKit/Localizations/zh-Hans.lproj"
-  install_resource "FormatterKit/Localizations/zh-Hant.lproj"
+  install_resource "FormatterKit/FormatterKit/FormatterKit.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
+  install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle"
   install_resource "../../ShapeKit/SHPCalendarPicker/SHPCalendarPickerResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "FormatterKit/Localizations/ar.lproj"
-  install_resource "FormatterKit/Localizations/ca.lproj"
-  install_resource "FormatterKit/Localizations/cs.lproj"
-  install_resource "FormatterKit/Localizations/da.lproj"
-  install_resource "FormatterKit/Localizations/de.lproj"
-  install_resource "FormatterKit/Localizations/el.lproj"
-  install_resource "FormatterKit/Localizations/en.lproj"
-  install_resource "FormatterKit/Localizations/es.lproj"
-  install_resource "FormatterKit/Localizations/fr.lproj"
-  install_resource "FormatterKit/Localizations/he.lproj"
-  install_resource "FormatterKit/Localizations/hu.lproj"
-  install_resource "FormatterKit/Localizations/id.lproj"
-  install_resource "FormatterKit/Localizations/it.lproj"
-  install_resource "FormatterKit/Localizations/ja.lproj"
-  install_resource "FormatterKit/Localizations/ko.lproj"
-  install_resource "FormatterKit/Localizations/ms.lproj"
-  install_resource "FormatterKit/Localizations/nb.lproj"
-  install_resource "FormatterKit/Localizations/nl.lproj"
-  install_resource "FormatterKit/Localizations/nn.lproj"
-  install_resource "FormatterKit/Localizations/pl.lproj"
-  install_resource "FormatterKit/Localizations/pt.lproj"
-  install_resource "FormatterKit/Localizations/pt_BR.lproj"
-  install_resource "FormatterKit/Localizations/ro.lproj"
-  install_resource "FormatterKit/Localizations/ru.lproj"
-  install_resource "FormatterKit/Localizations/sv.lproj"
-  install_resource "FormatterKit/Localizations/th.lproj"
-  install_resource "FormatterKit/Localizations/tr.lproj"
-  install_resource "FormatterKit/Localizations/uk.lproj"
-  install_resource "FormatterKit/Localizations/vi.lproj"
-  install_resource "FormatterKit/Localizations/zh-Hans.lproj"
-  install_resource "FormatterKit/Localizations/zh-Hant.lproj"
+  install_resource "FormatterKit/FormatterKit/FormatterKit.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
+  install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle"
   install_resource "../../ShapeKit/SHPCalendarPicker/SHPCalendarPickerResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Inhouse" ]]; then
-  install_resource "FormatterKit/Localizations/ar.lproj"
-  install_resource "FormatterKit/Localizations/ca.lproj"
-  install_resource "FormatterKit/Localizations/cs.lproj"
-  install_resource "FormatterKit/Localizations/da.lproj"
-  install_resource "FormatterKit/Localizations/de.lproj"
-  install_resource "FormatterKit/Localizations/el.lproj"
-  install_resource "FormatterKit/Localizations/en.lproj"
-  install_resource "FormatterKit/Localizations/es.lproj"
-  install_resource "FormatterKit/Localizations/fr.lproj"
-  install_resource "FormatterKit/Localizations/he.lproj"
-  install_resource "FormatterKit/Localizations/hu.lproj"
-  install_resource "FormatterKit/Localizations/id.lproj"
-  install_resource "FormatterKit/Localizations/it.lproj"
-  install_resource "FormatterKit/Localizations/ja.lproj"
-  install_resource "FormatterKit/Localizations/ko.lproj"
-  install_resource "FormatterKit/Localizations/ms.lproj"
-  install_resource "FormatterKit/Localizations/nb.lproj"
-  install_resource "FormatterKit/Localizations/nl.lproj"
-  install_resource "FormatterKit/Localizations/nn.lproj"
-  install_resource "FormatterKit/Localizations/pl.lproj"
-  install_resource "FormatterKit/Localizations/pt.lproj"
-  install_resource "FormatterKit/Localizations/pt_BR.lproj"
-  install_resource "FormatterKit/Localizations/ro.lproj"
-  install_resource "FormatterKit/Localizations/ru.lproj"
-  install_resource "FormatterKit/Localizations/sv.lproj"
-  install_resource "FormatterKit/Localizations/th.lproj"
-  install_resource "FormatterKit/Localizations/tr.lproj"
-  install_resource "FormatterKit/Localizations/uk.lproj"
-  install_resource "FormatterKit/Localizations/vi.lproj"
-  install_resource "FormatterKit/Localizations/zh-Hans.lproj"
-  install_resource "FormatterKit/Localizations/zh-Hant.lproj"
+  install_resource "FormatterKit/FormatterKit/FormatterKit.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
+  install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle"
   install_resource "../../ShapeKit/SHPCalendarPicker/SHPCalendarPickerResources.bundle"
 fi
 
@@ -198,7 +111,7 @@ then
   # Find all other xcassets (this unfortunately includes those of path pods and other targets).
   OTHER_XCASSETS=$(find "$PWD" -iname "*.xcassets" -type d)
   while read line; do
-    if [[ $line != "`realpath $PODS_ROOT`*" ]]; then
+    if [[ $line != "${PODS_ROOT}*" ]]; then
       XCASSET_FILES+=("$line")
     fi
   done <<<"$OTHER_XCASSETS"

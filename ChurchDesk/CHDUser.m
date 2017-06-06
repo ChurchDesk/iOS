@@ -13,7 +13,6 @@
     if([propName isEqualToString:@"sites"]){
         return [CHDSite class];
     }
-
     return [super nestedClassForArrayPropertyWithName:propName];
 }
 

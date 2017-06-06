@@ -24,7 +24,7 @@
 #import "MBProgressHUD.h"
 #import "CHDAuthenticationManager.h"
 #import <SHPNetworking/SHPAPIManager+ReactiveExtension.h>
-
+@import Intercom;
 @interface CHDDashboardEventsViewController ()  <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (nonatomic, retain) UITableView* eventTable;
@@ -79,16 +79,15 @@
 #pragma mark - CHDNotificationEventResponder
 
 - (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
-    NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    return [content[@"type"] isEqualToString:@"bookingUpdate"] || [content[@"type"] isEqualToString:@"bookingCanceled"];
+    if ([Intercom isIntercomPushNotification:userInfo]) {
+        return YES;
+    }
+    else return NO;
+    
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
-    NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    if ([content[@"type"] isEqualToString:@"bookingUpdate"] || [content[@"type"] isEqualToString:@"bookingCanceled"]) {
-        CHDEventInfoViewController *vc = [[CHDEventInfoViewController alloc] initWithEventId:content[@"id"] siteId:content[@"site"]];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    [Intercom handleIntercomPushNotification:userInfo];
 }
 
 #pragma mark - View methods
@@ -119,7 +118,6 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    
     [super viewDidAppear:animated];
 }
 
@@ -254,7 +252,7 @@
     BOOL success = [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
     BOOL loginWithTouchIdEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdEnabled];
     BOOL neverShowTouchIdPopUp = [[NSUserDefaults standardUserDefaults] boolForKey:kneverShowTouchIdPopUp];
-    if (success && !loginWithTouchIdEnabled && !neverShowTouchIdPopUp) {
+    if ([CHDAuthenticationManager sharedInstance].userID.length > 0 && success && !loginWithTouchIdEnabled && !neverShowTouchIdPopUp) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Easy Login" message:NSLocalizedString(@"We've made it easier for you to login with TouchID. To enable it, just enter your password", @"")preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ok = [UIAlertAction actionWithTitle: NSLocalizedString(@"No Thanks", @"") style: UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction *action){
@@ -280,8 +278,10 @@
 
 -(void)loginWithEmail: (NSString *)email password:(NSString *)password{
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kloginwithTouchIdEnabled];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kneverShowTouchIdPopUp];
     [[self.viewModel loginWithUserName:email password:password] subscribeError:^(NSError *error) {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kloginwithTouchIdEnabled];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kneverShowTouchIdPopUp];
         SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
         NSLog(@"code %ld", (long)response.statusCode);
         if (response.statusCode == 401) {
