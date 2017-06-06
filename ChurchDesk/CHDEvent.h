@@ -44,6 +44,8 @@ typedef NS_ENUM(NSUInteger, CHDEventVisibility) {
 @property (nonatomic, assign) NSString *eventResponse;
 @property (nonatomic, assign) BOOL canEdit;
 @property (nonatomic, assign) BOOL canDelete;
+@property (nonatomic, assign) BOOL showInSlideshow;
+
 
 @property (nonatomic, strong) NSDate *creationDate;
 @property (nonatomic, strong) NSDate *startDate;

@@ -186,10 +186,6 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
 
 -(void)setTouchIdEnabled :(BOOL)enabled{
     if (enabled) {
-        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:kuserPassword];
-        if (password != NULL && password.length > 0) {
-            [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:kloginwithTouchIdEnabled];
-        } else{
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:NSLocalizedString(@"Please enter your password to activate login with the fingerprint.", @"")preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *ok = [UIAlertAction actionWithTitle: NSLocalizedString(@"OK", @"") style: UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction *action){
@@ -209,7 +205,6 @@ typedef NS_ENUM(NSUInteger, notificationSettings) {
             [alert addAction:ok];
             [alert addAction:cancel];
             [self presentViewController:alert animated:YES completion:nil];
-        }
     }
     else {
             [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:kloginwithTouchIdEnabled];

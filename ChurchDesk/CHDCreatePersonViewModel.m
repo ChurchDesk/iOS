@@ -100,7 +100,6 @@
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     dateFormatter.dateStyle = NSDateFormatterLongStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
-    
     return [dateFormatter stringFromDate:date];
 }
 

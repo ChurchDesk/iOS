@@ -470,3 +470,8 @@
 "Log in with fingerprint" = "Per Fingerabdruck anmelden";
 "Please enter your password to activate login with the fingerprint." = "Bitte geben Sie ihr Passwort ein, um die Anmeldung per Fingerabdruck zu aktivieren.";
 "Wrong password" = "Passwort sind falsch";
+"Secure Information" = "Sensible Informationen";
+"Easy Login" = "Login per TouchID";
+"We've made it easier for you to login with TouchID. To enable it, just enter your password" = "Sie können sich ab jetzt einfach per TouchID einloggen. Zum Freischalten dieser Funktion, geben Sie bitte ihr Passwort ein.";
+"Enable" = "Freischalten";
+"No Thanks" = "Nein, danke.";

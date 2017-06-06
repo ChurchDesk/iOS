@@ -16,4 +16,5 @@
 
 -(NSString*) formattedTimeForEvent: (CHDEvent*) event;
 -(void) reload;
+- (RACSignal*) loginWithUserName: (NSString*) username password: (NSString*) password;
 @end

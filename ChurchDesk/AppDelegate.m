@@ -161,13 +161,12 @@
     [sideMenuController rac_liftSelector:@selector(setSelectedViewController:closeMenu:) withSignalOfArguments:[notificationSignal mapReplace:RACTuplePack(dashboardNavigationController, @YES)]];
     [leftViewController rac_liftSelector:@selector(setSelectedViewController:) withSignalOfArguments:[notificationSignal mapReplace:RACTuplePack(dashboardNavigationController)]];
     return sideMenuController;
-    
 #endif
 }
 
 - (void) setupAppearance {
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor chd_blueColor]];    
+    [[UINavigationBar appearance] setBarTintColor:[UIColor chd_blueColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18], NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:18], NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateNormal];
@@ -184,7 +183,6 @@
 }
 
 - (void) presentLoginViewControllerWhenNeeded {
-    
     CHDRootViewController *rootVC = (CHDRootViewController*)self.window.rootViewController;
     CHDAuthenticationManager *authenticationManager = [CHDAuthenticationManager sharedInstance];
     __block BOOL animated = authenticationManager.userID != nil; // user is logged in initially. Next presentation is animated
@@ -203,7 +201,6 @@
         }
         animated = YES;
     }], nil];
-    
     [rootVC rac_liftSelector:@selector(dismissSecondaryViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token != nil;
     }] mapReplace:@YES], [RACSignal return:nil], nil];
@@ -211,7 +208,6 @@
     [rootVC rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;
     }] mapReplace:@NO], [RACSignal return:nil], nil];
-
     [[NSUserDefaults standardUserDefaults] shprac_liftSelector:@selector(chdClearDefaults) withSignal:[[RACObserve(authenticationManager, userID) distinctUntilChanged] filter:^BOOL(NSString *token) {
         return token == nil;
     }]];
@@ -224,15 +220,14 @@
     NSData* data = [NSData dataWithContentsOfURL:url];
     if (data) {
     NSDictionary* lookup = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    
     if ([lookup[@"resultCount"] integerValue] == 1){
         NSString* appStoreVersion = lookup[@"results"][0][@"version"];
         NSString* currentVersion = infoDictionary[@"CFBundleShortVersionString"];
         if ([appStoreVersion floatValue] > [currentVersion floatValue]){
             NSLog(@"Need to update [%@ != %@]", appStoreVersion, currentVersion);
             return YES;
+            }
         }
-    }
     }
     return NO;
 }
@@ -256,6 +251,11 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // For signaling
+    //Check which type of notification was sent in order to redirect it to appropriate screen
+    NSDictionary *identifier = [[[userInfo valueForKey:@"aps"] valueForKey:@"alert"] valueForKey:@"identifier"];
+    [[NSUserDefaults standardUserDefaults] setObject:identifier forKey:kredirectOnReceivingNotification];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kisNotification];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kredirectOnReceivingNotification object:nil userInfo:identifier];
 }
 
 // alert view delegate

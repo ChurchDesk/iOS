@@ -40,9 +40,10 @@
                 }];
 
                 //newest on top
-                return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDInvitation *invitation1, CHDInvitation *invitation2) {
-                    return [invitation2.changeDate compare:invitation1.changeDate];
-                }];
+                return results.array;
+//                return [results.array sortedArrayUsingComparator:^NSComparisonResult(CHDInvitation *invitation1, CHDInvitation *invitation2) {
+//                    return [invitation2.changeDate compare:invitation1.changeDate];
+//                }];
             }] catch:^RACSignal *(NSError *error) {
                 return [RACSignal empty];
             }];
@@ -106,7 +107,12 @@
         dateComponentFrom = invitation.allDay? @"eeeeddMMM" : @"eeeeddMMMjjmm";
         dateComponentTo = invitation.allDay? @"" : @"jjmm";
     }
-
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy"];
+    NSString *yearString = [formatter stringFromDate:[NSDate date]];
+    if (fromComponents.year != yearString.integerValue) {
+        dateComponentFrom = [dateComponentFrom stringByReplacingOccurrencesOfString:@"MMM" withString:@"MMMYYYY"];
+    }
     NSLocale *locale = [NSLocale currentLocale];
     NSString *dateTemplateFrom = [NSDateFormatter dateFormatFromTemplate:dateComponentFrom options:0 locale:locale];
     NSString *dateTemplateTo = [NSDateFormatter dateFormatFromTemplate:dateComponentTo options:0 locale:locale];

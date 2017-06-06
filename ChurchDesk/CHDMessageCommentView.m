@@ -105,6 +105,8 @@ NSInteger const kTextViewVerticalMargin = 16;
         _replyTextView.scrollEnabled = NO;
         _replyTextView.inputAccessoryView = [CHDInputAccessoryObserveView new];
         _replyTextView.allowsEditingTextAttributes = NO;
+        _replyTextView.dataDetectorTypes = UIDataDetectorTypeLink;
+        _replyTextView.selectable = YES;
     }
     return _replyTextView;
 }

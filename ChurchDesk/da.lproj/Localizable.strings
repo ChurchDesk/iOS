@@ -480,3 +480,8 @@
 "Log in with fingerprint" = "Log på med fingeraftryk";
 "Please enter your password to activate login with the fingerprint." = "Indtast din kode for fremover at logge på med fingeraftryk.";
 "Wrong password" = "Forkert kodeord";
+"Secure Information" = "Følsom information";
+"Easy Login" = "Nem login";
+"We've made it easier for you to login with TouchID. To enable it, just enter your password" = "Vi har med TouchID gjort det nemmere for dig at logge ind. Indtast adgangskode for at aktivere det.";
+"Enable" = "Aktivér";
+"No Thanks" = "Nej tak";

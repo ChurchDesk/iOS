@@ -185,6 +185,7 @@
 
     mDict[@"mainCategory"] = self.eventCategoryIds[0];
     mDict[@"allowDoubleBooking"] = @(self.allowDoubleBooking);
+    mDict[@"showInSlideshow"] = @(self.showInSlideshow);
     mDict[@"sendNotifications"] = @(self.sendNotifications);
     mDict[@"allDay"] = @(self.allDayEvent);
     mDict[@"type"] = self.type;

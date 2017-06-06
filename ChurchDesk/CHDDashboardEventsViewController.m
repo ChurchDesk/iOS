@@ -22,17 +22,18 @@
 #import "UIViewController+UIViewController_ChurchDesk.h"
 #import "CHDAnalyticsManager.h"
 #import "MBProgressHUD.h"
+#import "CHDAuthenticationManager.h"
+#import <SHPNetworking/SHPAPIManager+ReactiveExtension.h>
 
-@interface CHDDashboardEventsViewController ()  <UITableViewDelegate, UITableViewDataSource>
+@interface CHDDashboardEventsViewController ()  <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (nonatomic, retain) UITableView* eventTable;
 @property(nonatomic, strong) UILabel *emptyMessageLabel;
 @property (nonatomic, strong) CHDDashboardEventViewModel *viewModel;
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 @end
-
+@import LocalAuthentication;
 @implementation CHDDashboardEventsViewController
-
 - (instancetype)init
 {
     self = [super init];
@@ -114,7 +115,7 @@
     [self shprac_liftSelector:@selector(showProgress:) withSignal:[[RACObserve(self.viewModel, events) map:^id(id value) {
         return @(value == nil);
     }] takeUntil:[self rac_signalForSelector:@selector(viewWillDisappear:)]]];
-    
+    [self checkIfUserHasUsedtouchId];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -144,7 +145,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
     static NSString* cellIdentifier = @"dashboardCell";
     CHDEvent* event = self.viewModel.events[indexPath.row];
     CHDUser* user = self.viewModel.user;
@@ -235,7 +235,6 @@
     if(show && self.navigationController.view) {
         [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-
         // Configure for text only and offset down
         hud.mode = MBProgressHUDModeIndeterminate;
         hud.color = [UIColor colorWithWhite:0.7 alpha:0.7];
@@ -247,4 +246,57 @@
         [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     }
 }
+
+#pragma touchId usage reminder
+-(void) checkIfUserHasUsedtouchId{
+    NSError *error;
+    LAContext *context = [[LAContext alloc] init];
+    BOOL success = [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+    BOOL loginWithTouchIdEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdEnabled];
+    BOOL neverShowTouchIdPopUp = [[NSUserDefaults standardUserDefaults] boolForKey:kneverShowTouchIdPopUp];
+    if (success && !loginWithTouchIdEnabled && !neverShowTouchIdPopUp) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Easy Login" message:NSLocalizedString(@"We've made it easier for you to login with TouchID. To enable it, just enter your password", @"")preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle: NSLocalizedString(@"No Thanks", @"") style: UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction *action){
+                                                       //never show the touchId popup again
+                                                       [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kneverShowTouchIdPopUp];
+                                                   }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Enable" style:UIAlertActionStyleCancel
+                                                       handler: ^(UIAlertAction *action){
+                                                           UITextField *alertTextField = alert.textFields.firstObject;
+                                                           NSString *email = [CHDAuthenticationManager sharedInstance].userID;
+                                                           NSString *userPassword = alertTextField.text;
+                                                           [self loginWithEmail:email password:userPassword];
+                                                       }];
+        [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.placeholder = @"Password";
+            textField.secureTextEntry = YES;
+        }];
+        [alert addAction:ok];
+        [alert addAction:cancel];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+-(void)loginWithEmail: (NSString *)email password:(NSString *)password{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kloginwithTouchIdEnabled];
+    [[self.viewModel loginWithUserName:email password:password] subscribeError:^(NSError *error) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kloginwithTouchIdEnabled];
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        NSLog(@"code %ld", (long)response.statusCode);
+        if (response.statusCode == 401) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Wrong password", @"Message shown on wrong username password") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alertView show];
+        }
+        else if (response.statusCode == 402){
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Payment required", @"") message:NSLocalizedString(@"Please contact our sales team for more details", @"Message shown when payment is required") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alertView show];
+        }
+        else if (response.statusCode == 426){
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Blocked", @"") message:NSLocalizedString(@"Please reset your password", @"Message shown when the user is blocked") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alertView show];
+        }
+    }];
+}
+
 @end

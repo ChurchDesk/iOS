@@ -21,8 +21,8 @@
             make.left.equalTo(self.view).offset(15);
             make.right.equalTo(self.view).offset(-15);
         }];
-        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-        [self.descriptionView setText:attributedString.string];
+        //NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUTF8StringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+        [self.descriptionView setText:description];
     }
     return self;
 }
@@ -36,6 +36,10 @@
         _descriptionView.contentInset = UIEdgeInsetsMake(15, 0, 15, 0);
         _descriptionView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _descriptionView.textColor = [UIColor chd_textDarkColor];
+        _descriptionView.textContainer.maximumNumberOfLines = 150;
+        _descriptionView.dataDetectorTypes = UIDataDetectorTypeLink;
+        _descriptionView.selectable = YES;
+        
     }
     return _descriptionView;
 }

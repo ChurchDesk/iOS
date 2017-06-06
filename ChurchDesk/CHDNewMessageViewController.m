@@ -109,7 +109,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
             case 403:
                 self.statusView.errorText = NSLocalizedString(@"Access denied", @"");
                 break;
-
             case 429:
                 self.statusView.errorText = NSLocalizedString(@"Too many requests, try again later", @"");
                 break;
@@ -132,7 +131,6 @@ static NSString* kNewMessageTextViewCell = @"newMessageTextViewCell";
             selectorViewController.title = NSLocalizedString(@"Parish", @"");
             selectorViewController.selectMultiple = NO;
             selectorViewController.selectorDelegate = self;
-
             [self.navigationController pushViewController:selectorViewController animated:YES];
         }
     }

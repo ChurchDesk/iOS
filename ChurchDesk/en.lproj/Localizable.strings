@@ -11,9 +11,7 @@
 "Time Recording" = "Time Recording";
 "Help and Support" = "Help and Support";
 "Settings" = "Settings";
-"Week
-%@" = "Week
-%@";
+"Week\n%@" = "Week\n%@";
 "All day" = "All day";
 "No events today" = "No events today";
 "No invitations" = "No invitations";
@@ -211,6 +209,11 @@
 "Please ask your administrator to provide you with \"Newsletter\" role." = "Please ask your administrator to provide you with the \"Newsletter\" role.";
 "Create a person" = "Create a person";
 "Log in to ChurchDesk" = "Log in to ChurchDesk";
-"Log in with fingerprint" = "Log in with fingerprint";
+"Log in with fingerprint" = "Log in with TouchID";
 "Please enter your password to activate login with the fingerprint." = "Please enter your password to activate login with the fingerprint.";
 "Wrong password" = "Wrong password";
+"Secure Information" = "Sensitive information";
+"Easy Login" = "Easy Login";
+"We've made it easier for you to login with TouchID. To enable it, just enter your password" = "We've made it easier for you to login with TouchID. To enable it, just enter your password";
+"Enable" = "Enable";
+"No Thanks" = "No Thanks";

@@ -25,6 +25,8 @@
 @property (nonatomic, strong) CHDIconTextFieldView *passwordView;
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UIButton *forgotPasswordButton;
+@property (nonatomic, strong) UIButton *touchIdButton;
+@property (nonatomic) BOOL isTouchIdNotAvailable;
 
 @property (nonatomic, strong) CHDLoginViewModel *viewModel;
 
@@ -34,7 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _isTouchIdNotAvailable = YES;
     self.viewModel = [CHDLoginViewModel new];
     
     self.view.backgroundColor = [UIColor chd_darkBlueColor];
@@ -59,6 +61,7 @@
     [self.scrollView addSubview:self.passwordView];
     [self.scrollView addSubview:self.loginButton];
     [self.scrollView addSubview:self.forgotPasswordButton];
+    [self.scrollView addSubview:self.touchIdButton];
 }
 
 - (void) makeConstraints {
@@ -103,7 +106,10 @@
         make.top.equalTo(self.passwordView.mas_bottom).offset(20);
         make.bottom.equalTo(self.scrollView);
     }];
-    
+    [self.touchIdButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.loginButton.mas_bottom).offset(10);
+    }];
     [self.forgotPasswordButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         if (self.view.frame.size.height == 480) {
@@ -123,7 +129,7 @@
     }];
     
     RAC(self.forgotPasswordButton, enabled) = [self.viewModel.resetPasswordCommand.executing not];
-    
+    RAC(self.touchIdButton, hidden) = RACObserve(self, isTouchIdNotAvailable);
     UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer new];
     [self.view addGestureRecognizer:tapRecognizer];
     [self.view shprac_liftSelector:@selector(endEditing:) withSignal:[[tapRecognizer rac_gestureSignal] mapReplace:@YES]];
@@ -140,10 +146,10 @@
         LAContext *context = [[LAContext alloc] init];
         NSError *error;
         BOOL success;
-        
         // test if we can evaluate the policy, this test will tell us if Touch ID is available and enrolled
         success = [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
         if (success) {
+            _isTouchIdNotAvailable = NO;
             [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:NSLocalizedString(@"Log in to ChurchDesk", @"") reply:^(BOOL successfulLogin, NSError *authenticationError) {
                 if (successfulLogin) {
                     [self loginWithEmail:userEmail password:password];
@@ -325,7 +331,7 @@
         _passwordView.textField.returnKeyType = UIReturnKeyGo;
         _passwordView.textField.delegate = self;
         _passwordView.iconImageView.image = kImgLoginPassword;
-        //_passwordView.textField.text = @"zoWBEFw4fVeQNtk3&EyuTbc&DFQKkf";//for testing
+        _passwordView.textField.text = @"b3jL9MPc4H8VignhTN7yPh8Cig4Uht";//for testing
     }
     return _passwordView;
 }
@@ -339,6 +345,17 @@
         [_loginButton addTarget:self action:@selector(loginAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
+}
+
+- (UIButton *)touchIdButton {
+    if (!_touchIdButton) {
+        _touchIdButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_touchIdButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _touchIdButton.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:16];
+        [_touchIdButton setTitle: NSLocalizedString(@"Log in with fingerprint", @"") forState:UIControlStateNormal];
+        [_touchIdButton addTarget:self action:@selector(useTouchIdForLogin) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _touchIdButton;
 }
 
 - (UIButton *)forgotPasswordButton {

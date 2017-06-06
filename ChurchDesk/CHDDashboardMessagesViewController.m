@@ -401,6 +401,9 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
             return @NO;
         }]];
     }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kisNotification]) {
+        [self redirectToDetailViewOnReceivingNotification];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -592,4 +595,12 @@ static CGFloat kMessagesFilterWarningHeight = 30.0f;
     }
 }
 
+#pragma mark notification handler
+-(void) redirectToDetailViewOnReceivingNotification{
+    NSDictionary *identifier = [[NSUserDefaults standardUserDefaults] objectForKey:kredirectOnReceivingNotification];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kisNotification];
+    CHDMessageViewController *messageViewController = [[CHDMessageViewController new] initWithMessageId:[identifier valueForKey:@"id"] site:[identifier valueForKey:@"site"]];
+    [self.navigationController pushViewController:messageViewController animated:YES];
+    
+}
 @end

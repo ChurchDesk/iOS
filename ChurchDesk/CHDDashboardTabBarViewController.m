@@ -50,7 +50,6 @@
     messagesItem.showNotification = NO;
 
     NSArray *viewControllersArray = @[eventsItem, invitationsItem, messagesItem];
-
     return [[self alloc] initWithTabItems:viewControllersArray];
 }
 
@@ -62,6 +61,9 @@
         self.view.backgroundColor = [UIColor whiteColor];
         [self makeSubViews];
         [self setTabsWithItems:items];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kisNotification] ) {
+            self.selectedIndex = 1;
+        }
     }
     return self;
 }
@@ -92,7 +94,6 @@
         [button setTitleColor:[UIColor chd_textDarkColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         button.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:12];
-
         CHDDotView* notification = [CHDDotView new];
         notification.dotColor = [UIColor chd_blueColor];
 
@@ -136,15 +137,12 @@
             make.centerX.equalTo(button).with.offset(18);
             make.width.height.equalTo(@8);
         }];
-
         previousButton = button;
     }];
 
     [self rac_liftSelector:@selector(setSelectedViewController:) withSignals:[RACObserve(self, selectedIndex) combinePreviousWithStart:@(NSNotFound) reduce:^id(NSNumber *nPrevious, NSNumber *nCurrent) {
         NSUInteger prevIdx = nPrevious.unsignedIntegerValue;
         NSUInteger currentIdx = nCurrent.unsignedIntegerValue;
-
-
         UIViewController *previousVC = prevIdx == NSNotFound ? nil : [(CHDTabItem*)items[prevIdx] viewController];
         UIViewController *currentVC = currentIdx == NSNotFound ? nil : [(CHDTabItem*)items[currentIdx] viewController];
         return RACTuplePack(previousVC, currentVC);
@@ -155,7 +153,6 @@
 
 - (void) setSelectedViewController: (RACTuple*) tuple {
     RACTupleUnpack(UIViewController *previousVC, UIViewController *selectedVC) = tuple;
-
     [previousVC willMoveToParentViewController:nil];
     [previousVC.view removeFromSuperview];
     [previousVC removeFromParentViewController];

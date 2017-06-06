@@ -17,6 +17,7 @@
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic) NSInteger year;
 @property (nonatomic) NSInteger month;
+@property (nonatomic, strong) RACCommand *loginCommand;
 @end
 
 @implementation CHDDashboardEventViewModel
@@ -109,5 +110,19 @@
     [[[apiClient manager] cache] invalidateObjectsMatchingRegex:resoursePath];
 }
 
+- (RACSignal*) loginWithUserName: (NSString*) username password: (NSString*) password {
+    return [self.loginCommand execute:RACTuplePack(username, password)];
+}
+
+- (RACCommand *)loginCommand {
+    if (!_loginCommand) {
+        _loginCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            NSString *username = tuple.first;
+            NSString *password = tuple.second;
+            return [[CHDAuthenticationManager sharedInstance] rac_liftSelector:@selector(authenticateWithToken:userID:password:) withSignals:[[CHDAPIClient sharedInstance] loginWithUserName:username password:password], [RACSignal return:username], [RACSignal return:password], nil];
+        }];
+    }
+    return _loginCommand;
+}
 
 @end

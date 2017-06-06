@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "CHDTableViewCell.h"
 
-@interface CHDMessageTableViewCell : CHDTableViewCell
+@interface CHDMessageTableViewCell : CHDTableViewCell <UITextViewDelegate>
 @property (nonatomic, readonly) UIImageView *profileImageView;
 @property (nonatomic, readonly) UILabel *userNameLabel;
 @property (nonatomic, readonly) UILabel *createdDateLabel;
 @property (nonatomic, readonly) UILabel *titleLabel;
-@property (nonatomic, readonly) UILabel *messageLabel;
+@property (nonatomic, readonly) UITextView *messageTextView;
 @property (nonatomic, readonly) UILabel *groupLabel;
 @property (nonatomic, readonly) UILabel *parishLabel;
 @end

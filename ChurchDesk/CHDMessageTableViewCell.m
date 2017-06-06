@@ -7,13 +7,14 @@
 //
 
 #import "CHDMessageTableViewCell.h"
+#import "CHDInputAccessoryObserveView.h"
 
 @interface CHDMessageTableViewCell()
 @property (nonatomic, strong) UIImageView *profileImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property (nonatomic, strong) UILabel *createdDateLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UITextView *messageTextView;
 @property (nonatomic, strong) UILabel *groupLabel;
 @property (nonatomic, strong) UILabel *parishLabel;
 @end
@@ -39,7 +40,7 @@
     [contentView addSubview:self.userNameLabel];
     [contentView addSubview:self.createdDateLabel];
     [contentView addSubview:self.titleLabel];
-    [contentView addSubview:self.messageLabel];
+    [contentView addSubview:self.messageTextView];
     [contentView addSubview:self.groupLabel];
     [contentView addSubview:self.parishLabel];
 }
@@ -69,7 +70,7 @@
         make.right.equalTo(contentView).offset(-15);
     }];
 
-    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.messageTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom).offset(7);
         make.left.equalTo(self.titleLabel);
         make.right.equalTo(contentView).offset(-14);
@@ -123,15 +124,18 @@
     }
     return _titleLabel;
 }
--(UILabel*) messageLabel{
-    if(!_messageLabel){
-        _messageLabel = [UILabel new];
-        _messageLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
-        _messageLabel.textColor = [UIColor blackColor];
-        _messageLabel.numberOfLines = 0;
-        _messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
+-(UITextView*) messageTextView{
+    if(!_messageTextView){
+        _messageTextView = [UITextView new];
+        _messageTextView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:15];
+        _messageTextView.layer.borderColor = [UIColor shpui_colorWithHexValue:0xc8c7cc].CGColor;
+        _messageTextView.delegate = self;
+        _messageTextView.scrollEnabled = NO;
+        _messageTextView.allowsEditingTextAttributes = NO;
+        _messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
+        _messageTextView.selectable = YES;
     }
-    return _messageLabel;
+    return _messageTextView;
 }
 -(UILabel*) groupLabel{
     if(!_groupLabel){

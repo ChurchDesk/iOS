@@ -63,6 +63,7 @@
     if(self.menuItems.count > 0) {
         [self.menuTable selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(redirectOnReceivingNotification:) name:kredirectOnReceivingNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -252,17 +253,23 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self tableView:self.menuTable cellForRowAtIndexPath:indexPath].selected = YES;
+    [self redirectToViewControllerWithIndex:indexPath.row isNotification:NO];
     //Get the menu item
-    CHDMenuItem* item = self.menuItems[indexPath.row];
+    
+}
 
+-(void) redirectToViewControllerWithIndex: (NSInteger) row isNotification:(BOOL)isNotification{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+    [self tableView:self.menuTable cellForRowAtIndexPath:indexPath].selected = YES;
+    CHDMenuItem* item = self.menuItems[row];
+    
     //Set the selected viewController
     if ([item.title isEqualToString:NSLocalizedString(@"Help and Support", @"")]) {
         [Heap track:@"Help and Support clicked"];
         [Intercom presentMessenger];
     }
     else{
-        switch (indexPath.row) {
+        switch (row) {
             case 0:
                 [Heap track:@"Dashboard clicked"];
                 break;
@@ -306,7 +313,6 @@
         }
     }
 }
-
 #pragma mark - Actionsheet delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (actionSheet.tag == 100)
@@ -363,7 +369,6 @@
         UIBezierPath *path2 = [UIBezierPath bezierPathWithOvalInRect:
                                CGRectMake(0.0f, position, screenWidth, screenWidth)];
         [path2 setUsesEvenOddFillRule:YES];
-        
         [circleLayer setPath:[path2 CGPath]];
         
         [circleLayer setFillColor:[[UIColor clearColor] CGColor]];
@@ -383,7 +388,6 @@
         [moveLabel setText:NSLocalizedString(@"Move and Scale", @"") ];
         [moveLabel setTextAlignment:NSTextAlignmentCenter];
         [moveLabel setTextColor:[UIColor whiteColor]];
-        
         [viewController.view addSubview:moveLabel];
     }
 }
@@ -407,4 +411,19 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark- notification handler
+//checking for notification info in order to redirect to appropriate View Controller
+- (void)redirectOnReceivingNotification:(NSNotification *)note {
+    NSDictionary *identifier = [note userInfo];
+    NSString *type = [identifier valueForKey:@"type"];
+    if ([type isEqualToString:@"invitation-new"] || [type isEqualToString:@"invitation-updated"]) {
+        //Redirect to specific event invite
+        [self redirectToViewControllerWithIndex:0 isNotification:YES];
+    }
+    else if ([type isEqualToString:@"new-message"] || [type isEqualToString:@"new-message-comment"]){
+        //Redirect to the specific message
+        [self redirectToViewControllerWithIndex:1 isNotification:YES];
+    }
+    NSLog(@"Received Notification - identifier = %@", identifier);
+}
 @end

@@ -1,0 +1,714 @@
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Access denied" = "Åtkomst nekad";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"All day" = "Heldag";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Allow Double Booking" = "Tillåt dubbelbokning";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"An error occured while sending your response to the server. Please try again." = "Det skedde ett fel i kommunikationen med servern. Vänligen försök igen.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Are you going to the event '%@'?" = "Deltar du i evenemanget '%@'?";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Attendance" = "Deltagande";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Calendar" = "Kalender";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Cancel" = "Avbryt";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Categories" = "Kategorier";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Category" = "Kategori";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Choose end date" = "Välj slutdatum";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Choose start date" = "Valt startdatum";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Close" = "Stäng";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Confirm" = "Bekräfta";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Continue" = "Nästa";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Contributor" = "Medverkande";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Created On" = "Skapat den";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Dashboard" = "Översikt";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Date" = "Datum";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Decline" = "Avböj";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Delete" = "Radera";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Description" = "Beskrivning";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Double booking" = "Dubbelbokning";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"E-mail address" = "E-postadress";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Edit" = "Redigera";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Edit Event" = "Redigera evenemang";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"End" = "Slut";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Error" = "Fel";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Error sending comment" = "Fel vid sändning av kommentar";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Error updating comment" = "Fel vid uppdatering av kommentar";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Event Information" = "Information";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Forgot Password" = "Glömt lösenord";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Forgot password?" = "Glömt lösenord?";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Going" = "Kommer";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Group" = "Grupp";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"I am going" = "Jag kommer";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"I am not going" = "Jag kommer inte";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Instructions for resetting you password will be sent to your email." = "Instruktioner för att återställa ditt lösenord har skickats till din e-post.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Instructions for resetting your password will be sent to '%@'." = "Instruktioner för att återställa ditt lösenord har skickats till '%@'.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Internal Note" = "Intern anteckning";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Internal note" = "Intern anteckning";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Invitations" = "Inbjudningar";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Invited by " = "Inbjuden av ";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Load more comments" = "Ladda fler kommentarer";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Location" = "Stad";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Log Out" = "Logga ut";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Login" = "Logga in";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Maps" = "Kartor";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Mark as read" = "Markera som läst";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Maybe" = "Kanske";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Message" = "Meddelande";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Messages" = "Meddelanden";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"More church, less administration" = "Mer kyrka - mindre administration";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"New Event" = "Nytt evenemang";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"New message" = "Nytt meddelande";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"No events today" = "Inga evenemang idag";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"No invitations" = "Inga inbjudningar";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"No messages" = "Inga meddelanden";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"No reply" = "Inget svar";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"No unread messages" = "Inga olästa kommentarer";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"None available" = "Inga tillgängliga";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Not going" = "Kommer inte";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Notifications" = "Notiser";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"OK" = "OK";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Open Maps" = "Öppna kartor";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Parish" = "Församling";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Password" = "Lösenord";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Password reset failed" = "Återställning av lösenord misslyckades";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Please enter your email to receive instructions on how to reset your password." = "Ange e-post för att få instruktioner hur du återställer ditt lösenord.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Please try again later" = "Testa igen senare";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Price" = "Pris";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Reply" = "Svara";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Resources" = "Resurser";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Save" = "Spara";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Select Group" = "Välj grupp";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Select Parish" = "Välj församling";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Select Resources" = "Välj resurs";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Select Users" = "Välj användare";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Select Visibility" = "Välj synlighet";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Send" = "Skicka";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Sending message.." = "Skickar meddelande";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Settings" = "Inställningar";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Something when wrong while resetting your password. Please try again." = "Något gick fel vid återställningen av ditt lösenord. Var god försök igen.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Start" = "Start";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Success" = "Det lyckades";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"There was a problem, please try again" = "Något gick fel, var god försök igen.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Time" = "Tid";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Title" = "Titel";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Too many requests, try again later" = "För många frågor, var vänlig försök igen senare.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Unauthorized. Please login again" = "Obehörig. Var vänlig logga in igen.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Update" = "Uppdatera";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Users" = "Användare";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Users booked" = "Användare bokade";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Visibility" = "Synlighet";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Visible on website" = "Syns på hemsidan";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Visible only in group" = "Syns bara i gruppen";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Week\n%@" = "Vecka\n%@";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Write a comment" = "Skriv en kommentar";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Write your message here..." = "Skriv ditt meddelande här";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"You are about to make a double booking of one or more resources/users." = "Du är på väg att dubbelboka en eller flera resurser/användare.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Your message was sent" = "Ditt meddelande sändes";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"ok" = "ok";
+
+/*Calendar filter*/
+/*ChurchDesk/Localizable.strings*/
+"All events" = "Alla evenemang";
+
+/*Calendar filter*/
+/*ChurchDesk/Localizable.strings*/
+"My events" = "Mina evenemang";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Saving event.." = "Spara evenemang…";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Select Categories" = "Välj kategorier";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Show all" = "Visa alla";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Show unread" = "Visa olästa";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"The event was saved" = "Evenemanget är sparat";
+
+/*Message shown on wrong username password*/
+/*ChurchDesk/Localizable.strings*/
+"Wrong username or password" = "Fel användarnamn eller lösenord";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"An invitation is cancelled" = "En inbjudan är borttagen";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"An invitation is received" = "Du har fått en inbjudan";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"An invitation is updated" = "Inbjudan är uppdaterad";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"And unknown error occured, please try again" = "Ett okänt fel inträffade, vänligen försök igen";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Do you want to open Maps to get directions to \\'%@\\'?" = "Vill du öppna Kartor för att få vägbeskrivning till \\'%@\\'?";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Here you can choose when to receive notifications on your phone." = "Här kan du välja när du vill ta emot notiser på din telefon.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"New messages and comments" = "Nya meddelanden och kommentarer";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/Localizable.strings*/
+"Today" = "Idag";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"An invitation is cancelled" = "En inbjudan har borttagen";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"An invitation is received" = "En inbjudan är mottagen";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"An invitation is updated" = "En inbjudan är uppdaterad";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"And unknown error occured, please try again" = "Ett okänt fel inträffade, vänligen försök igen";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Do you want to open Maps to get directions to '%@'?" = "Vill du öppna korten för att få vägbeskrivning till '%@'?";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Doublebooking not allowed" = "Dubbelbokning är inte tillåtet";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Help and Support" = "Kundtjänst";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Here you can choose when to receive notifications on your phone." = "Här kan du välja när du vill ta emot notiser på din telefon.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"New messages and comments" = "Nya meddelanden och kommentarer";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"No messages found" = "Inga meddelanden funna";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Now" = "Nu";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Payment required" = "ChurchDesk-appen är ett extra köp.";
+
+/*Message shown when payment is required*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Please contact our sales team for more details" = "Vänligen kontakta Churchdesk för att aktivera appen.";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Search" = "Sök";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Select Visibility" = "Välj synlighet";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Time Recording" = "Tidsregistrering";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Today" = "Idag";
+
+/*No comment provided by engineer.*/
+/*ChurchDesk/en.lproj/Localizable.strings*/
+"Unread" = "Oläst";
+"Bug Fixes" = "Buggfixar";
+"Error editing the event" = "Fel vid redigering av evenemang.";
+"Editing event" = "Redigerar evenemang";
+"Error answering event" = "Fel vid svar på evenemang";
+"Please check your email" = "Vänligen kontrollera din e-post";
+"mon." = "mån";
+"tue." = "tis";
+"wed." = "ons";
+"thu." = "tor";
+"fri." = "fre";
+"sat." = "lör";
+"sun." = "sön";
+"Are you sure you want to sign out?" = "Är du säker på att du vill logga ut?";
+"Filter" = "Filter";
+"Choose filter" = "Välj filter";
+"Search messages" = "Sök meddelanden";
+"Error creating the event" = "Fel vid skapande av evenemang";
+"Creating event" = "Skapa evenemang";
+"January" = "Januari";
+"February" = "Februari";
+"March" = "Mars";
+"April" = "April";
+"May" = "Maj";
+"June" = "Juni";
+"July" = "Juli";
+"August" = "Augusti";
+"September" = "September";
+"October" = "Oktober";
+"November" = "November";
+"December" = "December";
+"Sunday" = "Söndag";
+"Monday" = "Måndag";
+"Tuesday" = "Tisdag";
+"Wednesday" = "Onsdag";
+"Thursday" = "Torsdag";
+"Friday" = "Fredag";
+"Saturday" = "Lördag";
+"New Version!" = "Ny version";
+"A new version of app is available to download" = "En version av app'en är klar att laddas ner";
+"Download" = "Ladda ner";
+"Support for iOS 9." = "Stöd för IOS 9.";
+
+/*Visibility option along with Website and group.*/
+"Visible only in draft" = "Syns bara i utkast";
+
+/*The title of the alert box which is popped up when a user tries to save an event with booked users.*/
+"Send Notifications?" = "Skicka notiser?";
+
+/*The text for the alert box which is popped up when a user tries to save event with booked users.*/
+"Would you like to send notifications to the booked users?" = "Vill du skicka notiser till de bokade användare?";
+
+/*One of the response to the popup for sending notifications.*/
+"Save and send" = "Spara och skicka";
+"New Absence" = "Ny frånvaro";
+"Edit Absence" = "Redigera frånvaro";
+
+/*substitute while creating absence*/
+"Substitute" = "Ersättare";
+
+/*comments while creating absence*/
+"Comments" = "Kommentar";
+"Absence Information" = "Frånvaroinformation";
+
+/*warning when a user attempts to select users without selecting a group*/
+"Group missing" = "Gruppen finns inte";
+"Please select a group first." = "Välj en grupp först.";
+"No, just save" = "Nej, spara men skicka inte";
+"Yes, save and send" = "Ja, spara och skicka";
+"Error creating the absence" = "Fel i frånvaroanmälan";
+"Error editing the absence" = "Fel i redigeringen av frånvaro";
+"Creating absence" = "Lägg till frånvaro";
+"Editing absence" = "Redigera frånvaro";
+"Please wait" = "Vänligen vänta";
+"Logging you in" = "Du logga sin";
+"Please check your password" = "Kontrollera ditt lösenord";
+"Not a valid email" = "Din e-post är ogiltig";
+"No internet" = "ingen internetanslutning";
+"Please check your internet settings. Open settings?" = "Kontrollera din internetanslutning. Öppna inställningar?";
+
+/*for yes or no option*/
+"no" = "Nej";
+"Showing My Events" = "Visa mina evenemang";
+"Showing Unread Messages" = "Visa olästa meddelanden";
+"People" = "Kontakter";
+"Segments" = "Segment";
+"Create email" = "Skapa en e-post";
+"Select Sender" = "Välj avsändare";
+
+/*message recepient*/
+"To" = "Till";
+
+/*people message sender*/
+"From" = "Från";
+
+/*Email Subject*/
+"Subject" = "Ämnesrad";
+"No people to show" = "Du har inga kontakter";
+"Select" = "Välj";
+"Call" = "Ring till";
+"Send message" = "Send meddelande";
+"Profile" = "Profil";
+"E-mail" = "E-post";
+"Phone Number" = "Telefonnummer";
+"Birthday" = "Födelsedag";
+"Registered on" = "Tillagt den";
+"Gender" = "Kön";
+"Address" = "Adress";
+"Post code" = "Postnummer";
+"City" = "Stad";
+"Select Parish" = "Välj konto";
+"Delete message" = "Radera meddelande";
+"Return to message" = "Tillbaka till meddelandet";
+"Finish later" = "Gör klart senare";
+"Send to" = "Skicka till";
+"Send an email" = "Skicka en e-post";
+"Send an SMS" = "Skicka ett SMS";
+"Choose message type.." = "Välj meddelandetyp";
+
+/*Eg. If 10 people are selected. It'll be shown as "10 people selected" while showing options to send a message.*/
+"people selected" = "valda kontakter";
+
+/*While user is editing, "Done" will be an option to save the changes.*/
+"Done" = "Klar";
+"Person created successfully" = "Kontakten är skapad";
+"Person edited successfully" = "Kontakten har redigerats";
+"Creating person.." = "Lägger till kontakt";
+"Edit" = "Redigera";
+"Create Person" = "Lägg till kontakt";
+"Edit Person" = "Redigera kontakt";
+"Create" = "Lägg till";
+
+/*While cropping an image.*/
+"Move and Scale" = "Flytta och skala";
+"Choose Photo" = "Välj ett foto";
+"Take Photo" = "Ta ett foto";
+"First Name" = "Förnamn";
+"Last Name" = "Efternamn";
+"Tags" = "Tag (etikett)";
+"Select Tags" = "Välj tag (etikett)";
+"Male" = "Man";
+"Female" = "Kvinna";
+"Select Birthday" = "Ange födelsedag";
+"Select Gender" = "Ange kön";
+"My messages" = "Mina meddelanden";
+"You don't have the necessary role.." = "Du har inte den behörighet som krävs";
+"Please ask your administrator to provide you with the \"Newsletter\" role." = "Be din administratör att tilldela dig behörigheten \"nyhetsbrev\".";
+"You haven't added any people yet.." = "Du har inte lagt till några kontakter än";
+"You haven't created any segments yet.." = "Du har inte upprättat några segment än...";
+"These can currently only be added via the web application" = "Detta kan just nu endast läggas till via web-applikationen.";
+"Add a person" = "Lägg till kontakt";
+
+/*Error message to shown when a user enters an invalid phone number.*/
+"Invalid phone number" = "Ogiltigt telefonnummer";
+
+/*Error message to be shown if a user forgets to enter the country code with a phone number.*/
+"Please add your country code with '+' as prefix" = "Vänligen lägg till landskod, T.ex. +46";
+"Email or Mobile phone already exists" = "E-post eller mobiltelefonnumret finns redan.";
+
+/*Title for Reset password popup*/
+"Reset" = "Nollställ";
+"Editing person" = "Redigera kontakt";
+"Please ask your administrator to provide you access to People." = "Vänligen be din administratör att ge dig åtkomst till Kontakter.";
+"Log in to ChurchDesk" = "Logga in på ChurchDesk";
+"Login with fingerprint" = "Logga in med fingeravtryck";
+"Please enter your password to activate login with the fingerprint." = "Vänligen ange ditt lösenord för att aktivera inloggning med fingeravtryck.";
+"You can now login with Touch ID" = "Du kan nu logga in med fingeravtryck";
+"Easy Login" = "Enkel inloggning";
+"We've made it easier for you to login with TouchID. To enable it, just enter your password" = "Genom TouchID har vi gjort det enklare för dig att logga in. Aktivera genom att skriva in lösenord.";
+"Enable" = "Aktivera";
+"No Thanks" = "Nej tack";
