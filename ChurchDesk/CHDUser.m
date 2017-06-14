@@ -53,11 +53,18 @@
         else
         return [NSURL URLWithString:@""];
     }
-    if ([propName isEqualToString:@"country"]) {
+    if ([propName isEqualToString:@"country" ]) {
         NSDictionary *tempDict = value;
         //NSLog(@"value returned %@", [tempDict objectForKey:@"country"]);
-        [[NSUserDefaults standardUserDefaults] setObject:[tempDict objectForKey:@"country"] forKey:@"country"];
-        return [tempDict objectForKey:@"country"];
+        
+        if ([tempDict objectForKey:@"country"] != NULL) {
+            [[NSUserDefaults standardUserDefaults] setObject:[tempDict objectForKey:@"country"] forKey:@"country"];
+            return [tempDict objectForKey:@"country"];
+        } else{
+            [[NSUserDefaults standardUserDefaults] setObject:[tempDict objectForKey:@""] forKey:@"country"];
+            return [tempDict objectForKey:@""];
+        }
+        
         tempDict = nil;
     }
 

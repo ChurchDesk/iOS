@@ -253,13 +253,13 @@
     BOOL loginWithTouchIdEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kloginwithTouchIdEnabled];
     BOOL neverShowTouchIdPopUp = [[NSUserDefaults standardUserDefaults] boolForKey:kneverShowTouchIdPopUp];
     if ([CHDAuthenticationManager sharedInstance].userID.length > 0 && success && !loginWithTouchIdEnabled && !neverShowTouchIdPopUp) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Easy Login" message:NSLocalizedString(@"We've made it easier for you to login with TouchID. To enable it, just enter your password", @"")preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Easy Login", @"") message:NSLocalizedString(@"We've made it easier for you to login with TouchID. To enable it, just enter your password", @"")preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ok = [UIAlertAction actionWithTitle: NSLocalizedString(@"No Thanks", @"") style: UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction *action){
                                                        //never show the touchId popup again
                                                        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kneverShowTouchIdPopUp];
                                                    }];
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Enable" style:UIAlertActionStyleCancel
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Enable", @"") style:UIAlertActionStyleCancel
                                                        handler: ^(UIAlertAction *action){
                                                            UITextField *alertTextField = alert.textFields.firstObject;
                                                            NSString *email = [CHDAuthenticationManager sharedInstance].userID;
@@ -267,7 +267,7 @@
                                                            [self loginWithEmail:email password:userPassword];
                                                        }];
         [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            textField.placeholder = @"Password";
+            textField.placeholder = NSLocalizedString(@"Password", @"");
             textField.secureTextEntry = YES;
         }];
         [alert addAction:ok];
