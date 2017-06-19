@@ -80,7 +80,7 @@ float height;
 - (UITextView *)textView {
     if (!_textView) {
         _textView = [UITextView new];
-        _textView.scrollEnabled = NO;
+        _textView.scrollEnabled = YES;
         _textView.textContainerInset = UIEdgeInsetsMake(kSideMargin, kSideMargin-2, 0, kSideMargin);
         _textView.delegate = self;
         _textView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];

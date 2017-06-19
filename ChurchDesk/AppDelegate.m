@@ -151,13 +151,11 @@
     [sideMenuController rac_liftSelector:@selector(setSelectedViewController:closeMenu:) withSignals:[[[RACObserve([CHDAuthenticationManager sharedInstance], userID) skip:1] filter:^BOOL(id value) {
         return value == nil;
     }] mapReplace:dashboardNavigationController], [RACSignal return:@YES], nil];
-    
-    RACSignal *notificationSignal = [self rac_signalForSelector:@selector(application:didReceiveRemoteNotification:)];
+    RACSignal *notificationSignal = [self rac_signalForSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
     
     [dashboardTabBar rac_liftSelector:@selector(handleNotificationEventWithUserInfo:) withSignals:[notificationSignal map:^id(RACTuple *tuple) {
         return tuple.second;
     }], nil];
-    
     [sideMenuController rac_liftSelector:@selector(setSelectedViewController:closeMenu:) withSignalOfArguments:[notificationSignal mapReplace:RACTuplePack(dashboardNavigationController, @YES)]];
     [leftViewController rac_liftSelector:@selector(setSelectedViewController:) withSignalOfArguments:[notificationSignal mapReplace:RACTuplePack(dashboardNavigationController)]];
     return sideMenuController;
@@ -249,7 +247,7 @@
     [CHDAuthenticationManager sharedInstance].deviceToken = nil;
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
     // For signaling
 }
 

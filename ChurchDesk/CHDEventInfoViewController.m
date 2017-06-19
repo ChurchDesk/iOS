@@ -355,9 +355,10 @@
         returnCell = cell;
     }
     else if ([row isEqualToString:CHDEventInfoRowDescription]) {
-        CHDEventDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"description" forIndexPath:indexPath];
+        CHDEventInternalNoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"internalNote" forIndexPath:indexPath];
         NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[event.eventDescription dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-        cell.descriptionLabel.text = attributedString.string;
+        cell.noteLabel.text = attributedString.string;
+        cell.titleLabel.text = NSLocalizedString(@"Description", @"");
         returnCell = cell;
     }
     
@@ -419,7 +420,8 @@
         [self.navigationController pushViewController:detailedViewController animated:YES];
     }
     else if ([row isEqualToString:CHDEventInfoRowDescription]) {
-        CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:event.eventDescription];
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[event.eventDescription dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+        CHDDescriptionViewController *detailedViewController = [[CHDDescriptionViewController alloc] initWithDescription:attributedString.string];
         detailedViewController.title = NSLocalizedString(@"Description", @"");
         [self.navigationController pushViewController:detailedViewController animated:YES];
     }

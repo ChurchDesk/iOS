@@ -171,7 +171,7 @@
 
 - (BOOL)canHandleEventWithUserInfo:(NSDictionary *)userInfo {
     NSDictionary *content = userInfo[@"aps"][@"alert"][@"identifier"];
-    return [content[@"type"] isEqualToString:@"invitation-new"] || [content[@"type"] isEqualToString:@"invitation-updated"];
+    return ([content[@"type"] isEqualToString:@"invitation-new"] || [content[@"type"] isEqualToString:@"invitation-updated"]);
 }
 
 - (void)handleEventWithUserInfo:(NSDictionary *)userInfo {
