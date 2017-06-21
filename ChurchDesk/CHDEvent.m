@@ -158,7 +158,7 @@
     if (self.secureInformation) {
         mDict[@"secureInformation"] = self.secureInformation;
     }
-    if (self.eventDescription) {
+    if (self.eventDescription && [[[self.fields objectForKey:@"description"] valueForKey:@"canEdit"] boolValue]) {
         mDict[@"description"] = self.eventDescription;
     }
     if(self.visibility){

@@ -737,7 +737,7 @@
             BOOL canEditInternalNote = [[internalNotePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditInternalNote) {
                 cell.contentView.alpha=0.2;
-                cell.userInteractionEnabled = NO;
+                cell.textView.editable = NO;
             }
         }
         returnCell = cell;
@@ -756,7 +756,7 @@
             BOOL canEditSecureInformation = [[SecureInformationPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditSecureInformation) {
                 cell.contentView.alpha=0.2;
-                cell.userInteractionEnabled = NO;
+                cell.textView.editable = NO;
             }
         }
         returnCell = cell;
@@ -772,11 +772,20 @@
         cell.userInteractionEnabled = YES;
         cell.contentView.alpha=1;
         if (!newEvent) {
-            NSDictionary *descriptionPermissions = [event.fields objectForKey:@"description"];
+            NSMutableDictionary *descriptionPermissions = [[NSMutableDictionary alloc] initWithDictionary:[event.fields objectForKey:@"description"]];
+            if (attributedString.string.length != _event.eventDescription.length) {
+                [descriptionPermissions setValue:@"false" forKey:@"canEdit"];
+                NSMutableDictionary *temporaryDict = [event.fields mutableCopy];
+                [temporaryDict setValue:descriptionPermissions forKeyPath:@"description"];
+                event.fields = temporaryDict;
+                temporaryDict = nil;
+                NSString *warningString = NSLocalizedString(@"*Description contains styling, please use ChurchDesk on desktop to edit*", @"");
+                cell.textView.text = warningString;
+            }
             BOOL canEditDescription = [[descriptionPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditDescription) {
                 cell.contentView.alpha=0.2;
-                cell.userInteractionEnabled = NO;
+                cell.textView.editable = NO;
             }
         }
         returnCell = cell;

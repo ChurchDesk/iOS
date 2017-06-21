@@ -14,7 +14,7 @@ static CGFloat kMinimumHeight = 87;
 
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UILabel *placeholderLabel;
-
+@property (nonatomic, strong) UILabel *warningLabel;
 @property (nonatomic, strong) MASConstraint *heightConstraint;
 
 @end
@@ -89,6 +89,7 @@ float height;
     }
     return _textView;
 }
+
 
 - (UILabel *)placeholderLabel {
     if (!_placeholderLabel) {

@@ -475,3 +475,4 @@
 "We've made it easier for you to login with TouchID. To enable it, just enter your password" = "Sie können sich ab jetzt einfach per TouchID einloggen. Zum Freischalten dieser Funktion, geben Sie bitte ihr Passwort ein.";
 "Enable" = "Freischalten";
 "No Thanks" = "Nein, danke.";
+"*Description contains styling, please use ChurchDesk on desktop to edit*" = "*Da die Beschreibung optisch bearbeitet werden kann, können Sie dieses Feld nur in der Desktop-Version ausfüllen.*";

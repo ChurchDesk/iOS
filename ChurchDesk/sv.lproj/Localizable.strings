@@ -712,6 +712,7 @@
 "We've made it easier for you to login with TouchID. To enable it, just enter your password" = "Genom TouchID har vi gjort det enklare för dig att logga in. Aktivera genom att skriva in lösenord.";
 "Enable" = "Aktivera";
 "No Thanks" = "Nej tack";
+"*Description contains styling, please use ChurchDesk on desktop to edit*" = "*Description contains styling, please use ChurchDesk on desktop to edit*";
 
 //not in Mobile project on POEditor
 "Secure Information" = "Känslig information";
