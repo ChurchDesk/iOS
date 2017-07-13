@@ -32,6 +32,7 @@
 #import "CHDListViewController.h"
 #import "CHDAnalyticsManager.h"
 #import "CHDEventTitleTableViewCell.h"
+#import "UIImage+FontAwesome.h"
 
 @interface CHDEventInfoViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -262,7 +263,7 @@
     else if ([row isEqualToString:CHDEventInfoRowDate]) {
         CHDEventInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.iconImageView.image = kImgEventTime;
+        cell.iconImageView.image = kImgEventTime; //[UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor colorWithRed:.06f green:.06f blue:.06f alpha:1.0] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.titleLabel.text = [self.viewModel eventDateString];
         cell.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:cell.titleLabel.font.pointSize];
         cell.disclosureArrowHidden = YES;

@@ -15,6 +15,7 @@ static CGFloat kMinimumHeight = 87;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UILabel *placeholderLabel;
 @property (nonatomic, strong) UILabel *warningLabel;
+@property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) MASConstraint *heightConstraint;
 
 @end
@@ -36,16 +37,36 @@ float height;
 - (void) setupSubviews {
     [self.contentView addSubview:self.textView];
     [self.contentView addSubview:self.placeholderLabel];
+    [self.contentView addSubview:self.iconImageView];
 }
 
 - (void) makeConstraints {
+    __block MASConstraint *iconLeftConstraint = nil;
+    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.placeholderLabel);
+        iconLeftConstraint = make.left.equalTo(self.contentView);
+    }];
+    
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.contentView);
+        make.left.equalTo(self.iconImageView.mas_right).offset(-10);
+        make.top.equalTo(self.contentView);
+        make.bottom.equalTo(self.contentView);
+        make.right.equalTo(self.contentView);
         self.heightConstraint = make.height.equalTo(@0).offset(kMinimumHeight);
     }];
     
     [self.placeholderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.equalTo(self.contentView).offset(kSideMargin);
+        make.left.equalTo(self.iconImageView.mas_right).offset(6);
+        make.right.lessThanOrEqualTo(self.contentView).offset(-6);
+        make.top.equalTo(self.contentView).offset(kSideMargin);
+    }];
+    
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    RAC(iconLeftConstraint, offset) = [RACObserve(self.iconImageView, image) map:^id(UIImage *image) {
+        return @(image == nil ? kSideMargin-6 : kSideMargin);
     }];
 }
 
@@ -57,7 +78,6 @@ float height;
     RAC(self.placeholderLabel, hidden) = [textSignal map:^id (NSString *text) {
         return @(text.length > 0);
     }];
-    
     [self rac_liftSelector:@selector(textDidChange:) withSignals:self.textView.rac_textSignal, nil];
 }
 
@@ -67,11 +87,12 @@ float height;
     
     CGSize contentSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     contentSize.height = MAX(kMinimumHeight, contentSize.height);
-    [self.heightConstraint setOffset:contentSize.height + (kSideMargin*2)];
+    
     if (contentSize.height > height) {
         [self.tableView beginUpdates];
-        [self.tableView endUpdates];
         height = contentSize.height;
+        [self.heightConstraint setOffset:contentSize.height + (kSideMargin*2)];
+        [self.tableView endUpdates];
     }
 }
 
@@ -86,6 +107,7 @@ float height;
         _textView.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:17];
         _textView.clipsToBounds = YES;
         _textView.textContainer.widthTracksTextView = YES;
+        _textView.userInteractionEnabled = YES;
     }
     return _textView;
 }
@@ -94,9 +116,16 @@ float height;
 - (UILabel *)placeholderLabel {
     if (!_placeholderLabel) {
         _placeholderLabel = [UILabel chd_regularLabelWithSize:17];
-        _placeholderLabel.textColor = [UIColor lightGrayColor];
+        _placeholderLabel.textColor = [UIColor chd_textDarkColor];
+        _placeholderLabel.backgroundColor = [UIColor clearColor];
     }
     return _placeholderLabel;
 }
 
+- (UIImageView *)iconImageView {
+    if (!_iconImageView) {
+        _iconImageView = [UIImageView new];
+    }
+    return _iconImageView;
+}
 @end

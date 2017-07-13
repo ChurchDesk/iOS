@@ -41,8 +41,7 @@ static NSString *const kclientCredentialsSecret = @"24gojcb452xw0k8ckcw48ocogw40
 #if PRODUCTION_ENVIRONMENT
 static NSString *const kBaseUrl = @"https://api2.churchdesk.com/";
 #else
-//static NSString *const kBaseUrl = @"http://7008b471.ngrok.io/";
-static NSString *const kBaseUrl = @"http://f4b2527d.ngrok.io/";
+static NSString *const kBaseUrl = @"http://192.168.1.37:3000/";
 #endif
 static NSString *const kURLAPIPart = @"";
 static NSString *const kURLAPIOauthPart = @"";

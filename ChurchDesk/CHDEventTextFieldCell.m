@@ -33,7 +33,7 @@
 
 - (void) makeConstraints {
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView).offset(kSideMargin);
+        make.left.equalTo(self.titleLabel);
         make.right.equalTo(self.contentView).offset(kSideMargin);
         make.top.bottom.equalTo(self.contentView);
         make.height.equalTo(@49);
@@ -50,7 +50,6 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     return !([newString length] > self.textFieldMaxLength && self.textFieldMaxLength != 0);
-
 }
 
 #pragma mark - Lazy Initialization

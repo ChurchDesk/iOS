@@ -60,6 +60,7 @@
 		462D4B581C297B1B002974FA /* CHDEditAbsenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 462D4B571C297B1B002974FA /* CHDEditAbsenceViewController.m */; };
 		462D4B5B1C298BA8002974FA /* CHDEditAbsenceViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 462D4B5A1C298BA8002974FA /* CHDEditAbsenceViewModel.m */; };
 		469481021C284DDA0000D9F1 /* CHDAbsenceCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 469481011C284DDA0000D9F1 /* CHDAbsenceCategory.m */; };
+		46B523541F13A783009FFBF2 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46B523531F13A783009FFBF2 /* FontAwesome.ttf */; };
 		46C4684E1B0CD955002C6A2B /* CHDTImeRecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */; };
 		46E0359C1CAE5B6400341255 /* CHDPeopleViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0359B1CAE5B6400341255 /* CHDPeopleViewModel.m */; };
 		46E0359F1CAE712A00341255 /* CHDPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0359E1CAE712A00341255 /* CHDPeople.m */; };
@@ -286,6 +287,7 @@
 		46641B751D9EA4E700E196E9 /* ChurchDesk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChurchDesk.entitlements; sourceTree = "<group>"; };
 		469481001C284DDA0000D9F1 /* CHDAbsenceCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDAbsenceCategory.h; sourceTree = "<group>"; };
 		469481011C284DDA0000D9F1 /* CHDAbsenceCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDAbsenceCategory.m; sourceTree = "<group>"; };
+		46B523531F13A783009FFBF2 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		46C4684C1B0CD955002C6A2B /* CHDTImeRecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHDTImeRecordingViewController.h; sourceTree = "<group>"; };
 		46C4684D1B0CD955002C6A2B /* CHDTImeRecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDTImeRecordingViewController.m; sourceTree = "<group>"; };
 		46D641D81B972ACB00E66910 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -1033,6 +1035,7 @@
 				76143F0A1A96037F00651CEA /* MavenPro-Bold.ttf */,
 				76143F0B1A96037F00651CEA /* MavenPro-Medium.ttf */,
 				76143F0C1A96037F00651CEA /* MavenPro-Regular.ttf */,
+				46B523531F13A783009FFBF2 /* FontAwesome.ttf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -1330,6 +1333,7 @@
 				76143F0D1A96066A00651CEA /* MavenPro-Black.ttf in Resources */,
 				461524691D4B54AF00E5A3B2 /* NBPhoneNumberMetadata.plist in Resources */,
 				36E869E61AD651AB003743D2 /* InfoPlist.strings in Resources */,
+				46B523541F13A783009FFBF2 /* FontAwesome.ttf in Resources */,
 				76143F0E1A96066A00651CEA /* MavenPro-Bold.ttf in Resources */,
 				76143F0F1A96066A00651CEA /* MavenPro-Medium.ttf in Resources */,
 				76143F101A96066A00651CEA /* MavenPro-Regular.ttf in Resources */,

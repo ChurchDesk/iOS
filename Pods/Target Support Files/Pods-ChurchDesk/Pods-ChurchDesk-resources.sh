@@ -80,18 +80,21 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "FontAwesome+iOS/Resources/FontAwesome.ttf"
   install_resource "FormatterKit/FormatterKit/FormatterKit.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle"
   install_resource "../../ShapeKit/SHPCalendarPicker/SHPCalendarPickerResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "FontAwesome+iOS/Resources/FontAwesome.ttf"
   install_resource "FormatterKit/FormatterKit/FormatterKit.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle"
   install_resource "../../ShapeKit/SHPCalendarPicker/SHPCalendarPickerResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Inhouse" ]]; then
+  install_resource "FontAwesome+iOS/Resources/FontAwesome.ttf"
   install_resource "FormatterKit/FormatterKit/FormatterKit.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
   install_resource "Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle"

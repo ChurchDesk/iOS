@@ -26,6 +26,7 @@
 #import "CHDAnalyticsManager.h"
 #import "CHDStatusView.h"
 #import "CHDSitePermission.h"
+#import "UIImage+FontAwesome.h"
 
 @interface CHDEditAbsenceViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -487,6 +488,8 @@
     else if([row isEqualToString:CHDAbsenceEditRowAllDay]){
         CHDEventSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"switch" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"All day", @"");
+        cell.dividerLineHidden = YES;
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.valueSwitch.on = event.allDayEvent;
         [event shprac_liftSelector:@selector(setAllDayEvent:) withSignal:[[[cell.valueSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *valueSwitch) {
             return @(valueSwitch.on);
@@ -498,6 +501,7 @@
     else if ([row isEqualToString:CHDAbsenceEditRowStartDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Start", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor clearColor] andSize:CGSizeMake(17.0f, 17.0f)];
         [cell.valueLabel rac_liftSelector:@selector(setText:) withSignals:[[RACObserve(event, allDayEvent) map:^id(NSNumber *allDay) {
             return [viewModel formatDate:event.startDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
@@ -507,6 +511,7 @@
     else if ([row isEqualToString:CHDAbsenceEditRowEndDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"End", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor clearColor] andSize:CGSizeMake(17.0f, 17.0f)];
         [cell.valueLabel rac_liftSelector:@selector(setText:) withSignals:[[RACObserve(event, allDayEvent) map:^id(NSNumber *allDay) {
             return [viewModel formatDate:event.endDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
@@ -516,6 +521,7 @@
     else if ([row isEqualToString:CHDAbsenceEditRowParish]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Parish", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-exchange" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, siteId) map:^id(NSString *siteId) {
             return [user siteWithId:siteId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
@@ -525,6 +531,7 @@
     else if ([row isEqualToString:CHDAbsenceEditRowGroup]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Group", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-users" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         if (event.groupIds.count == 0) {
             cell.valueLabel.text = @"";
         }
@@ -536,6 +543,7 @@
     else if ([row isEqualToString:CHDAbsenceEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-calendar" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment absenceCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
         
         returnCell = cell;
@@ -552,6 +560,7 @@
         else if ([row isEqualToString:CHDAbsenceEditRowUsers]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-user" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         returnCell = cell;
@@ -560,26 +569,29 @@
             CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
             cell.placeholder = NSLocalizedString(@"Substitute", @"");
             cell.textView.text = event.substitute;
+            cell.iconImageView.image = [UIImage imageWithIcon:@"fa-arrows-h" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
             cell.tableView = tableView;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [event shprac_liftSelector:@selector(setSubstitute:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-            
+            cell.contentView.alpha = 0.5;
             returnCell = cell;
-        }else if ([row isEqualToString:CHDAbsenceEditRowComments]) {
+        }
+    else if ([row isEqualToString:CHDAbsenceEditRowComments]) {
             CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
             cell.placeholder = NSLocalizedString(@"Comments", @"");
             if (event.absenceComment) {
                 cell.textView.text = event.absenceComment;
             }
+            cell.iconImageView.image = [UIImage imageWithIcon:@"fa-comments" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
             cell.tableView = tableView;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [event shprac_liftSelector:@selector(setAbsenceComment:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-            
+            cell.contentView.alpha = 0.5;
             returnCell = cell;
         }
     
     if ([returnCell respondsToSelector:@selector(setDividerLineHidden:)]) {
-        [(CHDEventInfoTableViewCell*)returnCell setDividerLineHidden: indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1];
+        [(CHDEventInfoTableViewCell*)returnCell setDividerLineHidden:YES];
     }
     
     return returnCell;

@@ -17,7 +17,7 @@
 NSString *const CHDEventEditSectionTitle = @"CHDEventEditSectionTitle";
 NSString *const CHDEventEditSectionDate = @"CHDEventEditSectionDate";
 NSString *const CHDEventEditSectionRecipients = @"CHDEventEditSectionRecipients";
-NSString *const CHDEventEditSectionLocation = @"CHDEventEditSectionLocation";
+NSString *const CHDEventEditSectionVisibility = @"CHDEventEditSectionVisibility";
 NSString *const CHDEventEditSectionBooking = @"CHDEventEditSectionBooking";
 NSString *const CHDEventEditSectionInternalNote = @"CHDEventEditSectionInternalNote";
 NSString *const CHDEventEditSectionSecureInformation = @"CHDEventEditSectionSecureInformation";
@@ -76,18 +76,17 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         RACSignal *userSignal = [[CHDAPIClient sharedInstance] getCurrentUser];
         [self rac_liftSelector:@selector(setUser:) withSignals:userSignal, nil];
 
-        
-            self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionLocation, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionSecureInformation,CHDEventEditSectionDescription, CHDEventEditSectionMisc, CHDEventEditSectionDivider];
+        self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionVisibility, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionSecureInformation, CHDEventEditSectionMisc, CHDEventEditSectionDescription, CHDEventEditSectionDivider];
         
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate],
                              CHDEventEditSectionRecipients : @[],
-                             CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
+                             CHDEventEditSectionVisibility : @[],
                              CHDEventEditSectionBooking : @[],
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
                              CHDEventEditSectionSecureInformation : @[],
+                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice],
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility],
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
         
         [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[userSignal,
@@ -112,7 +111,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 
     
     NSArray *recipientsRows = _newEvent && user.sites.count > 1 ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowCategories];
-    NSArray *bookingRows = @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];
+    NSArray *bookingRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers, CHDEventEditRowDoubleBooking] : @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];;
     NSArray *secureRows = @[CHDEventEditRowDivider, CHDEventEditRowSecureInformation];
     if(self.event.siteId == nil){
         for(CHDSite *site in user.sites){
@@ -135,26 +134,26 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         bookingRows = @[];
     }
     NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate];
-    NSArray *miscRows;
+    NSArray *visibilityRows;
 
     if (self.event.visibility == CHDEventVisibilityPublicOnWebsite || self.event.visibility == CHDEventVisibilityOnlyInGroup) {
-        miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility, CHDEventEditRowGroup] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility, CHDEventEditRowGroup];
+        visibilityRows = @[CHDEventEditRowDivider, CHDEventEditRowVisibility, CHDEventEditRowGroup];
     }
     else{
         if (self.event.groupIds.count > 0) {
             self.event.groupIds = [[NSArray alloc] init];
         }
-        miscRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowDoubleBooking, CHDEventEditRowVisibility] : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowPrice, CHDEventEditRowVisibility];
+        visibilityRows = @[CHDEventEditRowDivider, CHDEventEditRowVisibility];
     }
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : dateRows,
                              CHDEventEditSectionRecipients : recipientsRows,
-                             CHDEventEditSectionLocation : @[CHDEventEditRowDivider, CHDEventEditRowLocation],
+                             CHDEventEditSectionVisibility: visibilityRows,
                              CHDEventEditSectionBooking : bookingRows,
                              CHDEventEditSectionInternalNote : @[CHDEventEditRowDivider, CHDEventEditRowInternalNote],
                              CHDEventEditSectionSecureInformation :secureRows,
+                             CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowLocation, CHDEventEditRowPrice],
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-                             CHDEventEditSectionMisc : miscRows,
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
 }
 

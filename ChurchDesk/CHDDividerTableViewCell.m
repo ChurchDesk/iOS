@@ -41,7 +41,7 @@
     }];
     
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@36);
+        make.height.equalTo(@1);
     }];
     
     RAC(topLineView, hidden) = RACObserve(self, hideTopLine);

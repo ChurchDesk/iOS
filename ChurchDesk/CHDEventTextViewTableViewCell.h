@@ -13,4 +13,5 @@
 @property (nonatomic, readonly) UITextView *textView;
 @property (nonatomic, strong) NSString *placeholder;
 @property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, readonly) UIImageView *iconImageView;
 @end

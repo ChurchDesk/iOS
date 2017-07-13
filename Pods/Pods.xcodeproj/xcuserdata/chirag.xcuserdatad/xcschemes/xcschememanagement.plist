@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FontAwesome+iOS.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FormatterKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -97,12 +102,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1CC25230EDE9FD6F04C5EB513B5C0E0F</key>
+		<key>04C5E25019ADC0071E83105760C68FCB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2D6E202F3554A91C015C2C5F6289EEFC</key>
+		<key>1CA44351141D923FC5B20CC619787414</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>358703F87A9C0C86C5D334F5122AA58A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,27 +122,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5253C37949EFAE9C02044C34F115B4EF</key>
+		<key>40F897DFB0CF00AE91984F532A621E96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>590390BC0BEE579B78AAE51CB37A6DB2</key>
+		<key>4E8B491353368D2BF5FC9EEF18490169</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6A3F71810EF4441301A1550645DF1CF4</key>
+		<key>58A78899A031CB2DBD96BC245AB105D4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6D1C6568C70C591AC03C3B0FF2CBAB3F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>78E8C6525FEBA4C835DEC682496465E1</key>
+		<key>6A7FFE21704AFD1EDE86EBB91B0B48DB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -142,22 +147,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>953B182AE4231A9572985734E116D3CF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>99BB10BFEA724968CA489472A56496A6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9A832AD00FC905D472052E543E02E637</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9C51DD56A8C6972CFE688D571C86330C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -167,7 +157,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B0887162CF144EB37FCEC3F2DA5801B0</key>
+		<key>AF6E32A29402146A00CD387342022C17</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AF8F10E20DCE737F838A875C94BB9A01</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B1D5027A6E781A5C49670A343E1440EF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -177,12 +177,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>C7D5BF7BF71BCDF50FA4653CAC47D2EB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CB318A3CBE7B21F4F61EA616CB9DC3CD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>DE9DBF5C3B564AC1F0556BB68B09CD15</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FAE4A4FC3B3A53C0DA7AC8BBADBBBBE2</key>
+		<key>F75BEC45CEFA8C25B0C08D538249840E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

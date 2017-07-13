@@ -34,6 +34,7 @@
     __block MASConstraint *iconLeftConstraint = nil;
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView);
+        make.width.lessThanOrEqualTo(@15.0);
         iconLeftConstraint = make.left.equalTo(self.contentView);
     }];
     
@@ -58,6 +59,7 @@
 - (UIImageView *)iconImageView {
     if (!_iconImageView) {
         _iconImageView = [UIImageView new];
+        _iconImageView.contentMode = UIViewContentModeCenter;
     }
     return _iconImageView;
 }

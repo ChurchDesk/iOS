@@ -283,6 +283,7 @@ NSInteger selectedIndex = 0;
             [self.personViewModel shprac_liftSelector:@selector(setPostCode:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
             cell.textField.keyboardType = UIKeyboardTypeDefault;
             cell.textField.tag = 209;
+            cell.dividerLineHidden = YES;
         }
         cell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textString attributes:@{NSForegroundColorAttributeName: [UIColor shpui_colorWithHexValue:0xa8a8a8]}];
         cell.textField.returnKeyType = UIReturnKeyNext;
@@ -313,6 +314,7 @@ NSInteger selectedIndex = 0;
         else if ((newMessagesSections)indexPath.section == messageInputSection){
             cell.titleLabel.text = NSLocalizedString(@"Phone", @"");
             cell.valueLabel.text = self.personViewModel.mobilePhone;
+            cell.dividerLineHidden = YES;
         }
         else if ((newMessagesSections)indexPath.section == homePhoneSection){
             cell.titleLabel.text = NSLocalizedString(@"Home Phone", @"");

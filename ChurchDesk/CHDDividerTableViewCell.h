@@ -12,5 +12,4 @@
 
 @property (nonatomic, assign) BOOL hideTopLine;
 @property (nonatomic, assign) BOOL hideBottomLine;
-
 @end

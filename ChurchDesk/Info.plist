@@ -43,6 +43,7 @@
 		<string>MavenPro-Bold.ttf</string>
 		<string>MavenPro-Medium.ttf</string>
 		<string>MavenPro-Regular.ttf</string>
+        <string>FontAwesome.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

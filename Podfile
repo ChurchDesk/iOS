@@ -16,6 +16,7 @@ pod 'MBProgressHUD', '~> 0.9.1'
 pod 'GoogleAnalytics-iOS-SDK', '~> 3.10'
 pod 'Intercom'
 pod 'Heap'
+pod 'FontAwesome+iOS', :git => 'https://github.com/alexdrone/ios-fontawesome.git', :branch => 'master'
 
 #ShapeKit
 pod 'SHPUIKit', :path => '../ShapeKit/SHPUIKit/'

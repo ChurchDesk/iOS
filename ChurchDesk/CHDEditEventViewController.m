@@ -26,6 +26,7 @@
 #import "CHDAnalyticsManager.h"
 #import "CHDStatusView.h"
 #import "CHDSitePermission.h"
+#import "UIImage+FontAwesome.h"
 
 @interface CHDEditEventViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
@@ -37,7 +38,9 @@
 @property (nonatomic, strong) CHDStatusView *statusView;
 
 @end
-
+static float kAlphaForDisabled = 0.1;
+static float kAlphaForMandatoryField = 1;
+static float kAlphaForOptionalField = 0.5;
 @implementation CHDEditEventViewController
 
 - (instancetype)initWithEvent: (CHDEvent*) event {
@@ -519,20 +522,22 @@
     }
     else if ([row isEqualToString:CHDEventEditRowTitle]) {
         
-        CHDEventTextFieldCell *cell = [tableView cellForRowAtIndexPath:indexPath]?: [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
+        CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Title", @"");
+        [cell.textField setValue:[UIColor chd_textDarkColor] forKeyPath:@"_placeholderLabel.textColor"];
         cell.textField.text = event.title;
+        cell.iconImageView.image = nil;
         cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setTitle:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForMandatoryField;
         if (!newEvent) {
             NSDictionary *titlePermissions = [event.fields objectForKey:@"title"];
             BOOL canEditTitle = [[titlePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditTitle) {
                 cell.userInteractionEnabled = NO;
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha=kAlphaForDisabled;
             }
         }
         returnCell = cell;
@@ -541,18 +546,20 @@
         CHDEventSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"switch" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"All day", @"");
         cell.valueSwitch.on = event.allDayEvent;
+        cell.dividerLineHidden = YES;
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         [event shprac_liftSelector:@selector(setAllDayEvent:) withSignal:[[[cell.valueSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *valueSwitch) {
             return @(valueSwitch.on);
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForMandatoryField;
         if (!newEvent) {
             NSDictionary *allDayPermissions = [event.fields objectForKey:@"allDay"];
             BOOL canEditAllday = [[allDayPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditAllday) {
                 cell.userInteractionEnabled = NO;
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
             }
         }
         return cell;
@@ -560,17 +567,18 @@
     else if ([row isEqualToString:CHDEventEditRowStartDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Start", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor clearColor] andSize:CGSizeMake(17.0f, 17.0f)];
         [cell.valueLabel rac_liftSelector:@selector(setText:) withSignals:[[RACObserve(event, allDayEvent) map:^id(NSNumber *allDay) {
             return [viewModel formatDate:event.startDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForMandatoryField;
         if (!newEvent) {
             NSDictionary *startDatePermissions = [event.fields objectForKey:@"startDate"];
             BOOL canEditstartDate = [[startDatePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditstartDate) {
                 cell.userInteractionEnabled = NO;
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
             }
         }
         returnCell = cell;
@@ -578,16 +586,17 @@
     else if ([row isEqualToString:CHDEventEditRowEndDate]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"End", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor clearColor] andSize:CGSizeMake(17.0f, 17.0f)];
         [cell.valueLabel rac_liftSelector:@selector(setText:) withSignals:[[RACObserve(event, allDayEvent) map:^id(NSNumber *allDay) {
             return [viewModel formatDate:event.endDate allDay:event.allDayEvent];
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForMandatoryField;
         if (!newEvent) {
             NSDictionary *endDatePermissions = [event.fields objectForKey:@"endDate"];
             BOOL canEditEndDate = [[endDatePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditEndDate) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -596,6 +605,7 @@
     else if ([row isEqualToString:CHDEventEditRowParish]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Parish", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-exchange" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         [cell.valueLabel shprac_liftSelector:@selector(setText:) withSignal: [[RACObserve(event, siteId) map:^id(NSString *siteId) {
             return [user siteWithId:siteId].name;
         }] takeUntil:cell.rac_prepareForReuseSignal]];
@@ -604,6 +614,7 @@
     else if ([row isEqualToString:CHDEventEditRowGroup]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Group", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-users" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         if (event.groupIds.count == 0) {
             cell.valueLabel.text = @"";
         }
@@ -611,12 +622,12 @@
             cell.valueLabel.text = event.groupIds.count <= 1 ? [environment groupWithId:event.groupIds.firstObject siteId:event.siteId].name : [@(event.groupIds.count) stringValue];
         }
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForMandatoryField;
         if (!newEvent) {
             NSDictionary *groupPermissions = [event.fields objectForKey:@"groupIds"];
             BOOL canEditGroups = [[groupPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditGroups) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -625,14 +636,15 @@
     else if ([row isEqualToString:CHDEventEditRowCategories]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Category", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-calendar" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.valueLabel.text = event.eventCategoryIds.count <= 1 ? [environment eventCategoryWithId:event.eventCategoryIds.firstObject siteId:event.siteId].name : [@(event.eventCategoryIds.count) stringValue];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForMandatoryField;
         if (!newEvent) {
             NSDictionary *categoriesPermissions = [event.fields objectForKey:@"taxonomies"];
             BOOL canEditCategories = [[categoriesPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditCategories) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -641,17 +653,19 @@
     else if ([row isEqualToString:CHDEventEditRowLocation]) {
         CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Location", @"");
+        [cell.textField setValue:[UIColor chd_textDarkColor] forKeyPath:@"_placeholderLabel.textColor"];
         cell.textField.text = event.location;
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-map-marker" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setLocation:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSDictionary *locationPermissions = [event.fields objectForKey:@"location"];
             BOOL canEditLocation = [[locationPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditLocation) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -660,7 +674,7 @@
     else if ([row isEqualToString:CHDEventEditRowResources]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Resources", @"");
-
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-building" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         RACSignal *resourcesCountSignal = [[RACObserve(event, siteId) map:^id(NSString *siteId) {
                 if(siteId != nil) {
                     return @([environment resourcesWithSiteId:event.siteId].count);
@@ -696,12 +710,12 @@
             return @(YES);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSDictionary *resourcesPermissions = [event.fields objectForKey:@"resources"];
             BOOL canEditResources = [[resourcesPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditResources) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -710,14 +724,15 @@
     else if ([row isEqualToString:CHDEventEditRowUsers]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Users", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-user" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSDictionary *usersPermissions = [event.fields objectForKey:@"users"];
             BOOL canEditUsers = [[usersPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditUsers) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -727,16 +742,17 @@
         CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
         cell.placeholder = NSLocalizedString(@"Internal note", @"");
         cell.textView.text = event.internalNote;
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-sticky-note-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.tableView = tableView;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setInternalNote:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSDictionary *internalNotePermissions = [event.fields objectForKey:@"internalNote"];
             BOOL canEditInternalNote = [[internalNotePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditInternalNote) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.textView.editable = NO;
             }
         }
@@ -746,16 +762,17 @@
         CHDEventTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textview" forIndexPath:indexPath];
         cell.placeholder = NSLocalizedString(@"Secure Information", @"");
         cell.textView.text = event.secureInformation;
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-key" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.tableView = tableView;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setSecureInformation:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSDictionary *SecureInformationPermissions = [event.fields objectForKey:@"secureInformation"];
             BOOL canEditSecureInformation = [[SecureInformationPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditSecureInformation) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.textView.editable = NO;
             }
         }
@@ -766,11 +783,12 @@
         cell.placeholder = NSLocalizedString(@"Description", @"");
         NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[event.eventDescription dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
         cell.textView.text = attributedString.string;
+        cell.iconImageView.image = nil;
         cell.tableView = tableView;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setEventDescription:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSMutableDictionary *descriptionPermissions = [[NSMutableDictionary alloc] initWithDictionary:[event.fields objectForKey:@"description"]];
             if (attributedString.string.length != _event.eventDescription.length) {
@@ -784,7 +802,7 @@
             }
             BOOL canEditDescription = [[descriptionPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditDescription) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.textView.editable = NO;
             }
         }
@@ -793,17 +811,19 @@
     else if ([row isEqualToString:CHDEventEditRowContributor]) {
         CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Contributor", @"");
+        [cell.textField setValue:[UIColor chd_textDarkColor] forKeyPath:@"_placeholderLabel.textColor"];
         cell.textField.text = event.contributor;
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-male" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.textFieldMaxLength = 255;
         [event shprac_liftSelector:@selector(setContributor:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSDictionary *contributorPermissions = [event.fields objectForKey:@"contributor"];
             BOOL canEditContributor = [[contributorPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditContributor) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -812,18 +832,19 @@
     else if ([row isEqualToString:CHDEventEditRowPrice]) {
         CHDEventTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"textfield" forIndexPath:indexPath];
         cell.textField.placeholder = NSLocalizedString(@"Price", @"");
+        [cell.textField setValue:[UIColor chd_textDarkColor] forKeyPath:@"_placeholderLabel.textColor"];
         cell.textField.text = event.price;
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-money" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.textFieldMaxLength = 255;
-        [cell.textField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
         [event shprac_liftSelector:@selector(setPrice:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSDictionary *pricePermissions = [event.fields objectForKey:@"price"];
             BOOL canEditPrice = [[pricePermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditPrice) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha = kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -838,12 +859,12 @@
             return @(valueSwitch.on);
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForOptionalField;
         if (!newEvent) {
             NSDictionary *doubleBookingPermissions = [event.fields objectForKey:@"allowDoubleBooking"];
             BOOL canEditDoubleBooking = [[doubleBookingPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditDoubleBooking) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha=kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
@@ -852,6 +873,7 @@
     else if ([row isEqualToString:CHDEventEditRowVisibility]) {
         CHDEventValueTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"value" forIndexPath:indexPath];
         cell.titleLabel.text = NSLocalizedString(@"Visibility", @"");
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-unlock-alt" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.valueLabel.text = [event localizedVisibilityString];
         if (newEvent && (event.visibility == CHDEventVisibilityOnlyInGroup) && !site.permissions.canSetVisibilityToInternalGroup) {
             event.visibility = CHDEventVisibilityOnlyInGroup;
@@ -866,15 +888,16 @@
             NSDictionary *visibilityPermissions = [event.fields objectForKey:@"visibility"];
             BOOL canEditVisibility = [[visibilityPermissions objectForKey:@"canEdit"] boolValue];
             if (!canEditVisibility) {
-                cell.contentView.alpha=0.2;
+                cell.contentView.alpha=kAlphaForDisabled;
                 cell.userInteractionEnabled = NO;
             }
         }
         returnCell = cell;
     }
-
+    
     if ([returnCell respondsToSelector:@selector(setDividerLineHidden:)]) {
-        [(CHDEventInfoTableViewCell*)returnCell setDividerLineHidden: indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1];
+        [(CHDEventInfoTableViewCell*)returnCell setDividerLineHidden:YES];
+        //[(CHDEventInfoTableViewCell*)returnCell setDividerLineHidden: indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1];
     }
 
     return returnCell;
@@ -905,8 +928,6 @@
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.rowHeight = UITableViewAutomaticDimension;
-        _tableView.estimatedRowHeight = 49;
 
         [_tableView registerClass:[CHDEventTextFieldCell class] forCellReuseIdentifier:@"textfield"];
         [_tableView registerClass:[CHDEventValueTableViewCell class] forCellReuseIdentifier:@"value"];

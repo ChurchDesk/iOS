@@ -3,6 +3,7 @@ PODS:
   - dyci (0.1.5.6):
     - dyci/Injections (= 0.1.5.6)
   - dyci/Injections (0.1.5.6)
+  - FontAwesome+iOS (0.0.1)
   - FormatterKit (1.8.2):
     - FormatterKit/AddressFormatter (= 1.8.2)
     - FormatterKit/ArrayFormatter (= 1.8.2)
@@ -65,6 +66,7 @@ PODS:
 
 DEPENDENCIES:
   - AutoCoding (~> 2.2.1)
+  - FontAwesome+iOS (from `https://github.com/alexdrone/ios-fontawesome.git`, branch `master`)
   - FormatterKit (~> 1.8.0)
   - GoogleAnalytics-iOS-SDK (~> 3.10)
   - Haneke (~> 1.0.1)
@@ -84,6 +86,9 @@ DEPENDENCIES:
   - SSKeychain (~> 1.2.2)
 
 EXTERNAL SOURCES:
+  FontAwesome+iOS:
+    :branch: master
+    :git: https://github.com/alexdrone/ios-fontawesome.git
   SHPCalendarPicker:
     :path: ../ShapeKit/SHPCalendarPicker/
   SHPFoundation:
@@ -99,9 +104,15 @@ EXTERNAL SOURCES:
   SHPUIKit:
     :path: ../ShapeKit/SHPUIKit/
 
+CHECKOUT OPTIONS:
+  FontAwesome+iOS:
+    :commit: 3ef4db504ffde636c1f8a5320f1e5b6183f6102c
+    :git: https://github.com/alexdrone/ios-fontawesome.git
+
 SPEC CHECKSUMS:
   AutoCoding: 56fa46dbfa89d44189a26ce64e6a470ed8ff4661
   dyci: 099c2e6dc98abb8f21b370cabbf1443ff700608a
+  FontAwesome+iOS: c6d3bbd2856b9633028d316d56133d45fb6a6cb0
   FormatterKit: 4b8f29acc9b872d5d12a63efb560661e8f2e1b98
   GoogleAnalytics-iOS-SDK: 13241762fa4aea845eb75bef6c0da3427a26e7b3
   Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
@@ -121,6 +132,6 @@ SPEC CHECKSUMS:
   SHPUIKit: 0453455110ab78f1e2cfd236601eb2ab9bb41ba7
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
 
-PODFILE CHECKSUM: 5cddc51c391b3a3ba392004d8dc28a3e0d281fc8
+PODFILE CHECKSUM: 4af3482abaad6c17aa692e6405a6812e3388e4c4
 
 COCOAPODS: 1.2.1

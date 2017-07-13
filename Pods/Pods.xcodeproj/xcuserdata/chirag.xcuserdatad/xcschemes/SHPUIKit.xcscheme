@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B0887162CF144EB37FCEC3F2DA5801B0'
+               BlueprintIdentifier = 'CB318A3CBE7B21F4F61EA616CB9DC3CD'
                BlueprintName = 'SHPUIKit'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSHPUIKit.a'>

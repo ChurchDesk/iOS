@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../ShapeKit/SHPSideMenu/Source/SHPSideMenuController.m"
-            timestampString = "518429171.044574"
+            filePath = "ChurchDesk/CHDDashboardMessagesViewController.m"
+            timestampString = "519569114.928633"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
-            landmarkName = "-setSelectedViewController:closeMenu:"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "-canHandleEventWithUserInfo:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
