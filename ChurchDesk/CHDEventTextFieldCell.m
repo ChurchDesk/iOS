@@ -49,6 +49,11 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if ([newString length] > 0) {
+        self.contentView.alpha = 1;
+    } else{
+        self.contentView.alpha = 0.5;
+    }
     return !([newString length] > self.textFieldMaxLength && self.textFieldMaxLength != 0);
 }
 

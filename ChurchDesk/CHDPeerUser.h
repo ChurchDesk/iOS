@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSNumber *userId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *email;
-@property (nonatomic, strong) NSString *siteId;
+@property (nonatomic, strong) NSArray *siteIds;
 @property (nonatomic, strong) NSURL *pictureURL;
 @property (nonatomic, strong) NSArray *groupIds;
 

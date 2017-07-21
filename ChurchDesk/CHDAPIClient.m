@@ -319,6 +319,19 @@ static NSString *const kURLAPIOauthPart = @"";
         }
     }] doNext:^(id x) {
         [manager.cache invalidateObjectsMatchingRegex:eventsResourcePath];
+    }];
+}
+
+- (RACSignal*) deleteEventWithId: (NSNumber*) eventId siteId: (NSString*) siteId{
+    SHPAPIManager *manager = self.manager;
+    NSString *eventsResourcePath = [self resourcePathForGetEvents];
+    return [[self resourcesForPath:[NSString stringWithFormat:@"calendar/%@", eventId] resultClass:[NSDictionary class] withResource:nil request:^(SHPHTTPRequest *request) {
+        request.method = SHPHTTPRequestMethodDELETE;
+        [request setValue:siteId ?: @"" forQueryParameterKey:@"organizationId"];
+        [request setValue:@"single" forQueryParameterKey:@"deleteMethod"];
+        [request setValue:@"false" forQueryParameterKey:@"sendNotifications"];
+    }] doNext:^(id x) {
+        [manager.cache invalidateObjectsMatchingRegex:eventsResourcePath];
         NSString *regexReady = [self resourcePathForGetEventWithId:eventId siteId:siteId];
         regexReady = [regexReady stringByReplacingOccurrencesOfString:@"?" withString:@"\\?"];
         regexReady = [regexReady stringByReplacingOccurrencesOfString:@"\\." withString:@"\\."];
@@ -326,7 +339,6 @@ static NSString *const kURLAPIOauthPart = @"";
         [manager.cache invalidateObjectsMatchingRegex:[NSString stringWithFormat:@".*%@.*", regexReady]];
     }];
 }
-
 - (RACSignal*) getInvitations {
     [[NSUserDefaults standardUserDefaults] setValue:[NSDate date] forKey:kinvitationsTimestamp];
     return [self resourcesForPath:[self resourcePathForGetInvitations] resultClass:[CHDInvitation class] withResource:nil];

@@ -23,6 +23,7 @@
 - (RACSignal*) getEventWithId:(NSNumber *)eventId siteId: (NSString*)siteId;
 - (RACSignal*) createEventWithEvent: (CHDEvent*) event;
 - (RACSignal*) updateEventWithEvent: (CHDEvent*) event;
+- (RACSignal*) deleteEventWithId: (NSNumber*) eventId siteId: (NSString*) siteId;
 
 
 - (RACSignal*) getInvitations;

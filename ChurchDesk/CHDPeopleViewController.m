@@ -43,14 +43,14 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.viewModel = [[CHDPeopleViewModel alloc] initWithSegmentIds:_segmentIds];
-    if (self.viewModel.peopleAccess) {
+    if (self.viewModel.peopleAccess && self.viewModel.peopleAccessForOrganization) {
         [self makeViews];
         [self makeConstraints];
         [self makeBindings];
     }
     else{
         [[NSNotificationCenter defaultCenter] postNotificationName:khideTabButtons object:nil];
-        [self createNoAccessView];
+        [self createNoAccessView:self.viewModel.peopleAccessForOrganization];
     }
     // Do any additional setup after loading the view.
 }
@@ -502,7 +502,7 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         }];
     }
 }
--(void) createNoAccessView{
+-(void) createNoAccessView :(BOOL) peopleAccessForOrganization{
     if(!_noAccessView){
         _noAccessView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 380)] ;
         _noAccessView.center = self.view.center;
@@ -518,10 +518,15 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         
         UILabel *noRoleLabel = [[UILabel alloc] init];
         noRoleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:25];
-        noRoleLabel.text = NSLocalizedString(@"You don't have the necessary role..", @"");
+        if (peopleAccessForOrganization) {
+            noRoleLabel.text = NSLocalizedString(@"You don't have the necessary role..", @"");
+        } else{
+            noRoleLabel.text = NSLocalizedString(@"People is not included in your plan..", @"");
+        }
+        
         noRoleLabel.textAlignment = NSTextAlignmentCenter;
         noRoleLabel.textColor = [UIColor chd_textDarkColor];
-        noRoleLabel.numberOfLines = 2;
+        noRoleLabel.numberOfLines = 4;
         [_noAccessView addSubview:noRoleLabel];
         [noRoleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(lockImageView.mas_bottom).with.offset(30);
@@ -531,10 +536,15 @@ static const CGPoint kDefaultCenterPoint = {124.0f, 117.0f};
         
         UILabel *askAdminLabel = [[UILabel alloc] init];
         askAdminLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightMedium size:15];
-        askAdminLabel.text = NSLocalizedString(@"Please ask your administrator to provide you with \"Newsletter\" role.", @"");
+        if (peopleAccessForOrganization) {
+            askAdminLabel.text = NSLocalizedString(@"Please ask your administrator to provide you with \"Newsletter\" role.", @"");
+        } else{
+            askAdminLabel.text = NSLocalizedString(@"People enables you to communicate cooperatively to the people that the church is in contact with, to build closer relations.", @"");
+        }
+        
         askAdminLabel.textAlignment = NSTextAlignmentCenter;
         askAdminLabel.textColor = [UIColor chd_textLightColor];
-        askAdminLabel.numberOfLines = 2;
+        askAdminLabel.numberOfLines = 5;
         [_noAccessView addSubview:askAdminLabel];
         [askAdminLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(noRoleLabel.mas_bottom).with.offset(50);

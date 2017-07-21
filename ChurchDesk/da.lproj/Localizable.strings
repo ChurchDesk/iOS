@@ -486,3 +486,8 @@
 "Enable" = "Aktivér";
 "No Thanks" = "Nej tak";
 "*Description contains styling, please use ChurchDesk on desktop to edit*" = "*Beskrivelsen kan ikke vises. Brug ChurchDesk via en PC for at redigere denne.*";
+"People is not included in your plan.." = "Kontakter er ikke inkluderet i jeres abonnement..";
+"People enables you to communicate cooperatively to the people that the church is in contact with, to build closer relations." = "Kontakter et er en perfekt måde at kommunikere målrettet med jeres medlemmer og dermed opbygge tætte relationer.";
+"No" = "Nej";
+"Are you sure you want to delete this? This action cannot be undone." = "Er du sikker på, at du vil slette? Handlingen kan ikke fortrydes.";
+"Event deleted successfully.." = "Begivenheden er slettet..";

@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSMutableArray *selectableElements;
 @property (nonatomic, strong) NSMutableArray *sectionIndices;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSMutableArray *items;
 @end
 
 NSString* const kSelectorCellIdentifyer = @"CHDSelectorTableViewCell";
@@ -28,7 +28,7 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 
 - (instancetype)initWithSelectableItems:(NSArray *)items {
     if((self = [super init])){
-        self.items = items;
+        self.items = [NSMutableArray arrayWithArray:items];
         [self setupData:items];
     }
     return self;
@@ -45,12 +45,12 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 #pragma mark - lazy initialization
 - (void) makeViews {
     [self.view addSubview:self.tableView];
-    
-    UIBarButtonItem *sendButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
-    [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
-    [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
-    self.navigationItem.rightBarButtonItem = sendButton;
-
+    if (_isTag) {
+        UIBarButtonItem *sendButton = [[UIBarButtonItem new] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonTouch)];
+        [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],  NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+        [sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor chd_menuDarkBlue],  NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
+        self.navigationItem.rightBarButtonItem = sendButton;
+    }
 }
 
 -(void) makeConstraints {
@@ -102,7 +102,6 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
     [self didChangeValueForKey:@"selectedItems"];
     
     [self.selectorDelegate chdListSelectorDidSelect:element];
-
     //Only pop if the stage has changed
     if(elementSelectedPreStage != YES && !self.selectMultiple){
         [self.navigationController popViewControllerAnimated:YES];
@@ -170,6 +169,7 @@ NSString* const kSelectorDeviderCellIdentifyer = @"CHDSelectorDeviderTableViewCe
 }
 
 -(void) rightBarButtonTouch{
+    _saveClicked = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

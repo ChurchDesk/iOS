@@ -713,6 +713,8 @@
 "Enable" = "Aktivera";
 "No Thanks" = "Nej tack";
 "*Description contains styling, please use ChurchDesk on desktop to edit*" = "*Description contains styling, please use ChurchDesk on desktop to edit*";
+"No" = "No";
+"Are you sure you want to delete this? This action cannot be undone." = "Är du säker på att du vill radera detta? Denna åtgärd kan inte ångras.";
 
 //not in Mobile project on POEditor
 "Secure Information" = "Känslig information";
@@ -720,3 +722,5 @@
 "Specific Groups" = "Grupper";
 "Private" = "Privat";
 "Public" = "Offentlig";
+
+

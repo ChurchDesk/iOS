@@ -117,7 +117,15 @@
 
 - (NSArray *)usersWithSiteId:(NSString *)siteId{
     return siteId ? [self.users shp_filter:^BOOL(CHDPeerUser *user) {
-        return (user.siteId.integerValue == siteId.integerValue);
+        /*if (siteId.integerValue == 245 && user.userId.integerValue == 3215 ) {
+            user.siteIds;
+        }*/
+        for (int numberOfSiteIds = 0; numberOfSiteIds < user.siteIds.count; numberOfSiteIds++) {
+            if ([[user.siteIds objectAtIndex:numberOfSiteIds] integerValue] == siteId.integerValue) {
+                return YES;
+            }
+        }
+        return NO;
     }] : nil;
 }
 @end

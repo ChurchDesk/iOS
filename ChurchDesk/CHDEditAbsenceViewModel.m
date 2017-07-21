@@ -38,7 +38,7 @@ NSString *const CHDAbsenceEditRowContributor = @"CHDAbsenceEditRowContributor";
 NSString *const CHDAbsenceEditRowPrice = @"CHDAbsenceEditRowPrice";
 NSString *const CHDAbsenceEditRowDoubleBooking = @"CHDAbsenceEditRowDoubleBooking";
 NSString *const CHDAbsenceEditRowVisibility = @"CHDAbsenceEditRowVisibility";
-
+NSString *const CHDAbsenceEditRowDelete = @"CHDAbsenceEditRowDelete";
 NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
 @interface CHDEditAbsenceViewModel ()
 
@@ -48,7 +48,7 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
 
 @property (nonatomic, strong) CHDEnvironment *environment;
 @property (nonatomic, strong) CHDUser *user;
-
+@property (nonatomic, strong) RACCommand *deleteCommand;
 @property (nonatomic, strong) RACCommand *saveCommand;
 
 @end
@@ -62,6 +62,9 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
         
         if(_newEvent){
             self.event.siteId = [[NSUserDefaults standardUserDefaults] chdDefaultSiteId];
+            self.event.startDate = [NSDate date];
+            NSTimeInterval secondsInOneHour = 60 * 60;
+            self.event.endDate = [[NSDate date] dateByAddingTimeInterval:secondsInOneHour];
         }
         
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
@@ -78,17 +81,18 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
                              //CHDAbsenceEditSectionMisc : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowContributor, CHDAbsenceEditRowPrice, CHDAbsenceEditRowVisibility],
                              CHDAbsenceEditSectionDivider : @[CHDAbsenceEditRowDivider]};
         
-        [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[userSignal,
+        // to load the user form faster
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedObject = [defaults objectForKey:kcurrentuser];
+        _user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+        [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[RACObserve(self, user),
                                                                                                 [RACObserve(self.event, siteId) flattenMap:^RACStream *(id value) {
-            return [[CHDAPIClient sharedInstance] getCurrentUser];
+            return RACObserve(self, user) ;
         }],
-                                                                                                [RACObserve(self.event, startDate) flattenMap:^RACStream *(id value) {
-            return [[CHDAPIClient sharedInstance] getCurrentUser];
-        }],
-                                                                                                [RACObserve(self.event, groupIds) flattenMap:^RACStream *(id value) {
-            return [[CHDAPIClient sharedInstance] getCurrentUser];
+                                                                                                                                            [RACObserve(self.event, groupIds) flattenMap:^RACStream *(id value) {
+            return RACObserve(self, user);
         }]
-        ]],nil];
+                                                                                                ]],nil];
     }
     return self;
 }
@@ -111,21 +115,21 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
         recipientsRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowParish];
         bookingRows = @[];
     }
-//    else if([self.event.groupId isEqualToNumber:@0] || !self.event.groupId){
-//        bookingRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowResources];
-//    }
     
     NSArray *dateRows = self.event.startDate != nil? @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowAllDay, CHDAbsenceEditRowStartDate, CHDAbsenceEditRowEndDate] : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowAllDay, CHDAbsenceEditRowStartDate];
-    //NSArray *miscRows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowContributor];
-    
+    NSArray *deleterows;
+    if (self.event.canDelete) {
+        deleterows = @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowDelete, CHDAbsenceEditRowDivider];
+    } else{
+        deleterows = @[CHDAbsenceEditRowDivider];
+    }
     self.sectionRows = @{
                          CHDAbsenceEditSectionDate : dateRows,
                          CHDAbsenceEditSectionRecipients : recipientsRows,
                          CHDAbsenceEditSectionBooking : bookingRows,
                          CHDAbsenceEditSectionSubstitute : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowSubstitute],
                          CHDAbsenceEditSectionComments : @[CHDAbsenceEditRowDivider, CHDAbsenceEditRowComments],
-                         //CHDAbsenceEditSectionMisc : miscRows,
-                         CHDAbsenceEditSectionDivider : @[CHDAbsenceEditRowDivider]};
+                         CHDAbsenceEditSectionDivider : deleterows};
 }
 
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section {
@@ -143,6 +147,11 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
         self.event.endDate = [gregorian dateFromComponents: components];
     }
     return [self.saveCommand execute:RACTuplePack(@(self.newEvent), self.event)];
+}
+
+- (RACSignal*) deleteEvent {
+    [self storeDefaults];
+    return [self.deleteCommand execute:RACTuplePack(@(self.newEvent), self.event)];
 }
 
 - (NSString*) formatDate: (NSDate*) date allDay: (BOOL) isAllday {
@@ -178,4 +187,13 @@ NSString *const CHDAbsenceEditRowDivider = @"CHDAbsenceEditRowDivider";
     return _saveCommand;
 }
 
+- (RACCommand *)deleteCommand {
+    if (!_deleteCommand) {
+        _deleteCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDEvent *event = tuple.second;
+            return [[CHDAPIClient sharedInstance] deleteEventWithId:event.eventId siteId:event.siteId];
+        }];
+    }
+    return _deleteCommand;
+}
 @end

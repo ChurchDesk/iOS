@@ -1,4 +1,4 @@
-//#define NSLog(s,...)
+#define NSLog(s,...)
 
 #define CHDInvitationNoAnswer @"no-answer"
 #define CHDInvitationAccept @"yes"
@@ -8,6 +8,7 @@
 #define keventsTimestamp @"eventsTimestamp"
 #define kcalendarTimestamp @"calendarTimestamp"
 #define kSavedEventBool @"savedEventBool"
+#define kDeleteEventBool @"deleteEventBool"
 #define kinvitationsTimestamp @"invitationsTimestamp"
 #define kmessagesTimestamp @"messagesTimestamp"
 #define knewMessageBool @"newMessageBool"

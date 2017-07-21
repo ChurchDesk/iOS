@@ -7,6 +7,7 @@
 //
 
 #import "CHDEventLocationTableViewCell.h"
+#import "UIImage+FontAwesome.h"
 
 @interface CHDEventLocationTableViewCell ()
 
@@ -18,7 +19,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        self.iconImageView.image = kImgEventLocation;
+        self.iconImageView.image = [UIImage imageWithIcon:@"fa-map-marker" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(13.0f, 13.0f)];
         self.disclosureArrowHidden = YES;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:self.titleLabel.font.pointSize];

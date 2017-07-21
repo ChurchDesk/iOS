@@ -18,7 +18,7 @@
     if ([propName isEqualToString:@"pictureURL"]) {
         return @"picture";
     }
-    if([propName isEqualToString:@"siteId"]){
+    if([propName isEqualToString:@"siteIds"]){
         return @"organizations";
     }
     if([propName isEqualToString:@"groupIds"]){
@@ -31,8 +31,12 @@
     if ([propName isEqualToString:@"pictureURL"] && value != [NSNull null]) {
         return [NSURL URLWithString:value];
     }
-    if ([propName isEqualToString:@"siteId"] && value != [NSNull null]) {
-        return [[value objectAtIndex:0] valueForKey:@"organizationId"];
+    if ([propName isEqualToString:@"siteIds"] && value != [NSNull null]) {
+        NSMutableArray *tempSiteIdsArray = [[NSMutableArray alloc] init];
+        for (int numberOfSites = 0; numberOfSites < [value count]; numberOfSites++) {
+            [tempSiteIdsArray addObject:[[value objectAtIndex:numberOfSites] valueForKey:@"organizationId"]];
+        }
+        return tempSiteIdsArray;
     }
     return [super transformedValueForPropertyWithName:propName value:value];
 }

@@ -328,10 +328,10 @@ NSString *const CHDEventInfoRowDivider = @"CHDEventInfoRowDivider";
     if(!event.pictureURL){
         [baseRows addObject:CHDEventInfoRowTitle];
     }
+    [baseRows addObject:CHDEventInfoRowDate];
     if (event.groupIds) {
         [baseRows addObject:CHDEventInfoRowGroup];
     }
-    [baseRows addObject:CHDEventInfoRowDate];
     if (event.location.length) {
         [baseRows addObject:CHDEventInfoRowLocation];
     }

@@ -42,6 +42,7 @@ NSString *const CHDEventEditRowContributor = @"CHDEventEditRowContributor";
 NSString *const CHDEventEditRowPrice = @"CHDEventEditRowPrice";
 NSString *const CHDEventEditRowDoubleBooking = @"CHDEventEditRowDoubleBooking";
 NSString *const CHDEventEditRowVisibility = @"CHDEventEditRowVisibility";
+NSString *const CHDEventEditRowDelete = @"CHDEventEditRowDelete";
 
 NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 
@@ -55,6 +56,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 @property (nonatomic, strong) CHDUser *user;
 
 @property (nonatomic, strong) RACCommand *saveCommand;
+@property (nonatomic, strong) RACCommand *deleteCommand;
 
 @end
 
@@ -70,11 +72,14 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         if(_newEvent){
             self.event.siteId = [[NSUserDefaults standardUserDefaults] chdDefaultSiteId];
             self.event.visibility = CHDEventVisibilityOnlyInGroup;
+            self.event.startDate = [NSDate date];
+            NSTimeInterval secondsInOneHour = 60 * 60;
+            self.event.endDate = [[NSDate date] dateByAddingTimeInterval:secondsInOneHour];
         }
 
         [self rac_liftSelector:@selector(setEnvironment:) withSignals:[[CHDAPIClient sharedInstance] getEnvironment], nil];
-        RACSignal *userSignal = [[CHDAPIClient sharedInstance] getCurrentUser];
-        [self rac_liftSelector:@selector(setUser:) withSignals:userSignal, nil];
+        /*RACSignal *userSignal = [[CHDAPIClient sharedInstance] getCurrentUser];
+        [self rac_liftSelector:@selector(setUser:) withSignals:userSignal, nil];*/
 
         self.sections = @[CHDEventEditSectionTitle, CHDEventEditSectionDate, CHDEventEditSectionRecipients, CHDEventEditSectionVisibility, CHDEventEditSectionBooking, CHDEventEditSectionInternalNote, CHDEventEditSectionSecureInformation, CHDEventEditSectionMisc, CHDEventEditSectionDescription, CHDEventEditSectionDivider];
         
@@ -89,18 +94,19 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
                              CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
         
-        [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[userSignal,
+        // to load the user form faster
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedObject = [defaults objectForKey:kcurrentuser];
+        _user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+        [self rac_liftSelector:@selector(setupSectionsWithUser:) withSignals:[RACSignal merge:@[RACObserve(self, user),
             [RACObserve(self.event, siteId) flattenMap:^RACStream *(id value) {
-                return [[CHDAPIClient sharedInstance] getCurrentUser];
+                return RACObserve(self, user) ;
             }],
             [RACObserve(self.event, visibility) flattenMap:^RACStream *(id value) {
-                return [[CHDAPIClient sharedInstance] getCurrentUser];
-            }],
-            [RACObserve(self.event, startDate) flattenMap:^RACStream *(id value) {
-                return [[CHDAPIClient sharedInstance] getCurrentUser];
+                return RACObserve(self, user);
             }],
             [RACObserve(self.event, groupIds) flattenMap:^RACStream *(id value) {
-                return [[CHDAPIClient sharedInstance] getCurrentUser];
+                return RACObserve(self, user);
             }]
         ]],nil];
     }
@@ -108,8 +114,6 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
 }
 
 -(void) setupSectionsWithUser: (CHDUser *) user{
-
-    
     NSArray *recipientsRows = _newEvent && user.sites.count > 1 ? @[CHDEventEditRowDivider, CHDEventEditRowParish, CHDEventEditRowCategories] : @[CHDEventEditRowDivider, CHDEventEditRowCategories];
     NSArray *bookingRows = [user siteWithId:self.event.siteId].permissions.canDoubleBook? @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers, CHDEventEditRowDoubleBooking] : @[CHDEventEditRowDivider, CHDEventEditRowResources, CHDEventEditRowUsers];;
     NSArray *secureRows = @[CHDEventEditRowDivider, CHDEventEditRowSecureInformation];
@@ -134,8 +138,8 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         bookingRows = @[];
     }
     NSArray *dateRows = self.event.startDate != nil? @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate, CHDEventEditRowEndDate] : @[CHDEventEditRowDivider, CHDEventEditRowAllDay, CHDEventEditRowStartDate];
+    
     NSArray *visibilityRows;
-
     if (self.event.visibility == CHDEventVisibilityPublicOnWebsite || self.event.visibility == CHDEventVisibilityOnlyInGroup) {
         visibilityRows = @[CHDEventEditRowDivider, CHDEventEditRowVisibility, CHDEventEditRowGroup];
     }
@@ -144,6 +148,13 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
             self.event.groupIds = [[NSArray alloc] init];
         }
         visibilityRows = @[CHDEventEditRowDivider, CHDEventEditRowVisibility];
+    }
+    
+    NSArray *deleterows;
+    if (self.event.canDelete) {
+        deleterows = @[CHDEventEditRowDivider, CHDEventEditRowDelete, CHDEventEditRowDivider];
+    } else{
+        deleterows = @[CHDEventEditRowDivider];
     }
         self.sectionRows = @{CHDEventEditSectionTitle : @[CHDEventEditRowDivider, CHDEventEditRowTitle],
                              CHDEventEditSectionDate : dateRows,
@@ -154,7 +165,7 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
                              CHDEventEditSectionSecureInformation :secureRows,
                              CHDEventEditSectionMisc : @[CHDEventEditRowDivider, CHDEventEditRowContributor, CHDEventEditRowLocation, CHDEventEditRowPrice],
                              CHDEventEditSectionDescription : @[CHDEventEditRowDivider, CHDEventEditRowDescription],
-                             CHDEventEditSectionDivider : @[CHDEventEditRowDivider]};
+                             CHDEventEditSectionDivider : deleterows};
 }
 
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section {
@@ -172,6 +183,11 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         self.event.endDate = [gregorian dateFromComponents: components];
     }
     return [self.saveCommand execute:RACTuplePack(@(self.newEvent), self.event)];
+}
+
+- (RACSignal*) deleteEvent {
+    [self storeDefaults];
+    return [self.deleteCommand execute:RACTuplePack(@(self.newEvent), self.event)];
 }
 
 - (NSString*) formatDate: (NSDate*) date allDay: (BOOL) isAllday {
@@ -205,6 +221,16 @@ NSString *const CHDEventEditRowDivider = @"CHDEventEditRowDivider";
         }];
     }
     return _saveCommand;
+}
+
+- (RACCommand *)deleteCommand {
+    if (!_deleteCommand) {
+        _deleteCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(RACTuple *tuple) {
+            CHDEvent *event = tuple.second;
+            return [[CHDAPIClient sharedInstance] deleteEventWithId:event.eventId siteId:event.siteId];
+        }];
+    }
+    return _deleteCommand;
 }
 
 @end

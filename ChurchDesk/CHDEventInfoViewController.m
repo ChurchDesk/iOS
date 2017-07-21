@@ -94,6 +94,9 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.view endEditing:YES];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kDeleteEventBool]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark -setup
@@ -139,7 +142,6 @@
     RACSignal *saveSignal = [RACObserve(vc, event) skip:1];
     [self.viewModel rac_liftSelector:@selector(setEvent:) withSignals:saveSignal, nil];
     [self rac_liftSelector:@selector(dismissViewControllerAnimated:completion:) withSignals:[saveSignal mapReplace:@YES], [RACSignal return:nil], nil];
-    
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
     }
 }
@@ -148,7 +150,6 @@
     NSString *location = self.viewModel.event.location;
     NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to open Maps to get directions to \'%@\'?", @""), location];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Maps", @"") message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Open Maps", @""), nil];
-    
     [self.viewModel rac_liftSelector:@selector(openMapsWithLocationString:) withSignals:[[[alert rac_buttonClickedSignal] ignore:@(alert.cancelButtonIndex)] mapReplace:location], nil];
     
     [alert show];
@@ -263,7 +264,7 @@
     else if ([row isEqualToString:CHDEventInfoRowDate]) {
         CHDEventInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.iconImageView.image = kImgEventTime; //[UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor colorWithRed:.06f green:.06f blue:.06f alpha:1.0] andSize:CGSizeMake(17.0f, 17.0f)];
+        cell.iconImageView.image = [UIImage imageWithIcon:@"fa-clock-o" backgroundColor:[UIColor clearColor] iconColor:[UIColor colorWithRed:.06f green:.06f blue:.06f alpha:1.0] andSize:CGSizeMake(13.0f, 13.0f)];
         cell.titleLabel.text = [self.viewModel eventDateString];
         cell.titleLabel.font = [UIFont chd_fontWithFontWeight:CHDFontWeightRegular size:cell.titleLabel.font.pointSize];
         cell.disclosureArrowHidden = YES;

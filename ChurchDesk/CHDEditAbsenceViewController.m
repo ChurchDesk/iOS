@@ -84,6 +84,8 @@
     self.statusView = [[CHDStatusView alloc] init];
     self.statusView.successText = NSLocalizedString(@"The absence was saved", @"");
     self.statusView.processingText = NSLocalizedString(@"Saving absence..", @"");
+    self.statusView.deletingText = @"...";
+    self.statusView.deleteSuccessText = NSLocalizedString(@"Absence deleted successfully..", @"");
     self.statusView.autoHideOnSuccessAfterTime = 0;
     self.statusView.autoHideOnErrorAfterTime = 0;
     
@@ -213,6 +215,33 @@
     }];
 }
 
+-(void) deleteEvent{
+    [self didChangeSendingStatus:CHDStatusViewDeleting];
+    @weakify(self)
+    [[[self.viewModel deleteEvent] catch:^RACSignal *(NSError *error) {
+        //Handle double booking responses from the server
+        @strongify(self)
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+        [self didChangeSendingStatus:CHDStatusViewHidden];
+        NSDictionary *result = response.body;
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:[result objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        //        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
+        //        [self didChangeSendingStatus:CHDStatusViewHidden];
+        return [RACSignal empty];
+    }] subscribeNext:^(id x) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDeleteEventBool];
+        [self didChangeSendingStatus:CHDStatusViewDelete];
+    } error:^(NSError *error) {
+        //Handle error after the initial error handling is done (Them it's something we don't know how to handle)
+        [self didChangeSendingStatus:CHDStatusViewHidden];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:@"Please contact system administrator" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    } completed:^{
+        NSLog(@"Event done");
+    }];
+}
+
 - (void) handleKeyboardEvent: (SHPKeyboardEvent*) event {
     
     if (event.keyboardEventType == SHPKeyboardEventTypeShow) {
@@ -229,12 +258,23 @@
 -(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
     self.statusView.currentStatus = status;
     
-    if(status == CHDStatusViewProcessing){
+    if(status == CHDStatusViewProcessing || status == CHDStatusViewDeleting){
         self.statusView.show = YES;
         return;
     }
     if(status == CHDStatusViewSuccess){
         [self.view endEditing:YES];
+        self.statusView.show = YES;
+        double delayInSeconds = 2.f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.statusView.show = NO;
+            //View will be dissmissed when the event is set
+            [self setEvent:self.viewModel.event];
+        });
+        return;
+    }
+    if(status == CHDStatusViewDelete){
         self.statusView.show = YES;
         double delayInSeconds = 2.f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -291,7 +331,15 @@
     NSString *title = nil;
     BOOL selectMultiple = NO;
     [self.view endEditing:YES];
-    if ([row isEqualToString:CHDAbsenceEditRowParish]) {
+    if ([row isEqualToString:CHDAbsenceEditRowDelete]) {
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete", @"") message:NSLocalizedString(@"Are you sure you want to delete this? This action cannot be undone.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Delete", @""), nil];
+        alertView.tag = 222;
+        alertView.delegate = self;
+        [alertView show];
+        return;
+    }
+    else if ([row isEqualToString:CHDAbsenceEditRowParish]) {
         title = NSLocalizedString(@"Select Parish", @"");
         for (CHDSite *site in user.sites) {
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:site.name color:nil selected:(event.siteId.integerValue == site.siteId.integerValue) refObject:site.siteId]];
@@ -573,7 +621,7 @@
             cell.tableView = tableView;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [event shprac_liftSelector:@selector(setSubstitute:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-            cell.contentView.alpha = 0.5;
+            cell.textView.text.length > 0 ? (cell.contentView.alpha = 1.0) : (cell.contentView.alpha = 0.5);
             returnCell = cell;
         }
     else if ([row isEqualToString:CHDAbsenceEditRowComments]) {
@@ -586,9 +634,17 @@
             cell.tableView = tableView;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [event shprac_liftSelector:@selector(setAbsenceComment:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
-            cell.contentView.alpha = 0.5;
+            cell.textView.text.length > 0 ? (cell.contentView.alpha = 1.0) : (cell.contentView.alpha = 0.5);
             returnCell = cell;
         }
+    else if ([row isEqualToString:CHDAbsenceEditRowDelete]) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"delete" forIndexPath:indexPath];
+        cell.textLabel.text = NSLocalizedString(@"Delete", @"");
+        cell.textLabel.textColor = [UIColor chd_redColor];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.contentView.alpha = 1.0;
+        returnCell = cell;
+    }
     
     if ([returnCell respondsToSelector:@selector(setDividerLineHidden:)]) {
         [(CHDEventInfoTableViewCell*)returnCell setDividerLineHidden:YES];
@@ -611,6 +667,10 @@
             self.viewModel.event.sendNotifications = true;
             [self saveEvent];
         }
+    } else if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            [self deleteEvent];
+        }
     }
 }
 
@@ -631,6 +691,7 @@
         [_tableView registerClass:[CHDEventTextViewTableViewCell class] forCellReuseIdentifier:@"textview"];
         [_tableView registerClass:[CHDEventSwitchTableViewCell class] forCellReuseIdentifier:@"switch"];
         [_tableView registerClass:[CHDDividerTableViewCell class] forCellReuseIdentifier:@"divider"];
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"delete"];
     }
     return _tableView;
 }

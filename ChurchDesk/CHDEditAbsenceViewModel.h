@@ -32,7 +32,7 @@ extern NSString *const CHDAbsenceEditRowContributor;
 extern NSString *const CHDAbsenceEditRowPrice;
 extern NSString *const CHDAbsenceEditRowDoubleBooking;
 extern NSString *const CHDAbsenceEditRowVisibility;
-
+extern NSString *const CHDAbsenceEditRowDelete;
 extern NSString *const CHDAbsenceEditRowDivider;
 
 @class CHDEvent, CHDEnvironment, CHDUser;
@@ -53,5 +53,6 @@ extern NSString *const CHDAbsenceEditRowDivider;
 - (NSArray*)rowsForSectionAtIndex: (NSInteger) section;
 
 - (RACSignal*) saveEvent;
+- (RACSignal*) deleteEvent;
 
 @end

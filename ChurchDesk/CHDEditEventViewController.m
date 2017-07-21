@@ -85,6 +85,8 @@ static float kAlphaForOptionalField = 0.5;
     self.statusView = [[CHDStatusView alloc] init];
     self.statusView.successText = NSLocalizedString(@"The event was saved", @"");
     self.statusView.processingText = NSLocalizedString(@"Saving event..", @"");
+    self.statusView.deletingText = @"...";
+    self.statusView.deleteSuccessText = NSLocalizedString(@"Event deleted successfully..", @"");
     self.statusView.autoHideOnSuccessAfterTime = 0;
     self.statusView.autoHideOnErrorAfterTime = 0;
 
@@ -221,6 +223,33 @@ static float kAlphaForOptionalField = 0.5;
     }];
 }
 
+-(void) deleteEvent{
+    [self didChangeSendingStatus:CHDStatusViewDeleting];
+    @weakify(self)
+    [[[self.viewModel deleteEvent] catch:^RACSignal *(NSError *error) {
+        //Handle double booking responses from the server
+        @strongify(self)
+        SHPHTTPResponse *response = error.userInfo[SHPAPIManagerReactiveExtensionErrorResponseKey];
+            [self didChangeSendingStatus:CHDStatusViewHidden];
+            NSDictionary *result = response.body;
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:[result objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        //        [[CHDAnalyticsManager sharedInstance] trackEventWithCategory:self.viewModel.newEvent ? ANALYTICS_CATEGORY_NEW_EVENT : ANALYTICS_CATEGORY_EDIT_EVENT action:ANALYTICS_ACTION_SENDING label:ANALYTICS_LABEL_ERROR];
+        //        [self didChangeSendingStatus:CHDStatusViewHidden];
+        return [RACSignal empty];
+    }] subscribeNext:^(id x) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDeleteEventBool];
+        [self didChangeSendingStatus:CHDStatusViewDelete];
+    } error:^(NSError *error) {
+        //Handle error after the initial error handling is done (Them it's something we don't know how to handle)
+        [self didChangeSendingStatus:CHDStatusViewHidden];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:@"Please contact system administrator" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    } completed:^{
+        NSLog(@"Event done");
+    }];
+}
+
 - (void) handleKeyboardEvent: (SHPKeyboardEvent*) event {
 
     if (event.keyboardEventType == SHPKeyboardEventTypeShow) {
@@ -237,11 +266,22 @@ static float kAlphaForOptionalField = 0.5;
 -(void) didChangeSendingStatus: (CHDStatusViewStatus) status {
     self.statusView.currentStatus = status;
 
-    if(status == CHDStatusViewProcessing){
+    if(status == CHDStatusViewProcessing || status == CHDStatusViewDeleting){
         self.statusView.show = YES;
         return;
     }
     if(status == CHDStatusViewSuccess){
+        self.statusView.show = YES;
+        double delayInSeconds = 2.f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.statusView.show = NO;
+            //View will be dissmissed when the event is set
+            [self setEvent:self.viewModel.event];
+        });
+        return;
+    }
+    if(status == CHDStatusViewDelete){
         self.statusView.show = YES;
         double delayInSeconds = 2.f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -298,7 +338,15 @@ static float kAlphaForOptionalField = 0.5;
     NSString *title = nil;
     BOOL selectMultiple = NO;
 
-    if ([row isEqualToString:CHDEventEditRowParish]) {
+    if ([row isEqualToString:CHDEventEditRowDelete]) {
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete", @"") message:NSLocalizedString(@"Are you sure you want to delete this? This action cannot be undone.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Delete", @""), nil];
+        alertView.tag = 222;
+        alertView.delegate = self;
+        [alertView show];
+        return;
+    }
+    else if ([row isEqualToString:CHDEventEditRowParish]) {
         title = NSLocalizedString(@"Select Parish", @"");
         for (CHDSite *site in user.sites) {
             [items addObject:[[CHDListSelectorConfigModel alloc] initWithTitle:site.name color:nil selected:(event.siteId.integerValue == site.siteId.integerValue) refObject:site.siteId]];
@@ -433,7 +481,7 @@ static float kAlphaForOptionalField = 0.5;
             [self.viewModel.event shprac_liftSelector:@selector(setGroupIds:) withSignal:nilWhenSelectedSignal];
             [self.viewModel.event shprac_liftSelector:@selector(setResourceIds:) withSignal:nilWhenSelectedSignal];
             [self.viewModel.event shprac_liftSelector:@selector(setUserIds:) withSignal:nilWhenSelectedSignal];
-            [self.viewModel.event shprac_liftSelector:@selector(setVisibility:) withSignal:nilWhenSelectedSignal];
+            //[self.viewModel.event shprac_liftSelector:@selector(setVisibility:) withSignal:nilWhenSelectedSignal];
         }
         else if ([row isEqualToString:CHDEventEditRowGroup]) {
             [self.viewModel.event shprac_liftSelector:@selector(setGroupIds:) withSignal:selectedSignal];
@@ -660,7 +708,7 @@ static float kAlphaForOptionalField = 0.5;
         [event shprac_liftSelector:@selector(setLocation:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.textField.text.length > 0 ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSDictionary *locationPermissions = [event.fields objectForKey:@"location"];
             BOOL canEditLocation = [[locationPermissions objectForKey:@"canEdit"] boolValue];
@@ -710,7 +758,7 @@ static float kAlphaForOptionalField = 0.5;
             return @(YES);
         }] takeUntil:cell.rac_prepareForReuseSignal], nil];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.valueLabel.text.length > 0 ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSDictionary *resourcesPermissions = [event.fields objectForKey:@"resources"];
             BOOL canEditResources = [[resourcesPermissions objectForKey:@"canEdit"] boolValue];
@@ -727,7 +775,7 @@ static float kAlphaForOptionalField = 0.5;
         cell.iconImageView.image = [UIImage imageWithIcon:@"fa-user" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(17.0f, 17.0f)];
         cell.valueLabel.text = event.userIds.count <= 1 ? [self.viewModel.environment userWithId:event.userIds.firstObject siteId:event.siteId].name : [@(event.userIds.count) stringValue];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.valueLabel.text.length > 0 ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSDictionary *usersPermissions = [event.fields objectForKey:@"users"];
             BOOL canEditUsers = [[usersPermissions objectForKey:@"canEdit"] boolValue];
@@ -747,7 +795,7 @@ static float kAlphaForOptionalField = 0.5;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setInternalNote:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.textView.text.length > 0 ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSDictionary *internalNotePermissions = [event.fields objectForKey:@"internalNote"];
             BOOL canEditInternalNote = [[internalNotePermissions objectForKey:@"canEdit"] boolValue];
@@ -767,7 +815,7 @@ static float kAlphaForOptionalField = 0.5;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setSecureInformation:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.textView.text.length > 0 ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSDictionary *SecureInformationPermissions = [event.fields objectForKey:@"secureInformation"];
             BOOL canEditSecureInformation = [[SecureInformationPermissions objectForKey:@"canEdit"] boolValue];
@@ -788,7 +836,7 @@ static float kAlphaForOptionalField = 0.5;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setEventDescription:) withSignal:[cell.textView.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.textView.text.length > 0 ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSMutableDictionary *descriptionPermissions = [[NSMutableDictionary alloc] initWithDictionary:[event.fields objectForKey:@"description"]];
             if (attributedString.string.length != _event.eventDescription.length) {
@@ -818,7 +866,7 @@ static float kAlphaForOptionalField = 0.5;
         [event shprac_liftSelector:@selector(setContributor:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.textField.text.length > 0 ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSDictionary *contributorPermissions = [event.fields objectForKey:@"contributor"];
             BOOL canEditContributor = [[contributorPermissions objectForKey:@"canEdit"] boolValue];
@@ -839,7 +887,7 @@ static float kAlphaForOptionalField = 0.5;
         [event shprac_liftSelector:@selector(setPrice:) withSignal:[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.textField.text.length > 0 ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSDictionary *pricePermissions = [event.fields objectForKey:@"price"];
             BOOL canEditPrice = [[pricePermissions objectForKey:@"canEdit"] boolValue];
@@ -856,10 +904,12 @@ static float kAlphaForOptionalField = 0.5;
         cell.valueSwitch.on = event.allowDoubleBooking;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [event shprac_liftSelector:@selector(setAllowDoubleBooking:) withSignal:[[[cell.valueSwitch rac_signalForControlEvents:UIControlEventValueChanged] map:^id(UISwitch *valueSwitch) {
+            cell.valueSwitch.on ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
             return @(valueSwitch.on);
+            
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha = kAlphaForOptionalField;
+        cell.valueSwitch.on ? (cell.contentView.alpha = kAlphaForMandatoryField) : (cell.contentView.alpha = kAlphaForOptionalField);
         if (!newEvent) {
             NSDictionary *doubleBookingPermissions = [event.fields objectForKey:@"allowDoubleBooking"];
             BOOL canEditDoubleBooking = [[doubleBookingPermissions objectForKey:@"canEdit"] boolValue];
@@ -883,7 +933,7 @@ static float kAlphaForOptionalField = 0.5;
             return [event localizedVisibilityString];
         }] takeUntil:cell.rac_prepareForReuseSignal]];
         cell.userInteractionEnabled = YES;
-        cell.contentView.alpha=1;
+        cell.contentView.alpha = kAlphaForMandatoryField;
         if (!newEvent) {
             NSDictionary *visibilityPermissions = [event.fields objectForKey:@"visibility"];
             BOOL canEditVisibility = [[visibilityPermissions objectForKey:@"canEdit"] boolValue];
@@ -892,6 +942,14 @@ static float kAlphaForOptionalField = 0.5;
                 cell.userInteractionEnabled = NO;
             }
         }
+        returnCell = cell;
+    }
+    else if ([row isEqualToString:CHDEventEditRowDelete]) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"delete" forIndexPath:indexPath];
+        cell.textLabel.text = NSLocalizedString(@"Delete", @"");
+        cell.textLabel.textColor = [UIColor chd_redColor];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.contentView.alpha = kAlphaForMandatoryField;
         returnCell = cell;
     }
     
@@ -907,15 +965,17 @@ static float kAlphaForOptionalField = 0.5;
 
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 111) {
-        if (buttonIndex == 0)
-        {
+        if (buttonIndex == 0) {
             self.viewModel.event.sendNotifications = false;
             [self saveEvent];
         }
-        else
-        {
+        else {
             self.viewModel.event.sendNotifications = true;
             [self saveEvent];
+        }
+    } else if (alertView.tag == 222){
+        if (buttonIndex == 1) {
+            [self deleteEvent];
         }
     }
 }
@@ -934,6 +994,7 @@ static float kAlphaForOptionalField = 0.5;
         [_tableView registerClass:[CHDEventTextViewTableViewCell class] forCellReuseIdentifier:@"textview"];
         [_tableView registerClass:[CHDEventSwitchTableViewCell class] forCellReuseIdentifier:@"switch"];
         [_tableView registerClass:[CHDDividerTableViewCell class] forCellReuseIdentifier:@"divider"];
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"delete"];
     }
     return _tableView;
 }

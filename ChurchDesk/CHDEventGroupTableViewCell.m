@@ -7,6 +7,7 @@
 //
 
 #import "CHDEventGroupTableViewCell.h"
+#import "UIImage+FontAwesome.h"
 
 @interface CHDEventGroupTableViewCell ()
 
@@ -18,7 +19,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-        self.iconImageView.image = kImgEventGroup;
+        self.iconImageView.image = [UIImage imageWithIcon:@"fa-users" backgroundColor:[UIColor clearColor] iconColor:[UIColor chd_textDarkColor] andSize:CGSizeMake(13.0f, 13.0f)];;
         self.disclosureArrowHidden = YES;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         

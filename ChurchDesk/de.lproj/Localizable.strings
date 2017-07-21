@@ -476,3 +476,8 @@
 "Enable" = "Freischalten";
 "No Thanks" = "Nein, danke.";
 "*Description contains styling, please use ChurchDesk on desktop to edit*" = "*Da die Beschreibung optisch bearbeitet werden kann, können Sie dieses Feld nur in der Desktop-Version ausfüllen.*";
+"People is not included in your plan.." = "Das Kontakte-Modul ist in ihrem Abonnement nicht enthalten..";
+"People enables you to communicate cooperatively to the people that the church is in contact with, to build closer relations." = "Das Kontakte-Modul ermöglicht es Ihnen, zielgerichtet Gemeindemitglieder und Interessierte zu kontaktieren und engere Verbindungen aufzubauen.";
+"No" = "Nein";
+"Are you sure you want to delete this? This action cannot be undone." = "Sind Sie sicher, dass Sie die Löschung ausführen möchten? Diese Aktion kann nicht rückgängig gemacht werden.";
+"Event deleted successfully.." = "Die Veranstaltung wurde erfolgreich gelöscht..";

@@ -316,7 +316,7 @@
         _emailView.textField.delegate = self;
         _emailView.iconImageView.image = kImgLoginMail;
         _emailView.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        //_emailView.textField.text = @"mh@churchdesk.com"; //for testing
+        //_emailView.textField.text = @"ssf@vesterbrosogn.dk"; //for testing
     }
     return _emailView;
 }

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSString *organizationId;
 @property (nonatomic, strong) CHDUser *user;
 @property (nonatomic, assign) BOOL peopleAccess;
+@property (nonatomic, assign) BOOL peopleAccessForOrganization;
 
 - (instancetype)initWithSegmentIds :(NSArray *)segmentIds;
 -(void) reload;

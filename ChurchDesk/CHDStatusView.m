@@ -110,11 +110,17 @@
         if(status == CHDStatusViewProcessing){
             return self.processingText;
         }
+        if(status == CHDStatusViewDeleting){
+            return self.deletingText;
+        }
         if(status == CHDStatusViewError){
             return self.errorText;
         }
         if(status == CHDStatusViewSuccess){
             return self.successText;
+        }
+        if(status == CHDStatusViewDelete){
+            return self.deleteSuccessText;
         }
 
         return @"";

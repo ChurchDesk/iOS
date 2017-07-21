@@ -32,6 +32,7 @@
             _organizationId = site.siteId;
         }
         _peopleAccess = [_user siteWithId:_organizationId].permissions.canAccessPeople;
+        _peopleAccessForOrganization = [[[[_user siteWithId:_organizationId].packages objectForKey:@"people"] valueForKey:@"enabled"] boolValue];
         //Initial signal
         RACSignal *initialSignal = [[[[CHDAPIClient sharedInstance] getpeopleforOrganization:_organizationId segmentIds:segmentIds] map:^id(NSArray* people) {
             RACSequence *results = [people.rac_sequence filter:^BOOL(CHDPeople* people) {

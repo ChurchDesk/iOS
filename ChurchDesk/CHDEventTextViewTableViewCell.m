@@ -87,7 +87,11 @@ float height;
     
     CGSize contentSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     contentSize.height = MAX(kMinimumHeight, contentSize.height);
-    
+    if ([text length] > 0) {
+        self.contentView.alpha = 1;
+    } else{
+        self.contentView.alpha = 0.5;
+    }
     if (contentSize.height > height) {
         [self.tableView beginUpdates];
         height = contentSize.height;

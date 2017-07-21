@@ -10,6 +10,8 @@ typedef NS_ENUM(NSUInteger, CHDStatusViewStatus) {
     CHDStatusViewProcessing,
     CHDStatusViewError,
     CHDStatusViewSuccess,
+    CHDStatusViewDeleting,
+    CHDStatusViewDelete,
 };
 
 @interface CHDStatusView : UIView
@@ -20,8 +22,10 @@ typedef NS_ENUM(NSUInteger, CHDStatusViewStatus) {
 @property (nonatomic) NSTimeInterval autoHideOnErrorAfterTime;
 
 @property (nonatomic, strong) NSString *processingText;
+@property (nonatomic, strong) NSString *deletingText;
 @property (nonatomic, strong) NSString *errorText;
 @property (nonatomic, strong) NSString *successText;
+@property (nonatomic, strong) NSString *deleteSuccessText;
 
 - (instancetype)initWithStatus: (CHDStatusViewStatus) status;
 @end
